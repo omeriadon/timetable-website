@@ -4,18 +4,12 @@ import styles from "./Sidebar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-	CalendarDays,
-	ChartNoAxesColumn,
-	LayoutDashboard,
-	Settings,
-} from "lucide-react";
 
 const navItems = [
-	{ label: "Overview", href: "/", icon: LayoutDashboard },
-	{ label: "Schedule", href: "/timetable", icon: CalendarDays },
-	{ label: "Classes", href: "/classes", icon: ChartNoAxesColumn },
-	{ label: "Settings", href: "/settings", icon: Settings },
+	{ label: "Overview", href: "/", icon: "chart.bar.xaxis.svg" },
+	{ label: "Schedule", href: "/timetable", icon: "calendar.day.timeline.left.svg" },
+	{ label: "Classes", href: "/classes", icon: "person.2.svg" },
+	{ label: "Settings", href: "/settings", icon: "gear.svg" },
 ];
 
 export default function Sidebar() {
@@ -27,8 +21,6 @@ export default function Sidebar() {
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
 				{navItems.map((item) => {
-					const Icon = item.icon;
-
 					return (
 						<Link
 							key={item.href}
@@ -40,7 +32,12 @@ export default function Sidebar() {
 							}
 							aria-current={pathname === item.href ? "page" : undefined}
 						>
-							<Icon size={18} aria-hidden="true" />
+							<img
+								className={styles.navIcon}
+								src={`/icons/${item.icon}`}
+								alt=""
+								aria-hidden="true"
+							/>
 							<span>{item.label}</span>
 						</Link>
 					);

@@ -49,6 +49,13 @@
 		color 0.2s ease;
 }
 
+.navIcon {
+	width: 18px;
+	height: 18px;
+	flex: 0 0 18px;
+	object-fit: contain;
+}
+
 .sidebarLink:hover,
 .sidebarLink.active {
 	background: rgba(255, 255, 255, 0.08);

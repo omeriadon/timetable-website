@@ -13,10 +13,10 @@ export default function Home() {
 	useEffect(() => {
 		setToolbar({
 			title: "Overview",
-			actions: [
+				actions: [
 				{
 					label: "Add overview",
-					symbol: "plus",
+					icon: "chart.bar.xaxis.svg",
 					onPress: () => setNotice("New overview item created."),
 				},
 			],

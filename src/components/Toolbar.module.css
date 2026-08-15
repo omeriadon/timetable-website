@@ -26,6 +26,12 @@
 	gap: 8px;
 }
 
+.actionIcon {
+	width: 16px;
+	height: 16px;
+	object-fit: contain;
+}
+
 .search,
 .addButton {
 	display: flex;

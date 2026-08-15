@@ -19,10 +19,10 @@ export default function ClassesPage() {
 			searchPlaceholder: "Search classes",
 			searchValue: query,
 			onSearchChange: setQuery,
-			actions: [
+				actions: [
 				{
 					label: "Add class",
-					symbol: "folderPlus",
+					icon: "person.2.svg",
 					onPress: () => setQuery(""),
 				},
 			],

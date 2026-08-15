@@ -13,10 +13,10 @@ export default function Timetable() {
 	useEffect(() => {
 		setToolbar({
 			title: "Schedule",
-			actions: [
+				actions: [
 				{
 					label: "Add class",
-					symbol: "calendarPlus",
+					icon: "calendar.badge.lock.svg",
 					onPress: () => setSelectedDay("New class"),
 				},
 			],

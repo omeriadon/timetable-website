@@ -7,26 +7,11 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import {
-	CalendarPlus,
-	Download,
-	FolderPlus,
-	Plus,
-	Search,
-	SlidersHorizontal,
-} from "lucide-react";
 import styles from "./Toolbar.module.css";
-
-export type ToolbarSymbol =
-	| "calendarPlus"
-	| "download"
-	| "folderPlus"
-	| "plus"
-	| "sliders";
 
 export type ToolbarAction = {
 	label: string;
-	symbol: ToolbarSymbol;
+	icon: string;
 	onPress: () => void;
 };
 
@@ -36,14 +21,6 @@ export type ToolbarConfig = {
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
 	actions?: ToolbarAction[];
-};
-
-const symbols = {
-	calendarPlus: CalendarPlus,
-	download: Download,
-	folderPlus: FolderPlus,
-	plus: Plus,
-	sliders: SlidersHorizontal,
 };
 
 const defaultToolbar: ToolbarConfig = {
@@ -93,7 +70,6 @@ export default function Toolbar() {
 			<div className={styles.actions}>
 				{searchPlaceholder ? (
 					<label className={styles.search}>
-						<Search size={16} aria-hidden="true" />
 						<span className="sr-only">Search {title}</span>
 						<input
 							value={searchValue}
@@ -103,19 +79,22 @@ export default function Toolbar() {
 					</label>
 				) : null}
 				{actions.map((action) => {
-					const Icon = symbols[action.symbol];
-
 					return (
 					<button
-						key={`${action.symbol}-${action.label}`}
-						type="button"
-						className={styles.addButton}
-						onClick={action.onPress}
+						key={`${action.icon}-${action.label}`}
+							type="button"
+							className={styles.addButton}
+							onClick={action.onPress}
 						aria-label={action.label}
 					>
-						<Icon size={16} aria-hidden="true" />
-						<span>{action.label}</span>
-					</button>
+						<img
+							className={styles.actionIcon}
+							src={`/icons/${action.icon}`}
+							alt=""
+							aria-hidden="true"
+						/>
+							<span>{action.label}</span>
+						</button>
 					);
 				})}
 			</div>
