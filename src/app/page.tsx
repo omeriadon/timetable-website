@@ -42,6 +42,22 @@ export default function Home() {
 				}}
 			>
 				{Array.from({ length: 18 }, (_, index) => {
+					const titles = [
+						"Morning briefing",
+						"Design system review",
+						"Research synthesis",
+						"Project checkpoint",
+						"Team planning",
+						"Client workshop",
+						"Release preparation",
+						"Weekly retrospective",
+					];
+					const descriptions = [
+						"Review priorities, open questions, and the next set of decisions.",
+						"Compare the latest component states across the product surfaces.",
+						"Turn the collected notes into a focused set of practical findings.",
+						"Check the work in progress before it moves into the next stage.",
+					];
 					const colors = [
 						["#ff6b6b", "#ff8787"],
 						["#845ef7", "#b197fc"],
@@ -125,7 +141,7 @@ export default function Home() {
 										lineHeight: 1.05,
 									}}
 								>
-									Some useful content
+									{titles[index % titles.length]}
 								</strong>
 
 								<span
@@ -134,8 +150,39 @@ export default function Home() {
 										opacity: 0.78,
 									}}
 								>
-									This fills out the page while the real UI is being built.
+									{descriptions[index % descriptions.length]}
 								</span>
+
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+										gap: "8px",
+										marginTop: "8px",
+									}}
+								>
+									<span
+										style={{
+											padding: "5px 9px",
+											borderRadius: "999px",
+											background: "rgba(255,255,255,0.18)",
+											fontSize: "11px",
+											fontWeight: 700,
+										}}
+									>
+										{`${8 + index}:30 AM`}
+									</span>
+									<span
+										style={{
+											padding: "5px 9px",
+											borderRadius: "999px",
+											background: "rgba(0,0,0,0.12)",
+											fontSize: "11px",
+										}}
+									>
+										{index % 2 === 0 ? "In progress" : "Review"}
+									</span>
+								</div>
 							</div>
 
 							<div

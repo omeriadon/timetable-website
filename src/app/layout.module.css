@@ -26,3 +26,49 @@
 	right: 16px;
 	z-index: 20;
 }
+
+.liquidGlassTestButton {
+	position: fixed;
+	top: 50%;
+	left: 40%;
+	z-index: 100;
+	display: block;
+	width: 320px;
+	min-height: 180px;
+	transform: translate(-50%, -50%);
+	border-radius: 32px;
+	font-size: 1.1rem;
+}
+
+.liquidGlassTestButton2 {
+	position: fixed;
+
+	top: 50%;
+	left: 30%;
+
+	z-index: 100;
+
+	width: 150;
+	height: 96px;
+
+	transform: translate(-50%, -50%);
+
+	padding: 12px 20px;
+}
+
+.liquidGlassTestContent {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+	text-align: left;
+}
+
+.liquidGlassTestContent strong {
+	font-size: 1.5rem;
+}
+
+.liquidGlassTestContent span {
+	font-size: 0.9rem;
+	opacity: 0.75;
+}
