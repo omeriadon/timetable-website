@@ -1,3 +1,9 @@
+.appShell {
+	display: flex;
+	height: 100svh;
+	overflow: hidden;
+}
+
 .outerAppShell {
 	position: relative;
 	width: 100%;
