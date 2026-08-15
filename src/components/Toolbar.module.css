@@ -60,6 +60,9 @@
 }
 
 .addButton {
+	position: relative;
+	z-index: 0;
+	isolation: isolate;
 	padding: 9px 13px;
 	appearance: none;
 	background: transparent;
