@@ -4,8 +4,6 @@ import {
 	createContext,
 	useCallback,
 	useContext,
-	useEffect,
-	useRef,
 	useState,
 	type ReactNode,
 } from "react";
@@ -55,7 +53,6 @@ export function useToolbar() {
 
 export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
-	const toolbarRef = useRef<HTMLElement>(null);
 
 	const {
 		title,
@@ -64,53 +61,9 @@ export default function Toolbar() {
 		onSearchChange,
 		actions = [],
 	} = config;
-	const actionKey = actions
-		.map((action) => `${action.icon}-${action.label}`)
-		.join("|");
-
-	useEffect(() => {
-		const root = toolbarRef.current;
-
-		if (!root || !actionKey) {
-			return;
-		}
-
-		const glassElements = Array.from(root.children).filter(
-			(child): child is HTMLElement => child.hasAttribute("data-liquid-gl"),
-		);
-
-		if (glassElements.length === 0) {
-			return;
-		}
-
-		let cancelled = false;
-		let instance: { destroy: () => void } | undefined;
-
-		void import("@ybouane/liquidglass")
-			.then(({ LiquidGlass }) =>
-				LiquidGlass.init({
-					root,
-					glassElements,
-				}),
-			)
-			.then((newInstance) => {
-				if (cancelled) {
-					newInstance.destroy();
-					return;
-				}
-
-				instance = newInstance;
-			})
-			.catch(() => undefined);
-
-		return () => {
-			cancelled = true;
-			instance?.destroy();
-		};
-	}, [actionKey]);
 
 	return (
-		<header ref={toolbarRef} className={styles.toolbar}>
+		<header className={styles.toolbar}>
 			<div className={styles.heading}>
 				<h1>{title}</h1>
 			</div>
@@ -131,12 +84,6 @@ export default function Toolbar() {
 					key={`${action.icon}-${action.label}`}
 					type="button"
 					className={styles.addButton}
-					data-liquid-gl
-					data-config={JSON.stringify({
-						button: true,
-						cornerRadius: 12,
-						zRadius: 12,
-					})}
 					onClick={action.onPress}
 					aria-label={action.label}
 				>
