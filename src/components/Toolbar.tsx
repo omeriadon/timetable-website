@@ -5,16 +5,11 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 	type ReactNode,
 } from "react";
 import styles from "./Toolbar.module.css";
-
-declare global {
-	interface Window {
-		__timetableLiquidGLInitialized?: boolean;
-	}
-}
 
 export type ToolbarAction = {
 	label: string;
@@ -60,6 +55,7 @@ export function useToolbar() {
 
 export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
+	const toolbarRef = useRef<HTMLElement>(null);
 
 	const {
 		title,
@@ -68,72 +64,91 @@ export default function Toolbar() {
 		onSearchChange,
 		actions = [],
 	} = config;
+	const actionKey = actions
+		.map((action) => `${action.icon}-${action.label}`)
+		.join("|");
 
 	useEffect(() => {
-		if (window.__timetableLiquidGLInitialized) {
+		const root = toolbarRef.current;
+
+		if (!root || !actionKey) {
 			return;
 		}
 
-		window.__timetableLiquidGLInitialized = true;
+		const glassElements = Array.from(root.children).filter(
+			(child): child is HTMLElement => child.hasAttribute("data-liquid-gl"),
+		);
 
-		void import("liquid-gl").then(({ default: liquidGL }) => {
-			liquidGL({
-				target: "[data-liquid-gl]",
-				snapshot: "body",
-				resolution: 1,
-				refraction: 0.01,
-				aberration: 0,
-				bevelDepth: 0.08,
-				bevelWidth: 0.15,
-				frost: 0,
-				shadow: true,
-				specular: true,
-				reveal: "fade",
-				tilt: false,
-				magnify: 1,
-			});
-		});
-	}, []);
+		if (glassElements.length === 0) {
+			return;
+		}
+
+		let cancelled = false;
+		let instance: { destroy: () => void } | undefined;
+
+		void import("@ybouane/liquidglass")
+			.then(({ LiquidGlass }) =>
+				LiquidGlass.init({
+					root,
+					glassElements,
+				}),
+			)
+			.then((newInstance) => {
+				if (cancelled) {
+					newInstance.destroy();
+					return;
+				}
+
+				instance = newInstance;
+			})
+			.catch(() => undefined);
+
+		return () => {
+			cancelled = true;
+			instance?.destroy();
+		};
+	}, [actionKey]);
 
 	return (
-		<header className={styles.toolbar}>
+		<header ref={toolbarRef} className={styles.toolbar}>
 			<div className={styles.heading}>
 				<h1>{title}</h1>
 			</div>
 
-			<div className={styles.actions}>
-				{searchPlaceholder ? (
-					<label className={styles.search}>
-						<span className="sr-only">Search {title}</span>
+			{searchPlaceholder ? (
+				<label className={styles.search}>
+					<span className="sr-only">Search {title}</span>
+					<input
+						value={searchValue}
+						placeholder={searchPlaceholder}
+						onChange={(event) => onSearchChange?.(event.target.value)}
+					/>
+				</label>
+			) : null}
 
-						<input
-							value={searchValue}
-							placeholder={searchPlaceholder}
-							onChange={(event) => onSearchChange?.(event.target.value)}
-						/>
-					</label>
-				) : null}
-
-				{actions.map((action) => (
-					<button
-						key={`${action.icon}-${action.label}`}
-						type="button"
-						className={styles.addButton}
-						data-liquid-gl
-						onClick={action.onPress}
-						aria-label={action.label}
-					>
-						<img
-							className={styles.actionIcon}
-							src={`/icons/${action.icon}`}
-							alt=""
-							aria-hidden="true"
-						/>
-
-						<span>{action.label}</span>
-					</button>
-				))}
-			</div>
+			{actions.map((action) => (
+				<button
+					key={`${action.icon}-${action.label}`}
+					type="button"
+					className={styles.addButton}
+					data-liquid-gl
+					data-config={JSON.stringify({
+						button: true,
+						cornerRadius: 12,
+						zRadius: 12,
+					})}
+					onClick={action.onPress}
+					aria-label={action.label}
+				>
+					<img
+						className={styles.actionIcon}
+						src={`/icons/${action.icon}`}
+						alt=""
+						aria-hidden="true"
+					/>
+					<span>{action.label}</span>
+				</button>
+			))}
 		</header>
 	);
 }
