@@ -8,6 +8,8 @@ import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
+const blurLevels = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
+
 export const metadata: Metadata = {
 	title: "Timetable",
 	description: "Timetable",
@@ -30,7 +32,16 @@ export default function RootLayout({
 					<div className={styles.outerAppShell}>
 						<div className={styles.pageContent}>{children}</div>
 
-						<ProgressiveBlur height="50%" position="bottom" />
+						<ProgressiveBlur
+							height="10%"
+							position="bottom"
+							blurLevels={blurLevels}
+						/>
+						<ProgressiveBlur
+							height="10%"
+							position="top"
+							blurLevels={blurLevels}
+						/>
 					</div>
 				</div>
 			</body>
