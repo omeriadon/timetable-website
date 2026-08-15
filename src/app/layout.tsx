@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import Sidebar from "../components/Sidebar";
+import Toolbar, { ToolbarProvider } from "../components/Toolbar";
 import styles from "./layout.module.css";
 import "./globals.css";
-import { Geist } from "next/font/google";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
-import Toolbar, { ToolbarProvider } from "@/components/Toolbar";
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const blurLevels = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
 

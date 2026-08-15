@@ -4,10 +4,17 @@ import {
 	createContext,
 	useCallback,
 	useContext,
+	useEffect,
 	useState,
 	type ReactNode,
 } from "react";
 import styles from "./Toolbar.module.css";
+
+declare global {
+	interface Window {
+		__timetableLiquidGLInitialized?: boolean;
+	}
+}
 
 export type ToolbarAction = {
 	label: string;
@@ -53,6 +60,7 @@ export function useToolbar() {
 
 export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
+
 	const {
 		title,
 		searchPlaceholder,
@@ -61,8 +69,34 @@ export default function Toolbar() {
 		actions = [],
 	} = config;
 
+	useEffect(() => {
+		if (window.__timetableLiquidGLInitialized) {
+			return;
+		}
+
+		window.__timetableLiquidGLInitialized = true;
+
+		void import("liquid-gl").then(({ default: liquidGL }) => {
+			liquidGL({
+				target: "[data-liquid-gl]",
+				snapshot: "body",
+				resolution: 1,
+				refraction: 0.01,
+				aberration: 0,
+				bevelDepth: 0.08,
+				bevelWidth: 0.15,
+				frost: 0,
+				shadow: true,
+				specular: true,
+				reveal: "fade",
+				tilt: false,
+				magnify: 1,
+			});
+		});
+	}, []);
+
 	return (
-		<header className={styles.toolbar}>
+		<header className={styles.toolbar} data-liquid-gl>
 			<div className={styles.heading}>
 				<h1>{title}</h1>
 			</div>
@@ -71,6 +105,7 @@ export default function Toolbar() {
 				{searchPlaceholder ? (
 					<label className={styles.search}>
 						<span className="sr-only">Search {title}</span>
+
 						<input
 							value={searchValue}
 							placeholder={searchPlaceholder}
@@ -78,13 +113,13 @@ export default function Toolbar() {
 						/>
 					</label>
 				) : null}
-				{actions.map((action) => {
-					return (
+
+				{actions.map((action) => (
 					<button
 						key={`${action.icon}-${action.label}`}
-							type="button"
-							className={styles.addButton}
-							onClick={action.onPress}
+						type="button"
+						className={styles.addButton}
+						onClick={action.onPress}
 						aria-label={action.label}
 					>
 						<img
@@ -93,10 +128,10 @@ export default function Toolbar() {
 							alt=""
 							aria-hidden="true"
 						/>
-							<span>{action.label}</span>
-						</button>
-					);
-				})}
+
+						<span>{action.label}</span>
+					</button>
+				))}
 			</div>
 		</header>
 	);
