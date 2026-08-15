@@ -26,6 +26,11 @@ bun install --frozen-lockfile
 echo "Building production application..."
 bun run build
 
+echo "Preparing standalone application..."
+cp -R public .next/standalone/
+mkdir -p .next/standalone/.next
+cp -R .next/static .next/standalone/.next/
+
 echo "Restarting PM2..."
 pm2 startOrRestart ecosystem.config.cjs --env production
 
