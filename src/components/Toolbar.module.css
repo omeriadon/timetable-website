@@ -61,14 +61,11 @@
 
 .addButton {
 	padding: 9px 13px;
-
+	appearance: none;
+	background: transparent;
 	font: inherit;
 	font-size: 0.8rem;
 	cursor: pointer;
-}
-
-.addButton:hover {
-	background: #d9d9d9;
 }
 
 .addButton:focus-visible,
