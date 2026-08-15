@@ -4,6 +4,7 @@ import Toolbar, { ToolbarProvider } from "../components/Toolbar";
 import styles from "./layout.module.css";
 import "./globals.css";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+import { FadeToBackground } from "@/components/ui/FadeToBackground";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
 
@@ -29,9 +30,8 @@ export default function RootLayout({
 
 						<div className={styles.outerAppShell}>
 							<div className={styles.pageContent}>{children}</div>
-
 							<ProgressiveBlur
-								height="10%"
+								height="5%"
 								position="bottom"
 								blurLevels={blurLevels}
 							/>
@@ -40,6 +40,13 @@ export default function RootLayout({
 								height="10%"
 								position="top"
 								blurLevels={blurLevels}
+							/>
+
+							<FadeToBackground
+								height="15%"
+								maxOpacity={0.8}
+								direction="to top"
+								className={styles.fadeToBackgroundTop}
 							/>
 
 							<Toolbar />

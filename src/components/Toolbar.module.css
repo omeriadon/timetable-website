@@ -35,9 +35,38 @@
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	border-radius: 12px;
+	background: rgba(48, 48, 48, 0.5);
+	border-radius: 1000px;
 	color: #ffffff;
+	aspect-ratio: 1 / 1;
+
+	border: 1px solid transparent;
+	/* position: relative; */
+}
+
+.search::before,
+.addButton::before {
+	content: "";
+	position: absolute;
+	inset: -1;
+	border-radius: inherit;
+	padding: 2px;
+	background: linear-gradient(
+		135deg,
+		#373737,
+		transparent 35%,
+		transparent 65%,
+		#373737
+	);
+	-webkit-mask:
+		linear-gradient(#fff 0 0) content-box,
+		linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask:
+		linear-gradient(#fff 0 0) content-box,
+		linear-gradient(#fff 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
 }
 
 .search {
@@ -49,7 +78,6 @@
 	width: 150px;
 	border: 0;
 	outline: 0;
-	background: transparent;
 	color: inherit;
 	font: inherit;
 	font-size: 0.8rem;
@@ -62,17 +90,16 @@
 .addButton {
 	padding: 9px 13px;
 	appearance: none;
-	background: rgba(255, 255, 255, 0.06);
-	backdrop-filter: blur(200px);
-	-webkit-backdrop-filter: blur(200px);
+	-webkit-backdrop-filter: blur(1px);
+	backdrop-filter: blur(1px);
 	font: inherit;
 	font-size: 0.8rem;
 	cursor: pointer;
 }
 
 .addButton:focus-visible,
-.search:focus-within {
-	outline: 2px solid #ffffff;
+I .search:focus-within {
+	outline: 1px solid #ffffff;
 	outline-offset: 2px;
 }
 

@@ -93,7 +93,6 @@ export default function Toolbar() {
 						alt=""
 						aria-hidden="true"
 					/>
-					<span>{action.label}</span>
 				</button>
 			))}
 		</header>
