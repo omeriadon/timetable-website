@@ -1,0 +1,10 @@
+.appShell {
+	display: flex;
+	min-height: 100svh;
+	width: 100%;
+}
+
+.pageContent {
+	flex: 1;
+	min-width: 0;
+}
