@@ -7,7 +7,7 @@
 :root {
 	color-scheme: light dark;
 
-	font-family: "SF Mono", monospace;
+	font-family: "SF Pro", serif;
 	background: var(--background);
 	color: var(--foreground);
 }
@@ -18,6 +18,32 @@
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
+}
+
+@font-face {
+	font-family: "SF Rounded";
+	src: url("/fonts/SF-Pro-Rounded-Regular.otf") format("opentype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	font-stretch: 150%;
+}
+
+@font-face {
+	font-family: "SF Pro";
+	src: url("/fonts/SF-Pro.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SF Pro Expanded";
+	src: url("/fonts/SF-Pro.ttf") format("truetype");
+	font-weight: 1 1000;
+	font-style: normal;
+	font-display: swap;
+	font-variation-settings: "wdth" 120;
 }
 
 @media (prefers-color-scheme: dark) {

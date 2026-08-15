@@ -46,10 +46,7 @@ export function ToolbarProvider({ children }: { children: ReactNode }) {
 export function useToolbar() {
 	const { setConfig } = useContext(ToolbarContext);
 
-	return useCallback(
-		(config: ToolbarConfig) => setConfig(config),
-		[setConfig],
-	);
+	return useCallback((config: ToolbarConfig) => setConfig(config), [setConfig]);
 }
 
 export default function Toolbar() {
@@ -67,7 +64,6 @@ export default function Toolbar() {
 	return (
 		<header className={styles.toolbar}>
 			<div className={styles.heading}>
-				<p className={styles.eyebrow}>Workspace</p>
 				<h1>{title}</h1>
 				{subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
 			</div>
