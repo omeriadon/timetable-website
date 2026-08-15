@@ -1,9 +1,3 @@
-.appShell {
-	display: flex;
-	height: 100svh;
-	overflow: hidden;
-}
-
 .outerAppShell {
 	position: relative;
 	width: 100%;
@@ -15,4 +9,13 @@
 	height: 100%;
 	overflow-y: auto;
 	min-width: 0;
+	padding: 16px;
+}
+
+.toolbar {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	right: 16px;
+	z-index: 20;
 }

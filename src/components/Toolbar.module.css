@@ -1,0 +1,111 @@
+.toolbar {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 20px 24px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 22px;
+	background: rgba(18, 18, 18, 0.82);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+	backdrop-filter: blur(24px);
+}
+
+.heading h1,
+.subtitle,
+.eyebrow {
+	margin: 0;
+}
+
+.eyebrow {
+	color: #969696;
+	font-size: 0.7rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.heading h1 {
+	margin-top: 5px;
+	font-size: clamp(1.25rem, 2vw, 1.7rem);
+	letter-spacing: -0.04em;
+}
+
+.subtitle {
+	margin-top: 5px;
+	color: #9d9d9d;
+	font-size: 0.8rem;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.search,
+.addButton {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 12px;
+	color: #ffffff;
+}
+
+.search {
+	padding: 9px 12px;
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.search input {
+	width: 150px;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.8rem;
+}
+
+.search input::placeholder {
+	color: #8d8d8d;
+}
+
+.addButton {
+	padding: 9px 13px;
+	background: #ffffff;
+	color: #111111;
+	font: inherit;
+	font-size: 0.8rem;
+	cursor: pointer;
+}
+
+.addButton:hover {
+	background: #d9d9d9;
+}
+
+.addButton:focus-visible,
+.search:focus-within {
+	outline: 2px solid #ffffff;
+	outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+	.toolbar {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.actions {
+		flex-wrap: wrap;
+	}
+
+	.search {
+		flex: 1;
+	}
+
+	.search input {
+		width: 100%;
+	}
+}

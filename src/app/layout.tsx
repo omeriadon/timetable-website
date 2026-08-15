@@ -3,7 +3,6 @@ import Sidebar from "../components/Sidebar";
 import styles from "./layout.module.css";
 import "./globals.css";
 import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -37,11 +36,13 @@ export default function RootLayout({
 							position="bottom"
 							blurLevels={blurLevels}
 						/>
+
 						<ProgressiveBlur
 							height="10%"
 							position="top"
 							blurLevels={blurLevels}
 						/>
+
 					</div>
 				</div>
 			</body>
