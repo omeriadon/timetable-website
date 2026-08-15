@@ -2,18 +2,21 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Timetable",
-  description: "Timetable",
+	title: "Timetable",
+	description: "Timetable",
+	icons: {
+		icon: "/favicon.svg",
+	},
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body>{children}</body>
+		</html>
+	);
 }
