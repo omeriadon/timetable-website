@@ -13,7 +13,6 @@ export default function Home() {
 	useEffect(() => {
 		setToolbar({
 			title: "Overview",
-			subtitle: "A quick look at what is happening next.",
 			onAdd: () => setNotice("New overview item created."),
 		});
 	}, [setToolbar]);

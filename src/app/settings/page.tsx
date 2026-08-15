@@ -10,7 +10,6 @@ export default function SettingsPage() {
 	useEffect(() => {
 		setToolbar({
 			title: "Settings",
-			subtitle: "Shape the workspace to fit you.",
 		});
 	}, [setToolbar]);
 

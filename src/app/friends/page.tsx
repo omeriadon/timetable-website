@@ -10,7 +10,6 @@ export default function Friends() {
 	useEffect(() => {
 		setToolbar({
 			title: "Settings",
-			subtitle: "Shape the workspace to fit you.",
 		});
 	}, [setToolbar]);
 

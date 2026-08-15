@@ -13,7 +13,6 @@ export default function Timetable() {
 	useEffect(() => {
 		setToolbar({
 			title: "Schedule",
-			subtitle: "Keep your week moving.",
 			onAdd: () => setSelectedDay("New class"),
 		});
 	}, [setToolbar]);

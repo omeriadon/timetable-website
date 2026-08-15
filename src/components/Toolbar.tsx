@@ -12,7 +12,6 @@ import styles from "./Toolbar.module.css";
 
 export type ToolbarConfig = {
 	title: string;
-	subtitle?: string;
 	searchPlaceholder?: string;
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
@@ -22,7 +21,6 @@ export type ToolbarConfig = {
 
 const defaultToolbar: ToolbarConfig = {
 	title: "Timetable",
-	subtitle: "Your workspace at a glance.",
 };
 
 const ToolbarContext = createContext<{
@@ -53,7 +51,6 @@ export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
 	const {
 		title,
-		subtitle,
 		searchPlaceholder,
 		searchValue = "",
 		onSearchChange,
@@ -65,7 +62,6 @@ export default function Toolbar() {
 		<header className={styles.toolbar}>
 			<div className={styles.heading}>
 				<h1>{title}</h1>
-				{subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
 			</div>
 
 			<div className={styles.actions}>

@@ -16,7 +16,6 @@ export default function ClassesPage() {
 	useEffect(() => {
 		setToolbar({
 			title: "Classes",
-			subtitle: "Your current subjects.",
 			searchPlaceholder: "Search classes",
 			searchValue: query,
 			onSearchChange: setQuery,
