@@ -96,7 +96,7 @@ export default function Toolbar() {
 	}, []);
 
 	return (
-		<header className={styles.toolbar} data-liquid-gl>
+		<header className={styles.toolbar}>
 			<div className={styles.heading}>
 				<h1>{title}</h1>
 			</div>
@@ -119,6 +119,7 @@ export default function Toolbar() {
 						key={`${action.icon}-${action.label}`}
 						type="button"
 						className={styles.addButton}
+						data-liquid-gl
 						onClick={action.onPress}
 						aria-label={action.label}
 					>
