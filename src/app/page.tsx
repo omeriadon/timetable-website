@@ -13,7 +13,13 @@ export default function Home() {
 	useEffect(() => {
 		setToolbar({
 			title: "Overview",
-			onAdd: () => setNotice("New overview item created."),
+			actions: [
+				{
+					label: "Add overview",
+					symbol: "plus",
+					onPress: () => setNotice("New overview item created."),
+				},
+			],
 		});
 	}, [setToolbar]);
 

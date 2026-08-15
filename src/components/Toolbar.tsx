@@ -7,16 +7,43 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import { Plus, Search } from "lucide-react";
+import {
+	CalendarPlus,
+	Download,
+	FolderPlus,
+	Plus,
+	Search,
+	SlidersHorizontal,
+} from "lucide-react";
 import styles from "./Toolbar.module.css";
+
+export type ToolbarSymbol =
+	| "calendarPlus"
+	| "download"
+	| "folderPlus"
+	| "plus"
+	| "sliders";
+
+export type ToolbarAction = {
+	label: string;
+	symbol: ToolbarSymbol;
+	onPress: () => void;
+};
 
 export type ToolbarConfig = {
 	title: string;
 	searchPlaceholder?: string;
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
-	onAdd?: () => void;
-	children?: ReactNode;
+	actions?: ToolbarAction[];
+};
+
+const symbols = {
+	calendarPlus: CalendarPlus,
+	download: Download,
+	folderPlus: FolderPlus,
+	plus: Plus,
+	sliders: SlidersHorizontal,
 };
 
 const defaultToolbar: ToolbarConfig = {
@@ -54,8 +81,7 @@ export default function Toolbar() {
 		searchPlaceholder,
 		searchValue = "",
 		onSearchChange,
-		onAdd,
-		children,
+		actions = [],
 	} = config;
 
 	return (
@@ -76,18 +102,22 @@ export default function Toolbar() {
 						/>
 					</label>
 				) : null}
-				{children}
-				{onAdd ? (
+				{actions.map((action) => {
+					const Icon = symbols[action.symbol];
+
+					return (
 					<button
+						key={`${action.symbol}-${action.label}`}
 						type="button"
 						className={styles.addButton}
-						onClick={onAdd}
-						aria-label={`Add item to ${title}`}
+						onClick={action.onPress}
+						aria-label={action.label}
 					>
-						<Plus size={16} aria-hidden="true" />
-						<span>Add item</span>
+						<Icon size={16} aria-hidden="true" />
+						<span>{action.label}</span>
 					</button>
-				) : null}
+					);
+				})}
 			</div>
 		</header>
 	);

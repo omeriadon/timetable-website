@@ -19,6 +19,13 @@ export default function ClassesPage() {
 			searchPlaceholder: "Search classes",
 			searchValue: query,
 			onSearchChange: setQuery,
+			actions: [
+				{
+					label: "Add class",
+					symbol: "folderPlus",
+					onPress: () => setQuery(""),
+				},
+			],
 		});
 	}, [query, setToolbar]);
 
