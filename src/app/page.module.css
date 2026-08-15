@@ -84,6 +84,12 @@
 	margin-top: 24px !important;
 }
 
+.mockItem {
+	display: block;
+	margin: 4px;
+	padding: 8px;
+}
+
 .scheduleItem {
 	display: flex;
 	align-items: center;

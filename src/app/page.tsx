@@ -21,27 +21,14 @@ export default function Home() {
 	return (
 		<main className={styles.contentPanel}>
 			<section className={styles.panel}>
-				<div className={styles.panelHeader}>
-					<div>
-						<p className={styles.eyebrow}>Monday, 18 August</p>
-						<h2>Today’s overview</h2>
-					</div>
-					<span className={styles.status}>On track</span>
-				</div>
+				<p>Today’s overview</p>
 
-				<div className={styles.summaryGrid}>
-					<div>
-						<strong>4</strong>
-						<span>Classes today</span>
-					</div>
-					<div>
-						<strong>2</strong>
-						<span>Tasks due</span>
-					</div>
-					<div>
-						<strong>86%</strong>
-						<span>Week complete</span>
-					</div>
+				<div>
+					{Array.from({ length: 100 }, (_, index) => (
+						<span key={index} className={styles.mockItem}>
+							{index + 1}
+						</span>
+					))}
 				</div>
 
 				<p className={styles.notice}>{notice}</p>
