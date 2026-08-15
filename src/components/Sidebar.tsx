@@ -1,13 +1,15 @@
 import styles from "./Sidebar.module.css";
+import Image from "next/image";
 
 const navItems = ["Overview", "Schedule", "Classes", "Settings"];
 
 export default function Sidebar() {
 	return (
 		<aside className={styles.sidebar} aria-label="Sidebar navigation">
-			<img src="icon.png" alt="Description of the image"></img>
+			<Image src="/icon.png" alt="Photo" width={100} height={100} />
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
+				
 				{navItems.map((item, index) => (
 					<a
 						key={item}
