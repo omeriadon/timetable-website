@@ -63,8 +63,8 @@
 	padding: 9px 13px;
 	appearance: none;
 	background: rgba(255, 255, 255, 0.06);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(200px);
+	-webkit-backdrop-filter: blur(200px);
 	font: inherit;
 	font-size: 0.8rem;
 	cursor: pointer;

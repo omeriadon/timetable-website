@@ -5,7 +5,7 @@ import styles from "./layout.module.css";
 import "./globals.css";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 
-const blurLevels = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4];
+const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
 
 export const metadata: Metadata = {
 	title: "Timetable",
