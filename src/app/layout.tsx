@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import Sidebar from "../components/Sidebar";
-import Toolbar, {
-	LiquidGlassButton,
-	ToolbarProvider,
-} from "../components/Toolbar";
+import Toolbar, { ToolbarProvider } from "../components/Toolbar";
 import styles from "./layout.module.css";
 import "./globals.css";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
@@ -69,16 +66,16 @@ export default function RootLayout({
 							</LiquidGlassButton> */}
 
 							<LiquidGlass
-								radius={16}
-								scale={-180}
+								radius={50}
+								scale={-50}
 								border={0.07}
 								alpha={0.93}
 								inputBlur={10}
-								outputBlur={2}
+								outputBlur={1}
 								red={0}
-								green={10}
-								blue={20}
-								frost={0.05}
+								green={0}
+								blue={0}
+								frost={0}
 								saturation={1.5}
 								className={styles.liquidGlassTestButton2}
 							>

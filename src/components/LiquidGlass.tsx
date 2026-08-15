@@ -14,6 +14,7 @@ type LiquidGlassProps = {
 	children?: ReactNode;
 	className?: string;
 	style?: CSSProperties;
+	onClick?: () => void;
 
 	radius?: number;
 	border?: number;
@@ -41,6 +42,7 @@ export default function LiquidGlass({
 	children,
 	className,
 	style,
+	onClick,
 
 	radius = 16,
 	border = 0.07,
@@ -284,6 +286,7 @@ export default function LiquidGlass({
 		<div
 			ref={rootRef}
 			className={`${styles.effect} ${className ?? ""}`}
+			onClick={onClick}
 			style={
 				{
 					"--liquid-radius": `${radius}px`,

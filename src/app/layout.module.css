@@ -43,17 +43,17 @@
 .liquidGlassTestButton2 {
 	position: fixed;
 
-	top: 50%;
-	left: 30%;
+	top: 10%;
+	left: 95%;
 
 	z-index: 100;
 
-	width: 150;
-	height: 96px;
+	width: 60px;
+	height: 60px;
 
 	transform: translate(-50%, -50%);
 
-	padding: 12px 20px;
+	padding: 5px 10px;
 }
 
 .liquidGlassTestContent {
