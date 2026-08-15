@@ -1,10 +1,21 @@
-import Toolbar from "@/components/Toolbar";
+"use client";
+
 import styles from "../page.module.css";
+import { useEffect } from "react";
+import { useToolbar } from "@/components/Toolbar";
 
 export default function SettingsPage() {
+	const setToolbar = useToolbar();
+
+	useEffect(() => {
+		setToolbar({
+			title: "Settings",
+			subtitle: "Shape the workspace to fit you.",
+		});
+	}, [setToolbar]);
+
 	return (
 		<main className={styles.contentPanel}>
-			<Toolbar title="Settings" subtitle="Shape the workspace to fit you." />
 			<section className={styles.panel}>
 				<div className={styles.scheduleItem}>
 					<strong>Notifications</strong>

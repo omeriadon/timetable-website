@@ -1,8 +1,16 @@
-import type { ReactNode } from "react";
+"use client";
+
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useState,
+	type ReactNode,
+} from "react";
 import { Plus, Search } from "lucide-react";
 import styles from "./Toolbar.module.css";
 
-type ToolbarProps = {
+export type ToolbarConfig = {
 	title: string;
 	subtitle?: string;
 	searchPlaceholder?: string;
@@ -12,15 +20,50 @@ type ToolbarProps = {
 	children?: ReactNode;
 };
 
-export default function Toolbar({
-	title,
-	subtitle,
-	searchPlaceholder,
-	searchValue = "",
-	onSearchChange,
-	onAdd,
-	children,
-}: ToolbarProps) {
+const defaultToolbar: ToolbarConfig = {
+	title: "Timetable",
+	subtitle: "Your workspace at a glance.",
+};
+
+const ToolbarContext = createContext<{
+	config: ToolbarConfig;
+	setConfig: (config: ToolbarConfig) => void;
+}>({
+	config: defaultToolbar,
+	setConfig: () => undefined,
+});
+
+export function ToolbarProvider({ children }: { children: ReactNode }) {
+	const [config, setConfig] = useState(defaultToolbar);
+
+	return (
+		<ToolbarContext.Provider value={{ config, setConfig }}>
+			{children}
+		</ToolbarContext.Provider>
+	);
+}
+
+export function useToolbar() {
+	const { setConfig } = useContext(ToolbarContext);
+
+	return useCallback(
+		(config: ToolbarConfig) => setConfig(config),
+		[setConfig],
+	);
+}
+
+export default function Toolbar() {
+	const { config } = useContext(ToolbarContext);
+	const {
+		title,
+		subtitle,
+		searchPlaceholder,
+		searchValue = "",
+		onSearchChange,
+		onAdd,
+		children,
+	} = config;
+
 	return (
 		<header className={styles.toolbar}>
 			<div className={styles.heading}>

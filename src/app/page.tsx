@@ -1,22 +1,25 @@
 "use client";
 
 import styles from "./page.module.css";
-import Toolbar from "@/components/Toolbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useToolbar } from "@/components/Toolbar";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
 	const [notice, setNotice] = useState("Your week is ready to review.");
+	const setToolbar = useToolbar();
+
+	useEffect(() => {
+		setToolbar({
+			title: "Overview",
+			subtitle: "A quick look at what is happening next.",
+			onAdd: () => setNotice("New overview item created."),
+		});
+	}, [setToolbar]);
 
 	return (
 		<main className={styles.contentPanel}>
-			<Toolbar
-				title="Overview"
-				subtitle="A quick look at what is happening next."
-				onAdd={() => setNotice("New overview item created.")}
-			/>
-
 			<section className={styles.panel}>
 				<div className={styles.panelHeader}>
 					<div>

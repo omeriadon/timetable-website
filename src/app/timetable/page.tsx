@@ -1,21 +1,25 @@
 "use client";
 
 import styles from "./page.module.css";
-import Toolbar from "@/components/Toolbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useToolbar } from "@/components/Toolbar";
 
 export const dynamic = "force-dynamic";
 
 export default function Timetable() {
 	const [selectedDay, setSelectedDay] = useState("Today");
+	const setToolbar = useToolbar();
+
+	useEffect(() => {
+		setToolbar({
+			title: "Schedule",
+			subtitle: "Keep your week moving.",
+			onAdd: () => setSelectedDay("New class"),
+		});
+	}, [setToolbar]);
 
 	return (
 		<main className={styles.contentPanel}>
-			<Toolbar
-				title="Schedule"
-				subtitle="Keep your week moving."
-				onAdd={() => setSelectedDay("New class")}
-			/>
 			<section className={styles.panel}>
 				<div className={styles.dayPicker}>
 					{["Today", "Tomorrow", "Friday"].map((day) => (

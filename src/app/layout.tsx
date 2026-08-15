@@ -4,6 +4,7 @@ import styles from "./layout.module.css";
 import "./globals.css";
 import { Geist } from "next/font/google";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+import Toolbar, { ToolbarProvider } from "@/components/Toolbar";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,26 +26,29 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<div className={styles.appShell}>
-					<Sidebar />
+				<ToolbarProvider>
+					<div className={styles.appShell}>
+						<Sidebar />
 
-					<div className={styles.outerAppShell}>
-						<div className={styles.pageContent}>{children}</div>
+						<div className={styles.outerAppShell}>
+							<div className={styles.pageContent}>{children}</div>
 
-						<ProgressiveBlur
-							height="10%"
-							position="bottom"
-							blurLevels={blurLevels}
-						/>
+							<ProgressiveBlur
+								height="10%"
+								position="bottom"
+								blurLevels={blurLevels}
+							/>
 
-						<ProgressiveBlur
-							height="10%"
-							position="top"
-							blurLevels={blurLevels}
-						/>
+							<ProgressiveBlur
+								height="10%"
+								position="top"
+								blurLevels={blurLevels}
+							/>
 
+							<Toolbar />
+						</div>
 					</div>
-				</div>
+				</ToolbarProvider>
 			</body>
 		</html>
 	);
