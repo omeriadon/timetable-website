@@ -27,8 +27,7 @@
 	box-shadow: 0 0 0 0.5px #333333;
 }
 
-.sidebar::before,
-.sidebar::after {
+.sidebar::before {
 	position: absolute;
 	content: "";
 	pointer-events: none;
@@ -55,27 +54,57 @@
 	);
 }
 
-.sidebar::after {
+.saturationOutline {
+	position: absolute;
 	inset: 0;
-	padding: 1px;
-	border-radius: inherit;
-	corner-shape: inherit;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.saturationOutline span {
+	position: absolute;
 	background: rgba(255, 255, 255, 0.001);
 	-webkit-backdrop-filter: saturate(4);
 	backdrop-filter: saturate(4);
-	-webkit-mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
-	-webkit-mask-composite: xor;
-	mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
-	mask-composite: exclude;
+}
+
+.outlineTop,
+.outlineBottom {
+	left: 30px;
+	right: 30px;
+	height: 1px;
+}
+
+.outlineTop {
+	top: 1px;
+}
+
+.outlineBottom {
+	bottom: 1px;
+}
+
+.outlineLeft,
+.outlineRight {
+	top: 30px;
+	bottom: 30px;
+	width: 1px;
+}
+
+.outlineLeft {
+	left: 1px;
+}
+
+.outlineRight {
+	right: 1px;
 }
 
 .sidebar > * {
 	position: relative;
 	z-index: 1;
+}
+
+.sidebar > .saturationOutline {
+	z-index: 2;
 }
 
 .brand {
