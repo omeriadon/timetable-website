@@ -63,39 +63,39 @@
 
 .saturationOutline span {
 	position: absolute;
-	background: rgba(255, 255, 255, 0.001);
-	-webkit-backdrop-filter: saturate(4);
-	backdrop-filter: saturate(4);
+	background: rgba(255, 255, 255, 0.08);
+	-webkit-backdrop-filter: saturate(4) brightness(1.6);
+	backdrop-filter: saturate(4) brightness(1.6);
 }
 
 .outlineTop,
 .outlineBottom {
-	left: 30px;
-	right: 30px;
-	height: 1px;
+	left: 24px;
+	right: 24px;
+	height: 3px;
 }
 
 .outlineTop {
-	top: 1px;
+	top: 0;
 }
 
 .outlineBottom {
-	bottom: 1px;
+	bottom: 0;
 }
 
 .outlineLeft,
 .outlineRight {
-	top: 30px;
-	bottom: 30px;
-	width: 1px;
+	top: 24px;
+	bottom: 24px;
+	width: 3px;
 }
 
 .outlineLeft {
-	left: 1px;
+	left: 0;
 }
 
 .outlineRight {
-	right: 1px;
+	right: 0;
 }
 
 .sidebar > * {
