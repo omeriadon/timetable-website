@@ -23,6 +23,11 @@ type RGBColor = {
 	blue: number;
 };
 
+type ReflectionSurface = {
+	element: HTMLElement;
+	color: RGBColor;
+};
+
 type ReflectionBand = {
 	start: number;
 	end: number;
@@ -91,19 +96,42 @@ function averageColors(colors: RGBColor[]): RGBColor | null {
 	};
 }
 
-function distanceBetween(first: RGBColor, second: RGBColor) {
-	return Math.hypot(
-		first.red - second.red,
-		first.green - second.green,
-		first.blue - second.blue,
-	);
+function imageColor(image: HTMLImageElement): RGBColor | null {
+	if (!image.complete || image.naturalWidth === 0 || image.naturalHeight === 0) {
+		return null;
+	}
+
+	try {
+		const canvas = document.createElement("canvas");
+		canvas.width = 1;
+		canvas.height = 1;
+		const context = canvas.getContext("2d", { willReadFrequently: true });
+
+		if (!context) {
+			return null;
+		}
+
+		context.drawImage(image, 0, 0, 1, 1);
+		const [red, green, blue, alpha] = context.getImageData(0, 0, 1, 1).data;
+
+		if (alpha < 16) {
+			return null;
+		}
+
+		return { red, green, blue };
+	} catch {
+		return null;
+	}
 }
 
-function colorFromElement(element: Element): RGBColor | null {
+function colorFromElement(element: HTMLElement): RGBColor | null {
+	if (element instanceof HTMLImageElement) {
+		return imageColor(element);
+	}
+
 	const style = window.getComputedStyle(element);
-	const backgroundColors = style.backgroundImage.match(colorPattern) ?? [];
 	const gradientColor = averageColors(
-		backgroundColors
+		(style.backgroundImage.match(colorPattern) ?? [])
 			.map(parseColor)
 			.filter((color): color is RGBColor => color !== null),
 	);
@@ -112,28 +140,14 @@ function colorFromElement(element: Element): RGBColor | null {
 		return gradientColor;
 	}
 
-	const backgroundColor = parseColor(style.backgroundColor);
-	const opacity = Number.parseFloat(style.opacity);
-
-	if (backgroundColor && opacity > 0.05) {
-		return backgroundColor;
-	}
-
-	return null;
+	return parseColor(style.backgroundColor);
 }
 
-function visibleColorAt(x: number, y: number): RGBColor | null {
-	const elements = document.elementsFromPoint(x, y);
+function isReflectable(color: RGBColor) {
+	const brightest = Math.max(color.red, color.green, color.blue);
+	const darkest = Math.min(color.red, color.green, color.blue);
 
-	for (const element of elements) {
-		const color = colorFromElement(element);
-
-		if (color && Math.max(color.red, color.green, color.blue) > 30) {
-			return color;
-		}
-	}
-
-	return null;
+	return brightest > 44 && brightest - darkest > 18;
 }
 
 function reflectionGradient(bands: ReflectionBand[], height: number) {
@@ -159,8 +173,10 @@ function reflectionGradient(bands: ReflectionBand[], height: number) {
 export default function Sidebar() {
 	const pathname = usePathname();
 	const sidebarRef = useRef<HTMLElement>(null);
+	const surfacesRef = useRef<ReflectionSurface[]>([]);
+	const reflectionRef = useRef("");
 
-	const updateReflection = useCallback(() => {
+	const writeReflection = useCallback(() => {
 		const sidebar = sidebarRef.current;
 
 		if (!sidebar || window.innerWidth <= 700) {
@@ -168,90 +184,122 @@ export default function Sidebar() {
 		}
 
 		const sidebarBounds = sidebar.getBoundingClientRect();
-		const bands: ReflectionBand[] = [];
-		const horizontalSamples = [16, 40, 72, 112, 160, 224, 320];
-		const sampleHeight = 6;
+		const bands = surfacesRef.current
+			.map(({ element, color }) => {
+				const bounds = element.getBoundingClientRect();
+				const start = Math.max(0, Math.round(bounds.top - sidebarBounds.top));
+				const end = Math.min(
+					Math.ceil(sidebarBounds.height),
+					Math.round(bounds.bottom - sidebarBounds.top),
+				);
 
-		for (let offset = 0; offset < sidebarBounds.height; offset += sampleHeight) {
-			const y = Math.round(sidebarBounds.top + offset + sampleHeight / 2);
-			let color: RGBColor | null = null;
-
-			for (const horizontalOffset of horizontalSamples) {
-				const x = Math.round(sidebarBounds.right + horizontalOffset);
-
-				if (x >= window.innerWidth || y >= window.innerHeight) {
-					continue;
+				if (bounds.right <= sidebarBounds.right || start >= end) {
+					return null;
 				}
 
-				color = visibleColorAt(x, y);
+				return { start, end, color };
+			})
+			.filter((band): band is ReflectionBand => band !== null)
+			.sort((first, second) => first.start - second.start);
+		const reflection = reflectionGradient(
+			bands,
+			Math.ceil(sidebarBounds.height),
+		);
 
-				if (color) {
-					break;
-				}
-			}
-
-			if (!color) {
-				continue;
-			}
-
-			const previousBand = bands.at(-1);
-
-			if (
-				previousBand &&
-				previousBand.end === offset &&
-				distanceBetween(previousBand.color, color) < 38
-			) {
-				previousBand.end += sampleHeight;
-				continue;
-			}
-
-			bands.push({
-				start: offset,
-				end: offset + sampleHeight,
-				color,
-			});
+		if (reflection === reflectionRef.current) {
+			return;
 		}
 
-		sidebar.style.setProperty(
-			"--sidebar-reflection",
-			reflectionGradient(bands, Math.ceil(sidebarBounds.height)),
-		);
+		reflectionRef.current = reflection;
+		sidebar.style.setProperty("--sidebar-reflection", reflection);
 	}, []);
+
+	const collectSurfaces = useCallback(() => {
+		const sidebar = sidebarRef.current;
+
+		if (!sidebar || window.innerWidth <= 700) {
+			surfacesRef.current = [];
+			return;
+		}
+
+		const sidebarBounds = sidebar.getBoundingClientRect();
+		const searchLimit = sidebarBounds.right + 480;
+
+		surfacesRef.current = Array.from(
+			document.querySelectorAll<HTMLElement>("body *"),
+		).flatMap((element) => {
+			if (sidebar.contains(element)) {
+				return [];
+			}
+
+			const bounds = element.getBoundingClientRect();
+
+			if (
+				bounds.width < 80 ||
+				bounds.height < 12 ||
+				bounds.width * bounds.height < 2_000 ||
+				bounds.right <= sidebarBounds.right ||
+				bounds.left >= searchLimit
+			) {
+				return [];
+			}
+
+			const color = colorFromElement(element);
+
+			return color && isReflectable(color) ? [{ element, color }] : [];
+		});
+		writeReflection();
+	}, [writeReflection]);
 
 	useEffect(() => {
 		let animationFrame: number | null = null;
 
-		const scheduleUpdate = () => {
+		const scheduleWrite = () => {
 			if (animationFrame !== null) {
 				return;
 			}
 
 			animationFrame = window.requestAnimationFrame(() => {
 				animationFrame = null;
-				updateReflection();
+				writeReflection();
 			});
 		};
 
-		const observer = new MutationObserver(scheduleUpdate);
+		const refreshSurfaces = () => {
+			collectSurfaces();
+			scheduleWrite();
+		};
+
+		const observer = new MutationObserver(refreshSurfaces);
 		observer.observe(document.body, {
 			childList: true,
 			subtree: true,
 		});
 
-		window.addEventListener("resize", scheduleUpdate);
-		window.addEventListener("scroll", scheduleUpdate, true);
-		scheduleUpdate();
+		const resizeObserver = new ResizeObserver(refreshSurfaces);
+		const sidebar = sidebarRef.current;
+
+		if (sidebar) {
+			resizeObserver.observe(sidebar);
+		}
+
+		window.addEventListener("resize", refreshSurfaces);
+		window.addEventListener("load", refreshSurfaces);
+		window.addEventListener("scroll", scheduleWrite, true);
+		refreshSurfaces();
 
 		return () => {
 			observer.disconnect();
-			window.removeEventListener("resize", scheduleUpdate);
-			window.removeEventListener("scroll", scheduleUpdate, true);
+			resizeObserver.disconnect();
+			window.removeEventListener("resize", refreshSurfaces);
+			window.removeEventListener("load", refreshSurfaces);
+			window.removeEventListener("scroll", scheduleWrite, true);
 
 			if (animationFrame !== null) {
 				window.cancelAnimationFrame(animationFrame);
 			}
 		};
-	}, [pathname, updateReflection]);
+	}, [collectSurfaces, pathname, writeReflection]);
 
 	return (
 		<aside

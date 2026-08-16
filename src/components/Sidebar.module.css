@@ -31,10 +31,10 @@
 }
 
 .sidebar::before {
-	inset: -18px;
+	inset: 0;
 	border-radius: inherit;
 	background: var(--sidebar-reflection);
-	filter: blur(14px) saturate(1.4);
+	filter: blur(8px) saturate(1.08);
 	mask-image: linear-gradient(
 		to right,
 		transparent 0% 46%,
@@ -45,14 +45,14 @@
 		transparent 0% 46%,
 		black 78% 100%
 	);
-	opacity: 0.92;
+	opacity: 0.18;
 }
 
 .sidebar::after {
 	inset: 0;
 	border-radius: inherit;
 	background: var(--sidebar-reflection);
-	filter: saturate(1.75) brightness(1.18);
+	filter: saturate(1.15) brightness(1.06);
 	mask-image: linear-gradient(
 		to right,
 		transparent 0 calc(100% - 1px),
@@ -63,7 +63,7 @@
 		transparent 0 calc(100% - 1px),
 		black calc(100% - 1px) 100%
 	);
-	opacity: 0.95;
+	opacity: 0.5;
 	z-index: 2;
 }
 
