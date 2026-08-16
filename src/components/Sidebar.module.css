@@ -1,16 +1,20 @@
 .sidebar {
-	--sidebar-reflection: transparent;
-
 	width: 300px;
 	flex-shrink: 0;
 
 	height: calc(100svh - 2rem);
 
 	position: relative;
+	z-index: 1;
 	overflow: hidden;
-	background: linear-gradient(to right, #0f0f0f 0%, #0f0f0f 70%, #171717 100%);
+	background: linear-gradient(
+		to right,
+		#0f0f0f 0%,
+		#0f0f0f 64%,
+		rgba(17, 17, 17, 0.72) 100%
+	);
 	padding: 24px 18px;
-	margin: 1rem 1px 1rem 1rem;
+	margin: 1rem -72px 1rem 1rem;
 
 	display: flex;
 	flex-direction: column;
@@ -33,26 +37,31 @@
 .sidebar::before {
 	inset: 0;
 	border-radius: inherit;
-	background: var(--sidebar-reflection);
-	filter: blur(8px) saturate(1.08);
+	background: linear-gradient(
+		to right,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.02) 100%
+	);
+	-webkit-backdrop-filter: blur(12px) saturate(1.35);
+	backdrop-filter: blur(12px) saturate(1.35);
 	mask-image: linear-gradient(
 		to right,
-		transparent 0% 46%,
-		black 78% 100%
+		transparent 0% 52%,
+		black 88% 100%
 	);
 	-webkit-mask-image: linear-gradient(
 		to right,
-		transparent 0% 46%,
-		black 78% 100%
+		transparent 0% 52%,
+		black 88% 100%
 	);
-	opacity: 0.18;
 }
 
 .sidebar::after {
 	inset: 0;
 	border-radius: inherit;
-	background: var(--sidebar-reflection);
-	filter: saturate(1.15) brightness(1.06);
+	background: rgba(255, 255, 255, 0.025);
+	-webkit-backdrop-filter: blur(3px) saturate(1.7);
+	backdrop-filter: blur(3px) saturate(1.7);
 	mask-image: linear-gradient(
 		to right,
 		transparent 0 calc(100% - 1px),
@@ -63,7 +72,7 @@
 		transparent 0 calc(100% - 1px),
 		black calc(100% - 1px) 100%
 	);
-	opacity: 0.5;
+	opacity: 0.7;
 	z-index: 2;
 }
 
@@ -124,6 +133,7 @@
 	.sidebar {
 		width: 100%;
 		padding: 18px 16px;
+		margin: 1rem;
 	}
 
 	.sidebar::before,
