@@ -4,7 +4,13 @@
 
 	height: calc(100svh - 2rem);
 
-	background: linear-gradient(to right, #0f0f0f 0%, #0f0f0f 70%, #171717 100%);
+	position: relative;
+	background: linear-gradient(
+		to right,
+		#0f0f0f 0%,
+		#0f0f0f 70%,
+		#171717 100%
+	);
 	padding: 24px 18px;
 	margin: 1rem 1px 1rem 1rem;
 
@@ -17,6 +23,73 @@
 
 	border: 0.5px solid #242424;
 	box-shadow: 0 0 0 0.5px #333333;
+}
+
+.sidebar::before,
+.sidebar::after {
+	position: absolute;
+	content: "";
+	pointer-events: none;
+}
+
+/*
+ * This is a live view of the pixels beside the sidebar rather than a colour
+ * copied from a particular page. The blur samples across the sidebar edge, so
+ * a 20px-tall image or colour band remains a 20px-tall source before it fades.
+ */
+.sidebar::before {
+	top: 14px;
+	right: -34px;
+	bottom: 14px;
+	width: 68px;
+	border-radius: 0 34px 34px 0;
+	background: linear-gradient(
+		to right,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.035) 38%,
+		rgba(255, 255, 255, 0.08) 68%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	-webkit-backdrop-filter: blur(24px) saturate(1.7) brightness(1.08);
+	backdrop-filter: blur(24px) saturate(1.7) brightness(1.08);
+	filter: blur(8px);
+	mask-image: linear-gradient(
+		to right,
+		transparent 0%,
+		black 25%,
+		black 68%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to right,
+		transparent 0%,
+		black 25%,
+		black 68%,
+		transparent 100%
+	);
+	opacity: 0.72;
+}
+
+/*
+ * The narrow glass strip samples the same pixels with less diffusion and more
+ * saturation, making the actual outline respond more strongly than the fill.
+ */
+.sidebar::after {
+	top: 20px;
+	right: -2px;
+	bottom: 20px;
+	width: 4px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	-webkit-backdrop-filter: blur(10px) saturate(2.4) brightness(1.16);
+	backdrop-filter: blur(10px) saturate(2.4) brightness(1.16);
+	box-shadow: 0 0 12px rgba(255, 255, 255, 0.14);
+	opacity: 0.9;
+}
+
+.sidebar > * {
+	position: relative;
+	z-index: 1;
 }
 
 .brand {
@@ -71,6 +144,11 @@
 	.sidebar {
 		width: 100%;
 		padding: 18px 16px;
+	}
+
+	.sidebar::before,
+	.sidebar::after {
+		display: none;
 	}
 
 	.sidebarNav {
