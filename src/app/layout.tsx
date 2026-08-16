@@ -29,12 +29,7 @@ export default function RootLayout({
 						<Sidebar />
 
 						<div className={styles.outerAppShell}>
-							<div
-								className={styles.pageContent}
-								data-sidebar-reflection-source
-							>
-								{children}
-							</div>
+							<div className={styles.pageContent}>{children}</div>
 							<ProgressiveBlur
 								height="5%"
 								position="bottom"

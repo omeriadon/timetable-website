@@ -5,8 +5,14 @@
 	height: calc(100svh - 2rem);
 
 	position: relative;
+	z-index: 2;
 	overflow: hidden;
-	background: linear-gradient(to right, #0f0f0f 0%, #0f0f0f 70%, #171717 100%);
+	background: linear-gradient(
+		to right,
+		#0f0f0f 0%,
+		#0f0f0f 68%,
+		rgba(15, 15, 15, 0.82) 100%
+	);
 	padding: 24px 18px;
 	margin: 1rem 1px 1rem 1rem;
 
@@ -21,97 +27,49 @@
 	box-shadow: 0 0 0 0.5px #333333;
 }
 
-.reflectionViewport {
+.sidebar::before,
+.sidebar::after {
 	position: absolute;
-	inset: 0;
-	z-index: 0;
-	overflow: hidden;
-	border-radius: inherit;
+	content: "";
 	pointer-events: none;
 }
 
-.reflectionViewport::after {
-	position: absolute;
+.sidebar::before {
 	inset: 0;
-	content: "";
 	background: linear-gradient(
 		to right,
-		rgba(15, 15, 15, 0) 64%,
-		rgba(15, 15, 15, 0.08) 88%,
-		rgba(15, 15, 15, 0.2) 100%
+		rgba(255, 255, 255, 0) 60%,
+		rgba(255, 255, 255, 0.018) 100%
 	);
-}
-
-.reflectionTexture,
-.reflectionOutlineTexture {
-	position: absolute;
-	top: 0;
-	right: 0;
-	height: var(--reflection-height);
-	background-image: var(--reflection-image);
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	animation: sidebarReflectionScroll 1ms linear both;
-	animation-timeline: --page-scroll;
-	will-change: transform;
-}
-
-.reflectionTexture {
-	left: 0;
-	filter: blur(8px) saturate(0.9);
+	-webkit-backdrop-filter: blur(10px) saturate(1.15);
+	backdrop-filter: blur(10px) saturate(1.15);
 	mask-image: linear-gradient(
 		to right,
-		transparent 0% 64%,
-		black 94% 100%
+		transparent 0% 62%,
+		black 92% 100%
 	);
 	-webkit-mask-image: linear-gradient(
 		to right,
-		transparent 0% 64%,
-		black 94% 100%
+		transparent 0% 62%,
+		black 92% 100%
 	);
-	opacity: 0.12;
 }
 
-.reflectionOutline {
-	position: absolute;
-	top: 0;
+.sidebar::after {
+	top: 22px;
 	right: 0;
-	bottom: 0;
+	bottom: 22px;
 	width: 1px;
-	overflow: hidden;
-	opacity: 0.22;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.04);
+	-webkit-backdrop-filter: blur(3px) saturate(1.5);
+	backdrop-filter: blur(3px) saturate(1.5);
+	opacity: 0.55;
 }
 
-.reflectionOutlineTexture {
-	left: 0;
-	filter: blur(1px) saturate(1.05);
-}
-
-.sidebar > :not(.reflectionViewport) {
+.sidebar > * {
 	position: relative;
 	z-index: 1;
-}
-
-@keyframes sidebarReflectionScroll {
-	from {
-		transform: translate3d(0, var(--reflection-offset), 0);
-	}
-
-	to {
-		transform: translate3d(
-			0,
-			calc(var(--reflection-offset) - var(--reflection-travel)),
-			0
-		);
-	}
-}
-
-@supports not (animation-timeline: scroll()) {
-	.reflectionTexture,
-	.reflectionOutlineTexture {
-		animation: none;
-		transform: translate3d(0, var(--reflection-offset), 0);
-	}
 }
 
 .brand {
@@ -169,7 +127,8 @@
 		margin: 1rem;
 	}
 
-	.reflectionViewport {
+	.sidebar::before,
+	.sidebar::after {
 		display: none;
 	}
 
