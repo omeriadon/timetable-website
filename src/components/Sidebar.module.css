@@ -1,10 +1,13 @@
 .sidebar {
+	--sidebar-reflection: transparent;
+
 	width: 300px;
 	flex-shrink: 0;
 
 	height: calc(100svh - 2rem);
 
 	position: relative;
+	overflow: hidden;
 	background: linear-gradient(to right, #0f0f0f 0%, #0f0f0f 70%, #171717 100%);
 	padding: 24px 18px;
 	margin: 1rem 1px 1rem 1rem;
@@ -27,59 +30,41 @@
 	pointer-events: none;
 }
 
-/*
- * This is a live view of the pixels beside the sidebar rather than a colour
- * copied from a particular page. The blur samples across the sidebar edge, so
- * a 20px-tall image or colour band remains a 20px-tall source before it fades.
- */
 .sidebar::before {
-	top: 14px;
-	right: -34px;
-	bottom: 14px;
-	width: 68px;
-	border-radius: 0 34px 34px 0;
-	background: linear-gradient(
-		to right,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(255, 255, 255, 0.02) 38%,
-		rgba(255, 255, 255, 0.045) 68%,
-		rgba(255, 255, 255, 0) 100%
-	);
-	-webkit-backdrop-filter: blur(24px) saturate(2.5) brightness(1.16);
-	backdrop-filter: blur(24px) saturate(2.5) brightness(1.16);
-	filter: blur(8px);
+	inset: -18px;
+	border-radius: inherit;
+	background: var(--sidebar-reflection);
+	filter: blur(14px) saturate(1.4);
 	mask-image: linear-gradient(
 		to right,
-		transparent 0%,
-		black 25%,
-		black 68%,
-		transparent 100%
+		transparent 0% 46%,
+		black 78% 100%
 	);
 	-webkit-mask-image: linear-gradient(
 		to right,
-		transparent 0%,
-		black 25%,
-		black 68%,
-		transparent 100%
+		transparent 0% 46%,
+		black 78% 100%
 	);
-	opacity: 0.96;
+	opacity: 0.92;
 }
 
-/*
- * The narrow glass strip samples the same pixels with less diffusion and more
- * saturation, making the actual outline respond more strongly than the fill.
- */
 .sidebar::after {
-	top: 24px;
-	right: -0.5px;
-	bottom: 24px;
-	width: 1px;
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.035);
-	-webkit-backdrop-filter: blur(8px) saturate(3) brightness(1.18);
-	backdrop-filter: blur(8px) saturate(3) brightness(1.18);
-	box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
-	opacity: 0.82;
+	inset: 0;
+	border-radius: inherit;
+	background: var(--sidebar-reflection);
+	filter: saturate(1.75) brightness(1.18);
+	mask-image: linear-gradient(
+		to right,
+		transparent 0 calc(100% - 1px),
+		black calc(100% - 1px) 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to right,
+		transparent 0 calc(100% - 1px),
+		black calc(100% - 1px) 100%
+	);
+	opacity: 0.95;
+	z-index: 2;
 }
 
 .sidebar > * {
