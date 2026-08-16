@@ -20,9 +20,7 @@
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	mask-image:
-		linear-gradient(black, black),
-		linear-gradient(black, black);
+	mask-image: linear-gradient(black, black), linear-gradient(black, black);
 	mask-position:
 		right top,
 		16px 16px;
@@ -31,8 +29,7 @@
 		calc(100% - 317px) 100%,
 		300px calc(100% - 32px);
 	-webkit-mask-image:
-		linear-gradient(black, black),
-		linear-gradient(black, black);
+		linear-gradient(black, black), linear-gradient(black, black);
 	-webkit-mask-position:
 		right top,
 		16px 16px;
@@ -54,20 +51,21 @@
 .reflectionMirror {
 	position: absolute;
 	top: 0;
-	left: 0;
-	width: 317px;
+	left: 16px;
+	width: 300px;
 	min-height: 100%;
 	overflow: hidden;
 	pointer-events: none;
+	opacity: 0.7;
 	user-select: none;
-	filter: blur(10px) saturate(1.15);
-	mask-image: linear-gradient(to left, black 0%, transparent 44%);
-	-webkit-mask-image: linear-gradient(to left, black 0%, transparent 44%);
+	filter: blur(20px) saturate(1.15);
+	mask-image: linear-gradient(to left, black 0%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
 }
 
 .reflectionMirror > .contentSurface {
 	width: calc(100vw - 317px);
-	margin-left: 317px;
+	margin-left: 301px;
 	transform: scaleX(-1);
 	transform-origin: left top;
 }

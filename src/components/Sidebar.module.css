@@ -9,8 +9,8 @@
 	overflow: hidden;
 	background: linear-gradient(
 		to right,
-		#0f0f0f 0%,
-		#0f0f0f 68%,
+		rgba(15, 15, 15, 0.94) 0%,
+		rgba(15, 15, 15, 0.88) 68%,
 		rgba(15, 15, 15, 0.68) 100%
 	);
 	padding: 24px 18px;
