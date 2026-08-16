@@ -5,16 +5,10 @@
 	height: calc(100svh - 2rem);
 
 	position: relative;
-	z-index: 1;
 	overflow: hidden;
-	background: linear-gradient(
-		to right,
-		#0f0f0f 0%,
-		#0f0f0f 64%,
-		rgba(17, 17, 17, 0.72) 100%
-	);
+	background: linear-gradient(to right, #0f0f0f 0%, #0f0f0f 70%, #171717 100%);
 	padding: 24px 18px;
-	margin: 1rem -72px 1rem 1rem;
+	margin: 1rem 1px 1rem 1rem;
 
 	display: flex;
 	flex-direction: column;
@@ -27,58 +21,97 @@
 	box-shadow: 0 0 0 0.5px #333333;
 }
 
-.sidebar::before,
-.sidebar::after {
+.reflectionViewport {
 	position: absolute;
-	content: "";
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	border-radius: inherit;
 	pointer-events: none;
 }
 
-.sidebar::before {
+.reflectionViewport::after {
+	position: absolute;
 	inset: 0;
-	border-radius: inherit;
+	content: "";
 	background: linear-gradient(
 		to right,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(255, 255, 255, 0.02) 100%
-	);
-	-webkit-backdrop-filter: blur(12px) saturate(1.35);
-	backdrop-filter: blur(12px) saturate(1.35);
-	mask-image: linear-gradient(
-		to right,
-		transparent 0% 52%,
-		black 88% 100%
-	);
-	-webkit-mask-image: linear-gradient(
-		to right,
-		transparent 0% 52%,
-		black 88% 100%
+		rgba(15, 15, 15, 0) 64%,
+		rgba(15, 15, 15, 0.08) 88%,
+		rgba(15, 15, 15, 0.2) 100%
 	);
 }
 
-.sidebar::after {
-	inset: 0;
-	border-radius: inherit;
-	background: rgba(255, 255, 255, 0.025);
-	-webkit-backdrop-filter: blur(3px) saturate(1.7);
-	backdrop-filter: blur(3px) saturate(1.7);
+.reflectionTexture,
+.reflectionOutlineTexture {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: var(--reflection-height);
+	background-image: var(--reflection-image);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	animation: sidebarReflectionScroll 1ms linear both;
+	animation-timeline: --page-scroll;
+	will-change: transform;
+}
+
+.reflectionTexture {
+	left: 0;
+	filter: blur(8px) saturate(0.9);
 	mask-image: linear-gradient(
 		to right,
-		transparent 0 calc(100% - 1px),
-		black calc(100% - 1px) 100%
+		transparent 0% 64%,
+		black 94% 100%
 	);
 	-webkit-mask-image: linear-gradient(
 		to right,
-		transparent 0 calc(100% - 1px),
-		black calc(100% - 1px) 100%
+		transparent 0% 64%,
+		black 94% 100%
 	);
-	opacity: 0.7;
-	z-index: 2;
+	opacity: 0.12;
 }
 
-.sidebar > * {
+.reflectionOutline {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 1px;
+	overflow: hidden;
+	opacity: 0.22;
+}
+
+.reflectionOutlineTexture {
+	left: 0;
+	filter: blur(1px) saturate(1.05);
+}
+
+.sidebar > :not(.reflectionViewport) {
 	position: relative;
 	z-index: 1;
+}
+
+@keyframes sidebarReflectionScroll {
+	from {
+		transform: translate3d(0, var(--reflection-offset), 0);
+	}
+
+	to {
+		transform: translate3d(
+			0,
+			calc(var(--reflection-offset) - var(--reflection-travel)),
+			0
+		);
+	}
+}
+
+@supports not (animation-timeline: scroll()) {
+	.reflectionTexture,
+	.reflectionOutlineTexture {
+		animation: none;
+		transform: translate3d(0, var(--reflection-offset), 0);
+	}
 }
 
 .brand {
@@ -136,8 +169,7 @@
 		margin: 1rem;
 	}
 
-	.sidebar::before,
-	.sidebar::after {
+	.reflectionViewport {
 		display: none;
 	}
 

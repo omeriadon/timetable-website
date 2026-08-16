@@ -4,6 +4,7 @@ import styles from "./Sidebar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SidebarReflection from "./SidebarReflection";
 
 const navItems = [
 	{ label: "Overview", href: "/", icon: "chart.bar.xaxis.svg" },
@@ -21,6 +22,8 @@ export default function Sidebar() {
 
 	return (
 		<aside className={styles.sidebar} aria-label="Sidebar navigation">
+			<SidebarReflection />
+
 			<Image
 				src="/icon.png"
 				alt="Photo"
