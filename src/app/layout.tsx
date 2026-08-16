@@ -5,6 +5,7 @@ import styles from "./layout.module.css";
 import "./globals.css";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { FadeToBackground } from "@/components/ui/FadeToBackground";
+import ReflectedPageContent from "@/components/ReflectedPageContent";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
 
@@ -29,7 +30,9 @@ export default function RootLayout({
 						<Sidebar />
 
 						<div className={styles.outerAppShell}>
-							<div className={styles.pageContent}>{children}</div>
+							<ReflectedPageContent>
+								{children}
+							</ReflectedPageContent>
 							<ProgressiveBlur
 								height="5%"
 								position="bottom"
