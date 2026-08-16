@@ -97,6 +97,9 @@ export default function Toolbar() {
 					interactive
 					dragFollow={0.05}
 					dragDistance={38}
+					dragPressScale={1.1}
+					dragDuration={1.2}
+					dragReleaseDuration={0.8}
 					dragStretch={0.32}
 					dragSquash={0.36}
 					dragBounce={2}

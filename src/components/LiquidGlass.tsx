@@ -19,6 +19,9 @@ type LiquidGlassProps = {
 	interactive?: boolean;
 	dragFollow?: number;
 	dragDistance?: number;
+	dragPressScale?: number;
+	dragDuration?: number;
+	dragReleaseDuration?: number;
 	dragStretch?: number;
 	dragSquash?: number;
 	dragBounce?: number;
@@ -54,6 +57,9 @@ export default function LiquidGlass({
 	interactive = false,
 	dragFollow = 0.18,
 	dragDistance = 18,
+	dragPressScale = 1.04,
+	dragDuration = 0.75,
+	dragReleaseDuration = 1.1,
 	dragStretch = 0.12,
 	dragSquash = 0.06,
 	dragBounce = 0.25,
@@ -326,10 +332,10 @@ export default function LiquidGlass({
 		gsap.to(root, {
 			x: targetX,
 			y: targetY,
-			scaleX: 1 + horizontalStretch,
-			scaleY: 1 + verticalStretch,
+			scaleX: dragPressScale * (1 + horizontalStretch),
+			scaleY: dragPressScale * (1 + verticalStretch),
 			rotation: 0,
-			duration: 0.55,
+			duration: dragDuration,
 			ease: `elastic.out(${dragBounce}, 0.7)`,
 			overwrite: true,
 		});
@@ -375,7 +381,7 @@ export default function LiquidGlass({
 			scaleX: 1,
 			scaleY: 1,
 			rotation: 0,
-			duration: 0.9,
+			duration: dragReleaseDuration,
 			ease: `elastic.out(${dragBounce}, 0.8)`,
 			overwrite: true,
 		});
