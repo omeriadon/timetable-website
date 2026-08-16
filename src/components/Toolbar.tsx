@@ -84,23 +84,31 @@ export default function Toolbar() {
 				<LiquidGlass
 					key={`${action.icon}-${action.label}`}
 					radius={50}
-					scale={-50}
-					border={0.07}
-					alpha={0.93}
-					inputBlur={10}
+					scale={-80}
+					border={0}
+					alpha={20}
+					inputBlur={12}
 					outputBlur={1}
-					red={0}
-					green={0}
+					red={10}
+					green={10}
 					blue={0}
 					frost={0}
-					saturation={1.5}
+					saturation={1.3}
+					interactive
+					dragFollow={0.05}
+					dragDistance={38}
+					dragStretch={0.32}
+					dragSquash={0.36}
+					dragBounce={2}
+					filterPadding={32}
 					className={styles.addButton}
 					onClick={action.onPress}
 				>
 					<img
 						className={styles.actionIcon}
 						src={`/icons/${action.icon}`}
-						alt=""
+						alt="action icon"
+						loading="eager"
 						aria-hidden="true"
 					/>
 				</LiquidGlass>

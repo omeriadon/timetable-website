@@ -6,6 +6,7 @@ import {
 	useEffect,
 	useId,
 	useRef,
+	useState,
 } from "react";
 import gsap from "gsap";
 import styles from "./LiquidGlass.module.css";
@@ -15,6 +16,13 @@ type LiquidGlassProps = {
 	className?: string;
 	style?: CSSProperties;
 	onClick?: () => void;
+	interactive?: boolean;
+	dragFollow?: number;
+	dragDistance?: number;
+	dragStretch?: number;
+	dragSquash?: number;
+	dragBounce?: number;
+	filterPadding?: number;
 
 	radius?: number;
 	border?: number;
@@ -43,6 +51,13 @@ export default function LiquidGlass({
 	className,
 	style,
 	onClick,
+	interactive = false,
+	dragFollow = 0.18,
+	dragDistance = 18,
+	dragStretch = 0.12,
+	dragSquash = 0.06,
+	dragBounce = 0.25,
+	filterPadding = 32,
 
 	radius = 16,
 	border = 0.07,
@@ -75,6 +90,8 @@ export default function LiquidGlass({
 	const blueRef = useRef<SVGFEDisplacementMapElement>(null);
 
 	const blurRef = useRef<SVGFEGaussianBlurElement>(null);
+	const pointerDownRef = useRef(false);
+	const [rootSize, setRootSize] = useState({ width: 0, height: 0 });
 
 	const id = useId().replace(/:/g, "");
 	const filterId = `liquid-glass-${id}`;
@@ -91,15 +108,10 @@ export default function LiquidGlass({
 			const width = Math.max(1, Math.round(rect.width));
 			const height = Math.max(1, Math.round(rect.height));
 
+			setRootSize({ width, height });
+
 			const displacementBorder = Math.min(width, height) * (border * 0.5);
 
-			/*
-			 * This is intentionally almost identical to the CodePen.
-			 *
-			 * Do not replace this with an SVG React element.
-			 * The original serializes the SVG and feeds it into
-			 * <feImage> as a data URI.
-			 */
 			const displacementSVG = `
 				<svg
 					class="displacement-image"
@@ -282,11 +294,116 @@ export default function LiquidGlass({
 		blend,
 	]);
 
+	const animateToPointer = (clientX: number, clientY: number) => {
+		const root = rootRef.current;
+
+		if (!root) {
+			return;
+		}
+
+		const rect = root.getBoundingClientRect();
+		const offsetX = clientX - (rect.left + rect.width / 2);
+		const offsetY = clientY - (rect.top + rect.height / 2);
+		const distance = Math.hypot(offsetX, offsetY);
+		const intensity = Math.min(distance / Math.max(rect.width, rect.height), 1);
+		const travel =
+			dragDistance * (1 - Math.exp(-(distance * dragFollow) / dragDistance));
+		const targetX = distance === 0 ? 0 : (offsetX / distance) * travel;
+		const targetY = distance === 0 ? 0 : (offsetY / distance) * travel;
+		const directionMagnitudeX =
+			distance === 0 ? 0 : Math.abs(offsetX / distance);
+		const directionMagnitudeY =
+			distance === 0 ? 0 : Math.abs(offsetY / distance);
+		const horizontalStretch =
+			intensity *
+			(dragStretch * (0.35 + directionMagnitudeX * 0.65) -
+				dragSquash * directionMagnitudeY * 0.65);
+		const verticalStretch =
+			intensity *
+			(dragStretch * (0.35 + directionMagnitudeY * 0.65) -
+				dragSquash * directionMagnitudeX * 0.65);
+
+		gsap.to(root, {
+			x: targetX,
+			y: targetY,
+			scaleX: 1 + horizontalStretch,
+			scaleY: 1 + verticalStretch,
+			rotation: 0,
+			duration: 0.55,
+			ease: `elastic.out(${dragBounce}, 0.7)`,
+			overwrite: true,
+		});
+	};
+
+	const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+		if (!interactive) {
+			return;
+		}
+
+		pointerDownRef.current = true;
+		event.currentTarget.setPointerCapture(event.pointerId);
+		window.addEventListener("pointerup", releaseToOrigin);
+		window.addEventListener("pointercancel", releaseToOrigin);
+		event.preventDefault();
+		animateToPointer(event.clientX, event.clientY);
+	};
+
+	const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+		if (!interactive || !pointerDownRef.current) {
+			return;
+		}
+
+		event.preventDefault();
+		animateToPointer(event.clientX, event.clientY);
+	};
+
+	const releaseToOrigin = () => {
+		pointerDownRef.current = false;
+
+		window.removeEventListener("pointerup", releaseToOrigin);
+		window.removeEventListener("pointercancel", releaseToOrigin);
+
+		const root = rootRef.current;
+
+		if (!root) {
+			return;
+		}
+
+		gsap.to(root, {
+			x: 0,
+			y: 0,
+			scaleX: 1,
+			scaleY: 1,
+			rotation: 0,
+			duration: 0.9,
+			ease: `elastic.out(${dragBounce}, 0.8)`,
+			overwrite: true,
+		});
+	};
+
+	const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+		if (!interactive) {
+			return;
+		}
+
+		if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+			event.currentTarget.releasePointerCapture(event.pointerId);
+		}
+
+		releaseToOrigin();
+	};
+
 	return (
 		<div
 			ref={rootRef}
-			className={`${styles.effect} ${className ?? ""}`}
+			className={`${styles.effect} ${
+				interactive ? styles.interactive : ""
+			} ${className ?? ""}`}
 			onClick={onClick}
+			onPointerDown={handlePointerDown}
+			onPointerMove={handlePointerMove}
+			onPointerUp={handlePointerUp}
+			onPointerCancel={handlePointerUp}
 			style={
 				{
 					"--liquid-radius": `${radius}px`,
@@ -309,13 +426,21 @@ export default function LiquidGlass({
 				aria-hidden="true"
 			>
 				<defs>
-					<filter id={filterId} colorInterpolationFilters="sRGB">
+					<filter
+						id={filterId}
+						colorInterpolationFilters="sRGB"
+						filterUnits="userSpaceOnUse"
+						x={-filterPadding}
+						y={-filterPadding}
+						width={rootSize.width + filterPadding * 2}
+						height={rootSize.height + filterPadding * 2}
+					>
 						<feImage
 							ref={feImageRef}
 							x="0"
 							y="0"
-							width="100%"
-							height="100%"
+							width={rootSize.width}
+							height={rootSize.height}
 							result="map"
 						/>
 

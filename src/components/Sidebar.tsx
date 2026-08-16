@@ -7,7 +7,11 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
 	{ label: "Overview", href: "/", icon: "chart.bar.xaxis.svg" },
-	{ label: "Schedule", href: "/timetable", icon: "calendar.day.timeline.left.svg" },
+	{
+		label: "Schedule",
+		href: "/timetable",
+		icon: "calendar.day.timeline.left.svg",
+	},
 	{ label: "Classes", href: "/classes", icon: "person.2.svg" },
 	{ label: "Settings", href: "/settings", icon: "gear.svg" },
 ];
@@ -17,7 +21,13 @@ export default function Sidebar() {
 
 	return (
 		<aside className={styles.sidebar} aria-label="Sidebar navigation">
-			<Image src="/icon.png" alt="Photo" width={100} height={100} />
+			<Image
+				src="/icon.png"
+				alt="Photo"
+				loading="eager"
+				width={100}
+				height={100}
+			/>
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
 				{navItems.map((item) => {
@@ -36,6 +46,7 @@ export default function Sidebar() {
 								className={styles.navIcon}
 								src={`/icons/${item.icon}`}
 								alt=""
+								loading="eager"
 								aria-hidden="true"
 							/>
 							<span>{item.label}</span>

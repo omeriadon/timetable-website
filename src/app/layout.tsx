@@ -5,7 +5,6 @@ import styles from "./layout.module.css";
 import "./globals.css";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { FadeToBackground } from "@/components/ui/FadeToBackground";
-import LiquidGlass from "@/components/LiquidGlass";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
 
@@ -51,36 +50,6 @@ export default function RootLayout({
 							/>
 
 							<Toolbar />
-
-							{/* <LiquidGlassButton
-								className={styles.liquidGlassTestButton}
-								action={{
-									label: "Liquid glass test",
-									icon: "chart.bar.xaxis.svg",
-								}}
-							>
-								<span className={styles.liquidGlassTestContent}>
-									<strong>Refraction test</strong>
-									<span>Move the page behind this panel</span>
-								</span>
-							</LiquidGlassButton> */}
-
-							<LiquidGlass
-								radius={50}
-								scale={-50}
-								border={0.07}
-								alpha={0.93}
-								inputBlur={10}
-								outputBlur={1}
-								red={0}
-								green={0}
-								blue={0}
-								frost={0}
-								saturation={1.5}
-								className={styles.liquidGlassTestButton2}
-							>
-								<div>Test</div>
-							</LiquidGlass>
 						</div>
 					</div>
 				</ToolbarProvider>

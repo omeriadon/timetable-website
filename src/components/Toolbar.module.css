@@ -45,6 +45,7 @@
 	border-radius: 1000px;
 	color: #ffffff;
 	aspect-ratio: 1 / 1;
+	background: rgba(100, 100, 100, 0.3);
 }
 
 .search::before,
@@ -53,13 +54,13 @@
 	position: absolute;
 	inset: -1;
 	border-radius: inherit;
-	padding: 2px;
+	padding: 1px;
 	background: linear-gradient(
 		135deg,
-		#373737,
+		rgba(255, 255, 255, 1),
 		transparent 35%,
 		transparent 65%,
-		#373737
+		rgba(255, 255, 255, 1)
 	);
 	-webkit-mask:
 		linear-gradient(#fff 0 0) content-box,
