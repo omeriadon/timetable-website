@@ -56,15 +56,21 @@
 }
 
 .sidebar::after {
-	top: 22px;
-	right: 0;
-	bottom: 22px;
-	width: 1px;
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.04);
-	-webkit-backdrop-filter: blur(3px) saturate(1.5);
-	backdrop-filter: blur(3px) saturate(1.5);
-	opacity: 0.55;
+	inset: 0;
+	padding: 1px;
+	border-radius: inherit;
+	corner-shape: inherit;
+	background: rgba(255, 255, 255, 0.001);
+	-webkit-backdrop-filter: saturate(4);
+	backdrop-filter: saturate(4);
+	-webkit-mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	mask-composite: exclude;
 }
 
 .sidebar > * {

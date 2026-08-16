@@ -1,7 +1,26 @@
 .appShell {
+	position: relative;
 	display: flex;
 	height: 100svh;
 	overflow: hidden;
+}
+
+.appShell::before {
+	position: absolute;
+	inset: 0 auto 0 0;
+	z-index: 1;
+	width: 317px;
+	content: "";
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 100% 100%, transparent 29px, #000 30px) 16px
+			16px / 30px 30px no-repeat,
+		radial-gradient(circle at 0 100%, transparent 29px, #000 30px) 286px
+			16px / 30px 30px no-repeat,
+		radial-gradient(circle at 100% 0, transparent 29px, #000 30px) 16px
+			calc(100% - 46px) / 30px 30px no-repeat,
+		radial-gradient(circle at 0 0, transparent 29px, #000 30px) 286px
+			calc(100% - 46px) / 30px 30px no-repeat;
 }
 
 .outerAppShell {
