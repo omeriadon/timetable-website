@@ -112,6 +112,39 @@ export default function Toolbar() {
 					/>
 				</LiquidGlass>
 			))}
+
+			<LiquidGlass
+				radius={50}
+				scale={-80}
+				border={0}
+				alpha={20}
+				inputBlur={12}
+				outputBlur={1}
+				red={10}
+				green={10}
+				blue={0}
+				frost={0}
+				saturation={1.3}
+				interactive
+				dragFollow={0.05}
+				dragDistance={38}
+				dragPressScale={1.1}
+				dragDuration={1.2}
+				dragReleaseDuration={0.8}
+				dragStretch={0.32}
+				dragSquash={0.36}
+				dragBounce={2}
+				filterPadding={32}
+				className={styles.addButton}
+			>
+				<img
+					className={styles.actionIcon}
+					src={`/icons/gear.svg`}
+					alt="action icon"
+					loading="eager"
+					aria-hidden="true"
+				/>
+			</LiquidGlass>
 		</header>
 	);
 }

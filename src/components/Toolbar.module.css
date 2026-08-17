@@ -6,9 +6,10 @@
 	z-index: 20;
 	display: flex;
 	align-items: flex-end;
-	justify-content: space-between;
+	justify-content: flex-end;
 	gap: 24px;
 }
+
 .actionIcon {
 	width: 20px;
 	height: 20px;
