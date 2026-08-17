@@ -23,30 +23,24 @@
 	border-radius: 30px;
 	corner-shape: superellipse(1.5);
 
-	border: 0.5px solid #242424;
-	box-shadow: 0 0 0 0.5px #333333;
+	/* border: 0.5px solid #242424;
+	box-shadow: 0 0 0 0.5px #333333; */
 }
 
 .sidebar::before {
 	position: absolute;
 	content: "";
 	pointer-events: none;
-}
 
-.sidebar::before {
 	inset: 0;
 	background: linear-gradient(
 		to right,
 		rgba(255, 255, 255, 0) 60%,
 		rgba(255, 255, 255, 0.018) 100%
 	);
-	-webkit-backdrop-filter: blur(10px) saturate(1.15);
-	backdrop-filter: blur(10px) saturate(1.15);
-	mask-image: linear-gradient(
-		to right,
-		transparent 0% 62%,
-		black 92% 100%
-	);
+	-webkit-backdrop-filter: blur(50px) saturate(1.15);
+	backdrop-filter: blur(50px) saturate(1.15);
+	mask-image: linear-gradient(to right, transparent 0% 62%, black 92% 100%);
 	-webkit-mask-image: linear-gradient(
 		to right,
 		transparent 0% 62%,
@@ -56,46 +50,23 @@
 
 .saturationOutline {
 	position: absolute;
-	inset: 0;
+	inset: -20px;
 	z-index: 2;
 	pointer-events: none;
-}
 
-.saturationOutline span {
-	position: absolute;
-	background: rgba(255, 255, 255, 0.08);
-	-webkit-backdrop-filter: saturate(4) brightness(1.6);
-	backdrop-filter: saturate(4) brightness(1.6);
-}
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: inherit;
+	corner-shape: inherit;
 
-.outlineTop,
-.outlineBottom {
-	left: 24px;
-	right: 24px;
-	height: 3px;
-}
-
-.outlineTop {
-	top: 0;
-}
-
-.outlineBottom {
-	bottom: 0;
-}
-
-.outlineLeft,
-.outlineRight {
-	top: 24px;
-	bottom: 24px;
-	width: 3px;
-}
-
-.outlineLeft {
-	left: 0;
-}
-
-.outlineRight {
-	right: 0;
+	padding: 1px;
+	mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: xor;
 }
 
 .sidebar > * {

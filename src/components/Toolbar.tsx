@@ -65,10 +65,6 @@ export default function Toolbar() {
 
 	return (
 		<header className={styles.toolbar}>
-			<div className={styles.heading}>
-				<h1>{title}</h1>
-			</div>
-
 			{searchPlaceholder ? (
 				<label className={styles.search}>
 					<span className="sr-only">Search {title}</span>

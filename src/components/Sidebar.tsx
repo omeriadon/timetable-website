@@ -21,12 +21,7 @@ export default function Sidebar() {
 
 	return (
 		<aside className={styles.sidebar} aria-label="Sidebar navigation">
-			<div className={styles.saturationOutline} aria-hidden="true">
-				<span className={styles.outlineTop} />
-				<span className={styles.outlineRight} />
-				<span className={styles.outlineBottom} />
-				<span className={styles.outlineLeft} />
-			</div>
+			<div className={styles.saturationOutline} aria-hidden="true" />
 
 			<Image
 				src="/icon.png"
