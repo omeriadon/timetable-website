@@ -90,6 +90,15 @@
   margin: 0;
 }
 
+.detailEyebrow {
+	display: block;
+	margin-bottom: 2px;
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
 .detailHeader h2 {
   font-size: 1.45rem;
 }
@@ -364,6 +373,29 @@
 }
 
 .editorFields input {
+	min-width: 0;
+	padding: 6px 8px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 8px;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
+}
+
+.editorMetadata {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--theme-content-row-gap);
+}
+
+.editorMetadata label {
+	display: grid;
+	gap: 3px;
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
+}
+
+.editorMetadata input {
 	min-width: 0;
 	padding: 6px 8px;
 	border: 1px solid var(--theme-divider);

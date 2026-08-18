@@ -13,8 +13,14 @@ export type TimetableSubject = {
 		a: number;
 	};
 	slots: TimetableSlot[];
-	teacher?: { displayName: string } | string | null;
-	classroom?: string | null;
+	teacher?:
+		| { displayName?: string; named?: { lastName: string }; unknown?: { rawNotes: string } }
+		| string
+		| null;
+	classroom?:
+		| string
+		| { room?: { building: string; floor?: string | null; number: number }; unknown?: { rawLocation: string } }
+		| null;
 };
 
 export type OwnerTimetable = {

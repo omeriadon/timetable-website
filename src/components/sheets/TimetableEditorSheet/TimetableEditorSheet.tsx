@@ -17,7 +17,7 @@ export default function TimetableEditorSheet({ timetable, onSaved }: { timetable
 	const [error, setError] = useState<string | null>(null);
 
 	const updateSubject = (id: string, changes: Partial<TimetableSubject>) => setSubjects((current) => current.map((subject) => subject.id === id ? { ...subject, ...changes } : subject));
-	const addSubject = () => setSubjects((current) => [...current, { id: `Subject ${current.length + 1}`, symbol: "Abc", colour: { r: 0.45, g: 0.2, b: 0.8, a: 1 }, slots: [] }]);
+	const addSubject = () => setSubjects((current) => [...current, { id: `Subject ${current.length + 1}`, symbol: "Abc", colour: { r: 0.45, g: 0.2, b: 0.8, a: 1 }, slots: [], classroom: { unknown: { rawLocation: "Not provided" } }, teacher: { unknown: { rawNotes: "Teacher: Unknown" } } }]);
 	const removeSubject = (id: string) => setSubjects((current) => current.filter((subject) => subject.id !== id));
 	const toggleSlot = (subjectID: string, slot: TimetableSlot) => {
 		const key = `${slot.day}:${slot.session}`;
@@ -51,6 +51,10 @@ export default function TimetableEditorSheet({ timetable, onSaved }: { timetable
 				{subjects.map((subject) => (
 					<div key={subject.id} className={styles.editorSubject}>
 						<div className={styles.editorFields}><input value={subject.id} aria-label="Subject name" onChange={(event) => updateSubject(subject.id, { id: event.target.value })} /><input value={subject.symbol} aria-label="Subject symbol" onChange={(event) => updateSubject(subject.id, { symbol: event.target.value })} /><button type="button" onClick={() => removeSubject(subject.id)} aria-label={`Remove ${subject.id}`}>×</button></div>
+						<div className={styles.editorMetadata}>
+							<label>Teacher<input value={teacherValue(subject.teacher)} onChange={(event) => updateSubject(subject.id, { teacher: { unknown: { rawNotes: event.target.value } } })} /></label>
+							<label>Classroom<input value={classroomValue(subject.classroom)} onChange={(event) => updateSubject(subject.id, { classroom: { unknown: { rawLocation: event.target.value } } })} /></label>
+						</div>
 						<div className={styles.slotGrid}>
 							{TIMETABLE_DAYS.map((day, dayIndex) => <div key={day}><strong>{day}</strong>{editableSessions.map((session) => { const active = subject.slots.some((slot) => slot.day === dayIndex && slot.session === session.value); return <button key={session.value} type="button" className={active ? styles.slotActive : styles.slot} onClick={() => toggleSlot(subject.id, { day: dayIndex, session: session.value })} aria-label={`${subject.id} ${day} period ${session.label}`}>{session.label}</button>; })}</div>)}
 						</div>
@@ -65,4 +69,20 @@ export default function TimetableEditorSheet({ timetable, onSaved }: { timetable
 			<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving}>{saving ? "Saving…" : "Save Timetable"}</button>
 		</div>
 	);
+}
+
+function teacherValue(teacher: TimetableSubject["teacher"]) {
+	if (!teacher) return "";
+	if (typeof teacher === "string") return teacher;
+	if (teacher.displayName) return teacher.displayName;
+	if (teacher.named) return `Teacher: ${teacher.named.lastName}`;
+	return teacher.unknown?.rawNotes ?? "";
+}
+
+function classroomValue(classroom: TimetableSubject["classroom"]) {
+	if (!classroom) return "";
+	if (typeof classroom === "string") return classroom;
+	if (classroom.unknown) return classroom.unknown.rawLocation;
+	if (classroom.room) return `${classroom.room.building} ${classroom.room.number}`;
+	return "";
 }

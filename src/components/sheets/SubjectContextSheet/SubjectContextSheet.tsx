@@ -21,7 +21,7 @@ export default function SubjectContextSheet({ owner, subject, day, session }: Su
 				</div>
 			</header>
 			<section className={styles.detailCard}>
-				<div className={styles.detailRow}><span>Classroom</span><strong>{subject.classroom || "Not provided"}</strong></div>
+				<div className={styles.detailRow}><span>Classroom</span><strong>{classroomName(subject.classroom)}</strong></div>
 				<div className={styles.detailRow}><span>Teacher</span><strong>{teacherName(subject.teacher)}</strong></div>
 				{!day && subject.slots.length ? subject.slots.map((slot) => <div key={`${slot.day}-${slot.session}`} className={styles.detailRow}><span>{dayName(slot.day)}</span><strong>Period {periodLabel(slot.session)}</strong></div>) : null}
 			</section>
@@ -30,8 +30,22 @@ export default function SubjectContextSheet({ owner, subject, day, session }: Su
 }
 
 function teacherName(teacher: TimetableSubject["teacher"]) {
-		if (!teacher) return "Not provided";
-		return typeof teacher === "string" ? teacher : teacher.displayName;
+	if (!teacher) return "Not provided";
+	if (typeof teacher === "string") return teacher;
+	if (teacher.displayName) return teacher.displayName;
+	if (teacher.named) return `Teacher: ${teacher.named.lastName}`;
+	return teacher.unknown?.rawNotes ?? "Not provided";
+}
+
+function classroomName(classroom: TimetableSubject["classroom"]) {
+	if (!classroom) return "Not provided";
+	if (typeof classroom === "string") return classroom;
+	if (classroom.unknown) return classroom.unknown.rawLocation;
+	if (classroom.room) {
+		const floor = classroom.room.floor ? `, ${classroom.room.floor}` : "";
+		return `${classroom.room.building} ${classroom.room.number}${floor}`;
+	}
+	return "Not provided";
 }
 
 function dayName(day: number) {
