@@ -1,6 +1,6 @@
 .page {
   min-height: 100%;
-  padding: 60px 10px 28px;
+  padding: 34px var(--theme-page-padding) 20px;
   color: var(--theme-text);
 }
 .modePicker {
@@ -58,7 +58,7 @@
 .todayHeader,
 .planner {
   width: 100%;
-  margin: 0 0 28px;
+  margin: 0 0 var(--theme-section-gap);
 }
 .todayHeader p {
   margin: 0 0 12px;
@@ -68,7 +68,7 @@
 .todayHeader h1,
 .planner h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
   letter-spacing: -0.05em;
 }
 .todayHeader > span {
@@ -79,10 +79,10 @@
 }
 .paperCard {
   width: 100%;
-  margin: 16px 0;
-  padding: 14px;
+  margin: var(--theme-space-5) 0;
+  padding: var(--theme-card-padding);
   border: 1px solid var(--theme-paper-edge);
-  border-radius: 24px;
+  border-radius: var(--theme-radius-card);
   color: var(--theme-black);
   background: linear-gradient(
     135deg,
@@ -92,8 +92,8 @@
   box-shadow: inset 0 1px var(--theme-paper-highlight);
 }
 .paperCard h2 {
-  margin: 0 0 28px;
-  font-size: 2.4rem;
+  margin: 0 0 18px;
+  font-size: 2rem;
   letter-spacing: -0.045em;
 }
 .paperCard h3 {
@@ -104,14 +104,14 @@
 .plannerEvent {
   display: grid;
   grid-template-columns: 38px 1fr auto;
-  gap: 12px;
+  gap: var(--theme-space-3);
   align-items: center;
-  padding: 12px;
+  padding: var(--theme-space-3);
   border: 1px solid var(--theme-highlight);
-  border-radius: 22px;
+  border-radius: var(--theme-radius-control);
 }
 .eventRow + .eventRow {
-  margin-top: 12px;
+  margin-top: var(--theme-space-3);
 }
 .eventRow strong,
 .eventRow span {
@@ -133,25 +133,25 @@
 }
 .subjectList {
   display: grid;
-  gap: 14px;
+  gap: var(--theme-space-3);
 }
 .subjectRow {
   display: grid;
   grid-template-columns: 30px 1fr auto;
   gap: 12px;
   align-items: center;
-  min-height: 72px;
-  padding: 12px;
+  min-height: 58px;
+  padding: var(--theme-space-3);
   border: 1px solid var(--theme-highlight);
-  border-radius: 20px;
+  border-radius: var(--theme-radius-control);
   background: color-mix(in srgb, var(--theme-paper) 80%, transparent);
 }
 .subjectRow strong {
-  font-size: 1.45rem;
+  font-size: 1.15rem;
   font-weight: 500;
 }
 .subjectRow em {
-  font-size: 1.8rem;
+  font-size: 1.45rem;
   font-style: normal;
 }
 .week {
@@ -175,8 +175,8 @@
   text-align: center;
 }
 .weekRow {
-  min-height: 88px;
-  margin-bottom: 8px;
+  min-height: 72px;
+  margin-bottom: 6px;
 }
 .weekRow > small {
   display: grid;
@@ -191,7 +191,7 @@
   padding: 9px;
   overflow: hidden;
   border: 1px solid var(--theme-highlight);
-  border-radius: 18px;
+  border-radius: var(--theme-radius-control);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.35),
     0 4px 12px rgba(0, 0, 0, 0.3);
@@ -213,8 +213,8 @@
 }
 .plannerEvent {
   width: 100%;
-  min-height: 112px;
-  margin: 16px 0;
+  min-height: 84px;
+  margin: var(--theme-space-4) 0;
   border-color: var(--theme-paper-edge);
   color: var(--theme-text);
   background: linear-gradient(
@@ -228,7 +228,7 @@
   display: block;
 }
 .plannerEvent strong {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
 }
 .plannerEvent span {
   margin-top: 5px;
@@ -238,8 +238,8 @@
   font-weight: 700;
 }
 .planner h2 {
-  margin: 46px 0 16px;
-  font-size: 2.1rem;
+  margin: 28px 0 12px;
+  font-size: 1.8rem;
 }
 .empty {
   margin: 0;
@@ -247,7 +247,7 @@
 }
 @media (max-width: 700px) {
   .page {
-    padding: 12px 8px 88px;
+    padding: var(--theme-page-padding) 8px 88px;
   }
   .modePicker {
     width: 100%;
@@ -258,11 +258,11 @@
     padding: 0 8px;
   }
   .paperCard {
-    padding: 16px;
-    border-radius: 28px;
+    padding: var(--theme-card-padding);
+    border-radius: var(--theme-radius-card);
   }
   .paperCard h2 {
-    font-size: 2.1rem;
+    font-size: 1.8rem;
   }
   .todayHeader h1 {
     font-size: 2rem;

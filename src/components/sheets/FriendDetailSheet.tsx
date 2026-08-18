@@ -1,10 +1,40 @@
-import type { Friend } from "@/features/timetable/types";
+import { useEffect, useState } from "react";
+import type { Friend, FriendDetail } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture";
+import SettingToggle from "@/components/controls/SettingToggle";
+import { apiRequest } from "@/lib/api/client";
 import styles from "./Sheet.module.css";
 
 export default function FriendDetailSheet({ friend }: { friend: Friend }) {
+	const [detail, setDetail] = useState<FriendDetail | null>(null);
+	const [tab, setTab] = useState<"main" | "week" | "info">("main");
+	const [error, setError] = useState<string | null>(null);
 	const status = friend.locationStatus?.state ?? "Unavailable";
-	const subjects = friend.timetable?.subjects ?? [];
+	const subjects = detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
+
+	useEffect(() => {
+		apiRequest<FriendDetail>(`v1/friends/${friend.friend.userID}`)
+			.then(setDetail)
+			.catch((requestError: Error) => setError(requestError.message));
+	}, [friend.friend.userID]);
+
+	const updatePreference = async (preference: "withinTenMinutes" | "withinFiveMinutes" | "arrived") => {
+		if (!detail) return;
+		const previous = detail.locationNotificationPreferences;
+		const next = previous.includes(preference)
+			? previous.filter((item) => item !== preference)
+			: [...previous, preference];
+		setDetail({ ...detail, locationNotificationPreferences: next });
+		try {
+			await apiRequest(`v1/friends/${friend.friend.userID}/location-notifications`, {
+				method: "PUT",
+				body: JSON.stringify({ preferences: next }),
+			});
+		} catch (requestError) {
+			setDetail({ ...detail, locationNotificationPreferences: previous });
+			setError((requestError as Error).message);
+		}
+	};
 
 	return (
 		<div className={styles.detailSheet}>
@@ -20,11 +50,13 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 				</div>
 			</header>
 			<nav className={styles.detailTabs} aria-label="Friend details">
-				<span className={styles.detailTabActive}>Main</span>
-				<span>Week</span>
-				<span>Info</span>
+				{(["main", "week", "info"] as const).map((value) => (
+					<button key={value} type="button" className={tab === value ? styles.detailTabActive : ""} onClick={() => setTab(value)}>
+						{value[0].toUpperCase() + value.slice(1)}
+					</button>
+				))}
 			</nav>
-			<section className={styles.detailCard}>
+			{tab === "main" ? <section className={styles.detailCard}>
 				<div className={styles.detailRow}>
 					<span>Location</span>
 					<strong>{status}</strong>
@@ -33,8 +65,8 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 					<span>School status</span>
 					<strong>School&apos;s Out</strong>
 				</div>
-			</section>
-			<section className={styles.detailCard}>
+			</section> : null}
+			{tab === "main" ? <section className={styles.detailCard}>
 				<h3>Shared Subjects</h3>
 				{subjects.length ? (
 					subjects.slice(0, 6).map((subject) => (
@@ -46,7 +78,28 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 				) : (
 					<p className={styles.detailMuted}>No shared classes.</p>
 				)}
-			</section>
+			</section> : null}
+			{tab === "week" ? <section className={styles.detailCard}>
+				<h3>Week</h3>
+				<div className={styles.friendWeekGrid}>
+					{["Mon", "Tue", "Wed", "Thu", "Fri"].map((day, dayIndex) => (
+						<div key={day}>
+							<strong>{day}</strong>
+							{Array.from({ length: 6 }, (_, session) => subjects.find((subject) => subject.slots.some((slot) => slot.day === dayIndex + 1 && slot.session === session + 1)) ? (
+								<span key={session}>{subjects.find((subject) => subject.slots.some((slot) => slot.day === dayIndex + 1 && slot.session === session + 1))?.id}</span>
+							) : null)}
+						</div>
+					))}
+				</div>
+			</section> : null}
+			{tab === "info" ? <section className={styles.detailCard}>
+				<h3>Location notifications</h3>
+				<SettingToggle label="Within 10 mins" enabled={detail?.locationNotificationPreferences.includes("withinTenMinutes") ?? false} onClick={() => void updatePreference("withinTenMinutes")} />
+				<SettingToggle label="Within 5 mins" enabled={detail?.locationNotificationPreferences.includes("withinFiveMinutes") ?? false} onClick={() => void updatePreference("withinFiveMinutes")} />
+				<SettingToggle label="Arrived" enabled={detail?.locationNotificationPreferences.includes("arrived") ?? false} onClick={() => void updatePreference("arrived")} />
+				<div className={styles.detailRow}><span>Friends since</span><strong>{detail?.acceptedAt ? new Date(detail.acceptedAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) : "—"}</strong></div>
+			</section> : null}
+			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 		</div>
 	);
 }

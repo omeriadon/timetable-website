@@ -102,6 +102,7 @@ export default function Home() {
           events={events}
           subjects={data.timetable.subjects}
           schoolCalendar={data.schoolCalendar}
+          schoolWeather={data.schoolWeather}
         />
       ) : null}
       {data && mode === "week" ? (
@@ -118,10 +119,12 @@ function TodayView({
   events,
   subjects,
   schoolCalendar,
+  schoolWeather,
 }: {
   events: CalendarEvent[];
   subjects: TimetableSubject[];
   schoolCalendar: DashboardData["schoolCalendar"];
+  schoolWeather: DashboardData["schoolWeather"];
 }) {
 	const today = new Date();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
@@ -132,7 +135,11 @@ function TodayView({
 	return (
     <>
       <header className={styles.todayHeader}>
-        <p>15°C　Mostly Cloudy　0%　UV 0</p>
+		<p>
+			{schoolWeather
+				? `${Math.round(schoolWeather.temperatureCelsius)}°C　${weatherLabel(schoolWeather.conditionCode)}　${Math.round(schoolWeather.precipitationChance * 100)}%　UV ${schoolWeather.uvIndex}`
+				: "Weather unavailable"}
+		</p>
         <h1>
           {new Intl.DateTimeFormat("en-AU", {
             weekday: "long",
@@ -140,7 +147,7 @@ function TodayView({
             month: "long",
           }).format(new Date())}
         </h1>
-        <span>Term 3, Week 5</span>
+		<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
       </header>
       <section className={styles.paperCard}>
         <h2>Events</h2>
@@ -173,6 +180,32 @@ function TodayView({
       </section>
     </>
   );
+}
+
+function weatherLabel(conditionCode: string) {
+	return conditionCode
+		.replace(/([a-z])([A-Z])/g, "$1 $2")
+		.replace(/^./, (character) => character.toUpperCase());
+}
+
+function termWeekLabel(calendar: DashboardData["schoolCalendar"]) {
+	const now = new Date();
+	const today = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+	const term = calendar.termRanges.find((range) => compareDate(today, range.start) >= 0 && compareDate(today, range.end) <= 0);
+	if (!term) return null;
+	const start = new Date(term.start.year, term.start.month - 1, term.start.day);
+	const monday = new Date(start);
+	const day = monday.getDay() || 7;
+	monday.setDate(monday.getDate() - day + 1);
+	const currentMonday = new Date(now);
+	const currentDay = currentMonday.getDay() || 7;
+	currentMonday.setDate(currentMonday.getDate() - currentDay + 1);
+	const weeks = Math.max(0, Math.floor((currentMonday.getTime() - monday.getTime()) / 604800000));
+	return `${term.label}, Week ${weeks + 1}`;
+}
+
+function compareDate(left: { year: number; month: number; day: number }, right: { year: number; month: number; day: number }) {
+	return new Date(left.year, left.month - 1, left.day).getTime() - new Date(right.year, right.month - 1, right.day).getTime();
 }
 
 function WeekView({ subjects }: { subjects: TimetableSubject[] }) {

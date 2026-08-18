@@ -35,6 +35,8 @@ export type CalendarEvent = {
 	};
 	isGlobal: boolean;
 	showsWeather: boolean;
+	tagIDs?: string[];
+	weather?: SchoolWeather | null;
 	revision: number;
 };
 
@@ -49,6 +51,14 @@ export type SchoolCalendarDate = { year: number; month: number; day: number };
 export type SchoolCalendar = {
 	termRanges: { label: string; start: SchoolCalendarDate; end: SchoolCalendarDate }[];
 	skippedDates: { date: SchoolCalendarDate; label: string }[];
+};
+
+export type SchoolWeather = {
+	temperatureCelsius: number;
+	conditionCode: string;
+	uvIndex: number;
+	precipitationChance: number;
+	isStale?: boolean;
 };
 
 export type GradeAssessment = {
@@ -106,4 +116,14 @@ export type FriendSearchResult = {
 		photo?: Friend["friend"]["photo"];
 	};
 	relationship: "pendingOutgoing" | "pendingIncoming" | "friends" | null;
+};
+
+export type FriendDetail = {
+	relationshipID: string;
+	friend: Friend["friend"];
+	acceptedAt: string;
+	timetable?: Friend["timetable"];
+	averageArrivalSecondsSinceMidnight?: number | null;
+	weekdayAverageArrivalSecondsSinceMidnight: Array<number | null>;
+	locationNotificationPreferences: Array<"withinTenMinutes" | "withinFiveMinutes" | "arrived">;
 };

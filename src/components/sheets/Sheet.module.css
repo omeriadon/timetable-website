@@ -18,13 +18,13 @@
 .sheet {
   position: relative;
   width: 100%;
-  min-height: 42svh;
+	min-height: 36svh;
   max-height: 92svh;
   overflow: auto;
-  padding: 58px 18px 24px;
+	padding: 48px 14px 18px;
   border: 1px solid var(--theme-divider);
   border-bottom: 0;
-  border-radius: 28px 28px 0 0;
+	border-radius: var(--theme-radius-card) var(--theme-radius-card) 0 0;
   background: var(--theme-glass-strong);
   box-shadow:
     0 -20px 70px rgba(0, 0, 0, 0.5),
@@ -50,7 +50,7 @@
 
 .detailSheet {
   display: grid;
-  gap: 16px;
+	gap: var(--theme-space-5);
 }
 
 .detailHeader {
@@ -98,9 +98,20 @@
 }
 
 .detailTabs span {
-  padding: 8px 6px;
-  border-radius: 999px;
-  font-weight: 650;
+	padding: 8px 6px;
+	border-radius: 999px;
+	font-weight: 650;
+}
+
+.detailTabs button {
+	padding: 7px 6px;
+	border: 0;
+	border-radius: 999px;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
 }
 
 .detailTabActive {
@@ -110,8 +121,8 @@
 .detailCard {
   display: grid;
   gap: 0;
-  padding: 6px 16px;
-  border-radius: 20px;
+	padding: 4px var(--theme-space-5);
+	border-radius: var(--theme-radius-card);
   background: var(--theme-surface);
 }
 
@@ -121,7 +132,7 @@
   justify-content: space-between;
   gap: 16px;
   align-items: center;
-  min-height: 50px;
+	min-height: var(--theme-row-height);
   border-bottom: 1px solid var(--theme-divider);
 }
 
@@ -144,6 +155,32 @@
   color: var(--theme-accent);
   font-size: 1.25rem;
   text-align: center;
+}
+
+.friendWeekGrid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 4px;
+	overflow-x: auto;
+}
+
+.friendWeekGrid > div {
+	display: grid;
+	align-content: start;
+	gap: 4px;
+	min-width: 56px;
+}
+
+.friendWeekGrid strong {
+	color: var(--theme-text-secondary);
+	font-size: 0.82rem;
+}
+
+.friendWeekGrid span {
+	padding: 5px 4px;
+	border-radius: 8px;
+	background: var(--theme-surface-soft);
+	font-size: 0.74rem;
 }
 
 .detailSubjectSymbol {
@@ -188,6 +225,25 @@
 	display: flex;
 	justify-content: flex-end;
 	gap: 8px;
+}
+
+.primaryButton,
+.destructiveButton {
+	padding: 8px 12px;
+	border: 0;
+	border-radius: 999px;
+	color: var(--theme-text);
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
+}
+
+.primaryButton {
+	background: var(--theme-accent);
+}
+
+.destructiveButton {
+	background: var(--theme-error);
 }
 
 .sheetInput {

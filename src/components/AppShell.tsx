@@ -10,6 +10,7 @@ import ReflectedPageContent from "@/components/ReflectedPageContent";
 import MobileTabBar from "@/components/MobileTabBar";
 import SessionGate from "@/components/SessionGate";
 import { SheetProvider } from "@/components/sheets/Sheet";
+import ThemeSettingsSync from "@/components/ThemeSettingsSync";
 import styles from "@/app/layout.module.css";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
@@ -23,6 +24,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <SessionGate>
+      <ThemeSettingsSync />
       <SheetProvider>
         <ToolbarProvider>
           <div className={styles.appShell}>

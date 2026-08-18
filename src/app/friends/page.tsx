@@ -8,7 +8,9 @@ import type { Friend } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger";
 import FriendDetailSheet from "@/components/sheets/FriendDetailSheet";
 import ProfilePicture from "@/components/controls/ProfilePicture";
+import SymbolIcon from "@/components/controls/SymbolIcon";
 import FriendSearchSheet from "@/components/sheets/FriendSearchSheet";
+import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
 
@@ -35,6 +37,14 @@ export default function FriendsPage() {
   return (
     <main className={styles.page}>
       <div className={styles.friendActions}>
+        <button
+          type="button"
+          className={styles.circleAction}
+          aria-label="Friend requests"
+          onClick={() => openSheet(<FriendRequestsSheet />)}
+        >
+          <SymbolIcon name="bell.badge" />
+        </button>
         <button
           type="button"
           className={styles.circleAction}

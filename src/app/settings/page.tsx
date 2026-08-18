@@ -51,8 +51,19 @@ export default function SettingsPage() {
       return;
     }
 
-    const current = settings;
-    const next = { ...current, [key]: !current[key] };
+	    const current = settings;
+	    const next = { ...current, [key]: !current[key] };
+	    await saveSettings(current, next);
+	};
+
+	const updateFutureEventRange = async (futureEventRange: string) => {
+		if (!settings || saving || settings.futureEventRange === futureEventRange) {
+			return;
+		}
+		await saveSettings(settings, { ...settings, futureEventRange });
+	};
+
+	const saveSettings = async (current: Settings, next: Settings) => {
     setSettings(next);
     setSaving(true);
     setError(null);
@@ -72,7 +83,7 @@ export default function SettingsPage() {
     } finally {
       setSaving(false);
     }
-  };
+	};
 
   return (
     <main className={styles.page}>
@@ -150,7 +161,20 @@ export default function SettingsPage() {
             <div className={styles.row}>
               <SymbolIcon name="calendar.badge.clock" />
               <span className={styles.label}>Show Future Events</span>
-              <span className={styles.detail}>{settings.futureEventRange}</span>
+              <select
+                className={styles.inlineSelect}
+                value={settings.futureEventRange}
+                disabled={saving}
+                aria-label="Show Future Events range"
+                onChange={(event) => void updateFutureEventRange(event.target.value)}
+              >
+                <option value="oneWeek">1 Week</option>
+                <option value="twoWeeks">2 Weeks</option>
+                <option value="oneMonth">1 Month</option>
+                <option value="twoMonths">2 Months</option>
+                <option value="threeMonths">3 Months</option>
+                <option value="endOfYear">Until End of Year</option>
+              </select>
             </div>
             <a href="/settings/archived-events" className={styles.row}>
               <SymbolIcon name="archivebox" />

@@ -9,11 +9,16 @@ import SettingToggle from "@/components/controls/SettingToggle";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
+import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
+import { useSheet } from "@/components/sheets/Sheet";
+import CalendarEventSheet from "@/components/sheets/CalendarEventSheet";
 
 type Settings = {
 	appFontDesign: string;
 	appBackground: string;
 	liveActivitiesEnabled: boolean;
+	watchBleedEnabled: boolean;
+	calendarEventAutoDeleteDays: number;
   notificationsEnabled: boolean;
   broadcastNotificationsEnabled: boolean;
   futureEventRange: string;
@@ -84,63 +89,13 @@ export default function SettingsSectionPage() {
         </p>
       ) : null}
       {section === "appearance" && settings ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-            <SymbolIcon name="textformat.size" />
-            <span className={styles.label}>Font Design</span>
-            <span className={styles.detail}>{settings.appFontDesign}</span>
-          </div>
-          <div className={styles.row}>
-            <SymbolIcon name="paintpalette" />
-            <span className={styles.label}>Background</span>
-            <span className={styles.detail}>{settings.appBackground}</span>
-          </div>
-        </section>
+        <AppearanceSettingsEditor initial={settings} />
       ) : null}
-		{section === "account" && settings ? (
-			<section className={styles.card}>
-				<div className={styles.row}>
-					<SymbolIcon name="rectangle.bottomthird.inset.filled" />
-					<span className={styles.label}>Live Activities</span>
-					<span className={styles.detail}>{settings.liveActivitiesEnabled ? "On" : "Off"}</span>
-				</div>
-				<div className={styles.row}>
-					<SymbolIcon name="bell.badge" />
-					<span className={styles.label}>Class Notifications</span>
-					<span className={styles.detail}>{settings.notificationsEnabled ? "On" : "Off"}</span>
-				</div>
-				<div className={styles.row}>
-					<SymbolIcon name="megaphone" />
-					<span className={styles.label}>Special Event Notifications</span>
-					<span className={styles.detail}>{settings.broadcastNotificationsEnabled ? "On" : "Off"}</span>
-				</div>
-				<button
-					type="button"
-					className={styles.rowButton}
-					onClick={async () => {
-						await apiRequest("auth/logout", { method: "DELETE" });
-						router.replace("/login");
-					}}
-				>
-					<div className={styles.row}>
-						<SymbolIcon name="person.2.slash" />
-						<span className={styles.label}>Sign Out</span>
-					</div>
-				</button>
-			</section>
-		) : null}
+		{section === "account" && settings ? <AccountSyncEditor initial={settings} onSignOut={() => router.replace("/login")} /> : null}
       {section === "notifications" && settings ? (
 			<NotificationSettingsEditor initial={settings} />
       ) : null}
-      {section === "archived-events" ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-          <SymbolIcon name="archivebox" />
-            <span className={styles.label}>Archived Events</span>
-            <span className={styles.detail}>Loaded from pmstt</span>
-          </div>
-        </section>
-      ) : null}
+      {section === "archived-events" ? <ArchivedEventsEditor /> : null}
       {section === "developer" ? (
         <section className={styles.card}>
           <div className={styles.row}>
@@ -202,6 +157,40 @@ export default function SettingsSectionPage() {
   );
 }
 
+function ArchivedEventsEditor() {
+	const { openSheet } = useSheet();
+	const [events, setEvents] = useState<CalendarEvents | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	useEffect(() => {
+		apiRequest<CalendarEvents>("v1/events")
+			.then(setEvents)
+			.catch((requestError: Error) => setError(requestError.message));
+	}, []);
+	const today = new Date();
+	const archived = [...(events?.globalEvents ?? []), ...(events?.privateEvents ?? [])]
+		.filter((event) => new Date(event.date.year, event.date.month - 1, event.date.day) < new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+		.sort((left, right) => new Date(right.date.year, right.date.month - 1, right.date.day).getTime() - new Date(left.date.year, left.date.month - 1, left.date.day).getTime());
+	const update = (event: CalendarEvent | null, removedID?: string) => {
+		setEvents((current) => current ? {
+			...current,
+			globalEvents: event ? current.globalEvents.map((item) => item.id === event.id ? event : item) : current.globalEvents.filter((item) => item.id !== removedID),
+			privateEvents: event ? current.privateEvents.map((item) => item.id === event.id ? event : item) : current.privateEvents.filter((item) => item.id !== removedID),
+		} : current);
+	};
+	return (
+		<>
+			{error ? <p className={styles.error} role="alert">{error}</p> : null}
+			<section className={styles.card}>
+				{archived.length ? archived.map((event) => (
+					<button key={event.id} type="button" className={styles.rowButton} onClick={() => openSheet(<CalendarEventSheet event={event} onChanged={(updated) => update(updated, event.id)} />)}>
+						<div className={styles.row}><SymbolIcon name="archivebox" /><span><b className={styles.label}>{event.title}</b><small style={{ display: "block", color: "var(--theme-text-secondary)" }}>{new Date(event.date.year, event.date.month - 1, event.date.day).toLocaleDateString("en-AU", { dateStyle: "long" })}</small></span><span className={styles.chevron}>›</span></div>
+					</button>
+				)) : <p className={styles.loading}>{events ? "No archived events." : "Loading archived events…"}</p>}
+			</section>
+		</>
+	);
+}
+
 function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
@@ -231,25 +220,121 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 		}
 	};
 	const update = (changes: Partial<Settings>) => void save({ ...draft, ...changes });
+	const toggleLeadTime = (key: "notificationLeadTimes" | "breakToPeriodNotificationLeadTimes", value: number) => {
+		const values = draft[key].includes(value) ? draft[key].filter((item) => item !== value) : [...draft[key], value].sort((left, right) => left - right);
+		update({ [key]: values });
+	};
 	return (
 		<>
 			<section className={styles.card}>
 				<SettingToggle label="Allow Class Notifications" enabled={draft.notificationsEnabled} onClick={() => update({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
 				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => update({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
+				<div className={styles.row}><SymbolIcon name="bell.badge" /><span className={styles.label}>Send Notifications Early By</span></div>
+				<div className={styles.choiceGrid}>
+					{[0, 1, 2, 3, 5, 10].map((value) => <button key={value} type="button" className={draft.notificationLeadTimes.includes(value) ? styles.choiceActive : styles.choice} onClick={() => toggleLeadTime("notificationLeadTimes", value)} disabled={saving}>{value} min</button>)}
+				</div>
+				<div className={styles.row}><SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" /><span className={styles.label}>Before Class or From a Break</span></div>
+				<div className={styles.choiceGrid}>
+					{[0, 1, 2, 3, 5, 10].map((value) => <button key={value} type="button" className={draft.breakToPeriodNotificationLeadTimes.includes(value) ? styles.choiceActive : styles.choice} onClick={() => toggleLeadTime("breakToPeriodNotificationLeadTimes", value)} disabled={saving}>{value} min</button>)}
+				</div>
+			</section>
+			{error ? <p className={styles.error} role="alert">{error}</p> : null}
+		</>
+	);
+}
+
+function AccountSyncEditor({ initial, onSignOut }: { initial: Settings; onSignOut: () => void }) {
+	const [draft, setDraft] = useState(initial);
+	const [saving, setSaving] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+	const save = async (changes: Partial<Settings>) => {
+		const previous = draft;
+		const next = { ...draft, ...changes };
+		setDraft(next);
+		setSaving(true);
+		setError(null);
+		try {
+			const updated = await apiRequest<Settings>("v1/settings", { method: "PUT", body: JSON.stringify({ ...next, serverRevision: previous.serverRevision }) });
+			setDraft(updated);
+		} catch (requestError) {
+			setDraft(previous);
+			setError((requestError as Error).message);
+		} finally {
+			setSaving(false);
+		}
+	};
+	return (
+		<>
+			<section className={styles.card}>
+				<SettingToggle label="Live Activities" enabled={draft.liveActivitiesEnabled} onClick={() => void save({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })} disabled={saving} />
+				<SettingToggle label="Class Notifications" enabled={draft.notificationsEnabled} onClick={() => void save({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
+				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => void save({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
+				<SettingToggle label="Watch Bleed" enabled={draft.watchBleedEnabled} onClick={() => void save({ watchBleedEnabled: !draft.watchBleedEnabled })} disabled={saving} />
+				<div className={styles.row}><SymbolIcon name="calendar.badge.clock" /><span className={styles.label}>Delete Past Calendar Events</span><select className={styles.inlineSelect} value={draft.calendarEventAutoDeleteDays} disabled={saving} onChange={(event) => void save({ calendarEventAutoDeleteDays: Number(event.target.value) })}><option value={0}>Never</option><option value={7}>After 1 week</option><option value={30}>After 1 month</option><option value={365}>After 1 year</option></select></div>
+				<button type="button" className={styles.rowButton} onClick={async () => { await apiRequest("auth/logout", { method: "DELETE" }); onSignOut(); }}><div className={styles.row}><SymbolIcon name="person.2.slash" /><span className={styles.label}>Sign Out</span></div></button>
+			</section>
+			{error ? <p className={styles.error} role="alert">{error}</p> : null}
+		</>
+	);
+}
+
+function AppearanceSettingsEditor({ initial }: { initial: Settings }) {
+	const [draft, setDraft] = useState(initial);
+	const [saving, setSaving] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
+	const save = async (changes: Partial<Settings>) => {
+		const previous = draft;
+		const next = { ...draft, ...changes };
+		setDraft(next);
+		setSaving(true);
+		setError(null);
+		try {
+			const updated = await apiRequest<Settings>("v1/settings", {
+				method: "PUT",
+				body: JSON.stringify({ ...next, serverRevision: previous.serverRevision }),
+			});
+			setDraft(updated);
+			window.dispatchEvent(new CustomEvent("timetable:theme", { detail: updated }));
+		} catch (requestError) {
+			setDraft(previous);
+			setError((requestError as Error).message);
+		} finally {
+			setSaving(false);
+		}
+	};
+
+	return (
+		<>
+			<section className={styles.card}>
 				<div className={styles.row}>
-					<SymbolIcon name="calendar.badge.clock" />
-					<span className={styles.label}>Show Future Events</span>
-					<span className={styles.detail}>{draft.futureEventRange}</span>
+					<SymbolIcon name="textformat.size" />
+					<label className={styles.label} htmlFor="app-font-design">App Font</label>
+					<select
+						id="app-font-design"
+						className={styles.inlineSelect}
+						value={draft.appFontDesign}
+						disabled={saving}
+						onChange={(event) => void save({ appFontDesign: event.target.value })}
+					>
+						<option value="monospaced">Monospaced</option>
+						<option value="rounded">Rounded</option>
+						<option value="expanded">Expanded</option>
+					</select>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="bell.badge" />
-					<span className={styles.label}>Send Notifications Early By</span>
-					<span className={styles.detail}>{draft.notificationLeadTimes.join(", ")} min</span>
-				</div>
-				<div className={styles.row}>
-					<SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
-					<span className={styles.label}>Before Class or From a Break</span>
-					<span className={styles.detail}>{draft.breakToPeriodNotificationLeadTimes.join(", ")} min</span>
+					<SymbolIcon name="paintpalette" />
+					<label className={styles.label} htmlFor="app-background">Background</label>
+					<select
+						id="app-background"
+						className={styles.inlineSelect}
+						value={draft.appBackground}
+						disabled={saving}
+						onChange={(event) => void save({ appBackground: event.target.value })}
+					>
+						<option value="solid">Solid</option>
+						<option value="paper">Paper</option>
+					</select>
 				</div>
 			</section>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}

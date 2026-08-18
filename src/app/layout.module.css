@@ -10,7 +10,7 @@
 	top: 0;
 	left: 0;
 	z-index: 1;
-	width: 317px;
+	width: var(--theme-sidebar-frame);
 	height: 46px;
 	content: "";
 	pointer-events: none;
@@ -26,7 +26,7 @@
 	bottom: 0;
 	left: 0;
 	z-index: 1;
-	width: 317px;
+	width: var(--theme-sidebar-frame);
 	height: 46px;
 	content: "";
 	pointer-events: none;
@@ -49,7 +49,7 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
-	left: -317px;
+	left: calc(-1 * var(--theme-sidebar-frame));
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -59,8 +59,8 @@
 		16px 16px;
 	mask-repeat: no-repeat;
 	mask-size:
-		calc(100% - 317px) 100%,
-		300px calc(100% - 32px);
+		calc(100% - var(--theme-sidebar-frame)) 100%,
+		var(--theme-sidebar-width) calc(100% - 32px);
 	-webkit-mask-image:
 		linear-gradient(black, black), linear-gradient(black, black);
 	-webkit-mask-position:
@@ -68,24 +68,24 @@
 		16px 16px;
 	-webkit-mask-repeat: no-repeat;
 	-webkit-mask-size:
-		calc(100% - 317px) 100%,
-		300px calc(100% - 32px);
+		calc(100% - var(--theme-sidebar-frame)) 100%,
+		var(--theme-sidebar-width) calc(100% - 32px);
 }
 
 .contentSurface {
 	position: relative;
-	width: calc(100% - 317px);
+	width: calc(100% - var(--theme-sidebar-frame));
 	min-height: 100%;
-	margin-left: 317px;
-	padding: 16px;
-	padding-top: 70px;
+	margin-left: var(--theme-sidebar-frame);
+	padding: var(--theme-page-padding);
+	padding-top: 52px;
 }
 
 .reflectionMirror {
 	position: absolute;
 	top: 0;
 	left: 16px;
-	width: 300px;
+	width: var(--theme-sidebar-width);
 	min-height: 100%;
 	overflow: hidden;
 	pointer-events: none;
@@ -97,8 +97,8 @@
 }
 
 .reflectionMirror > .contentSurface {
-	width: calc(100vw - 317px);
-	margin-left: 301px;
+	width: calc(100vw - var(--theme-sidebar-frame));
+	margin-left: calc(var(--theme-sidebar-width) + 1px);
 	transform: scaleX(-1);
 	transform-origin: left top;
 }
@@ -148,7 +148,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 12px;
+	gap: var(--theme-space-3);
 	text-align: left;
 }
 

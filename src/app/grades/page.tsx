@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import { useToolbar } from "@/components/Toolbar";
-import styles from "@/components/IOSScreen.module.css";
+import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type {
   GradeTracker,
@@ -58,74 +59,44 @@ export default function GradesPage() {
         <p className={styles.loading}>Loading grades…</p>
       ) : (
         <>
-          <section className={styles.paper} aria-label="Grade summary">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 18,
-              }}
-            >
+          <section className={styles.summary} aria-label="Grade summary">
+            <div className={styles.summaryTop}>
               <div>
-                <strong
-                  style={{
-                    color: "var(--theme-text-tertiary)",
-                    fontSize: "1.12rem",
-                  }}
-                >
-                  Average
-                </strong>
-                <div style={{ fontSize: "3rem", fontWeight: 740 }}>
-                  {formatPercent(average)}
-                </div>
+                <strong className={styles.summaryLabel}>Average</strong>
+                <div className={styles.summaryValue}>{formatPercent(average)}</div>
               </div>
               <div style={{ textAlign: "right" }}>
-                <strong
-                  style={{
-                    color: "var(--theme-text-tertiary)",
-                    fontSize: "1.12rem",
-                  }}
-                >
-                  Top 4
-                </strong>
-                <div style={{ fontSize: "3rem", fontWeight: 740 }}>
-                  {formatPercent(average)}
-                </div>
+                <strong className={styles.summaryLabel}>Top 4</strong>
+                <div className={styles.summaryValue}>{formatPercent(average)}</div>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 12,
-                marginTop: 30,
-                color: "var(--theme-text-tertiary)",
-              }}
-            >
+            <div className={styles.summaryStats}>
               <span>
                 Predicted ATAR
                 <br />
-                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
+                <b>
                   {grades.document.predictedATAR?.toFixed(2) ?? "—"}
                 </b>
               </span>
               <span>
                 Goal ATAR
                 <br />
-                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
+                <b>
                   {grades.document.goalATAR?.toFixed(2) ?? "—"}
                 </b>
               </span>
               <span>
-                Assessments
+                Gap
                 <br />
-                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
-                  {scored.length}
+                <b>
+                  {grades.document.goalATAR !== null && grades.document.predictedATAR !== null
+                    ? (grades.document.goalATAR - grades.document.predictedATAR).toFixed(2)
+                    : "—"}
                 </b>
               </span>
             </div>
           </section>
-          <section className={styles.card} style={{ marginTop: 28 }}>
+          <section className={styles.subjects}>
             {timetable.subjects.map((subject) => {
               const subjectAssessments = scored.filter(
                 (assessment) => assessment.subjectID === subject.id,
@@ -145,29 +116,18 @@ export default function GradesPage() {
                 <Link
                   key={subject.id}
                   href={`/grades/${encodeURIComponent(subject.id)}`}
-                  className={styles.row}
+                  className={styles.subjectRow}
                 >
-                  <span
-                    className={styles.symbol}
-                    style={{ color: subjectColour(subject) }}
-                  >
-                    {subject.symbol}
-                  </span>
+                  <GradeGauge value={subjectAverage} color={subjectColour(subject)} symbol={subject.symbol} />
                   <span>
-                    <b className={styles.label}>{subject.id}</b>
-                    <small
-                      style={{
-                        display: "block",
-                        color: "var(--theme-text-tertiary)",
-                        marginTop: 4,
-                      }}
-                    >
+                    <b className={styles.subjectName}>{subject.id}</b>
+                    <small className={styles.subjectDetail}>
                       {subjectAverage === null
                         ? "No assessments yet"
                         : `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
                     </small>
                   </span>
-                  <strong style={{ fontSize: "1.7rem" }}>
+                  <strong className={styles.subjectScore}>
                     {subjectAverage === null
                       ? "—"
                       : formatPercent(subjectAverage)}
@@ -180,4 +140,13 @@ export default function GradesPage() {
       )}
     </main>
   );
+}
+
+function GradeGauge({ value, color, symbol }: { value: number | null; color: string; symbol: string }) {
+	const percentage = value === null ? 0 : Math.max(0, Math.min(100, value * 100));
+	return (
+		<span className={styles.gauge} style={{ "--gauge-value": percentage, "--gauge-color": color } as CSSProperties}>
+			<span>{value === null ? symbol : `${Math.round(percentage)}%`}</span>
+		</span>
+	);
 }
