@@ -1,6 +1,11 @@
+"use client";
+
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent, TimetableSubject } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
+import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
+import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/app/page.module.css";
 
 const schoolPeriods = [
@@ -19,6 +24,7 @@ export default function TodayView({ events, subjects, grades, schoolCalendar, sc
 	schoolCalendar: DashboardData["schoolCalendar"];
 	schoolWeather: DashboardData["schoolWeather"];
 }) {
+	const { openSheet } = useSheet();
 	const today = new Date();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 	const dayIndex = todayDayIndex();
@@ -62,18 +68,50 @@ export default function TodayView({ events, subjects, grades, schoolCalendar, sc
 				<section className={styles.paperCard}>
 					<h2>Assessments</h2>
 					{grades.document.assessments.slice().sort((left, right) => compareDate(left.date, right.date)).slice(0, 3).map((assessment) => (
-						<article key={assessment.id} className={styles.assessmentRow}>
+										<button
+											key={assessment.id}
+											type="button"
+											className={styles.assessmentRow}
+											onClick={() => {
+												const subject = subjects.find((item) => item.id === assessment.subjectID);
+												if (!subject) {
+													return;
+												}
+												openSheet(
+													<GradeSubjectSheet
+														subjectID={subject.id}
+														symbol={subject.symbol}
+														colour={colour(subject)}
+														average={assessment.score}
+														assessments={[assessment]}
+													/>,
+												);
+											}}
+											aria-label={`Open ${assessment.name}`}
+										>
 							<span className={styles.eventSymbol} aria-hidden="true">＋</span>
 							<div><strong>{assessment.name}</strong><span>{assessment.subjectID} · {displayAssessmentDate(assessment.date)}</span></div>
 							<b>{assessment.score.toFixed(1)}%</b>
-						</article>
+										</button>
 					))}
 				</section>
 			) : null}
 			<section className={styles.paperCard}>
 				<h2>Classes</h2>
 				<div className={styles.subjectList}>
-					{subjects.map((subject, index) => <article key={subject.id} className={styles.subjectRow}><span>{index + 1}</span><strong>{subject.id}</strong><em style={{ color: colour(subject) }}>{subject.symbol}</em></article>)}
+					{subjects.map((subject, index) => (
+						<button
+							key={subject.id}
+							type="button"
+							className={styles.subjectRow}
+							onClick={() => openSheet(<SubjectDetailSheet subject={subject} />)}
+							aria-label={`Open ${subject.id} details`}
+						>
+							<span>{index + 1}</span>
+							<strong>{subject.id}</strong>
+							<em style={{ color: colour(subject) }}>{subject.symbol}</em>
+						</button>
+					))}
 				</div>
 			</section>
 		</>

@@ -151,6 +151,14 @@
 	align-items: center;
 	padding: var(--theme-space-2) 0;
 	border-top: 1px solid color-mix(in srgb, var(--theme-black) 20%, transparent);
+	border-right: 0;
+	border-bottom: 0;
+	border-left: 0;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
 }
 
 .assessmentRow strong,
@@ -207,7 +215,10 @@
 	padding: var(--theme-content-card-padding);
   border: 1px solid var(--theme-highlight);
 	border-radius: var(--theme-content-radius);
-  background: color-mix(in srgb, var(--theme-paper) 80%, transparent);
+	background: color-mix(in srgb, var(--theme-paper) 80%, transparent);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
 }
 .subjectRow strong {
   font-size: 1rem;
