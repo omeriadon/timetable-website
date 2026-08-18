@@ -27,11 +27,18 @@ export async function apiRequest<T>(
 
 	if (!response.ok) {
 		const payload = await response.json().catch(() => ({}));
+		const errorPayload = payload.error ?? payload;
+		const message =
+			errorPayload.reason ??
+			errorPayload.message ??
+			(response.status === 401
+				? "Your email or password is incorrect."
+				: "The request could not be completed.");
 		throw new PMSTTAPIError(
 			response.status,
-			payload.error?.reason ?? "The request could not be completed.",
-			payload.error?.code,
-			payload.error?.field,
+			message,
+			errorPayload.code,
+			errorPayload.field,
 		);
 	}
 
