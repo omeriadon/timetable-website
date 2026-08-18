@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SettingToggle from "@/components/controls/SettingToggle";
-import SymbolIcon from "@/components/controls/SymbolIcon";
-import ProfilePicture from "@/components/controls/ProfilePicture";
-import styles from "@/components/IOSScreen.module.css";
+import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
+import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
+import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 
@@ -110,42 +112,35 @@ export default function SettingsPage() {
       ) : null}
       <h2 className={styles.section}>My Timetable</h2>
       <section className={styles.card}>
-        <a href="/timetable" className={styles.row}>
-          <SymbolIcon name="pencil.and.list.clipboard" />
-          <span>
-            <b className={styles.label}>Edit Timetable</b>
-            <small
-              style={{
-                display: "block",
-                color: "var(--theme-text-secondary)",
-                marginTop: 4,
-              }}
-            >
-              Update subjects and weekly classes.
-            </small>
-          </span>
-          <span className={styles.chevron}>›</span>
-        </a>
+        <NavigationRow
+          title="Edit Timetable"
+          description="Update subjects and weekly classes."
+          href="/timetable"
+          icon="pencil.and.list.clipboard"
+        />
       </section>
       <h2 className={styles.section}>Preferences</h2>
       <section className={styles.card}>
-        <a href="/settings/account" className={styles.row}>
-          <SymbolIcon name="person.2" />
-          <span className={styles.label}>Account &amp; Sync</span>
-          <span className={styles.chevron}>›</span>
-        </a>
+        <NavigationRow
+          title="Account & Sync"
+          description="Sync account settings and connected devices."
+          href="/settings/account"
+          icon="person.2"
+        />
         {settings ? (
           <>
-            <a href="/settings/appearance" className={styles.row}>
-              <SymbolIcon name="paintpalette" />
-              <span className={styles.label}>Appearance</span>
-              <span className={styles.chevron}>›</span>
-            </a>
-            <a href="/settings/navigation" className={styles.row}>
-              <SymbolIcon name="arrow.down.app" />
-              <span className={styles.label}>Navigation</span>
-              <span className={styles.chevron}>›</span>
-            </a>
+            <NavigationRow
+              title="Appearance"
+              description="Choose the app font and background material."
+              href="/settings/appearance"
+              icon="paintpalette"
+            />
+            <NavigationRow
+              title="Navigation"
+              description="Restore the selected tab and navigation path."
+              href="/settings/navigation"
+              icon="arrow.down.app"
+            />
             <SettingToggle
               label="Updates & Notifications"
               enabled={settings.notificationsEnabled}
@@ -176,11 +171,12 @@ export default function SettingsPage() {
                 <option value="endOfYear">Until End of Year</option>
               </select>
             </div>
-            <a href="/settings/archived-events" className={styles.row}>
-              <SymbolIcon name="archivebox" />
-              <span className={styles.label}>Archived Events</span>
-              <span className={styles.chevron}>›</span>
-            </a>
+            <NavigationRow
+              title="Archived Events"
+              description="Review and edit past calendar events."
+              href="/settings/archived-events"
+              icon="archivebox"
+            />
           </>
         ) : (
           <p className={styles.loading}>Loading preferences…</p>
@@ -223,24 +219,27 @@ export default function SettingsPage() {
           <span className={styles.label}>Last Server Sync</span>
           <span className={styles.detail}>Live</span>
         </div>
-        <a href="/settings/developer" className={styles.row}>
-          <SymbolIcon name="app.badge" />
-          <span className={styles.label}>Developer Tools</span>
-          <span className={styles.chevron}>›</span>
-        </a>
+        <NavigationRow
+          title="Developer Tools"
+          description="Inspect website platform and server state."
+          href="/settings/developer"
+          icon="app.badge"
+        />
       </section>
       <h2 className={styles.section}>Support</h2>
       <section className={styles.card}>
-        <a href="/settings/feedback" className={styles.row}>
-          <SymbolIcon name="exclamationmark.bubble" />
-          <span className={styles.label}>Report Feedback or Bug</span>
-          <span className={styles.chevron}>›</span>
-        </a>
-        <a href="/settings/about" className={styles.row}>
-          <SymbolIcon name="info.circle" />
-          <span className={styles.label}>About Timetable</span>
-          <span className={styles.chevron}>›</span>
-        </a>
+        <NavigationRow
+          title="Report Feedback or Bug"
+          description="Send feedback through the authenticated server."
+          href="/settings/feedback"
+          icon="exclamationmark.bubble"
+        />
+        <NavigationRow
+          title="About Timetable"
+          description="View website client information."
+          href="/settings/about"
+          icon="info.circle"
+        />
         <div className={styles.row}>
           <SymbolIcon name="textformat.size" fallback="⌘" />
           <span className={styles.label}>Version</span>
@@ -248,5 +247,38 @@ export default function SettingsPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function NavigationRow({
+  title,
+  description,
+  href,
+  icon,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+}) {
+  return (
+    <SheetTrigger
+      className={styles.rowButton}
+      ariaLabel={`Open ${title}`}
+      content={
+        <NavigationSheet
+          title={title}
+          description={description}
+          href={href}
+          icon={icon}
+        />
+      }
+    >
+      <div className={styles.row}>
+        <SymbolIcon name={icon} />
+        <span className={styles.label}>{title}</span>
+        <span className={styles.chevron}>›</span>
+      </div>
+    </SheetTrigger>
   );
 }

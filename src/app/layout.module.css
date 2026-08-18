@@ -160,3 +160,42 @@
 	font-size: 0.9rem;
 	opacity: 0.75;
 }
+
+@media (max-width: 700px) {
+	.appShell {
+		display: block;
+		overflow: hidden;
+	}
+
+	.appShell::before,
+	.appShell::after {
+		display: none;
+	}
+
+	.outerAppShell {
+		width: 100%;
+	}
+
+	.pageContent {
+		position: relative;
+		top: auto;
+		right: auto;
+		bottom: auto;
+		left: auto;
+		width: 100%;
+		height: 100svh;
+		mask: none;
+		-webkit-mask: none;
+	}
+
+	.contentSurface {
+		width: 100%;
+		margin-left: 0;
+		padding-top: var(--theme-page-padding);
+		padding-bottom: calc(var(--theme-page-padding) + 92px);
+	}
+
+	.reflectionMirror {
+		display: none;
+	}
+}

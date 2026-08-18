@@ -8,8 +8,9 @@ import {
   type ReactNode,
 } from "react";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
-import GlassButton from "@/components/controls/GlassButton";
-import { useSheet } from "@/components/sheets/Sheet";
+import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import QuickSettingsSheet from "@/components/sheets/QuickSettingsSheet/QuickSettingsSheet";
 import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
@@ -124,15 +125,7 @@ export default function Toolbar() {
 
       <GlassButton
         label="Open settings"
-        onClick={() =>
-          openSheet(
-            <nav className={styles.toolbarSheet} aria-label="Quick settings">
-              <a href="/settings">Settings</a>
-              <a href="/settings/appearance">Appearance</a>
-              <a href="/settings/notifications">Updates &amp; Notifications</a>
-            </nav>,
-          )
-        }
+        onClick={() => openSheet(<QuickSettingsSheet />)}
       >
         <img
           className={styles.actionIcon}

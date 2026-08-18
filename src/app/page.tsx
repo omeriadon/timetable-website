@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard, type DashboardData } from "@/features/timetable/useDashboard";
-import SheetTrigger from "@/components/sheets/SheetTrigger";
-import LessonDetailSheet from "@/components/sheets/LessonDetailSheet";
-import CalendarEventSheet from "@/components/sheets/CalendarEventSheet";
-import { useSheet } from "@/components/sheets/Sheet";
+import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
+import LessonDetailSheet from "@/components/sheets/LessonDetailSheet/LessonDetailSheet";
+import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type {
   CalendarEvent,
   TimetableSubject,

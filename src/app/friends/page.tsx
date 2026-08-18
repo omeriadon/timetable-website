@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import { useSheet } from "@/components/sheets/Sheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
-import SheetTrigger from "@/components/sheets/SheetTrigger";
-import FriendDetailSheet from "@/components/sheets/FriendDetailSheet";
-import ProfilePicture from "@/components/controls/ProfilePicture";
-import SymbolIcon from "@/components/controls/SymbolIcon";
-import FriendSearchSheet from "@/components/sheets/FriendSearchSheet";
-import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet";
+import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
+import FriendDetailSheet from "@/components/sheets/FriendDetailSheet/FriendDetailSheet";
+import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import FriendSearchSheet from "@/components/sheets/FriendSearchSheet/FriendSearchSheet";
+import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet/FriendRequestsSheet";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useSheet } from "./Sheet";
+import { useSheet } from "../Sheet/Sheet";
 
 type SheetTriggerProps = {
 	children: ReactNode;

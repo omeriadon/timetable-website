@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
-import GlassButton from "@/components/controls/GlassButton";
-import styles from "./Sheet.module.css";
+import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import styles from "../Sheet/Sheet.module.css";
 
 type GradeAssessmentSheetProps = {
 	assessment: GradeAssessment;

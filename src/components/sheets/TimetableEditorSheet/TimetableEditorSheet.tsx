@@ -4,8 +4,8 @@ import { useState } from "react";
 import type { OwnerTimetable, TimetableSlot, TimetableSubject } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
-import { useSheet } from "./Sheet";
-import styles from "./Sheet.module.css";
+import { useSheet } from "../Sheet/Sheet";
+import styles from "../Sheet/Sheet.module.css";
 
 const editableSessions = TIMETABLE_SESSIONS.filter((session) => session.value !== 2 && session.value !== 5);
 

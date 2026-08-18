@@ -4,8 +4,8 @@ import styles from "../page.module.css";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { apiRequest } from "@/lib/api/client";
-import { useSheet } from "@/components/sheets/Sheet";
-import TimetableEditorSheet from "@/components/sheets/TimetableEditorSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import TimetableEditorSheet from "@/components/sheets/TimetableEditorSheet/TimetableEditorSheet";
 import type {
   OwnerTimetable,
   TimetableSubject,

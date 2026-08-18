@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProfilePicture from "@/components/controls/ProfilePicture";
+import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
-import styles from "./Sheet.module.css";
+import styles from "../Sheet/Sheet.module.css";
 
 export default function FriendRequestsSheet() {
 	const [incoming, setIncoming] = useState<Friend[]>([]);

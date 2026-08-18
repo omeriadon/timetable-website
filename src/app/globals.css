@@ -71,6 +71,10 @@
 	--theme-glass: color-mix(in srgb, var(--theme-surface-elevated) 72%, transparent);
 	--theme-glass-strong: color-mix(in srgb, var(--theme-surface-elevated) 88%, transparent);
 	--theme-scrim: color-mix(in srgb, var(--theme-black) 54%, transparent);
+	--theme-sheet-scrim: color-mix(in srgb, var(--theme-black) 58%, transparent);
+	--theme-sheet-surface: color-mix(in srgb, var(--theme-surface-elevated) 88%, transparent);
+	--theme-sheet-scrim-blur: 16px;
+	--theme-sheet-blur: 34px;
 	--theme-highlight: rgba(255, 255, 255, 0.14);
 	--theme-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
 	/* Universal design controls. Keep these together so the compact SwiftUI
@@ -87,10 +91,20 @@
 	--theme-row-height: 48px;
 	--theme-control-height: 36px;
 	--theme-card-padding: 12px;
+	--theme-list-padding-inline: 16px;
+	--theme-list-row-padding-block: 6px;
+	--theme-list-row-gap: 12px;
+	--theme-control-padding-inline: 12px;
+	--theme-control-padding-block: 8px;
+	--theme-sheet-padding-top: 48px;
+	--theme-sheet-padding-inline: 14px;
+	--theme-sheet-padding-bottom: 18px;
 	--theme-section-gap: 14px;
 	--theme-page-padding: 12px;
 	--theme-sidebar-width: 272px;
 	--theme-sidebar-frame: calc(var(--theme-sidebar-width) + 17px);
+	--theme-sidebar-padding-inline: 14px;
+	--theme-tab-bar-padding: 6px;
 	--theme-sidebar-start: rgba(15, 15, 15, 0.94);
 	--theme-sidebar-mid: rgba(15, 15, 15, 0.88);
 	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
@@ -188,16 +202,6 @@ html[data-app-background="paper"] body {
 	background:
 		radial-gradient(circle at 18% 10%, color-mix(in srgb, var(--theme-paper-warm) 10%, transparent), transparent 36%),
 		var(--theme-black);
-}
-
-@media (max-width: 700px) {
-	.appShell {
-		flex-direction: column;
-	}
-
-	.pageContent {
-		padding-bottom: 100px;
-	}
 }
 
 @theme inline {

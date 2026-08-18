@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { AdminEventTag, AdminEventTagSection } from "./AdminEventTagsEditor";
+import type { AdminEventTag, AdminEventTagSection } from "../AdminEventTagsEditor/AdminEventTagsEditor";
 import { apiRequest } from "@/lib/api/client";
-import { useSheet } from "@/components/sheets/Sheet";
-import styles from "@/components/sheets/Sheet.module.css";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import styles from "@/components/sheets/Sheet/Sheet.module.css";
 
 export default function AdminEventTagSheet({ tag, section, onSaved }: { tag: AdminEventTag | null; section: AdminEventTagSection; onSaved: () => void }) {
 	const { closeSheet } = useSheet();

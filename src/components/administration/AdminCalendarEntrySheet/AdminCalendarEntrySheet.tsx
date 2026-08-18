@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { AdminCalendarEntry } from "./AdminCalendarEditor";
+import type { AdminCalendarEntry } from "../AdminCalendarEditor/AdminCalendarEditor";
 import { apiRequest } from "@/lib/api/client";
-import { useSheet } from "@/components/sheets/Sheet";
-import styles from "@/components/sheets/Sheet.module.css";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import styles from "@/components/sheets/Sheet/Sheet.module.css";
 
 export default function AdminCalendarEntrySheet({ entry, kind, onSaved }: { entry: AdminCalendarEntry | null; kind: string; onSaved: () => void }) {
 	const { closeSheet } = useSheet();

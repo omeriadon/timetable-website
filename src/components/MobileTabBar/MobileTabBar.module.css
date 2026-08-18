@@ -6,7 +6,7 @@
   display: none;
   width: min(calc(100% - 28px), 620px);
   min-height: 74px;
-  padding: 6px;
+  padding: var(--theme-tab-bar-padding);
   transform: translateX(-50%);
   border: 1px solid var(--theme-divider);
   border-radius: 28px;

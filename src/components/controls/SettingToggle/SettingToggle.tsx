@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./controls.module.css";
+import styles from "../controls.module.css";
 
 type SettingToggleProps = {
   label: string;

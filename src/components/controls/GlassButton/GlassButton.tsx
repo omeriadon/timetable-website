@@ -2,7 +2,7 @@
 
 import type { KeyboardEvent, ReactNode } from "react";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
-import styles from "./controls.module.css";
+import styles from "../controls.module.css";
 
 type GlassButtonProps = {
   children: ReactNode;

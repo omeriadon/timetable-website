@@ -1,5 +1,5 @@
 import type { Account } from "@/lib/api/contracts";
-import styles from "./controls.module.css";
+import styles from "../controls.module.css";
 
 type ProfilePictureProps = {
 	profile?: Pick<Account, "displayName" | "appearance" | "photo"> | {

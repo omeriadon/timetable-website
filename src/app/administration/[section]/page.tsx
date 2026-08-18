@@ -3,11 +3,11 @@
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SymbolIcon from "@/components/controls/SymbolIcon";
-import styles from "@/components/IOSScreen.module.css";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
-import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor";
-import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor";
+import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
+import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";
 
 const sectionConfig: Record<
 	string,

@@ -123,19 +123,6 @@
   outline-offset: 2px;
 }
 
-.toolbarSheet {
-  display: grid;
-  gap: 4px;
-}
-
-.toolbarSheet a {
-  padding: 10px 12px;
-  border-radius: var(--theme-radius-control);
-  color: var(--theme-text);
-  background: color-mix(in srgb, var(--theme-surface) 72%, transparent);
-  text-decoration: none;
-}
-
 @media (max-width: 700px) {
   .toolbar {
     display: none;

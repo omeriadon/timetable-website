@@ -4,6 +4,9 @@ import styles from "./Sidebar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { apiRequest } from "@/lib/api/client";
+import type { Account } from "@/lib/api/contracts";
 
 const topGroups = [
   [
@@ -36,6 +39,18 @@ export default function Sidebar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeMode = searchParams.get("mode") ?? "today";
+  const [isAdministrator, setIsAdministrator] = useState(false);
+
+  useEffect(() => {
+    apiRequest<Account>("v1/account")
+      .then((account) => {
+        setIsAdministrator(
+          account.authority.toLowerCase().includes("admin") ||
+            account.authority.toLowerCase().includes("owner"),
+        );
+      })
+      .catch(() => setIsAdministrator(false));
+  }, []);
 
   function isActive(href: string) {
     if (href.startsWith("/?mode=")) {
@@ -89,7 +104,9 @@ export default function Sidebar() {
         ))}
       </nav>
       <nav className={styles.sidebarBottom} aria-label="Account navigation">
-        {bottomItems.map(renderItem)}
+        {bottomItems
+          .filter((item) => item.label !== "Administration" || isAdministrator)
+          .map(renderItem)}
       </nav>
     </aside>
   );

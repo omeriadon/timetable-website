@@ -2,12 +2,14 @@
 
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 	type ReactNode,
 } from "react";
-import GlassButton from "@/components/controls/GlassButton";
+import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import styles from "./Sheet.module.css";
 
 type SheetControls = {
@@ -19,8 +21,29 @@ const SheetContext = createContext<SheetControls | null>(null);
 
 export function SheetProvider({ children }: { children: ReactNode }) {
 	const [content, setContent] = useState<ReactNode>(null);
+	const [isClosing, setIsClosing] = useState(false);
+	const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const closeSheet = () => setContent(null);
+	const openSheet = useCallback((nextContent: ReactNode) => {
+		if (closeTimer.current) {
+			clearTimeout(closeTimer.current);
+			closeTimer.current = null;
+		}
+		setIsClosing(false);
+		setContent(nextContent);
+	}, []);
+
+	const closeSheet = useCallback(() => {
+		if (!content || isClosing) {
+			return;
+		}
+		setIsClosing(true);
+		closeTimer.current = setTimeout(() => {
+			setContent(null);
+			setIsClosing(false);
+			closeTimer.current = null;
+		}, 240);
+	}, [content, isClosing]);
 
 	useEffect(() => {
 		if (!content) {
@@ -42,18 +65,34 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 		};
 	}, [content]);
 
+	useEffect(() => {
+		return () => {
+			if (closeTimer.current) {
+				clearTimeout(closeTimer.current);
+			}
+		};
+	}, []);
+
   return (
-    <SheetContext.Provider value={{ openSheet: setContent, closeSheet }}>
+    <SheetContext.Provider value={{ openSheet, closeSheet }}>
       {children}
       {content ? (
-        <div className={styles.sheetRoot} role="presentation">
+        <div
+				className={isClosing ? `${styles.sheetRoot} ${styles.closing}` : styles.sheetRoot}
+				role="presentation"
+			>
           <button
             type="button"
             className={styles.scrim}
             aria-label="Close sheet"
             onClick={closeSheet}
           />
-          <section className={styles.sheet} role="dialog" aria-modal="true">
+          <section
+				className={styles.sheet}
+				role="dialog"
+				aria-modal="true"
+				onClick={(event) => event.stopPropagation()}
+			>
             <GlassButton
               label="Close sheet"
               onClick={closeSheet}

@@ -1,4 +1,4 @@
-import styles from "./controls.module.css";
+import styles from "../controls.module.css";
 
 type SymbolIconProps = {
 	name: string;

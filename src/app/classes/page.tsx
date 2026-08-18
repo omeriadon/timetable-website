@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import styles from "@/components/IOSScreen.module.css";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { OwnerTimetable } from "@/features/timetable/types";
-import SheetTrigger from "@/components/sheets/SheetTrigger";
-import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet";
+import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
+import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
 
 export default function ClassesPage() {
   const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);

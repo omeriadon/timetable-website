@@ -13,12 +13,12 @@
     var(--theme-sidebar-mid) 68%,
     var(--theme-sidebar-end) 100%
   );
-  padding: 16px 14px;
+  padding: var(--theme-space-5) var(--theme-sidebar-padding-inline);
   margin: 1rem 1px 1rem 1rem;
 
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--theme-space-5);
 
   border-radius: 30px;
   corner-shape: superellipse(1.5);
@@ -107,6 +107,7 @@
   display: grid;
   gap: 4px;
   margin-top: auto;
+	padding-top: var(--theme-section-gap);
 }
 
 .sidebarLink {
@@ -143,7 +144,7 @@
 
 @media (max-width: 700px) {
   .sidebar {
-    display: none;
+	display: none !important;
   }
 
   .sidebar::before,

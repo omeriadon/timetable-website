@@ -3,8 +3,8 @@
 import { useState } from "react";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
-import { useSheet } from "./Sheet";
-import styles from "./Sheet.module.css";
+import { useSheet } from "../Sheet/Sheet";
+import styles from "../Sheet/Sheet.module.css";
 
 export default function CalendarEventSheet({ event, onChanged }: { event: CalendarEvent; onChanged: (event: CalendarEvent | null) => void }) {
 	const { closeSheet } = useSheet();

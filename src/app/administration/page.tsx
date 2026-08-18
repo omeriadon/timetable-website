@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import styles from "@/components/IOSScreen.module.css";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
+import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
+import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
 
 type Dashboard = {
   isAdmin: boolean;
@@ -95,19 +97,29 @@ export default function AdministrationPage() {
               <h2 className={styles.section}>{heading as string}</h2>
               <div className={styles.card}>
                 {(rows as string[][]).map(([symbol, label, destination]) => (
-                  <a
+                  <SheetTrigger
                     key={label}
-                    href={`/administration/${destination}`}
-                    className={styles.row}
+                    className={styles.rowButton}
+                    ariaLabel={`Open ${label}`}
+                    content={
+                      <NavigationSheet
+                        title={label}
+                        description={`Manage ${label.toLowerCase()} through the authenticated server.`}
+                        href={`/administration/${destination}`}
+                        icon={symbol}
+                      />
+                    }
                   >
-                    <img
-                      className={styles.symbolIcon}
-                      src={`/icons/${symbol}.svg`}
-                      alt=""
-                    />
-                    <span className={styles.label}>{label}</span>
-                    <span className={styles.chevron}>›</span>
-                  </a>
+                    <div className={styles.row}>
+                      <img
+                        className={styles.symbolIcon}
+                        src={`/icons/${symbol}.svg`}
+                        alt=""
+                      />
+                      <span className={styles.label}>{label}</span>
+                      <span className={styles.chevron}>›</span>
+                    </div>
+                  </SheetTrigger>
                 ))}
               </div>
             </section>

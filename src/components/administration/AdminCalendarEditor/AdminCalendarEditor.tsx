@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSheet } from "@/components/sheets/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen.module.css";
-import AdminCalendarEntrySheet from "./AdminCalendarEntrySheet";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import AdminCalendarEntrySheet from "../AdminCalendarEntrySheet/AdminCalendarEntrySheet";
 
 export type AdminCalendarEntry = { id: string; kind: string; label: string; startDate: { year: number; month: number; day: number }; endDate?: { year: number; month: number; day: number } | null };
 

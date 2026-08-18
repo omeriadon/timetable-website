@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import type { Friend, FriendDetail } from "@/features/timetable/types";
-import ProfilePicture from "@/components/controls/ProfilePicture";
-import SettingToggle from "@/components/controls/SettingToggle";
+import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
+import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import { apiRequest } from "@/lib/api/client";
 import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
-import styles from "./Sheet.module.css";
+import styles from "../Sheet/Sheet.module.css";
 
 export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 	const [detail, setDetail] = useState<FriendDetail | null>(null);

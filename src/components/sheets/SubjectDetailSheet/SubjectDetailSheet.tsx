@@ -1,6 +1,6 @@
 import type { TimetableSubject } from "@/features/timetable/types";
 import { periodLabel } from "@/features/timetable/layout";
-import styles from "./Sheet.module.css";
+import styles from "../Sheet/Sheet.module.css";
 
 export default function SubjectDetailSheet({ subject }: { subject: TimetableSubject }) {
 	return (

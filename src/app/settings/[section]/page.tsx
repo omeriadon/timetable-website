@@ -3,15 +3,15 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SymbolIcon from "@/components/controls/SymbolIcon";
-import ProfilePicture from "@/components/controls/ProfilePicture";
-import SettingToggle from "@/components/controls/SettingToggle";
-import styles from "@/components/IOSScreen.module.css";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
+import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
-import { useSheet } from "@/components/sheets/Sheet";
-import CalendarEventSheet from "@/components/sheets/CalendarEventSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 
 type Settings = {
 	appFontDesign: string;
