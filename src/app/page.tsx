@@ -1,215 +1,154 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
-import { config } from "process";
+import { useDashboard } from "@/features/timetable/useDashboard";
+import type { CalendarEvent, TimetableSubject } from "@/features/timetable/types";
+import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+type TimetableMode = "today" | "week" | "planner";
+
+const modes: Array<{ id: TimetableMode; label: string; symbol: string }> = [
+	{ id: "today", label: "Today", symbol: "▤" },
+	{ id: "week", label: "Week", symbol: "▦" },
+	{ id: "planner", label: "Planner", symbol: "☷" },
+];
+
+function colour(subject: TimetableSubject) {
+	const { r, g, b, a } = subject.colour;
+	return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+}
+
+function displayDate(event: CalendarEvent) {
+	return new Date(event.date.year, event.date.month - 1, event.date.day).toLocaleDateString(
+		"en-AU",
+		{ day: "numeric", month: "short" },
+	);
+}
 
 export default function Home() {
-	const [notice, setNotice] = useState("Your week is ready to review.");
+	const [mode, setMode] = useState<TimetableMode>("today");
+	const { data, error, isLoading } = useDashboard();
 	const setToolbar = useToolbar();
-	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		setToolbar({
-			searchPlaceholder: "Search classes",
-			searchValue: query,
-			onSearchChange: setQuery,
-			actions: [
-				{
-					label: "Add class",
-					icon: "person.2.svg",
-					onPress: () => setQuery(""),
-				},
-			],
-			title: "Overview",
-		});
+		setToolbar({ title: "Timetable" });
 	}, [setToolbar]);
 
+	const events = useMemo(() => {
+		if (!data) {
+			return [];
+		}
+
+		return [...data.events.globalEvents, ...data.events.privateEvents]
+			.sort((left, right) =>
+				`${left.date.year}${left.date.month}${left.date.day}`.localeCompare(
+					`${right.date.year}${right.date.month}${right.date.day}`,
+				),
+			)
+			.slice(0, 5);
+	}, [data]);
+
 	return (
-		<main
-			style={{
-				width: "100%",
-				minHeight: "100%",
-				overflowY: "auto",
-				boxSizing: "border-box",
-			}}
-		>
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					gap: "16px",
-					width: "100%",
-				}}
-			>
-				{Array.from({ length: 18 }, (_, index) => {
-					const titles = [
-						"Morning briefing",
-						"Design system review",
-						"Research synthesis",
-						"Project checkpoint",
-						"Team planning",
-						"Client workshop",
-						"Release preparation",
-						"Weekly retrospective",
-					];
-					const descriptions = [
-						"Review priorities, open questions, and the next set of decisions.",
-						"Compare the latest component states across the product surfaces.",
-						"Turn the collected notes into a focused set of practical findings.",
-						"Check the work in progress before it moves into the next stage.",
-					];
-					const colors = [
-						["#ff6b6b", "#ff8787"],
-						["#845ef7", "#b197fc"],
-						["#339af0", "#74c0fc"],
-						["#20c997", "#63e6be"],
-						["#fcc419", "#ffe066"],
-						["#ff922b", "#ffc078"],
-						["#e64980", "#f783ac"],
-						["#15aabf", "#66d9e8"],
-					];
-
-					const [start, end] = colors[index % colors.length];
-
-					return (
-						<div
-							key={index}
-							style={{
-								width: "100%",
-								minHeight: index % 4 === 0 ? "180px" : "110px",
-								padding: "22px 24px",
-								borderRadius: "26px",
-								boxSizing: "border-box",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "space-between",
-								background: `linear-gradient(135deg, ${start}, ${end})`,
-								color: "white",
-								boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-								position: "relative",
-								overflow: "hidden",
-							}}
-						>
-							<div
-								style={{
-									position: "absolute",
-									width: "180px",
-									height: "180px",
-									borderRadius: "50%",
-									right: "-50px",
-									top: "-70px",
-									background: "rgba(255,255,255,0.16)",
-								}}
-							/>
-
-							<div
-								style={{
-									position: "absolute",
-									width: "100px",
-									height: "100px",
-									borderRadius: "50%",
-									right: "90px",
-									bottom: "-65px",
-									background: "rgba(255,255,255,0.1)",
-								}}
-							/>
-
-							<div
-								style={{
-									position: "relative",
-									zIndex: 1,
-									display: "flex",
-									flexDirection: "column",
-									gap: "7px",
-								}}
-							>
-								<span
-									style={{
-										fontSize: "12px",
-										fontWeight: 700,
-										letterSpacing: "0.08em",
-										textTransform: "uppercase",
-										opacity: 0.72,
-									}}
-								>
-									Placeholder {index + 1}
-								</span>
-
-								<strong
-									style={{
-										fontSize: index % 4 === 0 ? "30px" : "21px",
-										lineHeight: 1.05,
-									}}
-								>
-									{titles[index % titles.length]}
-								</strong>
-
-								<span
-									style={{
-										fontSize: "14px",
-										opacity: 0.78,
-									}}
-								>
-									{descriptions[index % descriptions.length]}
-								</span>
-
-								<div
-									style={{
-										display: "flex",
-										alignItems: "center",
-										gap: "8px",
-										marginTop: "8px",
-									}}
-								>
-									<span
-										style={{
-											padding: "5px 9px",
-											borderRadius: "999px",
-											background: "rgba(255,255,255,0.18)",
-											fontSize: "11px",
-											fontWeight: 700,
-										}}
-									>
-										{`${8 + index}:30 AM`}
-									</span>
-									<span
-										style={{
-											padding: "5px 9px",
-											borderRadius: "999px",
-											background: "rgba(0,0,0,0.12)",
-											fontSize: "11px",
-										}}
-									>
-										{index % 2 === 0 ? "In progress" : "Review"}
-									</span>
-								</div>
-							</div>
-
-							<div
-								style={{
-									position: "relative",
-									zIndex: 1,
-									width: "48px",
-									height: "48px",
-									flexShrink: 0,
-									borderRadius: "16px",
-									background: "rgba(255,255,255,0.2)",
-									backdropFilter: "blur(12px)",
-									display: "grid",
-									placeItems: "center",
-									fontSize: "18px",
-									fontWeight: 700,
-								}}
-							>
-								{index + 1}
-							</div>
-						</div>
-					);
-				})}
+		<main className={styles.page}>
+			<div className={styles.modePicker} aria-label="Timetable section">
+				{modes.map((item) => (
+					<button
+						key={item.id}
+						type="button"
+						className={mode === item.id ? styles.activeMode : ""}
+						onClick={() => setMode(item.id)}
+					>
+						<span aria-hidden="true">{item.symbol}</span>
+						{item.label}
+					</button>
+				))}
 			</div>
+
+			{isLoading ? <p className={styles.message}>Loading your timetable…</p> : null}
+			{error ? <p className={styles.error} role="alert">{error}</p> : null}
+
+			{data && mode === "today" ? (
+				<TodayView events={events} subjects={data.timetable.subjects} />
+			) : null}
+			{data && mode === "week" ? <WeekView subjects={data.timetable.subjects} /> : null}
+			{data && mode === "planner" ? <PlannerView events={events} /> : null}
 		</main>
+	);
+}
+
+function TodayView({ events, subjects }: { events: CalendarEvent[]; subjects: TimetableSubject[] }) {
+	return (
+		<>
+			<header className={styles.todayHeader}>
+				<p>15°C　Mostly Cloudy　0%　UV 0</p>
+				<h1>{new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long" }).format(new Date())}</h1>
+				<span>Term 3, Week 5</span>
+			</header>
+			<section className={styles.paperCard}>
+				<h2>Events</h2>
+				<h3>Upcoming</h3>
+				{events.length ? events.slice(0, 2).map((event) => <EventRow key={event.id} event={event} />) : <p className={styles.empty}>No upcoming events.</p>}
+			</section>
+			<section className={styles.paperCard}>
+				<h2>Classes</h2>
+				<div className={styles.subjectList}>
+					{subjects.map((subject, index) => (
+						<article key={subject.id} className={styles.subjectRow}>
+							<span>{index + 1}</span>
+							<strong>{subject.id}</strong>
+							<em style={{ color: colour(subject) }}>{subject.symbol}</em>
+						</article>
+					))}
+				</div>
+			</section>
+		</>
+	);
+}
+
+function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
+	const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+	return (
+		<section className={styles.week} aria-label="Weekly timetable">
+			<div className={styles.weekHeader}>{days.map((day) => <span key={day}>{day}</span>)}</div>
+			<div className={styles.weekGrid}>
+				{Array.from({ length: 6 }, (_, session) => (
+					<div key={session} className={styles.weekRow}>
+						<small>{session + 1}</small>
+						{days.map((day, dayIndex) => {
+							const subject = subjects.find((item) => item.slots.some((slot) => slot.day === dayIndex + 1 && slot.session === session + 1));
+							return subject ? (
+								<article key={day} className={styles.lesson} style={{ background: colour(subject) }}>
+									<span>{subject.symbol}</span>
+									<strong>{subject.id}</strong>
+								</article>
+							) : <div key={day} />;
+						})}
+					</div>
+				))}
+			</div>
+		</section>
+	);
+}
+
+function PlannerView({ events }: { events: CalendarEvent[] }) {
+	return (
+		<section className={styles.planner}>
+			<h1>Upcoming</h1>
+			{events.map((event) => <EventRow key={event.id} event={event} prominent />)}
+			<h2>Term Dates</h2>
+			<p className={styles.empty}>Your school calendar will appear here.</p>
+		</section>
+	);
+}
+
+function EventRow({ event, prominent = false }: { event: CalendarEvent; prominent?: boolean }) {
+	return (
+		<article className={prominent ? styles.plannerEvent : styles.eventRow}>
+			<span className={styles.eventSymbol}>{event.symbol}</span>
+			<div><strong>{event.title}</strong>{event.notes ? <span>{event.notes}</span> : null}</div>
+			<time>{displayDate(event)}</time>
+		</article>
 	);
 }
