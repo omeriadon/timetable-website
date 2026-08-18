@@ -7,9 +7,12 @@ import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
+import CalendarImportSheet from "@/components/sheets/CalendarImportSheet/CalendarImportSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
+import type { OwnerTimetable } from "@/features/timetable/types";
 
 type Settings = {
   liveActivitiesEnabled: boolean;
@@ -30,8 +33,10 @@ export default function SettingsPage() {
   const setToolbar = useToolbar();
   const [account, setAccount] = useState<Account | null>(null);
   const [settings, setSettings] = useState<Settings | null>(null);
+  const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const { openSheet } = useSheet();
 
   useEffect(() => {
     setToolbar({ title: "Settings" });
@@ -44,6 +49,9 @@ export default function SettingsPage() {
         setSettings(values);
       })
       .catch((requestError: Error) => setError(requestError.message));
+		apiRequest<OwnerTimetable>("v1/timetables/owner")
+			.then(setTimetable)
+			.catch(() => setTimetable(null));
   }, [setToolbar]);
 
   const toggle = async (
@@ -119,6 +127,17 @@ export default function SettingsPage() {
       ) : null}
       <h2 className={styles.section}>My Timetable</h2>
       <section className={styles.card}>
+			<button
+				type="button"
+				className={styles.rowButton}
+				onClick={() => openSheet(<CalendarImportSheet timetable={timetable} onImported={setTimetable} />)}
+			>
+				<div className={styles.row}>
+					<SymbolIcon name="calendar" fallback="▦" />
+					<span><span className={styles.label}>Re-import from Calendar</span><small className={styles.detail}>Subscribe to Compass Schedule in Calendar first.</small></span>
+					<span className={styles.chevron}>›</span>
+				</div>
+			</button>
         <NavigationRow
           title="Edit Timetable"
           description="Update subjects and weekly classes."
