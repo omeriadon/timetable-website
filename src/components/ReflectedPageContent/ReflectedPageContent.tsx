@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode, useLayoutEffect, useRef } from "react";
-import styles from "../app/layout.module.css";
+import styles from "@/app/layout.module.css";
 
 type ReflectedPageContentProps = {
 	children: ReactNode;

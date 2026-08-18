@@ -2,10 +2,12 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
+import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor";
+import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor";
 
 const sectionConfig: Record<
 	string,
@@ -101,6 +103,7 @@ export default function AdministrationSectionPage() {
 		setToolbar({ title: config.title });
 		setData(null);
 		setError(null);
+		if (section === "event-tags") return;
 		if (!config.endpoint) return;
 		apiRequest<unknown>(config.endpoint)
 			.then(setData)
@@ -112,6 +115,7 @@ export default function AdministrationSectionPage() {
 	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
 
 	return (
+		section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> :
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>

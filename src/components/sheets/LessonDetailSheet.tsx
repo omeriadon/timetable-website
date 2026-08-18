@@ -1,4 +1,5 @@
 import type { TimetableSubject } from "@/features/timetable/types";
+import { periodLabel } from "@/features/timetable/layout";
 import styles from "./Sheet.module.css";
 
 export default function LessonDetailSheet({
@@ -16,7 +17,7 @@ export default function LessonDetailSheet({
 				<div className={styles.detailSubjectSymbol}>{subject.symbol}</div>
 				<div>
 					<h2>{subject.id}</h2>
-					<p>{day}, period {session}</p>
+					<p>{day}, period {periodLabel(session)}</p>
 				</div>
 			</header>
 			<section className={styles.detailCard}>

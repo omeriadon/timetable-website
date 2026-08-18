@@ -2,14 +2,17 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard, type DashboardData } from "@/features/timetable/useDashboard";
 import SheetTrigger from "@/components/sheets/SheetTrigger";
 import LessonDetailSheet from "@/components/sheets/LessonDetailSheet";
+import CalendarEventSheet from "@/components/sheets/CalendarEventSheet";
+import { useSheet } from "@/components/sheets/Sheet";
 import type {
   CalendarEvent,
   TimetableSubject,
 } from "@/features/timetable/types";
+import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
 import styles from "./page.module.css";
 
 type TimetableMode = "today" | "week" | "planner";
@@ -209,7 +212,7 @@ function compareDate(left: { year: number; month: number; day: number }, right: 
 }
 
 function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  const days = TIMETABLE_DAYS;
 
   return (
     <section className={styles.week} aria-label="Weekly timetable">
@@ -219,14 +222,14 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
         ))}
       </div>
       <div className={styles.weekGrid}>
-        {Array.from({ length: 6 }, (_, session) => (
-          <div key={session} className={styles.weekRow}>
-            <small>{session + 1}</small>
+        {TIMETABLE_SESSIONS.map((session) => (
+          <div key={session.value} className={styles.weekRow}>
+            <small>{session.label}</small>
             {days.map((day, dayIndex) => {
               const subject = subjects.find((item) =>
                 item.slots.some(
                   (slot) =>
-                    slot.day === dayIndex + 1 && slot.session === session + 1,
+						slot.day === dayIndex && slot.session === session.value,
                 ),
               );
               return subject ? (
@@ -234,7 +237,7 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
 							key={day}
 							className={styles.lessonButton}
 							ariaLabel={`Open ${subject.id} on ${day}`}
-							content={<LessonDetailSheet subject={subject} day={day} session={session + 1} />}
+							content={<LessonDetailSheet subject={subject} day={day} session={session.value} />}
 						>
 							<article className={styles.lesson} style={{ background: colour(subject) }}>
 								<span>{subject.symbol}</span>
@@ -300,14 +303,15 @@ function EventRow({
   event: CalendarEvent;
   prominent?: boolean;
 }) {
+  const { openSheet } = useSheet();
   return (
-    <article className={prominent ? styles.plannerEvent : styles.eventRow}>
+    <button type="button" className={prominent ? styles.plannerEvent : styles.eventRow} onClick={() => openSheet(<CalendarEventSheet event={event} onChanged={() => undefined} />)}>
       <span className={styles.eventSymbol}>{event.symbol}</span>
       <div>
         <strong>{event.title}</strong>
         {event.notes ? <span>{event.notes}</span> : null}
       </div>
       <time>{displayDate(event)}</time>
-    </article>
+    </button>
   );
 }

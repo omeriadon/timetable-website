@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import LiquidGlass from "./LiquidGlass";
+import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import GlassButton from "@/components/controls/GlassButton";
 import { useSheet } from "@/components/sheets/Sheet";
 import styles from "./Toolbar.module.css";

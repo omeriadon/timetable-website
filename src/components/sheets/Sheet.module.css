@@ -290,6 +290,81 @@
   cursor: pointer;
 }
 
+.editorSubject {
+	display: grid;
+	gap: var(--theme-space-3);
+	padding: var(--theme-space-3) 0;
+	border-bottom: 1px solid var(--theme-divider);
+}
+
+.editorFields {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 72px 30px;
+	gap: var(--theme-space-2);
+}
+
+.editorFields input {
+	min-width: 0;
+	padding: 6px 8px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 8px;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
+}
+
+.editorFields button {
+	border: 0;
+	border-radius: 8px;
+	color: var(--theme-error);
+	background: transparent;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+
+.slotGrid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 4px;
+	overflow-x: auto;
+}
+
+.slotGrid > div {
+	display: grid;
+	gap: 3px;
+	min-width: 44px;
+}
+
+.slotGrid strong {
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
+}
+
+.slot,
+.slotActive {
+	padding: 3px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 6px;
+	color: var(--theme-text-secondary);
+	background: var(--theme-black);
+	font: inherit;
+	font-size: 0.68rem;
+	cursor: pointer;
+}
+
+.slotActive {
+	color: var(--theme-text);
+	background: var(--theme-accent);
+}
+
+.editorCheck {
+	display: flex;
+	gap: var(--theme-space-2);
+	align-items: center;
+	padding: var(--theme-space-3);
+	font-size: 0.86rem;
+}
+
 @keyframes sheetIn {
   from {
     opacity: 0;

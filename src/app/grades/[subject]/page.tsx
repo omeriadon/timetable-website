@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";

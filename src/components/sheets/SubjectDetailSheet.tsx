@@ -1,4 +1,5 @@
 import type { TimetableSubject } from "@/features/timetable/types";
+import { periodLabel } from "@/features/timetable/layout";
 import styles from "./Sheet.module.css";
 
 export default function SubjectDetailSheet({ subject }: { subject: TimetableSubject }) {
@@ -15,7 +16,7 @@ export default function SubjectDetailSheet({ subject }: { subject: TimetableSubj
 				{subject.slots.length ? subject.slots.map((slot) => (
 					<div key={`${slot.day}-${slot.session}`} className={styles.detailRow}>
 						<span>{dayName(slot.day)}</span>
-						<strong>Period {slot.session}</strong>
+						<strong>Period {periodLabel(slot.session)}</strong>
 					</div>
 				)) : <p className={styles.detailMuted}>No scheduled classes.</p>}
 			</section>
@@ -24,5 +25,5 @@ export default function SubjectDetailSheet({ subject }: { subject: TimetableSubj
 }
 
 function dayName(day: number) {
-	return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day - 1] ?? `Day ${day}`;
+	return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day] ?? `Day ${day}`;
 }

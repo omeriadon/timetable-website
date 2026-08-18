@@ -3,6 +3,7 @@ import type { Friend, FriendDetail } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle";
 import { apiRequest } from "@/lib/api/client";
+import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
 import styles from "./Sheet.module.css";
 
 export default function FriendDetailSheet({ friend }: { friend: Friend }) {
@@ -82,12 +83,13 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 			{tab === "week" ? <section className={styles.detailCard}>
 				<h3>Week</h3>
 				<div className={styles.friendWeekGrid}>
-					{["Mon", "Tue", "Wed", "Thu", "Fri"].map((day, dayIndex) => (
+					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<div key={day}>
 							<strong>{day}</strong>
-							{Array.from({ length: 6 }, (_, session) => subjects.find((subject) => subject.slots.some((slot) => slot.day === dayIndex + 1 && slot.session === session + 1)) ? (
-								<span key={session}>{subjects.find((subject) => subject.slots.some((slot) => slot.day === dayIndex + 1 && slot.session === session + 1))?.id}</span>
-							) : null)}
+							{TIMETABLE_SESSIONS.filter((session) => session.value !== 2 && session.value !== 5).map((session) => {
+								const subject = subjects.find((item) => item.slots.some((slot) => slot.day === dayIndex && slot.session === session.value));
+								return subject ? <span key={session.value}>{subject.id}</span> : null;
+							})}
 						</div>
 					))}
 				</div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useSheet } from "@/components/sheets/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";

@@ -3,6 +3,22 @@
   padding: 60px var(--theme-page-padding) 28px;
 }
 
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: var(--theme-space-3);
+}
+
+.actions button {
+	padding: 7px 11px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 999px;
+	color: var(--theme-text);
+	background: var(--theme-glass);
+	font: inherit;
+	cursor: pointer;
+}
+
 .panel {
   width: 100%;
   margin: 0 auto;

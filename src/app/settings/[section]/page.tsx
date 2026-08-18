@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon";
 import ProfilePicture from "@/components/controls/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle";
@@ -350,10 +350,23 @@ function ProfileAppearanceEditor({
 	save: (appearance: ProfileAppearance) => Promise<void>;
 }) {
 	const [draft, setDraft] = useState(profile.appearance);
+	const [photo, setPhoto] = useState(profile.photo);
+	const [uploading, setUploading] = useState(false);
+	const uploadPhoto = async (file: File) => {
+		setUploading(true);
+		try {
+			const updated = await apiRequest<ProfileResponse>("v1/friends/profile/photo", { method: "PUT", headers: { "Content-Type": "image/jpeg" }, body: await file.arrayBuffer() });
+			setPhoto(updated.photo);
+		} catch (requestError) {
+			window.alert((requestError as Error).message);
+		} finally {
+			setUploading(false);
+		}
+	};
 	return (
 		<section className={styles.card}>
 			<div className={styles.profilePreview}>
-				<ProfilePicture profile={{ displayName: profile.displayName, appearance: draft, photo: profile.photo }} size={76} />
+				<ProfilePicture profile={{ displayName: profile.displayName, appearance: draft, photo }} size={76} />
 				<div>
 					<strong>{profile.displayName}</strong>
 					<span>Profile appearance</span>
@@ -382,6 +395,12 @@ function ProfileAppearanceEditor({
 				<div className={styles.row}>
 					<span className={styles.label}>Monogram</span>
 					<input className={styles.inlineInput} value={draft.monogram} onChange={(event) => setDraft({ ...draft, monogram: event.target.value.slice(0, 3) })} />
+				</div>
+			) : null}
+			{draft.contentKind === "photo" ? (
+				<div className={styles.row}>
+					<span className={styles.label}>Photo</span>
+					<input type="file" accept="image/jpeg" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); }} />
 				</div>
 			) : null}
 			<button type="button" className={styles.profileSave} onClick={() => save(draft)}>

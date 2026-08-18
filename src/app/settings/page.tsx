@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SettingToggle from "@/components/controls/SettingToggle";
 import SymbolIcon from "@/components/controls/SymbolIcon";
 import ProfilePicture from "@/components/controls/ProfilePicture";

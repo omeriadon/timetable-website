@@ -2,12 +2,15 @@
 
 import styles from "../page.module.css";
 import { useEffect, useState } from "react";
-import { useToolbar } from "@/components/Toolbar";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { apiRequest } from "@/lib/api/client";
+import { useSheet } from "@/components/sheets/Sheet";
+import TimetableEditorSheet from "@/components/sheets/TimetableEditorSheet";
 import type {
   OwnerTimetable,
   TimetableSubject,
 } from "@/features/timetable/types";
+import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +18,7 @@ export default function Timetable() {
   const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
   const [error, setError] = useState<string | null>(null);
   const setToolbar = useToolbar();
+  const { openSheet } = useSheet();
 
   useEffect(() => {
 		setToolbar({ title: "Timetable" });
@@ -31,7 +35,10 @@ export default function Timetable() {
         </p>
       ) : null}
       {timetable ? (
-        <WeekTimetable subjects={timetable.subjects} />
+        <>
+          <div className={styles.actions}><button type="button" onClick={() => openSheet(<TimetableEditorSheet timetable={timetable} onSaved={setTimetable} />)}>Edit Timetable</button></div>
+          <WeekTimetable subjects={timetable.subjects} />
+        </>
       ) : (
         <p className={styles.message}>Loading timetable…</p>
       )}
@@ -40,7 +47,7 @@ export default function Timetable() {
 }
 
 function WeekTimetable({ subjects }: { subjects: TimetableSubject[] }) {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  const days = TIMETABLE_DAYS;
   return (
     <section className={styles.week} aria-label="Weekly timetable">
       <div className={styles.weekHeader}>
@@ -49,15 +56,15 @@ function WeekTimetable({ subjects }: { subjects: TimetableSubject[] }) {
         ))}
       </div>
       <div className={styles.weekGrid}>
-        {Array.from({ length: 6 }, (_, sessionIndex) => (
-          <div key={sessionIndex} className={styles.weekRow}>
-            <small>{sessionIndex + 1}</small>
+        {TIMETABLE_SESSIONS.map((session) => (
+          <div key={session.value} className={styles.weekRow}>
+            <small>{session.label}</small>
             {days.map((day, dayIndex) => {
               const subject = subjects.find((item) =>
                 item.slots.some(
                   (slot) =>
-                    slot.day === dayIndex + 1 &&
-                    slot.session === sessionIndex + 1,
+                    slot.day === dayIndex &&
+                    slot.session === session.value,
                 ),
               );
               return subject ? (
