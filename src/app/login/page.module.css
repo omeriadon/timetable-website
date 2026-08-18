@@ -2,7 +2,7 @@
   display: grid;
   min-height: 100svh;
   place-items: center;
-  padding: 24px;
+  padding: var(--theme-auth-page-padding);
   background:
     radial-gradient(
       circle at 15% 0%,
@@ -14,9 +14,9 @@
 
 .card {
   width: 100%;
-  padding: 40px;
+  padding: var(--theme-auth-card-padding);
   border: 1px solid var(--theme-divider);
-  border-radius: 34px;
+  border-radius: var(--theme-radius-card);
   background: color-mix(in srgb, var(--theme-surface) 90%, transparent);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.55),
@@ -27,7 +27,7 @@
   display: grid;
   width: 44px;
   height: 44px;
-  margin-bottom: 28px;
+  margin-bottom: var(--theme-content-section-gap);
   place-items: center;
   border-radius: 14px;
   background: var(--theme-accent);
@@ -51,18 +51,18 @@
 }
 
 .intro {
-  margin: 10px 0 30px;
+  margin: var(--theme-content-row-gap) 0 var(--theme-content-section-gap);
   color: var(--theme-text-secondary);
 }
 
 .form {
   display: grid;
-  gap: 16px;
+  gap: var(--theme-auth-gap);
 }
 
 .form label {
   display: grid;
-  gap: 7px;
+  gap: var(--theme-content-grid-gap);
   color: var(--theme-text-secondary);
   font-size: 0.82rem;
   font-weight: 650;
@@ -70,10 +70,10 @@
 
 .form input {
   width: 100%;
-  min-height: 48px;
-  padding: 0 14px;
+  min-height: var(--theme-auth-control-height);
+  padding: 0 var(--theme-content-control-padding-inline);
   border: 1px solid var(--theme-divider);
-  border-radius: 14px;
+  border-radius: var(--theme-content-control-radius);
   outline: none;
   color: var(--theme-text);
   background: var(--theme-black);
@@ -87,8 +87,8 @@
 
 .submit,
 .switchMode {
-  min-height: 48px;
-  border-radius: 14px;
+  min-height: var(--theme-auth-control-height);
+  border-radius: var(--theme-content-control-radius);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -107,7 +107,7 @@
 
 .switchMode {
   width: 100%;
-  margin-top: 18px;
+  margin-top: var(--theme-content-section-gap);
   border: 0;
   color: var(--theme-text-secondary);
   background: transparent;
@@ -121,7 +121,7 @@
 
 @media (max-width: 480px) {
   .card {
-    padding: 30px 22px;
-    border-radius: 28px;
+    padding: var(--theme-content-card-padding-block) var(--theme-content-page-padding);
+    border-radius: var(--theme-content-radius);
   }
 }
