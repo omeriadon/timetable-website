@@ -49,8 +49,8 @@
 
 .closeButton {
   position: absolute;
-  top: 12px;
-  right: 14px;
+	top: var(--theme-content-card-padding);
+	right: var(--theme-content-page-padding);
 }
 
 .closeButton span {
@@ -100,7 +100,7 @@
 }
 
 .detailHeader h2 {
-  font-size: 1.45rem;
+	font-size: 1.25rem;
 }
 
 .detailHeader p,
@@ -318,7 +318,7 @@
 	width: 100%;
 	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-divider);
-	border-radius: 12px;
+	border-radius: var(--theme-content-control-radius);
 	outline: none;
 	color: var(--theme-text);
 	background: var(--theme-black);
@@ -333,12 +333,12 @@
 
 .sheetLink {
 	display: inline-flex;
-	min-height: var(--theme-control-height);
+	min-height: var(--theme-content-control-height);
 	align-items: center;
 	justify-content: center;
-	padding: var(--theme-control-padding-block) var(--theme-control-padding-inline);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-highlight);
-	border-radius: var(--theme-radius-control);
+	border-radius: var(--theme-content-control-radius);
 	color: var(--theme-text);
 	background: var(--theme-accent);
 	font-weight: 650;
@@ -352,7 +352,8 @@
 
 .primaryButton,
 .destructiveButton {
-	padding: 8px 12px;
+	min-height: var(--theme-content-control-height);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 0;
 	border-radius: 999px;
 	color: var(--theme-text);
@@ -371,9 +372,9 @@
 
 .sheetInput {
   width: 100%;
-  padding: 11px 13px;
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
   border: 1px solid var(--theme-divider);
-  border-radius: 14px;
+	border-radius: var(--theme-content-control-radius);
   outline: none;
   color: var(--theme-text);
   background: var(--theme-black);
@@ -382,9 +383,9 @@
 
 .searchResult {
   display: flex;
-  gap: 10px;
+	gap: var(--theme-content-row-gap);
   align-items: center;
-  min-height: 56px;
+	min-height: var(--theme-content-row-height);
   border-bottom: 1px solid var(--theme-divider);
 }
 
@@ -404,7 +405,8 @@
 }
 
 .searchResult button {
-  padding: 7px 11px;
+	min-height: var(--theme-content-control-height);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
   border: 0;
   border-radius: 999px;
   color: var(--theme-text);

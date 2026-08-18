@@ -77,6 +77,22 @@
 	padding: 6px;
 }
 
+.glassButton.disabled {
+	opacity: 0.5;
+	cursor: wait;
+	pointer-events: none;
+}
+
+.glassButton.toneProminent {
+	color: var(--theme-text);
+	background: color-mix(in srgb, var(--theme-accent) 78%, var(--theme-glass));
+}
+
+.glassButton.toneDestructive {
+	color: var(--theme-text);
+	background: color-mix(in srgb, var(--theme-error) 72%, var(--theme-glass));
+}
+
 .settingToggle {
   display: flex;
   width: 100%;

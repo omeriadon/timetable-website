@@ -20,6 +20,7 @@ type LiquidGlassProps = {
   onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
   role?: string;
   "aria-label"?: string;
+  "aria-disabled"?: boolean;
   tabIndex?: number;
   interactive?: boolean;
   dragFollow?: number;
@@ -62,6 +63,7 @@ export default function LiquidGlass({
   onKeyDown,
   role,
   "aria-label": ariaLabel,
+  "aria-disabled": ariaDisabled,
   tabIndex,
   interactive = false,
   dragFollow = 0.18,
@@ -418,6 +420,7 @@ export default function LiquidGlass({
       onKeyDown={onKeyDown}
       role={role}
       aria-label={ariaLabel}
+      aria-disabled={ariaDisabled}
       tabIndex={tabIndex}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}

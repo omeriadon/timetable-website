@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 export type AdministrationUser = Account & { authority: string };
 
@@ -77,8 +78,8 @@ export default function AdminUserEditorSheet({ user, isSystemOwner, onSaved, onD
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 			<div className={styles.sheetActions}>
-				{user ? <button type="button" className={styles.destructiveButton} onClick={() => void remove()} disabled={saving}><SymbolIcon name="trash" fallback="×" /> Delete</button> : null}
-				<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving || !displayName.trim() || !email.trim() || (!user && password.length < 8)}><SymbolIcon name="checkmark" fallback="✓" />{saving ? "Saving…" : user ? "Save" : "Create"}</button>
+				{user ? <SheetActionButton label="Delete user" tone="destructive" onClick={() => void remove()} disabled={saving}><SymbolIcon name="trash" fallback="×" /> Delete</SheetActionButton> : null}
+				<SheetActionButton label={user ? "Save user" : "Create user"} onClick={() => void save()} disabled={saving || !displayName.trim() || !email.trim() || (!user && password.length < 8)}><SymbolIcon name="checkmark" fallback="✓" />{saving ? "Saving…" : user ? "Save" : "Create"}</SheetActionButton>
 			</div>
 		</div>
 	);

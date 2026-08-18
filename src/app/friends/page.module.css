@@ -19,7 +19,7 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--theme-space-2);
-  margin-bottom: var(--theme-space-3);
+	margin-bottom: var(--theme-content-section-gap);
 }
 .circleAction {
   display: grid;
@@ -51,7 +51,7 @@
   flex: 1;
 }
 .selfCard strong {
-  font-size: 1.25rem;
+	font-size: 1.05rem;
 }
 .selfCard span,
 .selfCard em {
@@ -106,8 +106,8 @@
 	font-size: 1rem;
 }
 .friend p {
-  margin-top: 4px;
-  font-size: 0.88rem;
+	margin-top: 2px;
+	font-size: var(--ui-content-font-size);
 }
 .friend span {
   display: block;
@@ -116,7 +116,7 @@
 }
 .status {
   align-self: start;
-  padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
   border-radius: 999px;
   color: var(--theme-text);
   background: var(--theme-info);

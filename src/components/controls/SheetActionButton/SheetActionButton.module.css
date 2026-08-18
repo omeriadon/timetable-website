@@ -1,0 +1,10 @@
+.button {
+	display: inline-flex;
+	width: auto;
+	min-width: 82px;
+	gap: var(--theme-content-row-gap);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	font: inherit;
+	font-weight: 650;
+	white-space: nowrap;
+}

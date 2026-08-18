@@ -10,6 +10,8 @@ type GlassButtonProps = {
   onClick?: () => void;
   className?: string;
   size?: "regular" | "compact";
+  disabled?: boolean;
+  tone?: "regular" | "prominent" | "destructive";
 };
 
 export default function GlassButton({
@@ -18,9 +20,11 @@ export default function GlassButton({
   onClick,
   className,
   size = "regular",
+  disabled = false,
+  tone = "regular",
 }: GlassButtonProps) {
 	const activate = (event: KeyboardEvent<HTMLDivElement>) => {
-		if ((event.key === "Enter" || event.key === " ") && onClick) {
+		if (!disabled && (event.key === "Enter" || event.key === " ") && onClick) {
 			event.preventDefault();
 			onClick();
 		}
@@ -49,11 +53,12 @@ export default function GlassButton({
       dragSquash={0.12}
       dragBounce={0.25}
       filterPadding={32}
-      className={`${styles.glassButton} ${styles[size]} ${className ?? ""}`}
-      onClick={onClick}
+			className={`${styles.glassButton} ${styles[size]} ${styles[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]} ${disabled ? styles.disabled : ""} ${className ?? ""}`}
+			onClick={disabled ? undefined : onClick}
       onKeyDown={activate}
       role="button"
       aria-label={label}
+			aria-disabled={disabled}
       tabIndex={0}
     >
       {children}

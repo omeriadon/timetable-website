@@ -4,6 +4,7 @@ import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 const leadTimes = [0, 1, 2, 3, 5, 10];
 
@@ -78,10 +79,10 @@ export default function NotificationLeadTimesSheet({
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 			<div className={styles.sheetActions}>
-				<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving}>
+				<SheetActionButton label="Save notification lead times" onClick={() => void save()} disabled={saving}>
 					<SymbolIcon name="checkmark" fallback="✓" />
 					{saving ? "Saving…" : "Save"}
-				</button>
+				</SheetActionButton>
 			</div>
 		</div>
 	);

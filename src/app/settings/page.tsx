@@ -13,6 +13,7 @@ import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
+import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
 
 type Settings = {
   liveActivitiesEnabled: boolean;
@@ -273,38 +274,5 @@ export default function SettingsPage() {
         </div>
       </section>
     </main>
-  );
-}
-
-function NavigationRow({
-  title,
-  description,
-  href,
-  icon,
-}: {
-  title: string;
-  description: string;
-  href: string;
-  icon: string;
-}) {
-  return (
-    <SheetTrigger
-      className={styles.rowButton}
-      ariaLabel={`Open ${title}`}
-      content={
-        <NavigationSheet
-          title={title}
-          description={description}
-          href={href}
-          icon={icon}
-        />
-      }
-    >
-      <div className={styles.row}>
-        <SymbolIcon name={icon} />
-        <span className={styles.label}>{title}</span>
-        <span className={styles.chevron}>›</span>
-      </div>
-    </SheetTrigger>
   );
 }

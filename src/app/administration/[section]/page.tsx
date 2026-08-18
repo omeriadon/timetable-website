@@ -16,6 +16,10 @@ import AdminBroadcastHistoryEditor from "@/components/administration/AdminBroadc
 import AdminStatisticsEditor from "@/components/administration/AdminStatisticsEditor/AdminStatisticsEditor";
 import AdminEmailLogEditor from "@/components/administration/AdminEmailLogEditor/AdminEmailLogEditor";
 import AdminBadgesEditor from "@/components/administration/AdminBadgesEditor/AdminBadgesEditor";
+import AdminRecord, { type AdminRecordValue } from "@/components/administration/AdminRecord/AdminRecord";
+import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
+import TestEmailButton from "@/components/administration/TestEmailButton/TestEmailButton";
+import BroadcastNotificationEditor from "@/components/administration/BroadcastNotificationEditor/BroadcastNotificationEditor";
 
 const sectionConfig: Record<
 	string,
@@ -136,7 +140,7 @@ export default function AdministrationSectionPage() {
 			) : null}
 			{section === "font-width-test" ? <FontWidthTest /> : null}
 			{section === "broadcast-notification" ? (
-				<BroadcastNotificationForm />
+				<BroadcastNotificationEditor />
 			) : section === "test-email" ? (
 				<section className={styles.card}>
 					<div className={styles.row}>
@@ -156,8 +160,8 @@ export default function AdministrationSectionPage() {
 			) : null}
 			{data && records.length ? (
 				<section className={styles.card}>
-					{records.map((record, index) => (
-						<AdminRecord key={String(record.id ?? index)} record={record} />
+				{records.map((record, index) => (
+					<AdminRecord key={String(record.id ?? index)} record={record} humanize={humanize} formatValue={formatValue} />
 					))}
 				</section>
 			) : null}
@@ -182,9 +186,7 @@ function filterData(data: unknown, kind?: string): unknown {
 	return data;
 }
 
-type AdminRecord = Record<string, unknown>;
-
-function normalizeRecords(data: unknown): AdminRecord[] {
+function normalizeRecords(data: unknown): AdminRecordValue[] {
 	if (Array.isArray(data)) {
 		return data.filter(isRecord);
 	}
@@ -209,22 +211,8 @@ function scalarEntries(data: unknown): [string, unknown][] {
 	});
 }
 
-function isRecord(value: unknown): value is AdminRecord {
+function isRecord(value: unknown): value is AdminRecordValue {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function AdminRecord({ record }: { record: AdminRecord }) {
-	const entries = Object.entries(record).filter(([, value]) => value !== null && value !== "");
-	return (
-		<div className={styles.adminRecord}>
-			{entries.slice(0, 8).map(([key, value]) => (
-				<div key={key} className={styles.adminField}>
-					<span>{humanize(key)}</span>
-					<strong>{formatValue(value)}</strong>
-				</div>
-			))}
-		</div>
-	);
 }
 
 function humanize(key: string) {
@@ -239,69 +227,4 @@ function formatValue(value: unknown): string {
 	if (typeof value === "boolean") return value ? "On" : "Off";
 	if (typeof value === "object" && value !== null) return "Details available";
 	return String(value);
-}
-
-function FontWidthTest() {
-	return (
-		<section className={styles.card}>
-			{["SF Pro Display", "SF Pro", "SF Rounded", "SF Mono"].map((font) => (
-				<div key={font} className={styles.row}>
-					<span className={styles.label} style={{ fontFamily: font }}>
-						{font}
-					</span>
-					<span className={styles.detail}>Timetable 012345</span>
-				</div>
-			))}
-		</section>
-	);
-}
-
-function TestEmailButton() {
-	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
-	const send = async () => {
-		setState("sending");
-		try {
-			await apiRequest("v1/administration/test-email", { method: "POST" });
-			setState("sent");
-		} catch {
-			setState("error");
-		}
-	};
-	return (
-		<button type="button" className={styles.adminAction} onClick={send} disabled={state === "sending"}>
-			<SymbolIcon name="envelope.badge" />
-			<span>{state === "sending" ? "Sending…" : state === "sent" ? "Test email sent" : state === "error" ? "Unable to send test email" : "Send test email"}</span>
-		</button>
-	);
-}
-
-function BroadcastNotificationForm() {
-	const [title, setTitle] = useState("");
-	const [subtitle, setSubtitle] = useState("");
-	const [body, setBody] = useState("");
-	const [status, setStatus] = useState<string | null>(null);
-	const send = async () => {
-		setStatus(null);
-		try {
-			const result = await apiRequest<{ deliveredDeviceCount: number }>("v1/administration/broadcast-notification", {
-				method: "POST",
-				body: JSON.stringify({ title, subtitle: subtitle || null, body: body || null, respectsUserPreference: true }),
-			});
-			setStatus(`Sent to ${result.deliveredDeviceCount} devices.`);
-			setTitle("");
-			setSubtitle("");
-			setBody("");
-		} catch (requestError) {
-			setStatus((requestError as Error).message);
-		}
-	};
-	return (
-		<section className={styles.formCard}>
-			<label>Title<input value={title} onChange={(event) => setTitle(event.target.value)} maxLength={200} /></label>
-			<label>Subtitle<input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} maxLength={200} /></label>
-			<label>Message<textarea value={body} onChange={(event) => setBody(event.target.value)} maxLength={2000} rows={4} /></label>
-			<button type="button" className={styles.adminAction} onClick={send} disabled={!title.trim()}><SymbolIcon name="megaphone" /><span>Broadcast notification</span></button>
-			{status ? <p className={styles.detail} role="status">{status}</p> : null}
-		</section>
-	);
 }

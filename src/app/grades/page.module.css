@@ -88,7 +88,7 @@
 
 .subjectName {
 	display: block;
-	font-size: 1.05rem;
+	font-size: var(--ui-content-font-size);
 	font-weight: 650;
 }
 
@@ -100,7 +100,7 @@
 }
 
 .subjectScore {
-	font-size: 1.2rem;
+	font-size: 1rem;
 	font-weight: 700;
 }
 

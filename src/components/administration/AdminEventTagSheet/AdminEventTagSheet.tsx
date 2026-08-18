@@ -5,6 +5,7 @@ import type { AdminEventTag, AdminEventTagSection } from "../AdminEventTagsEdito
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 export default function AdminEventTagSheet({ tag, section, onSaved }: { tag: AdminEventTag | null; section: AdminEventTagSection; onSaved: () => void }) {
 	const { closeSheet } = useSheet();
@@ -51,7 +52,7 @@ export default function AdminEventTagSheet({ tag, section, onSaved }: { tag: Adm
 				<label>Colour<input type="color" value={colorHex} onChange={(event) => setColorHex(event.target.value)} /></label>
 				<label>Associated Names<textarea rows={3} value={associatedNames} onChange={(event) => setAssociatedNames(event.target.value)} /></label>
 				<label className={styles.editorCheck}><input type="checkbox" checked={isArchived} onChange={(event) => setIsArchived(event.target.checked)} /> Archive tag</label>
-				<div className={styles.sheetActions}>{tag ? <button type="button" className={styles.destructiveButton} onClick={() => void remove()} disabled={saving}>Delete</button> : null}<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving || !displayName.trim() || !slug.trim()}>{saving ? "Saving…" : "Save"}</button></div>
+				<div className={styles.sheetActions}>{tag ? <SheetActionButton label="Delete event tag" tone="destructive" onClick={() => void remove()} disabled={saving}>Delete</SheetActionButton> : null}<SheetActionButton label="Save event tag" onClick={() => void save()} disabled={saving || !displayName.trim() || !slug.trim()}>{saving ? "Saving…" : "Save"}</SheetActionButton></div>
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 		</div>

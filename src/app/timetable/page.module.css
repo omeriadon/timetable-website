@@ -6,7 +6,7 @@
 .actions {
 	display: flex;
 	justify-content: flex-end;
-	margin-bottom: var(--theme-space-3);
+	margin-bottom: var(--theme-content-section-gap);
 }
 
 .actions button {
@@ -58,7 +58,7 @@
 
 .scheduleItem {
   display: grid;
-  grid-template-columns: 60px 1fr auto;
+	grid-template-columns: 48px minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--theme-space-4);
   padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);

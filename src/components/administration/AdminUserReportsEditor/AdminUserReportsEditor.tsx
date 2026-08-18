@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 type UserReport = {
 	id: string;
@@ -36,7 +37,7 @@ export default function AdminUserReportsEditor() {
 			<label className={styles.adminSearch}><SymbolIcon name="magnifyingglass" fallback="⌕" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search reports" /></label>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}
 			<section className={styles.card}>
-				{filtered.map((report) => <article key={report.id} className={styles.reportCard}><div className={styles.reportHeader}><SymbolIcon name="exclamationmark.bubble" /><strong>{report.reportedUserDisplayName ?? report.reportedUserID}</strong><span className={styles.detail}>{statusLabel(report.action)}</span></div><div className={styles.reportMeta}>Reported by {report.reporterDisplayName ?? report.reporterID}{report.createdAt ? ` · ${new Date(report.createdAt).toLocaleDateString("en-AU")}` : ""}</div>{report.action === "pending" ? <div className={styles.reportActions}><button type="button" className={styles.primaryButton} onClick={() => void resolve(report, "noAction")} disabled={busy === report.id}><SymbolIcon name="checkmark" fallback="✓" /> Do Nothing</button><button type="button" className={styles.destructiveButton} onClick={() => void resolve(report, "accountDeleted")} disabled={busy === report.id}><SymbolIcon name="trash" fallback="×" /> Delete Account</button></div> : null}</article>)}
+				{filtered.map((report) => <article key={report.id} className={styles.reportCard}><div className={styles.reportHeader}><SymbolIcon name="exclamationmark.bubble" /><strong>{report.reportedUserDisplayName ?? report.reportedUserID}</strong><span className={styles.detail}>{statusLabel(report.action)}</span></div><div className={styles.reportMeta}>Reported by {report.reporterDisplayName ?? report.reporterID}{report.createdAt ? ` · ${new Date(report.createdAt).toLocaleDateString("en-AU")}` : ""}</div>{report.action === "pending" ? <div className={styles.reportActions}><SheetActionButton label="Leave account unchanged" onClick={() => void resolve(report, "noAction")} disabled={busy === report.id}><SymbolIcon name="checkmark" fallback="✓" /> Do Nothing</SheetActionButton><SheetActionButton label="Delete reported account" tone="destructive" onClick={() => void resolve(report, "accountDeleted")} disabled={busy === report.id}><SymbolIcon name="trash" fallback="×" /> Delete Account</SheetActionButton></div> : null}</article>)}
 				{!filtered.length ? <p className={styles.loading}>{reports.length ? "No matching reports." : "Loading reports…"}</p> : null}
 			</section>
 		</main>

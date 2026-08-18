@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 export type EventNotificationSchedule = {
 	hour: number;
@@ -71,7 +72,7 @@ export default function EventNotificationScheduleSheet({
 					</select>
 					</label>
 				<div className={styles.sheetActions}>
-					<button type="button" className={styles.primaryButton} onClick={add}>Add schedule</button>
+					<SheetActionButton label="Add event notification schedule" onClick={add}>Add schedule</SheetActionButton>
 				</div>
 			</section>
 		</div>

@@ -6,11 +6,8 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import TimetableEditorSheet from "@/components/sheets/TimetableEditorSheet/TimetableEditorSheet";
-import type {
-  OwnerTimetable,
-  TimetableSubject,
-} from "@/features/timetable/types";
-import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
+import type { OwnerTimetable } from "@/features/timetable/types";
+import WeekTimetable from "@/components/timetable/WeekTimetable/WeekTimetable";
 
 export const dynamic = "force-dynamic";
 
@@ -43,48 +40,5 @@ export default function Timetable() {
         <p className={styles.message}>Loading timetable…</p>
       )}
     </main>
-  );
-}
-
-function WeekTimetable({ subjects }: { subjects: TimetableSubject[] }) {
-  const days = TIMETABLE_DAYS;
-  return (
-    <section className={styles.week} aria-label="Weekly timetable">
-      <div className={styles.weekHeader}>
-        {days.map((day) => (
-          <span key={day}>{day}</span>
-        ))}
-      </div>
-      <div className={styles.weekGrid}>
-        {TIMETABLE_SESSIONS.map((session) => (
-          <div key={session.value} className={styles.weekRow}>
-            <small>{session.label}</small>
-            {days.map((day, dayIndex) => {
-              const subject = subjects.find((item) =>
-                item.slots.some(
-                  (slot) =>
-                    slot.day === dayIndex &&
-                    slot.session === session.value,
-                ),
-              );
-              return subject ? (
-                <article
-                  key={day}
-                  className={styles.lesson}
-                  style={{
-                    background: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
-                  }}
-                >
-                  <span>{subject.symbol}</span>
-                  <strong>{subject.id}</strong>
-                </article>
-              ) : (
-                <div key={day} />
-              );
-            })}
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }

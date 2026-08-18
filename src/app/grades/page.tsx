@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
@@ -11,6 +10,7 @@ import type {
   OwnerTimetable,
   TimetableSubject,
 } from "@/features/timetable/types";
+import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 
 function subjectColour(subject: TimetableSubject) {
   const { r, g, b } = subject.colour;
@@ -140,13 +140,4 @@ export default function GradesPage() {
       )}
     </main>
   );
-}
-
-function GradeGauge({ value, color, symbol }: { value: number | null; color: string; symbol: string }) {
-	const percentage = value === null ? 0 : Math.max(0, Math.min(100, value * 100));
-	return (
-		<span className={styles.gauge} style={{ "--gauge-value": percentage, "--gauge-color": color } as CSSProperties}>
-			<span>{value === null ? symbol : `${Math.round(percentage)}%`}</span>
-		</span>
-	);
 }

@@ -5,6 +5,7 @@ import type { BroadcastNotificationRecord } from "../AdminBroadcastHistoryEditor
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 export default function AdminBroadcastDetailSheet({ record, onChanged }: { record: BroadcastNotificationRecord; onChanged: (record: BroadcastNotificationRecord) => void }) {
 	const [status, setStatus] = useState<string | null>(null);
@@ -42,7 +43,7 @@ export default function AdminBroadcastDetailSheet({ record, onChanged }: { recor
 				<DetailRow label="Failed" value={String(record.failedDeviceCount)} />
 				{record.failureSummary ? <DetailRow label="Failure" value={record.failureSummary} /> : null}
 			</section>
-			{!record.isDeleted ? <button type="button" className={styles.dangerButton} onClick={() => void remove()} disabled={deleting}><SymbolIcon name="trash" fallback="−" />{deleting ? "Deleting…" : "Delete Notification"}</button> : null}
+			{!record.isDeleted ? <SheetActionButton label="Delete notification" tone="destructive" onClick={() => void remove()} disabled={deleting}><SymbolIcon name="trash" fallback="−" />{deleting ? "Deleting…" : "Delete Notification"}</SheetActionButton> : null}
 			{status ? <p className={styles.detailMuted} role="status">{status}</p> : null}
 		</div>
 	);

@@ -10,8 +10,8 @@
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--theme-content-row-gap);
 	align-items: center;
-	min-height: 44px;
-	padding: 7px 10px;
+	min-height: var(--theme-content-row-height);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-highlight);
 	border-radius: 999px;
 	color: var(--theme-text);

@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "../Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 type CalendarImportSheetProps = {
 	timetable: OwnerTimetable | null;
@@ -101,10 +102,10 @@ export default function CalendarImportSheet({ timetable, onImported }: CalendarI
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 			<div className={styles.sheetActions}>
-				<button type="button" className={styles.primaryButton} onClick={() => void importCalendar()} disabled={!events.length || saving}>
+				<SheetActionButton label="Import timetable" onClick={() => void importCalendar()} disabled={!events.length || saving}>
 					<SymbolIcon name="arrow.down.app" fallback="↓" />
 					{saving ? "Importing…" : "Import timetable"}
-				</button>
+				</SheetActionButton>
 			</div>
 		</div>
 	);

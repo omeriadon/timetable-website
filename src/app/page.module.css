@@ -119,7 +119,7 @@
 	margin-bottom: var(--theme-space-2);
 }
 
-.timelineHeader h2 { margin: 0; font-size: 1.35rem; }
+.timelineHeader h2 { margin: 0; font-size: 1.2rem; }
 .timelineHeader span { color: var(--theme-text-secondary); font-size: 0.78rem; }
 .timelineList { display: grid; gap: var(--theme-content-grid-gap); }
 
@@ -138,7 +138,7 @@
 .timelineRow time { padding-top: var(--theme-content-grid-gap); font-size: 0.72rem; text-align: right; }
 .timelineLine { position: relative; display: flex; justify-content: center; }
 .timelineLine::before { position: absolute; top: 0; bottom: 0; width: 1px; content: ""; background: var(--theme-divider); }
-.timelineLine span { position: relative; z-index: 1; width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background: var(--theme-text-tertiary); }
+.timelineLine span { position: relative; z-index: 1; width: var(--theme-content-grid-gap); height: var(--theme-content-grid-gap); margin-top: var(--theme-content-grid-gap); border-radius: 50%; background: var(--theme-text-tertiary); }
 .timelineRowActive .timelineLine span { background: var(--theme-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 22%, transparent); }
 .timelineContent { display: flex; justify-content: space-between; gap: var(--theme-space-2); padding: 2px 0; border-bottom: 1px solid var(--theme-divider); }
 .timelineContent strong { font-size: 0.84rem; font-weight: 600; }
@@ -160,7 +160,7 @@
 .eventRow,
 .plannerEvent {
   display: grid;
-  grid-template-columns: 38px 1fr auto;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
   gap: var(--theme-space-3);
   align-items: center;
 	width: 100%;
@@ -200,7 +200,7 @@
 }
 .subjectRow {
   display: grid;
-  grid-template-columns: 30px 1fr auto;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
   gap: var(--theme-content-row-gap);
   align-items: center;
 	min-height: var(--theme-content-event-min-height);
@@ -210,11 +210,11 @@
   background: color-mix(in srgb, var(--theme-paper) 80%, transparent);
 }
 .subjectRow strong {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 .subjectRow em {
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   font-style: normal;
 }
 .week {
@@ -324,7 +324,7 @@
 }
 .planner h2 {
 	margin: var(--theme-content-section-gap) 0 var(--theme-content-heading-gap);
-  font-size: 1.45rem;
+	font-size: 1.25rem;
 }
 .empty {
   margin: 0;
@@ -350,9 +350,9 @@
 		font-size: var(--theme-content-title-size);
   }
   .todayHeader h1 {
-    font-size: 1.75rem;
+    font-size: var(--theme-content-heading-size);
   }
   .todayHeader > span {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 }

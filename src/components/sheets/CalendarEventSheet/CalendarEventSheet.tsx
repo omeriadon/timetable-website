@@ -5,6 +5,7 @@ import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 export default function CalendarEventSheet({ event, onChanged }: { event: CalendarEvent; onChanged: (event: CalendarEvent | null) => void }) {
 	const { closeSheet } = useSheet();
@@ -60,8 +61,8 @@ export default function CalendarEventSheet({ event, onChanged }: { event: Calend
 				<label>Title<input value={title} onChange={(input) => setTitle(input.target.value)} maxLength={120} /></label>
 				<label>Notes<textarea value={notes} onChange={(input) => setNotes(input.target.value)} rows={3} maxLength={2000} /></label>
 				<div className={styles.sheetActions}>
-					<button type="button" className={styles.destructiveButton} onClick={() => void remove()} disabled={saving}>Delete</button>
-					<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving || !title.trim()}>{saving ? "Saving…" : "Save"}</button>
+					<SheetActionButton label="Delete event" tone="destructive" onClick={() => void remove()} disabled={saving}>Delete</SheetActionButton>
+					<SheetActionButton label="Save event" onClick={() => void save()} disabled={saving || !title.trim()}>{saving ? "Saving…" : "Save"}</SheetActionButton>
 				</div>
 			</section>
 			{status ? <p className={styles.detailMuted} role="alert">{status}</p> : null}

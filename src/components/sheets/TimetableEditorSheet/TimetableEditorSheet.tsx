@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/api/client";
 import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
+import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
 const editableSessions = TIMETABLE_SESSIONS.filter((session) => session.value !== 2 && session.value !== 5);
 
@@ -66,7 +67,7 @@ export default function TimetableEditorSheet({ timetable, onSaved }: { timetable
 				<label className={styles.editorCheck}><input type="checkbox" checked={isSearchable} onChange={(event) => setIsSearchable(event.target.checked)} /> Allow friends to compare my timetable</label>
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
-			<button type="button" className={styles.primaryButton} onClick={() => void save()} disabled={saving}>{saving ? "Saving…" : "Save Timetable"}</button>
+			<SheetActionButton label="Save timetable" onClick={() => void save()} disabled={saving}>{saving ? "Saving…" : "Save Timetable"}</SheetActionButton>
 		</div>
 	);
 }
