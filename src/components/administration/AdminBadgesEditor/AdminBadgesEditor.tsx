@@ -123,7 +123,7 @@ export default function AdminBadgesEditor() {
 									<strong className={styles.label}>{badge.accessibilityLabel}</strong>
 									<small className={styles.detail}>{badge.assignedUserIDs.length} assigned · priority {badge.priority}</small>
 								</span>
-								<button type="button" className={styles.rowAction} onClick={() => void remove(badge.id)} disabled={saving} aria-label={`Delete ${badge.accessibilityLabel}`}>
+								<button type="button" className={styles.badgeDelete} onClick={() => void remove(badge.id)} disabled={saving} aria-label={`Delete ${badge.accessibilityLabel}`}>
 									<SymbolIcon name="archivebox" />
 								</button>
 							</div>

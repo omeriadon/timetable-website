@@ -88,6 +88,22 @@
 	cursor: pointer;
 	text-align: left;
 }
+.badgeDelete {
+	display: grid;
+	width: var(--theme-content-control-height);
+	height: var(--theme-content-control-height);
+	place-items: center;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	color: var(--theme-error);
+	background: transparent;
+	cursor: pointer;
+}
+.badgeDelete:disabled {
+	opacity: 0.5;
+	cursor: wait;
+}
 .detailNote {
 	padding: 0 var(--theme-content-page-padding) var(--theme-content-card-padding-block);
 	text-align: left;
