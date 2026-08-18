@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
+import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import styles from "./MobileTabBar.module.css";
 
 const tabs = [
@@ -17,6 +18,7 @@ const tabs = [
 ];
 
 export default function MobileTabBar() {
+	const isCompact = useCompactLayout();
 	const pathname = usePathname();
 	const [isAdministrator, setIsAdministrator] = useState(false);
 
@@ -25,6 +27,10 @@ export default function MobileTabBar() {
 			.then((account) => setIsAdministrator(account.authority.toLowerCase().includes("admin") || account.authority.toLowerCase().includes("owner")))
 			.catch(() => setIsAdministrator(false));
 	}, []);
+
+	if (!isCompact) {
+		return null;
+	}
 
 	return (
 		<nav
