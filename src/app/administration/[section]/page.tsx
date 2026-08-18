@@ -8,6 +8,8 @@ import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
 import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";
+import AdminUsersEditor from "@/components/administration/AdminUsersEditor/AdminUsersEditor";
+import AdminUserReportsEditor from "@/components/administration/AdminUserReportsEditor/AdminUserReportsEditor";
 
 const sectionConfig: Record<
 	string,
@@ -21,12 +23,10 @@ const sectionConfig: Record<
 	users: {
 		title: "Users",
 		icon: "person.2",
-		endpoint: "v1/administration/users",
 	},
 	"user-reports": {
 		title: "User Reports",
 		icon: "exclamationmark.bubble",
-		endpoint: "v1/administration/user-reports",
 	},
 	calendar: {
 		title: "School Events and Term Dates",
@@ -115,7 +115,7 @@ export default function AdministrationSectionPage() {
 	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
 
 	return (
-		section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> :
+		section === "users" ? <AdminUsersEditor /> : section === "user-reports" ? <AdminUserReportsEditor /> : section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> :
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>
