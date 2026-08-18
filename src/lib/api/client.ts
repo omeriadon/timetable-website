@@ -26,6 +26,14 @@ export async function apiRequest<T>(
 	});
 
 	if (!response.ok) {
+		if (
+			response.status === 401 &&
+			typeof window !== "undefined" &&
+			window.location.pathname !== "/login"
+		) {
+			const returnTo = `${window.location.pathname}${window.location.search}`;
+			window.location.replace(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+		}
 		const payload = await response.json().catch(() => ({}));
 		const errorPayload = payload.error ?? payload;
 		const upstreamMessage = errorPayload.reason ?? errorPayload.message;
