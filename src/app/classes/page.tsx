@@ -2,43 +2,58 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
-import styles from "../page.module.css";
-
-const classes = ["Mathematics", "Design Studio", "Computer Science", "History"];
+import styles from "@/components/IOSScreen.module.css";
+import { apiRequest } from "@/lib/api/client";
+import type { OwnerTimetable } from "@/features/timetable/types";
 
 export default function ClassesPage() {
-	const [query, setQuery] = useState("");
-	const setToolbar = useToolbar();
-	const visibleClasses = classes.filter((item) =>
-		item.toLowerCase().includes(query.toLowerCase()),
-	);
+  const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const setToolbar = useToolbar();
 
-	useEffect(() => {
-		setToolbar({
-			title: "Classes",
-			searchPlaceholder: "Search classes",
-			searchValue: query,
-			onSearchChange: setQuery,
-			actions: [
-				{
-					label: "Add class",
-					icon: "person.2.svg",
-					onPress: () => setQuery(""),
-				},
-			],
-		});
-	}, [query, setToolbar]);
+  useEffect(() => {
+    setToolbar({ title: "Classes" });
+    apiRequest<OwnerTimetable>("v1/timetables/owner")
+      .then(setTimetable)
+      .catch((requestError: Error) => setError(requestError.message));
+  }, [setToolbar]);
 
-	return (
-		<main className={styles.contentPanel}>
-			<section className={styles.panel}>
-				{visibleClasses.map((item) => (
-					<div key={item} className={styles.scheduleItem}>
-						<strong>{item}</strong>
-						<span>Next session this week</span>
-					</div>
-				))}
-			</section>
-		</main>
-	);
+  return (
+    <main className={styles.page}>
+      <h1 className={styles.title}>Classes</h1>
+      {error ? (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      ) : null}
+      {!timetable ? (
+        <p className={styles.loading}>Loading classes…</p>
+      ) : (
+        <section className={styles.card}>
+          {timetable.subjects.map((subject) => (
+            <article key={subject.id} className={styles.row}>
+              <span
+                className={styles.symbol}
+                style={{
+                  color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
+                }}
+              >
+                {subject.symbol}
+              </span>
+              <span>
+                <b className={styles.label}>{subject.id}</b>
+                <small
+                  style={{ display: "block", color: "#929299", marginTop: 4 }}
+                >
+                  {subject.slots.length} class
+                  {subject.slots.length === 1 ? "" : "es"} each week
+                </small>
+              </span>
+              <span className={styles.chevron}>›</span>
+            </article>
+          ))}
+        </section>
+      )}
+    </main>
+  );
 }
