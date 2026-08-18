@@ -4,8 +4,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon";
+import ProfilePicture from "@/components/controls/ProfilePicture";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
+import type { ProfileAppearance } from "@/lib/api/contracts";
 
 type Settings = {
 	appFontDesign: string;
@@ -16,6 +18,13 @@ type Settings = {
   futureEventRange: string;
   serverRevision: number;
   [key: string]: unknown;
+};
+
+type ProfileResponse = {
+	displayName: string;
+	appearance: ProfileAppearance;
+	photo?: { url: string; revision: number } | null;
+	revision: number;
 };
 
 const labels: Record<string, string> = {
@@ -35,6 +44,7 @@ export default function SettingsSectionPage() {
   const setToolbar = useToolbar();
   const router = useRouter();
   const [settings, setSettings] = useState<Settings | null>(null);
+  const [profile, setProfile] = useState<ProfileResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,7 +52,25 @@ export default function SettingsSectionPage() {
     apiRequest<Settings>("v1/settings")
       .then(setSettings)
       .catch((requestError: Error) => setError(requestError.message));
-  }, [section, setToolbar]);
+		if (section === "profile-appearance") {
+			apiRequest<ProfileResponse>("v1/friends/profile")
+				.then(setProfile)
+				.catch((requestError: Error) => setError(requestError.message));
+		}
+	}, [section, setToolbar]);
+
+	const saveProfile = async (appearance: ProfileAppearance) => {
+		if (!profile) return;
+		try {
+			const updated = await apiRequest<ProfileResponse>("v1/friends/profile", {
+				method: "PUT",
+				body: JSON.stringify({ appearance, baseRevision: profile.revision }),
+			});
+			setProfile(updated);
+		} catch (requestError) {
+			setError((requestError as Error).message);
+		}
+	};
 
   return (
     <main className={styles.page}>
@@ -158,13 +186,7 @@ export default function SettingsSectionPage() {
 			</section>
 		) : null}
 		{section === "profile-appearance" ? (
-			<section className={styles.card}>
-				<div className={styles.row}>
-					<SymbolIcon name="paintpalette" />
-					<span className={styles.label}>Profile appearance</span>
-					<span className={styles.detail}>Managed in the native app</span>
-				</div>
-			</section>
+			profile ? <ProfileAppearanceEditor profile={profile} save={saveProfile} /> : null
 		) : null}
       {section === "feedback" ? (
         <section className={styles.card}>
@@ -194,4 +216,53 @@ export default function SettingsSectionPage() {
       ) : null}
     </main>
   );
+}
+
+function ProfileAppearanceEditor({
+	profile,
+	save,
+}: {
+	profile: ProfileResponse;
+	save: (appearance: ProfileAppearance) => Promise<void>;
+}) {
+	const [draft, setDraft] = useState(profile.appearance);
+	return (
+		<section className={styles.card}>
+			<div className={styles.profilePreview}>
+				<ProfilePicture profile={{ displayName: profile.displayName, appearance: draft, photo: profile.photo }} size={76} />
+				<div>
+					<strong>{profile.displayName}</strong>
+					<span>Profile appearance</span>
+				</div>
+			</div>
+			<div className={styles.row}>
+				<SymbolIcon name="paintpalette" />
+				<span className={styles.label}>Content</span>
+				<select
+					className={styles.inlineSelect}
+					value={draft.contentKind}
+					onChange={(event) => setDraft({ ...draft, contentKind: event.target.value as ProfileAppearance["contentKind"] })}
+				>
+					<option value="emoji">Emoji</option>
+					<option value="monogram">Monogram</option>
+					<option value="photo">Photo</option>
+				</select>
+			</div>
+			{draft.contentKind === "emoji" ? (
+				<div className={styles.row}>
+					<span className={styles.label}>Emoji</span>
+					<input className={styles.inlineInput} value={draft.emoji} onChange={(event) => setDraft({ ...draft, emoji: event.target.value.slice(0, 4) })} />
+				</div>
+			) : null}
+			{draft.contentKind === "monogram" ? (
+				<div className={styles.row}>
+					<span className={styles.label}>Monogram</span>
+					<input className={styles.inlineInput} value={draft.monogram} onChange={(event) => setDraft({ ...draft, monogram: event.target.value.slice(0, 3) })} />
+				</div>
+			) : null}
+			<button type="button" className={styles.profileSave} onClick={() => save(draft)}>
+				Save Profile Appearance
+			</button>
+		</section>
+	);
 }

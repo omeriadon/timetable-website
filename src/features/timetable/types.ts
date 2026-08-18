@@ -96,3 +96,14 @@ export type Friend = {
 		subjects: TimetableSubject[];
 	};
 };
+
+export type FriendSearchResult = {
+	profile: {
+		userID: string;
+		displayName: string;
+		email: string;
+		appearance?: Friend["friend"]["appearance"];
+		photo?: Friend["friend"]["photo"];
+	};
+	relationship: "pendingOutgoing" | "pendingIncoming" | "friends" | null;
+};

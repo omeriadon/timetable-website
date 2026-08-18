@@ -2,28 +2,59 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
+import { useSheet } from "@/components/sheets/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger";
 import FriendDetailSheet from "@/components/sheets/FriendDetailSheet";
 import ProfilePicture from "@/components/controls/ProfilePicture";
+import FriendSearchSheet from "@/components/sheets/FriendSearchSheet";
+import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
 
 export default function FriendsPage() {
   const setToolbar = useToolbar();
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [account, setAccount] = useState<Account | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { openSheet } = useSheet();
 
   useEffect(() => {
     setToolbar({ title: "Friends" });
-    apiRequest<Friend[]>("v1/friends")
-      .then(setFriends)
+    Promise.all([
+      apiRequest<Friend[]>("v1/friends"),
+      apiRequest<Account>("v1/account"),
+    ])
+      .then(([friendList, currentAccount]) => {
+        setFriends(friendList);
+        setAccount(currentAccount);
+      })
       .catch((requestError: Error) => setError(requestError.message));
   }, [setToolbar]);
 
   return (
     <main className={styles.page}>
+      <div className={styles.friendActions}>
+        <button
+          type="button"
+          className={styles.circleAction}
+          aria-label="Add friend"
+          onClick={() => openSheet(<FriendSearchSheet />)}
+        >
+          ＋
+        </button>
+      </div>
       {error ? <p className={styles.error}>{error}</p> : null}
+		{account ? (
+			<section className={styles.selfCard}>
+				<ProfilePicture profile={account} size={68} />
+				<div>
+					<strong>{account.displayName}</strong>
+					<span>Off Campus</span>
+				</div>
+				<em>Left: 6:54 pm</em>
+			</section>
+		) : null}
 		<div className={styles.list}>
 			{friends.map((friend) => (
 				<SheetTrigger

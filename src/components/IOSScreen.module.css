@@ -163,6 +163,46 @@
 	background: var(--theme-black);
 	font: inherit;
 }
+.profilePreview {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding: 14px 16px;
+}
+.profilePreview div {
+	display: grid;
+	gap: 3px;
+}
+.profilePreview span {
+	color: var(--theme-text-secondary);
+	font-size: 0.9rem;
+}
+.inlineSelect,
+.inlineInput {
+	min-width: 100px;
+	padding: 6px 9px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 9px;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
+}
+.inlineInput {
+	width: 110px;
+	text-align: right;
+}
+.profileSave {
+	width: calc(100% - 32px);
+	margin: 8px 16px 14px;
+	padding: 10px;
+	border: 0;
+	border-radius: 12px;
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
+}
 .sheetActions {
 	display: flex;
 	justify-content: flex-end;
