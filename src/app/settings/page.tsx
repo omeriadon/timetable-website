@@ -85,8 +85,8 @@ export default function SettingsPage() {
               height: 56,
               placeItems: "center",
               borderRadius: "50%",
-              color: "#fff",
-              background: "#3e3e42",
+              color: "var(--theme-text)",
+              background: "var(--theme-surface-elevated)",
               fontSize: "1.7rem",
             }}
           >
@@ -94,7 +94,9 @@ export default function SettingsPage() {
           </span>
           <span>
             <b style={{ fontSize: "1.8rem" }}>{account.displayName}</b>
-            <small style={{ display: "block", color: "#666" }}>
+            <small
+              style={{ display: "block", color: "var(--theme-text-tertiary)" }}
+            >
               {account.email}
             </small>
           </span>
@@ -111,7 +113,13 @@ export default function SettingsPage() {
           <SettingsIcon name="pencil.and.list.clipboard" />
           <span>
             <b className={styles.label}>Edit Timetable</b>
-            <small style={{ display: "block", color: "#929299", marginTop: 4 }}>
+            <small
+              style={{
+                display: "block",
+                color: "var(--theme-text-secondary)",
+                marginTop: 4,
+              }}
+            >
               Update subjects and weekly classes.
             </small>
           </span>
@@ -223,7 +231,7 @@ function SettingToggle({
           height: 32,
           padding: 3,
           borderRadius: 99,
-          background: enabled ? "#27d65b" : "#555",
+          background: enabled ? "#27d65b" : "var(--theme-text-tertiary)",
         }}
       >
         <span

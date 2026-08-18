@@ -63,7 +63,12 @@ export default function GradesPage() {
               }}
             >
               <div>
-                <strong style={{ color: "#777", fontSize: "1.12rem" }}>
+                <strong
+                  style={{
+                    color: "var(--theme-text-tertiary)",
+                    fontSize: "1.12rem",
+                  }}
+                >
                   Average
                 </strong>
                 <div style={{ fontSize: "3rem", fontWeight: 740 }}>
@@ -71,7 +76,12 @@ export default function GradesPage() {
                 </div>
               </div>
               <div style={{ textAlign: "right" }}>
-                <strong style={{ color: "#777", fontSize: "1.12rem" }}>
+                <strong
+                  style={{
+                    color: "var(--theme-text-tertiary)",
+                    fontSize: "1.12rem",
+                  }}
+                >
                   Top 4
                 </strong>
                 <div style={{ fontSize: "3rem", fontWeight: 740 }}>
@@ -85,27 +95,27 @@ export default function GradesPage() {
                 justifyContent: "space-between",
                 gap: 12,
                 marginTop: 30,
-                color: "#69696d",
+                color: "var(--theme-text-tertiary)",
               }}
             >
               <span>
                 Predicted ATAR
                 <br />
-                <b style={{ color: "#000", fontSize: "1.45rem" }}>
+                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
                   {grades.document.predictedATAR?.toFixed(2) ?? "—"}
                 </b>
               </span>
               <span>
                 Goal ATAR
                 <br />
-                <b style={{ color: "#000", fontSize: "1.45rem" }}>
+                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
                   {grades.document.goalATAR?.toFixed(2) ?? "—"}
                 </b>
               </span>
               <span>
                 Assessments
                 <br />
-                <b style={{ color: "#000", fontSize: "1.45rem" }}>
+                <b style={{ color: "var(--theme-black)", fontSize: "1.45rem" }}>
                   {scored.length}
                 </b>
               </span>
@@ -144,7 +154,7 @@ export default function GradesPage() {
                     <small
                       style={{
                         display: "block",
-                        color: "#89898f",
+                        color: "var(--theme-text-tertiary)",
                         marginTop: 4,
                       }}
                     >

@@ -88,7 +88,11 @@ export default function GradeSubjectPage() {
               <span>
                 <b className={styles.label}>{assessment.name}</b>
                 <small
-                  style={{ display: "block", color: "#929299", marginTop: 4 }}
+                  style={{
+                    display: "block",
+                    color: "var(--theme-text-secondary)",
+                    marginTop: 4,
+                  }}
                 >
                   {new Date(
                     assessment.date.year,
