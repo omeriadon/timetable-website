@@ -15,9 +15,9 @@
 	content: "";
 	pointer-events: none;
 	background:
-		radial-gradient(circle at 100% 100%, transparent 29px, #000 30px) 16px
+            radial-gradient(circle at 100% 100%, transparent 29px, var(--theme-black) 30px) 16px
 			16px / 30px 30px no-repeat,
-		radial-gradient(circle at 0 100%, transparent 29px, #000 30px) 286px 16px /
+            radial-gradient(circle at 0 100%, transparent 29px, var(--theme-black) 30px) 286px 16px /
 			30px 30px no-repeat;
 }
 
@@ -31,9 +31,9 @@
 	content: "";
 	pointer-events: none;
 	background:
-		radial-gradient(circle at 100% 0, transparent 29px, #000 30px) 16px 0 / 30px
+            radial-gradient(circle at 100% 0, transparent 29px, var(--theme-black) 30px) 16px 0 / 30px
 			30px no-repeat,
-		radial-gradient(circle at 0 0, transparent 29px, #000 30px) 286px 0 / 30px
+            radial-gradient(circle at 0 0, transparent 29px, var(--theme-black) 30px) 286px 0 / 30px
 			30px no-repeat;
 }
 

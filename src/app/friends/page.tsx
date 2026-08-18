@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
+import SheetTrigger from "@/components/sheets/SheetTrigger";
+import FriendDetailSheet from "@/components/sheets/FriendDetailSheet";
+import ProfilePicture from "@/components/controls/ProfilePicture";
 import styles from "./page.module.css";
 
 export default function FriendsPage() {
@@ -21,12 +24,20 @@ export default function FriendsPage() {
   return (
     <main className={styles.page}>
       {error ? <p className={styles.error}>{error}</p> : null}
-      <div className={styles.list}>
-        {friends.map((friend) => (
-          <article key={friend.relationshipID} className={styles.friend}>
-            <div className={styles.avatar}>
-              {friend.friend.displayName.slice(0, 2).toUpperCase()}
-            </div>
+		<div className={styles.list}>
+			{friends.map((friend) => (
+				<SheetTrigger
+					key={friend.relationshipID}
+					className={styles.friendButton}
+					ariaLabel={`Open ${friend.friend.displayName}`}
+					content={<FriendDetailSheet friend={friend} />}
+				>
+				<article className={styles.friend}>
+					<ProfilePicture
+						profile={friend.friend}
+						size={64}
+						label={`${friend.friend.displayName} profile picture`}
+					/>
             <div>
               <h2>{friend.friend.displayName}</h2>
               <p>{friend.locationStatus?.state ?? "Unavailable"}</p>
@@ -35,11 +46,12 @@ export default function FriendsPage() {
                 {friend.timetable?.subjects[0]?.id ?? "No timetable shared"}
               </span>
             </div>
-            <strong className={styles.status}>
-              {friend.state === "friends" ? "Friends" : "Pending"}
-            </strong>
-          </article>
-        ))}
+					<strong className={styles.status}>
+						{friend.state === "friends" ? "Friends" : "Pending"}
+					</strong>
+				</article>
+				</SheetTrigger>
+			))}
       </div>
     </main>
   );

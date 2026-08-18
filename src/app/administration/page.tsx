@@ -40,6 +40,18 @@ const sections = [
       ["envelope.badge", "Email Log", "email-log"],
     ],
   ],
+  ["Testing", [["textformat.size", "Font Width Test", "font-width-test"]]],
+  [
+    "System Administration",
+    [
+      ["person.badge.shield.checkmark", "Administrators", "users"],
+      ["arrow.down.app", "App Version", "app-version"],
+      ["testtube.2", "Debug Testing", "statistics"],
+      ["externaldrive.fill", "Profile Storage", "profile-storage-quota"],
+      ["rosette", "Badges", "badges"],
+      ["envelope.badge", "Send Test Email", "test-email"],
+    ],
+  ],
 ];
 
 export default function AdministrationPage() {

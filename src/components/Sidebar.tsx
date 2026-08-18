@@ -3,59 +3,94 @@
 import styles from "./Sidebar.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
-const navItems = [
-	{ label: "Overview", href: "/", icon: "chart.bar.xaxis.svg" },
-	{
-		label: "Schedule",
-		href: "/timetable",
-		icon: "calendar.day.timeline.left.svg",
-	},
-	{ label: "Classes", href: "/classes", icon: "person.2.svg" },
-	{ label: "Settings", href: "/settings", icon: "gear.svg" },
+const topGroups = [
+  [
+    {
+      label: "Today",
+      href: "/?mode=today",
+      icon: "calendar.day.timeline.left.svg",
+    },
+    { label: "Week", href: "/?mode=week", icon: "calendar.badge.clock.svg" },
+    {
+      label: "Planner",
+      href: "/?mode=planner",
+      icon: "pencil.and.list.clipboard.svg",
+    },
+  ],
+  [{ label: "Friends", href: "/friends", icon: "person.2.svg" }],
+  [{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis.svg" }],
+];
+
+const bottomItems = [
+  { label: "Settings", href: "/settings", icon: "gear.svg" },
+  {
+    label: "Administration",
+    href: "/administration",
+    icon: "calendar.badge.lock.svg",
+  },
 ];
 
 export default function Sidebar() {
-	const pathname = usePathname();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeMode = searchParams.get("mode") ?? "today";
 
-	return (
-		<aside className={styles.sidebar} aria-label="Sidebar navigation">
-			<div className={styles.saturationOutline} aria-hidden="true" />
+  function isActive(href: string) {
+    if (href.startsWith("/?mode=")) {
+      return pathname === "/" && href.endsWith(activeMode);
+    }
 
-			<Image
-				src="/icon.png"
-				alt="Photo"
-				loading="eager"
-				width={100}
-				height={100}
-			/>
+    return pathname === href;
+  }
 
-			<nav className={styles.sidebarNav} aria-label="Main navigation">
-				{navItems.map((item) => {
-					return (
-						<Link
-							key={item.href}
-							href={item.href}
-							className={
-								pathname === item.href
-									? `${styles.sidebarLink} ${styles.active}`
-									: styles.sidebarLink
-							}
-							aria-current={pathname === item.href ? "page" : undefined}
-						>
-							<img
-								className={styles.navIcon}
-								src={`/icons/${item.icon}`}
-								alt=""
-								loading="eager"
-								aria-hidden="true"
-							/>
-							<span>{item.label}</span>
-						</Link>
-					);
-				})}
-			</nav>
-		</aside>
-	);
+  function renderItem(item: (typeof topGroups)[number][number]) {
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        className={
+          isActive(item.href)
+            ? `${styles.sidebarLink} ${styles.active}`
+            : styles.sidebarLink
+        }
+        aria-current={isActive(item.href) ? "page" : undefined}
+      >
+        <img
+          className={styles.navIcon}
+          src={`/icons/${item.icon}`}
+          alt=""
+          loading="eager"
+          aria-hidden="true"
+        />
+        <span>{item.label}</span>
+      </Link>
+    );
+  }
+
+  return (
+    <aside className={styles.sidebar} aria-label="Sidebar navigation">
+      <div className={styles.saturationOutline} aria-hidden="true" />
+
+      <Image
+        src="/icon.png"
+        alt="Photo"
+        loading="eager"
+        width={100}
+        height={100}
+      />
+
+      <nav className={styles.sidebarNav} aria-label="Main navigation">
+        {topGroups.map((group, index) => (
+          <div key={index} className={styles.sidebarGroup}>
+            {group.map(renderItem)}
+          </div>
+        ))}
+      </nav>
+      <nav className={styles.sidebarBottom} aria-label="Account navigation">
+        {bottomItems.map(renderItem)}
+      </nav>
+    </aside>
+  );
 }

@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
+import SymbolIcon from "@/components/controls/SymbolIcon";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 
@@ -48,12 +49,12 @@ export default function SettingsSectionPage() {
       {section === "appearance" && settings ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="textformat.size" />
+            <SymbolIcon name="textformat.size" />
             <span className={styles.label}>Font Design</span>
             <span className={styles.detail}>{settings.appFontDesign}</span>
           </div>
           <div className={styles.row}>
-            <SettingsIcon name="paintpalette" />
+            <SymbolIcon name="paintpalette" />
             <span className={styles.label}>Background</span>
             <span className={styles.detail}>{settings.appBackground}</span>
           </div>
@@ -62,21 +63,21 @@ export default function SettingsSectionPage() {
       {section === "notifications" && settings ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="switch.2" />
+            <SymbolIcon name="switch.2" />
             <span className={styles.label}>Notifications</span>
             <span className={styles.detail}>
               {settings.notificationsEnabled ? "On" : "Off"}
             </span>
           </div>
           <div className={styles.row}>
-            <SettingsIcon name="bell.badge" />
+            <SymbolIcon name="bell.badge" />
             <span className={styles.label}>Broadcast Notifications</span>
             <span className={styles.detail}>
               {settings.broadcastNotificationsEnabled ? "On" : "Off"}
             </span>
           </div>
           <div className={styles.row}>
-            <SettingsIcon name="calendar.badge.clock" />
+            <SymbolIcon name="calendar.badge.clock" />
             <span className={styles.label}>Show Future Events</span>
             <span className={styles.detail}>{settings.futureEventRange}</span>
           </div>
@@ -85,7 +86,7 @@ export default function SettingsSectionPage() {
       {section === "archived-events" ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="archivebox" />
+          <SymbolIcon name="archivebox" />
             <span className={styles.label}>Archived Events</span>
             <span className={styles.detail}>Loaded from pmstt</span>
           </div>
@@ -94,12 +95,12 @@ export default function SettingsSectionPage() {
       {section === "developer" ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="app.badge" />
+          <SymbolIcon name="app.badge" />
             <span className={styles.label}>Website platform</span>
             <span className={styles.detail}>Active</span>
           </div>
           <div className={styles.row}>
-            <SettingsIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
+            <SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
             <span className={styles.label}>Server revision</span>
             <span className={styles.detail}>
               {settings?.serverRevision ?? "—"}
@@ -110,7 +111,7 @@ export default function SettingsSectionPage() {
       {section === "feedback" ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="exclamationmark.bubble" />
+          <SymbolIcon name="exclamationmark.bubble" />
             <span className={styles.label}>Feedback endpoint</span>
             <span className={styles.detail}>Authenticated</span>
           </div>
@@ -119,12 +120,12 @@ export default function SettingsSectionPage() {
       {section === "about" ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <SettingsIcon name="info.circle" />
+          <SymbolIcon name="info.circle" />
             <span className={styles.label}>Timetable</span>
             <span className={styles.detail}>Website client</span>
           </div>
           <div className={styles.row}>
-            <SettingsIcon name="textformat.size" />
+          <SymbolIcon name="textformat.size" />
             <span className={styles.label}>Version</span>
             <span className={styles.detail}>Web</span>
           </div>
@@ -134,11 +135,5 @@ export default function SettingsSectionPage() {
         <p className={styles.loading}>Loading settings…</p>
       ) : null}
     </main>
-  );
-}
-
-function SettingsIcon({ name }: { name: string }) {
-  return (
-    <img className={styles.symbolIcon} src={`/icons/${name}.svg`} alt="" />
   );
 }

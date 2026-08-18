@@ -70,6 +70,14 @@ export type Friend = {
 		userID: string;
 		displayName: string;
 		email: string;
+		appearance?: {
+			contentKind: "photo" | "monogram" | "emoji";
+			monogram: string;
+			emoji: string;
+			foregroundColour: { r: number; g: number; b: number; a: number };
+			colours: { r: number; g: number; b: number; a: number }[];
+		};
+		photo?: { url: string; revision: number } | null;
 	};
 	state: "pendingOutgoing" | "pendingIncoming" | "friends";
 	locationStatus?: {

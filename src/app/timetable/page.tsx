@@ -17,7 +17,7 @@ export default function Timetable() {
   const setToolbar = useToolbar();
 
   useEffect(() => {
-    setToolbar({ title: "Schedule" });
+		setToolbar({ title: "Timetable" });
     apiRequest<OwnerTimetable>("v1/timetables/owner")
       .then(setTimetable)
       .catch((requestError: Error) => setError(requestError.message));

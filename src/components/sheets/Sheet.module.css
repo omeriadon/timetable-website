@@ -1,0 +1,164 @@
+.sheetRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  align-items: end;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: var(--theme-scrim);
+  backdrop-filter: blur(10px) saturate(1.1);
+  cursor: pointer;
+}
+
+.sheet {
+  position: relative;
+  width: 100%;
+  min-height: 42svh;
+  max-height: 92svh;
+  overflow: auto;
+  padding: 58px 18px 24px;
+  border: 1px solid var(--theme-divider);
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: var(--theme-glass-strong);
+  box-shadow:
+    0 -20px 70px rgba(0, 0, 0, 0.5),
+    inset 0 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(34px) saturate(1.35);
+  animation: sheetIn 260ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+}
+
+.closeButton span {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.sheetContent {
+  width: 100%;
+}
+
+.detailSheet {
+  display: grid;
+  gap: 16px;
+}
+
+.detailHeader {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.detailAvatar {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--theme-text);
+  background: var(--theme-surface-soft);
+  font-size: 1.35rem;
+}
+
+.detailHeader h2,
+.detailHeader p,
+.detailCard h3 {
+  margin: 0;
+}
+
+.detailHeader h2 {
+  font-size: 1.45rem;
+}
+
+.detailHeader p,
+.detailMuted {
+  margin-top: 3px;
+  color: var(--theme-text-secondary);
+}
+
+.detailTabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--theme-divider);
+  border-radius: 999px;
+  background: var(--theme-surface);
+  text-align: center;
+}
+
+.detailTabs span {
+  padding: 8px 6px;
+  border-radius: 999px;
+  font-weight: 650;
+}
+
+.detailTabActive {
+  background: linear-gradient(135deg, var(--theme-gold), var(--theme-gold-dark));
+}
+
+.detailCard {
+  display: grid;
+  gap: 0;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--theme-surface);
+}
+
+.detailRow,
+.detailSubject {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  min-height: 50px;
+  border-bottom: 1px solid var(--theme-divider);
+}
+
+.detailRow:last-child,
+.detailSubject:last-child {
+  border-bottom: 0;
+}
+
+.detailRow strong {
+  color: var(--theme-info);
+  font-weight: 650;
+}
+
+.detailSubject {
+  justify-content: flex-start;
+}
+
+.detailSubject span {
+  width: 28px;
+  color: var(--theme-accent);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+@keyframes sheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}

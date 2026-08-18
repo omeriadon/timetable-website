@@ -33,7 +33,13 @@ export async function apiRequest<T>(
 			errorPayload.message ??
 			(response.status === 401
 				? "Your email or password is incorrect."
-				: "The request could not be completed.");
+				: response.status === 403
+					? "This account is not permitted to use the website. Contact an administrator if you believe this is incorrect."
+					: response.status === 429
+						? "Too many requests. Wait a moment and try again."
+						: response.status >= 500
+							? "Timetable is temporarily unavailable. Try again shortly."
+							: "The request could not be completed. Check your details and try again.");
 		throw new PMSTTAPIError(
 			response.status,
 			message,

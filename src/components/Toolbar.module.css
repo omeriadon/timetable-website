@@ -1,143 +1,151 @@
 .toolbar {
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	right: 20px;
-	z-index: 20;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 15px;
-	margin-bottom: 24px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 24px;
 }
 
 .actionIcon {
-	width: 24px;
-	height: 24px;
-	object-fit: contain;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .liquidGlassFilter {
-	position: absolute;
-	width: 0;
-	height: 0;
-	overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .something {
-	padding: 10px;
-	background: rgba(100, 100, 100, 0.3);
-	align-items: center;
+  padding: 10px;
+  background: var(--theme-glass);
+  align-items: center;
 }
 
 .searchInput {
-	position: relative;
-	top: -3px;
-	left: 9px;
+  position: relative;
+  top: -3px;
+  left: 9px;
 }
 
 .addButton {
-	/* display: flex;
+  /* display: flex;
 	align-items: center; */
-	/* gap: 8px; */
-	border-radius: 1000px;
-	/* color: #ffffff; */
-	/* aspect-ratio: 1 / 1; */
-	padding: 15px;
-	background: rgba(100, 100, 100, 0.3);
+  /* gap: 8px; */
+  border-radius: 1000px;
+  /* color: #ffffff; */
+  /* aspect-ratio: 1 / 1; */
+  padding: 15px;
+  background: rgba(100, 100, 100, 0.3);
 }
 
 .addButton::before {
-	content: "";
-	position: absolute;
-	inset: -1px;
-	border-radius: inherit;
-	padding: 1.5px;
-	background: linear-gradient(
-		135deg,
-		rgba(255, 255, 255, 1),
-		transparent 35%,
-		transparent 65%,
-		rgba(255, 255, 255, 1)
-	);
-	-webkit-mask:
-		linear-gradient(#fff 0 0) content-box,
-		linear-gradient(#fff 0 0);
-	-webkit-mask-composite: xor;
-	mask:
-		linear-gradient(#fff 0 0) content-box,
-		linear-gradient(#fff 0 0);
-	mask-composite: exclude;
-	pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1),
+    transparent 35%,
+    transparent 65%,
+    rgba(255, 255, 255, 1)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .search::before {
-	content: "";
-	position: absolute;
-	inset: -1px;
-	border-radius: 10000px;
-	padding: 1.3px;
-	background: linear-gradient(
-		135deg,
-		rgba(255, 255, 255, 1),
-		transparent 35%,
-		transparent 65%,
-		rgba(255, 255, 255, 1)
-	);
-	-webkit-mask:
-		linear-gradient(#fff 0 0) content-box,
-		linear-gradient(#fff 0 0);
-	-webkit-mask-composite: xor;
-	mask:
-		linear-gradient(#fff 0 0) content-box,
-		linear-gradient(#fff 0 0);
-	mask-composite: exclude;
-	pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 10000px;
+  padding: 1.3px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1),
+    transparent 35%,
+    transparent 65%,
+    rgba(255, 255, 255, 1)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .search input {
-	width: 150px;
-	height: 24px;
-	border: 0;
-	outline: 0;
-	color: inherit;
-	font: inherit;
-	font-size: 0.8rem;
+  width: 150px;
+  height: 24px;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  font: inherit;
+  font-size: 0.8rem;
 }
 
 .search input::placeholder {
-	color: #8d8d8d;
+  color: var(--theme-text-secondary);
 }
 
 .search,
 .addButton {
-	appearance: none;
-	font: inherit;
-	font-size: 1.3rem;
-	cursor: pointer;
+  appearance: none;
+  font: inherit;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
 .addButton:focus-visible,
 .search:focus-within {
-	outline: 1px solid #ffffff;
-	outline-offset: 2px;
+  outline: 1px solid var(--theme-text);
+  outline-offset: 2px;
+}
+
+.toolbarSheet {
+  display: grid;
+  gap: 4px;
+}
+
+.toolbarSheet a {
+  padding: 14px 16px;
+  border-radius: 16px;
+  color: var(--theme-text);
+  background: color-mix(in srgb, var(--theme-surface) 72%, transparent);
+  text-decoration: none;
 }
 
 @media (max-width: 700px) {
-	.toolbar {
-		top: 12px;
-		left: 12px;
-		right: 12px;
-		align-items: stretch;
-		flex-direction: column;
-		gap: 16px;
-	}
+  .toolbar {
+    display: none;
+  }
 
-	.search {
-		flex: 1;
-	}
+  .search {
+    flex: 1;
+  }
 
-	.search input {
-		width: 100%;
-	}
+  .search input {
+    width: 100%;
+  }
 }
