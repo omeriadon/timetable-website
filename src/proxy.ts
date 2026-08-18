@@ -3,14 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 const accessCookie = "timetable.website.access";
 const refreshCookie = "timetable.website.refresh";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 	const hasSession = request.cookies.has(accessCookie) || request.cookies.has(refreshCookie);
 
-	if (pathname === "/login") {
-		return hasSession
-			? NextResponse.redirect(new URL("/", request.url))
-			: NextResponse.next();
+	if (pathname === "/login" || pathname.startsWith("/web-api")) {
+		return NextResponse.next();
 	}
 
 	if (!hasSession) {
@@ -23,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/((?!web-api|_next|favicon.svg|icons|fonts|icon.png).*)"],
+	matcher: ["/((?!_next|favicon.svg|icons|fonts|icon.png).*)"],
 };

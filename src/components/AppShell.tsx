@@ -8,6 +8,7 @@ import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { FadeToBackground } from "@/components/ui/FadeToBackground";
 import ReflectedPageContent from "@/components/ReflectedPageContent";
 import MobileTabBar from "@/components/MobileTabBar";
+import SessionGate from "@/components/SessionGate";
 import styles from "@/app/layout.module.css";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
@@ -20,6 +21,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 	}
 
 	return (
+		<SessionGate>
 		<ToolbarProvider>
 			<div className={styles.appShell}>
 				<Sidebar />
@@ -38,5 +40,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
 				<MobileTabBar />
 			</div>
 		</ToolbarProvider>
+		</SessionGate>
 	);
 }
