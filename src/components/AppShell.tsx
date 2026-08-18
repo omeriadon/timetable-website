@@ -7,6 +7,7 @@ import Toolbar, { ToolbarProvider } from "@/components/Toolbar";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { FadeToBackground } from "@/components/ui/FadeToBackground";
 import ReflectedPageContent from "@/components/ReflectedPageContent";
+import MobileTabBar from "@/components/MobileTabBar";
 import styles from "@/app/layout.module.css";
 
 const blurLevels = [0.5, 1, 1.5, 2, 2, 2, 2, 2];
@@ -34,6 +35,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 					/>
 					<Toolbar />
 				</div>
+				<MobileTabBar />
 			</div>
 		</ToolbarProvider>
 	);

@@ -85,4 +85,8 @@ body {
 	.appShell {
 		flex-direction: column;
 	}
+
+	.pageContent {
+		padding-bottom: 100px;
+	}
 }
