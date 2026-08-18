@@ -13,6 +13,7 @@ import type {
   TimetableSubject,
 } from "@/features/timetable/types";
 import { TIMETABLE_DAYS, TIMETABLE_SESSIONS, periodLabel } from "@/features/timetable/layout";
+import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import styles from "./page.module.css";
 
 type TimetableMode = "today" | "week" | "planner";
@@ -42,6 +43,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const { data, error, isLoading } = useDashboard();
   const setToolbar = useToolbar();
+  const isCompact = useCompactLayout();
 
   useEffect(() => {
     setToolbar({ title: "Timetable" });
@@ -74,7 +76,7 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.modePicker} aria-label="Timetable section">
+      {isCompact ? <div className={styles.modePicker} aria-label="Timetable section">
         {modes.map((item) => (
           <button
             key={item.id}
@@ -89,7 +91,7 @@ export default function Home() {
             {item.label}
           </button>
         ))}
-      </div>
+      </div> : null}
 
       {isLoading ? (
         <p className={styles.message}>Loading your timetable…</p>
