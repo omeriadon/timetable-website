@@ -19,7 +19,7 @@ export default function ClassesPage() {
 			searchPlaceholder: "Search classes",
 			searchValue: query,
 			onSearchChange: setQuery,
-				actions: [
+			actions: [
 				{
 					label: "Add class",
 					icon: "person.2.svg",

@@ -1,25 +1,29 @@
 "use client";
 
-import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
+import { config } from "process";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
 	const [notice, setNotice] = useState("Your week is ready to review.");
 	const setToolbar = useToolbar();
+	const [query, setQuery] = useState("");
 
 	useEffect(() => {
 		setToolbar({
-			title: "Overview",
+			searchPlaceholder: "Search classes",
+			searchValue: query,
+			onSearchChange: setQuery,
 			actions: [
 				{
-					label: "Add overview",
-					icon: "chart.bar.xaxis.svg",
-					onPress: () => setNotice("New overview item created."),
+					label: "Add class",
+					icon: "person.2.svg",
+					onPress: () => setQuery(""),
 				},
 			],
+			title: "Overview",
 		});
 	}, [setToolbar]);
 
@@ -29,7 +33,6 @@ export default function Home() {
 				width: "100%",
 				minHeight: "100%",
 				overflowY: "auto",
-				padding: "24px",
 				boxSizing: "border-box",
 			}}
 		>

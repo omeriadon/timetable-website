@@ -35,11 +35,11 @@
 	inset: 0;
 	background: linear-gradient(
 		to right,
-		rgba(255, 255, 255, 0) 60%,
+		rgba(255, 255, 255, 0) 00%,
 		rgba(255, 255, 255, 0.018) 100%
 	);
-	-webkit-backdrop-filter: blur(50px) saturate(1.15);
-	backdrop-filter: blur(50px) saturate(1.15);
+	-webkit-backdrop-filter: blur(30px) saturate(1.9);
+	backdrop-filter: blur(30px) saturate(1.9);
 	mask-image: linear-gradient(to right, transparent 0% 62%, black 92% 100%);
 	-webkit-mask-image: linear-gradient(
 		to right,
@@ -54,7 +54,7 @@
 	z-index: 2;
 	pointer-events: none;
 
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.16);
 	border-radius: inherit;
 	corner-shape: inherit;
 

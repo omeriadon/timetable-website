@@ -66,14 +66,41 @@ export default function Toolbar() {
 	return (
 		<header className={styles.toolbar}>
 			{searchPlaceholder ? (
-				<label className={styles.search}>
-					<span className="sr-only">Search {title}</span>
-					<input
-						value={searchValue}
-						placeholder={searchPlaceholder}
-						onChange={(event) => onSearchChange?.(event.target.value)}
-					/>
-				</label>
+				<LiquidGlass
+					radius={300}
+					scale={-80}
+					border={0}
+					alpha={20}
+					inputBlur={12}
+					outputBlur={1}
+					red={10}
+					green={10}
+					blue={0}
+					frost={0}
+					saturation={1.3}
+					interactive
+					dragFollow={0.02}
+					dragDistance={38}
+					dragPressScale={1.03}
+					dragDuration={1.2}
+					dragReleaseDuration={0.8}
+					dragStretch={0.32}
+					dragSquash={0.36}
+					dragBounce={2}
+					filterPadding={32}
+				>
+					<label className={styles.search}>
+						<div className={styles.something}>
+							<span className="sr-only">Search {title}</span>
+							<input
+								value={searchValue}
+								placeholder={searchPlaceholder}
+								onChange={(event) => onSearchChange?.(event.target.value)}
+								className={styles.searchInput}
+							/>
+						</div>
+					</label>
+				</LiquidGlass>
 			) : null}
 
 			{actions.map((action) => (
