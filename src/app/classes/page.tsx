@@ -5,6 +5,8 @@ import { useToolbar } from "@/components/Toolbar";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { OwnerTimetable } from "@/features/timetable/types";
+import SheetTrigger from "@/components/sheets/SheetTrigger";
+import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet";
 
 export default function ClassesPage() {
   const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
@@ -30,7 +32,13 @@ export default function ClassesPage() {
       ) : (
         <section className={styles.card}>
           {timetable.subjects.map((subject) => (
-            <article key={subject.id} className={styles.row}>
+            <SheetTrigger
+              key={subject.id}
+              className={styles.rowButton}
+              ariaLabel={`Open ${subject.id}`}
+              content={<SubjectDetailSheet subject={subject} />}
+            >
+            <article className={styles.row}>
               <span
                 className={styles.symbol}
                 style={{
@@ -54,6 +62,7 @@ export default function ClassesPage() {
               </span>
               <span className={styles.chevron}>›</span>
             </article>
+            </SheetTrigger>
           ))}
         </section>
       )}

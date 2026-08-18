@@ -8,8 +8,9 @@ import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 
 type Settings = {
-  appFontDesign: string;
-  appBackground: string;
+	appFontDesign: string;
+	appBackground: string;
+	liveActivitiesEnabled: boolean;
   notificationsEnabled: boolean;
   broadcastNotificationsEnabled: boolean;
   futureEventRange: string;
@@ -18,12 +19,15 @@ type Settings = {
 };
 
 const labels: Record<string, string> = {
-  appearance: "Appearance",
+	account: "Account & Sync",
+	appearance: "Appearance",
   notifications: "Updates & Notifications",
   "archived-events": "Archived Events",
   developer: "Developer Tools",
   feedback: "Report Feedback or Bug",
-  about: "About Timetable",
+	about: "About Timetable",
+	navigation: "Navigation",
+	"profile-appearance": "Profile Appearance",
 };
 
 export default function SettingsSectionPage() {
@@ -60,6 +64,25 @@ export default function SettingsSectionPage() {
           </div>
         </section>
       ) : null}
+		{section === "account" && settings ? (
+			<section className={styles.card}>
+				<div className={styles.row}>
+					<SymbolIcon name="rectangle.bottomthird.inset.filled" />
+					<span className={styles.label}>Live Activities</span>
+					<span className={styles.detail}>{settings.liveActivitiesEnabled ? "On" : "Off"}</span>
+				</div>
+				<div className={styles.row}>
+					<SymbolIcon name="bell.badge" />
+					<span className={styles.label}>Class Notifications</span>
+					<span className={styles.detail}>{settings.notificationsEnabled ? "On" : "Off"}</span>
+				</div>
+				<div className={styles.row}>
+					<SymbolIcon name="megaphone" />
+					<span className={styles.label}>Special Event Notifications</span>
+					<span className={styles.detail}>{settings.broadcastNotificationsEnabled ? "On" : "Off"}</span>
+				</div>
+			</section>
+		) : null}
       {section === "notifications" && settings ? (
         <section className={styles.card}>
           <div className={styles.row}>
@@ -108,6 +131,27 @@ export default function SettingsSectionPage() {
           </div>
         </section>
       ) : null}
+		{section === "navigation" ? (
+			<section className={styles.card}>
+				<div className={styles.row}>
+					<SymbolIcon name="arrow.down.app" />
+					<span className={styles.label}>Restore Navigation</span>
+					<span className={styles.detail}>On</span>
+				</div>
+				<p className={styles.detail} style={{ padding: "0 16px 14px", textAlign: "left" }}>
+					Restore the selected tab, sidebar, and navigation path when reopening Timetable.
+				</p>
+			</section>
+		) : null}
+		{section === "profile-appearance" ? (
+			<section className={styles.card}>
+				<div className={styles.row}>
+					<SymbolIcon name="paintpalette" />
+					<span className={styles.label}>Profile appearance</span>
+					<span className={styles.detail}>Managed in the native app</span>
+				</div>
+			</section>
+		) : null}
       {section === "feedback" ? (
         <section className={styles.card}>
           <div className={styles.row}>

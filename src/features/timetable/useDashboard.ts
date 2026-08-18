@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
-import type { CalendarEvents, Friend, GradeTracker, OwnerTimetable } from "./types";
+import type { CalendarEvents, Friend, GradeTracker, OwnerTimetable, SchoolCalendar } from "./types";
 
 export type DashboardData = {
 	account: Account;
@@ -11,6 +11,7 @@ export type DashboardData = {
 	events: CalendarEvents;
 	friends: Friend[];
 	grades: GradeTracker;
+	schoolCalendar: SchoolCalendar;
 };
 
 export function useDashboard() {
@@ -26,10 +27,11 @@ export function useDashboard() {
 			apiRequest<CalendarEvents>("v1/events"),
 			apiRequest<Friend[]>("v1/friends"),
 			apiRequest<GradeTracker>("v1/grades"),
+			apiRequest<SchoolCalendar>("v1/settings/calendar"),
 		])
-			.then(([account, timetable, events, friends, grades]) => {
+			.then(([account, timetable, events, friends, grades, schoolCalendar]) => {
 				if (isCurrent) {
-					setData({ account, timetable, events, friends, grades });
+					setData({ account, timetable, events, friends, grades, schoolCalendar });
 				}
 			})
 			.catch((requestError: Error) => {

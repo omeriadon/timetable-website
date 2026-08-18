@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar";
-import { useDashboard } from "@/features/timetable/useDashboard";
+import { useDashboard, type DashboardData } from "@/features/timetable/useDashboard";
+import SheetTrigger from "@/components/sheets/SheetTrigger";
+import LessonDetailSheet from "@/components/sheets/LessonDetailSheet";
 import type {
   CalendarEvent,
   TimetableSubject,
@@ -96,12 +98,18 @@ export default function Home() {
       ) : null}
 
       {data && mode === "today" ? (
-        <TodayView events={events} subjects={data.timetable.subjects} />
+        <TodayView
+          events={events}
+          subjects={data.timetable.subjects}
+          schoolCalendar={data.schoolCalendar}
+        />
       ) : null}
       {data && mode === "week" ? (
         <WeekView subjects={data.timetable.subjects} />
       ) : null}
-      {data && mode === "planner" ? <PlannerView events={events} /> : null}
+      {data && mode === "planner" ? (
+        <PlannerView events={events} schoolCalendar={data.schoolCalendar} />
+      ) : null}
     </main>
   );
 }
@@ -109,11 +117,19 @@ export default function Home() {
 function TodayView({
   events,
   subjects,
+  schoolCalendar,
 }: {
   events: CalendarEvent[];
   subjects: TimetableSubject[];
+  schoolCalendar: DashboardData["schoolCalendar"];
 }) {
-  return (
+	const today = new Date();
+	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+	const noSchool = schoolCalendar.skippedDates.find((item) => {
+		const date = item.date;
+		return `${date.year}-${date.month}-${date.day}` === todayKey;
+	});
+	return (
     <>
       <header className={styles.todayHeader}>
         <p>15°C　Mostly Cloudy　0%　UV 0</p>
@@ -137,6 +153,12 @@ function TodayView({
           <p className={styles.empty}>No upcoming events.</p>
         )}
       </section>
+		{noSchool ? (
+			<section className={styles.paperCard}>
+				<h2>No School Today</h2>
+				<p>{noSchool.label}</p>
+			</section>
+		) : null}
       <section className={styles.paperCard}>
         <h2>Classes</h2>
         <div className={styles.subjectList}>
@@ -175,14 +197,17 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
                 ),
               );
               return subject ? (
-                <article
-                  key={day}
-                  className={styles.lesson}
-                  style={{ background: colour(subject) }}
-                >
-                  <span>{subject.symbol}</span>
-                  <strong>{subject.id}</strong>
-                </article>
+						<SheetTrigger
+							key={day}
+							className={styles.lessonButton}
+							ariaLabel={`Open ${subject.id} on ${day}`}
+							content={<LessonDetailSheet subject={subject} day={day} session={session + 1} />}
+						>
+							<article className={styles.lesson} style={{ background: colour(subject) }}>
+								<span>{subject.symbol}</span>
+								<strong>{subject.id}</strong>
+							</article>
+						</SheetTrigger>
               ) : (
                 <div key={day} />
               );
@@ -194,7 +219,13 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
   );
 }
 
-function PlannerView({ events }: { events: CalendarEvent[] }) {
+function PlannerView({
+	events,
+	schoolCalendar,
+}: {
+	events: CalendarEvent[];
+	schoolCalendar: DashboardData["schoolCalendar"];
+}) {
   return (
     <section className={styles.planner}>
       <h1>Upcoming</h1>
@@ -202,9 +233,31 @@ function PlannerView({ events }: { events: CalendarEvent[] }) {
         <EventRow key={event.id} event={event} prominent />
       ))}
       <h2>Term Dates</h2>
-      <p className={styles.empty}>Your school calendar will appear here.</p>
+      {schoolCalendar.termRanges.map((term) => (
+			<article key={term.label} className={styles.plannerEvent}>
+				<span className={styles.eventSymbol}>▣</span>
+				<div>
+					<strong>{term.label}</strong>
+					<span>{formatDateRange(term.start, term.end)}</span>
+				</div>
+				<time>{term.start.day} {monthName(term.start.month)}</time>
+			</article>
+		))}
     </section>
   );
+}
+
+function formatDateRange(
+	start: DashboardData["schoolCalendar"]["termRanges"][number]["start"],
+	end: DashboardData["schoolCalendar"]["termRanges"][number]["end"],
+) {
+	return `${start.day} ${monthName(start.month)} – ${end.day} ${monthName(end.month)} ${end.year}`;
+}
+
+function monthName(month: number) {
+	return new Intl.DateTimeFormat("en-AU", { month: "short" }).format(
+		new Date(2026, month - 1, 1),
+	);
 }
 
 function EventRow({

@@ -44,6 +44,13 @@ export type CalendarEvents = {
 	canManageGlobalEvents: boolean;
 };
 
+export type SchoolCalendarDate = { year: number; month: number; day: number };
+
+export type SchoolCalendar = {
+	termRanges: { label: string; start: SchoolCalendarDate; end: SchoolCalendarDate }[];
+	skippedDates: { date: SchoolCalendarDate; label: string }[];
+};
+
 export type GradeAssessment = {
 	id: string;
 	subjectID: string;

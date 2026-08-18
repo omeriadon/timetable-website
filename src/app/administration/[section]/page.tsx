@@ -9,7 +9,7 @@ import { apiRequest } from "@/lib/api/client";
 
 const sectionConfig: Record<
 	string,
-	{ title: string; icon: string; endpoint?: string }
+	{ title: string; icon: string; endpoint?: string; kind?: string }
 > = {
 	statistics: {
 		title: "Statistics",
@@ -30,6 +30,24 @@ const sectionConfig: Record<
 		title: "School Events and Term Dates",
 		icon: "calendar.badge.exclamationmark",
 		endpoint: "v1/administration/calendar",
+	},
+	"school-events": {
+		title: "School Events",
+		icon: "calendar.badge.exclamationmark",
+		endpoint: "v1/administration/calendar",
+		kind: "event",
+	},
+	"term-dates": {
+		title: "Term Dates",
+		icon: "calendar.badge.clock",
+		endpoint: "v1/administration/calendar",
+		kind: "term",
+	},
+	"pupil-free-days": {
+		title: "Pupil Free Days",
+		icon: "calendar.badge.exclamationmark",
+		endpoint: "v1/administration/calendar",
+		kind: "noSchool",
 	},
 	"event-tags": {
 		title: "Event Tags",
@@ -89,8 +107,9 @@ export default function AdministrationSectionPage() {
 			.catch((requestError: Error) => setError(requestError.message));
 	}, [config.endpoint, config.title, section, setToolbar]);
 
-	const records = useMemo(() => normalizeRecords(data), [data]);
-	const summary = useMemo(() => scalarEntries(data), [data]);
+	const filteredData = useMemo(() => filterData(data, config.kind), [config.kind, data]);
+	const records = useMemo(() => normalizeRecords(filteredData), [filteredData]);
+	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
 
 	return (
 		<main className={styles.page}>
@@ -106,10 +125,12 @@ export default function AdministrationSectionPage() {
 				</p>
 			) : null}
 			{section === "font-width-test" ? <FontWidthTest /> : null}
-			{section === "broadcast-notification" || section === "test-email" ? (
+			{section === "broadcast-notification" ? (
+				<BroadcastNotificationForm />
+			) : section === "test-email" ? (
 				<section className={styles.card}>
 					<div className={styles.row}>
-						<span className={styles.label}>This control is available in the native app.</span>
+						<TestEmailButton />
 					</div>
 				</section>
 			) : null}
@@ -135,6 +156,20 @@ export default function AdministrationSectionPage() {
 			) : null}
 		</main>
 	);
+}
+
+function filterData(data: unknown, kind?: string): unknown {
+	if (!kind || !data) return data;
+	if (Array.isArray(data)) {
+		return data.filter((item) => isRecord(item) && item.kind === kind);
+	}
+	if (isRecord(data)) {
+		const arrayKey = Object.keys(data).find((key) => Array.isArray(data[key]));
+		if (arrayKey) {
+			return { ...data, [arrayKey]: filterData(data[arrayKey], kind) };
+		}
+	}
+	return data;
 }
 
 type AdminRecord = Record<string, unknown>;
@@ -207,6 +242,56 @@ function FontWidthTest() {
 					<span className={styles.detail}>Timetable 012345</span>
 				</div>
 			))}
+		</section>
+	);
+}
+
+function TestEmailButton() {
+	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+	const send = async () => {
+		setState("sending");
+		try {
+			await apiRequest("v1/administration/test-email", { method: "POST" });
+			setState("sent");
+		} catch {
+			setState("error");
+		}
+	};
+	return (
+		<button type="button" className={styles.adminAction} onClick={send} disabled={state === "sending"}>
+			<SymbolIcon name="envelope.badge" />
+			<span>{state === "sending" ? "Sending…" : state === "sent" ? "Test email sent" : state === "error" ? "Unable to send test email" : "Send test email"}</span>
+		</button>
+	);
+}
+
+function BroadcastNotificationForm() {
+	const [title, setTitle] = useState("");
+	const [subtitle, setSubtitle] = useState("");
+	const [body, setBody] = useState("");
+	const [status, setStatus] = useState<string | null>(null);
+	const send = async () => {
+		setStatus(null);
+		try {
+			const result = await apiRequest<{ deliveredDeviceCount: number }>("v1/administration/broadcast-notification", {
+				method: "POST",
+				body: JSON.stringify({ title, subtitle: subtitle || null, body: body || null, respectsUserPreference: true }),
+			});
+			setStatus(`Sent to ${result.deliveredDeviceCount} devices.`);
+			setTitle("");
+			setSubtitle("");
+			setBody("");
+		} catch (requestError) {
+			setStatus((requestError as Error).message);
+		}
+	};
+	return (
+		<section className={styles.formCard}>
+			<label>Title<input value={title} onChange={(event) => setTitle(event.target.value)} maxLength={200} /></label>
+			<label>Subtitle<input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} maxLength={200} /></label>
+			<label>Message<textarea value={body} onChange={(event) => setBody(event.target.value)} maxLength={2000} rows={4} /></label>
+			<button type="button" className={styles.adminAction} onClick={send} disabled={!title.trim()}><SymbolIcon name="megaphone" /><span>Broadcast notification</span></button>
+			{status ? <p className={styles.detail} role="status">{status}</p> : null}
 		</section>
 	);
 }

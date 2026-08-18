@@ -24,8 +24,8 @@ const sections = [
     [
       ["calendar.badge.exclamationmark", "School Events", "calendar"],
       ["tag", "Event Tags", "event-tags"],
-      ["calendar.badge.clock", "Term Dates", "calendar"],
-      ["calendar.badge.exclamationmark", "Pupil Free Days", "calendar"],
+      ["calendar.badge.clock", "Term Dates", "term-dates"],
+      ["calendar.badge.exclamationmark", "Pupil Free Days", "pupil-free-days"],
     ],
   ],
   [
@@ -84,7 +84,13 @@ export default function AdministrationPage() {
         </section>
       ) : null}
       {dashboard?.isAdmin
-        ? sections.map(([heading, rows]) => (
+        ? sections
+            .filter(
+              ([heading]) =>
+                heading !== "System Administration" ||
+                dashboard.authority === "systemOwner",
+            )
+            .map(([heading, rows]) => (
             <section key={heading as string}>
               <h2 className={styles.section}>{heading as string}</h2>
               <div className={styles.card}>

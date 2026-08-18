@@ -16,6 +16,10 @@ function subjectColour(subject: TimetableSubject) {
   return `rgb(${Math.round(r * 255)} ${Math.round(g * 255)} ${Math.round(b * 255)})`;
 }
 
+function formatPercent(value: number | null) {
+	return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
+}
+
 export default function GradesPage() {
   const setToolbar = useToolbar();
   const [grades, setGrades] = useState<GradeTracker | null>(null);
@@ -72,7 +76,7 @@ export default function GradesPage() {
                   Average
                 </strong>
                 <div style={{ fontSize: "3rem", fontWeight: 740 }}>
-                  {average === null ? "—" : `${average.toFixed(1)}%`}
+                  {formatPercent(average)}
                 </div>
               </div>
               <div style={{ textAlign: "right" }}>
@@ -85,7 +89,7 @@ export default function GradesPage() {
                   Top 4
                 </strong>
                 <div style={{ fontSize: "3rem", fontWeight: 740 }}>
-                  {average === null ? "—" : `${average.toFixed(1)}%`}
+                  {formatPercent(average)}
                 </div>
               </div>
             </div>
@@ -166,7 +170,7 @@ export default function GradesPage() {
                   <strong style={{ fontSize: "1.7rem" }}>
                     {subjectAverage === null
                       ? "—"
-                      : `${subjectAverage.toFixed(1)}%`}
+                      : formatPercent(subjectAverage)}
                   </strong>
                 </Link>
               );
