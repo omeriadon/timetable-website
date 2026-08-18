@@ -64,12 +64,12 @@
 
 .detailSheet {
   display: grid;
-	gap: var(--theme-space-5);
+	gap: var(--theme-content-section-gap);
 }
 
 .detailHeader {
   display: flex;
-  gap: 14px;
+	gap: var(--theme-content-row-gap);
   align-items: center;
 }
 
@@ -144,7 +144,7 @@
 .detailCard {
   display: grid;
   gap: 0;
-	padding: 4px var(--theme-space-5);
+	padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
 	border-radius: var(--theme-radius-card);
   background: var(--theme-surface);
 }
@@ -180,9 +180,9 @@
 .detailSubject {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+	gap: var(--theme-content-row-gap);
   align-items: center;
-	min-height: var(--theme-row-height);
+	min-height: var(--theme-content-sheet-row-height);
   border-bottom: 1px solid var(--theme-divider);
 }
 
