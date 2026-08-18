@@ -123,7 +123,7 @@ export default function SettingsSectionPage() {
 					<span className={styles.label}>Restore Navigation</span>
 					<span className={styles.detail}>On</span>
 				</div>
-				<p className={styles.detail} style={{ padding: "0 16px 14px", textAlign: "left" }}>
+				<p className={`${styles.detail} ${styles.detailNote}`}>
 					Restore the selected tab, sidebar, and navigation path when reopening Timetable.
 				</p>
 			</section>
@@ -170,7 +170,7 @@ function ArchivedEventsEditor() {
 			<section className={styles.card}>
 				{archived.length ? archived.map((event) => (
 					<button key={event.id} type="button" className={styles.rowButton} onClick={() => openSheet(<CalendarEventSheet event={event} onChanged={(updated) => update(updated, event.id)} />)}>
-						<div className={styles.row}><SymbolIcon name="archivebox" /><span><b className={styles.label}>{event.title}</b><small style={{ display: "block", color: "var(--theme-text-secondary)" }}>{new Date(event.date.year, event.date.month - 1, event.date.day).toLocaleDateString("en-AU", { dateStyle: "long" })}</small></span><span className={styles.chevron}>›</span></div>
+						<div className={styles.row}><SymbolIcon name="archivebox" /><span><b className={styles.label}>{event.title}</b><small className={styles.rowMeta}>{new Date(event.date.year, event.date.month - 1, event.date.day).toLocaleDateString("en-AU", { dateStyle: "long" })}</small></span><span className={styles.chevron}>›</span></div>
 					</button>
 				)) : <p className={styles.loading}>{events ? "No archived events." : "Loading archived events…"}</p>}
 			</section>

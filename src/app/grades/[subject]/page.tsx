@@ -101,7 +101,7 @@ export default function GradeSubjectPage() {
 
   return (
     <main className={styles.page}>
-      <Link href="/grades" style={{ color: "#aaa", textDecoration: "none" }}>
+      <Link href="/grades" className={styles.backLink}>
         ‹ Grades
       </Link>
       {error ? (
@@ -132,13 +132,7 @@ export default function GradeSubjectPage() {
               <span className={styles.symbol}>◌</span>
               <span>
                 <b className={styles.label}>{assessment.name}</b>
-                <small
-                  style={{
-                    display: "block",
-                    color: "var(--theme-text-secondary)",
-                    marginTop: 4,
-                  }}
-                >
+                <small className={styles.rowMeta}>
                   {new Date(
                     assessment.date.year,
                     assessment.date.month - 1,
@@ -150,25 +144,18 @@ export default function GradeSubjectPage() {
                   · Weighting {assessment.weighting.toFixed(1)}%
                 </small>
               </span>
-              <strong style={{ fontSize: "1.55rem" }}>
+              <strong className={styles.scoreEmphasis}>
                   {(assessment.score * 100).toFixed(1)}%
                 </strong>
               </article>
 							</SheetTrigger>
             ))
         ) : (
-          <p style={{ padding: "22px", color: "#999" }}>No assessments yet.</p>
+          <p className={styles.emptyRow}>No assessments yet.</p>
         )}
         <button
           type="button"
-          className={styles.row}
-          style={{
-            width: "100%",
-            border: 0,
-            background: "transparent",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
+          className={`${styles.row} ${styles.rowAction}`}
           disabled={saving}
           onClick={() => createAssessment(semester)}
         >

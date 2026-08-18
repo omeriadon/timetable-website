@@ -47,7 +47,7 @@ export default function AdminEventTagsEditor() {
 				<section key={section.id}>
 					<h2 className={styles.section}>{section.displayName}</h2>
 					<div className={styles.card}>
-						{section.tags.map((tag) => <button key={tag.id} type="button" className={styles.rowButton} onClick={() => edit(tag, section)}><div className={styles.row}><SymbolIcon name={tag.symbol ?? "tag"} fallback="#" /><span><b className={styles.label}>{tag.displayName}</b><small style={{ display: "block", color: "var(--theme-text-secondary)" }}>{tag.slug}{tag.isArchived ? " · Archived" : ""}</small></span><span className={styles.chevron}>›</span></div></button>)}
+						{section.tags.map((tag) => <button key={tag.id} type="button" className={styles.rowButton} onClick={() => edit(tag, section)}><div className={styles.row}><SymbolIcon name={tag.symbol ?? "tag"} fallback="#" /><span><b className={styles.label}>{tag.displayName}</b><small className={styles.rowMeta}>{tag.slug}{tag.isArchived ? " · Archived" : ""}</small></span><span className={styles.chevron}>›</span></div></button>)}
 						<button type="button" className={styles.rowButton} onClick={() => edit(null, section)}><div className={styles.row}><SymbolIcon name="plus" fallback="＋" /><span className={styles.label}>Add Tag</span></div></button>
 					</div>
 				</section>

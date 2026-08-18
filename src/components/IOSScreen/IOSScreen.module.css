@@ -67,6 +67,35 @@
 	font-size: 0.9rem;
 	font-weight: 520;
 }
+.rowMeta {
+	display: block;
+	margin-top: var(--theme-content-grid-gap);
+	color: var(--theme-text-secondary);
+	font-size: var(--theme-content-subtitle-size);
+}
+.scoreEmphasis {
+	font-size: 1.35rem;
+}
+.emptyRow {
+	margin: 0;
+	padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
+	color: var(--theme-text-secondary);
+}
+.rowAction {
+	width: 100%;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	text-align: left;
+}
+.detailNote {
+	padding: 0 var(--theme-content-page-padding) var(--theme-content-card-padding-block);
+	text-align: left;
+}
+.backLink {
+	color: var(--theme-text-secondary);
+	text-decoration: none;
+}
 .detail {
 	color: var(--theme-text-secondary);
 	font-size: 0.94rem;

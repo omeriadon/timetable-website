@@ -19,7 +19,7 @@ export default function AdminCalendarEditor({ kind, title }: { kind: string; tit
 		<main className={styles.page}>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}
 			<section className={styles.card}>
-				{entries?.map((entry) => <button key={entry.id} type="button" className={styles.rowButton} onClick={() => openSheet(<AdminCalendarEntrySheet entry={entry} kind={kind} onSaved={() => { void load(); }} />)}><div className={styles.row}><SymbolIcon name="calendar.badge.clock" /><span><b className={styles.label}>{entry.label}</b><small style={{ display: "block", color: "var(--theme-text-secondary)" }}>{formatDate(entry.startDate)}{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}</small></span><span className={styles.chevron}>›</span></div></button>)}
+				{entries?.map((entry) => <button key={entry.id} type="button" className={styles.rowButton} onClick={() => openSheet(<AdminCalendarEntrySheet entry={entry} kind={kind} onSaved={() => { void load(); }} />)}><div className={styles.row}><SymbolIcon name="calendar.badge.clock" /><span><b className={styles.label}>{entry.label}</b><small className={styles.rowMeta}>{formatDate(entry.startDate)}{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}</small></span><span className={styles.chevron}>›</span></div></button>)}
 				<button type="button" className={styles.rowButton} onClick={() => openSheet(<AdminCalendarEntrySheet entry={null} kind={kind} onSaved={() => { void load(); }} />)}><div className={styles.row}><span className={styles.symbol}>＋</span><span className={styles.label}>Add {title.replace(/s$/, "")}</span></div></button>
 			</section>
 			{!entries && !error ? <p className={styles.loading}>Loading {title.toLowerCase()}…</p> : null}
