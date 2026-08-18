@@ -25,7 +25,7 @@
   position: relative;
   width: 100%;
 	min-height: 0;
-	max-height: 88svh;
+	max-height: var(--theme-sheet-max-height);
   overflow: auto;
 	padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline) var(--theme-sheet-padding-bottom);
   border: 1px solid var(--theme-divider);
@@ -75,8 +75,8 @@
 
 .detailAvatar {
   display: grid;
-  width: 58px;
-  height: 58px;
+  width: var(--theme-content-avatar-size);
+  height: var(--theme-content-avatar-size);
   place-items: center;
   border-radius: 50%;
   color: var(--theme-text);
@@ -256,8 +256,8 @@
 
 .detailSubjectSymbol {
 	display: grid;
-	width: 58px;
-	height: 58px;
+	width: var(--theme-content-avatar-size);
+	height: var(--theme-content-avatar-size);
 	place-items: center;
 	border-radius: 18px;
 	color: var(--theme-text);
@@ -300,8 +300,8 @@
 
 .formCard {
 	display: grid;
-	gap: 12px;
-	padding: 16px;
+	gap: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding);
 	border-radius: var(--theme-radius-card);
 	background: var(--theme-surface);
 }
@@ -316,7 +316,7 @@
 .formCard input,
 .formCard textarea {
 	width: 100%;
-	padding: 9px 11px;
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-divider);
 	border-radius: 12px;
 	outline: none;

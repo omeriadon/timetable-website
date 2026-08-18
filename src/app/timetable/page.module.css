@@ -73,8 +73,8 @@
 }
 
 @media (max-width: 700px) {
-  .contentPanel {
-    padding: var(--theme-content-page-padding) 0 14px;
+	.contentPanel {
+		padding: var(--theme-content-page-padding) 0 var(--theme-content-section-gap);
   }
 
   .scheduleItem {

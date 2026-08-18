@@ -48,7 +48,7 @@
 }
 .message,
 .error {
-  margin: 12px 0;
+  margin: var(--theme-content-section-gap) 0;
   color: var(--theme-text-secondary);
   text-align: center;
 }
@@ -61,7 +61,7 @@
   margin: 0 0 var(--theme-content-section-gap);
 }
 .todayHeader p {
-  margin: 0 0 8px;
+  margin: 0 0 var(--theme-content-heading-gap);
   color: var(--theme-text-secondary);
   font-size: 0.78rem;
 }
@@ -73,7 +73,7 @@
 }
 .todayHeader > span {
   display: block;
-  margin-top: 5px;
+  margin-top: var(--theme-content-heading-gap);
   color: var(--theme-text-secondary);
   font-size: 1.05rem;
 }
@@ -93,7 +93,7 @@
 }
 .paperCard h2 {
   margin: 0 0 var(--theme-content-section-gap);
-  font-size: 1.55rem;
+  font-size: var(--theme-content-title-size);
   letter-spacing: -0.045em;
 }
 .paperCard h3 {
@@ -126,7 +126,7 @@
 .timelineRow,
 .timelineRowActive {
 	display: grid;
-	grid-template-columns: 56px 10px minmax(0, 1fr);
+	grid-template-columns: var(--theme-content-timeline-label-width) var(--theme-content-timeline-line-width) minmax(0, 1fr);
 	gap: var(--theme-space-2);
 	align-items: stretch;
 	min-height: var(--theme-content-row-height);
@@ -135,7 +135,7 @@
 }
 
 .timelineRowActive { color: var(--theme-text); }
-.timelineRow time { padding-top: 4px; font-size: 0.72rem; text-align: right; }
+.timelineRow time { padding-top: var(--theme-content-grid-gap); font-size: 0.72rem; text-align: right; }
 .timelineLine { position: relative; display: flex; justify-content: center; }
 .timelineLine::before { position: absolute; top: 0; bottom: 0; width: 1px; content: ""; background: var(--theme-divider); }
 .timelineLine span { position: relative; z-index: 1; width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background: var(--theme-text-tertiary); }
@@ -168,7 +168,8 @@
 	font: inherit;
 	text-align: left;
 	cursor: pointer;
-  padding: var(--theme-space-3);
+	padding: var(--theme-space-3);
+	min-height: var(--theme-content-event-min-height);
   border: 1px solid var(--theme-highlight);
   border-radius: var(--theme-radius-control);
 }
@@ -202,7 +203,7 @@
   grid-template-columns: 30px 1fr auto;
   gap: var(--theme-content-row-gap);
   align-items: center;
-	min-height: 48px;
+	min-height: var(--theme-content-event-min-height);
 	padding: var(--theme-content-card-padding);
   border: 1px solid var(--theme-highlight);
 	border-radius: var(--theme-content-radius);
@@ -224,21 +225,21 @@
 .weekHeader,
 .weekRow {
   display: grid;
-  grid-template-columns: 30px repeat(5, minmax(92px, 1fr));
-  gap: 5px;
-  min-width: 620px;
+	grid-template-columns: var(--theme-content-week-label-width) repeat(5, minmax(var(--theme-content-week-column-min), 1fr));
+	gap: var(--theme-content-grid-gap);
+	min-width: var(--theme-content-week-min-width);
 }
 .weekHeader {
-  margin-bottom: 5px;
+	margin-bottom: var(--theme-content-grid-gap);
 }
 .weekHeader span {
-  padding: 4px 0;
+	padding: var(--theme-content-grid-gap) 0;
   font-size: 1rem;
   text-align: center;
 }
 .weekRow {
-  min-height: 60px;
-  margin-bottom: 4px;
+	min-height: var(--theme-content-week-row-min-height);
+	margin-bottom: var(--theme-content-grid-gap);
 }
 .weekRow > small {
   display: grid;
@@ -250,7 +251,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 7px;
+	padding: var(--theme-content-grid-gap);
   overflow: hidden;
   border: 1px solid var(--theme-highlight);
   border-radius: var(--theme-content-radius);
@@ -272,7 +273,7 @@
 	outline-offset: 2px;
 }
 .lesson span {
-  font-size: 1.2rem;
+	font-size: var(--theme-content-icon-size);
 }
 .lesson strong {
   font-size: 0.88rem;
@@ -297,7 +298,7 @@
 .selectedEyebrow { color: var(--theme-text-secondary); font-size: 0.68rem; letter-spacing: 0.08em; }
 .plannerEvent {
   width: 100%;
-  min-height: 64px;
+	min-height: var(--theme-content-event-min-height);
   margin: var(--theme-content-section-gap) 0;
   border-color: var(--theme-paper-edge);
   color: var(--theme-text);
@@ -322,7 +323,7 @@
   font-weight: 700;
 }
 .planner h2 {
-  margin: 18px 0 8px;
+	margin: var(--theme-content-section-gap) 0 var(--theme-content-heading-gap);
   font-size: 1.45rem;
 }
 .empty {
@@ -331,7 +332,7 @@
 }
 @media (max-width: 700px) {
   .page {
-    padding: var(--theme-content-page-padding) 6px 88px;
+		padding: var(--theme-content-page-padding) var(--theme-content-page-padding) var(--theme-content-mobile-bottom-inset);
   }
   .modePicker {
     width: 100%;
@@ -346,7 +347,7 @@
     border-radius: var(--theme-content-radius);
   }
   .paperCard h2 {
-    font-size: 1.5rem;
+		font-size: var(--theme-content-title-size);
   }
   .todayHeader h1 {
     font-size: 1.75rem;

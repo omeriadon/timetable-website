@@ -192,7 +192,7 @@
 		width: 100%;
 		margin-left: 0;
 		padding-top: var(--theme-page-padding);
-		padding-bottom: calc(var(--theme-page-padding) + 92px);
+		padding-bottom: calc(var(--theme-page-padding) + var(--theme-content-mobile-bottom-inset));
 	}
 
 	.reflectionMirror {

@@ -5,7 +5,7 @@
   padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
 }
 .page h1 {
-  margin: 0 0 14px;
+  margin: 0 0 var(--theme-content-section-gap);
   color: var(--theme-accent);
   font-size: clamp(2.15rem, 5vw, 3rem);
   letter-spacing: -0.05em;
@@ -70,10 +70,10 @@
 }
 .friend {
   display: grid;
-  grid-template-columns: 92px 1fr auto;
+	grid-template-columns: var(--theme-content-avatar-size) 1fr auto;
   gap: var(--theme-content-row-gap);
   align-items: center;
-  min-height: 64px;
+	min-height: var(--theme-content-friend-row-min-height);
   padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-divider);
   border-radius: var(--theme-content-radius);
@@ -86,8 +86,8 @@
 }
 .avatar {
   display: grid;
-  width: 56px;
-  height: 56px;
+	width: var(--theme-content-avatar-size);
+	height: var(--theme-content-avatar-size);
   place-items: center;
   border-radius: 50%;
   background: radial-gradient(
@@ -103,7 +103,7 @@
   margin: 0;
 }
 .friend h2 {
-  font-size: 1.05rem;
+	font-size: 1rem;
 }
 .friend p {
   margin-top: 4px;
@@ -126,16 +126,16 @@
 }
 @media (max-width: 700px) {
   .page {
-    padding: var(--theme-content-page-padding) 6px 88px;
+		padding: var(--theme-content-page-padding) var(--theme-content-page-padding) var(--theme-content-mobile-bottom-inset);
   }
   .friend {
-    grid-template-columns: 56px 1fr;
+		grid-template-columns: var(--theme-content-avatar-size-small) 1fr;
     min-height: 0;
     border-radius: var(--theme-content-radius);
   }
   .avatar {
-    width: 52px;
-    height: 52px;
+		width: var(--theme-content-avatar-size-small);
+		height: var(--theme-content-avatar-size-small);
   }
   .status {
     grid-column: 2;

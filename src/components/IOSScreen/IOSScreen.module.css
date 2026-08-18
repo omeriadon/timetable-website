@@ -5,9 +5,9 @@
 	color: var(--theme-text);
 }
 .title {
-	margin: 0 0 18px;
+	margin: 0 0 var(--theme-content-section-gap);
 	color: var(--theme-accent);
-	font-size: clamp(2.1rem, 5vw, 3.2rem);
+	font-size: var(--theme-content-heading-size);
 	font-weight: 760;
 	letter-spacing: -0.065em;
 	text-align: center;
@@ -237,9 +237,9 @@
 	text-align: right;
 }
 .profileSave {
-	width: calc(100% - 32px);
-	margin: 8px 16px 14px;
-	padding: 10px;
+	width: calc(100% - (2 * var(--theme-content-card-padding-inline)));
+	margin: var(--theme-content-section-gap) var(--theme-content-card-padding-inline) var(--theme-content-section-gap);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 0;
 	border-radius: 12px;
 	color: var(--theme-text);
@@ -265,7 +265,7 @@
 .sheetActions {
 	display: flex;
 	justify-content: flex-end;
-	gap: 8px;
+	gap: var(--theme-content-inline-gap);
 }
 
 .adminToolbar {
@@ -403,7 +403,7 @@
 }
 @media (max-width: 700px) {
 	.page {
-		padding: var(--theme-content-page-padding) 6px 88px;
+		padding: var(--theme-content-page-padding) var(--theme-content-page-padding) var(--theme-content-mobile-bottom-inset);
 	}
 	.title {
 		margin-bottom: 24px;

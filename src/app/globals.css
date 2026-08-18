@@ -110,6 +110,7 @@
 	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
 	/* Content-only controls. Sidebar and toolbar keep their established geometry. */
 	--theme-content-page-padding: 8px;
+	--theme-content-page-padding-inline: 8px;
 	--theme-content-page-padding-block: 8px;
 	--theme-content-section-gap: 8px;
 	--theme-content-card-padding: 8px;
@@ -126,13 +127,28 @@
 	--theme-content-icon-size: 22px;
 	--theme-content-title-size: 1.75rem;
 	--theme-content-subtitle-size: 0.8rem;
+	--theme-content-heading-gap: 6px;
+	--theme-content-card-gap: 6px;
+	--theme-content-inline-gap: 6px;
+	--theme-content-avatar-size: 48px;
+	--theme-content-avatar-size-small: 40px;
+	--theme-content-friend-row-min-height: 56px;
+	--theme-content-event-min-height: 48px;
+	--theme-content-timeline-label-width: 48px;
+	--theme-content-timeline-line-width: 8px;
+	--theme-content-week-label-width: 24px;
+	--theme-content-week-column-min: 76px;
+	--theme-content-week-min-width: 420px;
+	--theme-content-week-row-min-height: 52px;
+	--theme-content-mobile-bottom-inset: 88px;
+	--theme-content-border-radius-pill: 999px;
 	--theme-content-sheet-row-height: 44px;
 	--theme-content-sheet-card-padding: 8px;
 	--theme-auth-page-padding: 16px;
 	--theme-auth-card-padding: 24px;
 	--theme-auth-control-height: 40px;
 	--theme-auth-gap: 12px;
-	--theme-content-heading-size: 1.75rem;
+	--theme-sheet-max-height: 88svh;
 }
 
 @font-face {
