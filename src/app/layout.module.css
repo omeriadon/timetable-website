@@ -79,6 +79,23 @@
 	margin-left: var(--theme-sidebar-frame);
 	padding: var(--theme-page-padding);
 	padding-top: 52px;
+	/* Content inherits the compact design system; the sidebar and toolbar keep
+	   their original geometry outside this surface. */
+	--theme-space-1: var(--ui-space-1);
+	--theme-space-2: var(--ui-space-2);
+	--theme-space-3: var(--ui-space-3);
+	--theme-space-4: var(--ui-space-4);
+	--theme-row-height: var(--ui-row-height);
+	--theme-control-height: var(--ui-control-height);
+	--theme-card-padding: var(--ui-card-padding);
+	--theme-list-padding-inline: var(--ui-list-padding-inline);
+	--theme-list-row-padding-block: var(--ui-list-row-padding-block);
+	--theme-list-row-gap: var(--ui-list-row-gap);
+	--theme-control-padding-inline: var(--ui-control-padding-inline);
+	--theme-control-padding-block: var(--ui-control-padding-block);
+	--theme-section-gap: var(--ui-section-gap);
+	--theme-radius-card: var(--ui-radius-card);
+	--theme-radius-control: var(--ui-radius-control);
 }
 
 .reflectionMirror {
@@ -192,7 +209,10 @@
 		width: 100%;
 		margin-left: 0;
 		padding-top: var(--theme-page-padding);
-		padding-bottom: calc(var(--theme-page-padding) + var(--theme-content-mobile-bottom-inset));
+		padding-bottom: calc(
+			var(--theme-page-padding) + var(--theme-content-mobile-bottom-inset) +
+			 env(safe-area-inset-bottom)
+		);
 	}
 
 	.reflectionMirror {

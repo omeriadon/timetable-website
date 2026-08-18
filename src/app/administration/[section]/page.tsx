@@ -16,6 +16,8 @@ import AdminBroadcastHistoryEditor from "@/components/administration/AdminBroadc
 import AdminStatisticsEditor from "@/components/administration/AdminStatisticsEditor/AdminStatisticsEditor";
 import AdminEmailLogEditor from "@/components/administration/AdminEmailLogEditor/AdminEmailLogEditor";
 import AdminBadgesEditor from "@/components/administration/AdminBadgesEditor/AdminBadgesEditor";
+import AdminAdministratorsEditor from "@/components/administration/AdminAdministratorsEditor/AdminAdministratorsEditor";
+import AdminDevelopmentAccessEditor from "@/components/administration/AdminDevelopmentAccessEditor/AdminDevelopmentAccessEditor";
 import AdminRecord, { type AdminRecordValue } from "@/components/administration/AdminRecord/AdminRecord";
 import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
 import TestEmailButton from "@/components/administration/TestEmailButton/TestEmailButton";
@@ -97,6 +99,8 @@ const sectionConfig: Record<
 		endpoint: "v1/administration/badges",
 	},
 	"test-email": { title: "Send Test Email", icon: "envelope.badge" },
+	administrators: { title: "Administrators", icon: "person.badge.shield.checkmark" },
+	"server-access": { title: "Debug Testing", icon: "testtube.2" },
 };
 
 export default function AdministrationSectionPage() {
@@ -125,7 +129,7 @@ export default function AdministrationSectionPage() {
 	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
 
 	return (
-		section === "statistics" ? <AdminStatisticsEditor /> : section === "email-log" ? <AdminEmailLogEditor /> : section === "badges" ? <AdminBadgesEditor /> : section === "users" ? <AdminUsersEditor /> : section === "user-reports" ? <AdminUserReportsEditor /> : section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> : section === "app-version" ? <AdminAppVersionEditor /> : section === "profile-storage-quota" ? <AdminProfileStorageEditor /> : section === "broadcast-notifications" ? <AdminBroadcastHistoryEditor /> :
+		section === "statistics" ? <AdminStatisticsEditor /> : section === "email-log" ? <AdminEmailLogEditor /> : section === "badges" ? <AdminBadgesEditor /> : section === "users" ? <AdminUsersEditor /> : section === "administrators" ? <AdminAdministratorsEditor /> : section === "server-access" ? <AdminDevelopmentAccessEditor /> : section === "user-reports" ? <AdminUserReportsEditor /> : section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> : section === "app-version" ? <AdminAppVersionEditor /> : section === "profile-storage-quota" ? <AdminProfileStorageEditor /> : section === "broadcast-notifications" ? <AdminBroadcastHistoryEditor /> :
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>

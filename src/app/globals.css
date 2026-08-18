@@ -111,6 +111,10 @@
 	/* Universal content controls. Sidebar and toolbar deliberately do not use these. */
 	--ui-page-padding: 6px;
 	--ui-section-gap: 6px;
+	--ui-space-1: 4px;
+	--ui-space-2: 6px;
+	--ui-space-3: 6px;
+	--ui-space-4: 8px;
 	--ui-card-padding: 7px;
 	--ui-row-height: 36px;
 	--ui-row-gap: 6px;
@@ -134,7 +138,7 @@
 	--ui-week-column-min: 68px;
 	--ui-week-min-width: 380px;
 	--ui-week-row-min-height: 46px;
-	--ui-mobile-bottom-inset: 76px;
+	--ui-mobile-bottom-inset: 96px;
 	--ui-sheet-row-height: 38px;
 	--ui-sheet-card-padding: 7px;
 	--ui-border-radius-pill: 999px;
@@ -142,6 +146,9 @@
 	--ui-small-font-size: 0.76rem;
 	--ui-touch-target: 30px;
 	--ui-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+	--ui-list-padding-inline: 7px;
+	--ui-list-row-padding-block: 2px;
+	--ui-list-row-gap: 6px;
 	--theme-content-page-padding: var(--ui-page-padding);
 	--theme-content-page-padding-inline: var(--ui-page-padding);
 	--theme-content-page-padding-block: var(--ui-page-padding);

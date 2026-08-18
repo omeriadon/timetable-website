@@ -24,7 +24,7 @@ const sections = [
   [
     "School Content",
     [
-      ["calendar.badge.exclamationmark", "School Events", "calendar"],
+      ["calendar.badge.exclamationmark", "School Events", "school-events"],
       ["tag", "Event Tags", "event-tags"],
       ["calendar.badge.clock", "Term Dates", "term-dates"],
       ["calendar.badge.exclamationmark", "Pupil Free Days", "pupil-free-days"],
@@ -46,9 +46,9 @@ const sections = [
   [
     "System Administration",
     [
-      ["person.badge.shield.checkmark", "Administrators", "users"],
+      ["person.badge.shield.checkmark", "Administrators", "administrators"],
       ["arrow.down.app", "App Version", "app-version"],
-      ["testtube.2", "Debug Testing", "statistics"],
+      ["testtube.2", "Debug Testing", "server-access"],
       ["externaldrive.fill", "Profile Storage", "profile-storage-quota"],
       ["rosette", "Badges", "badges"],
       ["envelope.badge", "Send Test Email", "test-email"],

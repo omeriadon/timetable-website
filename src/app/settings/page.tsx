@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
@@ -54,18 +53,6 @@ export default function SettingsPage() {
 			.then(setTimetable)
 			.catch(() => setTimetable(null));
   }, [setToolbar]);
-
-  const toggle = async (
-    key: "notificationsEnabled" | "liveActivitiesEnabled",
-  ) => {
-    if (!settings || saving) {
-      return;
-    }
-
-	    const current = settings;
-	    const next = { ...current, [key]: !current[key] };
-	    await saveSettings(current, next);
-	};
 
 	const updateFutureEventRange = async (futureEventRange: string) => {
 		if (!settings || saving || settings.futureEventRange === futureEventRange) {
@@ -140,7 +127,7 @@ export default function SettingsPage() {
 				</div>
 			</button>
         <NavigationRow
-          title="Edit Timetable"
+          title="Edit"
           description="Update subjects and weekly classes."
           href="/timetable"
           icon="pencil.and.list.clipboard"
@@ -148,12 +135,6 @@ export default function SettingsPage() {
       </section>
       <h2 className={styles.section}>Preferences</h2>
       <section className={styles.card}>
-        <NavigationRow
-          title="Account & Sync"
-          description="Sync account settings and connected devices."
-          href="/settings/account"
-          icon="person.2"
-        />
         {settings ? (
           <>
             <NavigationRow
@@ -163,22 +144,10 @@ export default function SettingsPage() {
               icon="paintpalette"
             />
             <NavigationRow
-              title="Navigation"
-              description="Restore the selected tab and navigation path."
-              href="/settings/navigation"
-              icon="arrow.down.app"
-            />
-            <SettingToggle
-              label="Updates & Notifications"
-              enabled={settings.notificationsEnabled}
-              onClick={() => toggle("notificationsEnabled")}
-              disabled={saving}
-            />
-            <SettingToggle
-              label="Live Activities"
-              enabled={settings.liveActivitiesEnabled}
-              onClick={() => toggle("liveActivitiesEnabled")}
-              disabled={saving}
+              title="Updates & Notifications"
+              description="Control Live Activities, class notifications, event notifications, and sync."
+              href="/settings/account"
+              icon="switch.2"
             />
             <div className={styles.row}>
               <SymbolIcon name="calendar.badge.clock" />
