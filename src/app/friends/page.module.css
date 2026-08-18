@@ -2,7 +2,7 @@
   min-height: 100%;
   width: 100%;
   margin: 0;
-  padding: 16px var(--theme-content-page-padding) 14px;
+  padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
 }
 .page h1 {
   margin: 0 0 14px;
@@ -13,7 +13,7 @@
 }
 .list {
   display: grid;
-  gap: 8px;
+  gap: var(--theme-content-section-gap);
 }
 .friendActions {
   display: flex;
@@ -36,10 +36,10 @@
 }
 .selfCard {
   display: flex;
-  gap: 12px;
+  gap: var(--theme-content-row-gap);
   align-items: center;
-  margin-bottom: 8px;
-  padding: 8px 10px;
+  margin-bottom: var(--theme-content-section-gap);
+  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-highlight);
   border-radius: var(--theme-content-radius);
   color: var(--theme-black);
@@ -71,10 +71,10 @@
 .friend {
   display: grid;
   grid-template-columns: 92px 1fr auto;
-  gap: 12px;
+  gap: var(--theme-content-row-gap);
   align-items: center;
   min-height: 64px;
-  padding: var(--theme-content-card-padding);
+  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-divider);
   border-radius: var(--theme-content-radius);
   background: linear-gradient(
@@ -116,7 +116,7 @@
 }
 .status {
   align-self: start;
-  padding: 5px 9px;
+  padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
   border-radius: 999px;
   color: var(--theme-text);
   background: var(--theme-info);

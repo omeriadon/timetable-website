@@ -110,11 +110,11 @@ export default function SettingsPage() {
             />
           }
         >
-          <section className={styles.paper} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <ProfilePicture profile={account} size={52} />
-            <span>
-              <b style={{ fontSize: "1.35rem" }}>{account.displayName}</b>
-              <small style={{ display: "block", color: "var(--theme-text-tertiary)" }}>{account.email}</small>
+			<section className={`${styles.paper} ${styles.profileRow}`}>
+				<ProfilePicture profile={account} size={52} />
+				<span>
+					<b className={styles.profileName}>{account.displayName}</b>
+					<small className={styles.profileEmail}>{account.email}</small>
             </span>
             <span className={styles.chevron}>›</span>
           </section>
