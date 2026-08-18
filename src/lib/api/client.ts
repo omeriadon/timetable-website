@@ -28,18 +28,25 @@ export async function apiRequest<T>(
 	if (!response.ok) {
 		const payload = await response.json().catch(() => ({}));
 		const errorPayload = payload.error ?? payload;
-		const message =
-			errorPayload.reason ??
-			errorPayload.message ??
-			(response.status === 401
-				? "Your email or password is incorrect."
+		const upstreamMessage = errorPayload.reason ?? errorPayload.message;
+		const genericUpstreamMessage = typeof upstreamMessage === "string" && [
+			"The request could not be completed.",
+			"The request could not be completed",
+			"Request failed.",
+		].includes(upstreamMessage.trim());
+		const message = !upstreamMessage || genericUpstreamMessage
+			? response.status === 401
+				? "Your email or password is incorrect. Check both fields and try again."
 				: response.status === 403
-					? "This account is not permitted to use the website. Contact an administrator if you believe this is incorrect."
-					: response.status === 429
-						? "Too many requests. Wait a moment and try again."
-						: response.status >= 500
-							? "Timetable is temporarily unavailable. Try again shortly."
-							: "The request could not be completed. Check your details and try again.");
+					? "The server rejected this sign-in. Your account may be unverified or not permitted to use the website."
+					: response.status === 404
+						? "That Timetable service is unavailable. Check the server address and try again."
+						: response.status === 429
+							? "Too many requests. Wait a moment and try again."
+							: response.status >= 500
+								? "Timetable is temporarily unavailable. Try again shortly."
+								: "Timetable could not complete that request. Check the details and try again."
+			: upstreamMessage;
 		throw new PMSTTAPIError(
 			response.status,
 			message,
