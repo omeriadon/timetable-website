@@ -4,14 +4,15 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
-import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
+import EventNotificationScheduleSheet, { type EventNotificationSchedule } from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
 
 type Settings = {
 	appFontDesign: string;
@@ -25,7 +26,7 @@ type Settings = {
 	serverRevision: number;
 	notificationLeadTimes: number[];
 	breakToPeriodNotificationLeadTimes: number[];
-	eventNotificationSchedules: { hour: number; minute: number; dayOffset: number }[];
+	eventNotificationSchedules: EventNotificationSchedule[];
   [key: string]: unknown;
 };
 
@@ -195,6 +196,7 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const { openSheet } = useSheet();
 	const save = async (next: Settings) => {
 		setDraft(next);
 		setSaving(true);
@@ -224,6 +226,17 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 		const values = draft[key].includes(value) ? draft[key].filter((item) => item !== value) : [...draft[key], value].sort((left, right) => left - right);
 		update({ [key]: values });
 	};
+	const addSchedule = (schedule: EventNotificationSchedule) => {
+		if (draft.eventNotificationSchedules.some((item) => item.hour === schedule.hour && item.minute === schedule.minute && item.dayOffset === schedule.dayOffset)) {
+			return;
+		}
+		update({ eventNotificationSchedules: [...draft.eventNotificationSchedules, schedule] });
+	};
+	const removeSchedule = (schedule: EventNotificationSchedule) => {
+		update({ eventNotificationSchedules: draft.eventNotificationSchedules.filter((item) => item.hour !== schedule.hour || item.minute !== schedule.minute || item.dayOffset !== schedule.dayOffset) });
+	};
+	const formatTime = (schedule: EventNotificationSchedule) => new Date(2026, 0, 1, schedule.hour, schedule.minute).toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" });
+	const formatOffset = (days: number) => days === 0 ? "on the day" : days === 7 ? "1 week before" : `${days} day${days === 1 ? "" : "s"} before`;
 	return (
 		<>
 			<section className={styles.card}>
@@ -236,6 +249,25 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 				<div className={styles.row}><SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" /><span className={styles.label}>Before Class or From a Break</span></div>
 				<div className={styles.choiceGrid}>
 					{[0, 1, 2, 3, 5, 10].map((value) => <button key={value} type="button" className={draft.breakToPeriodNotificationLeadTimes.includes(value) ? styles.choiceActive : styles.choice} onClick={() => toggleLeadTime("breakToPeriodNotificationLeadTimes", value)} disabled={saving}>{value} min</button>)}
+				</div>
+				<div className={styles.row}>
+					<SymbolIcon name="calendar.badge.clock" />
+					<span className={styles.label}>Event Notifications</span>
+				</div>
+				<div className={styles.scheduleList}>
+					{draft.eventNotificationSchedules
+						.slice()
+						.sort((left, right) => left.dayOffset - right.dayOffset || left.hour - right.hour || left.minute - right.minute)
+						.map((schedule) => (
+							<div key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`} className={styles.scheduleRow}>
+								<span>{formatTime(schedule)}</span>
+								<small>{formatOffset(schedule.dayOffset)}</small>
+								<button type="button" onClick={() => removeSchedule(schedule)} disabled={saving} aria-label={`Remove ${formatTime(schedule)} event notification`}>−</button>
+							</div>
+						))}
+					<button type="button" className={styles.rowButton} onClick={() => openSheet(<EventNotificationScheduleSheet onSave={addSchedule} />)}>
+						<div className={styles.row}><span className={styles.symbol}>＋</span><span className={styles.label}>Add Event Notification</span></div>
+					</button>
 				</div>
 			</section>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}
@@ -339,73 +371,5 @@ function AppearanceSettingsEditor({ initial }: { initial: Settings }) {
 			</section>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}
 		</>
-	);
-}
-
-function ProfileAppearanceEditor({
-	profile,
-	save,
-}: {
-	profile: ProfileResponse;
-	save: (appearance: ProfileAppearance) => Promise<void>;
-}) {
-	const [draft, setDraft] = useState(profile.appearance);
-	const [photo, setPhoto] = useState(profile.photo);
-	const [uploading, setUploading] = useState(false);
-	const uploadPhoto = async (file: File) => {
-		setUploading(true);
-		try {
-			const updated = await apiRequest<ProfileResponse>("v1/friends/profile/photo", { method: "PUT", headers: { "Content-Type": "image/jpeg" }, body: await file.arrayBuffer() });
-			setPhoto(updated.photo);
-		} catch (requestError) {
-			window.alert((requestError as Error).message);
-		} finally {
-			setUploading(false);
-		}
-	};
-	return (
-		<section className={styles.card}>
-			<div className={styles.profilePreview}>
-				<ProfilePicture profile={{ displayName: profile.displayName, appearance: draft, photo }} size={76} />
-				<div>
-					<strong>{profile.displayName}</strong>
-					<span>Profile appearance</span>
-				</div>
-			</div>
-			<div className={styles.row}>
-				<SymbolIcon name="paintpalette" />
-				<span className={styles.label}>Content</span>
-				<select
-					className={styles.inlineSelect}
-					value={draft.contentKind}
-					onChange={(event) => setDraft({ ...draft, contentKind: event.target.value as ProfileAppearance["contentKind"] })}
-				>
-					<option value="emoji">Emoji</option>
-					<option value="monogram">Monogram</option>
-					<option value="photo">Photo</option>
-				</select>
-			</div>
-			{draft.contentKind === "emoji" ? (
-				<div className={styles.row}>
-					<span className={styles.label}>Emoji</span>
-					<input className={styles.inlineInput} value={draft.emoji} onChange={(event) => setDraft({ ...draft, emoji: event.target.value.slice(0, 4) })} />
-				</div>
-			) : null}
-			{draft.contentKind === "monogram" ? (
-				<div className={styles.row}>
-					<span className={styles.label}>Monogram</span>
-					<input className={styles.inlineInput} value={draft.monogram} onChange={(event) => setDraft({ ...draft, monogram: event.target.value.slice(0, 3) })} />
-				</div>
-			) : null}
-			{draft.contentKind === "photo" ? (
-				<div className={styles.row}>
-					<span className={styles.label}>Photo</span>
-					<input type="file" accept="image/jpeg" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); }} />
-				</div>
-			) : null}
-			<button type="button" className={styles.profileSave} onClick={() => save(draft)}>
-				Save Profile Appearance
-			</button>
-		</section>
 	);
 }

@@ -21,6 +21,7 @@
 }
 
 .profilePicture {
+	position: relative;
 	display: inline-grid;
 	place-items: center;
 	flex: 0 0 auto;
@@ -29,6 +30,26 @@
 	font-family: var(--theme-font-rounded);
 	font-size: 1.25rem;
 	font-weight: 650;
+	background-size: 180% 180% !important;
+	animation: profileGradient calc(12s / max(var(--profile-speed), 0.05)) ease-in-out infinite alternate;
+}
+
+.profilePicture::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	opacity: calc(var(--profile-noise) * 0.003);
+	background-image: radial-gradient(rgba(255, 255, 255, 0.75) 0.7px, transparent 0.8px);
+	background-size: 3px 3px;
+	mix-blend-mode: overlay;
+	pointer-events: none;
+}
+
+.profilePicture > * { position: relative; z-index: 1; }
+
+@keyframes profileGradient {
+	from { background-position: 0% 50%; }
+	to { background-position: 100% 50%; }
 }
 
 .profilePictureImage {

@@ -90,20 +90,27 @@ export default function SettingsPage() {
   return (
     <main className={styles.page}>
       {account ? (
-        <section
-          className={styles.paper}
-          style={{ display: "flex", gap: 16, alignItems: "center" }}
+        <SheetTrigger
+          className={styles.rowButton}
+          ariaLabel="Open profile appearance"
+          content={
+            <NavigationSheet
+              title="Profile Appearance"
+              description="Change your profile picture, colours, and monogram style."
+              href="/settings/profile-appearance"
+              icon="person.2"
+            />
+          }
         >
-          <ProfilePicture profile={account} size={56} />
-          <span>
-            <b style={{ fontSize: "1.8rem" }}>{account.displayName}</b>
-            <small
-              style={{ display: "block", color: "var(--theme-text-tertiary)" }}
-            >
-              {account.email}
-            </small>
-          </span>
-        </section>
+          <section className={styles.paper} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <ProfilePicture profile={account} size={52} />
+            <span>
+              <b style={{ fontSize: "1.35rem" }}>{account.displayName}</b>
+              <small style={{ display: "block", color: "var(--theme-text-tertiary)" }}>{account.email}</small>
+            </span>
+            <span className={styles.chevron}>›</span>
+          </section>
+        </SheetTrigger>
       ) : null}
       {error ? (
         <p className={styles.error} role="alert">

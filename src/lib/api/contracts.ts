@@ -11,6 +11,7 @@ export type Account = {
 };
 
 export type ProfileAppearance = {
+	version?: number;
 	contentKind: "photo" | "monogram" | "emoji";
 	monogram: string;
 	emoji: string;
@@ -18,6 +19,8 @@ export type ProfileAppearance = {
 	colours: { r: number; g: number; b: number; a: number }[];
 	fontDesign?: string;
 	fontWeight?: string;
+	speed?: number;
+	noise?: number;
 };
 
 export type ProfilePhoto = {

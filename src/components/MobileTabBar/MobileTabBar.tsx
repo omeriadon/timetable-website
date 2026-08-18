@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { apiRequest } from "@/lib/api/client";
+import type { Account } from "@/lib/api/contracts";
 import styles from "./MobileTabBar.module.css";
 
 const tabs = [
@@ -14,11 +17,18 @@ const tabs = [
 
 export default function MobileTabBar() {
 	const pathname = usePathname();
+	const [isAdministrator, setIsAdministrator] = useState(false);
+
+	useEffect(() => {
+		apiRequest<Account>("v1/account")
+			.then((account) => setIsAdministrator(account.authority.toLowerCase().includes("admin") || account.authority.toLowerCase().includes("owner")))
+			.catch(() => setIsAdministrator(false));
+	}, []);
 
 	return (
 		<nav className={styles.tabBar} aria-label="Primary navigation">
-			{tabs.map((tab) => {
-				const active = pathname === tab.href;
+			{tabs.filter((tab) => tab.label !== "Admin" || isAdministrator).map((tab) => {
+				const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
 
 				return (
 					<Link

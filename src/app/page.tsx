@@ -104,6 +104,7 @@ export default function Home() {
         <TodayView
           events={events}
           subjects={data.timetable.subjects}
+          grades={data.grades}
           schoolCalendar={data.schoolCalendar}
           schoolWeather={data.schoolWeather}
         />
@@ -121,11 +122,13 @@ export default function Home() {
 function TodayView({
   events,
   subjects,
+  grades,
   schoolCalendar,
   schoolWeather,
 }: {
-  events: CalendarEvent[];
-  subjects: TimetableSubject[];
+	events: CalendarEvent[];
+	subjects: TimetableSubject[];
+	grades: DashboardData["grades"];
   schoolCalendar: DashboardData["schoolCalendar"];
   schoolWeather: DashboardData["schoolWeather"];
 }) {
@@ -169,6 +172,28 @@ function TodayView({
 				<p>{noSchool.label}</p>
 			</section>
 		) : null}
+		<section className={styles.timelineCard} aria-label="Today's school timeline">
+			<div className={styles.timelineHeader}><h2>School Day</h2><span>{todayDayIndex() >= 0 && todayDayIndex() < 5 ? "8:50 am – 3:30 pm" : "No classes today"}</span></div>
+			{todayDayIndex() >= 0 && todayDayIndex() < 5 ? (
+				<div className={styles.timelineList}>
+					{schoolPeriods.map((period) => {
+						const subject = subjects.find((item) => item.slots.some((slot) => slot.day === todayDayIndex() && slot.session === period.session));
+						const active = isCurrentPeriod(period.start, period.end);
+						return <article key={period.label} className={active ? styles.timelineRowActive : styles.timelineRow}>
+							<time>{period.start}</time>
+							<div className={styles.timelineLine} aria-hidden="true"><span /></div>
+							<div className={styles.timelineContent}><strong>{period.label}{subject ? `  ${subject.id}` : "  Free period"}</strong><span>{subject?.symbol ?? "—"} {period.end}</span></div>
+						</article>;
+					})}
+				</div>
+			) : <p className={styles.empty}>The school day timeline is only available on weekdays.</p>}
+		</section>
+		{grades.document.assessments.length ? (
+			<section className={styles.paperCard}>
+				<h2>Assessments</h2>
+				{grades.document.assessments.slice().sort((left, right) => compareDate(left.date, right.date)).slice(0, 3).map((assessment) => <article key={assessment.id} className={styles.assessmentRow}><span className={styles.eventSymbol}>＋</span><div><strong>{assessment.name}</strong><span>{assessment.subjectID} · {displayAssessmentDate(assessment.date)}</span></div><b>{assessment.score.toFixed(1)}%</b></article>)}
+			</section>
+		) : null}
       <section className={styles.paperCard}>
         <h2>Classes</h2>
         <div className={styles.subjectList}>
@@ -183,6 +208,33 @@ function TodayView({
       </section>
     </>
   );
+}
+
+const schoolPeriods = [
+	{ label: "1", start: "8:50 am", end: "9:48 am", session: 0 },
+	{ label: "2", start: "9:48 am", end: "10:46 am", session: 1 },
+	{ label: "3", start: "11:08 am", end: "12:06 pm", session: 3 },
+	{ label: "4", start: "12:06 pm", end: "1:04 pm", session: 4 },
+	{ label: "5", start: "1:34 pm", end: "2:32 pm", session: 6 },
+	{ label: "6", start: "2:32 pm", end: "3:30 pm", session: 7 },
+] as const;
+
+function todayDayIndex() {
+	return new Date().getDay() - 1;
+}
+
+function isCurrentPeriod(start: string, end: string) {
+	const now = new Date();
+	const minutes = now.getHours() * 60 + now.getMinutes();
+	const parse = (value: string) => {
+		const [time, meridiem] = value.split(" ");
+		const [hours, minute] = time.split(":").map(Number);
+		let hour = hours;
+		if (meridiem === "pm" && hour !== 12) hour += 12;
+		if (meridiem === "am" && hour === 12) hour = 0;
+		return hour * 60 + minute;
+	};
+	return minutes >= parse(start) && minutes < parse(end);
 }
 
 function weatherLabel(conditionCode: string) {
@@ -294,6 +346,10 @@ function monthName(month: number) {
 	return new Intl.DateTimeFormat("en-AU", { month: "short" }).format(
 		new Date(2026, month - 1, 1),
 	);
+}
+
+function displayAssessmentDate(date: { year: number; month: number; day: number }) {
+	return new Date(date.year, date.month - 1, date.day).toLocaleDateString("en-AU", { day: "numeric", month: "short" });
 }
 
 function EventRow({

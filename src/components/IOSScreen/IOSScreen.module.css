@@ -234,6 +234,39 @@
 	color: var(--theme-text);
 	background: var(--theme-accent);
 }
+
+.scheduleList {
+	display: grid;
+	gap: var(--theme-space-2);
+	padding: 0 var(--theme-list-padding-inline) var(--theme-card-padding);
+}
+
+.scheduleRow {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: var(--theme-space-3);
+	align-items: center;
+	min-height: var(--theme-row-height);
+	padding: 0 var(--theme-space-2);
+	border-bottom: 1px solid var(--theme-divider);
+}
+
+.scheduleRow small {
+	color: var(--theme-text-secondary);
+	text-transform: lowercase;
+}
+
+.scheduleRow button {
+	width: var(--theme-control-height);
+	height: var(--theme-control-height);
+	border: 0;
+	border-radius: 50%;
+	color: var(--theme-error);
+	background: transparent;
+	font: inherit;
+	font-size: 1.4rem;
+	cursor: pointer;
+}
 @media (max-width: 700px) {
 	.page {
 		padding: var(--theme-page-padding) 8px 88px;
