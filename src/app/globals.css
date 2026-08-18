@@ -108,6 +108,15 @@
 	--theme-sidebar-start: rgba(15, 15, 15, 0.94);
 	--theme-sidebar-mid: rgba(15, 15, 15, 0.88);
 	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
+	/* Content-only controls. Sidebar and toolbar keep their established geometry. */
+	--theme-content-page-padding: 8px;
+	--theme-content-section-gap: 8px;
+	--theme-content-card-padding: 8px;
+	--theme-content-row-height: 40px;
+	--theme-content-row-gap: 8px;
+	--theme-content-radius: 14px;
+	--theme-content-control-height: 32px;
+	--theme-content-heading-size: 1.75rem;
 }
 
 @font-face {
@@ -183,6 +192,11 @@ html {
 body {
 	min-height: 100svh;
 	font-family: var(--theme-font-body);
+}
+
+body,
+#__next {
+	background-color: var(--theme-black);
 }
 
 html[data-app-font="monospaced"] body {

@@ -24,8 +24,8 @@
 .sheet {
   position: relative;
   width: 100%;
-	min-height: 36svh;
-  max-height: 92svh;
+	min-height: 0;
+	max-height: 88svh;
   overflow: auto;
 	padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline) var(--theme-sheet-padding-bottom);
   border: 1px solid var(--theme-divider);
@@ -138,6 +138,33 @@
 	padding: 4px var(--theme-space-5);
 	border-radius: var(--theme-radius-card);
   background: var(--theme-surface);
+}
+
+.leadTimeOption,
+.leadTimeOptionActive {
+	display: flex;
+	width: 100%;
+	min-height: var(--theme-content-row-height);
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--theme-content-row-gap);
+	padding: 0 var(--theme-content-page-padding);
+	border: 0;
+	border-bottom: 1px solid var(--theme-divider);
+	color: var(--theme-text);
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.leadTimeOption:last-child,
+.leadTimeOptionActive:last-child {
+	border-bottom: 0;
+}
+
+.leadTimeOptionActive {
+	color: var(--theme-accent-bright);
 }
 
 .detailRow,

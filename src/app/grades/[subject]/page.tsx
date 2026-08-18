@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import GradeAssessmentSheet from "@/components/sheets/GradeAssessmentSheet/GradeAssessmentSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 
 export default function GradeSubjectPage() {
   const { subject } = useParams<{ subject: string }>();
@@ -32,44 +33,16 @@ export default function GradeSubjectPage() {
       ) ?? [],
     [tracker, subjectID],
   );
-  const createAssessment = async () => {
-    if (!tracker) return;
-    setSaving(true);
-    setError(null);
-    const now = new Date();
-    const assessment: GradeAssessment = {
-      id: crypto.randomUUID(),
-      subjectID,
-      semester: 1,
-      name: "New Assessment",
-      date: {
-        year: now.getFullYear(),
-        month: now.getMonth() + 1,
-        day: now.getDate(),
-      },
-      score: 0,
-      weighting: 0,
-      location: "subjectPeriod",
-    };
-    try {
-      setTracker(
-        await apiRequest<GradeTracker>("v1/grades", {
-          method: "PUT",
-          body: JSON.stringify({
-            document: {
-              ...tracker.document,
-              assessments: [...tracker.document.assessments, assessment],
-            },
-            serverRevision: tracker.document.serverRevision,
-          }),
-        }),
-      );
-    } catch (requestError) {
-      setError((requestError as Error).message);
-    } finally {
-      setSaving(false);
-    }
-  };
+	const createAssessment = (semester: number) => {
+		openSheet(
+			<GradeAssessmentSheet
+				subjectID={subjectID}
+				semester={semester}
+				onSave={saveAssessment}
+				onDelete={deleteAssessment}
+			/>
+		);
+	};
 
 	const saveAssessment = async (assessment: GradeAssessment) => {
 		if (!tracker) return;
@@ -93,6 +66,7 @@ export default function GradeSubjectPage() {
 			);
 		} catch (requestError) {
 			setError((requestError as Error).message);
+			throw requestError;
 		} finally {
 			setSaving(false);
 		}
@@ -117,10 +91,13 @@ export default function GradeSubjectPage() {
 			);
 		} catch (requestError) {
 			setError((requestError as Error).message);
+			throw requestError;
 		} finally {
 			setSaving(false);
 		}
 	};
+
+	const { openSheet } = useSheet();
 
   return (
     <main className={styles.page}>
@@ -132,10 +109,11 @@ export default function GradeSubjectPage() {
           {error}
         </p>
       ) : null}
-      <h2 className={styles.section}>Semester 1</h2>
-      <section className={styles.card}>
-        {assessments.length ? (
-          assessments.map((assessment) => (
+	      {[1, 2].map((semester) => <div key={semester}>
+	      <h2 className={styles.section}>Semester {semester}</h2>
+	      <section className={styles.card}>
+	        {assessments.filter((assessment) => assessment.semester === semester).length ? (
+	          assessments.filter((assessment) => assessment.semester === semester).map((assessment) => (
 							<SheetTrigger
 								key={assessment.id}
 								className={styles.rowButton}
@@ -143,6 +121,8 @@ export default function GradeSubjectPage() {
 								content={
 									<GradeAssessmentSheet
 										assessment={assessment}
+										subjectID={subjectID}
+										semester={semester}
 										onSave={saveAssessment}
 										onDelete={deleteAssessment}
 									/>
@@ -190,14 +170,15 @@ export default function GradeSubjectPage() {
             textAlign: "left",
           }}
           disabled={saving}
-          onClick={createAssessment}
+          onClick={() => createAssessment(semester)}
         >
           <span className={styles.symbol}>＋</span>
           <span className={styles.label}>
             {saving ? "Saving…" : "New Assessment"}
           </span>
         </button>
-      </section>
+	      </section>
+	      </div>)}
     </main>
   );
 }

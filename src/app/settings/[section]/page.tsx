@@ -6,6 +6,8 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
+import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
+import AboutEditor from "@/components/settings/AboutEditor/AboutEditor";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
@@ -13,6 +15,7 @@ import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 import EventNotificationScheduleSheet, { type EventNotificationSchedule } from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
+import NotificationLeadTimesSheet from "@/components/sheets/NotificationLeadTimesSheet/NotificationLeadTimesSheet";
 
 type Settings = {
 	appFontDesign: string;
@@ -129,27 +132,10 @@ export default function SettingsSectionPage() {
 			profile ? <ProfileAppearanceEditor profile={profile} save={saveProfile} /> : null
 		) : null}
       {section === "feedback" ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-          <SymbolIcon name="exclamationmark.bubble" />
-            <span className={styles.label}>Feedback endpoint</span>
-            <span className={styles.detail}>Authenticated</span>
-          </div>
-        </section>
+        <FeedbackEditor />
       ) : null}
       {section === "about" ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-          <SymbolIcon name="info.circle" />
-            <span className={styles.label}>Timetable</span>
-            <span className={styles.detail}>Website client</span>
-          </div>
-          <div className={styles.row}>
-          <SymbolIcon name="textformat.size" />
-            <span className={styles.label}>Version</span>
-            <span className={styles.detail}>Web</span>
-          </div>
-        </section>
+        <AboutEditor />
       ) : null}
       {!settings && !error ? (
         <p className={styles.loading}>Loading settings…</p>
@@ -222,10 +208,17 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 		}
 	};
 	const update = (changes: Partial<Settings>) => void save({ ...draft, ...changes });
-	const toggleLeadTime = (key: "notificationLeadTimes" | "breakToPeriodNotificationLeadTimes", value: number) => {
-		const values = draft[key].includes(value) ? draft[key].filter((item) => item !== value) : [...draft[key], value].sort((left, right) => left - right);
-		update({ [key]: values });
+	const openLeadTimes = (key: "notificationLeadTimes" | "breakToPeriodNotificationLeadTimes", title: string, description: string) => {
+		openSheet(
+			<NotificationLeadTimesSheet
+				title={title}
+				description={description}
+				selection={draft[key]}
+				onSave={async (selection) => update({ [key]: selection })}
+			/>,
+		);
 	};
+	const formatLeadTimes = (values: number[]) => values.length ? values.map((value) => `${value}m`).join(", ") : "None";
 	const addSchedule = (schedule: EventNotificationSchedule) => {
 		if (draft.eventNotificationSchedules.some((item) => item.hour === schedule.hour && item.minute === schedule.minute && item.dayOffset === schedule.dayOffset)) {
 			return;
@@ -242,14 +235,12 @@ function NotificationSettingsEditor({ initial }: { initial: Settings }) {
 			<section className={styles.card}>
 				<SettingToggle label="Allow Class Notifications" enabled={draft.notificationsEnabled} onClick={() => update({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
 				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => update({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
-				<div className={styles.row}><SymbolIcon name="bell.badge" /><span className={styles.label}>Send Notifications Early By</span></div>
-				<div className={styles.choiceGrid}>
-					{[0, 1, 2, 3, 5, 10].map((value) => <button key={value} type="button" className={draft.notificationLeadTimes.includes(value) ? styles.choiceActive : styles.choice} onClick={() => toggleLeadTime("notificationLeadTimes", value)} disabled={saving}>{value} min</button>)}
-				</div>
-				<div className={styles.row}><SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" /><span className={styles.label}>Before Class or From a Break</span></div>
-				<div className={styles.choiceGrid}>
-					{[0, 1, 2, 3, 5, 10].map((value) => <button key={value} type="button" className={draft.breakToPeriodNotificationLeadTimes.includes(value) ? styles.choiceActive : styles.choice} onClick={() => toggleLeadTime("breakToPeriodNotificationLeadTimes", value)} disabled={saving}>{value} min</button>)}
-				</div>
+				<button type="button" className={styles.rowButton} onClick={() => openLeadTimes("notificationLeadTimes", "Notify Me", "Send notifications early by these intervals.")} disabled={saving}>
+					<div className={styles.row}><SymbolIcon name="bell.badge" /><span className={styles.label}>Send Notifications Early By</span><span className={styles.detail}>{formatLeadTimes(draft.notificationLeadTimes)}</span><span className={styles.chevron}>›</span></div>
+				</button>
+				<button type="button" className={styles.rowButton} onClick={() => openLeadTimes("breakToPeriodNotificationLeadTimes", "Notify Me", "Applies before first period and after recess or lunch.")} disabled={saving}>
+					<div className={styles.row}><SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" /><span className={styles.label}>Before Class or From a Break</span><span className={styles.detail}>{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}</span><span className={styles.chevron}>›</span></div>
+				</button>
 				<div className={styles.row}>
 					<SymbolIcon name="calendar.badge.clock" />
 					<span className={styles.label}>Event Notifications</span>

@@ -1,14 +1,14 @@
 .page {
 	min-height: 100%;
-	padding: 28px var(--theme-page-padding) 20px;
+	padding: 16px var(--theme-content-page-padding) 14px;
 	color: var(--theme-text);
 }
 
 .summary {
 	display: grid;
-	gap: var(--theme-space-5);
-	padding: var(--theme-card-padding);
-	border-radius: var(--theme-radius-card);
+	gap: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding);
+	border-radius: var(--theme-content-radius);
 	color: var(--theme-black);
 	background: linear-gradient(135deg, var(--theme-paper), var(--theme-paper-dark));
 }
@@ -26,7 +26,7 @@
 }
 
 .summaryValue {
-	font-size: 2.4rem;
+	font-size: 2rem;
 	font-weight: 740;
 }
 
@@ -44,8 +44,8 @@
 
 .subjects {
 	display: grid;
-	gap: var(--theme-space-3);
-	margin-top: var(--theme-space-5);
+	gap: var(--theme-content-section-gap);
+	margin-top: var(--theme-content-section-gap);
 }
 
 .subjectRow {
@@ -53,10 +53,10 @@
 	grid-template-columns: 54px minmax(0, 1fr) auto;
 	gap: var(--theme-space-4);
 	align-items: center;
-	min-height: 72px;
-	padding: var(--theme-space-3);
+	min-height: 62px;
+	padding: var(--theme-content-card-padding);
 	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-radius-card);
+	border-radius: var(--theme-content-radius);
 	color: var(--theme-text);
 	background: linear-gradient(135deg, var(--theme-surface-soft), var(--theme-surface));
 	text-decoration: none;
@@ -115,7 +115,7 @@
 
 @media (max-width: 700px) {
 	.page {
-		padding: var(--theme-page-padding) 8px 88px;
+		padding: var(--theme-content-page-padding) 6px 88px;
 	}
 	.summaryValue {
 		font-size: 2rem;

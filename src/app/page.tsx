@@ -4,15 +4,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard, type DashboardData } from "@/features/timetable/useDashboard";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import LessonDetailSheet from "@/components/sheets/LessonDetailSheet/LessonDetailSheet";
+import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
+import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type {
   CalendarEvent,
   TimetableSubject,
 } from "@/features/timetable/types";
-import { TIMETABLE_DAYS, TIMETABLE_SESSIONS } from "@/features/timetable/layout";
+import { TIMETABLE_DAYS, TIMETABLE_SESSIONS, periodLabel } from "@/features/timetable/layout";
 import styles from "./page.module.css";
 
 type TimetableMode = "today" | "week" | "planner";
@@ -110,7 +110,7 @@ export default function Home() {
         />
       ) : null}
       {data && mode === "week" ? (
-        <WeekView subjects={data.timetable.subjects} />
+        <WeekView subjects={data.timetable.subjects} friends={data.friends} />
       ) : null}
       {data && mode === "planner" ? (
         <PlannerView events={events} schoolCalendar={data.schoolCalendar} />
@@ -263,8 +263,11 @@ function compareDate(left: { year: number; month: number; day: number }, right: 
 	return new Date(left.year, left.month - 1, left.day).getTime() - new Date(right.year, right.month - 1, right.day).getTime();
 }
 
-function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
+function WeekView({ subjects, friends }: { subjects: TimetableSubject[]; friends: DashboardData["friends"] }) {
+  const [selectedSlot, setSelectedSlot] = useState<{ day: number; session: number } | null>(null);
+  const { openSheet } = useSheet();
   const days = TIMETABLE_DAYS;
+  const selectedSubject = selectedSlot ? subjects.find((subject) => subject.slots.some((slot) => slot.day === selectedSlot.day && slot.session === selectedSlot.session)) : null;
 
   return (
     <section className={styles.week} aria-label="Weekly timetable">
@@ -285,17 +288,22 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
                 ),
               );
               return subject ? (
-						<SheetTrigger
+						<button
 							key={day}
+							type="button"
 							className={styles.lessonButton}
-							ariaLabel={`Open ${subject.id} on ${day}`}
-							content={<LessonDetailSheet subject={subject} day={day} session={session.value} />}
+							aria-label={`Open ${subject.id} on ${day}`}
+							onClick={() => {
+								const slot = { day: dayIndex, session: session.value };
+								setSelectedSlot(slot);
+								openSheet(<SubjectContextSheet owner="You" subject={subject} day={day} session={session.value} />);
+							}}
 						>
-							<article className={styles.lesson} style={{ background: colour(subject) }}>
+							<article className={selectedSlot?.day === dayIndex && selectedSlot.session === session.value ? `${styles.lesson} ${styles.lessonSelected}` : styles.lesson} style={{ background: colour(subject) }}>
 								<span>{subject.symbol}</span>
 								<strong>{subject.id}</strong>
 							</article>
-						</SheetTrigger>
+						</button>
               ) : (
                 <div key={day} />
               );
@@ -303,6 +311,13 @@ function WeekView({ subjects }: { subjects: TimetableSubject[] }) {
           </div>
         ))}
       </div>
+		{selectedSlot && selectedSubject ? (
+			<section className={styles.selectedLesson}>
+				<div><span className={styles.selectedEyebrow}>YOU</span><strong>{selectedSubject.symbol} {selectedSubject.id}</strong></div>
+				<span>{days[selectedSlot.day]} · period {periodLabel(selectedSlot.session)}</span>
+			</section>
+		) : null}
+		<TimetableComparison selectedSlot={selectedSlot} friends={friends} />
     </section>
   );
 }

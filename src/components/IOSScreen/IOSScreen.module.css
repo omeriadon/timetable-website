@@ -1,27 +1,27 @@
 .page {
 	width: 100%;
 	margin: 0;
-	padding: 28px var(--theme-page-padding) 20px;
+	padding: 16px var(--theme-content-page-padding) 14px;
 	color: var(--theme-text);
 }
 .title {
-	margin: 0 0 30px;
+	margin: 0 0 18px;
 	color: var(--theme-accent);
-	font-size: clamp(2.8rem, 7vw, 5rem);
+	font-size: clamp(2.1rem, 5vw, 3.2rem);
 	font-weight: 760;
 	letter-spacing: -0.065em;
 	text-align: center;
 }
 .section {
-	margin: var(--theme-section-gap) 0 6px;
+	margin: var(--theme-content-section-gap) 0 5px;
 	color: var(--theme-text-secondary);
-	font-size: 1.05rem;
+	font-size: 0.92rem;
 	font-weight: 720;
 	letter-spacing: -0.02em;
 }
 .card {
 	overflow: hidden;
-	border-radius: var(--theme-radius-card);
+	border-radius: var(--theme-content-radius);
 	background: var(--theme-surface);
 	box-shadow:
 		inset 0 1px var(--theme-highlight),
@@ -29,11 +29,11 @@
 }
 .row {
 	display: grid;
-	grid-template-columns: 42px minmax(0, 1fr) auto;
+	grid-template-columns: 42px minmax(0, 1fr) auto auto;
 	gap: var(--theme-list-row-gap);
 	align-items: center;
-	min-height: var(--theme-row-height);
-	padding: var(--theme-list-row-padding-block) var(--theme-list-padding-inline);
+	min-height: var(--theme-content-row-height);
+	padding: var(--theme-list-row-padding-block) var(--theme-content-page-padding);
 	color: inherit;
 	text-decoration: none;
 }
@@ -64,7 +64,7 @@
 		hue-rotate(318deg) brightness(86%);
 }
 .label {
-	font-size: 1rem;
+	font-size: 0.9rem;
 	font-weight: 520;
 }
 .detail {
@@ -78,9 +78,9 @@
 	line-height: 0.5;
 }
 .paper {
-	padding: 14px;
+	padding: var(--theme-content-card-padding);
 	border: 1px solid rgba(255, 255, 255, 0.75);
-	border-radius: 24px;
+	border-radius: var(--theme-content-radius);
 	color: var(--theme-black);
 	background: linear-gradient(
 		145deg,
@@ -269,7 +269,7 @@
 }
 @media (max-width: 700px) {
 	.page {
-		padding: var(--theme-page-padding) 8px 88px;
+		padding: var(--theme-content-page-padding) 6px 88px;
 	}
 	.title {
 		margin-bottom: 24px;
@@ -278,11 +278,11 @@
 		margin-top: var(--theme-section-gap);
 	}
 	.card {
-		border-radius: var(--theme-radius-card);
+		border-radius: var(--theme-content-radius);
 	}
 	.row {
-		min-height: var(--theme-row-height);
-		padding: var(--theme-list-row-padding-block) var(--theme-space-3);
+		min-height: var(--theme-content-row-height);
+		padding: var(--theme-list-row-padding-block) var(--theme-content-page-padding);
 	}
 	.label {
 		font-size: 1rem;

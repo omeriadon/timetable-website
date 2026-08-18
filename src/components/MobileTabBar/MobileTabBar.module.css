@@ -4,7 +4,7 @@
   left: 50%;
   z-index: 40;
   display: none;
-  width: min(calc(100% - 28px), 620px);
+  width: calc(100% - 28px);
   min-height: 74px;
   padding: var(--theme-tab-bar-padding);
   transform: translateX(-50%);

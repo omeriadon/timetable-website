@@ -1,12 +1,12 @@
 .page {
   min-height: 100%;
-  padding: 34px var(--theme-page-padding) 20px;
+  padding: 16px var(--theme-content-page-padding) 14px;
   color: var(--theme-text);
 }
 .modePicker {
   display: flex;
   width: fit-content;
-  margin: 0 auto 16px;
+  margin: 0 auto 10px;
   padding: 5px;
   border: 1px solid var(--theme-divider);
   border-radius: 999px;
@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  min-height: 36px;
+  min-height: var(--theme-content-control-height);
   padding: 0 12px;
   border: 0;
   border-radius: 999px;
@@ -48,7 +48,7 @@
 }
 .message,
 .error {
-  margin: 20px 0;
+  margin: 12px 0;
   color: var(--theme-text-secondary);
   text-align: center;
 }
@@ -58,31 +58,31 @@
 .todayHeader,
 .planner {
   width: 100%;
-  margin: 0 0 var(--theme-section-gap);
+  margin: 0 0 var(--theme-content-section-gap);
 }
 .todayHeader p {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: var(--theme-text-secondary);
   font-size: 0.78rem;
 }
 .todayHeader h1,
 .planner h1 {
   margin: 0;
-  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-size: clamp(1.45rem, 3vw, var(--theme-content-heading-size));
   letter-spacing: -0.05em;
 }
 .todayHeader > span {
   display: block;
   margin-top: 5px;
   color: var(--theme-text-secondary);
-  font-size: 1.3rem;
+  font-size: 1.05rem;
 }
 .paperCard {
   width: 100%;
-  margin: var(--theme-space-5) 0;
-  padding: var(--theme-card-padding);
+  margin: var(--theme-content-section-gap) 0;
+  padding: var(--theme-content-card-padding);
   border: 1px solid var(--theme-paper-edge);
-  border-radius: var(--theme-radius-card);
+  border-radius: var(--theme-content-radius);
   color: var(--theme-black);
   background: linear-gradient(
     135deg,
@@ -92,21 +92,21 @@
   box-shadow: inset 0 1px var(--theme-paper-highlight);
 }
 .paperCard h2 {
-  margin: 0 0 18px;
-  font-size: 2rem;
+  margin: 0 0 12px;
+  font-size: 1.55rem;
   letter-spacing: -0.045em;
 }
 .paperCard h3 {
-  margin: 0 0 14px;
-  font-size: 1.2rem;
+  margin: 0 0 9px;
+  font-size: 1.05rem;
 }
 
 .timelineCard {
 	width: 100%;
-	margin: var(--theme-space-5) 0;
-	padding: var(--theme-card-padding);
+	margin: var(--theme-content-section-gap) 0;
+	padding: var(--theme-content-card-padding);
 	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-radius-card);
+	border-radius: var(--theme-content-radius);
 	background: var(--theme-surface);
 	box-shadow: inset 0 1px var(--theme-highlight);
 }
@@ -129,7 +129,7 @@
 	grid-template-columns: 56px 10px minmax(0, 1fr);
 	gap: var(--theme-space-2);
 	align-items: stretch;
-	min-height: 43px;
+	min-height: var(--theme-content-row-height);
 	padding: 3px 0;
 	color: var(--theme-text-secondary);
 }
@@ -202,10 +202,10 @@
   grid-template-columns: 30px 1fr auto;
   gap: 12px;
   align-items: center;
-  min-height: 58px;
-  padding: var(--theme-space-3);
+	min-height: 48px;
+	padding: var(--theme-content-card-padding);
   border: 1px solid var(--theme-highlight);
-  border-radius: var(--theme-radius-control);
+	border-radius: var(--theme-content-radius);
   background: color-mix(in srgb, var(--theme-paper) 80%, transparent);
 }
 .subjectRow strong {
@@ -224,21 +224,21 @@
 .weekHeader,
 .weekRow {
   display: grid;
-  grid-template-columns: 36px repeat(5, minmax(105px, 1fr));
-  gap: 8px;
+  grid-template-columns: 30px repeat(5, minmax(92px, 1fr));
+  gap: 5px;
   min-width: 620px;
 }
 .weekHeader {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 .weekHeader span {
-  padding: 6px 0;
-  font-size: 1.2rem;
+  padding: 4px 0;
+  font-size: 1rem;
   text-align: center;
 }
 .weekRow {
-  min-height: 72px;
-  margin-bottom: 6px;
+  min-height: 60px;
+  margin-bottom: 4px;
 }
 .weekRow > small {
   display: grid;
@@ -250,10 +250,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 9px;
+  padding: 7px;
   overflow: hidden;
   border: 1px solid var(--theme-highlight);
-  border-radius: var(--theme-radius-control);
+  border-radius: var(--theme-content-radius);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.35),
     0 4px 12px rgba(0, 0, 0, 0.3);
@@ -267,16 +267,38 @@
 	text-align: left;
 	cursor: pointer;
 }
+.lessonSelected {
+	outline: 2px solid var(--theme-text);
+	outline-offset: 2px;
+}
 .lesson span {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .lesson strong {
-  font-size: 1rem;
+  font-size: 0.88rem;
 }
+
+.selectedLesson {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--theme-space-3);
+	margin-top: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding) var(--theme-content-page-padding);
+	border: 1px solid var(--theme-highlight);
+	border-radius: var(--theme-content-radius);
+	color: var(--theme-text);
+	background: var(--theme-surface);
+}
+
+.selectedLesson div { display: grid; gap: 2px; }
+.selectedLesson strong { font-size: 1rem; }
+.selectedLesson > span { color: var(--theme-text-secondary); font-size: 0.78rem; }
+.selectedEyebrow { color: var(--theme-text-secondary); font-size: 0.68rem; letter-spacing: 0.08em; }
 .plannerEvent {
   width: 100%;
-  min-height: 84px;
-  margin: var(--theme-space-4) 0;
+  min-height: 64px;
+  margin: var(--theme-content-section-gap) 0;
   border-color: var(--theme-paper-edge);
   color: var(--theme-text);
   background: linear-gradient(
@@ -300,8 +322,8 @@
   font-weight: 700;
 }
 .planner h2 {
-  margin: 28px 0 12px;
-  font-size: 1.8rem;
+  margin: 18px 0 8px;
+  font-size: 1.45rem;
 }
 .empty {
   margin: 0;
@@ -309,7 +331,7 @@
 }
 @media (max-width: 700px) {
   .page {
-    padding: var(--theme-page-padding) 8px 88px;
+    padding: var(--theme-content-page-padding) 6px 88px;
   }
   .modePicker {
     width: 100%;
@@ -320,14 +342,14 @@
     padding: 0 8px;
   }
   .paperCard {
-    padding: var(--theme-card-padding);
-    border-radius: var(--theme-radius-card);
+    padding: var(--theme-content-card-padding);
+    border-radius: var(--theme-content-radius);
   }
   .paperCard h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   .todayHeader h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
   .todayHeader > span {
     font-size: 1.1rem;

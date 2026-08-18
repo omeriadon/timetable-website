@@ -3,49 +3,78 @@
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
 
 type GradeAssessmentSheetProps = {
-	assessment: GradeAssessment;
+	assessment?: GradeAssessment;
+	subjectID: string;
+	semester: number;
 	onSave: (assessment: GradeAssessment) => Promise<void>;
-	onDelete: (assessment: GradeAssessment) => Promise<void>;
+	onDelete?: (assessment: GradeAssessment) => Promise<void>;
 };
 
 export default function GradeAssessmentSheet({
 	assessment,
+	subjectID,
+	semester,
 	onSave,
 	onDelete,
 }: GradeAssessmentSheetProps) {
+	const { closeSheet } = useSheet();
 	const [draft, setDraft] = useState(assessment);
 	const [status, setStatus] = useState<string | null>(null);
-	const update = (changes: Partial<GradeAssessment>) => setDraft((current) => ({ ...current, ...changes }));
+	const initialDraft = assessment ?? {
+		id: crypto.randomUUID(),
+		subjectID,
+		semester,
+		name: "",
+		date: nextWeekday(),
+		score: 0,
+		weighting: 1,
+		location: "exam" as const,
+	};
+	const current = draft ?? initialDraft;
+	const update = (changes: Partial<GradeAssessment>) => setDraft((value) => ({ ...(value ?? initialDraft), ...changes }));
 	const save = async () => {
 		setStatus("Saving…");
-		await onSave(draft);
-		setStatus("Saved");
+		try {
+			await onSave(current);
+			setStatus("Saved");
+			closeSheet();
+		} catch (error) {
+			setStatus((error as Error).message);
+		}
 	};
 	const remove = async () => {
+		if (!onDelete || !assessment) return;
 		setStatus("Deleting…");
-		await onDelete(draft);
-		setStatus("Deleted");
+		try {
+			await onDelete(current);
+			setStatus("Deleted");
+			closeSheet();
+		} catch (error) {
+			setStatus((error as Error).message);
+		}
 	};
 
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
 				<div>
-					<h2>Edit Assessment</h2>
-					<p>Semester {draft.semester}</p>
+					<h2>{assessment ? "Edit Assessment" : "New Assessment"}</h2>
+				<p>Semester {current.semester}</p>
 				</div>
 			</header>
 			<section className={styles.formCard}>
-				<label>Assessment<input value={draft.name} onChange={(event) => update({ name: event.target.value })} /></label>
-				<label>Date<input type="date" value={dateValue(draft)} onChange={(event) => update({ date: parseDate(event.target.value) })} /></label>
-				<label>Score (%)<input type="number" min="0" max="100" step="0.1" value={(draft.score * 100).toFixed(1)} onChange={(event) => update({ score: Number(event.target.value) / 100 })} /></label>
-				<label>Weighting (%)<input type="number" min="0" max="100" step="0.1" value={(draft.weighting * 100).toFixed(1)} onChange={(event) => update({ weighting: Number(event.target.value) / 100 })} /></label>
+				<label>Assessment<input value={current.name} onChange={(event) => update({ name: event.target.value })} /></label>
+				<label>Date<input type="date" value={dateValue(current)} onChange={(event) => update({ date: parseDate(event.target.value) })} /></label>
+				<label>Assessment period<select value={current.location} onChange={(event) => update({ location: event.target.value as GradeAssessment["location"] })}><option value="exam">Exam</option><option value="directedStudy">Directed Study</option><option value="subjectPeriod">Subject Period</option></select></label>
+				<label>Score (%)<input type="number" min="0" max="100" step="0.1" value={(current.score * 100).toFixed(1)} onChange={(event) => update({ score: Number(event.target.value) / 100 })} /></label>
+				<label>Weighting (%)<input type="number" min="0" max="100" step="0.1" value={(current.weighting * 100).toFixed(1)} onChange={(event) => update({ weighting: Number(event.target.value) / 100 })} /></label>
 				<div className={styles.sheetActions}>
-					<GlassButton label="Delete assessment" onClick={remove} size="compact"><span aria-hidden="true">⌫</span></GlassButton>
-					<GlassButton label="Save assessment" onClick={save} size="compact"><span aria-hidden="true">✓</span></GlassButton>
+					{assessment && onDelete ? <GlassButton label="Delete assessment" onClick={remove} size="compact"><span aria-hidden="true">⌫</span></GlassButton> : null}
+					<GlassButton label={assessment ? "Save assessment" : "Add assessment"} onClick={save} size="compact"><span aria-hidden="true">✓</span></GlassButton>
 				</div>
 				{status ? <p className={styles.detailMuted} role="status">{status}</p> : null}
 			</section>
@@ -60,4 +89,11 @@ function dateValue(assessment: GradeAssessment) {
 function parseDate(value: string) {
 	const [year, month, day] = value.split("-").map(Number);
 	return { year, month, day };
+}
+
+function nextWeekday() {
+	const date = new Date();
+	if (date.getDay() === 6) date.setDate(date.getDate() + 2);
+	if (date.getDay() === 0) date.setDate(date.getDate() + 1);
+	return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
 }

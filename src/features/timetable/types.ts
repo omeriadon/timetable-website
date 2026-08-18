@@ -13,6 +13,8 @@ export type TimetableSubject = {
 		a: number;
 	};
 	slots: TimetableSlot[];
+	teacher?: { displayName: string } | string | null;
+	classroom?: string | null;
 };
 
 export type OwnerTimetable = {
