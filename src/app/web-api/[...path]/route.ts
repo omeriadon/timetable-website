@@ -6,12 +6,13 @@ async function forward(
 	context: { params: Promise<{ path: string[] }> },
 ) {
 	const { path } = await context.params;
+	const upstreamPath = `${path.join("/")}${request.nextUrl.search}`;
 	const body = ["GET", "HEAD"].includes(request.method)
 		? undefined
 		: request.headers.get("content-type")?.startsWith("application/json")
 			? await request.text()
 			: await request.arrayBuffer();
-	const { response: upstream, tokens } = await authenticatedPMSTTRequest(path.join("/"), {
+	const { response: upstream, tokens } = await authenticatedPMSTTRequest(upstreamPath, {
 		method: request.method,
 		body: body || undefined,
 	});

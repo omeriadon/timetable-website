@@ -180,44 +180,9 @@ export default function SettingsPage() {
       </section>
       <h2 className={styles.section}>Developer</h2>
       <section className={styles.card}>
-        <div className={styles.row}>
-          <SymbolIcon name="app.badge" />
-          <span className={styles.label}>Release App Icon</span>
-          <span className={styles.detail}>Web</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
-          <span className={styles.label}>Debug Offset</span>
-          <span className={styles.detail}>0</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="rectangle.bottomthird.inset.filled" />
-          <span className={styles.label}>Test Live Activity</span>
-          <span className={styles.detail}>Unavailable on web</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="app.badge" />
-          <span className={styles.label}>Test status badges</span>
-          <span className={styles.detail}>Ready</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="widget.large" />
-          <span className={styles.label}>Reload widgets now</span>
-          <span className={styles.detail}>Unavailable on web</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="lightbulb" fallback="i" />
-          <span className={styles.label}>Reset Tips</span>
-          <span className={styles.detail}>Ready</span>
-        </div>
-        <div className={styles.row}>
-          <SymbolIcon name="app.badge" fallback="◌" />
-          <span className={styles.label}>Last Server Sync</span>
-          <span className={styles.detail}>Live</span>
-        </div>
         <NavigationRow
           title="Developer Tools"
-          description="Inspect website platform and server state."
+          description="Debug offsets, status badges, Live Activity requests, and local tips."
           href="/settings/developer"
           icon="app.badge"
         />

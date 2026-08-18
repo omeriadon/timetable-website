@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import AdminVersionField from "@/components/administration/AdminVersionField/AdminVersionField";
 
 type AppVersionRequirement = {
 	appVersion: string;
@@ -80,16 +81,16 @@ export default function AdminAppVersionEditor() {
 					<SymbolIcon name="app.badge" />
 					<strong className={styles.label} id="ios-version-heading">iOS and iPadOS</strong>
 				</div>
-				<VersionField label="Version" value={draft.appVersion} onChange={(value) => update("appVersion", value)} />
-				<VersionField label="Build" value={String(draft.appBuild)} inputMode="numeric" onChange={(value) => update("appBuild", Math.max(0, Number(value) || 0))} />
+				<AdminVersionField label="Version" value={draft.appVersion} onChange={(value) => update("appVersion", value)} />
+				<AdminVersionField label="Build" value={String(draft.appBuild)} inputMode="numeric" onChange={(value) => update("appBuild", Math.max(0, Number(value) || 0))} />
 			</section>
 			<section className={styles.card} aria-labelledby="mac-version-heading">
 				<div className={styles.row}>
 					<SymbolIcon name="desktopcomputer" fallback="▣" />
 					<strong className={styles.label} id="mac-version-heading">macOS</strong>
 				</div>
-				<VersionField label="Version" value={draft.macVersion} onChange={(value) => update("macVersion", value)} />
-				<VersionField label="Build" value={String(draft.macBuild)} inputMode="numeric" onChange={(value) => update("macBuild", Math.max(0, Number(value) || 0))} />
+				<AdminVersionField label="Version" value={draft.macVersion} onChange={(value) => update("macVersion", value)} />
+				<AdminVersionField label="Build" value={String(draft.macBuild)} inputMode="numeric" onChange={(value) => update("macBuild", Math.max(0, Number(value) || 0))} />
 			</section>
 			<button type="button" className={styles.profileSave} onClick={() => void save()} disabled={!valid || saving}>
 				<SymbolIcon name="checkmark" fallback="✓" />
@@ -97,24 +98,5 @@ export default function AdminAppVersionEditor() {
 			</button>
 			{status ? <p className={status.endsWith("saved.") ? styles.loading : styles.error} role="status">{status}</p> : null}
 		</main>
-	);
-}
-
-function VersionField({
-	label,
-	value,
-	inputMode,
-	onChange,
-}: {
-	label: string;
-	value: string;
-	inputMode?: "numeric";
-	onChange: (value: string) => void;
-}) {
-	return (
-		<label className={styles.row}>
-			<span className={styles.label}>{label}</span>
-			<input className={styles.inlineInput} value={value} inputMode={inputMode} onChange={(event) => onChange(event.target.value)} aria-label={label} />
-		</label>
 	);
 }

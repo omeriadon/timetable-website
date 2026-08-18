@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
-
-type StatisticCount = {
-	label: string;
-	count: number;
-};
+import {
+	AdminStatisticsCountGroup,
+	AdminStatisticsGroup,
+	type StatisticCount,
+} from "@/components/administration/AdminStatisticsGroup/AdminStatisticsGroup";
 
 type DeviceOSVersionCount = {
 	platform: string;
@@ -73,7 +73,7 @@ export default function AdminStatisticsEditor() {
 
 	return (
 		<main className={styles.page}>
-			<StatisticGroup
+			<AdminStatisticsGroup
 				title="Overview"
 				icon="chart.bar"
 				rows={[
@@ -85,7 +85,7 @@ export default function AdminStatisticsEditor() {
 					["Average for users with assessments", formatDecimal(statistics.averageAssessmentsPerUserWithMultipleAssessments)],
 				]}
 			/>
-			<StatisticGroup
+			<AdminStatisticsGroup
 				title="Friends and calendar"
 				icon="person.2"
 				rows={[
@@ -98,7 +98,7 @@ export default function AdminStatisticsEditor() {
 					["Active tag subscriptions", statistics.activeEventTagSubscriptions],
 				]}
 			/>
-			<StatisticGroup
+			<AdminStatisticsGroup
 				title="Devices"
 				icon="externaldrive.fill"
 				rows={[
@@ -114,7 +114,7 @@ export default function AdminStatisticsEditor() {
 					["Legacy devices", statistics.legacyDevices],
 				]}
 			/>
-			<StatisticGroup
+			<AdminStatisticsGroup
 				title="Location notifications"
 				icon="calendar.badge.clock"
 				rows={[
@@ -123,63 +123,18 @@ export default function AdminStatisticsEditor() {
 					["Average arrival", formatArrival(statistics.averageArrivalSecondsSinceMidnight)],
 				]}
 			/>
-			<CountGroup title="Device types" rows={statistics.deviceTypes} />
-			<CountGroup title="OS versions" rows={statistics.osVersions} />
-			<CountGroup
+			<AdminStatisticsCountGroup title="Device types" rows={statistics.deviceTypes} />
+			<AdminStatisticsCountGroup title="OS versions" rows={statistics.osVersions} />
+			<AdminStatisticsCountGroup
 				title="Device OS versions"
 				rows={statistics.deviceOSVersions.map((row) => ({
 					label: `${row.platform} ${row.osMajorVersion}.${row.osMinorVersion}${row.isDebug ? " · Debug" : ""}${row.isOSBeta ? " · Beta" : ""}`,
 					count: row.count,
 				}))}
 			/>
-			<CountGroup title="App versions" rows={statistics.appVersions} />
-			<CountGroup title="App builds" rows={statistics.appVersionBuilds} />
+			<AdminStatisticsCountGroup title="App versions" rows={statistics.appVersions} />
+			<AdminStatisticsCountGroup title="App builds" rows={statistics.appVersionBuilds} />
 		</main>
-	);
-}
-
-function StatisticGroup({
-	title,
-	icon,
-	rows,
-}: {
-	title: string;
-	icon: string;
-	rows: Array<[string, string | number]>;
-}) {
-	return (
-		<section>
-			<h2 className={styles.section}>{title}</h2>
-			<div className={styles.card}>
-				{rows.map(([label, value]) => (
-					<div className={styles.row} key={label}>
-						<SymbolIcon name={icon} />
-						<span className={styles.label}>{label}</span>
-						<strong className={styles.detail}>{value}</strong>
-					</div>
-				))}
-			</div>
-		</section>
-	);
-}
-
-function CountGroup({ title, rows }: { title: string; rows: StatisticCount[] }) {
-	if (!rows.length) {
-		return null;
-	}
-
-	return (
-		<section>
-			<h2 className={styles.section}>{title}</h2>
-			<div className={styles.card}>
-				{rows.map((row) => (
-					<div className={styles.row} key={row.label}>
-						<span className={styles.label}>{row.label}</span>
-						<strong className={styles.detail}>{row.count}</strong>
-					</div>
-				))}
-			</div>
-		</section>
 	);
 }
 

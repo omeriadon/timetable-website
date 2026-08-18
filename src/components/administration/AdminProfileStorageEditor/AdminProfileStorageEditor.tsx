@@ -6,6 +6,9 @@ import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
+import AdminStorageMetric from "@/components/administration/AdminStorageMetric/AdminStorageMetric";
+import AdminStorageQuotaCard from "@/components/administration/AdminStorageQuotaCard/AdminStorageQuotaCard";
+
 type StorageQuota = {
 	storedBytes: number;
 	reservedBytes: number;
@@ -42,16 +45,16 @@ export default function AdminProfileStorageEditor() {
 
 	return (
 		<main className={styles.page}>
-			<QuotaCard title="Storage" icon="externaldrive.fill" value={usedStorage}>
-				<Metric label="Stored" value={formatBytes(quota.storedBytes)} />
-				<Metric label="Reserved" value={formatBytes(quota.reservedBytes)} />
-				<Metric label="Limit" value={formatBytes(quota.storageLimitBytes)} />
-			</QuotaCard>
-			<QuotaCard title="Monthly Operations" icon="chart.bar" value={usedOperations}>
-				<Metric label="Used" value={quota.monthlyOperations.toLocaleString("en-AU")} />
-				<Metric label="Limit" value={quota.monthlyOperationLimit.toLocaleString("en-AU")} />
-				<Metric label="Write Cutoff" value={quota.monthlyWriteCutoff.toLocaleString("en-AU")} />
-			</QuotaCard>
+			<AdminStorageQuotaCard title="Storage" icon="externaldrive.fill" value={usedStorage}>
+				<AdminStorageMetric label="Stored" value={formatBytes(quota.storedBytes)} />
+				<AdminStorageMetric label="Reserved" value={formatBytes(quota.reservedBytes)} />
+				<AdminStorageMetric label="Limit" value={formatBytes(quota.storageLimitBytes)} />
+			</AdminStorageQuotaCard>
+			<AdminStorageQuotaCard title="Monthly Operations" icon="chart.bar" value={usedOperations}>
+				<AdminStorageMetric label="Used" value={quota.monthlyOperations.toLocaleString("en-AU")} />
+				<AdminStorageMetric label="Limit" value={quota.monthlyOperationLimit.toLocaleString("en-AU")} />
+				<AdminStorageMetric label="Write Cutoff" value={quota.monthlyWriteCutoff.toLocaleString("en-AU")} />
+			</AdminStorageQuotaCard>
 			<section className={styles.card}>
 				<div className={styles.row}>
 					<SymbolIcon name={quota.writesDisabled ? "exclamationmark.bubble" : "checkmark.icloud"} fallback={quota.writesDisabled ? "!" : "✓"} />
@@ -68,24 +71,6 @@ export default function AdminProfileStorageEditor() {
 			</section>
 		</main>
 	);
-}
-
-function QuotaCard({ title, icon, value, children }: { title: string; icon: string; value: number; children: ReactNode }) {
-	return (
-		<section className={styles.card}>
-			<div className={styles.row}>
-				<SymbolIcon name={icon} />
-				<strong className={styles.label}>{title}</strong>
-				<strong className={styles.detail}>{Math.round(value * 100)}% used</strong>
-			</div>
-			<div className={styles.quotaTrack} aria-label={`${title}: ${Math.round(value * 100)} percent used`}><span style={{ width: `${Math.min(100, Math.max(0, value * 100))}%` }} /></div>
-			{children}
-		</section>
-	);
-}
-
-function Metric({ label, value }: { label: string; value: string }) {
-	return <div className={styles.row}><span className={styles.label}>{label}</span><span className={styles.detail}>{value}</span></div>;
 }
 
 function percentage(value: number, limit: number) {

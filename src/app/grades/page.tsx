@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
@@ -11,6 +10,8 @@ import type {
   TimetableSubject,
 } from "@/features/timetable/types";
 import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
+import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
 
 function subjectColour(subject: TimetableSubject) {
   const { r, g, b } = subject.colour;
@@ -23,6 +24,7 @@ function formatPercent(value: number | null) {
 
 export default function GradesPage() {
   const setToolbar = useToolbar();
+  const { openSheet } = useSheet();
   const [grades, setGrades] = useState<GradeTracker | null>(null);
   const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -113,10 +115,22 @@ export default function GradesPage() {
                   )
                 : null;
               return (
-                <Link
+                <button
+                  type="button"
                   key={subject.id}
-                  href={`/grades/${encodeURIComponent(subject.id)}`}
                   className={styles.subjectRow}
+                  onClick={() =>
+                    openSheet(
+                      <GradeSubjectSheet
+                        subjectID={subject.id}
+                        symbol={subject.symbol}
+                        colour={subjectColour(subject)}
+                        average={subjectAverage}
+                        assessments={subjectAssessments}
+                      />,
+                    )
+                  }
+                  aria-label={`Open ${subject.id} grades`}
                 >
                   <GradeGauge value={subjectAverage} color={subjectColour(subject)} symbol={subject.symbol} />
                   <span>
@@ -132,7 +146,7 @@ export default function GradesPage() {
                       ? "—"
                       : formatPercent(subjectAverage)}
                   </strong>
-                </Link>
+                </button>
               );
             })}
           </section>

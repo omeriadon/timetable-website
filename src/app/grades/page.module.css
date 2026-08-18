@@ -49,6 +49,7 @@
 }
 
 .subjectRow {
+	width: 100%;
 	display: grid;
 	grid-template-columns: 54px minmax(0, 1fr) auto;
 	gap: var(--theme-content-row-gap);
@@ -59,7 +60,9 @@
 	border-radius: var(--theme-content-radius);
 	color: var(--theme-text);
 	background: linear-gradient(135deg, var(--theme-surface-soft), var(--theme-surface));
-	text-decoration: none;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
 }
 
 .gauge {

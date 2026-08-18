@@ -11,6 +11,8 @@ import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/Arc
 import NotificationSettingsEditor from "@/components/settings/NotificationSettingsEditor/NotificationSettingsEditor";
 import AccountSyncEditor from "@/components/settings/AccountSyncEditor/AccountSyncEditor";
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
+import DeveloperToolsEditor from "@/components/settings/DeveloperToolsEditor/DeveloperToolsEditor";
+import NavigationPersistenceEditor from "@/components/settings/NavigationPersistenceEditor/NavigationPersistenceEditor";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
@@ -77,32 +79,10 @@ export default function SettingsSectionPage() {
       ) : null}
       {section === "archived-events" ? <ArchivedEventsEditor /> : null}
       {section === "developer" ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-          <SymbolIcon name="app.badge" />
-            <span className={styles.label}>Website platform</span>
-            <span className={styles.detail}>Active</span>
-          </div>
-          <div className={styles.row}>
-            <SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
-            <span className={styles.label}>Server revision</span>
-            <span className={styles.detail}>
-              {settings?.serverRevision ?? "—"}
-            </span>
-          </div>
-        </section>
+        <DeveloperToolsEditor />
       ) : null}
 		{section === "navigation" ? (
-			<section className={styles.card}>
-				<div className={styles.row}>
-					<SymbolIcon name="arrow.down.app" />
-					<span className={styles.label}>Restore Navigation</span>
-					<span className={styles.detail}>On</span>
-				</div>
-				<p className={`${styles.detail} ${styles.detailNote}`}>
-					Restore the selected tab, sidebar, and navigation path when reopening Timetable.
-				</p>
-			</section>
+			<NavigationPersistenceEditor />
 		) : null}
 		{section === "profile-appearance" ? (
 			profile ? <ProfileAppearanceEditor profile={profile} save={saveProfile} /> : null

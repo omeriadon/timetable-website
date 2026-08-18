@@ -63,6 +63,16 @@
 	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
 		hue-rotate(318deg) brightness(86%);
 }
+
+.badgePreview {
+	display: grid;
+	width: var(--theme-content-avatar-size-small);
+	height: var(--theme-content-avatar-size-small);
+	place-items: center;
+	border: 1px solid var(--theme-highlight);
+	border-radius: 50%;
+	font-size: var(--ui-content-font-size);
+}
 .label {
 	font-size: var(--ui-content-font-size);
 	font-weight: 520;
@@ -87,6 +97,13 @@
 	background: transparent;
 	cursor: pointer;
 	text-align: left;
+}
+
+.actionRow {
+	display: flex;
+	gap: var(--theme-content-row-gap);
+	align-items: center;
+	width: 100%;
 }
 .badgeDelete {
 	display: grid;
@@ -290,6 +307,49 @@
 	justify-content: space-between;
 	gap: var(--theme-content-row-gap);
 	margin-bottom: var(--theme-content-section-gap);
+}
+
+.sectionButton {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.rowWithAction {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	border-top: 1px solid var(--theme-divider);
+}
+
+.rowWithAction:first-child {
+	border-top: 0;
+}
+
+.reorderButtons {
+	display: flex;
+	gap: var(--theme-content-grid-gap);
+	padding-right: var(--theme-content-page-padding);
+}
+
+.reorderButtons button {
+	display: grid;
+	width: var(--theme-content-control-height);
+	height: var(--theme-content-control-height);
+	place-items: center;
+	padding: 0;
+	border: 1px solid var(--theme-divider);
+	border-radius: var(--theme-content-control-radius);
+	color: var(--theme-text);
+	background: var(--theme-glass);
+	font: inherit;
+	cursor: pointer;
 }
 
 .adminSearch {
