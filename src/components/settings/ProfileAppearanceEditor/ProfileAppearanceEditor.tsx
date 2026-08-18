@@ -27,6 +27,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 	const [draft, setDraft] = useState<ProfileAppearance>(withDefaults(profile.appearance));
 	const [photo, setPhoto] = useState(profile.photo);
 	const [uploading, setUploading] = useState(false);
+	const [removingPhoto, setRemovingPhoto] = useState(false);
 	const update = (changes: Partial<ProfileAppearance>) => setDraft((current) => withDefaults({ ...current, ...changes }));
 
 	const uploadPhoto = async (file: File) => {
@@ -45,6 +46,19 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 		}
 	};
 
+	const removePhoto = async () => {
+		setRemovingPhoto(true);
+		try {
+			await apiRequest("v1/friends/profile/photo", { method: "DELETE" });
+			setPhoto(null);
+			update({ contentKind: "emoji" });
+		} catch (requestError) {
+			window.alert((requestError as Error).message);
+		} finally {
+			setRemovingPhoto(false);
+		}
+	};
+
 	return (
 		<section className={styles.card}>
 			<div className={styles.preview}>
@@ -60,7 +74,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				))}
 			</div>
 			{draft.contentKind === "photo" ? (
-				<div className={styles.row}><SymbolIcon name="photo" fallback="◉" /><span className={styles.label}>Photo</span><input type="file" accept="image/jpeg,image/png" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); }} /></div>
+				<div className={styles.row}><SymbolIcon name="photo" fallback="◉" /><span className={styles.label}>Photo</span><input type="file" accept="image/jpeg,image/png" disabled={uploading || removingPhoto} onChange={(event) => { const file = event.target.files?.[0]; if (file) void uploadPhoto(file); }} />{photo ? <button type="button" className={styles.removePhoto} onClick={() => void removePhoto()} disabled={uploading || removingPhoto}><SymbolIcon name="trash" fallback="−" />Remove</button> : null}</div>
 			) : null}
 			{draft.contentKind === "emoji" ? (
 				<div className={styles.emojiPicker}>
