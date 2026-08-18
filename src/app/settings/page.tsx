@@ -13,6 +13,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
+import VersionSheet from "@/components/settings/VersionSheet/VersionSheet";
 
 type Settings = {
   liveActivitiesEnabled: boolean;
@@ -181,10 +182,46 @@ export default function SettingsPage() {
       <h2 className={styles.section}>Developer</h2>
       <section className={styles.card}>
         <NavigationRow
-          title="Developer Tools"
-          description="Debug offsets, status badges, Live Activity requests, and local tips."
+          title="Release App Icon"
+          description="Choose the alternate release icon preference for this website installation."
           href="/settings/developer"
           icon="app.badge"
+        />
+        <NavigationRow
+          title="Debug Offset"
+          description="Adjust the local timetable debug clock offset."
+          href="/settings/developer"
+          icon="clock.arrow.trianglehead.counterclockwise.rotate.90"
+        />
+        <NavigationRow
+          title="Test Live Activity"
+          description="Send authenticated Live Activity debug requests to the server."
+          href="/settings/developer"
+          icon="rectangle.bottomthird.inset.filled"
+        />
+        <NavigationRow
+          title="Test status badges"
+          description="Exercise progress, success, warning, and error status surfaces."
+          href="/settings/developer"
+          icon="app.badge"
+        />
+        <NavigationRow
+          title="Reload widgets now"
+          description="Reload website data and refresh the current client state."
+          href="/settings/developer"
+          icon="widget.large"
+        />
+        <NavigationRow
+          title="Reset Tips"
+          description="Clear locally stored website tip state."
+          href="/settings/developer"
+          icon="lightbulb"
+        />
+        <NavigationRow
+          title="Last Server Sync"
+          description="Inspect the most recent authenticated settings refresh."
+          href="/settings/developer"
+          icon="checkmark.icloud"
         />
       </section>
       <h2 className={styles.section}>Support</h2>
@@ -201,11 +238,19 @@ export default function SettingsPage() {
           href="/settings/about"
           icon="info.circle"
         />
-        <div className={styles.row}>
-          <SymbolIcon name="textformat.size" fallback="⌘" />
-          <span className={styles.label}>Version</span>
-          <span className={styles.detail}>Web</span>
-        </div>
+		<button
+			type="button"
+			className={styles.rowButton}
+			onClick={() => openSheet(<VersionSheet />)}
+			aria-label="Open version information"
+		>
+			<div className={styles.row}>
+				<SymbolIcon name="hammer" fallback="+" />
+				<span className={styles.label}>Version</span>
+				<span className={styles.detail}>Web</span>
+				<span className={styles.chevron}>›</span>
+			</div>
+		</button>
       </section>
     </main>
   );
