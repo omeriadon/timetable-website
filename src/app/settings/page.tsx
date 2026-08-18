@@ -147,7 +147,7 @@ export default function SettingsPage() {
             <NavigationRow
               title="Updates & Notifications"
               description="Control Live Activities, class notifications, event notifications, and sync."
-              href="/settings/account"
+              href="/settings/notifications"
               icon="switch.2"
             />
             <div className={styles.row}>
@@ -173,6 +173,12 @@ export default function SettingsPage() {
               description="Review and edit past calendar events."
               href="/settings/archived-events"
               icon="archivebox"
+            />
+            <NavigationRow
+              title="Navigation Persistence"
+              description="Restore the selected tab and navigation path when reopening Timetable."
+              href="/settings/navigation"
+              icon="arrow.counterclockwise.circle"
             />
           </>
         ) : (

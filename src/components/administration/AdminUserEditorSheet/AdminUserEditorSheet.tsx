@@ -7,6 +7,7 @@ import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
+import ConfirmationSheet from "@/components/sheets/ConfirmationSheet/ConfirmationSheet";
 
 export type AdministrationUser = Account & { authority: string };
 
@@ -18,7 +19,7 @@ type AdminUserEditorSheetProps = {
 };
 
 export default function AdminUserEditorSheet({ user, isSystemOwner, onSaved, onDeleted }: AdminUserEditorSheetProps) {
-	const { closeSheet } = useSheet();
+	const { closeSheet, openSheet } = useSheet();
 	const [displayName, setDisplayName] = useState(user?.displayName ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [password, setPassword] = useState("");
@@ -50,15 +51,15 @@ export default function AdminUserEditorSheet({ user, isSystemOwner, onSaved, onD
 	};
 
 	const remove = async () => {
-		if (!user || saving || !window.confirm(`Delete ${user.displayName}'s account?`)) return;
+		if (!user || saving) return;
 		setSaving(true);
 		setError(null);
 		try {
 			await apiRequest(`v1/administration/users/${user.id}`, { method: "DELETE" });
 			onDeleted(user.id);
-			closeSheet();
 		} catch (requestError) {
 			setError((requestError as Error).message);
+			throw requestError;
 		} finally {
 			setSaving(false);
 		}
@@ -78,7 +79,7 @@ export default function AdminUserEditorSheet({ user, isSystemOwner, onSaved, onD
 			</section>
 			{error ? <p className={styles.detailMuted} role="alert">{error}</p> : null}
 			<div className={styles.sheetActions}>
-				{user ? <SheetActionButton label="Delete user" tone="destructive" onClick={() => void remove()} disabled={saving}><SymbolIcon name="trash" fallback="×" /> Delete</SheetActionButton> : null}
+				{user ? <SheetActionButton label="Delete user" tone="destructive" onClick={() => openSheet(<ConfirmationSheet title="Delete account" message={`Delete ${user.displayName}'s account? This cannot be undone.`} confirmLabel="Delete account" onConfirm={remove} />)} disabled={saving}><SymbolIcon name="trash" fallback="×" /> Delete</SheetActionButton> : null}
 				<SheetActionButton label={user ? "Save user" : "Create user"} onClick={() => void save()} disabled={saving || !displayName.trim() || !email.trim() || (!user && password.length < 8)}><SymbolIcon name="checkmark" fallback="✓" />{saving ? "Saving…" : user ? "Save" : "Create"}</SheetActionButton>
 			</div>
 		</div>

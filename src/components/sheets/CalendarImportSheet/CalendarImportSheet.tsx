@@ -7,6 +7,7 @@ import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "../Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
+import ConfirmationSheet from "../ConfirmationSheet/ConfirmationSheet";
 
 type CalendarImportSheetProps = {
 	timetable: OwnerTimetable | null;
@@ -38,7 +39,7 @@ const colours = [
 ];
 
 export default function CalendarImportSheet({ timetable, onImported }: CalendarImportSheetProps) {
-	const { closeSheet } = useSheet();
+	const { closeSheet, openSheet } = useSheet();
 	const [fileName, setFileName] = useState<string | null>(null);
 	const [events, setEvents] = useState<ParsedEvent[]>([]);
 	const [saving, setSaving] = useState(false);
@@ -54,11 +55,8 @@ export default function CalendarImportSheet({ timetable, onImported }: CalendarI
 		}
 	};
 
-	const importCalendar = async () => {
+	const performImport = async (throwOnError = false) => {
 		if (!events.length || saving) return;
-		if (timetable?.subjects.length && !window.confirm("This replaces the current timetable with the classes in the calendar file. Continue?")) {
-			return;
-		}
 		setSaving(true);
 		setError(null);
 		try {
@@ -75,9 +73,26 @@ export default function CalendarImportSheet({ timetable, onImported }: CalendarI
 			closeSheet();
 		} catch (requestError) {
 			setError((requestError as Error).message);
+			if (throwOnError) throw requestError;
 		} finally {
 			setSaving(false);
 		}
+	};
+
+	const importCalendar = () => {
+		if (!events.length || saving) return;
+		if (timetable?.subjects.length) {
+			openSheet(
+				<ConfirmationSheet
+					title="Import timetable again"
+					message="This replaces your current timetable with the classes in the calendar file."
+					confirmLabel="Replace timetable"
+					onConfirm={() => performImport(true)}
+				/>,
+			);
+			return;
+		}
+		void performImport();
 	};
 
 	return (

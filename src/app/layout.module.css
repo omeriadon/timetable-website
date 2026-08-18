@@ -3,6 +3,7 @@
 	display: flex;
 	height: 100svh;
 	overflow: hidden;
+	background: var(--theme-black);
 }
 
 .appShell::before {
@@ -42,6 +43,7 @@
 	width: 100%;
 	height: 100%;
 	overflow: visible;
+	background: var(--theme-black);
 }
 
 .pageContent {
@@ -79,6 +81,7 @@
 	margin-left: var(--theme-sidebar-frame);
 	padding: var(--theme-page-padding);
 	padding-top: 52px;
+	background: var(--theme-black);
 	/* Content inherits the compact design system; the sidebar and toolbar keep
 	   their original geometry outside this surface. */
 	--theme-space-1: var(--ui-space-1);
@@ -94,8 +97,20 @@
 	--theme-control-padding-inline: var(--ui-control-padding-inline);
 	--theme-control-padding-block: var(--ui-control-padding-block);
 	--theme-section-gap: var(--ui-section-gap);
+	--theme-surface: var(--ui-surface);
+	--theme-surface-elevated: var(--ui-surface-elevated);
+	--theme-surface-soft: var(--ui-surface-soft);
+	--theme-divider: var(--ui-divider);
+	--theme-text: var(--ui-text);
+	--theme-text-secondary: var(--ui-text-secondary);
+	--theme-accent: var(--ui-accent);
 	--theme-radius-card: var(--ui-radius-card);
 	--theme-radius-control: var(--ui-radius-control);
+	--theme-content-font-size: var(--ui-body-font-size);
+	--theme-content-label-size: var(--ui-label-font-size);
+	--theme-content-display-size: var(--ui-display-font-size);
+	--theme-content-heading-size: var(--ui-heading-font-size);
+	--theme-content-title-size: var(--ui-title-size);
 }
 
 .reflectionMirror {

@@ -10,7 +10,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
-export default function NotificationSettingsEditor({ initial }: { initial: Settings }) {
+export default function NotificationSettingsEditor({ initial, onSignOut }: { initial: Settings; onSignOut?: () => void }) {
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -72,6 +72,18 @@ export default function NotificationSettingsEditor({ initial }: { initial: Setti
 	return (
 		<>
 			<section className={styles.card}>
+				<SettingToggle label="Live Activities" enabled={draft.liveActivitiesEnabled} onClick={() => update({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })} disabled={saving} />
+				<SettingToggle label="Watch Bleed" enabled={draft.watchBleedEnabled} onClick={() => update({ watchBleedEnabled: !draft.watchBleedEnabled })} disabled={saving} />
+				<div className={styles.row}>
+					<SymbolIcon name="calendar.badge.clock" />
+					<span className={styles.label}>Delete Past Calendar Events</span>
+					<select className={styles.inlineSelect} value={draft.calendarEventAutoDeleteDays} disabled={saving} onChange={(event) => update({ calendarEventAutoDeleteDays: Number(event.target.value) })}>
+						<option value={0}>Never</option>
+						<option value={7}>After 1 week</option>
+						<option value={30}>After 1 month</option>
+						<option value={365}>After 1 year</option>
+					</select>
+				</div>
 				<SettingToggle label="Allow Class Notifications" enabled={draft.notificationsEnabled} onClick={() => update({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
 				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => update({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
 				<button type="button" className={styles.rowButton} onClick={() => openLeadTimes("notificationLeadTimes", "Notify Me", "Send notifications early by these intervals.")} disabled={saving}>
@@ -93,6 +105,9 @@ export default function NotificationSettingsEditor({ initial }: { initial: Setti
 						<div className={styles.row}><span className={styles.symbol} aria-hidden="true">＋</span><span className={styles.label}>Add Event Notification</span></div>
 					</button>
 				</div>
+				{onSignOut ? <button type="button" className={styles.rowButton} onClick={async () => { await apiRequest("auth/logout", { method: "DELETE" }); onSignOut(); }} disabled={saving}>
+					<div className={styles.row}><SymbolIcon name="person.2.slash" /><span className={styles.label}>Sign Out</span></div>
+				</button> : null}
 			</section>
 			{error ? <p className={styles.error} role="alert">{error}</p> : null}
 		</>

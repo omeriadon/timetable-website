@@ -75,7 +75,7 @@ export default function SettingsSectionPage() {
       ) : null}
 		{section === "account" && settings ? <AccountSyncEditor initial={settings} onSignOut={() => router.replace("/login")} /> : null}
       {section === "notifications" && settings ? (
-			<NotificationSettingsEditor initial={settings} />
+			<NotificationSettingsEditor initial={settings} onSignOut={() => router.replace("/login")} />
       ) : null}
       {section === "archived-events" ? <ArchivedEventsEditor /> : null}
       {section === "developer" ? (

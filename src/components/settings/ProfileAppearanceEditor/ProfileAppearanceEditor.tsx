@@ -5,6 +5,8 @@ import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture"
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import type { ProfileAppearance, ProfilePhoto } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
+import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import MessageSheet from "@/components/sheets/MessageSheet/MessageSheet";
 import { ProfileColourGrid, ProfileForegroundColourGrid } from "../ProfileColourGrid/ProfileColourGrid";
 import ProfileFontPicker from "../ProfileFontPicker/ProfileFontPicker";
 import styles from "./ProfileAppearanceEditor.module.css";
@@ -24,6 +26,7 @@ type Props = {
 const emojiOptions = ["👤", "⭐️", "⚡️", "📚", "🏃", "🎵", "🎮", "🎨", "✈️"];
 
 export default function ProfileAppearanceEditor({ profile, save }: Props) {
+	const { openSheet } = useSheet();
 	const [draft, setDraft] = useState<ProfileAppearance>(withDefaults(profile.appearance));
 	const [photo, setPhoto] = useState(profile.photo);
 	const [uploading, setUploading] = useState(false);
@@ -40,7 +43,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			});
 			setPhoto(updated.photo);
 		} catch (requestError) {
-			window.alert((requestError as Error).message);
+			openSheet(
+				<MessageSheet
+					title="Photo upload failed"
+					message={(requestError as Error).message}
+				/>,
+			);
 		} finally {
 			setUploading(false);
 		}
@@ -53,7 +61,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			setPhoto(null);
 			update({ contentKind: "emoji" });
 		} catch (requestError) {
-			window.alert((requestError as Error).message);
+			openSheet(
+				<MessageSheet
+					title="Photo removal failed"
+					message={(requestError as Error).message}
+				/>,
+			);
 		} finally {
 			setRemovingPhoto(false);
 		}

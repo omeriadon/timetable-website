@@ -125,25 +125,38 @@
 	--ui-control-padding-inline: 8px;
 	--ui-control-padding-block: 5px;
 	--ui-icon-size: 20px;
-	--ui-title-size: 1.55rem;
+	--ui-title-size: 1.4rem;
 	--ui-subtitle-size: 0.76rem;
 	--ui-heading-gap: 4px;
-	--ui-avatar-size: 42px;
-	--ui-avatar-size-small: 36px;
-	--ui-friend-row-min-height: 50px;
-	--ui-event-min-height: 44px;
+	--ui-avatar-size: 38px;
+	--ui-avatar-size-small: 32px;
+	--ui-friend-row-min-height: 46px;
+	--ui-event-min-height: 40px;
 	--ui-timeline-label-width: 44px;
 	--ui-timeline-line-width: 6px;
 	--ui-week-label-width: 20px;
 	--ui-week-column-min: 68px;
 	--ui-week-min-width: 380px;
-	--ui-week-row-min-height: 46px;
+	--ui-week-row-min-height: 42px;
 	--ui-mobile-bottom-inset: 96px;
-	--ui-sheet-row-height: 38px;
+	--ui-sheet-row-height: 36px;
 	--ui-sheet-card-padding: 7px;
 	--ui-border-radius-pill: 999px;
 	--ui-content-font-size: 0.9rem;
 	--ui-small-font-size: 0.76rem;
+	--ui-body-font-size: 0.88rem;
+	--ui-label-font-size: 0.82rem;
+	--ui-heading-font-size: 1.2rem;
+	--ui-display-font-size: 1.45rem;
+	--ui-line-height-tight: 1.15;
+	--ui-line-height-body: 1.28;
+	--ui-surface: var(--card);
+	--ui-surface-elevated: var(--popover);
+	--ui-surface-soft: var(--secondary);
+	--ui-divider: var(--border);
+	--ui-text: var(--foreground);
+	--ui-text-secondary: var(--muted-foreground);
+	--ui-accent: var(--primary);
 	--ui-touch-target: 30px;
 	--ui-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 	--ui-list-padding-inline: 7px;
@@ -254,7 +267,7 @@ html,
 body {
 	margin: 0;
 	min-height: 100%;
-	background: var(--background);
+	background: var(--theme-black);
 	color: var(--foreground);
 }
 
@@ -265,11 +278,19 @@ html {
 body {
 	min-height: 100svh;
 	font-family: var(--theme-font-body);
+	background-color: var(--theme-black) !important;
 }
 
 body,
 #__next {
-	background-color: var(--theme-black);
+	background-color: var(--theme-black) !important;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
 }
 
 html[data-app-font="monospaced"] body {

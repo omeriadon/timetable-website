@@ -18,6 +18,13 @@
 	--theme-control-padding-inline: var(--ui-control-padding-inline);
 	--theme-control-padding-block: var(--ui-control-padding-block);
 	--theme-section-gap: var(--ui-section-gap);
+	--theme-surface: var(--ui-surface);
+	--theme-surface-elevated: var(--ui-surface-elevated);
+	--theme-surface-soft: var(--ui-surface-soft);
+	--theme-divider: var(--ui-divider);
+	--theme-text: var(--ui-text);
+	--theme-text-secondary: var(--ui-text-secondary);
+	--theme-accent: var(--ui-accent);
 	--theme-radius-card: var(--ui-radius-card);
 	--theme-radius-control: var(--ui-radius-control);
 }
