@@ -64,10 +64,16 @@ export default function LoginPage() {
 	return (
 		<main className={styles.page}>
 			<section className={styles.card} aria-labelledby="login-title">
-				<div className={styles.brandMark} aria-hidden="true">T</div>
+				<div className={styles.brandMark} aria-hidden="true">
+					T
+				</div>
 				<p className={styles.eyebrow}>Timetable</p>
 				<h1 id="login-title">
-					{mode === "sign-in" ? "Welcome back" : mode === "sign-up" ? "Create your account" : "Verify your email"}
+					{mode === "sign-in"
+						? "Welcome back"
+						: mode === "sign-up"
+							? "Create your account"
+							: "Verify your email"}
 				</h1>
 				<p className={styles.intro}>
 					{mode === "verify"
@@ -78,27 +84,71 @@ export default function LoginPage() {
 				<form className={styles.form} onSubmit={submit}>
 					<label>
 						<span>School email</span>
-						<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required disabled={mode === "verify"} />
+						<input
+							type="email"
+							value={email}
+							onChange={(event) => setEmail(event.target.value)}
+							autoComplete="email"
+							required
+							disabled={mode === "verify"}
+						/>
 					</label>
 					<label>
 						<span>Password</span>
-						<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={mode === "sign-in" ? "current-password" : "new-password"} minLength={8} required />
+						<input
+							type="password"
+							value={password}
+							onChange={(event) => setPassword(event.target.value)}
+							autoComplete={
+								mode === "sign-in" ? "current-password" : "new-password"
+							}
+							minLength={8}
+							required
+						/>
 					</label>
 					{mode === "verify" ? (
 						<label>
 							<span>Verification code</span>
-							<input inputMode="numeric" autoComplete="one-time-code" value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))} required />
+							<input
+								inputMode="numeric"
+								autoComplete="one-time-code"
+								value={code}
+								onChange={(event) =>
+									setCode(event.target.value.replace(/\D/g, "").slice(0, 6))
+								}
+								required
+							/>
 						</label>
 					) : null}
-					{error ? <p className={styles.error} role="alert">{error}</p> : null}
-					<button className={styles.submit} type="submit" disabled={isSubmitting}>
-						{isSubmitting ? "Please wait" : mode === "sign-in" ? "Sign in" : mode === "sign-up" ? "Send verification code" : "Create account"}
+					{error ? (
+						<p className={styles.error} role="alert">
+							{error}
+						</p>
+					) : null}
+					<button
+						className={styles.submit}
+						type="submit"
+						disabled={isSubmitting}
+					>
+						{isSubmitting
+							? "Please wait"
+							: mode === "sign-in"
+								? "Sign in"
+								: mode === "sign-up"
+									? "Send verification code"
+									: "Create account"}
 					</button>
 				</form>
 
 				{mode !== "verify" ? (
-					<button className={styles.switchMode} type="button" onClick={() => setMode(mode === "sign-in" ? "sign-up" : "sign-in")}>
-						{mode === "sign-in" ? "Create an account" : "I already have an account"}
+					<button
+						className={styles.switchMode}
+						type="button"
+						onClick={() => setMode(mode === "sign-in" ? "sign-up" : "sign-in")}
+					>
+						{mode === "sign-in"
+							? "Create an account"
+							: "I already have an account"}
 					</button>
 				) : null}
 			</section>
