@@ -10,6 +10,9 @@ import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEdit
 import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";
 import AdminUsersEditor from "@/components/administration/AdminUsersEditor/AdminUsersEditor";
 import AdminUserReportsEditor from "@/components/administration/AdminUserReportsEditor/AdminUserReportsEditor";
+import AdminAppVersionEditor from "@/components/administration/AdminAppVersionEditor/AdminAppVersionEditor";
+import AdminProfileStorageEditor from "@/components/administration/AdminProfileStorageEditor/AdminProfileStorageEditor";
+import AdminBroadcastHistoryEditor from "@/components/administration/AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
 
 const sectionConfig: Record<
 	string,
@@ -103,7 +106,7 @@ export default function AdministrationSectionPage() {
 		setToolbar({ title: config.title });
 		setData(null);
 		setError(null);
-		if (section === "event-tags") return;
+		if (["event-tags", "app-version", "profile-storage-quota", "broadcast-notifications"].includes(section)) return;
 		if (!config.endpoint) return;
 		apiRequest<unknown>(config.endpoint)
 			.then(setData)
@@ -115,7 +118,7 @@ export default function AdministrationSectionPage() {
 	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
 
 	return (
-		section === "users" ? <AdminUsersEditor /> : section === "user-reports" ? <AdminUserReportsEditor /> : section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> :
+		section === "users" ? <AdminUsersEditor /> : section === "user-reports" ? <AdminUserReportsEditor /> : section === "event-tags" ? <AdminEventTagsEditor /> : section === "school-events" ? <AdminCalendarEditor kind="event" title="School Events" /> : section === "term-dates" ? <AdminCalendarEditor kind="term" title="Term Dates" /> : section === "pupil-free-days" ? <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" /> : section === "app-version" ? <AdminAppVersionEditor /> : section === "profile-storage-quota" ? <AdminProfileStorageEditor /> : section === "broadcast-notifications" ? <AdminBroadcastHistoryEditor /> :
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>

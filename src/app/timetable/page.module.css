@@ -1,6 +1,6 @@
 .contentPanel {
   min-height: 100%;
-  padding: 18px var(--theme-content-page-padding) 14px;
+  padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
 }
 
 .actions {
@@ -10,7 +10,7 @@
 }
 
 .actions button {
-	padding: 7px 11px;
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-divider);
 	border-radius: 999px;
 	color: var(--theme-text);
@@ -22,7 +22,7 @@
 .panel {
   width: 100%;
   margin: 0 auto;
-  padding: var(--theme-content-card-padding);
+  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-divider);
   border-radius: var(--theme-content-radius);
   background: color-mix(in srgb, var(--theme-surface) 96%, transparent);
@@ -36,8 +36,8 @@
 
 .dayPicker button {
   border: 1px solid var(--theme-divider);
-  border-radius: 10px;
-  padding: 7px 10px;
+  border-radius: var(--theme-content-control-radius);
+  padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
   background: transparent;
   color: var(--theme-text-secondary);
   font: inherit;
@@ -61,7 +61,7 @@
   grid-template-columns: 60px 1fr auto;
   align-items: center;
   gap: var(--theme-space-4);
-  padding: var(--theme-content-card-padding);
+  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border-radius: var(--theme-content-radius);
   background: color-mix(in srgb, var(--theme-surface) 95%, transparent);
 }

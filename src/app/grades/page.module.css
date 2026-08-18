@@ -1,6 +1,6 @@
 .page {
 	min-height: 100%;
-	padding: 16px var(--theme-content-page-padding) 14px;
+	padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
 	color: var(--theme-text);
 }
 
@@ -17,7 +17,7 @@
 .summaryStats {
 	display: flex;
 	justify-content: space-between;
-	gap: var(--theme-space-4);
+	gap: var(--theme-content-row-gap);
 }
 
 .summaryLabel,
@@ -51,10 +51,10 @@
 .subjectRow {
 	display: grid;
 	grid-template-columns: 54px minmax(0, 1fr) auto;
-	gap: var(--theme-space-4);
+	gap: var(--theme-content-row-gap);
 	align-items: center;
-	min-height: 62px;
-	padding: var(--theme-content-card-padding);
+	min-height: var(--theme-content-sheet-row-height);
+	padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
 	border: 1px solid var(--theme-divider);
 	border-radius: var(--theme-content-radius);
 	color: var(--theme-text);

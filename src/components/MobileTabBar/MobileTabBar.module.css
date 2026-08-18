@@ -19,6 +19,7 @@
     var(--theme-shadow),
     inset 0 1px var(--theme-highlight);
   backdrop-filter: blur(30px) saturate(1.5);
+  grid-template-columns: repeat(var(--tab-count, 5), minmax(0, 1fr));
 }
 
 .tab {
@@ -49,6 +50,5 @@
 @media (max-width: 700px) {
   .tabBar {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }

@@ -196,6 +196,27 @@
   font-weight: 650;
 }
 
+.dangerButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--theme-content-row-gap);
+	min-height: var(--theme-content-control-height);
+	margin: var(--theme-content-section-gap) var(--theme-content-page-padding);
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	border: 1px solid color-mix(in srgb, var(--theme-error) 50%, transparent);
+	border-radius: var(--theme-content-control-radius);
+	color: var(--theme-error);
+	background: color-mix(in srgb, var(--theme-error) 10%, transparent);
+	font: inherit;
+	cursor: pointer;
+}
+
+.dangerButton:disabled {
+	opacity: 0.55;
+	cursor: wait;
+}
+
 .detailSubject {
   justify-content: flex-start;
 }

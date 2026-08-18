@@ -110,12 +110,24 @@
 	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
 	/* Content-only controls. Sidebar and toolbar keep their established geometry. */
 	--theme-content-page-padding: 8px;
+	--theme-content-page-padding-block: 8px;
 	--theme-content-section-gap: 8px;
 	--theme-content-card-padding: 8px;
+	--theme-content-card-padding-inline: 8px;
+	--theme-content-card-padding-block: 8px;
 	--theme-content-row-height: 40px;
 	--theme-content-row-gap: 8px;
+	--theme-content-grid-gap: 4px;
 	--theme-content-radius: 14px;
 	--theme-content-control-height: 32px;
+	--theme-content-control-radius: 10px;
+	--theme-content-control-padding-inline: 10px;
+	--theme-content-control-padding-block: 6px;
+	--theme-content-icon-size: 22px;
+	--theme-content-title-size: 1.75rem;
+	--theme-content-subtitle-size: 0.8rem;
+	--theme-content-sheet-row-height: 44px;
+	--theme-content-sheet-card-padding: 8px;
 	--theme-content-heading-size: 1.75rem;
 }
 

@@ -1,13 +1,13 @@
 .page {
   min-height: 100%;
-  padding: 16px var(--theme-content-page-padding) 14px;
+  padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
   color: var(--theme-text);
 }
 .modePicker {
   display: flex;
   width: fit-content;
-  margin: 0 auto 10px;
-  padding: 5px;
+  margin: 0 auto var(--theme-content-section-gap);
+  padding: var(--theme-content-grid-gap);
   border: 1px solid var(--theme-divider);
   border-radius: 999px;
   background: linear-gradient(var(--theme-surface-soft), var(--theme-surface));
@@ -22,9 +22,9 @@
 .modePicker button {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: var(--theme-content-row-gap);
   min-height: var(--theme-content-control-height);
-  padding: 0 12px;
+  padding: 0 var(--theme-content-control-padding-inline);
   border: 0;
   border-radius: 999px;
   color: var(--theme-text);
@@ -80,7 +80,7 @@
 .paperCard {
   width: 100%;
   margin: var(--theme-content-section-gap) 0;
-  padding: var(--theme-content-card-padding);
+  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-paper-edge);
   border-radius: var(--theme-content-radius);
   color: var(--theme-black);
@@ -92,12 +92,12 @@
   box-shadow: inset 0 1px var(--theme-paper-highlight);
 }
 .paperCard h2 {
-  margin: 0 0 12px;
+  margin: 0 0 var(--theme-content-section-gap);
   font-size: 1.55rem;
   letter-spacing: -0.045em;
 }
 .paperCard h3 {
-  margin: 0 0 9px;
+  margin: 0 0 var(--theme-content-row-gap);
   font-size: 1.05rem;
 }
 
@@ -121,7 +121,7 @@
 
 .timelineHeader h2 { margin: 0; font-size: 1.35rem; }
 .timelineHeader span { color: var(--theme-text-secondary); font-size: 0.78rem; }
-.timelineList { display: grid; gap: 2px; }
+.timelineList { display: grid; gap: var(--theme-content-grid-gap); }
 
 .timelineRow,
 .timelineRowActive {
@@ -130,7 +130,7 @@
 	gap: var(--theme-space-2);
 	align-items: stretch;
 	min-height: var(--theme-content-row-height);
-	padding: 3px 0;
+  padding: var(--theme-content-grid-gap) 0;
 	color: var(--theme-text-secondary);
 }
 
@@ -200,7 +200,7 @@
 .subjectRow {
   display: grid;
   grid-template-columns: 30px 1fr auto;
-  gap: 12px;
+  gap: var(--theme-content-row-gap);
   align-items: center;
 	min-height: 48px;
 	padding: var(--theme-content-card-padding);

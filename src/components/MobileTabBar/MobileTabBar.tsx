@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./MobileTabBar.module.css";
@@ -26,7 +27,11 @@ export default function MobileTabBar() {
 	}, []);
 
 	return (
-		<nav className={styles.tabBar} aria-label="Primary navigation">
+		<nav
+			className={styles.tabBar}
+			style={{ "--tab-count": isAdministrator ? 5 : 4 } as CSSProperties}
+			aria-label="Primary navigation"
+		>
 			{tabs.filter((tab) => tab.label !== "Admin" || isAdministrator).map((tab) => {
 				const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
 

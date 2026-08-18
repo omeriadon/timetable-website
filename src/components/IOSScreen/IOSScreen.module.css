@@ -1,7 +1,7 @@
 .page {
 	width: 100%;
 	margin: 0;
-	padding: 16px var(--theme-content-page-padding) 14px;
+	padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
 	color: var(--theme-text);
 }
 .title {
@@ -78,7 +78,7 @@
 	line-height: 0.5;
 }
 .paper {
-	padding: var(--theme-content-card-padding);
+	padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
 	border: 1px solid rgba(255, 255, 255, 0.75);
 	border-radius: var(--theme-content-radius);
 	color: var(--theme-black);
@@ -101,7 +101,7 @@
 .adminRecord {
 	display: grid;
 	gap: 3px;
-	padding: var(--theme-content-card-padding) var(--theme-content-page-padding);
+	padding: var(--theme-content-card-padding-block) var(--theme-content-page-padding);
 }
 .adminRecord + .adminRecord {
 	border-top: 1px solid var(--theme-divider);
@@ -156,9 +156,9 @@
 .formCard input,
 .formCard textarea {
 	width: 100%;
-	padding: 9px 11px;
+	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-divider);
-	border-radius: 12px;
+	border-radius: var(--theme-content-control-radius);
 	outline: none;
 	color: var(--theme-text);
 	background: var(--theme-black);
@@ -203,6 +203,20 @@
 	font: inherit;
 	font-weight: 650;
 	cursor: pointer;
+}
+.quotaTrack {
+	width: calc(100% - (2 * var(--theme-content-page-padding-inline)));
+	height: 6px;
+	margin: 0 var(--theme-content-page-padding-inline) var(--theme-content-row-gap);
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--theme-divider);
+}
+.quotaTrack span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--theme-accent);
 }
 .sheetActions {
 	display: flex;
