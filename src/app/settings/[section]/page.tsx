@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon";
@@ -33,6 +33,7 @@ const labels: Record<string, string> = {
 export default function SettingsSectionPage() {
   const { section } = useParams<{ section: string }>();
   const setToolbar = useToolbar();
+  const router = useRouter();
   const [settings, setSettings] = useState<Settings | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -81,6 +82,19 @@ export default function SettingsSectionPage() {
 					<span className={styles.label}>Special Event Notifications</span>
 					<span className={styles.detail}>{settings.broadcastNotificationsEnabled ? "On" : "Off"}</span>
 				</div>
+				<button
+					type="button"
+					className={styles.rowButton}
+					onClick={async () => {
+						await apiRequest("auth/logout", { method: "DELETE" });
+						router.replace("/login");
+					}}
+				>
+					<div className={styles.row}>
+						<SymbolIcon name="person.2.slash" />
+						<span className={styles.label}>Sign Out</span>
+					</div>
+				</button>
 			</section>
 		) : null}
       {section === "notifications" && settings ? (
