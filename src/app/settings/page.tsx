@@ -73,7 +73,6 @@ export default function SettingsPage() {
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>Settings</h1>
       {account ? (
         <section
           className={styles.paper}
@@ -123,6 +122,11 @@ export default function SettingsPage() {
       <section className={styles.card}>
         {settings ? (
           <>
+            <a href="/settings/appearance" className={styles.row}>
+              <span className={styles.symbol}>◉</span>
+              <span className={styles.label}>Appearance</span>
+              <span className={styles.chevron}>›</span>
+            </a>
             <SettingToggle
               label="Updates & Notifications"
               enabled={settings.notificationsEnabled}
@@ -140,10 +144,46 @@ export default function SettingsPage() {
               <span className={styles.label}>Show Future Events</span>
               <span className={styles.detail}>{settings.futureEventRange}</span>
             </div>
+            <a href="/settings/archived-events" className={styles.row}>
+              <span className={styles.symbol}>▣</span>
+              <span className={styles.label}>Archived Events</span>
+              <span className={styles.chevron}>›</span>
+            </a>
           </>
         ) : (
           <p className={styles.loading}>Loading preferences…</p>
         )}
+      </section>
+      <h2 className={styles.section}>Developer</h2>
+      <section className={styles.card}>
+        <div className={styles.row}>
+          <span className={styles.symbol}>◌</span>
+          <span className={styles.label}>Last Server Sync</span>
+          <span className={styles.detail}>Live</span>
+        </div>
+        <a href="/settings/developer" className={styles.row}>
+          <span className={styles.symbol}>◈</span>
+          <span className={styles.label}>Developer Tools</span>
+          <span className={styles.chevron}>›</span>
+        </a>
+      </section>
+      <h2 className={styles.section}>Support</h2>
+      <section className={styles.card}>
+        <a href="/settings/feedback" className={styles.row}>
+          <span className={styles.symbol}>!</span>
+          <span className={styles.label}>Report Feedback or Bug</span>
+          <span className={styles.chevron}>›</span>
+        </a>
+        <a href="/settings/about" className={styles.row}>
+          <span className={styles.symbol}>ⓘ</span>
+          <span className={styles.label}>About Timetable</span>
+          <span className={styles.chevron}>›</span>
+        </a>
+        <div className={styles.row}>
+          <span className={styles.symbol}>⌘</span>
+          <span className={styles.label}>Version</span>
+          <span className={styles.detail}>Web</span>
+        </div>
       </section>
     </main>
   );

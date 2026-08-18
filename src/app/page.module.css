@@ -1,12 +1,246 @@
-.page { min-height: 100%; padding: 92px 16px 48px; color: #fff; }
-.modePicker { display: flex; width: fit-content; max-width: 100%; margin: 0 auto 28px; padding: 5px; border: 1px solid #444; border-radius: 999px; background: linear-gradient(#292929, #1d1d1e); box-shadow: inset 0 1px #555; }
-.modePicker button { display: flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; color: #fff; background: transparent; font: inherit; font-weight: 700; cursor: pointer; }
-.modePicker button span { font-size: 1.2rem; }.modePicker .activeMode { background: linear-gradient(135deg, #c28a57, #8f592d); box-shadow: inset 0 1px #ffd0a2, 0 1px 3px #000; }
-.message, .error { max-width: 760px; margin: 20px auto; color: #aaa; text-align: center; }.error { color: #ff8879; }
-.todayHeader, .planner { max-width: 820px; margin: 0 auto 28px; }.todayHeader p { margin: 0 0 12px; color: #999; font-size: .78rem; }.todayHeader h1, .planner h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -.05em; }.todayHeader > span { display: block; margin-top: 5px; color: #95959a; font-size: 1.3rem; }
-.paperCard { max-width: 820px; margin: 28px auto; padding: 28px; border: 1px solid #ffd8ab; border-radius: 34px; color: #000; background: linear-gradient(135deg, #f6c88f, #dca56b); box-shadow: inset 0 1px #fff1d3; }.paperCard h2 { margin: 0 0 28px; font-size: 2.4rem; letter-spacing: -.045em; }.paperCard h3 { margin: 0 0 14px; font-size: 1.2rem; }
-.eventRow, .plannerEvent { display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; padding: 16px; border: 1px solid rgba(255,255,255,.68); border-radius: 22px; }.eventRow + .eventRow { margin-top: 12px; }.eventRow strong, .eventRow span { display: block; }.eventRow strong { font-size: 1.08rem; }.eventRow span { margin-top: 3px; opacity: .7; }.eventRow time { font-weight: 700; }.eventSymbol { font-size: 1.5rem; text-align: center; }
-.subjectList { display: grid; gap: 14px; }.subjectRow { display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: center; min-height: 86px; padding: 18px; border: 1px solid rgba(255,255,255,.9); border-radius: 20px; background: rgba(241,242,245,.8); }.subjectRow strong { font-size: 1.45rem; font-weight: 500; }.subjectRow em { font-size: 1.8rem; font-style: normal; }
-.week { max-width: 900px; margin: 0 auto; overflow-x: auto; }.weekHeader, .weekRow { display: grid; grid-template-columns: 36px repeat(5, minmax(105px, 1fr)); gap: 8px; min-width: 620px; }.weekHeader { margin-bottom: 8px; }.weekHeader span { padding: 6px 0; font-size: 1.2rem; text-align: center; }.weekRow { min-height: 102px; margin-bottom: 8px; }.weekRow > small { display: grid; place-items: center; color: #aaa; font-size: 1rem; }.lesson { display: flex; flex-direction: column; justify-content: space-between; padding: 11px; overflow: hidden; border: 1px solid rgba(255,255,255,.5); border-radius: 18px; box-shadow: inset 0 1px rgba(255,255,255,.35), 0 4px 12px rgba(0,0,0,.3); }.lesson span { font-size: 1.5rem; }.lesson strong { font-size: 1rem; }
-.plannerEvent { max-width: 820px; min-height: 112px; margin: 16px 0; border-color: #ffd8ab; color: #fff; background: linear-gradient(135deg, #c28a57, #8f592d); }.plannerEvent strong, .plannerEvent span { display: block; }.plannerEvent strong { font-size: 1.25rem; }.plannerEvent span { margin-top: 5px; opacity: .8; }.plannerEvent time { font-weight: 700; }.planner h2 { margin: 46px 0 16px; font-size: 2.1rem; }.empty { margin: 0; opacity: .65; }
-@media (max-width: 700px) { .page { padding: 18px 16px 110px; }.modePicker { width: 100%; }.modePicker button { flex: 1; justify-content: center; padding: 0 8px; }.paperCard { padding: 24px; border-radius: 28px; }.paperCard h2 { font-size: 2.1rem; }.todayHeader h1 { font-size: 2rem; }.todayHeader > span { font-size: 1.1rem; } }
+.page {
+  min-height: 100%;
+  padding: 92px 16px 48px;
+  color: #fff;
+}
+.modePicker {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 28px;
+  padding: 5px;
+  border: 1px solid #444;
+  border-radius: 999px;
+  background: linear-gradient(#292929, #1d1d1e);
+  box-shadow: inset 0 1px #555;
+}
+.modePicker button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.modePicker button span {
+  font-size: 1.2rem;
+}
+.modePicker .activeMode {
+  background: linear-gradient(135deg, #c28a57, #8f592d);
+  box-shadow:
+    inset 0 1px #ffd0a2,
+    0 1px 3px #000;
+}
+.message,
+.error {
+  margin: 20px 0;
+  color: #aaa;
+  text-align: center;
+}
+.error {
+  color: #ff8879;
+}
+.todayHeader,
+.planner {
+  width: 100%;
+  margin: 0 0 28px;
+}
+.todayHeader p {
+  margin: 0 0 12px;
+  color: #999;
+  font-size: 0.78rem;
+}
+.todayHeader h1,
+.planner h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  letter-spacing: -0.05em;
+}
+.todayHeader > span {
+  display: block;
+  margin-top: 5px;
+  color: #95959a;
+  font-size: 1.3rem;
+}
+.paperCard {
+  width: 100%;
+  margin: 28px 0;
+  padding: 28px;
+  border: 1px solid #ffd8ab;
+  border-radius: 34px;
+  color: #000;
+  background: linear-gradient(135deg, #f6c88f, #dca56b);
+  box-shadow: inset 0 1px #fff1d3;
+}
+.paperCard h2 {
+  margin: 0 0 28px;
+  font-size: 2.4rem;
+  letter-spacing: -0.045em;
+}
+.paperCard h3 {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+}
+.eventRow,
+.plannerEvent {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 22px;
+}
+.eventRow + .eventRow {
+  margin-top: 12px;
+}
+.eventRow strong,
+.eventRow span {
+  display: block;
+}
+.eventRow strong {
+  font-size: 1.08rem;
+}
+.eventRow span {
+  margin-top: 3px;
+  opacity: 0.7;
+}
+.eventRow time {
+  font-weight: 700;
+}
+.eventSymbol {
+  font-size: 1.5rem;
+  text-align: center;
+}
+.subjectList {
+  display: grid;
+  gap: 14px;
+}
+.subjectRow {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 86px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: rgba(241, 242, 245, 0.8);
+}
+.subjectRow strong {
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+.subjectRow em {
+  font-size: 1.8rem;
+  font-style: normal;
+}
+.week {
+  width: 100%;
+  margin: 0;
+  overflow-x: auto;
+}
+.weekHeader,
+.weekRow {
+  display: grid;
+  grid-template-columns: 36px repeat(5, minmax(105px, 1fr));
+  gap: 8px;
+  min-width: 620px;
+}
+.weekHeader {
+  margin-bottom: 8px;
+}
+.weekHeader span {
+  padding: 6px 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+.weekRow {
+  min-height: 102px;
+  margin-bottom: 8px;
+}
+.weekRow > small {
+  display: grid;
+  place-items: center;
+  color: #aaa;
+  font-size: 1rem;
+}
+.lesson {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.lesson span {
+  font-size: 1.5rem;
+}
+.lesson strong {
+  font-size: 1rem;
+}
+.plannerEvent {
+  width: 100%;
+  min-height: 112px;
+  margin: 16px 0;
+  border-color: #ffd8ab;
+  color: #fff;
+  background: linear-gradient(135deg, #c28a57, #8f592d);
+}
+.plannerEvent strong,
+.plannerEvent span {
+  display: block;
+}
+.plannerEvent strong {
+  font-size: 1.25rem;
+}
+.plannerEvent span {
+  margin-top: 5px;
+  opacity: 0.8;
+}
+.plannerEvent time {
+  font-weight: 700;
+}
+.planner h2 {
+  margin: 46px 0 16px;
+  font-size: 2.1rem;
+}
+.empty {
+  margin: 0;
+  opacity: 0.65;
+}
+@media (max-width: 700px) {
+  .page {
+    padding: 18px 16px 110px;
+  }
+  .modePicker {
+    width: 100%;
+  }
+  .modePicker button {
+    flex: 1;
+    justify-content: center;
+    padding: 0 8px;
+  }
+  .paperCard {
+    padding: 24px;
+    border-radius: 28px;
+  }
+  .paperCard h2 {
+    font-size: 2.1rem;
+  }
+  .todayHeader h1 {
+    font-size: 2rem;
+  }
+  .todayHeader > span {
+    font-size: 1.1rem;
+  }
+}

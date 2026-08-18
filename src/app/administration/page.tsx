@@ -50,7 +50,6 @@ export default function AdministrationPage() {
   }, [setToolbar]);
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>Administration</h1>
       {error ? (
         <p className={styles.error} role="alert">
           {error}

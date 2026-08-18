@@ -45,7 +45,6 @@ export default function GradesPage() {
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>Grades</h1>
       {error ? (
         <p className={styles.error} role="alert">
           {error}

@@ -74,12 +74,6 @@ export default function GradeSubjectPage() {
       <Link href="/grades" style={{ color: "#aaa", textDecoration: "none" }}>
         ‹ Grades
       </Link>
-      <h1
-        className={styles.title}
-        style={{ fontSize: "clamp(2.25rem, 7vw, 4rem)", marginTop: 20 }}
-      >
-        {subjectID}
-      </h1>
       {error ? (
         <p className={styles.error} role="alert">
           {error}

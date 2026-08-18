@@ -20,7 +20,6 @@ export default function ClassesPage() {
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>Classes</h1>
       {error ? (
         <p className={styles.error} role="alert">
           {error}
