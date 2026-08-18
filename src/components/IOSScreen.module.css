@@ -46,6 +46,13 @@
   font-size: 1.6rem;
   text-align: center;
 }
+.symbolIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
+    hue-rotate(318deg) brightness(86%);
+}
 .label {
   font-size: 1.25rem;
   font-weight: 520;

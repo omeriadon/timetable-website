@@ -14,26 +14,30 @@ const sections = [
   [
     "Overview",
     [
-      ["▥", "Statistics", "statistics"],
-      ["♧", "Users", "users"],
+      ["chart.bar", "Statistics", "statistics"],
+      ["person.2", "Users", "users"],
     ],
   ],
-  ["Moderation", [["!", "User Reports", "user-reports"]]],
+  ["Moderation", [["exclamationmark.bubble", "User Reports", "user-reports"]]],
   [
     "School Content",
     [
-      ["▦", "School Events", "calendar"],
-      ["◇", "Event Tags", "event-tags"],
-      ["▤", "Term Dates", "calendar"],
-      ["•", "Pupil Free Days", "calendar"],
+      ["calendar.badge.exclamationmark", "School Events", "calendar"],
+      ["tag", "Event Tags", "event-tags"],
+      ["calendar.badge.clock", "Term Dates", "calendar"],
+      ["calendar.badge.exclamationmark", "Pupil Free Days", "calendar"],
     ],
   ],
   [
     "Notifications",
     [
-      ["◫", "Broadcast Notification", "broadcast-notification"],
-      ["◴", "Broadcast History", "broadcast-notifications"],
-      ["✉", "Email Log", "email-log"],
+      ["megaphone", "Broadcast Notification", "broadcast-notification"],
+      [
+        "clock.arrow.trianglehead.counterclockwise.rotate.90",
+        "Broadcast History",
+        "broadcast-notifications",
+      ],
+      ["envelope.badge", "Email Log", "email-log"],
     ],
   ],
 ];
@@ -58,7 +62,11 @@ export default function AdministrationPage() {
       {dashboard && !dashboard.isAdmin ? (
         <section className={styles.card}>
           <div className={styles.row}>
-            <span className={styles.symbol}>!</span>
+            <img
+              className={styles.symbolIcon}
+              src="/icons/exclamationmark.bubble.svg"
+              alt=""
+            />
             <span className={styles.label}>Administrator access required.</span>
           </div>
         </section>
@@ -74,7 +82,11 @@ export default function AdministrationPage() {
                     href={`/administration/${destination}`}
                     className={styles.row}
                   >
-                    <span className={styles.symbol}>{symbol}</span>
+                    <img
+                      className={styles.symbolIcon}
+                      src={`/icons/${symbol}.svg`}
+                      alt=""
+                    />
                     <span className={styles.label}>{label}</span>
                     <span className={styles.chevron}>›</span>
                   </a>

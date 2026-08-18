@@ -108,7 +108,7 @@ export default function SettingsPage() {
       <h2 className={styles.section}>My Timetable</h2>
       <section className={styles.card}>
         <a href="/timetable" className={styles.row}>
-          <span className={styles.symbol}>▤</span>
+          <SettingsIcon name="pencil.and.list.clipboard" />
           <span>
             <b className={styles.label}>Edit Timetable</b>
             <small style={{ display: "block", color: "#929299", marginTop: 4 }}>
@@ -123,7 +123,7 @@ export default function SettingsPage() {
         {settings ? (
           <>
             <a href="/settings/appearance" className={styles.row}>
-              <span className={styles.symbol}>◉</span>
+              <SettingsIcon name="paintpalette" />
               <span className={styles.label}>Appearance</span>
               <span className={styles.chevron}>›</span>
             </a>
@@ -140,12 +140,12 @@ export default function SettingsPage() {
               disabled={saving}
             />
             <div className={styles.row}>
-              <span className={styles.symbol}>◐</span>
+              <SettingsIcon name="calendar.badge.clock" />
               <span className={styles.label}>Show Future Events</span>
               <span className={styles.detail}>{settings.futureEventRange}</span>
             </div>
             <a href="/settings/archived-events" className={styles.row}>
-              <span className={styles.symbol}>▣</span>
+              <SettingsIcon name="archivebox" />
               <span className={styles.label}>Archived Events</span>
               <span className={styles.chevron}>›</span>
             </a>
@@ -157,12 +157,12 @@ export default function SettingsPage() {
       <h2 className={styles.section}>Developer</h2>
       <section className={styles.card}>
         <div className={styles.row}>
-          <span className={styles.symbol}>◌</span>
+          <SettingsIcon name="app.badge" fallback="◌" />
           <span className={styles.label}>Last Server Sync</span>
           <span className={styles.detail}>Live</span>
         </div>
         <a href="/settings/developer" className={styles.row}>
-          <span className={styles.symbol}>◈</span>
+          <SettingsIcon name="app.badge" />
           <span className={styles.label}>Developer Tools</span>
           <span className={styles.chevron}>›</span>
         </a>
@@ -170,17 +170,17 @@ export default function SettingsPage() {
       <h2 className={styles.section}>Support</h2>
       <section className={styles.card}>
         <a href="/settings/feedback" className={styles.row}>
-          <span className={styles.symbol}>!</span>
+          <SettingsIcon name="exclamationmark.bubble" />
           <span className={styles.label}>Report Feedback or Bug</span>
           <span className={styles.chevron}>›</span>
         </a>
         <a href="/settings/about" className={styles.row}>
-          <span className={styles.symbol}>ⓘ</span>
+          <SettingsIcon name="info.circle" />
           <span className={styles.label}>About Timetable</span>
           <span className={styles.chevron}>›</span>
         </a>
         <div className={styles.row}>
-          <span className={styles.symbol}>⌘</span>
+          <SettingsIcon name="textformat.size" fallback="⌘" />
           <span className={styles.label}>Version</span>
           <span className={styles.detail}>Web</span>
         </div>
@@ -214,7 +214,7 @@ function SettingToggle({
         textAlign: "left",
       }}
     >
-      <span className={styles.symbol}>◌</span>
+      <SettingsIcon name="switch.2" />
       <span className={styles.label}>{label}</span>
       <span
         aria-label={enabled ? "Enabled" : "Disabled"}
@@ -239,5 +239,20 @@ function SettingToggle({
         />
       </span>
     </button>
+  );
+}
+
+function SettingsIcon({ name, fallback }: { name: string; fallback?: string }) {
+  return (
+    <img
+      className={styles.symbolIcon}
+      src={`/icons/${name}.svg`}
+      alt=""
+      onError={(event) => {
+        if (fallback) {
+          event.currentTarget.replaceWith(document.createTextNode(fallback));
+        }
+      }}
+    />
   );
 }
