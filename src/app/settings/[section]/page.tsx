@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon";
 import ProfilePicture from "@/components/controls/ProfilePicture";
+import SettingToggle from "@/components/controls/SettingToggle";
 import styles from "@/components/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
@@ -16,7 +17,10 @@ type Settings = {
   notificationsEnabled: boolean;
   broadcastNotificationsEnabled: boolean;
   futureEventRange: string;
-  serverRevision: number;
+	serverRevision: number;
+	notificationLeadTimes: number[];
+	breakToPeriodNotificationLeadTimes: number[];
+	eventNotificationSchedules: { hour: number; minute: number; dayOffset: number }[];
   [key: string]: unknown;
 };
 
@@ -126,27 +130,7 @@ export default function SettingsSectionPage() {
 			</section>
 		) : null}
       {section === "notifications" && settings ? (
-        <section className={styles.card}>
-          <div className={styles.row}>
-            <SymbolIcon name="switch.2" />
-            <span className={styles.label}>Notifications</span>
-            <span className={styles.detail}>
-              {settings.notificationsEnabled ? "On" : "Off"}
-            </span>
-          </div>
-          <div className={styles.row}>
-            <SymbolIcon name="bell.badge" />
-            <span className={styles.label}>Broadcast Notifications</span>
-            <span className={styles.detail}>
-              {settings.broadcastNotificationsEnabled ? "On" : "Off"}
-            </span>
-          </div>
-          <div className={styles.row}>
-            <SymbolIcon name="calendar.badge.clock" />
-            <span className={styles.label}>Show Future Events</span>
-            <span className={styles.detail}>{settings.futureEventRange}</span>
-          </div>
-        </section>
+			<NotificationSettingsEditor initial={settings} />
       ) : null}
       {section === "archived-events" ? (
         <section className={styles.card}>
@@ -216,6 +200,61 @@ export default function SettingsSectionPage() {
       ) : null}
     </main>
   );
+}
+
+function NotificationSettingsEditor({ initial }: { initial: Settings }) {
+	const [draft, setDraft] = useState(initial);
+	const [saving, setSaving] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+	const save = async (next: Settings) => {
+		setDraft(next);
+		setSaving(true);
+		setError(null);
+		try {
+			const updated = await apiRequest<Settings>("v1/settings/notifications", {
+				method: "PUT",
+				body: JSON.stringify({
+					notificationsEnabled: next.notificationsEnabled,
+					broadcastNotificationsEnabled: next.broadcastNotificationsEnabled,
+					notificationLeadTimes: next.notificationLeadTimes,
+					breakToPeriodNotificationLeadTimes: next.breakToPeriodNotificationLeadTimes,
+					eventNotificationSchedules: next.eventNotificationSchedules,
+					serverRevision: next.serverRevision,
+				}),
+			});
+			setDraft(updated);
+		} catch (requestError) {
+			setDraft(initial);
+			setError((requestError as Error).message);
+		} finally {
+			setSaving(false);
+		}
+	};
+	const update = (changes: Partial<Settings>) => void save({ ...draft, ...changes });
+	return (
+		<>
+			<section className={styles.card}>
+				<SettingToggle label="Allow Class Notifications" enabled={draft.notificationsEnabled} onClick={() => update({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
+				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => update({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
+				<div className={styles.row}>
+					<SymbolIcon name="calendar.badge.clock" />
+					<span className={styles.label}>Show Future Events</span>
+					<span className={styles.detail}>{draft.futureEventRange}</span>
+				</div>
+				<div className={styles.row}>
+					<SymbolIcon name="bell.badge" />
+					<span className={styles.label}>Send Notifications Early By</span>
+					<span className={styles.detail}>{draft.notificationLeadTimes.join(", ")} min</span>
+				</div>
+				<div className={styles.row}>
+					<SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
+					<span className={styles.label}>Before Class or From a Break</span>
+					<span className={styles.detail}>{draft.breakToPeriodNotificationLeadTimes.join(", ")} min</span>
+				</div>
+			</section>
+			{error ? <p className={styles.error} role="alert">{error}</p> : null}
+		</>
+	);
 }
 
 function ProfileAppearanceEditor({
