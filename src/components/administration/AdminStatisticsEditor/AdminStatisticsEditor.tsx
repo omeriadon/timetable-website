@@ -10,6 +10,15 @@ type StatisticCount = {
 	count: number;
 };
 
+type DeviceOSVersionCount = {
+	platform: string;
+	osMajorVersion: number;
+	osMinorVersion: number;
+	isDebug: boolean;
+	isOSBeta: boolean;
+	count: number;
+};
+
 type AdministrationStatistics = {
 	totalUsers: number;
 	usersWithOwnerTimetable: number;
@@ -39,6 +48,7 @@ type AdministrationStatistics = {
 	totalLocationStatusUpdates: number;
 	deviceTypes: StatisticCount[];
 	osVersions: StatisticCount[];
+	deviceOSVersions: DeviceOSVersionCount[];
 	appVersions: StatisticCount[];
 	appVersionBuilds: StatisticCount[];
 };
@@ -72,6 +82,7 @@ export default function AdminStatisticsEditor() {
 					["Assessments", statistics.totalAssessments],
 					["Users with assessments", statistics.usersWithAssessments],
 					["Average assessments per user", formatDecimal(statistics.averageAssessmentsPerUser)],
+					["Average for users with assessments", formatDecimal(statistics.averageAssessmentsPerUserWithMultipleAssessments)],
 				]}
 			/>
 			<StatisticGroup
@@ -80,6 +91,7 @@ export default function AdminStatisticsEditor() {
 				rows={[
 					["Accepted friendships", statistics.acceptedFriendships],
 					["Average friends per user", formatDecimal(statistics.averageFriendsPerUser)],
+					["Average for users with friends", formatDecimal(statistics.averageFriendsPerUserWithFriends)],
 					["Calendar events", statistics.totalCalendarEvents],
 					["Global events", statistics.globalCalendarEvents],
 					["Personal events", statistics.personalCalendarEvents],
@@ -99,6 +111,7 @@ export default function AdminStatisticsEditor() {
 					["iPad", statistics.iPadDevices],
 					["Mac", statistics.macDevices],
 					["Apple Watch", statistics.watchDevices],
+					["Legacy devices", statistics.legacyDevices],
 				]}
 			/>
 			<StatisticGroup
@@ -111,6 +124,14 @@ export default function AdminStatisticsEditor() {
 				]}
 			/>
 			<CountGroup title="Device types" rows={statistics.deviceTypes} />
+			<CountGroup title="OS versions" rows={statistics.osVersions} />
+			<CountGroup
+				title="Device OS versions"
+				rows={statistics.deviceOSVersions.map((row) => ({
+					label: `${row.platform} ${row.osMajorVersion}.${row.osMinorVersion}${row.isDebug ? " · Debug" : ""}${row.isOSBeta ? " · Beta" : ""}`,
+					count: row.count,
+				}))}
+			/>
 			<CountGroup title="App versions" rows={statistics.appVersions} />
 			<CountGroup title="App builds" rows={statistics.appVersionBuilds} />
 		</main>
