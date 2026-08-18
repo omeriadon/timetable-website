@@ -101,7 +101,7 @@
 .adminRecord {
 	display: grid;
 	gap: 3px;
-	padding: var(--theme-card-padding) var(--theme-list-padding-inline);
+	padding: var(--theme-content-card-padding) var(--theme-content-page-padding);
 }
 .adminRecord + .adminRecord {
 	border-top: 1px solid var(--theme-divider);
@@ -127,7 +127,7 @@
 	min-height: 52px;
 	gap: var(--theme-list-row-gap);
 	align-items: center;
-	padding: var(--theme-control-padding-block) var(--theme-list-padding-inline);
+	padding: var(--theme-control-padding-block) var(--theme-content-page-padding);
 	border: 0;
 	color: var(--theme-text);
 	background: transparent;
@@ -143,8 +143,8 @@
 .formCard {
 	display: grid;
 	gap: var(--theme-list-row-gap);
-	padding: var(--theme-card-padding);
-	border-radius: var(--theme-radius-card);
+	padding: var(--theme-content-card-padding);
+	border-radius: var(--theme-content-radius);
 	background: var(--theme-surface);
 }
 .formCard label {
@@ -168,7 +168,7 @@
 	display: flex;
 	gap: var(--theme-list-row-gap);
 	align-items: center;
-	padding: var(--theme-card-padding) var(--theme-list-padding-inline);
+	padding: var(--theme-content-card-padding) var(--theme-content-page-padding);
 }
 .profilePreview div {
 	display: grid;
@@ -289,8 +289,8 @@
 .choiceGrid {
 	display: grid;
 	grid-template-columns: repeat(6, minmax(0, 1fr));
-	gap: var(--theme-space-2);
-	padding: 0 var(--theme-space-4) var(--theme-space-3);
+	gap: var(--theme-content-row-gap);
+	padding: 0 var(--theme-content-page-padding) var(--theme-content-section-gap);
 }
 
 .choice,
@@ -313,17 +313,17 @@
 
 .scheduleList {
 	display: grid;
-	gap: var(--theme-space-2);
-	padding: 0 var(--theme-list-padding-inline) var(--theme-card-padding);
+	gap: var(--theme-content-row-gap);
+	padding: 0 var(--theme-content-page-padding) var(--theme-content-card-padding);
 }
 
 .scheduleRow {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
-	gap: var(--theme-space-3);
+	gap: var(--theme-content-row-gap);
 	align-items: center;
-	min-height: var(--theme-row-height);
-	padding: 0 var(--theme-space-2);
+	min-height: var(--theme-content-row-height);
+	padding: 0 var(--theme-content-page-padding);
 	border-bottom: 1px solid var(--theme-divider);
 }
 
@@ -333,8 +333,8 @@
 }
 
 .scheduleRow button {
-	width: var(--theme-control-height);
-	height: var(--theme-control-height);
+	width: var(--theme-content-control-height);
+	height: var(--theme-content-control-height);
 	border: 0;
 	border-radius: 50%;
 	color: var(--theme-error);

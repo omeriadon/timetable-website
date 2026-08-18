@@ -1,14 +1,14 @@
 .comparison {
 	display: grid;
-	gap: var(--theme-space-2);
-	margin-top: var(--theme-space-4);
+	gap: var(--theme-content-row-gap);
+	margin-top: var(--theme-content-section-gap);
 }
 
 .friendSubject,
 .freePeriod {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
-	gap: var(--theme-space-3);
+	gap: var(--theme-content-row-gap);
 	align-items: center;
 	min-height: 44px;
 	padding: 7px 10px;
@@ -27,10 +27,10 @@
 .empty {
 	display: grid;
 	gap: var(--theme-space-1);
-	margin-top: var(--theme-space-4);
-	padding: var(--theme-card-padding);
+	margin-top: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding);
 	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-radius-card);
+	border-radius: var(--theme-content-radius);
 	color: var(--theme-text-secondary);
 	background: var(--theme-surface);
 	text-align: center;
