@@ -17,9 +17,33 @@ export default function PlannerView({
 	schoolCalendar: DashboardData["schoolCalendar"];
 }) {
 	const { openSheet } = useSheet();
+	const todayTimestamp = startOfToday().getTime();
+	const todayEvents = events.filter(
+		(event) => eventDate(event) === todayTimestamp,
+	);
+	const upcomingEvents = events.filter(
+		(event) => eventDate(event) > todayTimestamp,
+	);
 
 	return (
 		<section className={styles.planner}>
+			{todayEvents.length ? (
+				<section className={styles.plannerSection}>
+					<div className={styles.sectionHeader}>
+						<div className={styles.sectionHeading}>
+							<Symbol
+								name="calendar.day.timeline.left"
+								className={styles.sectionHeadingIcon}
+							/>
+							<h1>Today</h1>
+						</div>
+						<span>{todayEvents.length} events</span>
+					</div>
+					{todayEvents.map((event) => (
+						<EventRow key={event.id} event={event} prominent showDate={false} />
+					))}
+				</section>
+			) : null}
 			<section className={styles.plannerSection}>
 				<div className={styles.sectionHeader}>
 					<div className={styles.sectionHeading}>
@@ -29,10 +53,10 @@ export default function PlannerView({
 						/>
 						<h1>Upcoming</h1>
 					</div>
-					<span>{events.length} events</span>
+					<span>{upcomingEvents.length} events</span>
 				</div>
-				{events.length ? (
-					events.map((event) => (
+				{upcomingEvents.length ? (
+					upcomingEvents.map((event) => (
 						<EventRow key={event.id} event={event} prominent />
 					))
 				) : (
@@ -93,4 +117,17 @@ function monthName(month: number) {
 	return new Intl.DateTimeFormat("en-AU", { month: "short" }).format(
 		new Date(2026, month - 1, 1),
 	);
+}
+
+function startOfToday() {
+	const today = new Date();
+	return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+}
+
+function eventDate(event: CalendarEvent) {
+	return new Date(
+		event.date.year,
+		event.date.month - 1,
+		event.date.day,
+	).getTime();
 }
