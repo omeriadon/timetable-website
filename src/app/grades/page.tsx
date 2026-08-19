@@ -12,7 +12,16 @@ import type {
 } from "@/features/timetable/types";
 import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 
 function subjectColour(subject: TimetableSubject) {
 	const { r, g, b } = subject.colour;
@@ -23,9 +32,10 @@ function formatPercent(value: number | null) {
 	return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
 }
 
+const SNAP_POINTS = ["35rem", 1];
+
 export default function GradesPage() {
 	const setToolbar = useToolbar();
-	const { openSheet } = useSheet();
 	const [grades, setGrades] = useState<GradeTracker | null>(null);
 	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -119,43 +129,62 @@ export default function GradesPage() {
 									)
 								: null;
 							return (
-								<Button
-									unstyled
-									type="button"
+								<Drawer
 									key={subject.id}
-									className={styles.subjectRow}
-									onClick={() =>
-										openSheet(
-											<GradeSubjectSheet
-												subjectID={subject.id}
-												symbol={subject.symbol}
-												colour={subjectColour(subject)}
-												average={subjectAverage}
-												assessments={subjectAssessments}
-											/>,
-										)
-									}
-									aria-label={`Open ${subject.id} grades`}
+									swipeDirection="right"
+									snapPoints={SNAP_POINTS}
 								>
-									<GradeGauge
-										value={subjectAverage}
-										color={subjectColour(subject)}
-										symbol={subject.symbol}
-									/>
-									<span>
-										<b className={styles.subjectName}>{subject.id}</b>
-										<small className={styles.subjectDetail}>
+									<DrawerTrigger
+										render={
+											<Button
+												type="button"
+												className={styles.subjectRow}
+												aria-label={`Open ${subject.id} grades`}
+											/>
+										}
+									>
+										<GradeGauge
+											value={subjectAverage}
+											color={subjectColour(subject)}
+											symbol={subject.symbol}
+										/>
+										<span>
+											<b className={styles.subjectName}>{subject.id}</b>
+											<small className={styles.subjectDetail}>
+												{subjectAverage === null
+													? "No assessments yet"
+													: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
+											</small>
+										</span>
+										<strong className={styles.subjectScore}>
 											{subjectAverage === null
-												? "No assessments yet"
-												: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
-										</small>
-									</span>
-									<strong className={styles.subjectScore}>
-										{subjectAverage === null
-											? "—"
-											: formatPercent(subjectAverage)}
-									</strong>
-								</Button>
+												? "—"
+												: formatPercent(subjectAverage)}
+										</strong>
+									</DrawerTrigger>
+									<DrawerContent>
+										<DrawerHeader>
+											<DrawerTitle>{subject.id}</DrawerTitle>
+											<DrawerDescription>
+												{subjectAverage === null
+													? "No assessments yet"
+													: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"} recorded`}
+											</DrawerDescription>
+										</DrawerHeader>
+										<GradeSubjectSheet
+											subjectID={subject.id}
+											symbol={subject.symbol}
+											colour={subjectColour(subject)}
+											average={subjectAverage}
+											assessments={subjectAssessments}
+										/>
+										<DrawerFooter>
+											<DrawerClose render={<Button variant="destructive" />}>
+												Close
+											</DrawerClose>
+										</DrawerFooter>
+									</DrawerContent>
+								</Drawer>
 							);
 						})}
 					</section>
