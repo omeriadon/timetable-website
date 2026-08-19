@@ -13,7 +13,9 @@ export type SymbolProps = Omit<
 	"alt" | "children" | "src"
 > & {
 	/** The exact SwiftUI system-name spelling, for example `calendar.badge.clock`. */
-	name: string;
+	name?: string;
+	/** An explicit image source for photos or non-symbol branded assets. */
+	src?: string;
 	/** Optional text fallback used when the exported SVG is unavailable. */
 	fallback?: ReactNode;
 	/** Set this when the symbol conveys meaning instead of decorating nearby text. */
@@ -25,15 +27,33 @@ function normalizeSymbolName(name: string) {
 }
 
 const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
-	{ name, fallback, alt, className, onError, ...props },
+	{ name, src, fallback, alt, className, onError, ...props },
 	ref,
 ) {
-	const normalizedName = normalizeSymbolName(name);
+	const normalizedName = name ? normalizeSymbolName(name) : null;
+	const imageSource =
+		src ??
+		(normalizedName
+			? `/icons/${encodeURIComponent(normalizedName)}.svg`
+			: null);
 	const [failedName, setFailedName] = useState<string | null>(null);
 	const decorative = !alt;
 	const resolvedClassName = className ?? styles.symbolIcon;
 
-	if (failedName === normalizedName && fallback !== undefined) {
+	if (imageSource === null) {
+		return fallback !== undefined ? (
+			<span
+				className={resolvedClassName}
+				aria-hidden={decorative || undefined}
+				aria-label={decorative ? undefined : alt}
+				role={decorative ? undefined : "img"}
+			>
+				{fallback}
+			</span>
+		) : null;
+	}
+
+	if (failedName === imageSource && fallback !== undefined) {
 		return (
 			<span
 				className={resolvedClassName}
@@ -51,12 +71,12 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 			{...props}
 			ref={ref}
 			className={resolvedClassName}
-			src={`/icons/${encodeURIComponent(normalizedName)}.svg`}
+			src={imageSource}
 			alt={alt ?? ""}
 			aria-hidden={decorative || undefined}
 			decoding="async"
 			onError={(event) => {
-				setFailedName(normalizedName);
+				setFailedName(imageSource);
 				onError?.(event);
 			}}
 		/>

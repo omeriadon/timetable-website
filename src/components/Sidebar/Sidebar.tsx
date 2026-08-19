@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./Sidebar.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -114,9 +113,9 @@ export default function Sidebar() {
 			<div className={styles.saturationOutline} aria-hidden="true" />
 
 			<div className={styles.sidebarHeader}>
-				<Image
-					className={styles.brandIcon}
+				<Symbol
 					src="/icon.png"
+					className={styles.brandIcon}
 					alt=""
 					aria-hidden="true"
 					loading="eager"

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Account } from "@/lib/api/contracts";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../controls.module.css";
 
 type ProfilePictureProps = {
@@ -33,9 +34,9 @@ export default function ProfilePicture({
 		"?";
 	const content =
 		appearance?.contentKind === "photo" && profile?.photo?.url ? (
-			<img
-				className={styles.profilePictureImage}
+			<Symbol
 				src={profile.photo.url}
+				className={styles.profilePictureImage}
 				alt=""
 			/>
 		) : appearance?.contentKind === "emoji" ? (
