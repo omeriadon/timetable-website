@@ -1,9 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverHeader,
+	PopoverTitle,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import { useState } from "react";
 import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import type { DashboardData } from "@/features/timetable/useDashboard";
@@ -27,7 +33,6 @@ export default function WeekView({
 		day: number;
 		session: number;
 	} | null>(null);
-	const { openSheet } = useSheet();
 	const currentDayIndex = currentTimetableDayIndex();
 	const selectedSubject = selectedSlot
 		? subjects.find((subject) =>
@@ -79,40 +84,50 @@ export default function WeekView({
 									selectedSlot?.day === dayIndex &&
 									selectedSlot.session === session.value;
 								return (
-									<Button
-										unstyled
-										key={day}
-										type="button"
-										className={`${styles.lessonButton} ${currentDayClass ?? ""}`}
-										aria-label={`Open ${subject.id} on ${day}`}
-										onClick={() => {
-											const slot = { day: dayIndex, session: session.value };
-											setSelectedSlot(slot);
-											openSheet(
-												<SubjectContextSheet
-													owner="You"
-													subject={subject}
-													day={day}
-													session={session.value}
-												/>,
-											);
-										}}
-									>
-										<article
-											className={
-												isSelected
-													? `${styles.lesson} ${styles.lessonSelected}`
-													: styles.lesson
+									<Popover key={day}>
+										<PopoverTrigger
+											render={
+												<Button
+													unstyled
+													type="button"
+													className={`${styles.lessonButton} ${currentDayClass ?? ""}`}
+													aria-label={`Open ${subject.id} on ${day}`}
+													onClick={() =>
+														setSelectedSlot({
+															day: dayIndex,
+															session: session.value,
+														})
+													}
+												/>
 											}
-											style={{ background: colour(subject) }}
 										>
-											<Symbol
-												name={subject.symbol}
-												className={styles.lessonSymbol}
+											<article
+												className={
+													isSelected
+														? `${styles.lesson} ${styles.lessonSelected}`
+														: styles.lesson
+												}
+												style={{ background: colour(subject) }}
+											>
+												<Symbol
+													name={subject.symbol}
+													className={styles.lessonSymbol}
+												/>
+												<strong>{subject.id}</strong>
+											</article>
+										</PopoverTrigger>
+										<PopoverContent>
+											<PopoverHeader>
+												<PopoverTitle>{subject.id}</PopoverTitle>
+											</PopoverHeader>
+											<SubjectContextSheet
+												owner="You"
+												subject={subject}
+												day={day}
+												session={session.value}
 											/>
-											<strong>{subject.id}</strong>
-										</article>
-									</Button>
+										</PopoverContent>
+									</Popover>
 								);
 							})}
 						</div>
