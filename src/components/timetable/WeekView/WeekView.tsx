@@ -14,7 +14,7 @@ import {
 	currentTimetableDayIndex,
 	periodLabel,
 } from "@/features/timetable/layout";
-import styles from "@/app/page.module.css";
+import styles from "@/components/timetable/timetable.module.css";
 
 export default function WeekView({
 	subjects,

@@ -10,7 +10,7 @@ import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import PlannerView from "@/components/timetable/PlannerView/PlannerView";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/app/page.module.css";
+import styles from "./TimetableRoute.module.css";
 
 export type TimetableMode = "today" | "week" | "planner";
 

@@ -14,7 +14,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { SectionCard } from "@/components/ui/SectionCard";
 import { cn } from "@/lib/utils";
-import styles from "@/app/page.module.css";
+import styles from "@/components/timetable/timetable.module.css";
 
 type TodayEntry =
 	| {
