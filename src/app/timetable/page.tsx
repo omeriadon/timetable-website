@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import styles from "../page.module.css";
+import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { apiRequest } from "@/lib/api/client";

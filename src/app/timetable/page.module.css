@@ -3,6 +3,18 @@
 	padding: var(--theme-content-page-padding-block)
 		var(--theme-content-page-padding);
 }
+
+.error,
+.message {
+	margin: var(--theme-content-section-gap) 0;
+	color: var(--theme-text-secondary);
+	text-align: center;
+}
+
+.error {
+	color: var(--theme-error);
+}
+
 @media (min-width: 701px) {
 	.contentPanel {
 		max-width: var(--ds-content-max-width);
