@@ -25,6 +25,8 @@
 	--ds-color-input: rgba(255, 255, 255, 0.16);
 	--ds-color-ring: #bd3547;
 	--ds-color-highlight: rgba(255, 255, 255, 0.14);
+	--ds-border-width: 1px;
+	--ds-divider-width: 1px;
 	--ds-color-paper: #e7e5e5;
 	--ds-color-paper-dark: #c6c6ca;
 	--ds-color-paper-warm: #f6c88f;
@@ -66,6 +68,8 @@
 	--ds-surface-highlight: var(--ds-color-highlight);
 	--ds-surface-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
 	--ds-surface-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+	--ds-popup-max-width: min(360px, calc(100vw - 24px));
+	--ds-popup-max-height: min(320px, 50svh);
 
 	/* Typography */
 	--ds-font-body: "SF Pro Display", "SF Pro", sans-serif;
@@ -108,6 +112,8 @@
 	--ds-sheet-max-height: 92svh;
 	--ds-sheet-scrim-blur: 16px;
 	--ds-sheet-blur: 34px;
+	--ds-sheet-shadow: 0 -20px 70px rgb(0 0 0 / 50%);
+	--ds-sheet-highlight: inset 0 1px rgb(255 255 255 / 15%);
 	--ds-row-height: 44px;
 	--ds-card-padding: 10px;
 	--ds-list-padding-inline: 12px;
@@ -123,7 +129,12 @@
 	--ds-control-touch-target: 30px;
 	--ds-control-icon-size: 24px;
 	--ds-control-icon-size-small: 20px;
+	--ds-icon-size-navigation: 20px;
+	--ds-icon-size-row: 24px;
+	--ds-icon-size-toolbar: 24px;
+	--ds-icon-size-small: 18px;
 	--ds-control-gap: 8px;
+	--ds-touch-target: 44px;
 	--ds-control-focus-width: 2px;
 	--ds-control-focus-offset: 2px;
 
@@ -131,6 +142,7 @@
 	--ds-list-background: var(--ds-color-surface);
 	--ds-list-background-elevated: var(--ds-color-surface-elevated);
 	--ds-list-outline: var(--ds-color-border);
+	--ds-list-outline-width: 1px;
 	--ds-list-divider: var(--ds-color-border);
 	--ds-list-row-height: 36px;
 	--ds-list-row-min-height: 40px;
@@ -145,7 +157,9 @@
 	--ds-toolbar-height: 34px;
 	--ds-toolbar-inset: 14px;
 	--ds-toolbar-gap: 8px;
-	--ds-toolbar-icon-size: 24px;
+	--ds-toolbar-icon-size: var(--ds-icon-size-toolbar);
+	--ds-toolbar-search-width: 150px;
+	--ds-toolbar-search-height: 24px;
 	--ds-sidebar-width: 272px;
 	--ds-sidebar-frame: calc(var(--ds-sidebar-width) + 17px);
 	--ds-sidebar-padding-inline: 14px;
@@ -153,6 +167,10 @@
 	--ds-sidebar-start: rgba(15, 15, 15, 0.94);
 	--ds-sidebar-mid: rgba(15, 15, 15, 0.88);
 	--ds-sidebar-end: rgba(15, 15, 15, 0.68);
+	--ds-sidebar-radius: 30px;
+	--ds-sidebar-row-radius: 10px;
+	--ds-sidebar-item-padding-block: 8px;
+	--ds-sidebar-item-padding-inline: 10px;
 
 	/* Glass */
 	--ds-glass-alpha: 20;
@@ -162,6 +180,12 @@
 	--ds-glass-border: 1px solid var(--ds-color-highlight);
 	--ds-glass-shadow:
 		inset 0 1px var(--ds-color-highlight), var(--ds-surface-shadow);
+	--ds-glass-sidebar-blur: 30px;
+	--ds-glass-popup-blur: 12px;
+	--ds-glass-effect-shadow:
+		0 4px 16px rgb(17 17 26 / 5%), 0 8px 24px rgb(17 17 26 / 5%),
+		0 16px 56px rgb(17 17 26 / 5%);
+	--ds-glass-effect-border: transparent;
 
 	/* Motion */
 	--ds-duration-fast: 120ms;
@@ -189,4 +213,59 @@
 	--ds-auth-card-padding: 24px;
 	--ds-auth-control-height: 40px;
 	--ds-auth-gap: 12px;
+
+	/* Shared control geometry */
+	--ds-switch-width: 42px;
+	--ds-switch-height: 24px;
+	--ds-switch-thumb-size: 18px;
+	--ds-switch-track-padding: 3px;
+	--ds-checkbox-size: 20px;
+	--ds-checkbox-radius: 6px;
+	--ds-sheet-width: min(100%, 720px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	:root {
+		--ds-surface-glass: var(--ds-color-surface);
+		--ds-surface-glass-strong: var(--ds-color-surface-elevated);
+		--ds-surface-sheet: var(--ds-color-surface-elevated);
+		--ds-surface-scrim: rgba(0, 0, 0, 0.72);
+		--ds-surface-sheet-scrim: rgba(0, 0, 0, 0.78);
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--ds-color-border: rgba(255, 255, 255, 0.34);
+		--ds-color-input: rgba(255, 255, 255, 0.4);
+		--ds-color-muted-foreground: #b8b8c0;
+		--ds-color-highlight: rgba(255, 255, 255, 0.26);
+	}
+}
+
+/* iPadOS and desktop use the wide SwiftUI shell: a real sidebar, larger
+   list rows, and enough breathing room for pointer, keyboard, and touch use. */
+@media (min-width: 701px) {
+	:root {
+		--ds-content-page-padding: 20px;
+		--ds-content-section-gap: 14px;
+		--ds-content-card-padding: 14px;
+		--ds-content-row-gap: 12px;
+		--ds-content-grid-gap: 8px;
+		--ds-content-list-padding-inline: 14px;
+		--ds-content-list-row-padding-block: 6px;
+		--ds-content-list-row-gap: 10px;
+		--ds-row-height: 44px;
+		--ds-card-padding: 14px;
+		--ds-list-padding-inline: 14px;
+		--ds-list-row-padding-block: 6px;
+		--ds-list-row-gap: 12px;
+		--ds-section-gap: 16px;
+		--ds-control-height: 44px;
+		--ds-control-height-compact: 36px;
+		--ds-control-touch-target: var(--ds-touch-target);
+		--ds-auth-control-height: 44px;
+		--ds-sidebar-width: 260px;
+		--ds-toolbar-height: 44px;
+	}
 }

@@ -17,7 +17,7 @@ import {
 import gsap from "gsap";
 import styles from "./LiquidGlass.module.css";
 
-type LiquidGlassProps = Omit<
+export type LiquidGlassProps = Omit<
 	HTMLAttributes<HTMLDivElement>,
 	| "children"
 	| "className"

@@ -6,7 +6,7 @@
 	justify-content: center;
 	gap: var(--ds-control-gap);
 	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
-	border: 1px solid var(--ds-color-border);
+	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);
 	color: var(--ds-color-foreground);
 	background: var(--ds-surface-glass);
@@ -87,7 +87,7 @@
 	gap: var(--ds-list-section-gap);
 	padding: var(--ds-content-list-row-padding-block)
 		var(--ds-content-list-padding-inline);
-	border: 1px solid var(--ds-list-outline);
+	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	border-radius: var(--ds-radius-content-card);
 	background: var(--ds-list-background);
 }
@@ -99,7 +99,7 @@
 
 .listSection + .listSection {
 	padding-top: var(--ds-list-section-gap);
-	border-top: 1px solid var(--ds-list-divider);
+	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
 }
 
 .listSectionHeader {
@@ -117,7 +117,7 @@
 	align-items: center;
 	gap: var(--ds-list-row-gap);
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
-	border-bottom: 1px solid var(--ds-list-divider);
+	border-bottom: var(--ds-divider-width) solid var(--ds-list-divider);
 }
 
 .listRow:last-child {
@@ -155,7 +155,7 @@
 .glassButton::after {
 	position: absolute;
 	inset: 0;
-	border: 1px solid var(--ds-surface-highlight);
+	border: var(--ds-border-width) solid var(--ds-surface-highlight);
 	border-radius: inherit;
 	content: "";
 	pointer-events: none;
@@ -173,7 +173,7 @@
 	width: 100%;
 	min-height: var(--ds-control-height);
 	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
-	border: 1px solid var(--ds-color-input);
+	border: var(--ds-border-width) solid var(--ds-color-input);
 	border-radius: var(--ds-radius-control);
 	color: var(--ds-color-foreground);
 	background: color-mix(in srgb, var(--ds-color-surface) 82%, transparent);
@@ -220,18 +220,26 @@
 	color: var(--ds-color-muted);
 }
 
+.selectSymbol {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+	opacity: 0.65;
+}
+
 .popup,
 .menuPopup {
 	box-sizing: border-box;
 	min-width: var(--anchor-width, 160px);
-	max-width: min(360px, calc(100vw - 24px));
+	max-width: var(--ds-popup-max-width);
 	padding: var(--ds-space-2);
-	border: 1px solid var(--ds-list-outline);
+	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	border-radius: var(--ds-radius-control);
 	color: var(--ds-color-foreground);
 	background: var(--ds-surface-glass-strong);
 	box-shadow: var(--ds-surface-shadow);
-	backdrop-filter: blur(var(--ds-glass-input-blur))
+	backdrop-filter: blur(var(--ds-glass-popup-blur))
 		saturate(var(--ds-glass-saturation));
 	outline: none;
 }
@@ -259,7 +267,7 @@
 .menuList {
 	display: grid;
 	gap: 2px;
-	max-height: min(320px, 50svh);
+	max-height: var(--ds-popup-max-height);
 	overflow-y: auto;
 }
 
@@ -305,11 +313,11 @@
 .switch {
 	position: relative;
 	display: inline-flex;
-	width: 42px;
-	height: 24px;
-	flex: 0 0 42px;
+	width: var(--ds-switch-width);
+	height: var(--ds-switch-height);
+	flex: 0 0 var(--ds-switch-width);
 	align-items: center;
-	padding: 3px;
+	padding: var(--ds-switch-track-padding);
 	border: 0;
 	border-radius: var(--ds-radius-pill);
 	background: var(--ds-color-muted-foreground);
@@ -323,8 +331,8 @@
 
 .switchThumb {
 	display: block;
-	width: 18px;
-	height: 18px;
+	width: var(--ds-switch-thumb-size);
+	height: var(--ds-switch-thumb-size);
 	border-radius: 50%;
 	background: var(--ds-color-foreground);
 	box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
@@ -332,18 +340,23 @@
 }
 
 .switch[data-checked] .switchThumb {
-	transform: translateX(18px);
+	transform: translateX(
+		calc(
+			var(--ds-switch-width) - var(--ds-switch-thumb-size) -
+				var(--ds-switch-track-padding) - var(--ds-switch-track-padding)
+		)
+	);
 }
 
 .checkbox {
 	display: inline-grid;
-	width: 20px;
-	height: 20px;
-	flex: 0 0 20px;
+	width: var(--ds-checkbox-size);
+	height: var(--ds-checkbox-size);
+	flex: 0 0 var(--ds-checkbox-size);
 	place-items: center;
 	padding: 0;
-	border: 1px solid var(--ds-color-input);
-	border-radius: 6px;
+	border: var(--ds-border-width) solid var(--ds-color-input);
+	border-radius: var(--ds-checkbox-radius);
 	color: var(--ds-color-primary-foreground);
 	background: var(--ds-color-surface);
 	cursor: pointer;
@@ -359,11 +372,18 @@
 	line-height: 1;
 }
 
+.checkboxSymbol {
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+}
+
 .drawerBackdrop {
 	position: fixed;
 	inset: 0;
 	background: var(--ds-surface-sheet-scrim);
-	backdrop-filter: blur(16px) saturate(1.08);
+	backdrop-filter: blur(var(--ds-sheet-scrim-blur)) saturate(1.08);
 	opacity: 1;
 	transition: opacity var(--ds-duration-sheet) var(--ds-ease-sheet);
 }
@@ -385,20 +405,18 @@
 .drawerPopup {
 	position: relative;
 	display: flex;
-	width: min(100%, 720px);
+	width: var(--ds-sheet-width);
 	max-height: var(--ds-sheet-max-height);
 	flex-direction: column;
 	padding: var(--ds-sheet-padding-top) var(--ds-sheet-padding-inline)
 		var(--ds-sheet-padding-bottom);
-	border: 1px solid var(--ds-surface-border);
+	border: var(--ds-border-width) solid var(--ds-surface-border);
 	border-bottom: 0;
 	border-radius: var(--ds-radius-card) var(--ds-radius-card) 0 0;
 	color: var(--ds-color-foreground);
 	background: var(--ds-surface-sheet);
-	box-shadow:
-		0 -20px 70px rgb(0 0 0 / 50%),
-		inset 0 1px rgb(255 255 255 / 15%);
-	backdrop-filter: blur(34px) saturate(1.35);
+	box-shadow: var(--ds-sheet-shadow), var(--ds-sheet-highlight);
+	backdrop-filter: blur(var(--ds-sheet-blur)) saturate(1.35);
 	overflow: auto;
 	pointer-events: auto;
 	transform: translateY(var(--drawer-swipe-movement-y, 0));
@@ -433,6 +451,13 @@
 	z-index: 1;
 }
 
+.drawerCloseIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.button,
 	.popup,
@@ -442,5 +467,14 @@
 	.drawerBackdrop,
 	.drawerPopup {
 		transition: none;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.popup,
+	.menuPopup,
+	.drawerBackdrop,
+	.drawerPopup {
+		backdrop-filter: none;
 	}
 }
