@@ -233,15 +233,29 @@
 	box-sizing: border-box;
 	min-width: var(--anchor-width, 160px);
 	max-width: var(--ds-popup-max-width);
-	padding: var(--ds-space-2);
-	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
-	border-radius: var(--ds-radius-control);
 	color: var(--ds-color-foreground);
-	background: var(--ds-surface-glass-strong);
-	box-shadow: var(--ds-surface-shadow);
-	backdrop-filter: blur(var(--ds-glass-popup-blur))
-		saturate(var(--ds-glass-saturation));
+	backdrop-filter: saturate(var(--ds-glass-saturation));
 	outline: none;
+}
+
+.popup {
+	padding: var(--ds-popover-padding);
+	border: var(--ds-popover-border);
+	border-radius: var(--ds-popover-radius);
+	background: var(--ds-popover-background);
+	box-shadow: var(--ds-popover-shadow);
+	backdrop-filter: blur(var(--ds-popover-blur))
+		saturate(var(--ds-glass-saturation));
+}
+
+.menuPopup {
+	padding: var(--ds-menu-padding);
+	border: var(--ds-menu-border);
+	border-radius: var(--ds-menu-radius);
+	background: var(--ds-menu-background);
+	box-shadow: var(--ds-menu-shadow);
+	backdrop-filter: blur(var(--ds-menu-blur))
+		saturate(var(--ds-glass-saturation));
 }
 
 .popoverPopup {
@@ -274,12 +288,12 @@
 .selectItem,
 .menuItem {
 	display: flex;
-	min-height: var(--ds-list-row-height);
+	min-height: var(--ds-menu-item-height);
 	align-items: center;
-	gap: var(--ds-control-gap);
-	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	gap: var(--ds-menu-item-gap);
+	padding: var(--ds-menu-item-padding-block) var(--ds-menu-item-padding-inline);
 	border: 0;
-	border-radius: calc(var(--ds-radius-control) - 4px);
+	border-radius: var(--ds-menu-item-radius);
 	color: inherit;
 	background: transparent;
 	font: inherit;
@@ -291,8 +305,8 @@
 .selectItem[data-highlighted],
 .menuItem:hover,
 .menuItem[data-highlighted] {
-	color: var(--ds-color-primary-foreground);
-	background: var(--ds-color-primary);
+	color: var(--ds-menu-highlight-foreground);
+	background: var(--ds-menu-highlight);
 }
 
 .selectItem[data-selected] {

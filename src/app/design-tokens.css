@@ -70,6 +70,28 @@
 	--ds-surface-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 	--ds-popup-max-width: min(360px, calc(100vw - 24px));
 	--ds-popup-max-height: min(320px, 50svh);
+
+	/* Base UI popovers and menus */
+	--ds-popover-background: var(--ds-surface-glass-strong);
+	--ds-popover-border: var(--ds-list-outline-width) solid var(--ds-list-outline);
+	--ds-popover-radius: var(--ds-radius-control);
+	--ds-popover-padding: var(--ds-space-2);
+	--ds-popover-shadow: var(--ds-surface-shadow);
+	--ds-popover-blur: var(--ds-glass-popup-blur);
+	--ds-menu-background: var(--ds-surface-glass-strong);
+	--ds-menu-border: var(--ds-list-outline-width) solid var(--ds-list-outline);
+	--ds-menu-radius: var(--ds-radius-control);
+	--ds-menu-padding: var(--ds-space-2);
+	--ds-menu-shadow: var(--ds-surface-shadow);
+	--ds-menu-blur: var(--ds-glass-popup-blur);
+	--ds-menu-item-height: var(--ds-list-row-height);
+	--ds-menu-item-padding-inline: var(--ds-list-row-padding-inline);
+	--ds-menu-item-padding-block: var(--ds-list-row-padding-block);
+	--ds-menu-item-gap: var(--ds-control-gap);
+	--ds-menu-item-radius: calc(var(--ds-radius-control) - 4px);
+	--ds-menu-highlight: var(--ds-color-primary);
+	--ds-menu-highlight-foreground: var(--ds-color-primary-foreground);
+
 	--ds-content-max-width: 860px;
 	--ds-inspector-width: min(500px, 42vw);
 
