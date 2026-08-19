@@ -17,22 +17,20 @@ type SidebarItem = {
 	badge?: boolean;
 };
 
-const topGroups: SidebarItem[][] = [
-	[
-		{
-			label: "Today",
-			href: "/?mode=today",
-			icon: "calendar.day.timeline.left",
-		},
-		{ label: "Week", href: "/?mode=week", icon: "calendar.badge.clock" },
-		{
-			label: "Planner",
-			href: "/?mode=planner",
-			icon: "pencil.and.list.clipboard",
-		},
-	],
-	[{ label: "Friends", href: "/friends", icon: "person.2", badge: true }],
-	[{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis" }],
+const topGroups: SidebarItem[] = [
+	{
+		label: "Today",
+		href: "/?mode=today",
+		icon: "calendar.day.timeline.left",
+	},
+	{ label: "Week", href: "/?mode=week", icon: "calendar.badge.clock" },
+	{
+		label: "Planner",
+		href: "/?mode=planner",
+		icon: "pencil.and.list.clipboard",
+	},
+	{ label: "Friends", href: "/friends", icon: "person.2", badge: true },
+	{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis" },
 ];
 
 const bottomItems: SidebarItem[] = [
@@ -119,17 +117,12 @@ export default function Sidebar() {
 					alt=""
 					aria-hidden="true"
 					loading="eager"
-					width={44}
 					height={44}
 				/>
 			</div>
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
-				{topGroups.map((group, index) => (
-					<div key={index} className={styles.sidebarGroup}>
-						{group.map(renderItem)}
-					</div>
-				))}
+				{topGroups.map((item) => renderItem(item))}
 			</nav>
 			<nav className={styles.sidebarBottom} aria-label="Account navigation">
 				{bottomItems

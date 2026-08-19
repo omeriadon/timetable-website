@@ -13,7 +13,7 @@
 		var(--ds-sidebar-mid) 68%,
 		var(--ds-sidebar-end) 100%
 	);
-	padding: var(--ds-space-5) var(--ds-sidebar-padding-inline);
+	padding: var(--ds-sidebar-padding-inline);
 	margin: var(--ds-toolbar-inset) 1px var(--ds-toolbar-inset)
 		var(--ds-toolbar-inset);
 
@@ -97,37 +97,20 @@
 	gap: var(--ds-space-2);
 }
 
-.sidebarGroup {
-	display: grid;
-	gap: var(--ds-space-2);
-	padding: var(--ds-space-3) 0;
-	border-bottom: var(--ds-divider-width) solid var(--ds-color-border);
-}
-
 .sidebarHeader {
 	display: flex;
 	gap: var(--ds-space-3);
 	align-items: center;
+	margin-top: 2px;
 }
 
 .brandIcon {
 	height: 44px;
+	transition: scale var(--ds-duration-normal) ease;
 }
 
-.sidebarHeader div {
-	display: grid;
-	gap: 2px;
-}
-
-.sidebarHeader strong {
-	color: var(--ds-color-text);
-	font-size: 1rem;
-	font-weight: 700;
-}
-
-.sidebarHeader span {
-	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-font-small);
+.brandIcon:hover {
+	scale: 1.05;
 }
 
 .sidebarBottom {
@@ -148,8 +131,8 @@
 	gap: var(--ds-list-row-gap);
 	font-size: 0.86rem;
 	transition:
-		background 0.2s ease,
-		color 0.2s ease;
+		background var(--ds-duration-fast) ease,
+		color var(--ds-duration-fast) ease;
 }
 
 .navIcon {
