@@ -127,6 +127,12 @@
 	font-size: 1.2rem;
 	cursor: pointer;
 }
+
+.emojiPicker,
+.monogram {
+	display: grid;
+	gap: var(--theme-space-2);
+}
 .sliderList {
 	display: grid;
 	gap: var(--theme-space-3);

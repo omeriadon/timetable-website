@@ -66,7 +66,7 @@
 	font-weight: 650;
 }
 
-.detailTabs button {
+.detailTab {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -81,8 +81,8 @@
 	cursor: pointer;
 }
 
-.detailTabs button svg,
-.detailTabs button img {
+.detailTab svg,
+.detailTab img {
 	width: var(--ds-control-icon-size-small);
 	height: var(--ds-control-icon-size-small);
 	object-fit: contain;
@@ -94,6 +94,45 @@
 		var(--theme-gold),
 		var(--theme-gold-dark)
 	);
+}
+
+.rowButton {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	border-radius: var(--theme-radius-control);
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.rowButton:hover,
+.rowButton:focus-visible {
+	background: var(--theme-surface-soft);
+}
+
+.row {
+	display: grid;
+	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr);
+	gap: var(--theme-content-row-gap);
+	align-items: center;
+	min-height: var(--theme-content-row-height);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+}
+
+.row svg,
+.row img {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.label {
+	min-width: 0;
 }
 
 .detailCard {

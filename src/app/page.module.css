@@ -383,6 +383,10 @@
 .weekSurface {
 	min-width: var(--theme-content-week-min-width);
 }
+.weekGrid {
+	display: grid;
+	gap: var(--theme-content-grid-gap);
+}
 .weekHeader,
 .weekRow {
 	display: grid;
