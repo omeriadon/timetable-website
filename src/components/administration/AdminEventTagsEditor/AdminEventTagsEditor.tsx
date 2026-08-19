@@ -146,7 +146,10 @@ export default function AdminEventTagsEditor() {
 												{tag.isArchived ? " · Archived" : ""}
 											</small>
 										</span>
-										<span className={styles.chevron}>›</span>
+										<SymbolIcon
+											name="chevron.right"
+											className={styles.chevronIcon}
+										/>
 									</div>
 								</Button>
 								{isReordering ? (

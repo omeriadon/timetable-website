@@ -70,7 +70,7 @@ export default function AdminCalendarEditor({
 									{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}
 								</small>
 							</span>
-							<span className={styles.chevron}>›</span>
+							<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 						</div>
 					</Button>
 				))}
@@ -91,7 +91,7 @@ export default function AdminCalendarEditor({
 					}
 				>
 					<div className={styles.row}>
-						<span className={styles.symbol}>＋</span>
+						<SymbolIcon name="plus" className={styles.symbolIcon} />
 						<span className={styles.label}>Add {title.replace(/s$/, "")}</span>
 					</div>
 				</Button>

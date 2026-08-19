@@ -5,6 +5,7 @@ import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
 
@@ -135,7 +136,7 @@ export default function GradeAssessmentSheet({
 							onClick={remove}
 							size="compact"
 						>
-							<span aria-hidden="true">⌫</span>
+							<SymbolIcon name="trash" />
 						</GlassButton>
 					) : null}
 					<GlassButton
@@ -143,7 +144,7 @@ export default function GradeAssessmentSheet({
 						onClick={save}
 						size="compact"
 					>
-						<span aria-hidden="true">✓</span>
+						<SymbolIcon name="checkmark" />
 					</GlassButton>
 				</div>
 				{status ? (

@@ -6,6 +6,7 @@ import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 
 type Dashboard = {
 	isAdmin: boolean;
@@ -76,11 +77,7 @@ export default function AdministrationPage() {
 			{dashboard && !dashboard.isAdmin ? (
 				<section className={styles.card}>
 					<div className={styles.row}>
-						<img
-							className={styles.symbolIcon}
-							src="/icons/exclamationmark.bubble.svg"
-							alt=""
-						/>
+						<SymbolIcon name="exclamationmark.bubble" />
 						<span className={styles.label}>Administrator access required.</span>
 					</div>
 				</section>
@@ -111,13 +108,12 @@ export default function AdministrationPage() {
 											}
 										>
 											<div className={styles.row}>
-												<img
-													className={styles.symbolIcon}
-													src={`/icons/${symbol}.svg`}
-													alt=""
-												/>
+												<SymbolIcon name={symbol} />
 												<span className={styles.label}>{label}</span>
-												<span className={styles.chevron}>›</span>
+												<SymbolIcon
+													name="chevron.right"
+													className={styles.chevronIcon}
+												/>
 											</div>
 										</SheetTrigger>
 									))}

@@ -35,6 +35,12 @@
 	font-size: 1.25rem;
 	cursor: pointer;
 }
+
+.circleAction img {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	filter: brightness(0) invert(1);
+}
 .selfCard {
 	display: flex;
 	gap: var(--theme-content-row-gap);

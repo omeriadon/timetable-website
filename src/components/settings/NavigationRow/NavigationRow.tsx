@@ -30,9 +30,7 @@ export default function NavigationRow({
 			<div className={styles.row}>
 				<SymbolIcon name={icon} />
 				<span className={styles.label}>{title}</span>
-				<span className={styles.chevron} aria-hidden="true">
-					›
-				</span>
+				<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 			</div>
 		</SheetTrigger>
 	);

@@ -101,7 +101,7 @@ export default function AdminUsersEditor() {
 									{user.authority} · {user.email}
 								</small>
 							</span>
-							<span className={styles.chevron}>›</span>
+							<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 						</div>
 					</Button>
 				))}

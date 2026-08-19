@@ -58,8 +58,8 @@
 	text-align: center;
 }
 .symbolIcon {
-	width: 24px;
-	height: 24px;
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
 	object-fit: contain;
 	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
 		hue-rotate(318deg) brightness(86%);
@@ -141,6 +141,13 @@
 	color: var(--theme-text-tertiary);
 	font-size: 1.5rem;
 	line-height: 0.5;
+}
+
+.chevronIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	filter: brightness(0) invert(1);
+	opacity: 0.5;
 }
 .paper {
 	padding: var(--theme-content-card-padding-block)

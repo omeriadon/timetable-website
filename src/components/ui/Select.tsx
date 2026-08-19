@@ -11,6 +11,7 @@ import {
 	type ReactNode,
 } from "react";
 import { cn } from "@/lib/utils";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "./primitives.module.css";
 
 type OptionProps = {
@@ -70,7 +71,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 				>
 					<BaseSelect.Value className={styles.selectValue} />
 					<BaseSelect.Icon className={styles.selectIcon}>
-						<span aria-hidden="true">⌄</span>
+						<SymbolIcon name="chevron.down" className={styles.selectSymbol} />
 					</BaseSelect.Icon>
 				</BaseSelect.Trigger>
 				<BaseSelect.Portal>

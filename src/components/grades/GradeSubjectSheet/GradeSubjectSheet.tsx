@@ -66,7 +66,7 @@ export default function GradeSubjectSheet({
 					router.push(`/grades/${encodeURIComponent(subjectID)}`);
 				}}
 			>
-				<SymbolIcon name="arrow.up.right" fallback="->" />
+				<SymbolIcon name="arrow.up.right" />
 				Open Subject
 			</SheetActionButton>
 		</div>

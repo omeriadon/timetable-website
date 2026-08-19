@@ -89,9 +89,10 @@ export default function ArchivedEventsEditor() {
 										})}
 									</small>
 								</span>
-								<span className={styles.chevron} aria-hidden="true">
-									›
-								</span>
+								<SymbolIcon
+									name="chevron.right"
+									className={styles.chevronIcon}
+								/>
 							</div>
 						</Button>
 					))

@@ -11,6 +11,7 @@ import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import GradeAssessmentSheet from "@/components/sheets/GradeAssessmentSheet/GradeAssessmentSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 
 export default function GradeSubjectPage() {
 	const { subject } = useParams<{ subject: string }>();
@@ -170,7 +171,7 @@ export default function GradeSubjectPage() {
 							disabled={saving}
 							onClick={() => createAssessment(semester)}
 						>
-							<span className={styles.symbol}>＋</span>
+							<SymbolIcon name="plus" className={styles.symbolIcon} />
 							<span className={styles.label}>
 								{saving ? "Saving…" : "New Assessment"}
 							</span>

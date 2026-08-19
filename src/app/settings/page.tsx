@@ -107,7 +107,7 @@ export default function SettingsPage() {
 							<b className={styles.profileName}>{account.displayName}</b>
 							<small className={styles.profileEmail}>{account.email}</small>
 						</span>
-						<span className={styles.chevron}>›</span>
+						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 					</section>
 				</SheetTrigger>
 			) : null}
@@ -139,7 +139,7 @@ export default function SettingsPage() {
 								Subscribe to Compass Schedule in Calendar first.
 							</small>
 						</span>
-						<span className={styles.chevron}>›</span>
+						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<NavigationRow
@@ -272,7 +272,7 @@ export default function SettingsPage() {
 						<SymbolIcon name="hammer" fallback="+" />
 						<span className={styles.label}>Version</span>
 						<span className={styles.detail}>Web</span>
-						<span className={styles.chevron}>›</span>
+						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 			</section>

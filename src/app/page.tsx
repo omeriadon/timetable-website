@@ -9,14 +9,15 @@ import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import PlannerView from "@/components/timetable/PlannerView/PlannerView";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "./page.module.css";
 
 type TimetableMode = "today" | "week" | "planner";
 
 const modes: Array<{ id: TimetableMode; label: string; symbol: string }> = [
-	{ id: "today", label: "Today", symbol: "▤" },
-	{ id: "week", label: "Week", symbol: "▦" },
-	{ id: "planner", label: "Planner", symbol: "☷" },
+	{ id: "today", label: "Today", symbol: "calendar.day.timeline.left" },
+	{ id: "week", label: "Week", symbol: "7.calendar" },
+	{ id: "planner", label: "Planner", symbol: "pencil.and.list.clipboard" },
 ];
 
 export default function Home() {
@@ -68,7 +69,7 @@ export default function Home() {
 								router.replace(`/?mode=${item.id}`, { scroll: false });
 							}}
 						>
-							<span aria-hidden="true">{item.symbol}</span>
+							<SymbolIcon name={item.symbol} className={styles.modeIcon} />
 							{item.label}
 						</Button>
 					))}

@@ -54,7 +54,7 @@ export default function FriendsPage() {
 					aria-label="Add friend"
 					onClick={() => openSheet(<FriendSearchSheet />)}
 				>
-					＋
+					<SymbolIcon name="plus" />
 				</Button>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}

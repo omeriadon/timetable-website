@@ -37,6 +37,13 @@
 .modePicker button span {
 	font-size: 1.2rem;
 }
+
+.modeIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+}
 .modePicker .activeMode {
 	background: linear-gradient(
 		135deg,
@@ -263,6 +270,14 @@
 .eventSymbol {
 	font-size: 1.5rem;
 	text-align: center;
+}
+
+.eventSymbolIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	object-fit: contain;
+	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
+		hue-rotate(318deg) brightness(86%);
 }
 .subjectList {
 	display: grid;

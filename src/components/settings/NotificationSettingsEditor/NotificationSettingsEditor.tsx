@@ -186,9 +186,7 @@ export default function NotificationSettingsEditor({
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.notificationLeadTimes)}
 						</span>
-						<span className={styles.chevron} aria-hidden="true">
-							›
-						</span>
+						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<Button
@@ -210,9 +208,7 @@ export default function NotificationSettingsEditor({
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}
 						</span>
-						<span className={styles.chevron} aria-hidden="true">
-							›
-						</span>
+						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<div className={styles.row}>
@@ -242,7 +238,7 @@ export default function NotificationSettingsEditor({
 									disabled={saving}
 									aria-label={`Remove ${formatTime(schedule)} event notification`}
 								>
-									−
+									<SymbolIcon name="minus" />
 								</Button>
 							</div>
 						))}
@@ -255,9 +251,7 @@ export default function NotificationSettingsEditor({
 						}
 					>
 						<div className={styles.row}>
-							<span className={styles.symbol} aria-hidden="true">
-								＋
-							</span>
+							<SymbolIcon name="plus" />
 							<span className={styles.label}>Add Event Notification</span>
 						</div>
 					</Button>

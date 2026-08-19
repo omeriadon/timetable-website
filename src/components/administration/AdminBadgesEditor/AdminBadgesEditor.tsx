@@ -207,7 +207,10 @@ export default function AdminBadgesEditor() {
 											{badge.assignedUserIDs.length} users
 										</small>
 									</span>
-									<span className={styles.chevron}>›</span>
+									<SymbolIcon
+										name="chevron.right"
+										className={styles.chevronIcon}
+									/>
 								</div>
 							</Button>
 							{isReordering ? (

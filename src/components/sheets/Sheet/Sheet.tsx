@@ -9,6 +9,8 @@ import {
 } from "react";
 import { Drawer } from "@base-ui/react/drawer";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
+import { glassButtonProps } from "@/components/LiquidGlass/presets";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import primitiveStyles from "@/components/ui/primitives.module.css";
 import styles from "./Sheet.module.css";
 
@@ -59,35 +61,14 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 							</Drawer.Title>
 							<Drawer.Close
 								nativeButton={false}
-								render={
-									<LiquidGlass
-										radius={999}
-										scale={-80}
-										border={0}
-										alpha={20}
-										inputBlur={12}
-										outputBlur={1}
-										red={10}
-										green={10}
-										blue={0}
-										frost={0}
-										saturation={1.3}
-										interactive
-										dragFollow={0.05}
-										dragDistance={38}
-										dragPressScale={1.06}
-										dragDuration={0.35}
-										dragReleaseDuration={0.45}
-										dragStretch={0.18}
-										dragSquash={0.12}
-										dragBounce={0.25}
-										filterPadding={32}
-									/>
-								}
+								render={<LiquidGlass {...glassButtonProps} />}
 								className={`${primitiveStyles.drawerClose} ${primitiveStyles.glassButton}`}
 								aria-label="Close sheet"
 							>
-								<span aria-hidden="true">×</span>
+								<SymbolIcon
+									name="xmark"
+									className={primitiveStyles.drawerCloseIcon}
+								/>
 							</Drawer.Close>
 							<Drawer.Content className={styles.sheetContent}>
 								{content}
