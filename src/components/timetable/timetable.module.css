@@ -19,73 +19,6 @@
 	color: var(--ds-color-text-secondary);
 	font-size: 1.05rem;
 }
-.timelineList {
-	display: grid;
-	gap: var(--ds-content-grid-gap);
-}
-
-.timelineRow,
-.timelineRowActive {
-	display: grid;
-	grid-template-columns:
-		var(--ds-timeline-label-width) var(--ds-timeline-line-width)
-		minmax(0, 1fr);
-	gap: var(--ds-space-2);
-	align-items: stretch;
-	min-height: var(--ds-list-row-height);
-	padding: var(--ds-content-grid-gap) 0;
-	color: var(--ds-color-text-secondary);
-}
-
-.timelineRowActive {
-	color: var(--ds-color-text);
-}
-.timelineRow time {
-	padding-top: var(--ds-content-grid-gap);
-	font-size: 0.72rem;
-	text-align: right;
-}
-.timelineLine {
-	position: relative;
-	display: flex;
-	justify-content: center;
-}
-.timelineLine::before {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 1px;
-	content: "";
-	background: var(--ds-color-border);
-}
-.timelineLine span {
-	position: relative;
-	z-index: 1;
-	width: var(--ds-content-grid-gap);
-	height: var(--ds-content-grid-gap);
-	margin-top: var(--ds-content-grid-gap);
-	border-radius: 50%;
-	background: var(--ds-color-text-secondary);
-}
-.timelineRowActive .timelineLine span {
-	background: var(--ds-color-accent);
-	box-shadow: 0 0 0 3px
-		color-mix(in srgb, var(--ds-color-accent) 22%, transparent);
-}
-.timelineContent {
-	display: flex;
-	justify-content: space-between;
-	gap: var(--ds-space-2);
-	padding: 2px 0;
-	border-bottom: 1px solid var(--ds-color-border);
-}
-.timelineContent strong {
-	font-size: 0.84rem;
-	font-weight: 600;
-}
-.timelineContent span {
-	font-size: 0.78rem;
-}
 
 .cardRow {
 	width: 100%;
@@ -107,17 +40,6 @@
 .cardRow:focus-visible {
 	border-color: color-mix(in srgb, currentColor 35%, transparent);
 	background: color-mix(in srgb, var(--ds-color-paper) 88%, transparent);
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.cardRow:hover {
-		border-color: color-mix(in srgb, currentColor 35%, transparent);
-		background: color-mix(in srgb, var(--ds-color-paper) 88%, transparent);
-	}
-}
-
-.cardRow:active {
-	transform: scale(0.99);
 }
 
 .eventRow,
@@ -154,11 +76,6 @@
 		hue-rotate(318deg) brightness(86%);
 }
 
-.timelineContent .eventSymbolIcon,
-.subjectRow .eventSymbolIcon {
-	width: var(--ds-control-icon-size-small);
-	height: var(--ds-control-icon-size-small);
-}
 .subjectList {
 	display: grid;
 	gap: var(--ds-space-3);

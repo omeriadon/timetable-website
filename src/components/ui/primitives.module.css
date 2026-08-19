@@ -125,48 +125,9 @@
 	border-bottom: 0;
 }
 
-.listRowInteractive {
-	width: 100%;
-	color: var(--ds-color-text);
-	background: transparent;
-	text-align: left;
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.listRowInteractive:hover {
-		background: color-mix(in srgb, var(--ds-color-text) 6%, transparent);
-	}
-}
-
 .buttonCompact {
 	min-height: var(--ds-control-height-compact);
 	padding: var(--ds-space-2);
-}
-
-.glassButton {
-	position: relative;
-	min-width: var(--ds-toolbar-height);
-	min-height: var(--ds-toolbar-height);
-	padding: var(--ds-space-2);
-	border: var(--ds-glass-border);
-	border-radius: var(--ds-radius-pill);
-	color: var(--ds-color-text);
-	background: var(--ds-surface-glass);
-	box-shadow: var(--ds-glass-shadow);
-}
-
-.glassButton::after {
-	position: absolute;
-	inset: 0;
-	border: var(--ds-border-width) solid var(--ds-surface-highlight);
-	border-radius: inherit;
-	content: "";
-	pointer-events: none;
-}
-
-.glassButtonCompact {
-	min-width: var(--ds-control-height-compact);
-	min-height: var(--ds-control-height-compact);
 }
 
 .input,
@@ -193,11 +154,6 @@
 .textarea {
 	min-height: 88px;
 	resize: vertical;
-}
-
-.selectRoot {
-	display: inline-flex;
-	min-width: 132px;
 }
 
 .selectTrigger {
@@ -416,15 +372,6 @@
 	opacity: 0;
 }
 
-.drawerViewport {
-	position: fixed;
-	inset: 0;
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	pointer-events: none;
-}
-
 .drawerPopup {
 	position: relative;
 	display: flex;
@@ -451,10 +398,6 @@
 	transform: translateY(100%);
 }
 
-.drawerContent {
-	width: 100%;
-}
-
 .drawerTitle {
 	position: absolute;
 	width: 1px;
@@ -467,29 +410,7 @@
 	border: 0;
 }
 
-.drawerClose {
-	position: absolute;
-	top: var(--ds-content-card-padding);
-	right: var(--ds-content-page-padding);
-	z-index: 1;
-}
-
-.drawerCloseIcon {
-	width: var(--ds-control-icon-size-small);
-	height: var(--ds-control-icon-size-small);
-	object-fit: contain;
-	filter: brightness(0) invert(1);
-}
-
-/* The wide SwiftUI layout presents detail in an inspector column. Keep the
-   same Base UI Drawer primitive, but change its presentation geometry at the
-   iPad breakpoint. */
 @media (min-width: 701px) {
-	.drawerViewport {
-		align-items: stretch;
-		justify-content: flex-end;
-	}
-
 	.drawerPopup {
 		width: var(--ds-inspector-width);
 		max-height: none;

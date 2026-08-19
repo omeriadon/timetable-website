@@ -22,14 +22,14 @@ type TodayEntry =
 			id: string;
 			date: CalendarEvent["date"];
 			event: CalendarEvent;
-		}
+	  }
 	| {
 			kind: "assessment";
 			id: string;
 			date: GradeAssessment["date"];
 			assessment: GradeAssessment;
 			subject?: TimetableSubject;
-		};
+	  };
 
 const schoolPeriods = [
 	{ label: "1", start: "8:50 am", end: "9:48 am", session: 0 },
@@ -146,55 +146,6 @@ export default function TodayView({
 					<p>{noSchool.label}</p>
 				</SectionCard>
 			) : null}
-			<SectionCard background="surface" title="School Day" symbolName="clock">
-				{dayIndex >= 0 && dayIndex < 5 ? (
-					<div className={styles.timelineList}>
-						{schoolPeriods.map((period) => {
-							const subject = subjects.find((item) =>
-								item.slots.some(
-									(slot) =>
-										slot.day === dayIndex && slot.session === period.session,
-								),
-							);
-							const active = isCurrentPeriod(period.start, period.end);
-							return (
-								<article
-									key={period.label}
-									className={
-										active ? styles.timelineRowActive : styles.timelineRow
-									}
-								>
-									<time>{period.start}</time>
-									<div className={styles.timelineLine} aria-hidden="true">
-										<span />
-									</div>
-									<div className={styles.timelineContent}>
-										<strong>
-											{period.label}
-											{subject ? `  ${subject.id}` : "  Free period"}
-										</strong>
-										<span>
-											{subject ? (
-												<Symbol
-													name={subject.symbol}
-													className={styles.eventSymbolIcon}
-												/>
-											) : (
-												"—"
-											)}{" "}
-											{period.end}
-										</span>
-									</div>
-								</article>
-							);
-						})}
-					</div>
-				) : (
-					<p className={styles.empty}>
-						The school day timeline is only available on weekdays.
-					</p>
-				)}
-			</SectionCard>
 			<SectionCard
 				background="paper"
 				title="Classes"
