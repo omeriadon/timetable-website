@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
@@ -63,7 +65,7 @@ export default function AdminUsersEditor() {
 			<div className={styles.adminToolbar}>
 				<label className={styles.adminSearch}>
 					<SymbolIcon name="magnifyingglass" fallback="⌕" />
-					<input
+					<Input
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder="Search users"
@@ -80,7 +82,8 @@ export default function AdminUsersEditor() {
 			) : null}
 			<section className={styles.card}>
 				{filtered.map((user) => (
-					<button
+					<Button
+						unstyled
 						key={user.id}
 						type="button"
 						className={styles.rowButton}
@@ -100,7 +103,7 @@ export default function AdminUsersEditor() {
 							</span>
 							<span className={styles.chevron}>›</span>
 						</div>
-					</button>
+					</Button>
 				))}
 				{!filtered.length ? (
 					<p className={styles.loading}>

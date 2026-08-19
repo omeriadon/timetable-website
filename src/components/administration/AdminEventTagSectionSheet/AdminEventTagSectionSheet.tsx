@@ -1,5 +1,7 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { useState } from "react";
 import type {
 	AdminEventTagSection,
@@ -68,14 +70,14 @@ export default function AdminEventTagSectionSheet({
 			<section className={styles.formCard}>
 				<label>
 					Display Name
-					<input
+					<Input
 						value={displayName}
 						onChange={(event) => setDisplayName(event.target.value)}
 					/>
 				</label>
 				<label>
 					Sort Order
-					<input
+					<Input
 						type="number"
 						min="0"
 						value={sortOrder}
@@ -83,10 +85,10 @@ export default function AdminEventTagSectionSheet({
 					/>
 				</label>
 				<label className={styles.editorCheck}>
-					<input
-						type="checkbox"
+					<Checkbox
+						label="Archive section"
 						checked={isArchived}
-						onChange={(event) => setIsArchived(event.target.checked)}
+						onCheckedChange={setIsArchived}
 					/>
 					Archive section
 				</label>

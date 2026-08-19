@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -37,22 +38,24 @@ export default function FriendsPage() {
 	return (
 		<main className={styles.page}>
 			<div className={styles.friendActions}>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.circleAction}
 					aria-label="Friend requests"
 					onClick={() => openSheet(<FriendRequestsSheet />)}
 				>
 					<SymbolIcon name="bell.badge" />
-				</button>
-				<button
+				</Button>
+				<Button
+					unstyled
 					type="button"
 					className={styles.circleAction}
 					aria-label="Add friend"
 					onClick={() => openSheet(<FriendSearchSheet />)}
 				>
 					＋
-				</button>
+				</Button>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{account ? (

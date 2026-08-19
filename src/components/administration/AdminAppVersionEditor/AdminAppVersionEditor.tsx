@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
@@ -129,7 +130,8 @@ export default function AdminAppVersionEditor() {
 					}
 				/>
 			</section>
-			<button
+			<Button
+				unstyled
 				type="button"
 				className={styles.profileSave}
 				onClick={() => void save()}
@@ -137,7 +139,7 @@ export default function AdminAppVersionEditor() {
 			>
 				<SymbolIcon name="checkmark" fallback="✓" />
 				{saving ? "Saving…" : "Save App Versions"}
-			</button>
+			</Button>
 			{status ? (
 				<p
 					className={status.endsWith("saved.") ? styles.loading : styles.error}

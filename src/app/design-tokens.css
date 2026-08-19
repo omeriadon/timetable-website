@@ -1,0 +1,192 @@
+/*
+ * Timetable design language
+ *
+ * This is the editable source of truth for the website's visual system.
+ * Components should consume these variables instead of introducing local
+ * geometry, surface, colour, or motion values.
+ */
+
+:root {
+	/* Colour roles */
+	--ds-color-background: #000000;
+	--ds-color-foreground: #ffffff;
+	--ds-color-surface: #151515;
+	--ds-color-surface-elevated: #252525;
+	--ds-color-surface-soft: #292929;
+	--ds-color-primary: #bd3547;
+	--ds-color-primary-foreground: #ffffff;
+	--ds-color-muted: #9999a2;
+	--ds-color-muted-foreground: #77777f;
+	--ds-color-destructive: #ff453a;
+	--ds-color-info: #149cf3;
+	--ds-color-success: #27d65b;
+	--ds-color-warning: #ffcc00;
+	--ds-color-border: rgba(255, 255, 255, 0.14);
+	--ds-color-input: rgba(255, 255, 255, 0.16);
+	--ds-color-ring: #bd3547;
+	--ds-color-highlight: rgba(255, 255, 255, 0.14);
+	--ds-color-paper: #e7e5e5;
+	--ds-color-paper-dark: #c6c6ca;
+	--ds-color-paper-warm: #f6c88f;
+	--ds-color-paper-gold: #dca56b;
+	--ds-color-paper-edge: #ffd8ab;
+	--ds-color-paper-highlight: #fff1d3;
+	--ds-color-gold: #c28a57;
+	--ds-color-gold-dark: #8f592d;
+	--ds-color-error: #ff8879;
+	--ds-color-sidebar-accent-foreground: var(--ds-color-foreground);
+
+	/* Surface treatments */
+	--ds-surface-glass: color-mix(
+		in srgb,
+		var(--ds-color-surface-elevated) 72%,
+		transparent
+	);
+	--ds-surface-glass-strong: color-mix(
+		in srgb,
+		var(--ds-color-surface-elevated) 88%,
+		transparent
+	);
+	--ds-surface-sheet: color-mix(
+		in srgb,
+		var(--ds-color-surface-elevated) 88%,
+		transparent
+	);
+	--ds-surface-scrim: color-mix(
+		in srgb,
+		var(--ds-color-background) 54%,
+		transparent
+	);
+	--ds-surface-sheet-scrim: color-mix(
+		in srgb,
+		var(--ds-color-background) 58%,
+		transparent
+	);
+	--ds-surface-border: var(--ds-color-border);
+	--ds-surface-highlight: var(--ds-color-highlight);
+	--ds-surface-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
+	--ds-surface-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+	/* Typography */
+	--ds-font-body: "SF Pro Display", "SF Pro", sans-serif;
+	--ds-font-heading: "SF Pro Display", "SF Pro", sans-serif;
+	--ds-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
+	--ds-font-mono: "SF Mono", monospace;
+	--ds-font-content: 0.9rem;
+	--ds-font-small: 0.76rem;
+	--ds-font-body-size: 0.88rem;
+	--ds-font-label: 0.82rem;
+	--ds-font-heading-size: 1.2rem;
+	--ds-font-display: 1.45rem;
+	--ds-line-height-tight: 1.15;
+	--ds-line-height-body: 1.28;
+
+	/* Geometry */
+	--ds-radius-control: 12px;
+	--ds-radius-card: 18px;
+	--ds-radius-content-card: 12px;
+	--ds-radius-pill: 999px;
+	--ds-radius-shadcn: 0.625rem;
+	--ds-space-1: 4px;
+	--ds-space-2: 6px;
+	--ds-space-3: 8px;
+	--ds-space-4: 10px;
+	--ds-space-5: 12px;
+	--ds-space-6: 16px;
+	--ds-space-7: 24px;
+	--ds-content-page-padding: 6px;
+	--ds-content-section-gap: 6px;
+	--ds-content-card-padding: 7px;
+	--ds-content-row-gap: 6px;
+	--ds-content-grid-gap: 4px;
+	--ds-content-list-padding-inline: 7px;
+	--ds-content-list-row-padding-block: 2px;
+	--ds-content-list-row-gap: 6px;
+	--ds-sheet-padding-top: 34px;
+	--ds-sheet-padding-inline: 10px;
+	--ds-sheet-padding-bottom: 10px;
+	--ds-sheet-max-height: 92svh;
+	--ds-sheet-scrim-blur: 16px;
+	--ds-sheet-blur: 34px;
+	--ds-row-height: 44px;
+	--ds-card-padding: 10px;
+	--ds-list-padding-inline: 12px;
+	--ds-list-row-padding-block: 4px;
+	--ds-list-row-gap: 10px;
+	--ds-section-gap: 12px;
+
+	/* Controls */
+	--ds-control-height: 34px;
+	--ds-control-height-compact: 32px;
+	--ds-control-padding-inline: 10px;
+	--ds-control-padding-block: 6px;
+	--ds-control-touch-target: 30px;
+	--ds-control-icon-size: 24px;
+	--ds-control-icon-size-small: 20px;
+	--ds-control-gap: 8px;
+	--ds-control-focus-width: 2px;
+	--ds-control-focus-offset: 2px;
+
+	/* Lists and sections */
+	--ds-list-background: var(--ds-color-surface);
+	--ds-list-background-elevated: var(--ds-color-surface-elevated);
+	--ds-list-outline: var(--ds-color-border);
+	--ds-list-divider: var(--ds-color-border);
+	--ds-list-row-height: 36px;
+	--ds-list-row-min-height: 40px;
+	--ds-list-row-padding-inline: 7px;
+	--ds-list-row-padding-block: 2px;
+	--ds-list-row-gap: 6px;
+	--ds-list-section-gap: 6px;
+	--ds-list-section-header-gap: 4px;
+	--ds-list-section-header-size: 0.76rem;
+
+	/* App chrome */
+	--ds-toolbar-height: 34px;
+	--ds-toolbar-inset: 14px;
+	--ds-toolbar-gap: 8px;
+	--ds-toolbar-icon-size: 24px;
+	--ds-sidebar-width: 272px;
+	--ds-sidebar-frame: calc(var(--ds-sidebar-width) + 17px);
+	--ds-sidebar-padding-inline: 14px;
+	--ds-tab-bar-padding: 5px;
+	--ds-sidebar-start: rgba(15, 15, 15, 0.94);
+	--ds-sidebar-mid: rgba(15, 15, 15, 0.88);
+	--ds-sidebar-end: rgba(15, 15, 15, 0.68);
+
+	/* Glass */
+	--ds-glass-alpha: 20;
+	--ds-glass-input-blur: 12px;
+	--ds-glass-output-blur: 1px;
+	--ds-glass-saturation: 1.3;
+	--ds-glass-border: 1px solid var(--ds-color-highlight);
+	--ds-glass-shadow:
+		inset 0 1px var(--ds-color-highlight), var(--ds-surface-shadow);
+
+	/* Motion */
+	--ds-duration-fast: 120ms;
+	--ds-duration-normal: 220ms;
+	--ds-duration-sheet: 260ms;
+	--ds-ease-standard: cubic-bezier(0.2, 0.9, 0.2, 1);
+	--ds-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+	--ds-ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+
+	/* Existing content geometry exposed through the same source of truth */
+	--ds-avatar-size: 38px;
+	--ds-avatar-size-small: 32px;
+	--ds-friend-row-min-height: 46px;
+	--ds-event-min-height: 40px;
+	--ds-timeline-label-width: 44px;
+	--ds-timeline-line-width: 6px;
+	--ds-week-label-width: 20px;
+	--ds-week-column-min: 68px;
+	--ds-week-min-width: 380px;
+	--ds-week-row-min-height: 42px;
+	--ds-mobile-bottom-inset: 96px;
+	--ds-sheet-row-height: 36px;
+	--ds-sheet-card-padding: 7px;
+	--ds-auth-page-padding: 16px;
+	--ds-auth-card-padding: 24px;
+	--ds-auth-control-height: 40px;
+	--ds-auth-gap: 12px;
+}

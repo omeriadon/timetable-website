@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -66,7 +67,8 @@ export default function NotificationLeadTimesSheet({
 				{leadTimes.map((value) => {
 					const selected = draft.has(value);
 					return (
-						<button
+						<Button
+							unstyled
 							key={value}
 							type="button"
 							className={
@@ -79,7 +81,7 @@ export default function NotificationLeadTimesSheet({
 								{value} {value === 1 ? "minute" : "minutes"} early
 							</span>
 							{selected ? <SymbolIcon name="checkmark" fallback="✓" /> : null}
-						</button>
+						</Button>
 					);
 				})}
 			</section>

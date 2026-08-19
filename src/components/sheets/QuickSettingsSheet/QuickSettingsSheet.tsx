@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSheet } from "../Sheet/Sheet";
+import { List } from "@/components/ui/List";
 import styles from "../Sheet/Sheet.module.css";
 
 const links = [
@@ -15,16 +16,18 @@ export default function QuickSettingsSheet() {
 
 	return (
 		<nav className={styles.sheetLinkList} aria-label="Quick settings">
-			{links.map((link) => (
-				<Link
-					key={link.href}
-					className={styles.sheetLink}
-					href={link.href}
-					onClick={closeSheet}
-				>
-					{link.label}
-				</Link>
-			))}
+			<List>
+				{links.map((link) => (
+					<Link
+						key={link.href}
+						className={styles.sheetLink}
+						href={link.href}
+						onClick={closeSheet}
+					>
+						{link.label}
+					</Link>
+				))}
+			</List>
 		</nav>
 	);
 }

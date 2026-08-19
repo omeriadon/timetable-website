@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";
@@ -54,7 +56,7 @@ export default function FriendSearchSheet() {
 					<p>Search by name or school email.</p>
 				</div>
 			</header>
-			<input
+			<Input
 				className={styles.sheetInput}
 				value={query}
 				placeholder="Search friends"
@@ -70,7 +72,8 @@ export default function FriendSearchSheet() {
 								<strong>{result.profile.displayName}</strong>
 								<span>{result.profile.email}</span>
 							</div>
-							<button
+							<Button
+								unstyled
 								type="button"
 								onClick={() => requestFriend(result.profile.userID)}
 								disabled={result.relationship !== null}
@@ -80,7 +83,7 @@ export default function FriendSearchSheet() {
 									: result.relationship
 										? "Requested"
 										: "Add"}
-							</button>
+							</Button>
 						</div>
 					))
 				) : (

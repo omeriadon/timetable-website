@@ -1,5 +1,8 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
 import type {
@@ -152,7 +155,7 @@ export default function AdminSpecialBadgeSheet({
 			<section className={styles.formCard}>
 				<label>
 					SF Symbol
-					<select
+					<Select
 						value={symbol}
 						onChange={(event) => setSymbol(event.target.value)}
 					>
@@ -161,18 +164,18 @@ export default function AdminSpecialBadgeSheet({
 								{option}
 							</option>
 						))}
-					</select>
+					</Select>
 				</label>
 				<label>
 					Accessibility Label
-					<input
+					<Input
 						value={accessibilityLabel}
 						onChange={(event) => setAccessibilityLabel(event.target.value)}
 					/>
 				</label>
 				<label>
 					Priority
-					<input
+					<Input
 						type="number"
 						value={priority}
 						onChange={(event) => setPriority(event.target.value)}
@@ -180,7 +183,7 @@ export default function AdminSpecialBadgeSheet({
 				</label>
 				<label>
 					Background
-					<input
+					<Input
 						type="color"
 						value={backgroundColor}
 						onChange={(event) => setBackgroundColor(event.target.value)}
@@ -188,7 +191,7 @@ export default function AdminSpecialBadgeSheet({
 				</label>
 				<label>
 					Symbol
-					<input
+					<Input
 						type="color"
 						value={symbolColor}
 						onChange={(event) => setSymbolColor(event.target.value)}
@@ -200,10 +203,10 @@ export default function AdminSpecialBadgeSheet({
 					<h3>Users</h3>
 					{users.map((user) => (
 						<label key={user.id} className={styles.editorCheck}>
-							<input
-								type="checkbox"
+							<Checkbox
+								label={user.displayName}
 								checked={selectedUserIDs.includes(user.id)}
-								onChange={() => toggleUser(user.id)}
+								onCheckedChange={() => toggleUser(user.id)}
 							/>
 							{user.displayName}
 						</label>

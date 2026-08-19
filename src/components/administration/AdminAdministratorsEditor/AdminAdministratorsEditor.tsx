@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -43,7 +45,7 @@ export default function AdminAdministratorsEditor() {
 			<div className={styles.adminToolbar}>
 				<label className={styles.adminSearch}>
 					<SymbolIcon name="magnifyingglass" fallback="⌕" />
-					<input
+					<Input
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder="Search users"
@@ -60,7 +62,8 @@ export default function AdminAdministratorsEditor() {
 					const isSystemOwner = user.authority === "systemOwner";
 					const isAdministrator = user.authority === "administrator";
 					return (
-						<button
+						<Button
+							unstyled
 							key={user.id}
 							type="button"
 							className={styles.rowButton}
@@ -91,7 +94,7 @@ export default function AdminAdministratorsEditor() {
 									{isSystemOwner ? "Owner" : isAdministrator ? "On" : "Off"}
 								</span>
 							</div>
-						</button>
+						</Button>
 					);
 				})}
 				{!filtered.length ? (

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import type { ReactNode } from "react";
 import { useSheet } from "../Sheet/Sheet";
 
@@ -19,13 +20,14 @@ export default function SheetTrigger({
 	const { openSheet } = useSheet();
 
 	return (
-		<button
+		<Button
+			unstyled
 			type="button"
 			className={className}
 			aria-label={ariaLabel}
 			onClick={() => openSheet(content)}
 		>
 			{children}
-		</button>
+		</Button>
 	);
 }

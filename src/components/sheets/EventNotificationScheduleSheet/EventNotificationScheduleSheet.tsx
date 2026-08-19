@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "@/components/ui/Select";
 import { useMemo, useState } from "react";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
@@ -65,7 +66,7 @@ export default function EventNotificationScheduleSheet({
 			<section className={styles.formCard}>
 				<label>
 					Send notification
-					<select
+					<Select
 						value={dayOffset}
 						onChange={(event) => setDayOffset(Number(event.target.value))}
 					>
@@ -74,11 +75,11 @@ export default function EventNotificationScheduleSheet({
 								{offset.label}
 							</option>
 						))}
-					</select>
+					</Select>
 				</label>
 				<label>
 					Time
-					<select
+					<Select
 						value={timeMinutes}
 						onChange={(event) => setTimeMinutes(Number(event.target.value))}
 					>
@@ -87,7 +88,7 @@ export default function EventNotificationScheduleSheet({
 								{formatTime(minutes)}
 							</option>
 						))}
-					</select>
+					</Select>
 				</label>
 				<div className={styles.sheetActions}>
 					<SheetActionButton

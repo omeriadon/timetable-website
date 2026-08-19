@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -99,7 +101,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			</div>
 			<div className={styles.segmented} aria-label="Profile content">
 				{(["photo", "monogram", "emoji"] as const).map((kind) => (
-					<button
+					<Button
+						unstyled
 						key={kind}
 						type="button"
 						className={
@@ -121,14 +124,14 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 							}
 						/>
 						{kind[0].toUpperCase() + kind.slice(1)}
-					</button>
+					</Button>
 				))}
 			</div>
 			{draft.contentKind === "photo" ? (
 				<div className={styles.row}>
 					<SymbolIcon name="photo" fallback="◉" />
 					<span className={styles.label}>Photo</span>
-					<input
+					<Input
 						type="file"
 						accept="image/jpeg,image/png"
 						disabled={uploading || removingPhoto}
@@ -138,7 +141,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						}}
 					/>
 					{photo ? (
-						<button
+						<Button
+							unstyled
 							type="button"
 							className={styles.removePhoto}
 							onClick={() => void removePhoto()}
@@ -146,7 +150,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						>
 							<SymbolIcon name="trash" fallback="−" />
 							Remove
-						</button>
+						</Button>
 					) : null}
 				</div>
 			) : null}
@@ -157,7 +161,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						<label className={styles.label} htmlFor="profile-emoji">
 							Emoji
 						</label>
-						<input
+						<Input
 							id="profile-emoji"
 							className={styles.inlineInput}
 							value={draft.emoji}
@@ -169,14 +173,15 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</div>
 					<div className={styles.emojiOptions}>
 						{emojiOptions.map((emoji) => (
-							<button
+							<Button
+								unstyled
 								type="button"
 								key={emoji}
 								onClick={() => update({ emoji })}
 								aria-label={`Use ${emoji}`}
 							>
 								{emoji}
-							</button>
+							</Button>
 						))}
 					</div>
 				</div>
@@ -195,7 +200,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 								<label className={styles.label} htmlFor="profile-monogram">
 									Monogram
 								</label>
-								<input
+								<Input
 									id="profile-monogram"
 									className={styles.inlineInput}
 									value={draft.monogram}
@@ -223,7 +228,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					<div className={styles.sliderList}>
 						<label>
 							Animation Speed <output>{(draft.speed ?? 0.2).toFixed(2)}</output>
-							<input
+							<Input
 								type="range"
 								min="0"
 								max="5"
@@ -236,7 +241,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						</label>
 						<label>
 							Texture Noise <output>{Math.round(draft.noise ?? 64)}</output>
-							<input
+							<Input
 								type="range"
 								min="0"
 								max="100"
@@ -250,10 +255,15 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</div>
 				</>
 			) : null}
-			<button type="button" className={styles.save} onClick={() => save(draft)}>
+			<Button
+				unstyled
+				type="button"
+				className={styles.save}
+				onClick={() => save(draft)}
+			>
 				<SymbolIcon name="checkmark" fallback="✓" />
 				Save Profile Appearance
-			</button>
+			</Button>
 		</section>
 	);
 }

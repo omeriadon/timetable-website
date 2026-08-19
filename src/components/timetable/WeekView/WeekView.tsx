@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -58,7 +59,8 @@ export default function WeekView({
 								selectedSlot?.day === dayIndex &&
 								selectedSlot.session === session.value;
 							return (
-								<button
+								<Button
+									unstyled
 									key={day}
 									type="button"
 									className={styles.lessonButton}
@@ -87,7 +89,7 @@ export default function WeekView({
 										<span>{subject.symbol}</span>
 										<strong>{subject.id}</strong>
 									</article>
-								</button>
+								</Button>
 							);
 						})}
 					</div>

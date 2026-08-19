@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
@@ -130,7 +132,7 @@ export default function NotificationSettingsEditor({
 				<div className={styles.row}>
 					<SymbolIcon name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
-					<select
+					<Select
 						className={styles.inlineSelect}
 						value={draft.calendarEventAutoDeleteDays}
 						disabled={saving}
@@ -144,7 +146,7 @@ export default function NotificationSettingsEditor({
 						<option value={7}>After 1 week</option>
 						<option value={30}>After 1 month</option>
 						<option value={365}>After 1 year</option>
-					</select>
+					</Select>
 				</div>
 				<SettingToggle
 					label="Allow Class Notifications"
@@ -165,7 +167,8 @@ export default function NotificationSettingsEditor({
 					}
 					disabled={saving}
 				/>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -187,8 +190,9 @@ export default function NotificationSettingsEditor({
 							›
 						</span>
 					</div>
-				</button>
-				<button
+				</Button>
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -210,7 +214,7 @@ export default function NotificationSettingsEditor({
 							›
 						</span>
 					</div>
-				</button>
+				</Button>
 				<div className={styles.row}>
 					<SymbolIcon name="calendar.badge.clock" />
 					<span className={styles.label}>Event Notifications</span>
@@ -231,17 +235,19 @@ export default function NotificationSettingsEditor({
 							>
 								<span>{formatTime(schedule)}</span>
 								<small>{formatOffset(schedule.dayOffset)}</small>
-								<button
+								<Button
+									unstyled
 									type="button"
 									onClick={() => removeSchedule(schedule)}
 									disabled={saving}
 									aria-label={`Remove ${formatTime(schedule)} event notification`}
 								>
 									−
-								</button>
+								</Button>
 							</div>
 						))}
-					<button
+					<Button
+						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={() =>
@@ -254,10 +260,11 @@ export default function NotificationSettingsEditor({
 							</span>
 							<span className={styles.label}>Add Event Notification</span>
 						</div>
-					</button>
+					</Button>
 				</div>
 				{onSignOut ? (
-					<button
+					<Button
+						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={async () => {
@@ -270,7 +277,7 @@ export default function NotificationSettingsEditor({
 							<SymbolIcon name="person.2.slash" />
 							<span className={styles.label}>Sign Out</span>
 						</div>
-					</button>
+					</Button>
 				) : null}
 			</section>
 			{error ? (

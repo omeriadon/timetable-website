@@ -1,5 +1,7 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
@@ -70,14 +72,14 @@ export default function GradeAssessmentSheet({
 			<section className={styles.formCard}>
 				<label>
 					Assessment
-					<input
+					<Input
 						value={current.name}
 						onChange={(event) => update({ name: event.target.value })}
 					/>
 				</label>
 				<label>
 					Date
-					<input
+					<Input
 						type="date"
 						value={dateValue(current)}
 						onChange={(event) =>
@@ -87,7 +89,7 @@ export default function GradeAssessmentSheet({
 				</label>
 				<label>
 					Assessment period
-					<select
+					<Select
 						value={current.location}
 						onChange={(event) =>
 							update({
@@ -98,11 +100,11 @@ export default function GradeAssessmentSheet({
 						<option value="exam">Exam</option>
 						<option value="directedStudy">Directed Study</option>
 						<option value="subjectPeriod">Subject Period</option>
-					</select>
+					</Select>
 				</label>
 				<label>
 					Score (%)
-					<input
+					<Input
 						type="number"
 						min="0"
 						max="100"
@@ -115,7 +117,7 @@ export default function GradeAssessmentSheet({
 				</label>
 				<label>
 					Weighting (%)
-					<input
+					<Input
 						type="number"
 						min="0"
 						max="100"

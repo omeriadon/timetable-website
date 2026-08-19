@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
 import {
 	createContext,
 	useCallback,
@@ -7,7 +8,7 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import LiquidGlass from "./LiquidGlass";
+import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "./Toolbar.module.css";
@@ -95,7 +96,7 @@ export default function Toolbar() {
 					<label className={styles.search}>
 						<div className={styles.something}>
 							<span className="sr-only">Search {title}</span>
-							<input
+							<Input
 								value={searchValue}
 								placeholder={searchPlaceholder}
 								onChange={(event) => onSearchChange?.(event.target.value)}

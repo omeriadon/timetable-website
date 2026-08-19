@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
 import {
 	createContext,
 	useCallback,
@@ -96,7 +97,7 @@ export default function Toolbar() {
 					<label className={styles.search}>
 						<div className={styles.something}>
 							<span className="sr-only">Search {title}</span>
-							<input
+							<Input
 								value={searchValue}
 								placeholder={searchPlaceholder}
 								onChange={(event) => onSearchChange?.(event.target.value)}

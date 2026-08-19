@@ -1,5 +1,7 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
@@ -106,7 +108,7 @@ export default function AdminUserEditorSheet({
 			<section className={styles.formCard}>
 				<label>
 					Display name
-					<input
+					<Input
 						value={displayName}
 						onChange={(event) => setDisplayName(event.target.value)}
 						autoComplete="name"
@@ -114,7 +116,7 @@ export default function AdminUserEditorSheet({
 				</label>
 				<label>
 					Email
-					<input
+					<Input
 						type="email"
 						value={email}
 						onChange={(event) => setEmail(event.target.value)}
@@ -123,7 +125,7 @@ export default function AdminUserEditorSheet({
 				</label>
 				<label>
 					{user ? "New password (optional)" : "Password"}
-					<input
+					<Input
 						type="password"
 						value={password}
 						onChange={(event) => setPassword(event.target.value)}
@@ -132,7 +134,7 @@ export default function AdminUserEditorSheet({
 				</label>
 				<label>
 					Authority
-					<select
+					<Select
 						value={authority}
 						onChange={(event) => setAuthority(event.target.value)}
 						disabled={!isSystemOwner || user?.authority === "systemOwner"}
@@ -142,7 +144,7 @@ export default function AdminUserEditorSheet({
 						{user?.authority === "systemOwner" ? (
 							<option value="systemOwner">System owner</option>
 						) : null}
-					</select>
+					</Select>
 				</label>
 			</section>
 			{error ? (

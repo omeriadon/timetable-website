@@ -4,12 +4,12 @@ import {
 	createContext,
 	useCallback,
 	useContext,
-	useEffect,
-	useRef,
 	useState,
 	type ReactNode,
 } from "react";
-import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import { Drawer } from "@base-ui/react/drawer";
+import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
+import primitiveStyles from "@/components/ui/primitives.module.css";
 import styles from "./Sheet.module.css";
 
 type SheetControls = {
@@ -21,94 +21,80 @@ const SheetContext = createContext<SheetControls | null>(null);
 
 export function SheetProvider({ children }: { children: ReactNode }) {
 	const [content, setContent] = useState<ReactNode>(null);
-	const [isClosing, setIsClosing] = useState(false);
-	const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const openSheet = useCallback((nextContent: ReactNode) => {
-		if (closeTimer.current) {
-			clearTimeout(closeTimer.current);
-			closeTimer.current = null;
-		}
-		setIsClosing(false);
 		setContent(nextContent);
+		setIsOpen(true);
 	}, []);
 
 	const closeSheet = useCallback(() => {
-		if (!content || isClosing) {
-			return;
-		}
-		setIsClosing(true);
-		closeTimer.current = setTimeout(() => {
-			setContent(null);
-			setIsClosing(false);
-			closeTimer.current = null;
-		}, 240);
-	}, [content, isClosing]);
-
-	useEffect(() => {
 		if (!content) {
 			return;
 		}
-
-		const previousOverflow = document.body.style.overflow;
-		document.body.style.overflow = "hidden";
-		const closeOnEscape = (event: KeyboardEvent) => {
-			if (event.key === "Escape") {
-				closeSheet();
-			}
-		};
-		document.addEventListener("keydown", closeOnEscape);
-
-		return () => {
-			document.body.style.overflow = previousOverflow;
-			document.removeEventListener("keydown", closeOnEscape);
-		};
+		setIsOpen(false);
 	}, [content]);
-
-	useEffect(() => {
-		return () => {
-			if (closeTimer.current) {
-				clearTimeout(closeTimer.current);
-			}
-		};
-	}, []);
 
 	return (
 		<SheetContext.Provider value={{ openSheet, closeSheet }}>
 			{children}
-			{content ? (
-				<div
-					className={
-						isClosing
-							? `${styles.sheetRoot} ${styles.closing}`
-							: styles.sheetRoot
+			<Drawer.Root
+				open={isOpen}
+				onOpenChange={setIsOpen}
+				onOpenChangeComplete={(open) => {
+					if (!open) {
+						setContent(null);
 					}
-					role="presentation"
-				>
-					<button
-						type="button"
-						className={styles.scrim}
-						aria-label="Close sheet"
-						onClick={closeSheet}
-					/>
-					<section
-						className={styles.sheet}
-						role="dialog"
-						aria-modal="true"
-						onClick={(event) => event.stopPropagation()}
-					>
-						<GlassButton
-							label="Close sheet"
-							onClick={closeSheet}
-							className={styles.closeButton}
-							size="compact"
-						>
-							<span aria-hidden="true">×</span>
-						</GlassButton>
-						<div className={styles.sheetContent}>{content}</div>
-					</section>
-				</div>
-			) : null}
+				}}
+				snapPoints={[0.5, 0.7, 0.92]}
+				defaultSnapPoint={0.7}
+				swipeDirection="down"
+			>
+				<Drawer.Portal>
+					<Drawer.Backdrop className={primitiveStyles.drawerBackdrop} />
+					<Drawer.Viewport className={primitiveStyles.drawerViewport}>
+						<Drawer.Popup className={primitiveStyles.drawerPopup}>
+							<Drawer.Title className={primitiveStyles.drawerTitle}>
+								Timetable sheet
+							</Drawer.Title>
+							<Drawer.Close
+								render={
+									<LiquidGlass
+										radius={999}
+										scale={-80}
+										border={0}
+										alpha={20}
+										inputBlur={12}
+										outputBlur={1}
+										red={10}
+										green={10}
+										blue={0}
+										frost={0}
+										saturation={1.3}
+										interactive
+										dragFollow={0.05}
+										dragDistance={38}
+										dragPressScale={1.06}
+										dragDuration={0.35}
+										dragReleaseDuration={0.45}
+										dragStretch={0.18}
+										dragSquash={0.12}
+										dragBounce={0.25}
+										filterPadding={32}
+									/>
+								}
+								className={`${primitiveStyles.drawerClose} ${primitiveStyles.glassButton}`}
+								aria-label="Close sheet"
+							>
+								<span aria-hidden="true">×</span>
+							</Drawer.Close>
+							<Drawer.Content className={styles.sheetContent}>
+								{content}
+							</Drawer.Content>
+						</Drawer.Popup>
+					</Drawer.Viewport>
+				</Drawer.Portal>
+			</Drawer.Root>
 		</SheetContext.Provider>
 	);
 }

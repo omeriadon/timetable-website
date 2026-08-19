@@ -1,5 +1,8 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import type {
 	AdminEventTag,
@@ -86,28 +89,28 @@ export default function AdminEventTagSheet({
 			<section className={styles.formCard}>
 				<label>
 					Display Name
-					<input
+					<Input
 						value={displayName}
 						onChange={(event) => setDisplayName(event.target.value)}
 					/>
 				</label>
 				<label>
 					Slug
-					<input
+					<Input
 						value={slug}
 						onChange={(event) => setSlug(event.target.value)}
 					/>
 				</label>
 				<label>
 					Symbol
-					<input
+					<Input
 						value={symbol}
 						onChange={(event) => setSymbol(event.target.value)}
 					/>
 				</label>
 				<label>
 					Colour
-					<input
+					<Input
 						type="color"
 						value={colorHex}
 						onChange={(event) => setColorHex(event.target.value)}
@@ -115,17 +118,17 @@ export default function AdminEventTagSheet({
 				</label>
 				<label>
 					Associated Names
-					<textarea
+					<Textarea
 						rows={3}
 						value={associatedNames}
 						onChange={(event) => setAssociatedNames(event.target.value)}
 					/>
 				</label>
 				<label className={styles.editorCheck}>
-					<input
-						type="checkbox"
+					<Checkbox
+						label="Archive tag"
 						checked={isArchived}
-						onChange={(event) => setIsArchived(event.target.checked)}
+						onCheckedChange={setIsArchived}
 					/>{" "}
 					Archive tag
 				</label>

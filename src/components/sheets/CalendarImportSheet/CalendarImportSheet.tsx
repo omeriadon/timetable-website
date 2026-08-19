@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import type {
 	OwnerTimetable,
@@ -123,7 +124,7 @@ export default function CalendarImportSheet({
 					<label className={styles.filePicker}>
 						<SymbolIcon name="doc" fallback="＋" />
 						<span>{fileName ?? "Choose calendar file"}</span>
-						<input
+						<Input
 							type="file"
 							accept=".ics,text/calendar"
 							onChange={(event) => {

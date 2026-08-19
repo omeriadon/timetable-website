@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
@@ -64,7 +65,8 @@ export default function ArchivedEventsEditor() {
 			<section className={styles.card}>
 				{archived.length ? (
 					archived.map((event) => (
-						<button
+						<Button
+							unstyled
 							key={event.id}
 							type="button"
 							className={styles.rowButton}
@@ -91,7 +93,7 @@ export default function ArchivedEventsEditor() {
 									›
 								</span>
 							</div>
-						</button>
+						</Button>
 					))
 				) : (
 					<p className={styles.loading}>

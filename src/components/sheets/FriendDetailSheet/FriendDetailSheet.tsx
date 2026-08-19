@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import type { Friend, FriendDetail } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
@@ -61,14 +62,15 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 			</header>
 			<nav className={styles.detailTabs} aria-label="Friend details">
 				{(["main", "week", "info"] as const).map((value) => (
-					<button
+					<Button
+						unstyled
 						key={value}
 						type="button"
 						className={tab === value ? styles.detailTabActive : ""}
 						onClick={() => setTab(value)}
 					>
 						{value[0].toUpperCase() + value.slice(1)}
-					</button>
+					</Button>
 				))}
 			</nav>
 			{tab === "main" ? (

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import AdminDevelopmentAccessChangeSheet from "@/components/administration/AdminDevelopmentAccessChangeSheet/AdminDevelopmentAccessChangeSheet";
@@ -31,7 +32,8 @@ export default function AdminDevelopmentAccessEditor() {
 				{enabled === null ? (
 					<p className={styles.loading}>Loading server access…</p>
 				) : (
-					<button
+					<Button
+						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={() =>
@@ -50,7 +52,7 @@ export default function AdminDevelopmentAccessEditor() {
 							</span>
 							<span className={styles.detail}>{enabled ? "On" : "Off"}</span>
 						</div>
-					</button>
+					</Button>
 				)}
 			</section>
 			<p className={styles.detailNote}>

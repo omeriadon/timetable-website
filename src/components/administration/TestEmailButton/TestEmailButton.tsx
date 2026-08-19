@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
@@ -21,7 +22,8 @@ export default function TestEmailButton() {
 	};
 
 	return (
-		<button
+		<Button
+			unstyled
 			type="button"
 			className={styles.adminAction}
 			onClick={send}
@@ -37,6 +39,6 @@ export default function TestEmailButton() {
 							? "Unable to send test email"
 							: "Send test email"}
 			</span>
-		</button>
+		</Button>
 	);
 }

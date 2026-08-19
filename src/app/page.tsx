@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
@@ -57,7 +58,8 @@ export default function Home() {
 			{isCompact ? (
 				<div className={styles.modePicker} aria-label="Timetable section">
 					{modes.map((item) => (
-						<button
+						<Button
+							unstyled
 							key={item.id}
 							type="button"
 							className={mode === item.id ? styles.activeMode : ""}
@@ -68,7 +70,7 @@ export default function Home() {
 						>
 							<span aria-hidden="true">{item.symbol}</span>
 							{item.label}
-						</button>
+						</Button>
 					))}
 				</div>
 			) : null}

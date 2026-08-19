@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import type {
 	Friend,
 	TimetableSlot,
@@ -43,7 +44,8 @@ export default function TimetableComparison({
 					selectedSlot,
 				);
 				return subject ? (
-					<button
+					<Button
+						unstyled
 						key={friend.relationshipID}
 						type="button"
 						className={styles.friendSubject}
@@ -66,7 +68,7 @@ export default function TimetableComparison({
 						<strong>
 							{subject.symbol} {subject.id}
 						</strong>
-					</button>
+					</Button>
 				) : (
 					<div key={friend.relationshipID} className={styles.freePeriod}>
 						<span>{friend.friend.displayName}</span>

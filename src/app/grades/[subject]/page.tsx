@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -162,7 +163,8 @@ export default function GradeSubjectPage() {
 						) : (
 							<p className={styles.emptyRow}>No assessments yet.</p>
 						)}
-						<button
+						<Button
+							unstyled
 							type="button"
 							className={`${styles.row} ${styles.rowAction}`}
 							disabled={saving}
@@ -172,7 +174,7 @@ export default function GradeSubjectPage() {
 							<span className={styles.label}>
 								{saving ? "Saving…" : "New Assessment"}
 							</span>
-						</button>
+						</Button>
 					</section>
 				</div>
 			))}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Switch } from "@base-ui/react/switch";
 import styles from "../controls.module.css";
 
 type SettingToggleProps = {
@@ -16,12 +17,12 @@ export default function SettingToggle({
 	disabled = false,
 }: SettingToggleProps) {
 	return (
-		<button
-			type="button"
+		<Switch.Root
 			className={styles.settingToggle}
-			onClick={onClick}
+			checked={enabled}
+			onCheckedChange={onClick}
 			disabled={disabled}
-			aria-pressed={enabled}
+			aria-label={label}
 		>
 			<span>{label}</span>
 			<span
@@ -30,8 +31,8 @@ export default function SettingToggle({
 				}
 				aria-hidden="true"
 			>
-				<span className={styles.switchThumb} />
+				<Switch.Thumb className={styles.switchThumb} />
 			</span>
-		</button>
+		</Switch.Root>
 	);
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type { CalendarEvent } from "@/features/timetable/types";
@@ -14,7 +15,8 @@ export default function EventRow({
 }) {
 	const { openSheet } = useSheet();
 	return (
-		<button
+		<Button
+			unstyled
 			type="button"
 			className={prominent ? styles.plannerEvent : styles.eventRow}
 			onClick={() =>
@@ -31,7 +33,7 @@ export default function EventRow({
 				{event.notes ? <span>{event.notes}</span> : null}
 			</div>
 			<time>{displayDate(event)}</time>
-		</button>
+		</Button>
 	);
 }
 

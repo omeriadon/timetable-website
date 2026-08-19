@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "@/components/ui/Select";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import styles from "./ProfileFontPicker.module.css";
 
@@ -33,7 +34,7 @@ export default function ProfileFontPicker({
 		<div className={styles.picker}>
 			<label>
 				<span>Design</span>
-				<select
+				<Select
 					value={design}
 					onChange={(event) => onDesignChange(event.target.value)}
 				>
@@ -44,11 +45,11 @@ export default function ProfileFontPicker({
 								: item[0].toUpperCase() + item.slice(1)}
 						</option>
 					))}
-				</select>
+				</Select>
 			</label>
 			<label>
 				<span>Weight</span>
-				<select
+				<Select
 					value={weight}
 					onChange={(event) => onWeightChange(event.target.value)}
 				>
@@ -57,7 +58,7 @@ export default function ProfileFontPicker({
 							{item[0].toUpperCase() + item.slice(1)}
 						</option>
 					))}
-				</select>
+				</Select>
 			</label>
 		</div>
 	);

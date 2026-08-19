@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
@@ -104,11 +107,11 @@ export default function DeveloperToolsEditor() {
 					<label className={styles.label} htmlFor="release-app-icon">
 						Release App Icon
 					</label>
-					<input
+					<Checkbox
+						label="Release App Icon"
 						id="release-app-icon"
-						type="checkbox"
 						checked={usesReleaseIcon}
-						onChange={(event) => toggleReleaseIcon(event.target.checked)}
+						onCheckedChange={toggleReleaseIcon}
 					/>
 				</div>
 				<div className={styles.row}>
@@ -116,7 +119,7 @@ export default function DeveloperToolsEditor() {
 					<label className={styles.label} htmlFor="debug-offset">
 						Debug Offset
 					</label>
-					<input
+					<Input
 						id="debug-offset"
 						className={styles.inlineInput}
 						type="number"
@@ -190,14 +193,15 @@ export default function DeveloperToolsEditor() {
 				<section className={styles.card}>
 					{["morning", "period1", "recess", "lunch", "period6", "finished"].map(
 						(transition) => (
-							<button
+							<Button
+								unstyled
 								key={transition}
 								type="button"
 								className={styles.adminAction}
 								onClick={() => void runLiveActivityAction("update", transition)}
 							>
 								{transition}
-							</button>
+							</Button>
 						),
 					)}
 				</section>

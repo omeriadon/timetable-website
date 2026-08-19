@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/Input";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 type AdminVersionFieldProps = {
@@ -16,7 +17,7 @@ export default function AdminVersionField({
 	return (
 		<label className={styles.row}>
 			<span className={styles.label}>{label}</span>
-			<input
+			<Input
 				className={styles.inlineInput}
 				value={value}
 				inputMode={inputMode}

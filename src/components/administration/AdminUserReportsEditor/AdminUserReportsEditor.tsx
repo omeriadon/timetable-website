@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
@@ -81,7 +82,7 @@ export default function AdminUserReportsEditor() {
 		<main className={styles.page}>
 			<label className={styles.adminSearch}>
 				<SymbolIcon name="magnifyingglass" fallback="⌕" />
-				<input
+				<Input
 					value={query}
 					onChange={(event) => setQuery(event.target.value)}
 					placeholder="Search reports"

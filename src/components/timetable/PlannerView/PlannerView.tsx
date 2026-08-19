@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
@@ -24,7 +25,8 @@ export default function PlannerView({
 			))}
 			<h2>Term Dates</h2>
 			{schoolCalendar.termRanges.map((term) => (
-				<button
+				<Button
+					unstyled
 					key={term.label}
 					type="button"
 					className={styles.plannerEvent}
@@ -49,7 +51,7 @@ export default function PlannerView({
 					<time>
 						{term.start.day} {monthName(term.start.month)}
 					</time>
-				</button>
+				</Button>
 			))}
 		</section>
 	);

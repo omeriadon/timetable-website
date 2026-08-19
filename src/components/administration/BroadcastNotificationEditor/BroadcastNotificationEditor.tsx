@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
@@ -39,7 +42,7 @@ export default function BroadcastNotificationEditor() {
 		<section className={styles.formCard}>
 			<label>
 				Title
-				<input
+				<Input
 					value={title}
 					onChange={(event) => setTitle(event.target.value)}
 					maxLength={200}
@@ -47,7 +50,7 @@ export default function BroadcastNotificationEditor() {
 			</label>
 			<label>
 				Subtitle
-				<input
+				<Input
 					value={subtitle}
 					onChange={(event) => setSubtitle(event.target.value)}
 					maxLength={200}
@@ -55,14 +58,15 @@ export default function BroadcastNotificationEditor() {
 			</label>
 			<label>
 				Message
-				<textarea
+				<Textarea
 					value={body}
 					onChange={(event) => setBody(event.target.value)}
 					maxLength={2000}
 					rows={4}
 				/>
 			</label>
-			<button
+			<Button
+				unstyled
 				type="button"
 				className={styles.adminAction}
 				onClick={send}
@@ -70,7 +74,7 @@ export default function BroadcastNotificationEditor() {
 			>
 				<SymbolIcon name="megaphone" />
 				<span>Broadcast notification</span>
-			</button>
+			</Button>
 			{status ? (
 				<p className={styles.detail} role="status">
 					{status}

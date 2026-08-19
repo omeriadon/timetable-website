@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";
@@ -73,18 +74,20 @@ export default function FriendRequestsSheet() {
 								<strong>{friend.friend.displayName}</strong>
 								<span>{friend.friend.email}</span>
 							</div>
-							<button
+							<Button
+								unstyled
 								type="button"
 								onClick={() => void accept(friend.relationshipID)}
 							>
 								Accept
-							</button>
-							<button
+							</Button>
+							<Button
+								unstyled
 								type="button"
 								onClick={() => void remove(friend.relationshipID, true)}
 							>
 								Decline
-							</button>
+							</Button>
 						</div>
 					))
 				) : (
@@ -101,12 +104,13 @@ export default function FriendRequestsSheet() {
 								<strong>{friend.friend.displayName}</strong>
 								<span>{friend.friend.email}</span>
 							</div>
-							<button
+							<Button
+								unstyled
 								type="button"
 								onClick={() => void remove(friend.relationshipID, false)}
 							>
 								Cancel
-							</button>
+							</Button>
 						</div>
 					))
 				) : (

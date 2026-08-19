@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import AdminSpecialBadgeSheet from "@/components/administration/AdminSpecialBadgeSheet/AdminSpecialBadgeSheet";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
@@ -149,7 +150,8 @@ export default function AdminBadgesEditor() {
 					<SymbolIcon name="plus" fallback="+" />
 					Add Badge
 				</SheetActionButton>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.adminAction}
 					onClick={() => setIsReordering((value) => !value)}
@@ -157,7 +159,7 @@ export default function AdminBadgesEditor() {
 				>
 					<SymbolIcon name="line.3.horizontal" fallback="=" />
 					{isReordering ? "Done" : "Reorder"}
-				</button>
+				</Button>
 			</div>
 			{error ? (
 				<p className={styles.error} role="alert">
@@ -172,7 +174,8 @@ export default function AdminBadgesEditor() {
 				<section className={styles.card} aria-label="Badges">
 					{displayedBadges.map((badge, index) => (
 						<div className={styles.rowWithAction} key={badge.id}>
-							<button
+							<Button
+								unstyled
 								type="button"
 								className={styles.rowButton}
 								onClick={() =>
@@ -206,25 +209,27 @@ export default function AdminBadgesEditor() {
 									</span>
 									<span className={styles.chevron}>›</span>
 								</div>
-							</button>
+							</Button>
 							{isReordering ? (
 								<div className={styles.reorderButtons}>
-									<button
+									<Button
+										unstyled
 										type="button"
 										onClick={() => void moveBadge(badge.id, -1)}
 										disabled={saving || index === 0}
 										aria-label={`Move ${badge.accessibilityLabel} up`}
 									>
 										^
-									</button>
-									<button
+									</Button>
+									<Button
+										unstyled
 										type="button"
 										onClick={() => void moveBadge(badge.id, 1)}
 										disabled={saving || index === displayedBadges.length - 1}
 										aria-label={`Move ${badge.accessibilityLabel} down`}
 									>
 										v
-									</button>
+									</Button>
 								</div>
 							) : null}
 						</div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { Select } from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -35,19 +37,19 @@ export default function FeedbackEditor() {
 			<div className={styles.row}>
 				<SymbolIcon name="exclamationmark.bubble" />
 				<label htmlFor="feedback-category">Type</label>
-				<select
+				<Select
 					id="feedback-category"
 					value={category}
 					onChange={(event) => setCategory(event.target.value)}
 				>
 					<option>Feedback</option>
 					<option>Bug Report</option>
-				</select>
+				</Select>
 			</div>
 			<label className={styles.messageLabel} htmlFor="feedback-message">
 				Describe the {category.toLowerCase()}
 			</label>
-			<textarea
+			<Textarea
 				id="feedback-message"
 				value={message}
 				maxLength={4000}

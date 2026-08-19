@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -53,7 +54,8 @@ export default function AdminBroadcastHistoryEditor() {
 			<section className={styles.card}>
 				{records.length ? (
 					records.map((record) => (
-						<button
+						<Button
+							unstyled
 							key={record.id}
 							type="button"
 							className={styles.rowButton}
@@ -94,7 +96,7 @@ export default function AdminBroadcastHistoryEditor() {
 								</span>
 								<span className={styles.chevron}>›</span>
 							</div>
-						</button>
+						</Button>
 					))
 				) : (
 					<p className={styles.loading}>No broadcast notifications.</p>

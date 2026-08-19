@@ -1,5 +1,6 @@
 "use client";
 
+import { Checkbox } from "@/components/ui/Checkbox";
 import { useEffect, useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
@@ -28,11 +29,11 @@ export default function NavigationPersistenceEditor() {
 				<label className={styles.label} htmlFor="restore-navigation">
 					Restore Navigation
 				</label>
-				<input
+				<Checkbox
+					label="Restore Navigation"
 					id="restore-navigation"
-					type="checkbox"
 					checked={isEnabled}
-					onChange={(event) => update(event.target.checked)}
+					onCheckedChange={update}
 				/>
 			</div>
 			<p className={styles.detailNote}>

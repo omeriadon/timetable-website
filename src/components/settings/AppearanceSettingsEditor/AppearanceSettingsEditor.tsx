@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { apiRequest } from "@/lib/api/client";
@@ -49,7 +50,7 @@ export default function AppearanceSettingsEditor({
 					<label className={styles.label} htmlFor="app-font-design">
 						App Font
 					</label>
-					<select
+					<Select
 						id="app-font-design"
 						className={styles.inlineSelect}
 						value={draft.appFontDesign}
@@ -61,14 +62,14 @@ export default function AppearanceSettingsEditor({
 						<option value="monospaced">Monospaced</option>
 						<option value="rounded">Rounded</option>
 						<option value="expanded">Expanded</option>
-					</select>
+					</Select>
 				</div>
 				<div className={styles.row}>
 					<SymbolIcon name="paintpalette" />
 					<label className={styles.label} htmlFor="app-background">
 						Background
 					</label>
-					<select
+					<Select
 						id="app-background"
 						className={styles.inlineSelect}
 						value={draft.appBackground}
@@ -79,7 +80,7 @@ export default function AppearanceSettingsEditor({
 					>
 						<option value="solid">Solid</option>
 						<option value="paper">Paper</option>
-					</select>
+					</Select>
 				</div>
 			</section>
 			{error ? (

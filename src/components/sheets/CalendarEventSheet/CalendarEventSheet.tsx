@@ -1,5 +1,7 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
@@ -90,7 +92,7 @@ export default function CalendarEventSheet({
 			<section className={styles.formCard}>
 				<label>
 					Title
-					<input
+					<Input
 						value={title}
 						onChange={(input) => setTitle(input.target.value)}
 						maxLength={120}
@@ -98,7 +100,7 @@ export default function CalendarEventSheet({
 				</label>
 				<label>
 					Notes
-					<textarea
+					<Textarea
 						value={notes}
 						onChange={(input) => setNotes(input.target.value)}
 						rows={3}

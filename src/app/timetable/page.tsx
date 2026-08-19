@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import styles from "../page.module.css";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
@@ -34,7 +35,8 @@ export default function Timetable() {
 			{timetable ? (
 				<>
 					<div className={styles.actions}>
-						<button
+						<Button
+							unstyled
 							type="button"
 							onClick={() =>
 								openSheet(
@@ -46,7 +48,7 @@ export default function Timetable() {
 							}
 						>
 							Edit Timetable
-						</button>
+						</Button>
 					</div>
 					<WeekTimetable subjects={timetable.subjects} />
 				</>

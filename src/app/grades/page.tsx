@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
@@ -118,7 +119,8 @@ export default function GradesPage() {
 									)
 								: null;
 							return (
-								<button
+								<Button
+									unstyled
 									type="button"
 									key={subject.id}
 									className={styles.subjectRow}
@@ -153,7 +155,7 @@ export default function GradesPage() {
 											? "—"
 											: formatPercent(subjectAverage)}
 									</strong>
-								</button>
+								</Button>
 							);
 						})}
 					</section>

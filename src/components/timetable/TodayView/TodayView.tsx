@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
 	CalendarEvent,
@@ -136,7 +137,8 @@ export default function TodayView({
 						.sort((left, right) => compareDate(left.date, right.date))
 						.slice(0, 3)
 						.map((assessment) => (
-							<button
+							<Button
+								unstyled
 								key={assessment.id}
 								type="button"
 								className={styles.assessmentRow}
@@ -170,7 +172,7 @@ export default function TodayView({
 									</span>
 								</div>
 								<b>{assessment.score.toFixed(1)}%</b>
-							</button>
+							</Button>
 						))}
 				</section>
 			) : null}
@@ -178,7 +180,8 @@ export default function TodayView({
 				<h2>Classes</h2>
 				<div className={styles.subjectList}>
 					{subjects.map((subject, index) => (
-						<button
+						<Button
+							unstyled
 							key={subject.id}
 							type="button"
 							className={styles.subjectRow}
@@ -190,7 +193,7 @@ export default function TodayView({
 							<span>{index + 1}</span>
 							<strong>{subject.id}</strong>
 							<em style={{ color: colour(subject) }}>{subject.symbol}</em>
-						</button>
+						</Button>
 					))}
 				</div>
 			</section>

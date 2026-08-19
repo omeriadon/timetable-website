@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import type { AdminCalendarEntry } from "../AdminCalendarEditor/AdminCalendarEditor";
 import { apiRequest } from "@/lib/api/client";
@@ -71,14 +72,14 @@ export default function AdminCalendarEntrySheet({
 			<section className={styles.formCard}>
 				<label>
 					Label
-					<input
+					<Input
 						value={label}
 						onChange={(event) => setLabel(event.target.value)}
 					/>
 				</label>
 				<label>
 					Start date
-					<input
+					<Input
 						type="date"
 						value={startDate}
 						onChange={(event) => setStartDate(event.target.value)}
@@ -86,7 +87,7 @@ export default function AdminCalendarEntrySheet({
 				</label>
 				<label>
 					End date
-					<input
+					<Input
 						type="date"
 						value={endDate}
 						onChange={(event) => setEndDate(event.target.value)}

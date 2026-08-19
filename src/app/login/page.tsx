@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
@@ -98,7 +100,7 @@ export default function LoginPage() {
 				<form className={styles.form} onSubmit={submit}>
 					<label>
 						<span>School email</span>
-						<input
+						<Input
 							type="email"
 							value={email}
 							onChange={(event) => setEmail(event.target.value)}
@@ -109,7 +111,7 @@ export default function LoginPage() {
 					</label>
 					<label>
 						<span>Password</span>
-						<input
+						<Input
 							type="password"
 							value={password}
 							onChange={(event) => setPassword(event.target.value)}
@@ -123,7 +125,7 @@ export default function LoginPage() {
 					{mode === "verify" ? (
 						<label>
 							<span>Verification code</span>
-							<input
+							<Input
 								inputMode="numeric"
 								autoComplete="one-time-code"
 								value={code}
@@ -139,7 +141,8 @@ export default function LoginPage() {
 							{error}
 						</p>
 					) : null}
-					<button
+					<Button
+						unstyled
 						className={styles.submit}
 						type="submit"
 						disabled={isSubmitting}
@@ -151,11 +154,12 @@ export default function LoginPage() {
 								: mode === "sign-up"
 									? "Send verification code"
 									: "Create account"}
-					</button>
+					</Button>
 				</form>
 
 				{mode !== "verify" ? (
-					<button
+					<Button
+						unstyled
 						className={styles.switchMode}
 						type="button"
 						onClick={() => setMode(mode === "sign-in" ? "sign-up" : "sign-in")}
@@ -163,7 +167,7 @@ export default function LoginPage() {
 						{mode === "sign-in"
 							? "Create an account"
 							: "I already have an account"}
-					</button>
+					</Button>
 				) : null}
 			</section>
 		</main>

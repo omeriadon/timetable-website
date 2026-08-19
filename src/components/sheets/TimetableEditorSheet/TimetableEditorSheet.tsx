@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import type {
 	OwnerTimetable,
@@ -123,32 +126,33 @@ export default function TimetableEditorSheet({
 				{subjects.map((subject) => (
 					<div key={subject.id} className={styles.editorSubject}>
 						<div className={styles.editorFields}>
-							<input
+							<Input
 								value={subject.id}
 								aria-label="Subject name"
 								onChange={(event) =>
 									updateSubject(subject.id, { id: event.target.value })
 								}
 							/>
-							<input
+							<Input
 								value={subject.symbol}
 								aria-label="Subject symbol"
 								onChange={(event) =>
 									updateSubject(subject.id, { symbol: event.target.value })
 								}
 							/>
-							<button
+							<Button
+								unstyled
 								type="button"
 								onClick={() => removeSubject(subject.id)}
 								aria-label={`Remove ${subject.id}`}
 							>
 								×
-							</button>
+							</Button>
 						</div>
 						<div className={styles.editorMetadata}>
 							<label>
 								Teacher
-								<input
+								<Input
 									value={teacherValue(subject.teacher)}
 									onChange={(event) =>
 										updateSubject(subject.id, {
@@ -159,7 +163,7 @@ export default function TimetableEditorSheet({
 							</label>
 							<label>
 								Classroom
-								<input
+								<Input
 									value={classroomValue(subject.classroom)}
 									onChange={(event) =>
 										updateSubject(subject.id, {
@@ -181,7 +185,8 @@ export default function TimetableEditorSheet({
 												slot.day === dayIndex && slot.session === session.value,
 										);
 										return (
-											<button
+											<Button
+												unstyled
 												key={session.value}
 												type="button"
 												className={active ? styles.slotActive : styles.slot}
@@ -194,7 +199,7 @@ export default function TimetableEditorSheet({
 												aria-label={`${subject.id} ${day} period ${session.label}`}
 											>
 												{session.label}
-											</button>
+											</Button>
 										);
 									})}
 								</div>
@@ -202,19 +207,24 @@ export default function TimetableEditorSheet({
 						</div>
 					</div>
 				))}
-				<button type="button" className={styles.rowButton} onClick={addSubject}>
+				<Button
+					unstyled
+					type="button"
+					className={styles.rowButton}
+					onClick={addSubject}
+				>
 					<div className={styles.row}>
 						<span className={styles.symbol}>＋</span>
 						<span className={styles.label}>Add Subject</span>
 					</div>
-				</button>
+				</Button>
 			</section>
 			<section className={styles.detailCard}>
 				<label className={styles.editorCheck}>
-					<input
-						type="checkbox"
+					<Checkbox
+						label="Allow friends to compare my timetable"
 						checked={isSearchable}
-						onChange={(event) => setIsSearchable(event.target.checked)}
+						onCheckedChange={setIsSearchable}
 					/>{" "}
 					Allow friends to compare my timetable
 				</label>

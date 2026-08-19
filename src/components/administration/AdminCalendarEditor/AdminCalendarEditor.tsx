@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -43,7 +44,8 @@ export default function AdminCalendarEditor({
 			) : null}
 			<section className={styles.card}>
 				{entries?.map((entry) => (
-					<button
+					<Button
+						unstyled
 						key={entry.id}
 						type="button"
 						className={styles.rowButton}
@@ -70,9 +72,10 @@ export default function AdminCalendarEditor({
 							</span>
 							<span className={styles.chevron}>›</span>
 						</div>
-					</button>
+					</Button>
 				))}
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -91,7 +94,7 @@ export default function AdminCalendarEditor({
 						<span className={styles.symbol}>＋</span>
 						<span className={styles.label}>Add {title.replace(/s$/, "")}</span>
 					</div>
-				</button>
+				</Button>
 			</section>
 			{!entries && !error ? (
 				<p className={styles.loading}>Loading {title.toLowerCase()}…</p>

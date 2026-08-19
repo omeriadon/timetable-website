@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
@@ -82,7 +84,7 @@ export default function AccountSyncEditor({
 				<div className={styles.row}>
 					<SymbolIcon name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
-					<select
+					<Select
 						className={styles.inlineSelect}
 						value={draft.calendarEventAutoDeleteDays}
 						disabled={saving}
@@ -96,9 +98,10 @@ export default function AccountSyncEditor({
 						<option value={7}>After 1 week</option>
 						<option value={30}>After 1 month</option>
 						<option value={365}>After 1 year</option>
-					</select>
+					</Select>
 				</div>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={async () => {
@@ -110,7 +113,7 @@ export default function AccountSyncEditor({
 						<SymbolIcon name="person.2.slash" />
 						<span className={styles.label}>Sign Out</span>
 					</div>
-				</button>
+				</Button>
 			</section>
 			{error ? (
 				<p className={styles.error} role="alert">

@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -116,7 +118,8 @@ export default function SettingsPage() {
 			) : null}
 			<h2 className={styles.section}>My Timetable</h2>
 			<section className={styles.card}>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -138,7 +141,7 @@ export default function SettingsPage() {
 						</span>
 						<span className={styles.chevron}>›</span>
 					</div>
-				</button>
+				</Button>
 				<NavigationRow
 					title="Edit"
 					description="Update subjects and weekly classes."
@@ -165,7 +168,7 @@ export default function SettingsPage() {
 						<div className={styles.row}>
 							<SymbolIcon name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
-							<select
+							<Select
 								className={styles.inlineSelect}
 								value={settings.futureEventRange}
 								disabled={saving}
@@ -180,7 +183,7 @@ export default function SettingsPage() {
 								<option value="twoMonths">2 Months</option>
 								<option value="threeMonths">3 Months</option>
 								<option value="endOfYear">Until End of Year</option>
-							</select>
+							</Select>
 						</div>
 						<NavigationRow
 							title="Archived Events"
@@ -258,7 +261,8 @@ export default function SettingsPage() {
 					href="/settings/about"
 					icon="info.circle"
 				/>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() => openSheet(<VersionSheet />)}
@@ -270,7 +274,7 @@ export default function SettingsPage() {
 						<span className={styles.detail}>Web</span>
 						<span className={styles.chevron}>›</span>
 					</div>
-				</button>
+				</Button>
 			</section>
 		</main>
 	);

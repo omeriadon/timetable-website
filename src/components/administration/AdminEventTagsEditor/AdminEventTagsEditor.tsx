@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
@@ -104,7 +105,8 @@ export default function AdminEventTagsEditor() {
 				</p>
 			) : null}
 			<div className={styles.adminToolbar}>
-				<button
+				<Button
+					unstyled
 					type="button"
 					className={styles.adminAction}
 					onClick={() => setIsReordering((value) => !value)}
@@ -113,22 +115,24 @@ export default function AdminEventTagsEditor() {
 						name={isReordering ? "checkmark" : "arrow.up.arrow.down"}
 					/>
 					<span>{isReordering ? "Done" : "Reorder"}</span>
-				</button>
+				</Button>
 			</div>
 			{catalogue?.sections.map((section) => (
 				<section key={section.id}>
-					<button
+					<Button
+						unstyled
 						type="button"
 						className={styles.sectionButton}
 						onClick={() => editSection(section)}
 						aria-label={`Edit ${section.displayName} section`}
 					>
 						<h2 className={styles.section}>{section.displayName}</h2>
-					</button>
+					</Button>
 					<div className={styles.card}>
 						{section.tags.map((tag) => (
 							<div key={tag.id} className={styles.rowWithAction}>
-								<button
+								<Button
+									unstyled
 									type="button"
 									className={styles.rowButton}
 									onClick={() => edit(tag, section)}
@@ -144,28 +148,31 @@ export default function AdminEventTagsEditor() {
 										</span>
 										<span className={styles.chevron}>›</span>
 									</div>
-								</button>
+								</Button>
 								{isReordering ? (
 									<div className={styles.reorderButtons}>
-										<button
+										<Button
+											unstyled
 											type="button"
 											onClick={() => void moveTag(tag.id, -1)}
 											aria-label={`Move ${tag.displayName} up`}
 										>
 											<span aria-hidden="true">↑</span>
-										</button>
-										<button
+										</Button>
+										<Button
+											unstyled
 											type="button"
 											onClick={() => void moveTag(tag.id, 1)}
 											aria-label={`Move ${tag.displayName} down`}
 										>
 											<span aria-hidden="true">↓</span>
-										</button>
+										</Button>
 									</div>
 								) : null}
 							</div>
 						))}
-						<button
+						<Button
+							unstyled
 							type="button"
 							className={styles.rowButton}
 							onClick={() => edit(null, section)}
@@ -174,7 +181,7 @@ export default function AdminEventTagsEditor() {
 								<SymbolIcon name="plus" fallback="＋" />
 								<span className={styles.label}>Add Tag</span>
 							</div>
-						</button>
+						</Button>
 					</div>
 				</section>
 			))}
