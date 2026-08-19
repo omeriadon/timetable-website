@@ -4,23 +4,23 @@
 
 .detailSheet {
 	display: grid;
-	gap: var(--theme-content-section-gap);
+	gap: var(--ds-content-section-gap);
 }
 
 .detailHeader {
 	display: flex;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	align-items: center;
 }
 
 .detailAvatar {
 	display: grid;
-	width: var(--theme-content-avatar-size);
-	height: var(--theme-content-avatar-size);
+	width: var(--ds-avatar-size);
+	height: var(--ds-avatar-size);
 	place-items: center;
 	border-radius: 50%;
-	color: var(--theme-text);
-	background: var(--theme-surface-soft);
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface-soft);
 	font-size: 1.35rem;
 }
 
@@ -33,7 +33,7 @@
 .detailEyebrow {
 	display: block;
 	margin-bottom: 2px;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.72rem;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
@@ -46,7 +46,7 @@
 .detailHeader p,
 .detailMuted {
 	margin-top: 3px;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 }
 
 .detailTabs {
@@ -54,9 +54,9 @@
 	grid-template-columns: repeat(3, 1fr);
 	gap: 4px;
 	padding: 4px;
-	border: 1px solid var(--theme-divider);
+	border: 1px solid var(--ds-color-border);
 	border-radius: var(--ds-radius-pill);
-	background: var(--theme-surface);
+	background: var(--ds-color-surface);
 	text-align: center;
 }
 
@@ -70,7 +70,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	padding: 7px 6px;
 	border: 0;
 	border-radius: var(--ds-radius-pill);
@@ -91,8 +91,8 @@
 .detailTabActive {
 	background: linear-gradient(
 		135deg,
-		var(--theme-gold),
-		var(--theme-gold-dark)
+		var(--ds-color-gold),
+		var(--ds-color-gold-dark)
 	);
 }
 
@@ -101,7 +101,7 @@
 	width: 100%;
 	padding: 0;
 	border: 0;
-	border-radius: var(--theme-radius-control);
+	border-radius: var(--ds-radius-control);
 	color: inherit;
 	background: transparent;
 	font: inherit;
@@ -111,17 +111,16 @@
 
 .rowButton:hover,
 .rowButton:focus-visible {
-	background: var(--theme-surface-soft);
+	background: var(--ds-color-surface-soft);
 }
 
 .row {
 	display: grid;
 	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr);
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	align-items: center;
-	min-height: var(--theme-content-row-height);
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
+	min-height: var(--ds-list-row-height);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 }
 
 .row svg,
@@ -138,10 +137,10 @@
 .detailCard {
 	display: grid;
 	gap: 0;
-	padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
+	padding: var(--ds-content-grid-gap) var(--ds-sheet-card-padding);
 	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
-	border-radius: var(--theme-radius-card);
-	background: var(--theme-surface);
+	border-radius: var(--ds-radius-card);
+	background: var(--ds-color-surface);
 	box-shadow: inset 0 1px var(--ds-surface-highlight);
 }
 
@@ -149,14 +148,14 @@
 .leadTimeOptionActive {
 	display: flex;
 	width: 100%;
-	min-height: var(--theme-content-row-height);
+	min-height: var(--ds-list-row-height);
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--theme-content-row-gap);
-	padding: 0 var(--theme-content-page-padding);
+	gap: var(--ds-list-row-gap);
+	padding: 0 var(--ds-content-page-padding);
 	border: 0;
-	border-bottom: 1px solid var(--theme-divider);
-	color: var(--theme-text);
+	border-bottom: 1px solid var(--ds-color-border);
+	color: var(--ds-color-text);
 	background: transparent;
 	font: inherit;
 	text-align: left;
@@ -169,17 +168,17 @@
 }
 
 .leadTimeOptionActive {
-	color: var(--theme-accent-bright);
+	color: var(--ds-color-accent);
 }
 
 .detailRow,
 .detailSubject {
 	display: flex;
 	justify-content: space-between;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	align-items: center;
-	min-height: var(--theme-content-sheet-row-height);
-	border-bottom: 1px solid var(--theme-divider);
+	min-height: var(--ds-sheet-row-height);
+	border-bottom: 1px solid var(--ds-color-border);
 }
 
 .detailRow:last-child,
@@ -188,16 +187,16 @@
 }
 
 .detailRow strong {
-	color: var(--theme-info);
+	color: var(--ds-color-info);
 	font-weight: 650;
 }
 
 .detailRowLabel {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	min-width: 0;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 }
 
 .detailRowLabel svg,
@@ -212,15 +211,15 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--theme-content-row-gap);
-	min-height: var(--theme-content-control-height);
-	margin: var(--theme-content-section-gap) var(--theme-content-page-padding);
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
-	border: 1px solid color-mix(in srgb, var(--theme-error) 50%, transparent);
-	border-radius: var(--theme-content-control-radius);
-	color: var(--theme-error);
-	background: color-mix(in srgb, var(--theme-error) 10%, transparent);
+	gap: var(--ds-list-row-gap);
+	min-height: var(--ds-control-height);
+	margin: var(--ds-content-section-gap) var(--ds-content-page-padding);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: 1px solid
+		color-mix(in srgb, var(--ds-color-danger-text) 50%, transparent);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-danger-text);
+	background: color-mix(in srgb, var(--ds-color-danger-text) 10%, transparent);
 	font: inherit;
 	cursor: pointer;
 }
@@ -236,7 +235,7 @@
 
 .detailSubject span {
 	width: 28px;
-	color: var(--theme-accent);
+	color: var(--ds-color-accent);
 	font-size: 1.25rem;
 	text-align: center;
 }
@@ -256,56 +255,56 @@
 }
 
 .friendWeekGrid strong {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.82rem;
 }
 
 .friendWeekGrid span {
 	padding: 5px 4px;
 	border-radius: calc(var(--ds-radius-control) - 4px);
-	background: var(--theme-surface-soft);
+	background: var(--ds-color-surface-soft);
 	font-size: 0.74rem;
 }
 
 .detailSubjectSymbol {
 	display: grid;
-	width: var(--theme-content-avatar-size);
-	height: var(--theme-content-avatar-size);
+	width: var(--ds-avatar-size);
+	height: var(--ds-avatar-size);
 	place-items: center;
 	border-radius: 18px;
-	color: var(--theme-text);
-	background: var(--theme-accent);
+	color: var(--ds-color-text);
+	background: var(--ds-color-accent);
 	font-size: 1.7rem;
 }
 
 .detailSubjectSymbolIcon {
-	width: var(--theme-content-icon-size);
-	height: var(--theme-content-icon-size);
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
 	object-fit: contain;
 }
 
 .importInstructions {
 	display: grid;
-	gap: var(--theme-content-row-gap);
-	padding: var(--theme-content-card-padding);
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-content-card-padding);
 }
 
 .importInstructions p {
 	margin: 0;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.84rem;
 }
 
 .filePicker {
 	display: flex;
-	min-height: var(--theme-content-row-height);
+	min-height: var(--ds-list-row-height);
 	align-items: center;
-	gap: var(--theme-content-row-gap);
-	padding: 0 var(--theme-content-page-padding);
-	border: 1px solid var(--theme-highlight);
-	border-radius: var(--theme-content-radius);
-	color: var(--theme-text);
-	background: var(--theme-glass);
+	gap: var(--ds-list-row-gap);
+	padding: 0 var(--ds-content-page-padding);
+	border: 1px solid var(--ds-color-highlight);
+	border-radius: var(--ds-radius-content-card);
+	color: var(--ds-color-text);
+	background: var(--ds-surface-glass);
 	cursor: pointer;
 }
 
@@ -319,29 +318,28 @@
 
 .formCard {
 	display: grid;
-	gap: var(--theme-content-section-gap);
-	padding: var(--theme-content-card-padding);
-	border-radius: var(--theme-radius-card);
-	background: var(--theme-surface);
+	gap: var(--ds-content-section-gap);
+	padding: var(--ds-content-card-padding);
+	border-radius: var(--ds-radius-card);
+	background: var(--ds-color-surface);
 }
 
 .formCard label {
 	display: grid;
 	gap: 5px;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.9rem;
 }
 
 .formCard input,
 .formCard textarea {
 	width: 100%;
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
-	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-content-control-radius);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: 1px solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
 	outline: none;
-	color: var(--theme-text);
-	background: var(--theme-black);
+	color: var(--ds-color-text);
+	background: var(--ds-color-background);
 	font: inherit;
 }
 
@@ -353,63 +351,60 @@
 
 .sheetLink {
 	display: inline-flex;
-	min-height: var(--theme-content-control-height);
+	min-height: var(--ds-control-height);
 	align-items: center;
 	justify-content: center;
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
-	border: 1px solid var(--theme-highlight);
-	border-radius: var(--theme-content-control-radius);
-	color: var(--theme-text);
-	background: var(--theme-accent);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: 1px solid var(--ds-color-highlight);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-accent);
 	font-weight: 650;
 	text-decoration: none;
 }
 
 .sheetLinkList {
 	display: grid;
-	gap: var(--theme-space-2);
+	gap: var(--ds-space-2);
 }
 
 .primaryButton,
 .destructiveButton {
-	min-height: var(--theme-content-control-height);
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
+	min-height: var(--ds-control-height);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 	border: 0;
 	border-radius: 999px;
-	color: var(--theme-text);
+	color: var(--ds-color-text);
 	font: inherit;
 	font-weight: 650;
 	cursor: pointer;
 }
 
 .primaryButton {
-	background: var(--theme-accent);
+	background: var(--ds-color-accent);
 }
 
 .destructiveButton {
-	background: var(--theme-error);
+	background: var(--ds-color-danger-text);
 }
 
 .sheetInput {
 	width: 100%;
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
-	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-content-control-radius);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: 1px solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
 	outline: none;
-	color: var(--theme-text);
-	background: var(--theme-black);
+	color: var(--ds-color-text);
+	background: var(--ds-color-background);
 	font: inherit;
 }
 
 .searchResult {
 	display: flex;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	align-items: center;
-	min-height: var(--theme-content-row-height);
-	border-bottom: 1px solid var(--theme-divider);
+	min-height: var(--ds-list-row-height);
+	border-bottom: 1px solid var(--ds-color-border);
 }
 
 .searchResult:last-child {
@@ -423,72 +418,71 @@
 }
 
 .searchResult span {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.82rem;
 }
 
 .searchResult button {
-	min-height: var(--theme-content-control-height);
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
+	min-height: var(--ds-control-height);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 	border: 0;
 	border-radius: 999px;
-	color: var(--theme-text);
-	background: var(--theme-accent);
+	color: var(--ds-color-text);
+	background: var(--ds-color-accent);
 	font: inherit;
 	cursor: pointer;
 }
 
 .editorSubject {
 	display: grid;
-	gap: var(--theme-space-3);
-	padding: var(--theme-space-3) 0;
-	border-bottom: 1px solid var(--theme-divider);
+	gap: var(--ds-space-3);
+	padding: var(--ds-space-3) 0;
+	border-bottom: 1px solid var(--ds-color-border);
 }
 
 .editorFields {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 72px 30px;
-	gap: var(--theme-space-2);
+	gap: var(--ds-space-2);
 }
 
 .editorFields input {
 	min-width: 0;
 	padding: 6px 8px;
-	border: 1px solid var(--theme-divider);
+	border: 1px solid var(--ds-color-border);
 	border-radius: 8px;
-	color: var(--theme-text);
-	background: var(--theme-black);
+	color: var(--ds-color-text);
+	background: var(--ds-color-background);
 	font: inherit;
 }
 
 .editorMetadata {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 }
 
 .editorMetadata label {
 	display: grid;
 	gap: 3px;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.72rem;
 }
 
 .editorMetadata input {
 	min-width: 0;
 	padding: 6px 8px;
-	border: 1px solid var(--theme-divider);
+	border: 1px solid var(--ds-color-border);
 	border-radius: 8px;
-	color: var(--theme-text);
-	background: var(--theme-black);
+	color: var(--ds-color-text);
+	background: var(--ds-color-background);
 	font: inherit;
 }
 
 .editorFields button {
 	border: 0;
 	border-radius: 8px;
-	color: var(--theme-error);
+	color: var(--ds-color-danger-text);
 	background: transparent;
 	font-size: 1.2rem;
 	cursor: pointer;
@@ -508,31 +502,31 @@
 }
 
 .slotGrid strong {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: 0.72rem;
 }
 
 .slot,
 .slotActive {
 	padding: 3px;
-	border: 1px solid var(--theme-divider);
+	border: 1px solid var(--ds-color-border);
 	border-radius: 6px;
-	color: var(--theme-text-secondary);
-	background: var(--theme-black);
+	color: var(--ds-color-text-secondary);
+	background: var(--ds-color-background);
 	font: inherit;
 	font-size: 0.68rem;
 	cursor: pointer;
 }
 
 .slotActive {
-	color: var(--theme-text);
-	background: var(--theme-accent);
+	color: var(--ds-color-text);
+	background: var(--ds-color-accent);
 }
 
 .editorCheck {
 	display: flex;
-	gap: var(--theme-space-2);
+	gap: var(--ds-space-2);
 	align-items: center;
-	padding: var(--theme-space-3);
+	padding: var(--ds-space-3);
 	font-size: 0.86rem;
 }

@@ -27,7 +27,7 @@
 
 .something {
 	padding: var(--ds-space-4);
-	background: var(--theme-glass);
+	background: var(--ds-surface-glass);
 	align-items: center;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .search input::placeholder {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 }
 
 .search,
@@ -120,7 +120,7 @@
 
 .addButton:focus-visible,
 .search:focus-within {
-	outline: 1px solid var(--theme-text);
+	outline: 1px solid var(--ds-color-text);
 	outline-offset: 2px;
 }
 

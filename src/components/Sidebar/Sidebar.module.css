@@ -1,5 +1,5 @@
 .sidebar {
-	width: var(--theme-sidebar-width);
+	width: var(--ds-sidebar-width);
 	flex-shrink: 0;
 
 	height: calc(100svh - 2rem);
@@ -9,11 +9,11 @@
 	overflow: hidden;
 	background: linear-gradient(
 		to right,
-		var(--theme-sidebar-start) 0%,
-		var(--theme-sidebar-mid) 68%,
-		var(--theme-sidebar-end) 100%
+		var(--ds-sidebar-start) 0%,
+		var(--ds-sidebar-mid) 68%,
+		var(--ds-sidebar-end) 100%
 	);
-	padding: var(--theme-space-5) var(--theme-sidebar-padding-inline);
+	padding: var(--ds-space-5) var(--ds-sidebar-padding-inline);
 	margin: var(--ds-toolbar-inset) 1px var(--ds-toolbar-inset)
 		var(--ds-toolbar-inset);
 
@@ -37,7 +37,7 @@
 	background: linear-gradient(
 		to right,
 		transparent 0%,
-		color-mix(in srgb, var(--theme-highlight) 13%, transparent) 100%
+		color-mix(in srgb, var(--ds-color-highlight) 13%, transparent) 100%
 	);
 	-webkit-backdrop-filter: blur(var(--ds-glass-sidebar-blur)) saturate(1.9);
 	backdrop-filter: blur(var(--ds-glass-sidebar-blur)) saturate(1.9);
@@ -101,7 +101,7 @@
 	display: grid;
 	gap: var(--ds-space-2);
 	padding: var(--ds-space-3) 0;
-	border-bottom: var(--ds-divider-width) solid var(--theme-divider);
+	border-bottom: var(--ds-divider-width) solid var(--ds-color-border);
 }
 
 .sidebarHeader {
@@ -120,13 +120,13 @@
 }
 
 .sidebarHeader strong {
-	color: var(--theme-text);
+	color: var(--ds-color-text);
 	font-size: 1rem;
 	font-weight: 700;
 }
 
 .sidebarHeader span {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
 }
 
@@ -134,11 +134,11 @@
 	display: grid;
 	gap: var(--ds-space-2);
 	margin-top: auto;
-	padding-top: var(--theme-section-gap);
+	padding-top: var(--ds-section-gap);
 }
 
 .sidebarLink {
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 	text-decoration: none;
 	padding: var(--ds-sidebar-item-padding-block)
 		var(--ds-sidebar-item-padding-inline);
@@ -167,17 +167,17 @@
 }
 
 .sidebarLink:hover {
-	background: var(--theme-glass);
-	color: var(--theme-text);
+	background: var(--ds-surface-glass);
+	color: var(--ds-color-text);
 }
 
 .sidebarLink.active {
-	color: var(--theme-text);
-	background: color-mix(in srgb, var(--theme-accent) 16%, transparent);
+	color: var(--ds-color-text);
+	background: color-mix(in srgb, var(--ds-color-accent) 16%, transparent);
 }
 
 .sidebarLink:focus-visible {
-	outline: 2px solid var(--theme-text);
+	outline: 2px solid var(--ds-color-text);
 	outline-offset: 2px;
 }
 
@@ -189,8 +189,8 @@
 	place-items: center;
 	padding: 0 5px;
 	border-radius: 999px;
-	color: var(--theme-text);
-	background: var(--theme-accent);
+	color: var(--ds-color-text);
+	background: var(--ds-color-accent);
 	font-size: var(--ds-font-small);
 	font-weight: 700;
 	line-height: 1;

@@ -7,6 +7,7 @@ import EventRow from "@/components/timetable/EventRow/EventRow";
 import TermDateSheet from "@/components/sheets/TermDateSheet/TermDateSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { SectionCard } from "@/components/ui/SectionCard";
 import styles from "@/app/page.module.css";
 
 export default function PlannerView({
@@ -28,33 +29,25 @@ export default function PlannerView({
 	return (
 		<section className={styles.planner}>
 			{todayEvents.length ? (
-				<section className={styles.plannerSection}>
-					<div className={styles.sectionHeader}>
-						<div className={styles.sectionHeading}>
-							<Symbol
-								name="calendar.day.timeline.left"
-								className={styles.sectionHeadingIcon}
-							/>
-							<h1>Today</h1>
-						</div>
-						<span>{todayEvents.length} events</span>
-					</div>
+				<SectionCard
+					background="paper"
+					title="Today"
+					symbolName="calendar.day.timeline.left"
+					accessory={`${todayEvents.length} events`}
+					headingLevel="h1"
+				>
 					{todayEvents.map((event) => (
 						<EventRow key={event.id} event={event} prominent showDate={false} />
 					))}
-				</section>
+				</SectionCard>
 			) : null}
-			<section className={styles.plannerSection}>
-				<div className={styles.sectionHeader}>
-					<div className={styles.sectionHeading}>
-						<Symbol
-							name="calendar.badge.clock"
-							className={styles.sectionHeadingIcon}
-						/>
-						<h1>Upcoming</h1>
-					</div>
-					<span>{upcomingEvents.length} events</span>
-				</div>
+			<SectionCard
+				background="paper"
+				title="Upcoming"
+				symbolName="calendar.badge.clock"
+				accessory={`${upcomingEvents.length} events`}
+				headingLevel="h1"
+			>
 				{upcomingEvents.length ? (
 					upcomingEvents.map((event) => (
 						<EventRow key={event.id} event={event} prominent />
@@ -62,15 +55,13 @@ export default function PlannerView({
 				) : (
 					<p className={styles.empty}>No upcoming events.</p>
 				)}
-			</section>
-			<section className={styles.plannerSection}>
-				<div className={styles.sectionHeader}>
-					<div className={styles.sectionHeading}>
-						<Symbol name="calendar" className={styles.sectionHeadingIcon} />
-						<h2>Term Dates</h2>
-					</div>
-					<span>{schoolCalendar.termRanges.length} terms</span>
-				</div>
+			</SectionCard>
+			<SectionCard
+				background="paper"
+				title="Term Dates"
+				symbolName="calendar"
+				accessory={`${schoolCalendar.termRanges.length} terms`}
+			>
 				{schoolCalendar.termRanges.map((term) => (
 					<Button
 						unstyled
@@ -101,7 +92,7 @@ export default function PlannerView({
 						<Symbol name="chevron.right" className={styles.rowDisclosureIcon} />
 					</Button>
 				))}
-			</section>
+			</SectionCard>
 		</section>
 	);
 }

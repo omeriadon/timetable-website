@@ -81,11 +81,11 @@ function fontFamily(design?: string) {
 		case "serif":
 			return "Georgia, serif";
 		case "monospaced":
-			return "var(--theme-font-mono)";
+			return "var(--ds-font-mono)";
 		case "rounded":
-			return "var(--theme-font-rounded)";
+			return "var(--ds-font-rounded)";
 		default:
-			return "var(--theme-font-body)";
+			return "var(--ds-font-body)";
 	}
 }
 

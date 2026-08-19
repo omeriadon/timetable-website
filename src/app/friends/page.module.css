@@ -2,8 +2,7 @@
 	min-height: 100%;
 	width: 100%;
 	margin: 0;
-	padding: var(--theme-content-page-padding-block)
-		var(--theme-content-page-padding);
+	padding: var(--ds-content-page-padding) var(--ds-content-page-padding);
 }
 @media (min-width: 701px) {
 	.page {
@@ -12,9 +11,9 @@
 	}
 }
 .page h1 {
-	margin: 0 0 var(--theme-content-section-gap);
-	color: var(--theme-accent);
-	font-size: var(--theme-content-heading-size);
+	margin: 0 0 var(--ds-content-section-gap);
+	color: var(--ds-color-accent);
+	font-size: var(--ds-font-heading-size);
 	letter-spacing: -0.05em;
 	text-align: center;
 }
@@ -29,8 +28,8 @@
 .friendActions {
 	display: flex;
 	justify-content: flex-end;
-	gap: var(--theme-space-2);
-	margin-bottom: var(--theme-content-section-gap);
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
 }
 .friendActionIcon {
 	width: var(--ds-control-icon-size-small);
@@ -39,18 +38,17 @@
 }
 .selfCard {
 	display: flex;
-	gap: var(--theme-content-row-gap);
+	gap: var(--ds-list-row-gap);
 	align-items: center;
-	margin-bottom: var(--theme-content-section-gap);
-	padding: var(--theme-content-card-padding-block)
-		var(--theme-content-card-padding-inline);
-	border: 1px solid var(--theme-highlight);
-	border-radius: var(--theme-content-radius);
-	color: var(--theme-black);
+	margin-bottom: var(--ds-content-section-gap);
+	padding: var(--ds-content-card-padding) var(--ds-content-card-padding);
+	border: 1px solid var(--ds-color-highlight);
+	border-radius: var(--ds-radius-content-card);
+	color: var(--ds-color-background);
 	background: linear-gradient(
 		135deg,
-		var(--theme-paper),
-		var(--theme-paper-dark)
+		var(--ds-color-paper),
+		var(--ds-color-paper-dark)
 	);
 }
 .selfCard div {
@@ -64,7 +62,7 @@
 .selfCard span,
 .selfCard em {
 	font-style: normal;
-	color: var(--theme-text-secondary);
+	color: var(--ds-color-text-secondary);
 }
 .friendButton {
 	width: 100%;
@@ -82,15 +80,15 @@
 .friendButton:focus-visible {
 	position: relative;
 	z-index: 1;
-	outline: var(--ds-control-focus-width) solid var(--ds-color-ring);
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
 	outline-offset: calc(-1 * var(--ds-control-focus-offset));
 }
 .friend {
 	display: grid;
-	grid-template-columns: var(--theme-content-avatar-size) 1fr auto;
-	gap: var(--theme-content-row-gap);
+	grid-template-columns: var(--ds-avatar-size) 1fr auto;
+	gap: var(--ds-list-row-gap);
 	align-items: center;
-	min-height: var(--theme-content-friend-row-min-height);
+	min-height: var(--ds-friend-row-min-height);
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
 	border: 0;
 	border-radius: 0;
@@ -99,14 +97,14 @@
 }
 .avatar {
 	display: grid;
-	width: var(--theme-content-avatar-size);
-	height: var(--theme-content-avatar-size);
+	width: var(--ds-avatar-size);
+	height: var(--ds-avatar-size);
 	place-items: center;
 	border-radius: 50%;
 	background: radial-gradient(
 		circle at 30% 20%,
-		var(--theme-gold),
-		var(--theme-surface-elevated)
+		var(--ds-color-gold),
+		var(--ds-color-surface-elevated)
 	);
 	font-size: 1.1rem;
 }
@@ -120,37 +118,36 @@
 }
 .friend p {
 	margin-top: 2px;
-	font-size: var(--ui-content-font-size);
+	font-size: var(--ds-font-content);
 }
 .friend span {
 	display: block;
 	margin-top: 3px;
-	color: var(--theme-text-tertiary);
+	color: var(--ds-color-text-secondary);
 }
 .status {
 	align-self: start;
-	padding: var(--theme-content-control-padding-block)
-		var(--theme-content-control-padding-inline);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 	border-radius: var(--ds-radius-pill);
-	color: var(--theme-text);
-	background: var(--theme-info);
+	color: var(--ds-color-text);
+	background: var(--ds-color-info);
 }
 .error {
-	color: var(--theme-error);
+	color: var(--ds-color-danger-text);
 }
 @media (max-width: 700px) {
 	.page {
-		padding: var(--theme-content-page-padding) var(--theme-content-page-padding)
-			var(--theme-content-mobile-bottom-inset);
+		padding: var(--ds-content-page-padding) var(--ds-content-page-padding)
+			var(--ds-mobile-bottom-inset);
 	}
 	.friend {
-		grid-template-columns: var(--theme-content-avatar-size-small) 1fr;
+		grid-template-columns: var(--ds-avatar-size-small) 1fr;
 		min-height: 0;
-		border-radius: var(--theme-content-radius);
+		border-radius: var(--ds-radius-content-card);
 	}
 	.avatar {
-		width: var(--theme-content-avatar-size-small);
-		height: var(--theme-content-avatar-size-small);
+		width: var(--ds-avatar-size-small);
+		height: var(--ds-avatar-size-small);
 	}
 	.status {
 		grid-column: 2;

@@ -53,7 +53,7 @@ export default function ClassesPage() {
 									<small
 										style={{
 											display: "block",
-											color: "var(--theme-text-secondary)",
+											color: "var(--ds-color-text-secondary)",
 											marginTop: 4,
 										}}
 									>

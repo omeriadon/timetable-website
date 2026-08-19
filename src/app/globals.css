@@ -7,366 +7,9 @@
 
 :root {
 	color-scheme: dark;
-
-	--theme-font-body: "SF Pro Display", "SF Pro", sans-serif;
-	--theme-font-heading: "SF Pro Display", "SF Pro", sans-serif;
-	--theme-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
-	--theme-font-mono: "SF Mono", monospace;
-	font-family: var(--theme-font-body);
-	background: var(--background);
-	color: var(--foreground);
-	--background: #000000;
-	--foreground: #ffffff;
-	--card: #151515;
-	--card-foreground: #ffffff;
-	--popover: #252525;
-	--popover-foreground: #ffffff;
-	--primary: #bd3547;
-	--primary-foreground: #ffffff;
-	--secondary: #292929;
-	--secondary-foreground: #ffffff;
-	--muted: #9999a2;
-	--muted-foreground: #77777f;
-	--accent: #bd3547;
-	--accent-foreground: #ffffff;
-	--destructive: #ff453a;
-	--border: rgba(255, 255, 255, 0.14);
-	--input: rgba(255, 255, 255, 0.16);
-	--ring: #bd3547;
-	--chart-1: oklch(0.855 0.138 181.071);
-	--chart-2: oklch(0.704 0.14 182.503);
-	--chart-3: oklch(0.6 0.118 184.704);
-	--chart-4: oklch(0.511 0.096 186.391);
-	--chart-5: oklch(0.437 0.078 188.216);
-	--radius: 0.625rem;
-	--sidebar: #151515;
-	--sidebar-foreground: #ffffff;
-	--sidebar-primary: #bd3547;
-	--sidebar-primary-foreground: #ffffff;
-	--sidebar-accent: #292929;
-	--sidebar-accent-foreground: #ffffff;
-	--sidebar-border: rgba(255, 255, 255, 0.14);
-	--sidebar-ring: #bd3547;
-	--theme-black: var(--background);
-	--theme-surface: var(--card);
-	--theme-surface-elevated: var(--popover);
-	--theme-surface-soft: var(--secondary);
-	--theme-text: var(--foreground);
-	--theme-text-secondary: var(--muted-foreground);
-	--theme-text-tertiary: var(--muted-foreground);
-	--theme-accent: var(--primary);
-	--theme-accent-bright: var(--primary);
-	--theme-paper: #e7e5e5;
-	--theme-paper-dark: #c6c6ca;
-	--theme-paper-warm: #f6c88f;
-	--theme-paper-gold: #dca56b;
-	--theme-paper-edge: #ffd8ab;
-	--theme-paper-highlight: #fff1d3;
-	--theme-gold: #c28a57;
-	--theme-gold-dark: #8f592d;
-	--theme-error: #ff8879;
-	--theme-info: #149cf3;
-	--theme-success: #27d65b;
-	--theme-warning: #ffcc00;
-	--theme-divider: var(--border);
-	--theme-glass: color-mix(
-		in srgb,
-		var(--theme-surface-elevated) 72%,
-		transparent
-	);
-	--theme-glass-strong: color-mix(
-		in srgb,
-		var(--theme-surface-elevated) 88%,
-		transparent
-	);
-	--theme-scrim: color-mix(in srgb, var(--theme-black) 54%, transparent);
-	--theme-sheet-scrim: color-mix(in srgb, var(--theme-black) 58%, transparent);
-	--theme-sheet-surface: color-mix(
-		in srgb,
-		var(--theme-surface-elevated) 88%,
-		transparent
-	);
-	--theme-sheet-scrim-blur: 16px;
-	--theme-sheet-blur: 34px;
-	--theme-highlight: rgba(255, 255, 255, 0.14);
-	--theme-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
-	/* Universal design controls. Keep these together so the compact SwiftUI
-	   geometry can be tuned without hunting through individual surfaces. */
-	--theme-radius-card: 18px;
-	--theme-radius-control: 12px;
-	--theme-content-gap: 8px;
-	--theme-space-1: 4px;
-	--theme-space-2: 8px;
-	--theme-space-3: 8px;
-	--theme-space-4: 10px;
-	--theme-space-5: 12px;
-	--theme-space-6: 16px;
-	--theme-row-height: 44px;
-	--theme-control-height: 34px;
-	--theme-card-padding: 10px;
-	--theme-list-padding-inline: 12px;
-	--theme-list-row-padding-block: 4px;
-	--theme-list-row-gap: 10px;
-	--theme-control-padding-inline: 10px;
-	--theme-control-padding-block: 6px;
-	--theme-sheet-padding-top: 34px;
-	--theme-sheet-padding-inline: 10px;
-	--theme-sheet-padding-bottom: 10px;
-	--theme-section-gap: 12px;
-	--theme-page-padding: var(--ui-page-padding);
-	--theme-sidebar-width: 272px;
-	--theme-sidebar-frame: calc(var(--theme-sidebar-width) + 17px);
-	--theme-sidebar-padding-inline: 14px;
-	--theme-tab-bar-padding: 5px;
-	--theme-sidebar-start: rgba(15, 15, 15, 0.94);
-	--theme-sidebar-mid: rgba(15, 15, 15, 0.88);
-	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
-	/* Universal content controls. Sidebar and toolbar deliberately do not use these. */
-	--ui-page-padding: 6px;
-	--ui-section-gap: 6px;
-	--ui-space-1: 4px;
-	--ui-space-2: 6px;
-	--ui-space-3: 6px;
-	--ui-space-4: 8px;
-	--ui-card-padding: 7px;
-	--ui-row-height: 36px;
-	--ui-row-gap: 6px;
-	--ui-grid-gap: 4px;
-	--ui-radius-card: 12px;
-	--ui-radius-control: 9px;
-	--ui-control-height: 30px;
-	--ui-control-padding-inline: 8px;
-	--ui-control-padding-block: 5px;
-	--ui-icon-size: 20px;
-	--ui-title-size: 1.4rem;
-	--ui-subtitle-size: 0.76rem;
-	--ui-heading-gap: 4px;
-	--ui-avatar-size: 38px;
-	--ui-avatar-size-small: 32px;
-	--ui-friend-row-min-height: 46px;
-	--ui-event-min-height: 40px;
-	--ui-timeline-label-width: 44px;
-	--ui-timeline-line-width: 6px;
-	--ui-week-label-width: 20px;
-	--ui-week-column-min: 68px;
-	--ui-week-min-width: 380px;
-	--ui-week-row-min-height: 42px;
-	--ui-mobile-bottom-inset: 96px;
-	--ui-sheet-row-height: 36px;
-	--ui-sheet-card-padding: 7px;
-	--ui-border-radius-pill: 999px;
-	--ui-content-font-size: 0.9rem;
-	--ui-small-font-size: 0.76rem;
-	--ui-body-font-size: 0.88rem;
-	--ui-label-font-size: 0.82rem;
-	--ui-heading-font-size: 1.2rem;
-	--ui-display-font-size: 1.45rem;
-	--ui-line-height-tight: 1.15;
-	--ui-line-height-body: 1.28;
-	--ui-surface: var(--card);
-	--ui-surface-elevated: var(--popover);
-	--ui-surface-soft: var(--secondary);
-	--ui-divider: var(--border);
-	--ui-text: var(--foreground);
-	--ui-text-secondary: var(--muted-foreground);
-	--ui-accent: var(--primary);
-	--ui-touch-target: 30px;
-	--ui-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-	--ui-list-padding-inline: 7px;
-	--ui-list-row-padding-block: 2px;
-	--ui-list-row-gap: 6px;
-	--theme-content-page-padding: var(--ui-page-padding);
-	--theme-content-page-padding-inline: var(--ui-page-padding);
-	--theme-content-page-padding-block: var(--ui-page-padding);
-	--theme-content-section-gap: var(--ui-section-gap);
-	--theme-content-card-padding: var(--ui-card-padding);
-	--theme-content-card-padding-inline: var(--ui-card-padding);
-	--theme-content-card-padding-block: var(--ui-card-padding);
-	--theme-content-row-height: var(--ui-row-height);
-	--theme-content-row-gap: var(--ui-row-gap);
-	--theme-content-grid-gap: var(--ui-grid-gap);
-	--theme-content-radius: var(--ui-radius-card);
-	--theme-content-control-height: var(--ui-control-height);
-	--theme-content-control-radius: var(--ui-radius-control);
-	--theme-content-control-padding-inline: var(--ui-control-padding-inline);
-	--theme-content-control-padding-block: var(--ui-control-padding-block);
-	--theme-content-icon-size: var(--ui-icon-size);
-	--theme-content-title-size: var(--ui-title-size);
-	--theme-content-heading-size: var(--ui-title-size);
-	--theme-content-subtitle-size: var(--ui-subtitle-size);
-	--theme-content-heading-gap: var(--ui-heading-gap);
-	--theme-content-card-gap: var(--ui-grid-gap);
-	--theme-content-inline-gap: var(--ui-row-gap);
-	--theme-content-avatar-size: var(--ui-avatar-size);
-	--theme-content-avatar-size-small: var(--ui-avatar-size-small);
-	--theme-content-friend-row-min-height: var(--ui-friend-row-min-height);
-	--theme-content-event-min-height: var(--ui-event-min-height);
-	--theme-content-timeline-label-width: var(--ui-timeline-label-width);
-	--theme-content-timeline-line-width: var(--ui-timeline-line-width);
-	--theme-content-week-label-width: var(--ui-week-label-width);
-	--theme-content-week-column-min: var(--ui-week-column-min);
-	--theme-content-week-min-width: var(--ui-week-min-width);
-	--theme-content-week-row-min-height: var(--ui-week-row-min-height);
-	--theme-content-mobile-bottom-inset: var(--ui-mobile-bottom-inset);
-	--theme-content-border-radius-pill: var(--ui-border-radius-pill);
-	--theme-content-sheet-row-height: var(--ui-sheet-row-height);
-	--theme-content-sheet-card-padding: var(--ui-sheet-card-padding);
-	--theme-auth-page-padding: 16px;
-	--theme-auth-card-padding: 24px;
-	--theme-auth-control-height: 40px;
-	--theme-auth-gap: 12px;
-	--theme-sheet-max-height: 92svh;
-
-	/* Compatibility aliases. Edit design-tokens.css instead of these names. */
-	--background: var(--ds-color-background);
-	--foreground: var(--ds-color-foreground);
-	--card: var(--ds-color-surface);
-	--card-foreground: var(--ds-color-foreground);
-	--popover: var(--ds-color-surface-elevated);
-	--popover-foreground: var(--ds-color-foreground);
-	--primary: var(--ds-color-primary);
-	--primary-foreground: var(--ds-color-primary-foreground);
-	--secondary: var(--ds-color-surface-soft);
-	--secondary-foreground: var(--ds-color-foreground);
-	--muted: var(--ds-color-muted);
-	--muted-foreground: var(--ds-color-muted-foreground);
-	--accent: var(--ds-color-primary);
-	--accent-foreground: var(--ds-color-primary-foreground);
-	--destructive: var(--ds-color-destructive);
-	--border: var(--ds-color-border);
-	--input: var(--ds-color-input);
-	--ring: var(--ds-color-ring);
-	--sidebar: var(--ds-color-surface);
-	--sidebar-foreground: var(--ds-color-foreground);
-	--sidebar-primary: var(--ds-color-primary);
-	--sidebar-primary-foreground: var(--ds-color-primary-foreground);
-	--sidebar-accent: var(--ds-color-surface-soft);
-	--sidebar-accent-foreground: var(--ds-color-sidebar-accent-foreground);
-	--sidebar-border: var(--ds-color-border);
-	--sidebar-ring: var(--ds-color-ring);
-	--radius: var(--ds-radius-shadcn);
-	--theme-font-body: var(--ds-font-body);
-	--theme-font-heading: var(--ds-font-heading);
-	--theme-font-rounded: var(--ds-font-rounded);
-	--theme-font-mono: var(--ds-font-mono);
-	--theme-black: var(--ds-color-background);
-	--theme-surface: var(--ds-color-surface);
-	--theme-surface-elevated: var(--ds-color-surface-elevated);
-	--theme-surface-soft: var(--ds-color-surface-soft);
-	--theme-text: var(--ds-color-foreground);
-	--theme-text-secondary: var(--ds-color-muted-foreground);
-	--theme-text-tertiary: var(--ds-color-muted-foreground);
-	--theme-accent: var(--ds-color-primary);
-	--theme-accent-bright: var(--ds-color-primary);
-	--theme-paper: var(--ds-color-paper);
-	--theme-paper-dark: var(--ds-color-paper-dark);
-	--theme-paper-warm: var(--ds-color-paper-warm);
-	--theme-paper-gold: var(--ds-color-paper-gold);
-	--theme-paper-edge: var(--ds-color-paper-edge);
-	--theme-paper-highlight: var(--ds-color-paper-highlight);
-	--theme-gold: var(--ds-color-gold);
-	--theme-gold-dark: var(--ds-color-gold-dark);
-	--theme-error: var(--ds-color-error);
-	--theme-info: var(--ds-color-info);
-	--theme-success: var(--ds-color-success);
-	--theme-warning: var(--ds-color-warning);
-	--theme-divider: var(--ds-surface-border);
-	--theme-glass: var(--ds-surface-glass);
-	--theme-glass-strong: var(--ds-surface-glass-strong);
-	--theme-scrim: var(--ds-surface-scrim);
-	--theme-sheet-scrim: var(--ds-surface-sheet-scrim);
-	--theme-sheet-surface: var(--ds-surface-sheet);
-	--theme-sheet-scrim-blur: var(--ds-sheet-scrim-blur);
-	--theme-sheet-blur: var(--ds-sheet-blur);
-	--theme-highlight: var(--ds-surface-highlight);
-	--theme-shadow: var(--ds-surface-shadow);
-	--theme-radius-card: var(--ds-radius-card);
-	--theme-radius-control: var(--ds-radius-control);
-	--theme-content-gap: var(--ds-space-3);
-	--theme-space-1: var(--ds-space-1);
-	--theme-space-2: var(--ds-space-2);
-	--theme-space-3: var(--ds-space-3);
-	--theme-space-4: var(--ds-space-4);
-	--theme-space-5: var(--ds-space-5);
-	--theme-space-6: var(--ds-space-6);
-	--theme-row-height: var(--ds-row-height);
-	--theme-control-height: var(--ds-control-height);
-	--theme-card-padding: var(--ds-card-padding);
-	--theme-list-padding-inline: var(--ds-list-padding-inline);
-	--theme-list-row-padding-block: var(--ds-list-row-padding-block);
-	--theme-list-row-gap: var(--ds-list-row-gap);
-	--theme-control-padding-inline: var(--ds-control-padding-inline);
-	--theme-control-padding-block: var(--ds-control-padding-block);
-	--theme-sheet-padding-top: var(--ds-sheet-padding-top);
-	--theme-sheet-padding-inline: var(--ds-sheet-padding-inline);
-	--theme-sheet-padding-bottom: var(--ds-sheet-padding-bottom);
-	--theme-section-gap: var(--ds-section-gap);
-	--theme-sidebar-start: var(--ds-sidebar-start);
-	--theme-sidebar-mid: var(--ds-sidebar-mid);
-	--theme-sidebar-end: var(--ds-sidebar-end);
-	--theme-auth-page-padding: var(--ds-auth-page-padding);
-	--theme-auth-card-padding: var(--ds-auth-card-padding);
-	--theme-auth-control-height: var(--ds-auth-control-height);
-	--theme-auth-gap: var(--ds-auth-gap);
-	--theme-page-padding: var(--ui-page-padding);
-	--theme-sidebar-width: var(--ds-sidebar-width);
-	--theme-sidebar-frame: var(--ds-sidebar-frame);
-	--theme-sidebar-padding-inline: var(--ds-sidebar-padding-inline);
-	--theme-tab-bar-padding: var(--ds-tab-bar-padding);
-	--ui-page-padding: var(--ds-content-page-padding);
-	--ui-section-gap: var(--ds-content-section-gap);
-	--ui-space-1: var(--ds-space-1);
-	--ui-space-2: var(--ds-space-2);
-	--ui-space-3: var(--ds-space-3);
-	--ui-space-4: var(--ds-space-4);
-	--ui-card-padding: var(--ds-content-card-padding);
-	--ui-row-height: var(--ds-list-row-height);
-	--ui-row-gap: var(--ds-list-row-gap);
-	--ui-grid-gap: var(--ds-content-grid-gap);
-	--ui-radius-card: var(--ds-radius-content-card);
-	--ui-radius-control: var(--ds-radius-control);
-	--ui-control-height: var(--ds-control-height);
-	--ui-control-padding-inline: var(--ds-control-padding-inline);
-	--ui-control-padding-block: var(--ds-control-padding-block);
-	--ui-icon-size: var(--ds-control-icon-size-small);
-	--ui-title-size: var(--ds-font-display);
-	--ui-subtitle-size: var(--ds-font-small);
-	--ui-heading-gap: var(--ds-list-section-header-gap);
-	--ui-avatar-size: var(--ds-avatar-size);
-	--ui-avatar-size-small: var(--ds-avatar-size-small);
-	--ui-friend-row-min-height: var(--ds-friend-row-min-height);
-	--ui-event-min-height: var(--ds-event-min-height);
-	--ui-timeline-label-width: var(--ds-timeline-label-width);
-	--ui-timeline-line-width: var(--ds-timeline-line-width);
-	--ui-week-label-width: var(--ds-week-label-width);
-	--ui-week-column-min: var(--ds-week-column-min);
-	--ui-week-min-width: var(--ds-week-min-width);
-	--ui-week-row-min-height: var(--ds-week-row-min-height);
-	--ui-mobile-bottom-inset: var(--ds-mobile-bottom-inset);
-	--ui-sheet-row-height: var(--ds-sheet-row-height);
-	--ui-sheet-card-padding: var(--ds-sheet-card-padding);
-	--ui-border-radius-pill: var(--ds-radius-pill);
-	--ui-content-font-size: var(--ds-font-content);
-	--ui-small-font-size: var(--ds-font-small);
-	--ui-body-font-size: var(--ds-font-body-size);
-	--ui-label-font-size: var(--ds-font-label);
-	--ui-heading-font-size: var(--ds-font-heading-size);
-	--ui-display-font-size: var(--ds-font-display);
-	--ui-line-height-tight: var(--ds-line-height-tight);
-	--ui-line-height-body: var(--ds-line-height-body);
-	--ui-surface: var(--ds-list-background);
-	--ui-surface-elevated: var(--ds-list-background-elevated);
-	--ui-surface-soft: var(--ds-color-surface-soft);
-	--ui-divider: var(--ds-list-divider);
-	--ui-text: var(--ds-color-foreground);
-	--ui-text-secondary: var(--ds-color-muted-foreground);
-	--ui-accent: var(--ds-color-primary);
-	--ui-touch-target: var(--ds-control-touch-target);
-	--ui-content-shadow: var(--ds-surface-content-shadow);
-	--ui-list-padding-inline: var(--ds-content-list-padding-inline);
-	--ui-list-row-padding-block: var(--ds-content-list-row-padding-block);
-	--ui-list-row-gap: var(--ds-content-list-row-gap);
-	--theme-sheet-max-height: var(--ds-sheet-max-height);
+	font-family: var(--ds-font-body);
+	background: var(--ds-color-background);
+	color: var(--ds-color-text);
 }
 
 @font-face {
@@ -431,23 +74,23 @@ html,
 body {
 	margin: 0;
 	min-height: 100%;
-	background: var(--theme-black);
-	color: var(--foreground);
+	background: var(--ds-color-background);
+	color: var(--ds-color-text);
 }
 
 html {
-	background: var(--theme-black);
+	background: var(--ds-color-background);
 }
 
 body {
 	min-height: 100svh;
-	font-family: var(--theme-font-body);
-	background-color: var(--theme-black) !important;
+	font-family: var(--ds-font-body);
+	background-color: var(--ds-color-background) !important;
 }
 
 body,
 #__next {
-	background-color: var(--theme-black) !important;
+	background-color: var(--ds-color-background) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -469,15 +112,15 @@ textarea {
 }
 
 html[data-app-font="monospaced"] body {
-	font-family: var(--theme-font-mono);
+	font-family: var(--ds-font-mono);
 }
 
 html[data-app-font="rounded"] body {
-	font-family: var(--theme-font-rounded);
+	font-family: var(--ds-font-rounded);
 }
 
 html[data-app-font="expanded"] body {
-	font-family: var(--theme-font-body);
+	font-family: var(--ds-font-body);
 	font-stretch: expanded;
 }
 
@@ -485,49 +128,8 @@ html[data-app-background="paper"] body {
 	background:
 		radial-gradient(
 			circle at 18% 10%,
-			color-mix(in srgb, var(--theme-paper-warm) 10%, transparent),
+			color-mix(in srgb, var(--ds-color-paper-warm) 10%, transparent),
 			transparent 36%
 		),
-		var(--theme-black);
-}
-
-@theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--color-card: var(--card);
-	--color-card-foreground: var(--card-foreground);
-	--color-popover: var(--popover);
-	--color-popover-foreground: var(--popover-foreground);
-	--color-primary: var(--primary);
-	--color-primary-foreground: var(--primary-foreground);
-	--color-secondary: var(--secondary);
-	--color-secondary-foreground: var(--secondary-foreground);
-	--color-muted: var(--muted);
-	--color-muted-foreground: var(--muted-foreground);
-	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
-	--color-destructive: var(--destructive);
-	--color-border: var(--border);
-	--color-input: var(--input);
-	--color-ring: var(--ring);
-	--color-chart-1: var(--chart-1);
-	--color-chart-2: var(--chart-2);
-	--color-chart-3: var(--chart-3);
-	--color-chart-4: var(--chart-4);
-	--color-chart-5: var(--chart-5);
-	--radius-sm: calc(var(--radius) * 0.6);
-	--radius-md: calc(var(--radius) * 0.8);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) * 1.4);
-	--radius-2xl: calc(var(--radius) * 1.8);
-	--radius-3xl: calc(var(--radius) * 2.2);
-	--radius-4xl: calc(var(--radius) * 2.6);
-	--color-sidebar: var(--sidebar);
-	--color-sidebar-foreground: var(--sidebar-foreground);
-	--color-sidebar-primary: var(--sidebar-primary);
-	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-	--color-sidebar-accent: var(--sidebar-accent);
-	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-	--color-sidebar-border: var(--sidebar-border);
-	--color-sidebar-ring: var(--sidebar-ring);
+		var(--ds-color-background);
 }

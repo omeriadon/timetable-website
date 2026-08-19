@@ -11,6 +11,7 @@ import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDe
 import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { SectionCard } from "@/components/ui/SectionCard";
 import styles from "@/app/page.module.css";
 
 const schoolPeriods = [
@@ -73,17 +74,12 @@ export default function TodayView({
 				<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
 			</header>
 			{events.length ? (
-				<section className={styles.paperCard}>
-					<div className={styles.sectionHeader}>
-						<div className={styles.sectionHeading}>
-							<Symbol
-								name="calendar.badge.clock"
-								className={styles.sectionHeadingIcon}
-							/>
-							<h2>Events</h2>
-						</div>
-						<span>{events.length} scheduled</span>
-					</div>
+				<SectionCard
+					background="paper"
+					title="Events"
+					symbolName="calendar.badge.clock"
+					accessory={`${events.length} scheduled`}
+				>
 					{todayEvents.length ? (
 						<>
 							<h3>Today</h3>
@@ -100,26 +96,27 @@ export default function TodayView({
 							))}
 						</>
 					) : null}
-				</section>
+				</SectionCard>
 			) : null}
 			{noSchool ? (
-				<section className={styles.paperCard}>
-					<h2>No School Today</h2>
+				<SectionCard
+					background="paper"
+					title="No School Today"
+					symbolName="building.2"
+				>
 					<p>{noSchool.label}</p>
-				</section>
+				</SectionCard>
 			) : null}
-			<section
-				className={styles.timelineCard}
-				aria-label="Today's school timeline"
+			<SectionCard
+				background="surface"
+				title="School Day"
+				symbolName="clock"
+				accessory={
+					dayIndex >= 0 && dayIndex < 5
+						? "8:50 am – 3:30 pm"
+						: "No classes today"
+				}
 			>
-				<div className={styles.timelineHeader}>
-					<h2>School Day</h2>
-					<span>
-						{dayIndex >= 0 && dayIndex < 5
-							? "8:50 am – 3:30 pm"
-							: "No classes today"}
-					</span>
-				</div>
 				{dayIndex >= 0 && dayIndex < 5 ? (
 					<div className={styles.timelineList}>
 						{schoolPeriods.map((period) => {
@@ -167,19 +164,14 @@ export default function TodayView({
 						The school day timeline is only available on weekdays.
 					</p>
 				)}
-			</section>
+			</SectionCard>
 			{grades.document.assessments.length ? (
-				<section className={styles.paperCard}>
-					<div className={styles.sectionHeader}>
-						<div className={styles.sectionHeading}>
-							<Symbol
-								name="list.bullet.rectangle"
-								className={styles.sectionHeadingIcon}
-							/>
-							<h2>Assessments</h2>
-						</div>
-						<span>{grades.document.assessments.length} total</span>
-					</div>
+				<SectionCard
+					background="paper"
+					title="Assessments"
+					symbolName="list.bullet.rectangle"
+					accessory={`${grades.document.assessments.length} total`}
+				>
 					{grades.document.assessments
 						.slice()
 						.sort((left, right) => compareDate(left.date, right.date))
@@ -220,19 +212,14 @@ export default function TodayView({
 								<b>{assessment.score.toFixed(1)}%</b>
 							</Button>
 						))}
-				</section>
+				</SectionCard>
 			) : null}
-			<section className={styles.paperCard}>
-				<div className={styles.sectionHeader}>
-					<div className={styles.sectionHeading}>
-						<Symbol
-							name="books.vertical"
-							className={styles.sectionHeadingIcon}
-						/>
-						<h2>Classes</h2>
-					</div>
-					<span>{subjects.length} subjects</span>
-				</div>
+			<SectionCard
+				background="paper"
+				title="Classes"
+				symbolName="books.vertical"
+				accessory={`${subjects.length} subjects`}
+			>
 				<div className={styles.subjectList}>
 					{subjects.map((subject, index) => (
 						<Button
@@ -260,7 +247,7 @@ export default function TodayView({
 						</Button>
 					))}
 				</div>
-			</section>
+			</SectionCard>
 		</>
 	);
 }

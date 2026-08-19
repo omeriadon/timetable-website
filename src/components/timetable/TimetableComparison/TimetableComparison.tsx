@@ -92,5 +92,5 @@ function subjectAtSlot(subjects: TimetableSubject[], slot: TimetableSlot) {
 }
 
 function subjectColour(subject: TimetableSubject) {
-	return `linear-gradient(135deg, rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)} / 0.82), color-mix(in srgb, var(--theme-black) 34%, transparent))`;
+	return `linear-gradient(135deg, rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)} / 0.82), color-mix(in srgb, var(--ds-color-background) 34%, transparent))`;
 }

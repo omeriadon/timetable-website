@@ -19,7 +19,7 @@ export function FadeToBackground({
 		const eased = smootherstep(t);
 		const pct = (eased * maxOpacity * 100).toFixed(2);
 		const pos = (t * 100).toFixed(2);
-		return `color-mix(in srgb, var(--background) ${pct}%, transparent) ${pos}%`;
+		return `color-mix(in srgb, var(--ds-color-background) ${pct}%, transparent) ${pos}%`;
 	});
 
 	return (

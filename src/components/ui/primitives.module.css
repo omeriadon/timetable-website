@@ -8,7 +8,7 @@
 	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: var(--ds-surface-glass);
 	font: inherit;
 	font-size: var(--ds-font-body-size);
@@ -43,7 +43,7 @@
 .switch:focus-visible,
 .checkbox:focus-visible,
 .menuTrigger:focus-visible {
-	outline: var(--ds-control-focus-width) solid var(--ds-color-ring);
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
 	outline-offset: var(--ds-control-focus-offset);
 }
 
@@ -57,24 +57,20 @@
 }
 
 .buttonProminent {
-	border-color: color-mix(in srgb, var(--ds-color-primary) 70%, transparent);
+	border-color: color-mix(in srgb, var(--ds-color-accent) 70%, transparent);
 	background: color-mix(
 		in srgb,
-		var(--ds-color-primary) 78%,
+		var(--ds-color-accent) 78%,
 		var(--ds-surface-glass)
 	);
 }
 
 .buttonDestructive {
-	border-color: color-mix(
-		in srgb,
-		var(--ds-color-destructive) 50%,
-		transparent
-	);
-	color: var(--ds-color-error);
+	border-color: color-mix(in srgb, var(--ds-color-danger) 50%, transparent);
+	color: var(--ds-color-danger-text);
 	background: color-mix(
 		in srgb,
-		var(--ds-color-destructive) 18%,
+		var(--ds-color-danger) 18%,
 		var(--ds-surface-glass)
 	);
 }
@@ -109,7 +105,7 @@
 
 .listSectionHeader {
 	padding: var(--ds-space-2) var(--ds-list-row-padding-inline);
-	color: var(--ds-color-muted-foreground);
+	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-list-section-header-size);
 	font-weight: 650;
 	letter-spacing: 0.06em;
@@ -131,14 +127,14 @@
 
 .listRowInteractive {
 	width: 100%;
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: transparent;
 	text-align: left;
 }
 
 @media (hover: hover) and (pointer: fine) {
 	.listRowInteractive:hover {
-		background: color-mix(in srgb, var(--ds-color-foreground) 6%, transparent);
+		background: color-mix(in srgb, var(--ds-color-text) 6%, transparent);
 	}
 }
 
@@ -154,7 +150,7 @@
 	padding: var(--ds-space-2);
 	border: var(--ds-glass-border);
 	border-radius: var(--ds-radius-pill);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: var(--ds-surface-glass);
 	box-shadow: var(--ds-glass-shadow);
 }
@@ -182,7 +178,7 @@
 	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
 	border: var(--ds-border-width) solid var(--ds-color-input);
 	border-radius: var(--ds-radius-control);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: color-mix(in srgb, var(--ds-color-surface) 82%, transparent);
 	font: inherit;
 	font-size: var(--ds-font-body-size);
@@ -191,7 +187,7 @@
 .input::placeholder,
 .textarea::placeholder,
 .selectValue[data-placeholder] {
-	color: var(--ds-color-muted-foreground);
+	color: var(--ds-color-text-secondary);
 }
 
 .textarea {
@@ -224,7 +220,7 @@
 	width: var(--ds-control-icon-size-small);
 	height: var(--ds-control-icon-size-small);
 	place-items: center;
-	color: var(--ds-color-muted);
+	color: var(--ds-color-text-muted);
 }
 
 .selectSymbol {
@@ -240,7 +236,7 @@
 	box-sizing: border-box;
 	min-width: var(--anchor-width, 160px);
 	max-width: var(--ds-popup-max-width);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	backdrop-filter: saturate(var(--ds-glass-saturation));
 	outline: none;
 }
@@ -328,7 +324,7 @@
 
 .selectItem:focus-visible,
 .menuItem:focus-visible {
-	outline: var(--ds-control-focus-width) solid var(--ds-color-ring);
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
 	outline-offset: -1px;
 }
 
@@ -347,7 +343,7 @@
 	padding: var(--ds-switch-track-padding);
 	border: 0;
 	border-radius: var(--ds-radius-pill);
-	background: var(--ds-color-muted-foreground);
+	background: var(--ds-color-text-secondary);
 	cursor: pointer;
 	transition: background var(--ds-duration-normal) ease;
 }
@@ -361,7 +357,7 @@
 	width: var(--ds-switch-thumb-size);
 	height: var(--ds-switch-thumb-size);
 	border-radius: 50%;
-	background: var(--ds-color-foreground);
+	background: var(--ds-color-text);
 	box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 	transition: transform var(--ds-duration-normal) ease;
 }
@@ -384,14 +380,14 @@
 	padding: 0;
 	border: var(--ds-border-width) solid var(--ds-color-input);
 	border-radius: var(--ds-checkbox-radius);
-	color: var(--ds-color-primary-foreground);
+	color: var(--ds-color-accent-foreground);
 	background: var(--ds-color-surface);
 	cursor: pointer;
 }
 
 .checkbox[data-checked] {
-	border-color: var(--ds-color-primary);
-	background: var(--ds-color-primary);
+	border-color: var(--ds-color-accent);
+	background: var(--ds-color-accent);
 }
 
 .checkboxIndicator {
@@ -440,7 +436,7 @@
 	border: var(--ds-border-width) solid var(--ds-surface-border);
 	border-bottom: 0;
 	border-radius: var(--ds-radius-card) var(--ds-radius-card) 0 0;
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: var(--ds-surface-sheet);
 	box-shadow: var(--ds-sheet-shadow), var(--ds-sheet-highlight);
 	backdrop-filter: blur(var(--ds-sheet-blur)) saturate(1.35);

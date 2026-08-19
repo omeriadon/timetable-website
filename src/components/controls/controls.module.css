@@ -5,13 +5,13 @@
 	min-width: var(--ds-toolbar-height);
 	min-height: var(--ds-toolbar-height);
 	border: var(--ds-glass-border);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: var(--ds-surface-glass);
 	box-shadow: var(--ds-glass-shadow);
 }
 
 .glassButton:focus-visible {
-	outline: var(--ds-control-focus-width) solid var(--ds-color-ring);
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
 	outline-offset: var(--ds-control-focus-offset);
 }
 
@@ -39,7 +39,7 @@
 	flex: 0 0 auto;
 	overflow: hidden;
 	border-radius: 50%;
-	font-family: var(--theme-font-rounded);
+	font-family: var(--ds-font-rounded);
 	font-size: 1.25rem;
 	font-weight: 650;
 	background-size: 180% 180% !important;
@@ -113,19 +113,19 @@
 }
 
 .glassButton.toneProminent {
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: color-mix(
 		in srgb,
-		var(--ds-color-primary) 78%,
+		var(--ds-color-accent) 78%,
 		var(--ds-surface-glass)
 	);
 }
 
 .glassButton.toneDestructive {
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: color-mix(
 		in srgb,
-		var(--ds-color-destructive) 72%,
+		var(--ds-color-danger) 72%,
 		var(--ds-surface-glass)
 	);
 }
@@ -136,12 +136,11 @@
 	min-height: var(--ds-list-row-height);
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--theme-content-row-gap);
-	padding: var(--theme-content-grid-gap)
-		var(--theme-content-page-padding-inline);
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-content-grid-gap) var(--ds-content-page-padding);
 	border: 0;
 	border-top: 1px solid var(--ds-list-divider);
-	color: var(--ds-color-foreground);
+	color: var(--ds-color-text);
 	background: transparent;
 	font: inherit;
 	font-size: 1rem;
@@ -160,7 +159,7 @@
 	flex: 0 0 var(--ds-switch-width);
 	padding: var(--ds-switch-track-padding);
 	border-radius: 999px;
-	background: var(--ds-color-muted-foreground);
+	background: var(--ds-color-text-secondary);
 	transition: background var(--ds-duration-normal) ease;
 }
 
@@ -173,7 +172,7 @@
 	width: var(--ds-switch-thumb-size);
 	height: var(--ds-switch-thumb-size);
 	border-radius: 50%;
-	background: var(--ds-color-foreground);
+	background: var(--ds-color-text);
 	transition: transform var(--ds-duration-normal) ease;
 }
 

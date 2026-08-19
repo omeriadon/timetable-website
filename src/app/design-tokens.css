@@ -1,32 +1,25 @@
-/*
- * Timetable design language
- *
- * This is the editable source of truth for the website's visual system.
- * Components should consume these variables instead of introducing local
- * geometry, surface, colour, or motion values.
- */
+/* The shared visual language. Keep this list limited to values used by more
+   than one module. One-off layout values belong beside the layout that owns
+   them. */
 
 :root {
-	/* Colour roles */
+	/* Colors */
 	--ds-color-background: #000000;
-	--ds-color-foreground: #ffffff;
+	--ds-color-text: #ffffff;
 	--ds-color-surface: #151515;
 	--ds-color-surface-elevated: #252525;
 	--ds-color-surface-soft: #292929;
-	--ds-color-primary: #bd3547;
-	--ds-color-primary-foreground: #ffffff;
-	--ds-color-muted: #9999a2;
-	--ds-color-muted-foreground: #77777f;
-	--ds-color-destructive: #ff453a;
+	--ds-color-accent: #bd3547;
+	--ds-color-accent-foreground: #ffffff;
+	--ds-color-text-muted: #9999a2;
+	--ds-color-text-secondary: #77777f;
+	--ds-color-danger: #ff453a;
 	--ds-color-info: #149cf3;
 	--ds-color-success: #27d65b;
-	--ds-color-warning: #ffcc00;
 	--ds-color-border: rgba(255, 255, 255, 0.14);
 	--ds-color-input: rgba(255, 255, 255, 0.16);
-	--ds-color-ring: #bd3547;
+	--ds-color-focus: #bd3547;
 	--ds-color-highlight: rgba(255, 255, 255, 0.14);
-	--ds-border-width: 1px;
-	--ds-divider-width: 1px;
 	--ds-color-paper: #e7e5e5;
 	--ds-color-paper-dark: #c6c6ca;
 	--ds-color-paper-warm: #f6c88f;
@@ -35,10 +28,9 @@
 	--ds-color-paper-highlight: #fff1d3;
 	--ds-color-gold: #c28a57;
 	--ds-color-gold-dark: #8f592d;
-	--ds-color-error: #ff8879;
-	--ds-color-sidebar-accent-foreground: var(--ds-color-foreground);
+	--ds-color-danger-text: #ff8879;
 
-	/* Surface treatments */
+	/* Shared surfaces */
 	--ds-surface-glass: color-mix(
 		in srgb,
 		var(--ds-color-surface-elevated) 72%,
@@ -54,11 +46,6 @@
 		var(--ds-color-surface-elevated) 88%,
 		transparent
 	);
-	--ds-surface-scrim: color-mix(
-		in srgb,
-		var(--ds-color-background) 54%,
-		transparent
-	);
 	--ds-surface-sheet-scrim: color-mix(
 		in srgb,
 		var(--ds-color-background) 58%,
@@ -71,7 +58,7 @@
 	--ds-popup-max-width: min(360px, calc(100vw - 24px));
 	--ds-popup-max-height: min(320px, 50svh);
 
-	/* Base UI popovers and menus */
+	/* Popovers and menus */
 	--ds-popover-background: var(--ds-surface-glass-strong);
 	--ds-popover-border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	--ds-popover-radius: var(--ds-radius-control);
@@ -89,47 +76,38 @@
 	--ds-menu-item-padding-block: var(--ds-list-row-padding-block);
 	--ds-menu-item-gap: var(--ds-control-gap);
 	--ds-menu-item-radius: calc(var(--ds-radius-control) - 4px);
-	--ds-menu-highlight: var(--ds-color-primary);
-	--ds-menu-highlight-foreground: var(--ds-color-primary-foreground);
-
-	--ds-content-max-width: 860px;
-	--ds-inspector-width: min(500px, 42vw);
+	--ds-menu-highlight: var(--ds-color-accent);
+	--ds-menu-highlight-foreground: var(--ds-color-accent-foreground);
 
 	/* Typography */
 	--ds-font-body: "SF Pro Display", "SF Pro", sans-serif;
-	--ds-font-heading: "SF Pro Display", "SF Pro", sans-serif;
 	--ds-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
 	--ds-font-mono: "SF Mono", monospace;
 	--ds-font-content: 0.9rem;
 	--ds-font-small: 0.76rem;
 	--ds-font-body-size: 0.88rem;
-	--ds-font-label: 0.82rem;
 	--ds-font-heading-size: 1.2rem;
 	--ds-font-display: 1.45rem;
-	--ds-line-height-tight: 1.15;
-	--ds-line-height-body: 1.28;
 
-	/* Geometry */
+	/* Geometry and spacing */
+	--ds-content-max-width: 860px;
+	--ds-inspector-width: min(500px, 42vw);
 	--ds-radius-control: 12px;
 	--ds-radius-card: 18px;
-	--ds-radius-content-card: 12px;
+	--ds-radius-content-card: 20px;
 	--ds-radius-pill: 999px;
-	--ds-radius-shadcn: 0.625rem;
 	--ds-space-1: 4px;
 	--ds-space-2: 6px;
 	--ds-space-3: 8px;
 	--ds-space-4: 10px;
 	--ds-space-5: 12px;
-	--ds-space-6: 16px;
 	--ds-space-7: 24px;
 	--ds-content-page-padding: 6px;
 	--ds-content-section-gap: 6px;
 	--ds-content-card-padding: 7px;
-	--ds-content-row-gap: 6px;
 	--ds-content-grid-gap: 4px;
 	--ds-content-list-padding-inline: 7px;
 	--ds-content-list-row-padding-block: 2px;
-	--ds-content-list-row-gap: 6px;
 	--ds-sheet-padding-top: 34px;
 	--ds-sheet-padding-inline: 10px;
 	--ds-sheet-padding-bottom: 10px;
@@ -146,25 +124,23 @@
 	--ds-section-gap: 12px;
 
 	/* Controls */
+	--ds-border-width: 1px;
+	--ds-divider-width: 1px;
 	--ds-control-height: 34px;
 	--ds-control-height-compact: 32px;
 	--ds-control-padding-inline: 10px;
 	--ds-control-padding-block: 6px;
-	--ds-control-touch-target: 30px;
-	--ds-control-icon-size: 24px;
 	--ds-control-icon-size-small: 20px;
 	--ds-icon-size-navigation: 20px;
 	--ds-icon-size-row: 24px;
 	--ds-icon-size-toolbar: 24px;
 	--ds-icon-size-small: 18px;
 	--ds-control-gap: 8px;
-	--ds-touch-target: 44px;
 	--ds-control-focus-width: 2px;
 	--ds-control-focus-offset: 2px;
 
-	/* Lists and sections */
+	/* Lists */
 	--ds-list-background: var(--ds-color-surface);
-	--ds-list-background-elevated: var(--ds-color-surface-elevated);
 	--ds-list-outline: var(--ds-color-border);
 	--ds-list-outline-width: 1px;
 	--ds-list-divider: var(--ds-color-border);
@@ -181,7 +157,6 @@
 	--ds-toolbar-height: 34px;
 	--ds-toolbar-inset: 14px;
 	--ds-toolbar-gap: 8px;
-	--ds-toolbar-icon-size: var(--ds-icon-size-toolbar);
 	--ds-toolbar-search-width: 150px;
 	--ds-toolbar-search-height: 24px;
 	--ds-sidebar-width: 272px;
@@ -197,9 +172,6 @@
 	--ds-sidebar-item-padding-inline: 10px;
 
 	/* Glass */
-	--ds-glass-alpha: 20;
-	--ds-glass-input-blur: 12px;
-	--ds-glass-output-blur: 1px;
 	--ds-glass-saturation: 1.3;
 	--ds-glass-border: 1px solid var(--ds-color-highlight);
 	--ds-glass-shadow:
@@ -216,10 +188,9 @@
 	--ds-duration-normal: 220ms;
 	--ds-duration-sheet: 260ms;
 	--ds-ease-standard: cubic-bezier(0.2, 0.9, 0.2, 1);
-	--ds-ease-exit: cubic-bezier(0.4, 0, 1, 1);
 	--ds-ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
 
-	/* Existing content geometry exposed through the same source of truth */
+	/* Shared feature geometry */
 	--ds-avatar-size: 38px;
 	--ds-avatar-size-small: 32px;
 	--ds-friend-row-min-height: 46px;
@@ -237,8 +208,6 @@
 	--ds-auth-card-padding: 24px;
 	--ds-auth-control-height: 40px;
 	--ds-auth-gap: 12px;
-
-	/* Shared control geometry */
 	--ds-switch-width: 42px;
 	--ds-switch-height: 24px;
 	--ds-switch-thumb-size: 18px;
@@ -253,7 +222,6 @@
 		--ds-surface-glass: var(--ds-color-surface);
 		--ds-surface-glass-strong: var(--ds-color-surface-elevated);
 		--ds-surface-sheet: var(--ds-color-surface-elevated);
-		--ds-surface-scrim: rgba(0, 0, 0, 0.72);
 		--ds-surface-sheet-scrim: rgba(0, 0, 0, 0.78);
 	}
 }
@@ -262,23 +230,19 @@
 	:root {
 		--ds-color-border: rgba(255, 255, 255, 0.34);
 		--ds-color-input: rgba(255, 255, 255, 0.4);
-		--ds-color-muted-foreground: #b8b8c0;
+		--ds-color-text-secondary: #b8b8c0;
 		--ds-color-highlight: rgba(255, 255, 255, 0.26);
 	}
 }
 
-/* iPadOS and desktop use the wide SwiftUI shell: a real sidebar, larger
-   list rows, and enough breathing room for pointer, keyboard, and touch use. */
 @media (min-width: 701px) {
 	:root {
 		--ds-content-page-padding: 20px;
 		--ds-content-section-gap: 14px;
 		--ds-content-card-padding: 14px;
-		--ds-content-row-gap: 12px;
 		--ds-content-grid-gap: 8px;
 		--ds-content-list-padding-inline: 14px;
 		--ds-content-list-row-padding-block: 6px;
-		--ds-content-list-row-gap: 10px;
 		--ds-row-height: 44px;
 		--ds-card-padding: 14px;
 		--ds-list-padding-inline: 14px;
@@ -287,7 +251,6 @@
 		--ds-section-gap: 16px;
 		--ds-control-height: 44px;
 		--ds-control-height-compact: 36px;
-		--ds-control-touch-target: var(--ds-touch-target);
 		--ds-auth-control-height: 44px;
 		--ds-sidebar-width: 260px;
 		--ds-toolbar-height: 44px;
