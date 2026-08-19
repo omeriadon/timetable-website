@@ -1,7 +1,7 @@
 "use client";
 
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 
@@ -22,7 +22,7 @@ export default function TermDateSheet({
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
 				<div className={styles.detailSubjectSymbol}>
-					<SymbolIcon name="calendar.badge.clock" fallback="[]" />
+					<Symbol name="calendar.badge.clock" fallback="[]" />
 				</div>
 				<div>
 					<h2>{label}</h2>
@@ -40,7 +40,7 @@ export default function TermDateSheet({
 				</div>
 			</section>
 			<SheetActionButton label="Close term dates" onClick={closeSheet}>
-				<SymbolIcon name="xmark" fallback="x" />
+				<Symbol name="xmark" fallback="x" />
 				Close
 			</SheetActionButton>
 		</div>

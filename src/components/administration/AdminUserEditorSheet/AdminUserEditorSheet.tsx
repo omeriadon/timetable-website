@@ -6,7 +6,7 @@ import { useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import ConfirmationSheet from "@/components/sheets/ConfirmationSheet/ConfirmationSheet";
@@ -99,7 +99,7 @@ export default function AdminUserEditorSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon name="person" fallback="●" />
+				<Symbol name="person" fallback="●" />
 				<div>
 					<h2>{user ? "Edit User" : "Add User"}</h2>
 					<p>{user?.email ?? "Create an account"}</p>
@@ -169,7 +169,7 @@ export default function AdminUserEditorSheet({
 						}
 						disabled={saving}
 					>
-						<SymbolIcon name="trash" fallback="×" /> Delete
+						<Symbol name="trash" fallback="×" /> Delete
 					</SheetActionButton>
 				) : null}
 				<SheetActionButton
@@ -182,7 +182,7 @@ export default function AdminUserEditorSheet({
 						(!user && password.length < 8)
 					}
 				>
-					<SymbolIcon name="checkmark" fallback="✓" />
+					<Symbol name="checkmark" fallback="✓" />
 					{saving ? "Saving…" : user ? "Save" : "Create"}
 				</SheetActionButton>
 			</div>

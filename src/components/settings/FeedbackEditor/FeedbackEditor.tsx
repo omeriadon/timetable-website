@@ -4,7 +4,7 @@ import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "./FeedbackEditor.module.css";
 
@@ -35,7 +35,7 @@ export default function FeedbackEditor() {
 	return (
 		<section className={styles.card}>
 			<div className={styles.row}>
-				<SymbolIcon name="exclamationmark.bubble" />
+				<Symbol name="exclamationmark.bubble" />
 				<label htmlFor="feedback-category">Type</label>
 				<Select
 					id="feedback-category"
@@ -62,7 +62,7 @@ export default function FeedbackEditor() {
 					onClick={() => void submit()}
 					size="compact"
 				>
-					<SymbolIcon name="checkmark" fallback="✓" />
+					<Symbol name="checkmark" fallback="✓" />
 				</GlassButton>
 			</div>
 			{status ? (

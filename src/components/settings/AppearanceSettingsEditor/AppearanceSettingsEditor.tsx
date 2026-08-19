@@ -2,7 +2,7 @@
 
 import { Select } from "@/components/ui/Select";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
@@ -46,7 +46,7 @@ export default function AppearanceSettingsEditor({
 		<>
 			<section className={styles.card}>
 				<div className={styles.row}>
-					<SymbolIcon name="textformat.size" />
+					<Symbol name="textformat.size" />
 					<label className={styles.label} htmlFor="app-font-design">
 						App Font
 					</label>
@@ -65,7 +65,7 @@ export default function AppearanceSettingsEditor({
 					</Select>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="paintpalette" />
+					<Symbol name="paintpalette" />
 					<label className={styles.label} htmlFor="app-background">
 						Background
 					</label>

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
@@ -103,7 +103,7 @@ export default function DeveloperToolsEditor() {
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>
-					<SymbolIcon name="app.badge" />
+					<Symbol name="app.badge" />
 					<label className={styles.label} htmlFor="release-app-icon">
 						Release App Icon
 					</label>
@@ -115,7 +115,7 @@ export default function DeveloperToolsEditor() {
 					/>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
+					<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
 					<label className={styles.label} htmlFor="debug-offset">
 						Debug Offset
 					</label>
@@ -128,7 +128,7 @@ export default function DeveloperToolsEditor() {
 					/>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="rectangle.bottomthird.inset.filled" />
+					<Symbol name="rectangle.bottomthird.inset.filled" />
 					<span className={styles.label}>Test Live Activity</span>
 					<span className={styles.detail}>
 						{debugState?.isActive ? "Active" : "Inactive"}
@@ -139,7 +139,7 @@ export default function DeveloperToolsEditor() {
 						label="Start Live Activity"
 						onClick={() => void runLiveActivityAction("start")}
 					>
-						<SymbolIcon name="play.fill" fallback=">" />
+						<Symbol name="play.fill" fallback=">" />
 						Start
 					</SheetActionButton>
 					<SheetActionButton
@@ -147,12 +147,12 @@ export default function DeveloperToolsEditor() {
 						tone="destructive"
 						onClick={() => void runLiveActivityAction("stop")}
 					>
-						<SymbolIcon name="stop.fill" fallback="[]" />
+						<Symbol name="stop.fill" fallback="[]" />
 						Stop
 					</SheetActionButton>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="app.badge" />
+					<Symbol name="app.badge" />
 					<span className={styles.label}>Test status badges</span>
 				</div>
 				<div className={styles.actionRow}>
@@ -171,16 +171,16 @@ export default function DeveloperToolsEditor() {
 						label="Reload website data"
 						onClick={() => window.location.reload()}
 					>
-						<SymbolIcon name="widget.large" fallback="[]" />
+						<Symbol name="widget.large" fallback="[]" />
 						Reload Data
 					</SheetActionButton>
 					<SheetActionButton label="Reset tips" onClick={resetTips}>
-						<SymbolIcon name="lightbulb" fallback="i" />
+						<Symbol name="lightbulb" fallback="i" />
 						Reset Tips
 					</SheetActionButton>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="checkmark.icloud" fallback="*" />
+					<Symbol name="checkmark.icloud" fallback="*" />
 					<span className={styles.label}>Last Server Sync</span>
 					<span className={styles.detail}>
 						{lastServerSync

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
@@ -90,7 +90,7 @@ export default function AdminProfileStorageEditor() {
 			</AdminStorageQuotaCard>
 			<section className={styles.card}>
 				<div className={styles.row}>
-					<SymbolIcon
+					<Symbol
 						name={
 							quota.writesDisabled
 								? "exclamationmark.bubble"
@@ -104,7 +104,7 @@ export default function AdminProfileStorageEditor() {
 					</span>
 				</div>
 				<div className={styles.row}>
-					<SymbolIcon name="arrow.clockwise.icloud" fallback="↻" />
+					<Symbol name="arrow.clockwise.icloud" fallback="↻" />
 					<span className={styles.label}>Cloudflare Reconciliation</span>
 					<span className={styles.detail}>
 						{quota.reconciliationWarning ? "Accounting mismatch" : "Current"}

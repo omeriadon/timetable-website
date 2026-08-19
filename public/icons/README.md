@@ -1,7 +1,7 @@
 # SF Symbols
 
 The SVGs in this directory are the web app's SF Symbols export set. Files keep
-their SF Symbols names, including dots, so `SymbolIcon name="calendar"`
+their SF Symbols names, including dots, so `Symbol name="calendar"`
 resolves to `/icons/calendar.svg`.
 
 The fixed website controls use these symbols:

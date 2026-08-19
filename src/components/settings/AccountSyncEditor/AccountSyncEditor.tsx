@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
@@ -82,7 +82,7 @@ export default function AccountSyncEditor({
 					disabled={saving}
 				/>
 				<div className={styles.row}>
-					<SymbolIcon name="calendar.badge.clock" />
+					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
 						className={styles.inlineSelect}
@@ -110,7 +110,7 @@ export default function AccountSyncEditor({
 					}}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="person.2.slash" />
+						<Symbol name="person.2.slash" />
 						<span className={styles.label}>Sign Out</span>
 					</div>
 				</Button>

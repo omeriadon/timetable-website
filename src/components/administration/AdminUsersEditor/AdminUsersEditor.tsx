@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import AdminUserEditorSheet, {
 	type AdministrationUser,
@@ -64,7 +64,7 @@ export default function AdminUsersEditor() {
 		<main className={styles.page}>
 			<div className={styles.adminToolbar}>
 				<label className={styles.adminSearch}>
-					<SymbolIcon name="magnifyingglass" fallback="⌕" />
+					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
@@ -72,7 +72,7 @@ export default function AdminUsersEditor() {
 					/>
 				</label>
 				<GlassButton label="Add user" size="compact" onClick={() => edit()}>
-					<SymbolIcon name="plus" fallback="＋" />
+					<Symbol name="plus" fallback="＋" />
 				</GlassButton>
 			</div>
 			{error ? (
@@ -101,7 +101,7 @@ export default function AdminUsersEditor() {
 									{user.authority} · {user.email}
 								</small>
 							</span>
-							<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+							<Symbol name="chevron.right" className={styles.chevronIcon} />
 						</div>
 					</Button>
 				))}

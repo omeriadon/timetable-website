@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminDevelopmentAccessChangeSheet from "@/components/administration/AdminDevelopmentAccessChangeSheet/AdminDevelopmentAccessChangeSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
@@ -46,7 +46,7 @@ export default function AdminDevelopmentAccessEditor() {
 						}
 					>
 						<div className={styles.row}>
-							<SymbolIcon name="testtube.2" />
+							<Symbol name="testtube.2" />
 							<span className={styles.label}>
 								Restrict Server to System Administrators
 							</span>

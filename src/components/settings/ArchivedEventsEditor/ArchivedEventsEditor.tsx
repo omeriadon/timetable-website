@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
@@ -80,7 +80,7 @@ export default function ArchivedEventsEditor() {
 							}
 						>
 							<div className={styles.row}>
-								<SymbolIcon name="archivebox" />
+								<Symbol name="archivebox" />
 								<span>
 									<b className={styles.label}>{event.title}</b>
 									<small className={styles.rowMeta}>
@@ -89,7 +89,7 @@ export default function ArchivedEventsEditor() {
 										})}
 									</small>
 								</span>
-								<SymbolIcon
+								<Symbol
 									name="chevron.right"
 									className={styles.chevronIcon}
 								/>

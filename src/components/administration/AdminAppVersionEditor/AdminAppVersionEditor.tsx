@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import AdminVersionField from "@/components/administration/AdminVersionField/AdminVersionField";
@@ -90,7 +90,7 @@ export default function AdminAppVersionEditor() {
 		<main className={styles.page}>
 			<section className={styles.card} aria-labelledby="ios-version-heading">
 				<div className={styles.row}>
-					<SymbolIcon name="app.badge" />
+					<Symbol name="app.badge" />
 					<strong className={styles.label} id="ios-version-heading">
 						iOS and iPadOS
 					</strong>
@@ -111,7 +111,7 @@ export default function AdminAppVersionEditor() {
 			</section>
 			<section className={styles.card} aria-labelledby="mac-version-heading">
 				<div className={styles.row}>
-					<SymbolIcon name="desktopcomputer" fallback="▣" />
+					<Symbol name="desktopcomputer" fallback="▣" />
 					<strong className={styles.label} id="mac-version-heading">
 						macOS
 					</strong>
@@ -137,7 +137,7 @@ export default function AdminAppVersionEditor() {
 				onClick={() => void save()}
 				disabled={!valid || saving}
 			>
-				<SymbolIcon name="checkmark" fallback="✓" />
+				<Symbol name="checkmark" fallback="✓" />
 				{saving ? "Saving…" : "Save App Versions"}
 			</Button>
 			{status ? (

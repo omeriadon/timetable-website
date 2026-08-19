@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
@@ -81,7 +81,7 @@ export default function AdminUserReportsEditor() {
 	return (
 		<main className={styles.page}>
 			<label className={styles.adminSearch}>
-				<SymbolIcon name="magnifyingglass" fallback="⌕" />
+				<Symbol name="magnifyingglass" fallback="⌕" />
 				<Input
 					value={query}
 					onChange={(event) => setQuery(event.target.value)}
@@ -97,7 +97,7 @@ export default function AdminUserReportsEditor() {
 				{filtered.map((report) => (
 					<article key={report.id} className={styles.reportCard}>
 						<div className={styles.reportHeader}>
-							<SymbolIcon name="exclamationmark.bubble" />
+							<Symbol name="exclamationmark.bubble" />
 							<strong>
 								{report.reportedUserDisplayName ?? report.reportedUserID}
 							</strong>
@@ -118,7 +118,7 @@ export default function AdminUserReportsEditor() {
 									onClick={() => resolveReport(report, "noAction")}
 									disabled={busy === report.id}
 								>
-									<SymbolIcon name="checkmark" fallback="✓" /> Do Nothing
+									<Symbol name="checkmark" fallback="✓" /> Do Nothing
 								</SheetActionButton>
 								<SheetActionButton
 									label="Delete reported account"
@@ -126,7 +126,7 @@ export default function AdminUserReportsEditor() {
 									onClick={() => resolveReport(report, "accountDeleted")}
 									disabled={busy === report.id}
 								>
-									<SymbolIcon name="trash" fallback="×" /> Delete Account
+									<Symbol name="trash" fallback="×" /> Delete Account
 								</SheetActionButton>
 							</div>
 						) : null}

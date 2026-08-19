@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 
@@ -24,7 +24,7 @@ export default function VersionSheet() {
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
 				<div className={styles.detailSubjectSymbol}>
-					<SymbolIcon name="hammer" fallback="+" />
+					<Symbol name="hammer" fallback="+" />
 				</div>
 				<div>
 					<h2>Version</h2>
@@ -32,11 +32,11 @@ export default function VersionSheet() {
 				</div>
 			</header>
 			<SheetActionButton label="Copy version" onClick={() => void copy()}>
-				<SymbolIcon name="doc.on.doc" fallback="+" />
+				<Symbol name="doc.on.doc" fallback="+" />
 				{copied ? "Copied" : "Copy Version"}
 			</SheetActionButton>
 			<SheetActionButton label="Close version" onClick={closeSheet}>
-				<SymbolIcon name="xmark" fallback="x" />
+				<Symbol name="xmark" fallback="x" />
 				Close
 			</SheetActionButton>
 		</div>

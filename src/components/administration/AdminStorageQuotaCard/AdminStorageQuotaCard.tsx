@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 type AdminStorageQuotaCardProps = {
@@ -20,7 +20,7 @@ export default function AdminStorageQuotaCard({
 	return (
 		<section className={styles.card}>
 			<div className={styles.row}>
-				<SymbolIcon name={icon} />
+				<Symbol name={icon} />
 				<strong className={styles.label}>{title}</strong>
 				<strong className={styles.detail}>{percentage}% used</strong>
 			</div>

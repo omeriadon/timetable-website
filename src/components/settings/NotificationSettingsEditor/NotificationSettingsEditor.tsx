@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import EventNotificationScheduleSheet, {
 	type EventNotificationSchedule,
@@ -130,7 +130,7 @@ export default function NotificationSettingsEditor({
 					disabled={saving}
 				/>
 				<div className={styles.row}>
-					<SymbolIcon name="calendar.badge.clock" />
+					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
 						className={styles.inlineSelect}
@@ -181,12 +181,12 @@ export default function NotificationSettingsEditor({
 					disabled={saving}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="bell.badge" />
+						<Symbol name="bell.badge" />
 						<span className={styles.label}>Send Notifications Early By</span>
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.notificationLeadTimes)}
 						</span>
-						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<Button
@@ -203,16 +203,16 @@ export default function NotificationSettingsEditor({
 					disabled={saving}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
+						<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
 						<span className={styles.label}>Before Class or From a Break</span>
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}
 						</span>
-						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<div className={styles.row}>
-					<SymbolIcon name="calendar.badge.clock" />
+					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Event Notifications</span>
 				</div>
 				<div className={styles.scheduleList}>
@@ -238,7 +238,7 @@ export default function NotificationSettingsEditor({
 									disabled={saving}
 									aria-label={`Remove ${formatTime(schedule)} event notification`}
 								>
-									<SymbolIcon name="minus" />
+									<Symbol name="minus" />
 								</Button>
 							</div>
 						))}
@@ -251,7 +251,7 @@ export default function NotificationSettingsEditor({
 						}
 					>
 						<div className={styles.row}>
-							<SymbolIcon name="plus" />
+							<Symbol name="plus" />
 							<span className={styles.label}>Add Event Notification</span>
 						</div>
 					</Button>
@@ -268,7 +268,7 @@ export default function NotificationSettingsEditor({
 						disabled={saving}
 					>
 						<div className={styles.row}>
-							<SymbolIcon name="person.2.slash" />
+							<Symbol name="person.2.slash" />
 							<span className={styles.label}>Sign Out</span>
 						</div>
 					</Button>

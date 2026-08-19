@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import { apiRequest } from "@/lib/api/client";
 import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
@@ -179,7 +179,7 @@ export default function AdministrationSectionPage() {
 		<main className={styles.page}>
 			<section className={styles.card}>
 				<div className={styles.row}>
-					<SymbolIcon name={config.icon} fallback="•" />
+					<Symbol name={config.icon} fallback="•" />
 					<span className={styles.label}>{config.title}</span>
 				</div>
 			</section>

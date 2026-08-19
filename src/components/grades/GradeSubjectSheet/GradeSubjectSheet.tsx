@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import type { GradeAssessment } from "@/features/timetable/types";
 import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 
@@ -66,7 +66,7 @@ export default function GradeSubjectSheet({
 					router.push(`/grades/${encodeURIComponent(subjectID)}`);
 				}}
 			>
-				<SymbolIcon name="arrow.up.right" />
+				<Symbol name="arrow.up.right" />
 				Open Subject
 			</SheetActionButton>
 		</div>

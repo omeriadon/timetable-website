@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
 
@@ -24,7 +24,7 @@ export default function NavigationSheet({
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
 				<div className={styles.detailSubjectSymbol}>
-					<SymbolIcon name={icon} />
+					<Symbol name={icon} />
 				</div>
 				<div>
 					<h2>{title}</h2>

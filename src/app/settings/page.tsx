@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
@@ -107,7 +107,7 @@ export default function SettingsPage() {
 							<b className={styles.profileName}>{account.displayName}</b>
 							<small className={styles.profileEmail}>{account.email}</small>
 						</span>
-						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</section>
 				</SheetTrigger>
 			) : null}
@@ -132,14 +132,14 @@ export default function SettingsPage() {
 					}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="calendar" fallback="▦" />
+						<Symbol name="calendar" fallback="▦" />
 						<span>
 							<span className={styles.label}>Re-import from Calendar</span>
 							<small className={styles.detail}>
 								Subscribe to Compass Schedule in Calendar first.
 							</small>
 						</span>
-						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 				<NavigationRow
@@ -166,7 +166,7 @@ export default function SettingsPage() {
 							icon="switch.2"
 						/>
 						<div className={styles.row}>
-							<SymbolIcon name="calendar.badge.clock" />
+							<Symbol name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
 							<Select
 								className={styles.inlineSelect}
@@ -269,10 +269,10 @@ export default function SettingsPage() {
 					aria-label="Open version information"
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="hammer" fallback="+" />
+						<Symbol name="hammer" fallback="+" />
 						<span className={styles.label}>Version</span>
 						<span className={styles.detail}>Web</span>
-						<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
 			</section>

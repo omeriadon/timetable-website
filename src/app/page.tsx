@@ -9,7 +9,7 @@ import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import PlannerView from "@/components/timetable/PlannerView/PlannerView";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
 
 type TimetableMode = "today" | "week" | "planner";
@@ -69,7 +69,7 @@ export default function Home() {
 								router.replace(`/?mode=${item.id}`, { scroll: false });
 							}}
 						>
-							<SymbolIcon name={item.symbol} className={styles.modeIcon} />
+							<Symbol name={item.symbol} className={styles.modeIcon} />
 							{item.label}
 						</Button>
 					))}

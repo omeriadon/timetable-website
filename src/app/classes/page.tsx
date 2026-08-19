@@ -7,7 +7,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function ClassesPage() {
 	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
@@ -61,7 +61,7 @@ export default function ClassesPage() {
 										{subject.slots.length === 1 ? "" : "es"} each week
 									</small>
 								</span>
-								<SymbolIcon
+								<Symbol
 									name="chevron.right"
 									className={styles.chevronIcon}
 								/>

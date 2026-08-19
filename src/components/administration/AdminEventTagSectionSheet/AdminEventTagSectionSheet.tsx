@@ -8,7 +8,7 @@ import type {
 	Catalogue,
 } from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
@@ -61,7 +61,7 @@ export default function AdminEventTagSectionSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon name="tag" />
+				<Symbol name="tag" />
 				<div>
 					<h2>Edit Section</h2>
 					<p>{section.category}</p>

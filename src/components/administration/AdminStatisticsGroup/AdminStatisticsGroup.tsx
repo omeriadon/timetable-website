@@ -1,4 +1,4 @@
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 export type StatisticCount = {
@@ -23,7 +23,7 @@ export function AdminStatisticsGroup({
 			<div className={styles.card}>
 				{rows.map(([label, value]) => (
 					<div className={styles.row} key={label}>
-						<SymbolIcon name={icon} />
+						<Symbol name={icon} />
 						<span className={styles.label}>{label}</span>
 						<strong className={styles.detail}>{value}</strong>
 					</div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { BroadcastNotificationRecord } from "../AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
@@ -92,7 +92,7 @@ export default function AdminBroadcastDetailSheet({
 					onClick={() => void remove()}
 					disabled={deleting}
 				>
-					<SymbolIcon name="trash" fallback="−" />
+					<Symbol name="trash" fallback="−" />
 					{deleting ? "Deleting…" : "Delete Notification"}
 				</SheetActionButton>
 			) : null}

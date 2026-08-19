@@ -9,7 +9,7 @@ import type {
 } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import ConfirmationSheet from "../ConfirmationSheet/ConfirmationSheet";
@@ -108,7 +108,7 @@ export default function CalendarImportSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon name="calendar" fallback="▦" />
+				<Symbol name="calendar" fallback="▦" />
 				<div>
 					<h2>Re-import from Calendar</h2>
 					<p>Choose an exported Compass Schedule .ics file.</p>
@@ -122,7 +122,7 @@ export default function CalendarImportSheet({
 						to the six school periods from the SwiftUI client.
 					</p>
 					<label className={styles.filePicker}>
-						<SymbolIcon name="doc" fallback="＋" />
+						<Symbol name="doc" fallback="＋" />
 						<span>{fileName ?? "Choose calendar file"}</span>
 						<Input
 							type="file"
@@ -151,7 +151,7 @@ export default function CalendarImportSheet({
 					onClick={() => void importCalendar()}
 					disabled={!events.length || saving}
 				>
-					<SymbolIcon name="arrow.down.app" fallback="↓" />
+					<Symbol name="arrow.down.app" fallback="↓" />
 					{saving ? "Importing…" : "Import timetable"}
 				</SheetActionButton>
 			</div>

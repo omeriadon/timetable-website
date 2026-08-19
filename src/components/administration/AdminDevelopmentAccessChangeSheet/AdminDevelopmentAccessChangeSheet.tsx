@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
@@ -42,7 +42,7 @@ export default function AdminDevelopmentAccessChangeSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon name={nextValue ? "lock.fill" : "lock.open"} fallback="▣" />
+				<Symbol name={nextValue ? "lock.fill" : "lock.open"} fallback="▣" />
 				<div>
 					<h2>
 						{nextValue ? "Restrict Server Access?" : "Restore Normal Access?"}

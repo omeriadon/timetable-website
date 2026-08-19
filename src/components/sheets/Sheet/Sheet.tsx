@@ -10,7 +10,7 @@ import {
 import { Drawer } from "@base-ui/react/drawer";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import { glassButtonProps } from "@/components/LiquidGlass/presets";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import primitiveStyles from "@/components/ui/primitives.module.css";
 import styles from "./Sheet.module.css";
 
@@ -65,7 +65,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 								className={`${primitiveStyles.drawerClose} ${primitiveStyles.glassButton}`}
 								aria-label="Close sheet"
 							>
-								<SymbolIcon
+								<Symbol
 									name="xmark"
 									className={primitiveStyles.drawerCloseIcon}
 								/>

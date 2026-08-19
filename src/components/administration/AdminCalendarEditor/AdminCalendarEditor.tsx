@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import AdminCalendarEntrySheet from "../AdminCalendarEntrySheet/AdminCalendarEntrySheet";
@@ -62,7 +62,7 @@ export default function AdminCalendarEditor({
 						}
 					>
 						<div className={styles.row}>
-							<SymbolIcon name="calendar.badge.clock" />
+							<Symbol name="calendar.badge.clock" />
 							<span>
 								<b className={styles.label}>{entry.label}</b>
 								<small className={styles.rowMeta}>
@@ -70,7 +70,7 @@ export default function AdminCalendarEditor({
 									{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}
 								</small>
 							</span>
-							<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+							<Symbol name="chevron.right" className={styles.chevronIcon} />
 						</div>
 					</Button>
 				))}
@@ -91,7 +91,7 @@ export default function AdminCalendarEditor({
 					}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="plus" className={styles.symbolIcon} />
+						<Symbol name="plus" className={styles.symbolIcon} />
 						<span className={styles.label}>Add {title.replace(/s$/, "")}</span>
 					</div>
 				</Button>

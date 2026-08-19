@@ -15,7 +15,7 @@ import {
 	TIMETABLE_SESSIONS,
 } from "@/features/timetable/layout";
 import { useSheet } from "../Sheet/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 
@@ -147,7 +147,7 @@ export default function TimetableEditorSheet({
 								onClick={() => removeSubject(subject.id)}
 								aria-label={`Remove ${subject.id}`}
 							>
-								<SymbolIcon name="xmark" />
+								<Symbol name="xmark" />
 							</Button>
 						</div>
 						<div className={styles.editorMetadata}>
@@ -215,7 +215,7 @@ export default function TimetableEditorSheet({
 					onClick={addSubject}
 				>
 					<div className={styles.row}>
-						<SymbolIcon name="plus" />
+						<Symbol name="plus" />
 						<span className={styles.label}>Add Subject</span>
 					</div>
 				</Button>

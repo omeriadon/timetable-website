@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 type EmailLogEntry = {
@@ -46,7 +46,7 @@ export default function AdminEmailLogEditor() {
 					{entries.map((entry) => (
 						<article className={styles.adminRecord} key={entry.id}>
 							<div className={styles.profileRow}>
-								<SymbolIcon name="envelope.badge" />
+								<Symbol name="envelope.badge" />
 								<span className={styles.label}>{entry.subject}</span>
 								<strong className={styles.detail}>{entry.status}</strong>
 							</div>

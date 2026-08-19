@@ -1,6 +1,6 @@
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 export default function NavigationRow({
@@ -28,9 +28,9 @@ export default function NavigationRow({
 			}
 		>
 			<div className={styles.row}>
-				<SymbolIcon name={icon} />
+				<Symbol name={icon} />
 				<span className={styles.label}>{title}</span>
-				<SymbolIcon name="chevron.right" className={styles.chevronIcon} />
+				<Symbol name="chevron.right" className={styles.chevronIcon} />
 			</div>
 		</SheetTrigger>
 	);

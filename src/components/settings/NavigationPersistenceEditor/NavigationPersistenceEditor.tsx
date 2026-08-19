@@ -2,7 +2,7 @@
 
 import { Checkbox } from "@/components/ui/Checkbox";
 import { useEffect, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
 const storageKey = "timetable.persist-navigation";
@@ -25,7 +25,7 @@ export default function NavigationPersistenceEditor() {
 	return (
 		<section className={styles.card}>
 			<div className={styles.row}>
-				<SymbolIcon name="arrow.counterclockwise.circle" fallback="↻" />
+				<Symbol name="arrow.counterclockwise.circle" fallback="↻" />
 				<label className={styles.label} htmlFor="restore-navigation">
 					Restore Navigation
 				</label>

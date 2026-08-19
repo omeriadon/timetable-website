@@ -8,7 +8,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./MobileTabBar.module.css";
 
 type TabItem = {
@@ -72,7 +72,7 @@ export default function MobileTabBar() {
 							className={active ? `${styles.tab} ${styles.active}` : styles.tab}
 							aria-current={active ? "page" : undefined}
 						>
-							<SymbolIcon name={tab.icon} className={styles.symbol} />
+							<Symbol name={tab.icon} className={styles.symbol} />
 							<span>{tab.label}</span>
 							{tab.badge && incomingFriendRequestCount > 0 ? (
 								<span className={styles.badge} aria-hidden="true">

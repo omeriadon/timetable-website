@@ -9,7 +9,7 @@ import type { Friend } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import FriendDetailSheet from "@/components/sheets/FriendDetailSheet/FriendDetailSheet";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import FriendSearchSheet from "@/components/sheets/FriendSearchSheet/FriendSearchSheet";
 import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet/FriendRequestsSheet";
 import type { Account } from "@/lib/api/contracts";
@@ -45,7 +45,7 @@ export default function FriendsPage() {
 					aria-label="Friend requests"
 					onClick={() => openSheet(<FriendRequestsSheet />)}
 				>
-					<SymbolIcon name="bell.badge" />
+					<Symbol name="bell.badge" />
 				</Button>
 				<Button
 					unstyled
@@ -54,7 +54,7 @@ export default function FriendsPage() {
 					aria-label="Add friend"
 					onClick={() => openSheet(<FriendSearchSheet />)}
 				>
-					<SymbolIcon name="plus" />
+					<Symbol name="plus" />
 				</Button>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}

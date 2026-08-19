@@ -9,7 +9,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 
 type SidebarItem = {
 	label: string;
@@ -95,7 +95,7 @@ export default function Sidebar() {
 				}
 				aria-current={isActive(item.href) ? "page" : undefined}
 			>
-				<SymbolIcon name={item.icon} className={styles.navIcon} />
+				<Symbol name={item.icon} className={styles.navIcon} />
 				<span>{item.label}</span>
 				{item.badge && incomingFriendRequestCount > 0 ? (
 					<span

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminAuthorityChangeSheet from "@/components/administration/AdminAuthorityChangeSheet/AdminAuthorityChangeSheet";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -44,7 +44,7 @@ export default function AdminAdministratorsEditor() {
 		<main className={styles.page}>
 			<div className={styles.adminToolbar}>
 				<label className={styles.adminSearch}>
-					<SymbolIcon name="magnifyingglass" fallback="⌕" />
+					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}

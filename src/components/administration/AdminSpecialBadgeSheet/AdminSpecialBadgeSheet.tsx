@@ -10,7 +10,7 @@ import type {
 	SpecialBadge,
 } from "@/components/administration/AdminBadgesEditor/AdminBadgesEditor";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
@@ -145,7 +145,7 @@ export default function AdminSpecialBadgeSheet({
 					className={styles.detailAvatar}
 					style={{ background: backgroundColor, color: symbolColor }}
 				>
-					<SymbolIcon name={symbol} fallback="★" />
+					<Symbol name={symbol} fallback="★" />
 				</div>
 				<div>
 					<h2>{badge ? "Edit Badge" : "New Badge"}</h2>

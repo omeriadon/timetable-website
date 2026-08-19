@@ -1,4 +1,4 @@
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./AboutEditor.module.css";
 
 export default function AboutEditor() {
@@ -26,7 +26,7 @@ export default function AboutEditor() {
 				</div>
 			</section>
 			<div className={styles.version}>
-				<SymbolIcon name="hammer" fallback="⌘" />
+				<Symbol name="hammer" fallback="⌘" />
 				<span>Website client</span>
 				<strong>Web</strong>
 			</div>

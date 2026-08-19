@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
@@ -29,7 +29,7 @@ export default function TestEmailButton() {
 			onClick={send}
 			disabled={state === "sending"}
 		>
-			<SymbolIcon name="envelope.badge" />
+			<Symbol name="envelope.badge" />
 			<span>
 				{state === "sending"
 					? "Sending…"

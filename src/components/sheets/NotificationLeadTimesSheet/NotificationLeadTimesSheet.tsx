@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/components/sheets/Sheet/Sheet.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
@@ -80,7 +80,7 @@ export default function NotificationLeadTimesSheet({
 							<span>
 								{value} {value === 1 ? "minute" : "minutes"} early
 							</span>
-							{selected ? <SymbolIcon name="checkmark" fallback="✓" /> : null}
+							{selected ? <Symbol name="checkmark" fallback="✓" /> : null}
 						</Button>
 					);
 				})}
@@ -96,7 +96,7 @@ export default function NotificationLeadTimesSheet({
 					onClick={() => void save()}
 					disabled={saving}
 				>
-					<SymbolIcon name="checkmark" fallback="✓" />
+					<Symbol name="checkmark" fallback="✓" />
 					{saving ? "Saving…" : "Save"}
 				</SheetActionButton>
 			</div>

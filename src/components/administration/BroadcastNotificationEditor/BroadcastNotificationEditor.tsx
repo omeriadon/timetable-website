@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
@@ -72,7 +72,7 @@ export default function BroadcastNotificationEditor() {
 				onClick={send}
 				disabled={!title.trim()}
 			>
-				<SymbolIcon name="megaphone" />
+				<Symbol name="megaphone" />
 				<span>Broadcast notification</span>
 			</Button>
 			{status ? (

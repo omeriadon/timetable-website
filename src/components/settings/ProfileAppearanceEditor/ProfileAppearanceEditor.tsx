@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import type { ProfileAppearance, ProfilePhoto } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -111,7 +111,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						onClick={() => update({ contentKind: kind })}
 						aria-pressed={draft.contentKind === kind}
 					>
-						<SymbolIcon
+						<Symbol
 							name={
 								kind === "photo"
 									? "photo"
@@ -129,7 +129,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			</div>
 			{draft.contentKind === "photo" ? (
 				<div className={styles.row}>
-					<SymbolIcon name="photo" fallback="◉" />
+					<Symbol name="photo" fallback="◉" />
 					<span className={styles.label}>Photo</span>
 					<Input
 						type="file"
@@ -148,7 +148,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 							onClick={() => void removePhoto()}
 							disabled={uploading || removingPhoto}
 						>
-							<SymbolIcon name="trash" fallback="−" />
+							<Symbol name="trash" fallback="−" />
 							Remove
 						</Button>
 					) : null}
@@ -157,7 +157,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			{draft.contentKind === "emoji" ? (
 				<div className={styles.emojiPicker}>
 					<div className={styles.row}>
-						<SymbolIcon name="face.smiling" fallback="☺" />
+						<Symbol name="face.smiling" fallback="☺" />
 						<label className={styles.label} htmlFor="profile-emoji">
 							Emoji
 						</label>
@@ -196,7 +196,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					{draft.contentKind === "monogram" ? (
 						<div className={styles.monogram}>
 							<div className={styles.row}>
-								<SymbolIcon name="character" fallback="A" />
+								<Symbol name="character" fallback="A" />
 								<label className={styles.label} htmlFor="profile-monogram">
 									Monogram
 								</label>
@@ -261,7 +261,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				className={styles.save}
 				onClick={() => save(draft)}
 			>
-				<SymbolIcon name="checkmark" fallback="✓" />
+				<Symbol name="checkmark" fallback="✓" />
 				Save Profile Appearance
 			</Button>
 		</section>

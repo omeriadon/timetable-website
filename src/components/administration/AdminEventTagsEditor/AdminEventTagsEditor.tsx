@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 import AdminEventTagSheet from "../AdminEventTagSheet/AdminEventTagSheet";
@@ -111,7 +111,7 @@ export default function AdminEventTagsEditor() {
 					className={styles.adminAction}
 					onClick={() => setIsReordering((value) => !value)}
 				>
-					<SymbolIcon
+					<Symbol
 						name={isReordering ? "checkmark" : "arrow.up.arrow.down"}
 					/>
 					<span>{isReordering ? "Done" : "Reorder"}</span>
@@ -138,7 +138,7 @@ export default function AdminEventTagsEditor() {
 									onClick={() => edit(tag, section)}
 								>
 									<div className={styles.row}>
-										<SymbolIcon name={tag.symbol ?? "tag"} fallback="#" />
+										<Symbol name={tag.symbol ?? "tag"} fallback="#" />
 										<span>
 											<b className={styles.label}>{tag.displayName}</b>
 											<small className={styles.rowMeta}>
@@ -146,7 +146,7 @@ export default function AdminEventTagsEditor() {
 												{tag.isArchived ? " · Archived" : ""}
 											</small>
 										</span>
-										<SymbolIcon
+										<Symbol
 											name="chevron.right"
 											className={styles.chevronIcon}
 										/>
@@ -181,7 +181,7 @@ export default function AdminEventTagsEditor() {
 							onClick={() => edit(null, section)}
 						>
 							<div className={styles.row}>
-								<SymbolIcon name="plus" fallback="＋" />
+								<Symbol name="plus" fallback="＋" />
 								<span className={styles.label}>Add Tag</span>
 							</div>
 						</Button>

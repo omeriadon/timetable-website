@@ -11,7 +11,7 @@ import {
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import { toolbarGlassProps } from "@/components/LiquidGlass/presets";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import QuickSettingsSheet from "@/components/sheets/QuickSettingsSheet/QuickSettingsSheet";
 import styles from "./Toolbar.module.css";
@@ -94,7 +94,7 @@ export default function Toolbar() {
 					label={action.label}
 					onClick={action.onPress}
 				>
-					<SymbolIcon name={action.icon} className={styles.actionIcon} />
+					<Symbol name={action.icon} className={styles.actionIcon} />
 				</GlassButton>
 			))}
 
@@ -102,7 +102,7 @@ export default function Toolbar() {
 				label="Open settings"
 				onClick={() => openSheet(<QuickSettingsSheet />)}
 			>
-				<SymbolIcon name="gear" className={styles.actionIcon} />
+				<Symbol name="gear" className={styles.actionIcon} />
 			</GlassButton>
 		</header>
 	);

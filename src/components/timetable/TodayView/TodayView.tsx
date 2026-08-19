@@ -9,7 +9,7 @@ import type {
 import EventRow from "@/components/timetable/EventRow/EventRow";
 import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
 import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import styles from "@/app/page.module.css";
 
@@ -162,7 +162,7 @@ export default function TodayView({
 								}}
 								aria-label={`Open ${assessment.name}`}
 							>
-								<SymbolIcon name="plus" className={styles.eventSymbolIcon} />
+								<Symbol name="plus" className={styles.eventSymbol} />
 								<div>
 									<strong>{assessment.name}</strong>
 									<span>

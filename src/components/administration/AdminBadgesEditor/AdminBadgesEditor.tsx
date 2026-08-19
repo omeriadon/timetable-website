@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import AdminSpecialBadgeSheet from "@/components/administration/AdminSpecialBadgeSheet/AdminSpecialBadgeSheet";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
@@ -147,7 +147,7 @@ export default function AdminBadgesEditor() {
 						)
 					}
 				>
-					<SymbolIcon name="plus" fallback="+" />
+					<Symbol name="plus" fallback="+" />
 					Add Badge
 				</SheetActionButton>
 				<Button
@@ -157,7 +157,7 @@ export default function AdminBadgesEditor() {
 					onClick={() => setIsReordering((value) => !value)}
 					aria-pressed={isReordering}
 				>
-					<SymbolIcon name="line.3.horizontal" fallback="=" />
+					<Symbol name="line.3.horizontal" fallback="=" />
 					{isReordering ? "Done" : "Reorder"}
 				</Button>
 			</div>
@@ -197,7 +197,7 @@ export default function AdminBadgesEditor() {
 											color: colorToCSS(badge.symbolColor),
 										}}
 									>
-										<SymbolIcon name={badge.symbol} fallback="*" />
+										<Symbol name={badge.symbol} fallback="*" />
 									</span>
 									<span>
 										<strong className={styles.label}>
@@ -207,7 +207,7 @@ export default function AdminBadgesEditor() {
 											{badge.assignedUserIDs.length} users
 										</small>
 									</span>
-									<SymbolIcon
+									<Symbol
 										name="chevron.right"
 										className={styles.chevronIcon}
 									/>

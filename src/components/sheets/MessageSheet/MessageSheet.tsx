@@ -1,6 +1,6 @@
 "use client";
 
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
@@ -21,7 +21,7 @@ export default function MessageSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon
+				<Symbol
 					name={tone === "error" ? "exclamationmark.triangle" : "info.circle"}
 					fallback={tone === "error" ? "!" : "i"}
 				/>
@@ -32,7 +32,7 @@ export default function MessageSheet({
 			</header>
 			<div className={styles.sheetActions}>
 				<SheetActionButton label="Close" onClick={closeSheet}>
-					<SymbolIcon name="checkmark" fallback="✓" />
+					<Symbol name="checkmark" fallback="✓" />
 					Close
 				</SheetActionButton>
 			</div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { useSheet } from "../Sheet/Sheet";
 import styles from "../Sheet/Sheet.module.css";
@@ -47,7 +47,7 @@ export default function ConfirmationSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<SymbolIcon name={icon} fallback="!" />
+				<Symbol name={icon} fallback="!" />
 				<div>
 					<h2>{title}</h2>
 					<p>{message}</p>
@@ -65,7 +65,7 @@ export default function ConfirmationSheet({
 					onClick={closeSheet}
 					disabled={isWorking}
 				>
-					<SymbolIcon name="xmark" fallback="×" />
+					<Symbol name="xmark" fallback="×" />
 					Cancel
 				</SheetActionButton>
 				<SheetActionButton
@@ -74,7 +74,7 @@ export default function ConfirmationSheet({
 					onClick={() => void confirm()}
 					disabled={isWorking}
 				>
-					<SymbolIcon
+					<Symbol
 						name={tone === "destructive" ? "trash" : "checkmark"}
 						fallback={tone === "destructive" ? "×" : "✓"}
 					/>

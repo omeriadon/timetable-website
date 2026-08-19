@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
-import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import AdminBroadcastDetailSheet from "../AdminBroadcastDetailSheet/AdminBroadcastDetailSheet";
@@ -76,7 +76,7 @@ export default function AdminBroadcastHistoryEditor() {
 							}
 						>
 							<div className={styles.row}>
-								<SymbolIcon
+								<Symbol
 									name={
 										record.isDeleted
 											? "trash"
@@ -94,7 +94,7 @@ export default function AdminBroadcastHistoryEditor() {
 											: "Unknown date"}
 									</small>
 								</span>
-								<SymbolIcon
+								<Symbol
 									name="chevron.right"
 									className={styles.chevronIcon}
 								/>
