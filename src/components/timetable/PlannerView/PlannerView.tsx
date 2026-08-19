@@ -33,7 +33,6 @@ export default function PlannerView({
 					background="paper"
 					title="Today"
 					symbolName="calendar.day.timeline.left"
-					accessory={`${todayEvents.length} events`}
 					headingLevel="h1"
 				>
 					{todayEvents.map((event) => (
@@ -45,7 +44,6 @@ export default function PlannerView({
 				background="paper"
 				title="Upcoming"
 				symbolName="calendar.badge.clock"
-				accessory={`${upcomingEvents.length} events`}
 				headingLevel="h1"
 			>
 				{upcomingEvents.length ? (
@@ -60,7 +58,6 @@ export default function PlannerView({
 				background="paper"
 				title="Term Dates"
 				symbolName="calendar"
-				accessory={`${schoolCalendar.termRanges.length} terms`}
 			>
 				{schoolCalendar.termRanges.map((term) => (
 					<Button

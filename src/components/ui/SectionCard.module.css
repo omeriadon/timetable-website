@@ -52,12 +52,6 @@
 	object-fit: contain;
 }
 
-.accessory {
-	color: color-mix(in srgb, currentColor 62%, transparent);
-	font-size: var(--ds-font-small);
-	white-space: nowrap;
-}
-
 .paper h3 {
 	margin: 0 0 var(--ds-list-row-gap);
 	font-size: 1.05rem;

@@ -78,7 +78,6 @@ export default function TodayView({
 					background="paper"
 					title="Events"
 					symbolName="calendar.badge.clock"
-					accessory={`${events.length} scheduled`}
 				>
 					{todayEvents.length ? (
 						<>
@@ -107,16 +106,7 @@ export default function TodayView({
 					<p>{noSchool.label}</p>
 				</SectionCard>
 			) : null}
-			<SectionCard
-				background="surface"
-				title="School Day"
-				symbolName="clock"
-				accessory={
-					dayIndex >= 0 && dayIndex < 5
-						? "8:50 am – 3:30 pm"
-						: "No classes today"
-				}
-			>
+			<SectionCard background="surface" title="School Day" symbolName="clock">
 				{dayIndex >= 0 && dayIndex < 5 ? (
 					<div className={styles.timelineList}>
 						{schoolPeriods.map((period) => {
@@ -170,7 +160,6 @@ export default function TodayView({
 					background="paper"
 					title="Assessments"
 					symbolName="list.bullet.rectangle"
-					accessory={`${grades.document.assessments.length} total`}
 				>
 					{grades.document.assessments
 						.slice()
@@ -218,7 +207,6 @@ export default function TodayView({
 				background="paper"
 				title="Classes"
 				symbolName="books.vertical"
-				accessory={`${subjects.length} subjects`}
 			>
 				<div className={styles.subjectList}>
 					{subjects.map((subject, index) => (

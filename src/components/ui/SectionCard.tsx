@@ -8,7 +8,6 @@ type SectionCardProps = {
 	title: string;
 	symbolName: string;
 	children: ReactNode;
-	accessory?: ReactNode;
 	headingLevel?: "h1" | "h2";
 	className?: string;
 };
@@ -18,7 +17,6 @@ export function SectionCard({
 	title,
 	symbolName,
 	children,
-	accessory,
 	headingLevel = "h2",
 	className,
 }: SectionCardProps) {
@@ -31,9 +29,6 @@ export function SectionCard({
 					<Symbol name={symbolName} className={styles.icon} />
 					<Heading>{title}</Heading>
 				</div>
-				{accessory ? (
-					<span className={styles.accessory}>{accessory}</span>
-				) : null}
 			</header>
 			{children}
 		</section>
