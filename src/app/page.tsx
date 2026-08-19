@@ -1,123 +1,96 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useEffect } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import { useDashboard } from "@/features/timetable/useDashboard";
-import type { CalendarEvent } from "@/features/timetable/types";
-import { useCompactLayout } from "@/lib/ui/useCompactLayout";
-import TodayView from "@/components/timetable/TodayView/TodayView";
-import WeekView from "@/components/timetable/WeekView/WeekView";
-import PlannerView from "@/components/timetable/PlannerView/PlannerView";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { useDashboard } from "@/features/timetable/useDashboard";
 import styles from "./page.module.css";
 
-type TimetableMode = "today" | "week" | "planner";
-
-const modes: Array<{ id: TimetableMode; label: string; symbol: string }> = [
-	{ id: "today", label: "Today", symbol: "calendar.day.timeline.left" },
-	{ id: "week", label: "Week", symbol: "7.calendar" },
-	{ id: "planner", label: "Planner", symbol: "pencil.and.list.clipboard" },
+const destinations = [
+	{
+		href: "/today",
+		label: "Today",
+		description: "See your school day and what is coming up.",
+		icon: "calendar.day.timeline.left",
+	},
+	{
+		href: "/week",
+		label: "Week",
+		description: "View every class across the school week.",
+		icon: "calendar.badge.clock",
+	},
+	{
+		href: "/planner",
+		label: "Planner",
+		description: "Keep events, assessments, and term dates together.",
+		icon: "pencil.and.list.clipboard",
+	},
 ];
 
 export default function Home() {
-	const [mode, setMode] = useState<TimetableMode>("today");
-	const router = useRouter();
-	const searchParams = useSearchParams();
-	const { data, error, isLoading } = useDashboard();
 	const setToolbar = useToolbar();
-	const isCompact = useCompactLayout();
+	const { data, error, isLoading } = useDashboard();
 
 	useEffect(() => {
-		setToolbar({ title: "Timetable" });
+		setToolbar({ title: "Home" });
 	}, [setToolbar]);
 
-	useEffect(() => {
-		const requestedMode = searchParams.get("mode");
-		if (
-			requestedMode === "today" ||
-			requestedMode === "week" ||
-			requestedMode === "planner"
-		) {
-			setMode(requestedMode);
-		}
-	}, [searchParams]);
-
-	const events = useMemo(() => {
-		if (!data) return [];
-		const today = new Date();
-		const start = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate(),
-		);
-		const end = new Date(start);
-		end.setMonth(end.getMonth() + 2);
-		return [...data.events.globalEvents, ...data.events.privateEvents]
-			.filter((event) => {
-				const date = new Date(
-					event.date.year,
-					event.date.month - 1,
-					event.date.day,
-				);
-				return date >= start && date <= end;
-			})
-			.sort((left, right) => eventDate(left) - eventDate(right));
-	}, [data]);
+	const displayName = data?.account.displayName ?? "there";
+	const eventCount = data
+		? data.events.globalEvents.length + data.events.privateEvents.length
+		: 0;
 
 	return (
-		<main className={styles.page}>
-			{isCompact ? (
-				<div className={styles.modePicker} aria-label="Timetable section">
-					{modes.map((item) => (
-						<Button
-							unstyled
-							key={item.id}
-							type="button"
-							className={mode === item.id ? styles.activeMode : ""}
-							onClick={() => {
-								setMode(item.id);
-								router.replace(`/?mode=${item.id}`, { scroll: false });
-							}}
-						>
-							<Symbol name={item.symbol} className={styles.modeIcon} />
-							{item.label}
-						</Button>
-					))}
-				</div>
-			) : null}
-			{isLoading ? (
-				<p className={styles.message}>Loading your timetable…</p>
-			) : null}
+		<main className={styles.homePage}>
+			<header className={styles.homeHeader}>
+				<p className={styles.homeEyebrow}>Timetable</p>
+				<h1>Good to see you, {displayName}.</h1>
+				<p>Everything for your school day, in one place.</p>
+			</header>
+
 			{error ? (
 				<p className={styles.error} role="alert">
 					{error}
 				</p>
 			) : null}
-			{data && mode === "today" ? (
-				<TodayView
-					events={events}
-					subjects={data.timetable.subjects}
-					grades={data.grades}
-					schoolCalendar={data.schoolCalendar}
-					schoolWeather={data.schoolWeather}
-				/>
-			) : null}
-			{data && mode === "week" ? (
-				<WeekView subjects={data.timetable.subjects} friends={data.friends} />
-			) : null}
-			{data && mode === "planner" ? (
-				<PlannerView events={events} schoolCalendar={data.schoolCalendar} />
-			) : null}
+
+			<section className={styles.homeStats} aria-label="Your overview">
+				<div className={styles.homeStat}>
+					<strong>
+						{isLoading ? "—" : data?.timetable.subjects.length ?? 0}
+					</strong>
+					<span>Classes</span>
+				</div>
+				<div className={styles.homeStat}>
+					<strong>{isLoading ? "—" : eventCount}</strong>
+					<span>Events</span>
+				</div>
+				<div className={styles.homeStat}>
+					<strong>{isLoading ? "—" : data?.friends.length ?? 0}</strong>
+					<span>Friends</span>
+				</div>
+			</section>
+
+			<section className={styles.destinationList} aria-label="Timetable views">
+				{destinations.map((destination) => (
+					<Link
+						key={destination.href}
+						href={destination.href}
+						className={styles.destination}
+					>
+						<Symbol name={destination.icon} className={styles.destinationIcon} />
+						<span>
+							<strong>{destination.label}</strong>
+							<small>{destination.description}</small>
+						</span>
+						<Symbol
+							name="chevron.right"
+							className={styles.destinationChevron}
+						/>
+					</Link>
+				))}
+			</section>
 		</main>
 	);
-}
-
-function eventDate(event: CalendarEvent) {
-	return new Date(
-		event.date.year,
-		event.date.month - 1,
-		event.date.day,
-	).getTime();
 }

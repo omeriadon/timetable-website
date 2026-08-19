@@ -1,0 +1,21 @@
+.route {
+	animation: routeEnter 180ms var(--ds-ease-standard) both;
+}
+
+@keyframes routeEnter {
+	from {
+		opacity: 0.96;
+		transform: translateY(4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.route {
+		animation: none;
+	}
+}

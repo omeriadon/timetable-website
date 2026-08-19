@@ -104,6 +104,21 @@
 	margin-top: 2px;
 }
 
+.brandLink {
+	display: inline-flex;
+	border-radius: 12px;
+	transition: transform var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+.brandLink:focus-visible {
+	outline: 2px solid var(--ds-color-text);
+	outline-offset: 3px;
+}
+
+.brandLink:active {
+	transform: scale(0.96);
+}
+
 .brandIcon {
 	height: 44px;
 	transition: scale var(--ds-duration-normal) ease;

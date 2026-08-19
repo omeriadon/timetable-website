@@ -2,7 +2,7 @@
 
 import styles from "./Sidebar.module.css";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
@@ -20,13 +20,13 @@ type SidebarItem = {
 const topGroups: SidebarItem[] = [
 	{
 		label: "Today",
-		href: "/?mode=today",
+		href: "/today",
 		icon: "calendar.day.timeline.left",
 	},
-	{ label: "Week", href: "/?mode=week", icon: "calendar.badge.clock" },
+	{ label: "Week", href: "/week", icon: "calendar.badge.clock" },
 	{
 		label: "Planner",
-		href: "/?mode=planner",
+		href: "/planner",
 		icon: "pencil.and.list.clipboard",
 	},
 	{ label: "Friends", href: "/friends", icon: "person.2", badge: true },
@@ -45,8 +45,6 @@ const bottomItems: SidebarItem[] = [
 export default function Sidebar() {
 	const isCompact = useCompactLayout();
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const activeMode = searchParams.get("mode") ?? "today";
 	const [isAdministrator, setIsAdministrator] = useState(false);
 	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
 		useState(0);
@@ -73,10 +71,6 @@ export default function Sidebar() {
 	}
 
 	function isActive(href: string) {
-		if (href.startsWith("/?mode=")) {
-			return pathname === "/" && href.endsWith(activeMode);
-		}
-
 		return pathname === href || pathname.startsWith(`${href}/`);
 	}
 
@@ -111,14 +105,16 @@ export default function Sidebar() {
 			<div className={styles.saturationOutline} aria-hidden="true" />
 
 			<div className={styles.sidebarHeader}>
-				<Symbol
-					src="/icon.png"
-					className={styles.brandIcon}
-					alt=""
-					aria-hidden="true"
-					loading="eager"
-					height={44}
-				/>
+				<Link href="/" className={styles.brandLink} aria-label="Home">
+					<Symbol
+						src="/icon.png"
+						className={styles.brandIcon}
+						alt=""
+						aria-hidden="true"
+						loading="eager"
+						height={44}
+					/>
+				</Link>
 			</div>
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">

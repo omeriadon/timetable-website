@@ -2,6 +2,7 @@
 
 import { type ReactNode, useLayoutEffect, useRef } from "react";
 import styles from "@/app/layout.module.css";
+import RouteTransition from "@/components/RouteTransition/RouteTransition";
 
 type ReflectedPageContentProps = {
 	children: ReactNode;
@@ -79,7 +80,7 @@ export default function ReflectedPageContent({
 				className={styles.contentSurface}
 				data-reflection-source
 			>
-				{children}
+				<RouteTransition>{children}</RouteTransition>
 			</div>
 		</div>
 	);

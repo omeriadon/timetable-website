@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { apiRequest } from "@/lib/api/client";
+import { resetDashboardCache } from "@/features/timetable/useDashboard";
 
 export default function SessionGate({ children }: { children: ReactNode }) {
 	const pathname = usePathname();
@@ -11,7 +12,7 @@ export default function SessionGate({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		let isCurrent = true;
-		setReady(false);
+		resetDashboardCache();
 
 		apiRequest("session")
 			.then(() => {
@@ -28,7 +29,7 @@ export default function SessionGate({ children }: { children: ReactNode }) {
 		return () => {
 			isCurrent = false;
 		};
-	}, [pathname, router]);
+	}, []);
 
 	return ready ? children : null;
 }

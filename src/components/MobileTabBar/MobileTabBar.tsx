@@ -19,7 +19,7 @@ type TabItem = {
 };
 
 const tabs: TabItem[] = [
-	{ href: "/", label: "Timetable", icon: "calendar.day.timeline.left" },
+	{ href: "/", label: "Home", icon: "house" },
 	{ href: "/friends", label: "Friends", icon: "person.2", badge: true },
 	{ href: "/grades", label: "Grades", icon: "chart.bar.xaxis" },
 	{ href: "/settings", label: "Settings", icon: "gear" },

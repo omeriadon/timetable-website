@@ -22,14 +22,21 @@ export type DashboardData = {
 	schoolWeather: SchoolWeather | null;
 };
 
-export function useDashboard() {
-	const [data, setData] = useState<DashboardData | null>(null);
-	const [error, setError] = useState<string | null>(null);
+let cachedDashboardData: DashboardData | null = null;
+let dashboardRequest: Promise<DashboardData> | null = null;
 
-	useEffect(() => {
-		let isCurrent = true;
+export function resetDashboardCache() {
+	cachedDashboardData = null;
+	dashboardRequest = null;
+}
 
-		Promise.all([
+function requestDashboard() {
+	if (cachedDashboardData) {
+		return Promise.resolve(cachedDashboardData);
+	}
+
+	if (!dashboardRequest) {
+		dashboardRequest = Promise.all([
 			apiRequest<Account>("v1/account"),
 			apiRequest<OwnerTimetable>("v1/timetables/owner"),
 			apiRequest<CalendarEvents>("v1/events"),
@@ -37,9 +44,17 @@ export function useDashboard() {
 			apiRequest<GradeTracker>("v1/grades"),
 			apiRequest<SchoolCalendar>("v1/settings/calendar"),
 			apiRequest<SchoolWeather>("v1/weather").catch(() => null),
-		])
-			.then(
-				([
+		]).then(
+			([
+				account,
+				timetable,
+				events,
+				friends,
+				grades,
+				schoolCalendar,
+				schoolWeather,
+			]) => {
+				const data = {
 					account,
 					timetable,
 					events,
@@ -47,23 +62,34 @@ export function useDashboard() {
 					grades,
 					schoolCalendar,
 					schoolWeather,
-				]) => {
-					if (isCurrent) {
-						setData({
-							account,
-							timetable,
-							events,
-							friends,
-							grades,
-							schoolCalendar,
-							schoolWeather,
-						});
-					}
-				},
-			)
+				};
+
+				cachedDashboardData = data;
+				return data;
+			},
+		);
+	}
+
+	return dashboardRequest;
+}
+
+export function useDashboard() {
+	const [data, setData] = useState<DashboardData | null>(cachedDashboardData);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		let isCurrent = true;
+
+		requestDashboard()
+			.then((dashboard) => {
+				if (isCurrent) {
+					setData(dashboard);
+				}
+			})
 			.catch((requestError: Error) => {
 				if (isCurrent) {
 					setError(requestError.message);
+					dashboardRequest = null;
 				}
 			});
 
