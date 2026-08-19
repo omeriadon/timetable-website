@@ -4,6 +4,12 @@
 		var(--theme-content-page-padding);
 	color: var(--theme-text);
 }
+@media (min-width: 701px) {
+	.page {
+		max-width: var(--ds-content-max-width);
+		margin-inline: auto;
+	}
+}
 .modePicker {
 	display: flex;
 	width: fit-content;

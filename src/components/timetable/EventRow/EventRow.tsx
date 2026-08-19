@@ -10,9 +10,11 @@ import styles from "@/app/page.module.css";
 export default function EventRow({
 	event,
 	prominent = false,
+	showDate = true,
 }: {
 	event: CalendarEvent;
 	prominent?: boolean;
+	showDate?: boolean;
 }) {
 	const { openSheet } = useSheet();
 	return (
@@ -33,7 +35,7 @@ export default function EventRow({
 				<strong>{event.title}</strong>
 				{event.notes ? <span>{event.notes}</span> : null}
 			</div>
-			<time>{displayDate(event)}</time>
+			{showDate ? <time>{displayDate(event)}</time> : null}
 		</Button>
 	);
 }

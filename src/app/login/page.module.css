@@ -88,6 +88,10 @@
 
 .submit,
 .switchMode {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--theme-content-row-gap);
 	min-height: var(--theme-auth-control-height);
 	border-radius: var(--theme-content-control-radius);
 	font: inherit;
@@ -118,6 +122,13 @@
 	margin: 0;
 	color: var(--theme-error);
 	font-size: 0.85rem;
+}
+
+.actionIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	flex: 0 0 var(--ds-control-icon-size-small);
+	object-fit: contain;
 }
 
 @media (max-width: 480px) {

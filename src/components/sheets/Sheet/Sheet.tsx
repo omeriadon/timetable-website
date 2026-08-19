@@ -11,6 +11,7 @@ import { Drawer } from "@base-ui/react/drawer";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import { glassButtonProps } from "@/components/LiquidGlass/presets";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import primitiveStyles from "@/components/ui/primitives.module.css";
 import styles from "./Sheet.module.css";
 
@@ -24,6 +25,7 @@ const SheetContext = createContext<SheetControls | null>(null);
 export function SheetProvider({ children }: { children: ReactNode }) {
 	const [content, setContent] = useState<ReactNode>(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const isCompact = useCompactLayout();
 
 	const openSheet = useCallback((nextContent: ReactNode) => {
 		setContent(nextContent);
@@ -48,9 +50,9 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 						setContent(null);
 					}
 				}}
-				snapPoints={[0.5, 0.7, 0.92]}
-				defaultSnapPoint={0.7}
-				swipeDirection="down"
+				snapPoints={isCompact ? [0.5, 0.7, 0.92] : undefined}
+				defaultSnapPoint={isCompact ? 0.7 : undefined}
+				swipeDirection={isCompact ? "down" : "right"}
 			>
 				<Drawer.Portal>
 					<Drawer.Backdrop className={primitiveStyles.drawerBackdrop} />

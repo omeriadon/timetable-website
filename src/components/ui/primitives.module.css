@@ -468,7 +468,7 @@
 	}
 
 	.drawerPopup {
-		width: min(500px, 42vw);
+		width: var(--ds-inspector-width);
 		max-height: none;
 		height: 100%;
 		padding-top: var(--ds-toolbar-height);

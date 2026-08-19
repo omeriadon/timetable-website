@@ -9,6 +9,7 @@ import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import TimetableEditorSheet from "@/components/sheets/TimetableEditorSheet/TimetableEditorSheet";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import WeekTimetable from "@/components/timetable/WeekTimetable/WeekTimetable";
+import Symbol from "@/components/controls/Symbol/Symbol";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,7 @@ export default function Timetable() {
 								)
 							}
 						>
+							<Symbol name="pencil.and.list.clipboard" />
 							Edit Timetable
 						</Button>
 					</div>

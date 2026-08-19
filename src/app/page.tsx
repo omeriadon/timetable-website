@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
+import type { CalendarEvent } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
@@ -45,13 +46,24 @@ export default function Home() {
 
 	const events = useMemo(() => {
 		if (!data) return [];
+		const today = new Date();
+		const start = new Date(
+			today.getFullYear(),
+			today.getMonth(),
+			today.getDate(),
+		);
+		const end = new Date(start);
+		end.setMonth(end.getMonth() + 2);
 		return [...data.events.globalEvents, ...data.events.privateEvents]
-			.sort((left, right) =>
-				`${left.date.year}${left.date.month}${left.date.day}`.localeCompare(
-					`${right.date.year}${right.date.month}${right.date.day}`,
-				),
-			)
-			.slice(0, 5);
+			.filter((event) => {
+				const date = new Date(
+					event.date.year,
+					event.date.month - 1,
+					event.date.day,
+				);
+				return date >= start && date <= end;
+			})
+			.sort((left, right) => eventDate(left) - eventDate(right));
 	}, [data]);
 
 	return (
@@ -100,4 +112,12 @@ export default function Home() {
 			) : null}
 		</main>
 	);
+}
+
+function eventDate(event: CalendarEvent) {
+	return new Date(
+		event.date.year,
+		event.date.month - 1,
+		event.date.day,
+	).getTime();
 }

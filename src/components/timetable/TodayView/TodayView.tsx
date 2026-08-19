@@ -38,7 +38,18 @@ export default function TodayView({
 	const { openSheet } = useSheet();
 	const today = new Date();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+	const todayTimestamp = new Date(
+		today.getFullYear(),
+		today.getMonth(),
+		today.getDate(),
+	).getTime();
 	const dayIndex = todayDayIndex();
+	const todayEvents = events.filter(
+		(event) => eventDate(event) === todayTimestamp,
+	);
+	const upcomingEvents = events.filter(
+		(event) => eventDate(event) > todayTimestamp,
+	);
 	const noSchool = schoolCalendar.skippedDates.find((item) => {
 		const date = item.date;
 		return `${date.year}-${date.month}-${date.day}` === todayKey;
@@ -61,28 +72,36 @@ export default function TodayView({
 				</h1>
 				<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
 			</header>
-			<section className={styles.paperCard}>
-				<div className={styles.sectionHeader}>
-					<div className={styles.sectionHeading}>
-						<Symbol
-							name="calendar.badge.clock"
-							className={styles.sectionHeadingIcon}
-						/>
-						<h2>Events</h2>
+			{events.length ? (
+				<section className={styles.paperCard}>
+					<div className={styles.sectionHeader}>
+						<div className={styles.sectionHeading}>
+							<Symbol
+								name="calendar.badge.clock"
+								className={styles.sectionHeadingIcon}
+							/>
+							<h2>Events</h2>
+						</div>
+						<span>{events.length} scheduled</span>
 					</div>
-					<span>
-						{events.length ? `${events.length} upcoming` : "Nothing scheduled"}
-					</span>
-				</div>
-				<h3>Upcoming</h3>
-				{events.length ? (
-					events
-						.slice(0, 2)
-						.map((event) => <EventRow key={event.id} event={event} />)
-				) : (
-					<p className={styles.empty}>No upcoming events.</p>
-				)}
-			</section>
+					{todayEvents.length ? (
+						<>
+							<h3>Today</h3>
+							{todayEvents.map((event) => (
+								<EventRow key={event.id} event={event} showDate={false} />
+							))}
+						</>
+					) : null}
+					{upcomingEvents.length ? (
+						<>
+							<h3>Upcoming</h3>
+							{upcomingEvents.map((event) => (
+								<EventRow key={event.id} event={event} />
+							))}
+						</>
+					) : null}
+				</section>
+			) : null}
 			{noSchool ? (
 				<section className={styles.paperCard}>
 					<h2>No School Today</h2>
@@ -313,6 +332,14 @@ function compareDate(
 		new Date(left.year, left.month - 1, left.day).getTime() -
 		new Date(right.year, right.month - 1, right.day).getTime()
 	);
+}
+
+function eventDate(event: CalendarEvent) {
+	return new Date(
+		event.date.year,
+		event.date.month - 1,
+		event.date.day,
+	).getTime();
 }
 
 function displayAssessmentDate(date: {

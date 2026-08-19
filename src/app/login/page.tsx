@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
 
 type Mode = "sign-in" | "sign-up" | "verify";
@@ -147,6 +148,18 @@ export default function LoginPage() {
 						type="submit"
 						disabled={isSubmitting}
 					>
+						<Symbol
+							name={
+								isSubmitting
+									? "ellipsis.circle"
+									: mode === "sign-in"
+										? "arrow.right"
+										: mode === "sign-up"
+											? "paperplane"
+											: "checkmark.circle"
+							}
+							className={styles.actionIcon}
+						/>
 						{isSubmitting
 							? "Please wait"
 							: mode === "sign-in"
@@ -164,6 +177,10 @@ export default function LoginPage() {
 						type="button"
 						onClick={() => setMode(mode === "sign-in" ? "sign-up" : "sign-in")}
 					>
+						<Symbol
+							name={mode === "sign-in" ? "person.badge.plus" : "arrow.left"}
+							className={styles.actionIcon}
+						/>
 						{mode === "sign-in"
 							? "Create an account"
 							: "I already have an account"}

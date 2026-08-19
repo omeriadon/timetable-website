@@ -3,6 +3,12 @@
 	padding: var(--theme-content-page-padding-block)
 		var(--theme-content-page-padding);
 }
+@media (min-width: 701px) {
+	.contentPanel {
+		max-width: var(--ds-content-max-width);
+		margin-inline: auto;
+	}
+}
 
 .actions {
 	display: flex;

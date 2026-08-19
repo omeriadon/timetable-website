@@ -55,7 +55,7 @@
 	gap: 4px;
 	padding: 4px;
 	border: 1px solid var(--theme-divider);
-	border-radius: 999px;
+	border-radius: var(--ds-radius-pill);
 	background: var(--theme-surface);
 	text-align: center;
 }
@@ -73,7 +73,7 @@
 	gap: var(--theme-content-row-gap);
 	padding: 7px 6px;
 	border: 0;
-	border-radius: 999px;
+	border-radius: var(--ds-radius-pill);
 	color: inherit;
 	background: transparent;
 	font: inherit;
@@ -100,8 +100,10 @@
 	display: grid;
 	gap: 0;
 	padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
+	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	border-radius: var(--theme-radius-card);
 	background: var(--theme-surface);
+	box-shadow: inset 0 1px var(--ds-surface-highlight);
 }
 
 .leadTimeOption,
@@ -221,7 +223,7 @@
 
 .friendWeekGrid span {
 	padding: 5px 4px;
-	border-radius: 8px;
+	border-radius: calc(var(--ds-radius-control) - 4px);
 	background: var(--theme-surface-soft);
 	font-size: 0.74rem;
 }

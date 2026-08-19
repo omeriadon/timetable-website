@@ -70,6 +70,8 @@
 	--ds-surface-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 	--ds-popup-max-width: min(360px, calc(100vw - 24px));
 	--ds-popup-max-height: min(320px, 50svh);
+	--ds-content-max-width: 860px;
+	--ds-inspector-width: min(500px, 42vw);
 
 	/* Typography */
 	--ds-font-body: "SF Pro Display", "SF Pro", sans-serif;

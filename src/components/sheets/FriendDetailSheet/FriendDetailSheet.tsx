@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { Tabs } from "@base-ui/react/tabs";
 import { useEffect, useState } from "react";
 import type { Friend, FriendDetail } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
@@ -55,7 +55,15 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 	};
 
 	return (
-		<div className={styles.detailSheet}>
+		<Tabs.Root
+			className={styles.detailSheet}
+			value={tab}
+			onValueChange={(value) => {
+				if (value === "main" || value === "week" || value === "info") {
+					setTab(value);
+				}
+			}}
+		>
 			<header className={styles.detailHeader}>
 				<ProfilePicture
 					profile={friend.friend}
@@ -67,23 +75,23 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 					<p>{friend.friend.email}</p>
 				</div>
 			</header>
-			<nav className={styles.detailTabs} aria-label="Friend details">
+			<Tabs.List className={styles.detailTabs} aria-label="Friend details">
 				{tabs.map(({ value, label, symbol }) => (
-					<Button
-						unstyled
+					<Tabs.Tab
 						key={value}
-						type="button"
-						className={tab === value ? styles.detailTabActive : ""}
-						onClick={() => setTab(value)}
-						role="tab"
-						aria-selected={tab === value}
+						value={value}
+						className={
+							tab === value
+								? `${styles.detailTab} ${styles.detailTabActive}`
+								: styles.detailTab
+						}
 					>
 						<Symbol name={symbol} />
 						{label}
-					</Button>
+					</Tabs.Tab>
 				))}
-			</nav>
-			{tab === "main" ? (
+			</Tabs.List>
+			<Tabs.Panel value="main">
 				<section className={styles.detailCard}>
 					<div className={styles.detailRow}>
 						<span className={styles.detailRowLabel}>
@@ -100,8 +108,6 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 						<strong>School&apos;s Out</strong>
 					</div>
 				</section>
-			) : null}
-			{tab === "main" ? (
 				<section className={styles.detailCard}>
 					<h3>Shared Subjects</h3>
 					{subjects.length ? (
@@ -118,8 +124,8 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 						<p className={styles.detailMuted}>No shared classes.</p>
 					)}
 				</section>
-			) : null}
-			{tab === "week" ? (
+			</Tabs.Panel>
+			<Tabs.Panel value="week">
 				<section className={styles.detailCard}>
 					<h3>Week</h3>
 					<div className={styles.friendWeekGrid}>
@@ -143,8 +149,8 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 						))}
 					</div>
 				</section>
-			) : null}
-			{tab === "info" ? (
+			</Tabs.Panel>
+			<Tabs.Panel value="info">
 				<section className={styles.detailCard}>
 					<h3>Location notifications</h3>
 					<SettingToggle
@@ -189,12 +195,12 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 						</strong>
 					</div>
 				</section>
-			) : null}
+			</Tabs.Panel>
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}
 				</p>
 			) : null}
-		</div>
+		</Tabs.Root>
 	);
 }
