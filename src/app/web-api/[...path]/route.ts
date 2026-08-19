@@ -28,6 +28,7 @@ async function forward(
 		headers: {
 			"Content-Type":
 				upstream.headers.get("Content-Type") ?? "application/json",
+			"Cache-Control": "no-store",
 		},
 	});
 

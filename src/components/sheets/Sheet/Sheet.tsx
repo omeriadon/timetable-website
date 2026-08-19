@@ -58,6 +58,7 @@ export function SheetProvider({ children }: { children: ReactNode }) {
 								Timetable sheet
 							</Drawer.Title>
 							<Drawer.Close
+								nativeButton={false}
 								render={
 									<LiquidGlass
 										radius={999}

@@ -23,12 +23,19 @@ export async function POST(
 	}
 
 	const body = await request.json();
-	const upstream = await pmsttRequest(`v1/auth/${action}`, {
+	const upstream = await pmsttRequest("v1/auth/" + action, {
 		method: "POST",
 		body: JSON.stringify({ ...body, platform: "website" }),
 	});
 	const payload = await upstream.json().catch(() => ({}));
-	const response = NextResponse.json(payload, { status: upstream.status });
+	const clientPayload =
+		upstream.ok && sessionActions.has(action)
+			? { user: (payload as TokenResponse).user }
+			: payload;
+	const response = NextResponse.json(clientPayload, {
+		status: upstream.status,
+	});
+	response.headers.set("Cache-Control", "no-store");
 
 	if (upstream.ok && sessionActions.has(action)) {
 		writeSession(response, payload as TokenResponse);

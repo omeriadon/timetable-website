@@ -10,6 +10,7 @@ export async function GET() {
 		await authenticatedPMSTTRequest("v1/account");
 	const payload = await upstream.json().catch(() => ({}));
 	const response = NextResponse.json(payload, { status: upstream.status });
+	response.headers.set("Cache-Control", "no-store");
 
 	if (tokens) {
 		writeSession(response, tokens);

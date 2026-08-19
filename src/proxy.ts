@@ -1,12 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const accessCookie = "timetable.website.access";
-const refreshCookie = "timetable.website.refresh";
+const sessionCookies =
+	process.env.NODE_ENV === "production"
+		? [
+				"__Host-timetable.website.access",
+				"__Host-timetable.website.refresh",
+				"timetable.website.access",
+				"timetable.website.refresh",
+			]
+		: ["timetable.website.access", "timetable.website.refresh"];
 
 export function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
-	const hasSession =
-		request.cookies.has(accessCookie) || request.cookies.has(refreshCookie);
+	const hasSession = sessionCookies.some((name) => request.cookies.has(name));
 
 	if (pathname === "/login" || pathname.startsWith("/web-api")) {
 		return NextResponse.next();
