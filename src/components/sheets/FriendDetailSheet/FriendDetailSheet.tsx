@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import type { Friend, FriendDetail } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import {
 	TIMETABLE_DAYS,
@@ -91,7 +92,10 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 					{subjects.length ? (
 						subjects.slice(0, 6).map((subject) => (
 							<div key={subject.id} className={styles.detailSubject}>
-								<span>{subject.symbol}</span>
+								<Symbol
+									name={subject.symbol}
+									className={styles.detailSubjectSymbolIcon}
+								/>
 								<strong>{subject.id}</strong>
 							</div>
 						))

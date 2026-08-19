@@ -65,6 +65,11 @@
 		hue-rotate(318deg) brightness(86%);
 }
 
+.symbol .symbolIcon {
+	width: var(--theme-content-icon-size);
+	height: var(--theme-content-icon-size);
+}
+
 .badgePreview {
 	display: grid;
 	width: var(--theme-content-avatar-size-small);

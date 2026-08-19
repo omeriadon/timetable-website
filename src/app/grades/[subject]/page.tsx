@@ -140,7 +140,10 @@ export default function GradeSubjectPage() {
 										}
 									>
 										<article className={styles.row}>
-											<span className={styles.symbol}>◌</span>
+											<Symbol
+												name="list.bullet.rectangle"
+												className={styles.symbolIcon}
+											/>
 											<span>
 												<b className={styles.label}>{assessment.name}</b>
 												<small className={styles.rowMeta}>

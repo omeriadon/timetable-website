@@ -1,5 +1,6 @@
 import type { TimetableSubject } from "@/features/timetable/types";
 import { periodLabel } from "@/features/timetable/layout";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Sheet/Sheet.module.css";
 
 type SubjectContextSheetProps = {
@@ -22,7 +23,10 @@ export default function SubjectContextSheet({
 					className={styles.detailSubjectSymbol}
 					style={{ background: subjectColour(subject) }}
 				>
-					{subject.symbol}
+					<Symbol
+						name={subject.symbol}
+						className={styles.detailSubjectSymbolIcon}
+					/>
 				</div>
 				<div>
 					<span className={styles.detailEyebrow}>{owner}</span>

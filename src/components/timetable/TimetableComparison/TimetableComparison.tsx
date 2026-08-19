@@ -9,6 +9,7 @@ import type {
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./TimetableComparison.module.css";
 
 type TimetableComparisonProps = {
@@ -66,7 +67,8 @@ export default function TimetableComparison({
 						/>
 						<span>{friend.friend.displayName}</span>
 						<strong>
-							{subject.symbol} {subject.id}
+							<Symbol name={subject.symbol} className={styles.subjectSymbol} />{" "}
+							{subject.id}
 						</strong>
 					</Button>
 				) : (

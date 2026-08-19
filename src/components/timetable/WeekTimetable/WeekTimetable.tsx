@@ -1,4 +1,5 @@
 import type { TimetableSubject } from "@/features/timetable/types";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,
@@ -36,7 +37,10 @@ export default function WeekTimetable({
 										background: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
 									}}
 								>
-									<span>{subject.symbol}</span>
+									<Symbol
+										name={subject.symbol}
+										className={styles.lessonSymbol}
+									/>
 									<strong>{subject.id}</strong>
 								</article>
 							) : (

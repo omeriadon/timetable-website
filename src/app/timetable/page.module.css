@@ -77,6 +77,12 @@
 	font-size: 0.75rem;
 }
 
+.lessonSymbol {
+	width: var(--theme-content-icon-size);
+	height: var(--theme-content-icon-size);
+	object-fit: contain;
+}
+
 @media (max-width: 700px) {
 	.contentPanel {
 		padding: var(--theme-content-page-padding) 0

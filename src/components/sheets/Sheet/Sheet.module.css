@@ -210,6 +210,12 @@
 	font-size: 1.7rem;
 }
 
+.detailSubjectSymbolIcon {
+	width: var(--theme-content-icon-size);
+	height: var(--theme-content-icon-size);
+	object-fit: contain;
+}
+
 .importInstructions {
 	display: grid;
 	gap: var(--theme-content-row-gap);

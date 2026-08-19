@@ -5,6 +5,7 @@ import { useState } from "react";
 import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { TimetableSubject } from "@/features/timetable/types";
 import {
@@ -86,7 +87,10 @@ export default function WeekView({
 										}
 										style={{ background: colour(subject) }}
 									>
-										<span>{subject.symbol}</span>
+										<Symbol
+											name={subject.symbol}
+											className={styles.lessonSymbol}
+										/>
 										<strong>{subject.id}</strong>
 									</article>
 								</Button>
@@ -100,7 +104,11 @@ export default function WeekView({
 					<div>
 						<span className={styles.selectedEyebrow}>YOU</span>
 						<strong>
-							{selectedSubject.symbol} {selectedSubject.id}
+							<Symbol
+								name={selectedSubject.symbol}
+								className={styles.selectedLessonSymbol}
+							/>{" "}
+							{selectedSubject.id}
 						</strong>
 					</div>
 					<span>

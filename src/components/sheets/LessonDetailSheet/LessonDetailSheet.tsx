@@ -1,5 +1,6 @@
 import type { TimetableSubject } from "@/features/timetable/types";
 import { periodLabel } from "@/features/timetable/layout";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Sheet/Sheet.module.css";
 
 export default function LessonDetailSheet({
@@ -14,7 +15,12 @@ export default function LessonDetailSheet({
 	return (
 		<div className={styles.detailSheet}>
 			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>{subject.symbol}</div>
+				<div className={styles.detailSubjectSymbol}>
+					<Symbol
+						name={subject.symbol}
+						className={styles.detailSubjectSymbolIcon}
+					/>
+				</div>
 				<div>
 					<h2>{subject.id}</h2>
 					<p>

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/app/grades/page.module.css";
 
 export default function GradeGauge({
@@ -19,7 +20,13 @@ export default function GradeGauge({
 				{ "--gauge-value": percentage, "--gauge-color": color } as CSSProperties
 			}
 		>
-			<span>{value === null ? symbol : `${Math.round(percentage)}%`}</span>
+			<span>
+				{value === null ? (
+					<Symbol name={symbol} className={styles.gaugeSymbol} />
+				) : (
+					`${Math.round(percentage)}%`
+				)}
+			</span>
 		</span>
 	);
 }

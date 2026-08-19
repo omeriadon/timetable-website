@@ -46,7 +46,7 @@ export default function ClassesPage() {
 										color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
 									}}
 								>
-									{subject.symbol}
+									<Symbol name={subject.symbol} className={styles.symbolIcon} />
 								</span>
 								<span>
 									<b className={styles.label}>{subject.id}</b>
@@ -61,10 +61,7 @@ export default function ClassesPage() {
 										{subject.slots.length === 1 ? "" : "es"} each week
 									</small>
 								</span>
-								<Symbol
-									name="chevron.right"
-									className={styles.chevronIcon}
-								/>
+								<Symbol name="chevron.right" className={styles.chevronIcon} />
 							</article>
 						</SheetTrigger>
 					))}

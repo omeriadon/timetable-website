@@ -117,7 +117,15 @@ export default function TodayView({
 											{subject ? `  ${subject.id}` : "  Free period"}
 										</strong>
 										<span>
-											{subject?.symbol ?? "—"} {period.end}
+											{subject ? (
+												<Symbol
+													name={subject.symbol}
+													className={styles.eventSymbolIcon}
+												/>
+											) : (
+												"—"
+											)}{" "}
+											{period.end}
 										</span>
 									</div>
 								</article>
@@ -191,7 +199,12 @@ export default function TodayView({
 						>
 							<span>{index + 1}</span>
 							<strong>{subject.id}</strong>
-							<em style={{ color: colour(subject) }}>{subject.symbol}</em>
+							<em style={{ color: colour(subject) }}>
+								<Symbol
+									name={subject.symbol}
+									className={styles.eventSymbolIcon}
+								/>
+							</em>
 						</Button>
 					))}
 				</div>

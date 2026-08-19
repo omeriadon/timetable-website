@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type { CalendarEvent } from "@/features/timetable/types";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/app/page.module.css";
 
 export default function EventRow({
@@ -26,7 +27,7 @@ export default function EventRow({
 			}
 		>
 			<span className={styles.eventSymbol} aria-hidden="true">
-				{event.symbol}
+				<Symbol name={event.symbol} className={styles.eventSymbolIcon} />
 			</span>
 			<div>
 				<strong>{event.title}</strong>

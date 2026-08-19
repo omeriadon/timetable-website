@@ -6,6 +6,7 @@ import type { CalendarEvent } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
 import TermDateSheet from "@/components/sheets/TermDateSheet/TermDateSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/app/page.module.css";
 
 export default function PlannerView({
@@ -42,7 +43,7 @@ export default function PlannerView({
 					aria-label={`Open ${term.label} dates`}
 				>
 					<span className={styles.eventSymbol} aria-hidden="true">
-						▣
+						<Symbol name="calendar" className={styles.eventSymbolIcon} />
 					</span>
 					<div>
 						<strong>{term.label}</strong>

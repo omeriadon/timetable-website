@@ -279,6 +279,12 @@
 	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
 		hue-rotate(318deg) brightness(86%);
 }
+
+.timelineContent .eventSymbolIcon,
+.subjectRow .eventSymbolIcon {
+	width: var(--theme-content-icon-size);
+	height: var(--theme-content-icon-size);
+}
 .subjectList {
 	display: grid;
 	gap: var(--theme-space-3);
@@ -366,6 +372,11 @@
 .lesson span {
 	font-size: var(--theme-content-icon-size);
 }
+.lessonSymbol {
+	width: var(--theme-content-icon-size);
+	height: var(--theme-content-icon-size);
+	object-fit: contain;
+}
 .lesson strong {
 	font-size: 0.88rem;
 }
@@ -389,6 +400,13 @@
 }
 .selectedLesson strong {
 	font-size: 1rem;
+}
+.selectedLessonSymbol {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	margin-right: var(--theme-space-1);
+	vertical-align: middle;
+	object-fit: contain;
 }
 .selectedLesson > span {
 	color: var(--theme-text-secondary);

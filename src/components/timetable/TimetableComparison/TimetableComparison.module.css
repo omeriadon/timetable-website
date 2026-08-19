@@ -28,6 +28,13 @@
 	font-size: 0.8rem;
 	font-weight: 650;
 }
+
+.subjectSymbol {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	vertical-align: middle;
+	object-fit: contain;
+}
 .freePeriod {
 	grid-template-columns: minmax(0, 1fr) auto;
 	background: var(--theme-surface);
