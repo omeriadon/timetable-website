@@ -23,6 +23,7 @@
 }
 
 .tab {
+	position: relative;
 	display: grid;
 	min-width: 0;
 	place-items: center;
@@ -36,15 +37,37 @@
 	text-decoration: none;
 }
 
+.badge {
+	position: absolute;
+	top: 2px;
+	right: 12%;
+	display: grid;
+	min-width: 16px;
+	height: 16px;
+	place-items: center;
+	padding: 0 4px;
+	border-radius: 999px;
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font-size: 0.62rem;
+	font-weight: 700;
+}
+
 .symbol {
 	width: 24px;
 	height: 24px;
 	object-fit: contain;
+	filter: brightness(0) invert(1);
+	opacity: 0.76;
 }
 
 .active {
 	color: var(--theme-accent-bright);
 	background: color-mix(in srgb, var(--theme-black) 58%, transparent);
+}
+
+.active .symbol {
+	opacity: 1;
 }
 
 @media (max-width: 700px) {

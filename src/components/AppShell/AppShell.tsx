@@ -32,11 +32,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
 						<div className={styles.outerAppShell}>
 							<ReflectedPageContent>{children}</ReflectedPageContent>
 							<ProgressiveBlur
-								height="5%"
-								position="bottom"
-								blurLevels={blurLevels}
-							/>
-							<ProgressiveBlur
 								height="10%"
 								position="top"
 								blurLevels={blurLevels}

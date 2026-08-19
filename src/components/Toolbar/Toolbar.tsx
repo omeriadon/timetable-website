@@ -9,7 +9,9 @@ import {
 	type ReactNode,
 } from "react";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
+import { toolbarGlassProps } from "@/components/LiquidGlass/presets";
 import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import QuickSettingsSheet from "@/components/sheets/QuickSettingsSheet/QuickSettingsSheet";
 import styles from "./Toolbar.module.css";
@@ -21,16 +23,13 @@ export type ToolbarAction = {
 };
 
 export type ToolbarConfig = {
-	title: string;
 	searchPlaceholder?: string;
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
 	actions?: ToolbarAction[];
 };
 
-const defaultToolbar: ToolbarConfig = {
-	title: "Timetable",
-};
+const defaultToolbar: ToolbarConfig = {};
 
 const ToolbarContext = createContext<{
 	config: ToolbarConfig;
@@ -61,7 +60,6 @@ export default function Toolbar() {
 	const { openSheet } = useSheet();
 
 	const {
-		title,
 		searchPlaceholder,
 		searchValue = "",
 		onSearchChange,
@@ -71,32 +69,9 @@ export default function Toolbar() {
 	return (
 		<header className={styles.toolbar}>
 			{searchPlaceholder ? (
-				<LiquidGlass
-					radius={300}
-					scale={-80}
-					border={0}
-					alpha={20}
-					inputBlur={12}
-					outputBlur={1}
-					red={10}
-					green={10}
-					blue={0}
-					frost={0}
-					saturation={1.3}
-					interactive
-					dragFollow={0.02}
-					dragDistance={38}
-					dragPressScale={1.03}
-					dragDuration={1.2}
-					dragReleaseDuration={0.8}
-					dragStretch={0.32}
-					dragSquash={0.36}
-					dragBounce={2}
-					filterPadding={32}
-				>
+				<LiquidGlass {...toolbarGlassProps}>
 					<label className={styles.search}>
 						<div className={styles.something}>
-							<span className="sr-only">Search {title}</span>
 							<Input
 								value={searchValue}
 								placeholder={searchPlaceholder}
@@ -114,13 +89,7 @@ export default function Toolbar() {
 					label={action.label}
 					onClick={action.onPress}
 				>
-					<img
-						className={styles.actionIcon}
-						src={`/icons/${action.icon}`}
-						alt="action icon"
-						loading="eager"
-						aria-hidden="true"
-					/>
+					<SymbolIcon name={action.icon} className={styles.actionIcon} />
 				</GlassButton>
 			))}
 
@@ -128,13 +97,7 @@ export default function Toolbar() {
 				label="Open settings"
 				onClick={() => openSheet(<QuickSettingsSheet />)}
 			>
-				<img
-					className={styles.actionIcon}
-					src={`/icons/gear.svg`}
-					alt="action icon"
-					loading="eager"
-					aria-hidden="true"
-				/>
+				<SymbolIcon name="gear" className={styles.actionIcon} />
 			</GlassButton>
 		</header>
 	);

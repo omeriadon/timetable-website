@@ -7,32 +7,41 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
+import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
+import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 
-const topGroups = [
+type SidebarItem = {
+	label: string;
+	href: string;
+	icon: string;
+	badge?: boolean;
+};
+
+const topGroups: SidebarItem[][] = [
 	[
 		{
 			label: "Today",
 			href: "/?mode=today",
-			icon: "calendar.day.timeline.left.svg",
+			icon: "calendar.day.timeline.left",
 		},
-		{ label: "Week", href: "/?mode=week", icon: "calendar.badge.clock.svg" },
+		{ label: "Week", href: "/?mode=week", icon: "calendar.badge.clock" },
 		{
 			label: "Planner",
 			href: "/?mode=planner",
-			icon: "pencil.and.list.clipboard.svg",
+			icon: "pencil.and.list.clipboard",
 		},
 	],
-	[{ label: "Friends", href: "/friends", icon: "person.2.svg" }],
-	[{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis.svg" }],
+	[{ label: "Friends", href: "/friends", icon: "person.2", badge: true }],
+	[{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis" }],
 ];
 
-const bottomItems = [
-	{ label: "Settings", href: "/settings", icon: "gear.svg" },
+const bottomItems: SidebarItem[] = [
+	{ label: "Settings", href: "/settings", icon: "gear" },
 	{
 		label: "Administration",
 		href: "/administration",
-		icon: "calendar.badge.lock.svg",
+		icon: "calendar.badge.lock",
 	},
 ];
 
@@ -42,6 +51,8 @@ export default function Sidebar() {
 	const searchParams = useSearchParams();
 	const activeMode = searchParams.get("mode") ?? "today";
 	const [isAdministrator, setIsAdministrator] = useState(false);
+	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
+		useState(0);
 
 	useEffect(() => {
 		apiRequest<Account>("v1/account")
@@ -52,6 +63,12 @@ export default function Sidebar() {
 				);
 			})
 			.catch(() => setIsAdministrator(false));
+
+		apiRequest<Friend[]>("v1/friends/requests")
+			.then((incomingRequests) =>
+				setIncomingFriendRequestCount(incomingRequests.length),
+			)
+			.catch(() => setIncomingFriendRequestCount(0));
 	}, []);
 
 	if (isCompact) {
@@ -63,10 +80,10 @@ export default function Sidebar() {
 			return pathname === "/" && href.endsWith(activeMode);
 		}
 
-		return pathname === href;
+		return pathname === href || pathname.startsWith(`${href}/`);
 	}
 
-	function renderItem(item: (typeof topGroups)[number][number]) {
+	function renderItem(item: SidebarItem) {
 		return (
 			<Link
 				key={item.href}
@@ -78,14 +95,16 @@ export default function Sidebar() {
 				}
 				aria-current={isActive(item.href) ? "page" : undefined}
 			>
-				<img
-					className={styles.navIcon}
-					src={`/icons/${item.icon}`}
-					alt=""
-					loading="eager"
-					aria-hidden="true"
-				/>
+				<SymbolIcon name={item.icon} className={styles.navIcon} />
 				<span>{item.label}</span>
+				{item.badge && incomingFriendRequestCount > 0 ? (
+					<span
+						className={styles.navBadge}
+						aria-label={`${incomingFriendRequestCount} pending`}
+					>
+						{incomingFriendRequestCount}
+					</span>
+				) : null}
 			</Link>
 		);
 	}
@@ -94,13 +113,21 @@ export default function Sidebar() {
 		<aside className={styles.sidebar} aria-label="Sidebar navigation">
 			<div className={styles.saturationOutline} aria-hidden="true" />
 
-			<Image
-				src="/icon.png"
-				alt="Photo"
-				loading="eager"
-				width={100}
-				height={100}
-			/>
+			<div className={styles.sidebarHeader}>
+				<Image
+					className={styles.brandIcon}
+					src="/icon.png"
+					alt=""
+					aria-hidden="true"
+					loading="eager"
+					width={44}
+					height={44}
+				/>
+				<div>
+					<strong>Timetable</strong>
+					<span>School week</span>
+				</div>
+			</div>
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
 				{topGroups.map((group, index) => (

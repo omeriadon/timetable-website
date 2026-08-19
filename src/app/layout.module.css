@@ -83,7 +83,8 @@
 	width: calc(100% - var(--theme-sidebar-frame));
 	min-height: 100%;
 	margin-left: var(--theme-sidebar-frame);
-	padding: var(--theme-page-padding);
+	padding-left: var(--theme-page-padding);
+	padding-right: var(--theme-page-padding);
 	padding-top: 52px;
 	background: var(--theme-black);
 	/* Content inherits the compact design system; the sidebar and toolbar keep

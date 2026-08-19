@@ -1,20 +1,21 @@
 .toolbar {
 	position: absolute;
-	top: 14px;
-	left: 14px;
-	right: 14px;
+	top: var(--ds-toolbar-inset);
+	left: var(--ds-toolbar-inset);
+	right: var(--ds-toolbar-inset);
 	z-index: 20;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	gap: var(--ds-toolbar-gap);
-	margin-bottom: 24px;
+	margin-bottom: var(--ds-space-7);
 }
 
 .actionIcon {
-	width: var(--ds-toolbar-icon-size);
-	height: var(--ds-toolbar-icon-size);
+	width: var(--ds-icon-size-toolbar);
+	height: var(--ds-icon-size-toolbar);
 	object-fit: contain;
+	filter: brightness(0) invert(1);
 }
 
 .liquidGlassFilter {
@@ -25,7 +26,7 @@
 }
 
 .something {
-	padding: 10px;
+	padding: var(--ds-space-4);
 	background: var(--theme-glass);
 	align-items: center;
 }
@@ -96,8 +97,8 @@
 }
 
 .search input {
-	width: 150px;
-	height: 24px;
+	width: var(--ds-toolbar-search-width);
+	height: var(--ds-toolbar-search-height);
 	border: 0;
 	outline: 0;
 	color: inherit;
