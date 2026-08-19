@@ -37,9 +37,9 @@
 }
 
 .symbol {
-	width: 24px;
-	height: 24px;
-	object-fit: contain;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .active {

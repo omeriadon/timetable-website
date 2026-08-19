@@ -19,7 +19,7 @@ function subjectColour(subject: TimetableSubject) {
 }
 
 function formatPercent(value: number | null) {
-	return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
+  return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
 }
 
 export default function GradesPage() {
@@ -65,34 +65,37 @@ export default function GradesPage() {
             <div className={styles.summaryTop}>
               <div>
                 <strong className={styles.summaryLabel}>Average</strong>
-                <div className={styles.summaryValue}>{formatPercent(average)}</div>
+                <div className={styles.summaryValue}>
+                  {formatPercent(average)}
+                </div>
               </div>
               <div style={{ textAlign: "right" }}>
                 <strong className={styles.summaryLabel}>Top 4</strong>
-                <div className={styles.summaryValue}>{formatPercent(average)}</div>
+                <div className={styles.summaryValue}>
+                  {formatPercent(average)}
+                </div>
               </div>
             </div>
             <div className={styles.summaryStats}>
               <span>
                 Predicted ATAR
                 <br />
-                <b>
-                  {grades.document.predictedATAR?.toFixed(2) ?? "—"}
-                </b>
+                <b>{grades.document.predictedATAR?.toFixed(2) ?? "—"}</b>
               </span>
               <span>
                 Goal ATAR
                 <br />
-                <b>
-                  {grades.document.goalATAR?.toFixed(2) ?? "—"}
-                </b>
+                <b>{grades.document.goalATAR?.toFixed(2) ?? "—"}</b>
               </span>
               <span>
                 Gap
                 <br />
                 <b>
-                  {grades.document.goalATAR !== null && grades.document.predictedATAR !== null
-                    ? (grades.document.goalATAR - grades.document.predictedATAR).toFixed(2)
+                  {grades.document.goalATAR !== null &&
+                  grades.document.predictedATAR !== null
+                    ? (
+                        grades.document.goalATAR - grades.document.predictedATAR
+                      ).toFixed(2)
                     : "—"}
                 </b>
               </span>
@@ -132,7 +135,11 @@ export default function GradesPage() {
                   }
                   aria-label={`Open ${subject.id} grades`}
                 >
-                  <GradeGauge value={subjectAverage} color={subjectColour(subject)} symbol={subject.symbol} />
+                  <GradeGauge
+                    value={subjectAverage}
+                    color={subjectColour(subject)}
+                    symbol={subject.symbol}
+                  />
                   <span>
                     <b className={styles.subjectName}>{subject.id}</b>
                     <small className={styles.subjectDetail}>

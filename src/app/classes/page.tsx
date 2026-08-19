@@ -38,30 +38,30 @@ export default function ClassesPage() {
               ariaLabel={`Open ${subject.id}`}
               content={<SubjectDetailSheet subject={subject} />}
             >
-            <article className={styles.row}>
-              <span
-                className={styles.symbol}
-                style={{
-                  color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
-                }}
-              >
-                {subject.symbol}
-              </span>
-              <span>
-                <b className={styles.label}>{subject.id}</b>
-                <small
+              <article className={styles.row}>
+                <span
+                  className={styles.symbol}
                   style={{
-                    display: "block",
-                    color: "var(--theme-text-secondary)",
-                    marginTop: 4,
+                    color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
                   }}
                 >
-                  {subject.slots.length} class
-                  {subject.slots.length === 1 ? "" : "es"} each week
-                </small>
-              </span>
-              <span className={styles.chevron}>›</span>
-            </article>
+                  {subject.symbol}
+                </span>
+                <span>
+                  <b className={styles.label}>{subject.id}</b>
+                  <small
+                    style={{
+                      display: "block",
+                      color: "var(--theme-text-secondary)",
+                      marginTop: 4,
+                    }}
+                  >
+                    {subject.slots.length} class
+                    {subject.slots.length === 1 ? "" : "es"} each week
+                  </small>
+                </span>
+                <span className={styles.chevron}>›</span>
+              </article>
             </SheetTrigger>
           ))}
         </section>

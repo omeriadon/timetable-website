@@ -93,37 +93,37 @@ export default function AdministrationPage() {
                 dashboard.authority === "systemOwner",
             )
             .map(([heading, rows]) => (
-            <section key={heading as string}>
-              <h2 className={styles.section}>{heading as string}</h2>
-              <div className={styles.card}>
-                {(rows as string[][]).map(([symbol, label, destination]) => (
-                  <SheetTrigger
-                    key={label}
-                    className={styles.rowButton}
-                    ariaLabel={`Open ${label}`}
-                    content={
-                      <NavigationSheet
-                        title={label}
-                        description={`Manage ${label.toLowerCase()} through the authenticated server.`}
-                        href={`/administration/${destination}`}
-                        icon={symbol}
-                      />
-                    }
-                  >
-                    <div className={styles.row}>
-                      <img
-                        className={styles.symbolIcon}
-                        src={`/icons/${symbol}.svg`}
-                        alt=""
-                      />
-                      <span className={styles.label}>{label}</span>
-                      <span className={styles.chevron}>›</span>
-                    </div>
-                  </SheetTrigger>
-                ))}
-              </div>
-            </section>
-          ))
+              <section key={heading as string}>
+                <h2 className={styles.section}>{heading as string}</h2>
+                <div className={styles.card}>
+                  {(rows as string[][]).map(([symbol, label, destination]) => (
+                    <SheetTrigger
+                      key={label}
+                      className={styles.rowButton}
+                      ariaLabel={`Open ${label}`}
+                      content={
+                        <NavigationSheet
+                          title={label}
+                          description={`Manage ${label.toLowerCase()} through the authenticated server.`}
+                          href={`/administration/${destination}`}
+                          icon={symbol}
+                        />
+                      }
+                    >
+                      <div className={styles.row}>
+                        <img
+                          className={styles.symbolIcon}
+                          src={`/icons/${symbol}.svg`}
+                          alt=""
+                        />
+                        <span className={styles.label}>{label}</span>
+                        <span className={styles.chevron}>›</span>
+                      </div>
+                    </SheetTrigger>
+                  ))}
+                </div>
+              </section>
+            ))
         : null}
       {!dashboard && !error ? (
         <p className={styles.loading}>Checking administrator access…</p>

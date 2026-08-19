@@ -33,71 +33,75 @@ export default function GradeSubjectPage() {
       ) ?? [],
     [tracker, subjectID],
   );
-	const createAssessment = (semester: number) => {
-		openSheet(
-			<GradeAssessmentSheet
-				subjectID={subjectID}
-				semester={semester}
-				onSave={saveAssessment}
-				onDelete={deleteAssessment}
-			/>
-		);
-	};
+  const createAssessment = (semester: number) => {
+    openSheet(
+      <GradeAssessmentSheet
+        subjectID={subjectID}
+        semester={semester}
+        onSave={saveAssessment}
+        onDelete={deleteAssessment}
+      />,
+    );
+  };
 
-	const saveAssessment = async (assessment: GradeAssessment) => {
-		if (!tracker) return;
-		setSaving(true);
-		setError(null);
-		try {
-			setTracker(
-				await apiRequest<GradeTracker>("v1/grades", {
-					method: "PUT",
-					body: JSON.stringify({
-						document: {
-							...tracker.document,
-							assessments: [
-								...tracker.document.assessments.filter((item) => item.id !== assessment.id),
-								assessment,
-							],
-						},
-						serverRevision: tracker.document.serverRevision,
-					}),
-				}),
-			);
-		} catch (requestError) {
-			setError((requestError as Error).message);
-			throw requestError;
-		} finally {
-			setSaving(false);
-		}
-	};
+  const saveAssessment = async (assessment: GradeAssessment) => {
+    if (!tracker) return;
+    setSaving(true);
+    setError(null);
+    try {
+      setTracker(
+        await apiRequest<GradeTracker>("v1/grades", {
+          method: "PUT",
+          body: JSON.stringify({
+            document: {
+              ...tracker.document,
+              assessments: [
+                ...tracker.document.assessments.filter(
+                  (item) => item.id !== assessment.id,
+                ),
+                assessment,
+              ],
+            },
+            serverRevision: tracker.document.serverRevision,
+          }),
+        }),
+      );
+    } catch (requestError) {
+      setError((requestError as Error).message);
+      throw requestError;
+    } finally {
+      setSaving(false);
+    }
+  };
 
-	const deleteAssessment = async (assessment: GradeAssessment) => {
-		if (!tracker) return;
-		setSaving(true);
-		setError(null);
-		try {
-			setTracker(
-				await apiRequest<GradeTracker>("v1/grades", {
-					method: "PUT",
-					body: JSON.stringify({
-						document: {
-							...tracker.document,
-							assessments: tracker.document.assessments.filter((item) => item.id !== assessment.id),
-						},
-						serverRevision: tracker.document.serverRevision,
-					}),
-				}),
-			);
-		} catch (requestError) {
-			setError((requestError as Error).message);
-			throw requestError;
-		} finally {
-			setSaving(false);
-		}
-	};
+  const deleteAssessment = async (assessment: GradeAssessment) => {
+    if (!tracker) return;
+    setSaving(true);
+    setError(null);
+    try {
+      setTracker(
+        await apiRequest<GradeTracker>("v1/grades", {
+          method: "PUT",
+          body: JSON.stringify({
+            document: {
+              ...tracker.document,
+              assessments: tracker.document.assessments.filter(
+                (item) => item.id !== assessment.id,
+              ),
+            },
+            serverRevision: tracker.document.serverRevision,
+          }),
+        }),
+      );
+    } catch (requestError) {
+      setError((requestError as Error).message);
+      throw requestError;
+    } finally {
+      setSaving(false);
+    }
+  };
 
-	const { openSheet } = useSheet();
+  const { openSheet } = useSheet();
 
   return (
     <main className={styles.page}>
@@ -109,63 +113,69 @@ export default function GradeSubjectPage() {
           {error}
         </p>
       ) : null}
-	      {[1, 2].map((semester) => <div key={semester}>
-	      <h2 className={styles.section}>Semester {semester}</h2>
-	      <section className={styles.card}>
-	        {assessments.filter((assessment) => assessment.semester === semester).length ? (
-	          assessments.filter((assessment) => assessment.semester === semester).map((assessment) => (
-							<SheetTrigger
-								key={assessment.id}
-								className={styles.rowButton}
-								ariaLabel={`Edit ${assessment.name}`}
-								content={
-									<GradeAssessmentSheet
-										assessment={assessment}
-										subjectID={subjectID}
-										semester={semester}
-										onSave={saveAssessment}
-										onDelete={deleteAssessment}
-									/>
-								}
-							>
-							<article className={styles.row}>
-              <span className={styles.symbol}>◌</span>
-              <span>
-                <b className={styles.label}>{assessment.name}</b>
-                <small className={styles.rowMeta}>
-                  {new Date(
-                    assessment.date.year,
-                    assessment.date.month - 1,
-                    assessment.date.day,
-                  ).toLocaleDateString("en-AU", {
-                    day: "numeric",
-                    month: "short",
-                  })}{" "}
-                  · Weighting {assessment.weighting.toFixed(1)}%
-                </small>
+      {[1, 2].map((semester) => (
+        <div key={semester}>
+          <h2 className={styles.section}>Semester {semester}</h2>
+          <section className={styles.card}>
+            {assessments.filter(
+              (assessment) => assessment.semester === semester,
+            ).length ? (
+              assessments
+                .filter((assessment) => assessment.semester === semester)
+                .map((assessment) => (
+                  <SheetTrigger
+                    key={assessment.id}
+                    className={styles.rowButton}
+                    ariaLabel={`Edit ${assessment.name}`}
+                    content={
+                      <GradeAssessmentSheet
+                        assessment={assessment}
+                        subjectID={subjectID}
+                        semester={semester}
+                        onSave={saveAssessment}
+                        onDelete={deleteAssessment}
+                      />
+                    }
+                  >
+                    <article className={styles.row}>
+                      <span className={styles.symbol}>◌</span>
+                      <span>
+                        <b className={styles.label}>{assessment.name}</b>
+                        <small className={styles.rowMeta}>
+                          {new Date(
+                            assessment.date.year,
+                            assessment.date.month - 1,
+                            assessment.date.day,
+                          ).toLocaleDateString("en-AU", {
+                            day: "numeric",
+                            month: "short",
+                          })}{" "}
+                          · Weighting {assessment.weighting.toFixed(1)}%
+                        </small>
+                      </span>
+                      <strong className={styles.scoreEmphasis}>
+                        {(assessment.score * 100).toFixed(1)}%
+                      </strong>
+                    </article>
+                  </SheetTrigger>
+                ))
+            ) : (
+              <p className={styles.emptyRow}>No assessments yet.</p>
+            )}
+            <button
+              type="button"
+              className={`${styles.row} ${styles.rowAction}`}
+              disabled={saving}
+              onClick={() => createAssessment(semester)}
+            >
+              <span className={styles.symbol}>＋</span>
+              <span className={styles.label}>
+                {saving ? "Saving…" : "New Assessment"}
               </span>
-              <strong className={styles.scoreEmphasis}>
-                  {(assessment.score * 100).toFixed(1)}%
-                </strong>
-              </article>
-							</SheetTrigger>
-            ))
-        ) : (
-          <p className={styles.emptyRow}>No assessments yet.</p>
-        )}
-        <button
-          type="button"
-          className={`${styles.row} ${styles.rowAction}`}
-          disabled={saving}
-          onClick={() => createAssessment(semester)}
-        >
-          <span className={styles.symbol}>＋</span>
-          <span className={styles.label}>
-            {saving ? "Saving…" : "New Assessment"}
-          </span>
-        </button>
-	      </section>
-	      </div>)}
+            </button>
+          </section>
+        </div>
+      ))}
     </main>
   );
 }

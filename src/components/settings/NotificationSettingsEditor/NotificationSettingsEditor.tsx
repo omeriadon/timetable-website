@@ -3,113 +3,281 @@
 import { useState } from "react";
 import SymbolIcon from "@/components/controls/SymbolIcon/SymbolIcon";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
-import EventNotificationScheduleSheet, { type EventNotificationSchedule } from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
+import EventNotificationScheduleSheet, {
+  type EventNotificationSchedule,
+} from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
 import NotificationLeadTimesSheet from "@/components/sheets/NotificationLeadTimesSheet/NotificationLeadTimesSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
 import styles from "@/components/IOSScreen/IOSScreen.module.css";
 
-export default function NotificationSettingsEditor({ initial, onSignOut }: { initial: Settings; onSignOut?: () => void }) {
-	const [draft, setDraft] = useState(initial);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const { openSheet } = useSheet();
+export default function NotificationSettingsEditor({
+  initial,
+  onSignOut,
+}: {
+  initial: Settings;
+  onSignOut?: () => void;
+}) {
+  const [draft, setDraft] = useState(initial);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { openSheet } = useSheet();
 
-	const save = async (next: Settings) => {
-		setDraft(next);
-		setSaving(true);
-		setError(null);
-		try {
-			const updated = await apiRequest<Settings>("v1/settings/notifications", {
-				method: "PUT",
-				body: JSON.stringify({
-					notificationsEnabled: next.notificationsEnabled,
-					broadcastNotificationsEnabled: next.broadcastNotificationsEnabled,
-					notificationLeadTimes: next.notificationLeadTimes,
-					breakToPeriodNotificationLeadTimes: next.breakToPeriodNotificationLeadTimes,
-					eventNotificationSchedules: next.eventNotificationSchedules,
-					serverRevision: next.serverRevision,
-				}),
-			});
-			setDraft(updated);
-		} catch (requestError) {
-			setDraft(initial);
-			setError((requestError as Error).message);
-		} finally {
-			setSaving(false);
-		}
-	};
+  const save = async (next: Settings) => {
+    setDraft(next);
+    setSaving(true);
+    setError(null);
+    try {
+      const updated = await apiRequest<Settings>("v1/settings/notifications", {
+        method: "PUT",
+        body: JSON.stringify({
+          notificationsEnabled: next.notificationsEnabled,
+          broadcastNotificationsEnabled: next.broadcastNotificationsEnabled,
+          notificationLeadTimes: next.notificationLeadTimes,
+          breakToPeriodNotificationLeadTimes:
+            next.breakToPeriodNotificationLeadTimes,
+          eventNotificationSchedules: next.eventNotificationSchedules,
+          serverRevision: next.serverRevision,
+        }),
+      });
+      setDraft(updated);
+    } catch (requestError) {
+      setDraft(initial);
+      setError((requestError as Error).message);
+    } finally {
+      setSaving(false);
+    }
+  };
 
-	const update = (changes: Partial<Settings>) => void save({ ...draft, ...changes });
-	const formatLeadTimes = (values: number[]) => values.length ? values.map((value) => `${value}m`).join(", ") : "None";
-	const openLeadTimes = (
-		key: "notificationLeadTimes" | "breakToPeriodNotificationLeadTimes",
-		title: string,
-		description: string,
-	) => {
-		openSheet(
-			<NotificationLeadTimesSheet
-				title={title}
-				description={description}
-				selection={draft[key]}
-				onSave={async (selection) => update({ [key]: selection })}
-			/>,
-		);
-	};
-	const addSchedule = (schedule: EventNotificationSchedule) => {
-		if (draft.eventNotificationSchedules.some((item) => item.hour === schedule.hour && item.minute === schedule.minute && item.dayOffset === schedule.dayOffset)) {
-			return;
-		}
-		update({ eventNotificationSchedules: [...draft.eventNotificationSchedules, schedule] });
-	};
-	const removeSchedule = (schedule: EventNotificationSchedule) => {
-		update({ eventNotificationSchedules: draft.eventNotificationSchedules.filter((item) => item.hour !== schedule.hour || item.minute !== schedule.minute || item.dayOffset !== schedule.dayOffset) });
-	};
-	const formatTime = (schedule: EventNotificationSchedule) => new Date(2026, 0, 1, schedule.hour, schedule.minute).toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" });
-	const formatOffset = (days: number) => days === 0 ? "on the day" : days === 7 ? "1 week before" : `${days} day${days === 1 ? "" : "s"} before`;
+  const update = (changes: Partial<Settings>) =>
+    void save({ ...draft, ...changes });
+  const formatLeadTimes = (values: number[]) =>
+    values.length ? values.map((value) => `${value}m`).join(", ") : "None";
+  const openLeadTimes = (
+    key: "notificationLeadTimes" | "breakToPeriodNotificationLeadTimes",
+    title: string,
+    description: string,
+  ) => {
+    openSheet(
+      <NotificationLeadTimesSheet
+        title={title}
+        description={description}
+        selection={draft[key]}
+        onSave={async (selection) => update({ [key]: selection })}
+      />,
+    );
+  };
+  const addSchedule = (schedule: EventNotificationSchedule) => {
+    if (
+      draft.eventNotificationSchedules.some(
+        (item) =>
+          item.hour === schedule.hour &&
+          item.minute === schedule.minute &&
+          item.dayOffset === schedule.dayOffset,
+      )
+    ) {
+      return;
+    }
+    update({
+      eventNotificationSchedules: [
+        ...draft.eventNotificationSchedules,
+        schedule,
+      ],
+    });
+  };
+  const removeSchedule = (schedule: EventNotificationSchedule) => {
+    update({
+      eventNotificationSchedules: draft.eventNotificationSchedules.filter(
+        (item) =>
+          item.hour !== schedule.hour ||
+          item.minute !== schedule.minute ||
+          item.dayOffset !== schedule.dayOffset,
+      ),
+    });
+  };
+  const formatTime = (schedule: EventNotificationSchedule) =>
+    new Date(2026, 0, 1, schedule.hour, schedule.minute).toLocaleTimeString(
+      "en-AU",
+      { hour: "numeric", minute: "2-digit" },
+    );
+  const formatOffset = (days: number) =>
+    days === 0
+      ? "on the day"
+      : days === 7
+        ? "1 week before"
+        : `${days} day${days === 1 ? "" : "s"} before`;
 
-	return (
-		<>
-			<section className={styles.card}>
-				<SettingToggle label="Live Activities" enabled={draft.liveActivitiesEnabled} onClick={() => update({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })} disabled={saving} />
-				<SettingToggle label="Watch Bleed" enabled={draft.watchBleedEnabled} onClick={() => update({ watchBleedEnabled: !draft.watchBleedEnabled })} disabled={saving} />
-				<div className={styles.row}>
-					<SymbolIcon name="calendar.badge.clock" />
-					<span className={styles.label}>Delete Past Calendar Events</span>
-					<select className={styles.inlineSelect} value={draft.calendarEventAutoDeleteDays} disabled={saving} onChange={(event) => update({ calendarEventAutoDeleteDays: Number(event.target.value) })}>
-						<option value={0}>Never</option>
-						<option value={7}>After 1 week</option>
-						<option value={30}>After 1 month</option>
-						<option value={365}>After 1 year</option>
-					</select>
-				</div>
-				<SettingToggle label="Allow Class Notifications" enabled={draft.notificationsEnabled} onClick={() => update({ notificationsEnabled: !draft.notificationsEnabled })} disabled={saving} />
-				<SettingToggle label="Special Event Notifications" enabled={draft.broadcastNotificationsEnabled} onClick={() => update({ broadcastNotificationsEnabled: !draft.broadcastNotificationsEnabled })} disabled={saving} />
-				<button type="button" className={styles.rowButton} onClick={() => openLeadTimes("notificationLeadTimes", "Notify Me", "Send notifications early by these intervals.")} disabled={saving}>
-					<div className={styles.row}><SymbolIcon name="bell.badge" /><span className={styles.label}>Send Notifications Early By</span><span className={styles.detail}>{formatLeadTimes(draft.notificationLeadTimes)}</span><span className={styles.chevron} aria-hidden="true">›</span></div>
-				</button>
-				<button type="button" className={styles.rowButton} onClick={() => openLeadTimes("breakToPeriodNotificationLeadTimes", "Notify Me", "Applies before first period and after recess or lunch.")} disabled={saving}>
-					<div className={styles.row}><SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" /><span className={styles.label}>Before Class or From a Break</span><span className={styles.detail}>{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}</span><span className={styles.chevron} aria-hidden="true">›</span></div>
-				</button>
-				<div className={styles.row}><SymbolIcon name="calendar.badge.clock" /><span className={styles.label}>Event Notifications</span></div>
-				<div className={styles.scheduleList}>
-					{draft.eventNotificationSchedules.slice().sort((left, right) => left.dayOffset - right.dayOffset || left.hour - right.hour || left.minute - right.minute).map((schedule) => (
-						<div key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`} className={styles.scheduleRow}>
-							<span>{formatTime(schedule)}</span>
-							<small>{formatOffset(schedule.dayOffset)}</small>
-							<button type="button" onClick={() => removeSchedule(schedule)} disabled={saving} aria-label={`Remove ${formatTime(schedule)} event notification`}>−</button>
-						</div>
-					))}
-					<button type="button" className={styles.rowButton} onClick={() => openSheet(<EventNotificationScheduleSheet onSave={addSchedule} />)}>
-						<div className={styles.row}><span className={styles.symbol} aria-hidden="true">＋</span><span className={styles.label}>Add Event Notification</span></div>
-					</button>
-				</div>
-				{onSignOut ? <button type="button" className={styles.rowButton} onClick={async () => { await apiRequest("auth/logout", { method: "DELETE" }); onSignOut(); }} disabled={saving}>
-					<div className={styles.row}><SymbolIcon name="person.2.slash" /><span className={styles.label}>Sign Out</span></div>
-				</button> : null}
-			</section>
-			{error ? <p className={styles.error} role="alert">{error}</p> : null}
-		</>
-	);
+  return (
+    <>
+      <section className={styles.card}>
+        <SettingToggle
+          label="Live Activities"
+          enabled={draft.liveActivitiesEnabled}
+          onClick={() =>
+            update({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })
+          }
+          disabled={saving}
+        />
+        <SettingToggle
+          label="Watch Bleed"
+          enabled={draft.watchBleedEnabled}
+          onClick={() =>
+            update({ watchBleedEnabled: !draft.watchBleedEnabled })
+          }
+          disabled={saving}
+        />
+        <div className={styles.row}>
+          <SymbolIcon name="calendar.badge.clock" />
+          <span className={styles.label}>Delete Past Calendar Events</span>
+          <select
+            className={styles.inlineSelect}
+            value={draft.calendarEventAutoDeleteDays}
+            disabled={saving}
+            onChange={(event) =>
+              update({
+                calendarEventAutoDeleteDays: Number(event.target.value),
+              })
+            }
+          >
+            <option value={0}>Never</option>
+            <option value={7}>After 1 week</option>
+            <option value={30}>After 1 month</option>
+            <option value={365}>After 1 year</option>
+          </select>
+        </div>
+        <SettingToggle
+          label="Allow Class Notifications"
+          enabled={draft.notificationsEnabled}
+          onClick={() =>
+            update({ notificationsEnabled: !draft.notificationsEnabled })
+          }
+          disabled={saving}
+        />
+        <SettingToggle
+          label="Special Event Notifications"
+          enabled={draft.broadcastNotificationsEnabled}
+          onClick={() =>
+            update({
+              broadcastNotificationsEnabled:
+                !draft.broadcastNotificationsEnabled,
+            })
+          }
+          disabled={saving}
+        />
+        <button
+          type="button"
+          className={styles.rowButton}
+          onClick={() =>
+            openLeadTimes(
+              "notificationLeadTimes",
+              "Notify Me",
+              "Send notifications early by these intervals.",
+            )
+          }
+          disabled={saving}
+        >
+          <div className={styles.row}>
+            <SymbolIcon name="bell.badge" />
+            <span className={styles.label}>Send Notifications Early By</span>
+            <span className={styles.detail}>
+              {formatLeadTimes(draft.notificationLeadTimes)}
+            </span>
+            <span className={styles.chevron} aria-hidden="true">
+              ›
+            </span>
+          </div>
+        </button>
+        <button
+          type="button"
+          className={styles.rowButton}
+          onClick={() =>
+            openLeadTimes(
+              "breakToPeriodNotificationLeadTimes",
+              "Notify Me",
+              "Applies before first period and after recess or lunch.",
+            )
+          }
+          disabled={saving}
+        >
+          <div className={styles.row}>
+            <SymbolIcon name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
+            <span className={styles.label}>Before Class or From a Break</span>
+            <span className={styles.detail}>
+              {formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}
+            </span>
+            <span className={styles.chevron} aria-hidden="true">
+              ›
+            </span>
+          </div>
+        </button>
+        <div className={styles.row}>
+          <SymbolIcon name="calendar.badge.clock" />
+          <span className={styles.label}>Event Notifications</span>
+        </div>
+        <div className={styles.scheduleList}>
+          {draft.eventNotificationSchedules
+            .slice()
+            .sort(
+              (left, right) =>
+                left.dayOffset - right.dayOffset ||
+                left.hour - right.hour ||
+                left.minute - right.minute,
+            )
+            .map((schedule) => (
+              <div
+                key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`}
+                className={styles.scheduleRow}
+              >
+                <span>{formatTime(schedule)}</span>
+                <small>{formatOffset(schedule.dayOffset)}</small>
+                <button
+                  type="button"
+                  onClick={() => removeSchedule(schedule)}
+                  disabled={saving}
+                  aria-label={`Remove ${formatTime(schedule)} event notification`}
+                >
+                  −
+                </button>
+              </div>
+            ))}
+          <button
+            type="button"
+            className={styles.rowButton}
+            onClick={() =>
+              openSheet(<EventNotificationScheduleSheet onSave={addSchedule} />)
+            }
+          >
+            <div className={styles.row}>
+              <span className={styles.symbol} aria-hidden="true">
+                ＋
+              </span>
+              <span className={styles.label}>Add Event Notification</span>
+            </div>
+          </button>
+        </div>
+        {onSignOut ? (
+          <button
+            type="button"
+            className={styles.rowButton}
+            onClick={async () => {
+              await apiRequest("auth/logout", { method: "DELETE" });
+              onSignOut();
+            }}
+            disabled={saving}
+          >
+            <div className={styles.row}>
+              <SymbolIcon name="person.2.slash" />
+              <span className={styles.label}>Sign Out</span>
+            </div>
+          </button>
+        ) : null}
+      </section>
+      {error ? (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      ) : null}
+    </>
+  );
 }

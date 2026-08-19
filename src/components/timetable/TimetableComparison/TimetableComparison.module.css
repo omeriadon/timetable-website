@@ -1,39 +1,50 @@
 .comparison {
-	display: grid;
-	gap: var(--theme-content-row-gap);
-	margin-top: var(--theme-content-section-gap);
+  display: grid;
+  gap: var(--theme-content-row-gap);
+  margin-top: var(--theme-content-section-gap);
 }
 
 .friendSubject,
 .freePeriod {
-	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto;
-	gap: var(--theme-content-row-gap);
-	align-items: center;
-	min-height: var(--theme-content-row-height);
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
-	border: 1px solid var(--theme-highlight);
-	border-radius: 999px;
-	color: var(--theme-text);
-	font: inherit;
-	text-align: left;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--theme-content-row-gap);
+  align-items: center;
+  min-height: var(--theme-content-row-height);
+  padding: var(--theme-content-control-padding-block)
+    var(--theme-content-control-padding-inline);
+  border: 1px solid var(--theme-highlight);
+  border-radius: 999px;
+  color: var(--theme-text);
+  font: inherit;
+  text-align: left;
 }
 
-.friendSubject { cursor: pointer; }
+.friendSubject {
+  cursor: pointer;
+}
 .friendSubject strong,
-.freePeriod strong { font-size: 0.8rem; font-weight: 650; }
-.freePeriod { grid-template-columns: minmax(0, 1fr) auto; background: var(--theme-surface); }
+.freePeriod strong {
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+.freePeriod {
+  grid-template-columns: minmax(0, 1fr) auto;
+  background: var(--theme-surface);
+}
 
 .empty {
-	display: grid;
-	gap: var(--theme-space-1);
-	margin-top: var(--theme-content-section-gap);
-	padding: var(--theme-content-card-padding);
-	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-content-radius);
-	color: var(--theme-text-secondary);
-	background: var(--theme-surface);
-	text-align: center;
+  display: grid;
+  gap: var(--theme-space-1);
+  margin-top: var(--theme-content-section-gap);
+  padding: var(--theme-content-card-padding);
+  border: 1px solid var(--theme-divider);
+  border-radius: var(--theme-content-radius);
+  color: var(--theme-text-secondary);
+  background: var(--theme-surface);
+  text-align: center;
 }
 
-.empty strong { color: var(--theme-text); }
+.empty strong {
+  color: var(--theme-text);
+}

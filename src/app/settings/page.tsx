@@ -50,19 +50,19 @@ export default function SettingsPage() {
         setSettings(values);
       })
       .catch((requestError: Error) => setError(requestError.message));
-		apiRequest<OwnerTimetable>("v1/timetables/owner")
-			.then(setTimetable)
-			.catch(() => setTimetable(null));
+    apiRequest<OwnerTimetable>("v1/timetables/owner")
+      .then(setTimetable)
+      .catch(() => setTimetable(null));
   }, [setToolbar]);
 
-	const updateFutureEventRange = async (futureEventRange: string) => {
-		if (!settings || saving || settings.futureEventRange === futureEventRange) {
-			return;
-		}
-		await saveSettings(settings, { ...settings, futureEventRange });
-	};
+  const updateFutureEventRange = async (futureEventRange: string) => {
+    if (!settings || saving || settings.futureEventRange === futureEventRange) {
+      return;
+    }
+    await saveSettings(settings, { ...settings, futureEventRange });
+  };
 
-	const saveSettings = async (current: Settings, next: Settings) => {
+  const saveSettings = async (current: Settings, next: Settings) => {
     setSettings(next);
     setSaving(true);
     setError(null);
@@ -82,7 +82,7 @@ export default function SettingsPage() {
     } finally {
       setSaving(false);
     }
-	};
+  };
 
   return (
     <main className={styles.page}>
@@ -99,11 +99,11 @@ export default function SettingsPage() {
             />
           }
         >
-			<section className={`${styles.paper} ${styles.profileRow}`}>
-				<ProfilePicture profile={account} size={52} />
-				<span>
-					<b className={styles.profileName}>{account.displayName}</b>
-					<small className={styles.profileEmail}>{account.email}</small>
+          <section className={`${styles.paper} ${styles.profileRow}`}>
+            <ProfilePicture profile={account} size={52} />
+            <span>
+              <b className={styles.profileName}>{account.displayName}</b>
+              <small className={styles.profileEmail}>{account.email}</small>
             </span>
             <span className={styles.chevron}>›</span>
           </section>
@@ -116,17 +116,29 @@ export default function SettingsPage() {
       ) : null}
       <h2 className={styles.section}>My Timetable</h2>
       <section className={styles.card}>
-			<button
-				type="button"
-				className={styles.rowButton}
-				onClick={() => openSheet(<CalendarImportSheet timetable={timetable} onImported={setTimetable} />)}
-			>
-				<div className={styles.row}>
-					<SymbolIcon name="calendar" fallback="▦" />
-					<span><span className={styles.label}>Re-import from Calendar</span><small className={styles.detail}>Subscribe to Compass Schedule in Calendar first.</small></span>
-					<span className={styles.chevron}>›</span>
-				</div>
-			</button>
+        <button
+          type="button"
+          className={styles.rowButton}
+          onClick={() =>
+            openSheet(
+              <CalendarImportSheet
+                timetable={timetable}
+                onImported={setTimetable}
+              />,
+            )
+          }
+        >
+          <div className={styles.row}>
+            <SymbolIcon name="calendar" fallback="▦" />
+            <span>
+              <span className={styles.label}>Re-import from Calendar</span>
+              <small className={styles.detail}>
+                Subscribe to Compass Schedule in Calendar first.
+              </small>
+            </span>
+            <span className={styles.chevron}>›</span>
+          </div>
+        </button>
         <NavigationRow
           title="Edit"
           description="Update subjects and weekly classes."
@@ -158,7 +170,9 @@ export default function SettingsPage() {
                 value={settings.futureEventRange}
                 disabled={saving}
                 aria-label="Show Future Events range"
-                onChange={(event) => void updateFutureEventRange(event.target.value)}
+                onChange={(event) =>
+                  void updateFutureEventRange(event.target.value)
+                }
               >
                 <option value="oneWeek">1 Week</option>
                 <option value="twoWeeks">2 Weeks</option>
@@ -244,19 +258,19 @@ export default function SettingsPage() {
           href="/settings/about"
           icon="info.circle"
         />
-		<button
-			type="button"
-			className={styles.rowButton}
-			onClick={() => openSheet(<VersionSheet />)}
-			aria-label="Open version information"
-		>
-			<div className={styles.row}>
-				<SymbolIcon name="hammer" fallback="+" />
-				<span className={styles.label}>Version</span>
-				<span className={styles.detail}>Web</span>
-				<span className={styles.chevron}>›</span>
-			</div>
-		</button>
+        <button
+          type="button"
+          className={styles.rowButton}
+          onClick={() => openSheet(<VersionSheet />)}
+          aria-label="Open version information"
+        >
+          <div className={styles.row}>
+            <SymbolIcon name="hammer" fallback="+" />
+            <span className={styles.label}>Version</span>
+            <span className={styles.detail}>Web</span>
+            <span className={styles.chevron}>›</span>
+          </div>
+        </button>
       </section>
     </main>
   );

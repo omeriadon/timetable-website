@@ -18,7 +18,7 @@ export default function Timetable() {
   const { openSheet } = useSheet();
 
   useEffect(() => {
-		setToolbar({ title: "Timetable" });
+    setToolbar({ title: "Timetable" });
     apiRequest<OwnerTimetable>("v1/timetables/owner")
       .then(setTimetable)
       .catch((requestError: Error) => setError(requestError.message));
@@ -33,7 +33,21 @@ export default function Timetable() {
       ) : null}
       {timetable ? (
         <>
-          <div className={styles.actions}><button type="button" onClick={() => openSheet(<TimetableEditorSheet timetable={timetable} onSaved={setTimetable} />)}>Edit Timetable</button></div>
+          <div className={styles.actions}>
+            <button
+              type="button"
+              onClick={() =>
+                openSheet(
+                  <TimetableEditorSheet
+                    timetable={timetable}
+                    onSaved={setTimetable}
+                  />,
+                )
+              }
+            >
+              Edit Timetable
+            </button>
+          </div>
           <WeekTimetable subjects={timetable.subjects} />
         </>
       ) : (

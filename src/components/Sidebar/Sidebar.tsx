@@ -37,13 +37,13 @@ const bottomItems = [
 ];
 
 export default function Sidebar() {
-	const isCompact = useCompactLayout();
-	const pathname = usePathname();
+  const isCompact = useCompactLayout();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeMode = searchParams.get("mode") ?? "today";
   const [isAdministrator, setIsAdministrator] = useState(false);
 
-	useEffect(() => {
+  useEffect(() => {
     apiRequest<Account>("v1/account")
       .then((account) => {
         setIsAdministrator(
@@ -52,11 +52,11 @@ export default function Sidebar() {
         );
       })
       .catch(() => setIsAdministrator(false));
-	}, []);
+  }, []);
 
-	if (isCompact) {
-		return null;
-	}
+  if (isCompact) {
+    return null;
+  }
 
   function isActive(href: string) {
     if (href.startsWith("/?mode=")) {

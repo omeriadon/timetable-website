@@ -4,28 +4,28 @@ import type { ReactNode } from "react";
 import { useSheet } from "../Sheet/Sheet";
 
 type SheetTriggerProps = {
-	children: ReactNode;
-	content: ReactNode;
-	className?: string;
-	ariaLabel: string;
+  children: ReactNode;
+  content: ReactNode;
+  className?: string;
+  ariaLabel: string;
 };
 
 export default function SheetTrigger({
-	children,
-	content,
-	className,
-	ariaLabel,
+  children,
+  content,
+  className,
+  ariaLabel,
 }: SheetTriggerProps) {
-	const { openSheet } = useSheet();
+  const { openSheet } = useSheet();
 
-	return (
-		<button
-			type="button"
-			className={className}
-			aria-label={ariaLabel}
-			onClick={() => openSheet(content)}
-		>
-			{children}
-		</button>
-	);
+  return (
+    <button
+      type="button"
+      className={className}
+      aria-label={ariaLabel}
+      onClick={() => openSheet(content)}
+    >
+      {children}
+    </button>
+  );
 }

@@ -5,350 +5,366 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	color-scheme: dark;
+  color-scheme: dark;
 
-	--theme-font-body: "SF Pro Display", "SF Pro", sans-serif;
-	--theme-font-heading: "SF Pro Display", "SF Pro", sans-serif;
-	--theme-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
-	--theme-font-mono: "SF Mono", monospace;
-	font-family: var(--theme-font-body);
-	background: var(--background);
-	color: var(--foreground);
-	--background: #000000;
-	--foreground: #ffffff;
-	--card: #151515;
-	--card-foreground: #ffffff;
-	--popover: #252525;
-	--popover-foreground: #ffffff;
-	--primary: #bd3547;
-	--primary-foreground: #ffffff;
-	--secondary: #292929;
-	--secondary-foreground: #ffffff;
-	--muted: #9999a2;
-	--muted-foreground: #77777f;
-	--accent: #bd3547;
-	--accent-foreground: #ffffff;
-	--destructive: #ff453a;
-	--border: rgba(255, 255, 255, 0.14);
-	--input: rgba(255, 255, 255, 0.16);
-	--ring: #bd3547;
-	--chart-1: oklch(0.855 0.138 181.071);
-	--chart-2: oklch(0.704 0.14 182.503);
-	--chart-3: oklch(0.6 0.118 184.704);
-	--chart-4: oklch(0.511 0.096 186.391);
-	--chart-5: oklch(0.437 0.078 188.216);
-	--radius: 0.625rem;
-	--sidebar: #151515;
-	--sidebar-foreground: #ffffff;
-	--sidebar-primary: #bd3547;
-	--sidebar-primary-foreground: #ffffff;
-	--sidebar-accent: #292929;
-	--sidebar-accent-foreground: #ffffff;
-	--sidebar-border: rgba(255, 255, 255, 0.14);
-	--sidebar-ring: #bd3547;
-	--theme-black: var(--background);
-	--theme-surface: var(--card);
-	--theme-surface-elevated: var(--popover);
-	--theme-surface-soft: var(--secondary);
-	--theme-text: var(--foreground);
-	--theme-text-secondary: var(--muted-foreground);
-	--theme-text-tertiary: var(--muted-foreground);
-	--theme-accent: var(--primary);
-	--theme-accent-bright: var(--primary);
-	--theme-paper: #e7e5e5;
-	--theme-paper-dark: #c6c6ca;
-	--theme-paper-warm: #f6c88f;
-	--theme-paper-gold: #dca56b;
-	--theme-paper-edge: #ffd8ab;
-	--theme-paper-highlight: #fff1d3;
-	--theme-gold: #c28a57;
-	--theme-gold-dark: #8f592d;
-	--theme-error: #ff8879;
-	--theme-info: #149cf3;
-	--theme-success: #27d65b;
-	--theme-warning: #ffcc00;
-	--theme-divider: var(--border);
-	--theme-glass: color-mix(in srgb, var(--theme-surface-elevated) 72%, transparent);
-	--theme-glass-strong: color-mix(in srgb, var(--theme-surface-elevated) 88%, transparent);
-	--theme-scrim: color-mix(in srgb, var(--theme-black) 54%, transparent);
-	--theme-sheet-scrim: color-mix(in srgb, var(--theme-black) 58%, transparent);
-	--theme-sheet-surface: color-mix(in srgb, var(--theme-surface-elevated) 88%, transparent);
-	--theme-sheet-scrim-blur: 16px;
-	--theme-sheet-blur: 34px;
-	--theme-highlight: rgba(255, 255, 255, 0.14);
-	--theme-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
-	/* Universal design controls. Keep these together so the compact SwiftUI
+  --theme-font-body: "SF Pro Display", "SF Pro", sans-serif;
+  --theme-font-heading: "SF Pro Display", "SF Pro", sans-serif;
+  --theme-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
+  --theme-font-mono: "SF Mono", monospace;
+  font-family: var(--theme-font-body);
+  background: var(--background);
+  color: var(--foreground);
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #151515;
+  --card-foreground: #ffffff;
+  --popover: #252525;
+  --popover-foreground: #ffffff;
+  --primary: #bd3547;
+  --primary-foreground: #ffffff;
+  --secondary: #292929;
+  --secondary-foreground: #ffffff;
+  --muted: #9999a2;
+  --muted-foreground: #77777f;
+  --accent: #bd3547;
+  --accent-foreground: #ffffff;
+  --destructive: #ff453a;
+  --border: rgba(255, 255, 255, 0.14);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #bd3547;
+  --chart-1: oklch(0.855 0.138 181.071);
+  --chart-2: oklch(0.704 0.14 182.503);
+  --chart-3: oklch(0.6 0.118 184.704);
+  --chart-4: oklch(0.511 0.096 186.391);
+  --chart-5: oklch(0.437 0.078 188.216);
+  --radius: 0.625rem;
+  --sidebar: #151515;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #bd3547;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #292929;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.14);
+  --sidebar-ring: #bd3547;
+  --theme-black: var(--background);
+  --theme-surface: var(--card);
+  --theme-surface-elevated: var(--popover);
+  --theme-surface-soft: var(--secondary);
+  --theme-text: var(--foreground);
+  --theme-text-secondary: var(--muted-foreground);
+  --theme-text-tertiary: var(--muted-foreground);
+  --theme-accent: var(--primary);
+  --theme-accent-bright: var(--primary);
+  --theme-paper: #e7e5e5;
+  --theme-paper-dark: #c6c6ca;
+  --theme-paper-warm: #f6c88f;
+  --theme-paper-gold: #dca56b;
+  --theme-paper-edge: #ffd8ab;
+  --theme-paper-highlight: #fff1d3;
+  --theme-gold: #c28a57;
+  --theme-gold-dark: #8f592d;
+  --theme-error: #ff8879;
+  --theme-info: #149cf3;
+  --theme-success: #27d65b;
+  --theme-warning: #ffcc00;
+  --theme-divider: var(--border);
+  --theme-glass: color-mix(
+    in srgb,
+    var(--theme-surface-elevated) 72%,
+    transparent
+  );
+  --theme-glass-strong: color-mix(
+    in srgb,
+    var(--theme-surface-elevated) 88%,
+    transparent
+  );
+  --theme-scrim: color-mix(in srgb, var(--theme-black) 54%, transparent);
+  --theme-sheet-scrim: color-mix(in srgb, var(--theme-black) 58%, transparent);
+  --theme-sheet-surface: color-mix(
+    in srgb,
+    var(--theme-surface-elevated) 88%,
+    transparent
+  );
+  --theme-sheet-scrim-blur: 16px;
+  --theme-sheet-blur: 34px;
+  --theme-highlight: rgba(255, 255, 255, 0.14);
+  --theme-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
+  /* Universal design controls. Keep these together so the compact SwiftUI
 	   geometry can be tuned without hunting through individual surfaces. */
-	--theme-radius-card: 18px;
-	--theme-radius-control: 12px;
-	--theme-content-gap: 8px;
-	--theme-space-1: 4px;
-	--theme-space-2: 8px;
-	--theme-space-3: 8px;
-	--theme-space-4: 10px;
-	--theme-space-5: 12px;
-	--theme-space-6: 16px;
-	--theme-row-height: 44px;
-	--theme-control-height: 34px;
-	--theme-card-padding: 10px;
-	--theme-list-padding-inline: 12px;
-	--theme-list-row-padding-block: 4px;
-	--theme-list-row-gap: 10px;
-	--theme-control-padding-inline: 10px;
-	--theme-control-padding-block: 6px;
-	--theme-sheet-padding-top: 34px;
-	--theme-sheet-padding-inline: 10px;
-	--theme-sheet-padding-bottom: 10px;
-	--theme-section-gap: 12px;
-	--theme-page-padding: var(--ui-page-padding);
-	--theme-sidebar-width: 272px;
-	--theme-sidebar-frame: calc(var(--theme-sidebar-width) + 17px);
-	--theme-sidebar-padding-inline: 14px;
-	--theme-tab-bar-padding: 5px;
-	--theme-sidebar-start: rgba(15, 15, 15, 0.94);
-	--theme-sidebar-mid: rgba(15, 15, 15, 0.88);
-	--theme-sidebar-end: rgba(15, 15, 15, 0.68);
-	/* Universal content controls. Sidebar and toolbar deliberately do not use these. */
-	--ui-page-padding: 6px;
-	--ui-section-gap: 6px;
-	--ui-space-1: 4px;
-	--ui-space-2: 6px;
-	--ui-space-3: 6px;
-	--ui-space-4: 8px;
-	--ui-card-padding: 7px;
-	--ui-row-height: 36px;
-	--ui-row-gap: 6px;
-	--ui-grid-gap: 4px;
-	--ui-radius-card: 12px;
-	--ui-radius-control: 9px;
-	--ui-control-height: 30px;
-	--ui-control-padding-inline: 8px;
-	--ui-control-padding-block: 5px;
-	--ui-icon-size: 20px;
-	--ui-title-size: 1.4rem;
-	--ui-subtitle-size: 0.76rem;
-	--ui-heading-gap: 4px;
-	--ui-avatar-size: 38px;
-	--ui-avatar-size-small: 32px;
-	--ui-friend-row-min-height: 46px;
-	--ui-event-min-height: 40px;
-	--ui-timeline-label-width: 44px;
-	--ui-timeline-line-width: 6px;
-	--ui-week-label-width: 20px;
-	--ui-week-column-min: 68px;
-	--ui-week-min-width: 380px;
-	--ui-week-row-min-height: 42px;
-	--ui-mobile-bottom-inset: 96px;
-	--ui-sheet-row-height: 36px;
-	--ui-sheet-card-padding: 7px;
-	--ui-border-radius-pill: 999px;
-	--ui-content-font-size: 0.9rem;
-	--ui-small-font-size: 0.76rem;
-	--ui-body-font-size: 0.88rem;
-	--ui-label-font-size: 0.82rem;
-	--ui-heading-font-size: 1.2rem;
-	--ui-display-font-size: 1.45rem;
-	--ui-line-height-tight: 1.15;
-	--ui-line-height-body: 1.28;
-	--ui-surface: var(--card);
-	--ui-surface-elevated: var(--popover);
-	--ui-surface-soft: var(--secondary);
-	--ui-divider: var(--border);
-	--ui-text: var(--foreground);
-	--ui-text-secondary: var(--muted-foreground);
-	--ui-accent: var(--primary);
-	--ui-touch-target: 30px;
-	--ui-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-	--ui-list-padding-inline: 7px;
-	--ui-list-row-padding-block: 2px;
-	--ui-list-row-gap: 6px;
-	--theme-content-page-padding: var(--ui-page-padding);
-	--theme-content-page-padding-inline: var(--ui-page-padding);
-	--theme-content-page-padding-block: var(--ui-page-padding);
-	--theme-content-section-gap: var(--ui-section-gap);
-	--theme-content-card-padding: var(--ui-card-padding);
-	--theme-content-card-padding-inline: var(--ui-card-padding);
-	--theme-content-card-padding-block: var(--ui-card-padding);
-	--theme-content-row-height: var(--ui-row-height);
-	--theme-content-row-gap: var(--ui-row-gap);
-	--theme-content-grid-gap: var(--ui-grid-gap);
-	--theme-content-radius: var(--ui-radius-card);
-	--theme-content-control-height: var(--ui-control-height);
-	--theme-content-control-radius: var(--ui-radius-control);
-	--theme-content-control-padding-inline: var(--ui-control-padding-inline);
-	--theme-content-control-padding-block: var(--ui-control-padding-block);
-	--theme-content-icon-size: var(--ui-icon-size);
-	--theme-content-title-size: var(--ui-title-size);
-	--theme-content-heading-size: var(--ui-title-size);
-	--theme-content-subtitle-size: var(--ui-subtitle-size);
-	--theme-content-heading-gap: var(--ui-heading-gap);
-	--theme-content-card-gap: var(--ui-grid-gap);
-	--theme-content-inline-gap: var(--ui-row-gap);
-	--theme-content-avatar-size: var(--ui-avatar-size);
-	--theme-content-avatar-size-small: var(--ui-avatar-size-small);
-	--theme-content-friend-row-min-height: var(--ui-friend-row-min-height);
-	--theme-content-event-min-height: var(--ui-event-min-height);
-	--theme-content-timeline-label-width: var(--ui-timeline-label-width);
-	--theme-content-timeline-line-width: var(--ui-timeline-line-width);
-	--theme-content-week-label-width: var(--ui-week-label-width);
-	--theme-content-week-column-min: var(--ui-week-column-min);
-	--theme-content-week-min-width: var(--ui-week-min-width);
-	--theme-content-week-row-min-height: var(--ui-week-row-min-height);
-	--theme-content-mobile-bottom-inset: var(--ui-mobile-bottom-inset);
-	--theme-content-border-radius-pill: var(--ui-border-radius-pill);
-	--theme-content-sheet-row-height: var(--ui-sheet-row-height);
-	--theme-content-sheet-card-padding: var(--ui-sheet-card-padding);
-	--theme-auth-page-padding: 16px;
-	--theme-auth-card-padding: 24px;
-	--theme-auth-control-height: 40px;
-	--theme-auth-gap: 12px;
-	--theme-sheet-max-height: 92svh;
+  --theme-radius-card: 18px;
+  --theme-radius-control: 12px;
+  --theme-content-gap: 8px;
+  --theme-space-1: 4px;
+  --theme-space-2: 8px;
+  --theme-space-3: 8px;
+  --theme-space-4: 10px;
+  --theme-space-5: 12px;
+  --theme-space-6: 16px;
+  --theme-row-height: 44px;
+  --theme-control-height: 34px;
+  --theme-card-padding: 10px;
+  --theme-list-padding-inline: 12px;
+  --theme-list-row-padding-block: 4px;
+  --theme-list-row-gap: 10px;
+  --theme-control-padding-inline: 10px;
+  --theme-control-padding-block: 6px;
+  --theme-sheet-padding-top: 34px;
+  --theme-sheet-padding-inline: 10px;
+  --theme-sheet-padding-bottom: 10px;
+  --theme-section-gap: 12px;
+  --theme-page-padding: var(--ui-page-padding);
+  --theme-sidebar-width: 272px;
+  --theme-sidebar-frame: calc(var(--theme-sidebar-width) + 17px);
+  --theme-sidebar-padding-inline: 14px;
+  --theme-tab-bar-padding: 5px;
+  --theme-sidebar-start: rgba(15, 15, 15, 0.94);
+  --theme-sidebar-mid: rgba(15, 15, 15, 0.88);
+  --theme-sidebar-end: rgba(15, 15, 15, 0.68);
+  /* Universal content controls. Sidebar and toolbar deliberately do not use these. */
+  --ui-page-padding: 6px;
+  --ui-section-gap: 6px;
+  --ui-space-1: 4px;
+  --ui-space-2: 6px;
+  --ui-space-3: 6px;
+  --ui-space-4: 8px;
+  --ui-card-padding: 7px;
+  --ui-row-height: 36px;
+  --ui-row-gap: 6px;
+  --ui-grid-gap: 4px;
+  --ui-radius-card: 12px;
+  --ui-radius-control: 9px;
+  --ui-control-height: 30px;
+  --ui-control-padding-inline: 8px;
+  --ui-control-padding-block: 5px;
+  --ui-icon-size: 20px;
+  --ui-title-size: 1.4rem;
+  --ui-subtitle-size: 0.76rem;
+  --ui-heading-gap: 4px;
+  --ui-avatar-size: 38px;
+  --ui-avatar-size-small: 32px;
+  --ui-friend-row-min-height: 46px;
+  --ui-event-min-height: 40px;
+  --ui-timeline-label-width: 44px;
+  --ui-timeline-line-width: 6px;
+  --ui-week-label-width: 20px;
+  --ui-week-column-min: 68px;
+  --ui-week-min-width: 380px;
+  --ui-week-row-min-height: 42px;
+  --ui-mobile-bottom-inset: 96px;
+  --ui-sheet-row-height: 36px;
+  --ui-sheet-card-padding: 7px;
+  --ui-border-radius-pill: 999px;
+  --ui-content-font-size: 0.9rem;
+  --ui-small-font-size: 0.76rem;
+  --ui-body-font-size: 0.88rem;
+  --ui-label-font-size: 0.82rem;
+  --ui-heading-font-size: 1.2rem;
+  --ui-display-font-size: 1.45rem;
+  --ui-line-height-tight: 1.15;
+  --ui-line-height-body: 1.28;
+  --ui-surface: var(--card);
+  --ui-surface-elevated: var(--popover);
+  --ui-surface-soft: var(--secondary);
+  --ui-divider: var(--border);
+  --ui-text: var(--foreground);
+  --ui-text-secondary: var(--muted-foreground);
+  --ui-accent: var(--primary);
+  --ui-touch-target: 30px;
+  --ui-content-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  --ui-list-padding-inline: 7px;
+  --ui-list-row-padding-block: 2px;
+  --ui-list-row-gap: 6px;
+  --theme-content-page-padding: var(--ui-page-padding);
+  --theme-content-page-padding-inline: var(--ui-page-padding);
+  --theme-content-page-padding-block: var(--ui-page-padding);
+  --theme-content-section-gap: var(--ui-section-gap);
+  --theme-content-card-padding: var(--ui-card-padding);
+  --theme-content-card-padding-inline: var(--ui-card-padding);
+  --theme-content-card-padding-block: var(--ui-card-padding);
+  --theme-content-row-height: var(--ui-row-height);
+  --theme-content-row-gap: var(--ui-row-gap);
+  --theme-content-grid-gap: var(--ui-grid-gap);
+  --theme-content-radius: var(--ui-radius-card);
+  --theme-content-control-height: var(--ui-control-height);
+  --theme-content-control-radius: var(--ui-radius-control);
+  --theme-content-control-padding-inline: var(--ui-control-padding-inline);
+  --theme-content-control-padding-block: var(--ui-control-padding-block);
+  --theme-content-icon-size: var(--ui-icon-size);
+  --theme-content-title-size: var(--ui-title-size);
+  --theme-content-heading-size: var(--ui-title-size);
+  --theme-content-subtitle-size: var(--ui-subtitle-size);
+  --theme-content-heading-gap: var(--ui-heading-gap);
+  --theme-content-card-gap: var(--ui-grid-gap);
+  --theme-content-inline-gap: var(--ui-row-gap);
+  --theme-content-avatar-size: var(--ui-avatar-size);
+  --theme-content-avatar-size-small: var(--ui-avatar-size-small);
+  --theme-content-friend-row-min-height: var(--ui-friend-row-min-height);
+  --theme-content-event-min-height: var(--ui-event-min-height);
+  --theme-content-timeline-label-width: var(--ui-timeline-label-width);
+  --theme-content-timeline-line-width: var(--ui-timeline-line-width);
+  --theme-content-week-label-width: var(--ui-week-label-width);
+  --theme-content-week-column-min: var(--ui-week-column-min);
+  --theme-content-week-min-width: var(--ui-week-min-width);
+  --theme-content-week-row-min-height: var(--ui-week-row-min-height);
+  --theme-content-mobile-bottom-inset: var(--ui-mobile-bottom-inset);
+  --theme-content-border-radius-pill: var(--ui-border-radius-pill);
+  --theme-content-sheet-row-height: var(--ui-sheet-row-height);
+  --theme-content-sheet-card-padding: var(--ui-sheet-card-padding);
+  --theme-auth-page-padding: 16px;
+  --theme-auth-card-padding: 24px;
+  --theme-auth-control-height: 40px;
+  --theme-auth-gap: 12px;
+  --theme-sheet-max-height: 92svh;
 }
 
 @font-face {
-	font-family: "SF Pro Display";
-	src: url("/fonts/SF-Pro-Display-Regular.otf") format("opentype");
-	font-weight: 100 1000;
-	font-style: normal;
-	font-display: swap;
+  font-family: "SF Pro Display";
+  src: url("/fonts/SF-Pro-Display-Regular.otf") format("opentype");
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: "SF Mono";
-	src: url("/fonts/SF-Mono-Regular.otf") format("opentype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: "SF Mono";
+  src: url("/fonts/SF-Mono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: "SF Rounded";
-	src: url("/fonts/SF-Pro-Rounded-Regular.otf") format("opentype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-	font-stretch: 150%;
+  font-family: "SF Rounded";
+  src: url("/fonts/SF-Pro-Rounded-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  font-stretch: 150%;
 }
 
 @font-face {
-	font-family: "SF Pro";
-	src: url("/fonts/SF-Pro.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: "SF Pro";
+  src: url("/fonts/SF-Pro.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: "SF Pro Expanded";
-	src: url("/fonts/SF-Pro.ttf") format("truetype");
-	font-weight: 1 1000;
-	font-style: normal;
-	font-display: swap;
-	font-variation-settings: "wdth" 120;
+  font-family: "SF Pro Expanded";
+  src: url("/fonts/SF-Pro.ttf") format("truetype");
+  font-weight: 1 1000;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: "wdth" 120;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 html,
 body {
-	margin: 0;
-	min-height: 100%;
-	background: var(--theme-black);
-	color: var(--foreground);
+  margin: 0;
+  min-height: 100%;
+  background: var(--theme-black);
+  color: var(--foreground);
 }
 
 html {
-	background: var(--theme-black);
+  background: var(--theme-black);
 }
 
 body {
-	min-height: 100svh;
-	font-family: var(--theme-font-body);
-	background-color: var(--theme-black) !important;
+  min-height: 100svh;
+  font-family: var(--theme-font-body);
+  background-color: var(--theme-black) !important;
 }
 
 body,
 #__next {
-	background-color: var(--theme-black) !important;
+  background-color: var(--theme-black) !important;
 }
 
 button,
 input,
 select,
 textarea {
-	font: inherit;
+  font: inherit;
 }
 
 html[data-app-font="monospaced"] body {
-	font-family: var(--theme-font-mono);
+  font-family: var(--theme-font-mono);
 }
 
 html[data-app-font="rounded"] body {
-	font-family: var(--theme-font-rounded);
+  font-family: var(--theme-font-rounded);
 }
 
 html[data-app-font="expanded"] body {
-	font-family: var(--theme-font-body);
-	font-stretch: expanded;
+  font-family: var(--theme-font-body);
+  font-stretch: expanded;
 }
 
 html[data-app-background="paper"] body {
-	background:
-		radial-gradient(circle at 18% 10%, color-mix(in srgb, var(--theme-paper-warm) 10%, transparent), transparent 36%),
-		var(--theme-black);
+  background:
+    radial-gradient(
+      circle at 18% 10%,
+      color-mix(in srgb, var(--theme-paper-warm) 10%, transparent),
+      transparent 36%
+    ),
+    var(--theme-black);
 }
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--color-card: var(--card);
-	--color-card-foreground: var(--card-foreground);
-	--color-popover: var(--popover);
-	--color-popover-foreground: var(--popover-foreground);
-	--color-primary: var(--primary);
-	--color-primary-foreground: var(--primary-foreground);
-	--color-secondary: var(--secondary);
-	--color-secondary-foreground: var(--secondary-foreground);
-	--color-muted: var(--muted);
-	--color-muted-foreground: var(--muted-foreground);
-	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
-	--color-destructive: var(--destructive);
-	--color-border: var(--border);
-	--color-input: var(--input);
-	--color-ring: var(--ring);
-	--color-chart-1: var(--chart-1);
-	--color-chart-2: var(--chart-2);
-	--color-chart-3: var(--chart-3);
-	--color-chart-4: var(--chart-4);
-	--color-chart-5: var(--chart-5);
-	--radius-sm: calc(var(--radius) * 0.6);
-	--radius-md: calc(var(--radius) * 0.8);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) * 1.4);
-	--radius-2xl: calc(var(--radius) * 1.8);
-	--radius-3xl: calc(var(--radius) * 2.2);
-	--radius-4xl: calc(var(--radius) * 2.6);
-	--color-sidebar: var(--sidebar);
-	--color-sidebar-foreground: var(--sidebar-foreground);
-	--color-sidebar-primary: var(--sidebar-primary);
-	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-	--color-sidebar-accent: var(--sidebar-accent);
-	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-	--color-sidebar-border: var(--sidebar-border);
-	--color-sidebar-ring: var(--sidebar-ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }

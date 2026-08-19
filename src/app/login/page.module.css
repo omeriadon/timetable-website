@@ -121,7 +121,8 @@
 
 @media (max-width: 480px) {
   .card {
-    padding: var(--theme-content-card-padding-block) var(--theme-content-page-padding);
+    padding: var(--theme-content-card-padding-block)
+      var(--theme-content-page-padding);
     border-radius: var(--theme-content-radius);
   }
 }

@@ -1,23 +1,23 @@
 .picker {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: var(--theme-space-3);
-	padding: 0 var(--theme-list-padding-inline) var(--theme-space-3);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--theme-space-3);
+  padding: 0 var(--theme-list-padding-inline) var(--theme-space-3);
 }
 
 .picker label {
-	display: grid;
-	gap: var(--theme-space-1);
-	color: var(--theme-text-secondary);
-	font-size: 0.78rem;
+  display: grid;
+  gap: var(--theme-space-1);
+  color: var(--theme-text-secondary);
+  font-size: 0.78rem;
 }
 
 .picker select {
-	min-width: 0;
-	padding: 7px 8px;
-	border: 1px solid var(--theme-divider);
-	border-radius: var(--theme-radius-control);
-	color: var(--theme-text);
-	background: var(--theme-black);
-	font: inherit;
+  min-width: 0;
+  padding: 7px 8px;
+  border: 1px solid var(--theme-divider);
+  border-radius: var(--theme-radius-control);
+  color: var(--theme-text);
+  background: var(--theme-black);
+  font: inherit;
 }

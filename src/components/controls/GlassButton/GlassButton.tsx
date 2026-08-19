@@ -23,14 +23,14 @@ export default function GlassButton({
   disabled = false,
   tone = "regular",
 }: GlassButtonProps) {
-	const activate = (event: KeyboardEvent<HTMLDivElement>) => {
-		if (!disabled && (event.key === "Enter" || event.key === " ") && onClick) {
-			event.preventDefault();
-			onClick();
-		}
-	};
+  const activate = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!disabled && (event.key === "Enter" || event.key === " ") && onClick) {
+      event.preventDefault();
+      onClick();
+    }
+  };
 
-	return (
+  return (
     <LiquidGlass
       radius={999}
       scale={-80}
@@ -53,12 +53,12 @@ export default function GlassButton({
       dragSquash={0.12}
       dragBounce={0.25}
       filterPadding={32}
-			className={`${styles.glassButton} ${styles[size]} ${styles[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]} ${disabled ? styles.disabled : ""} ${className ?? ""}`}
-			onClick={disabled ? undefined : onClick}
+      className={`${styles.glassButton} ${styles[size]} ${styles[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]} ${disabled ? styles.disabled : ""} ${className ?? ""}`}
+      onClick={disabled ? undefined : onClick}
       onKeyDown={activate}
       role="button"
       aria-label={label}
-			aria-disabled={disabled}
+      aria-disabled={disabled}
       tabIndex={0}
     >
       {children}

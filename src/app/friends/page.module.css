@@ -2,7 +2,8 @@
   min-height: 100%;
   width: 100%;
   margin: 0;
-  padding: var(--theme-content-page-padding-block) var(--theme-content-page-padding);
+  padding: var(--theme-content-page-padding-block)
+    var(--theme-content-page-padding);
 }
 .page h1 {
   margin: 0 0 var(--theme-content-section-gap);
@@ -19,7 +20,7 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--theme-space-2);
-	margin-bottom: var(--theme-content-section-gap);
+  margin-bottom: var(--theme-content-section-gap);
 }
 .circleAction {
   display: grid;
@@ -39,11 +40,16 @@
   gap: var(--theme-content-row-gap);
   align-items: center;
   margin-bottom: var(--theme-content-section-gap);
-  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
+  padding: var(--theme-content-card-padding-block)
+    var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-highlight);
   border-radius: var(--theme-content-radius);
   color: var(--theme-black);
-  background: linear-gradient(135deg, var(--theme-paper), var(--theme-paper-dark));
+  background: linear-gradient(
+    135deg,
+    var(--theme-paper),
+    var(--theme-paper-dark)
+  );
 }
 .selfCard div {
   display: grid;
@@ -51,7 +57,7 @@
   flex: 1;
 }
 .selfCard strong {
-	font-size: 1.05rem;
+  font-size: 1.05rem;
 }
 .selfCard span,
 .selfCard em {
@@ -70,11 +76,12 @@
 }
 .friend {
   display: grid;
-	grid-template-columns: var(--theme-content-avatar-size) 1fr auto;
+  grid-template-columns: var(--theme-content-avatar-size) 1fr auto;
   gap: var(--theme-content-row-gap);
   align-items: center;
-	min-height: var(--theme-content-friend-row-min-height);
-  padding: var(--theme-content-card-padding-block) var(--theme-content-card-padding-inline);
+  min-height: var(--theme-content-friend-row-min-height);
+  padding: var(--theme-content-card-padding-block)
+    var(--theme-content-card-padding-inline);
   border: 1px solid var(--theme-divider);
   border-radius: var(--theme-content-radius);
   background: linear-gradient(
@@ -86,8 +93,8 @@
 }
 .avatar {
   display: grid;
-	width: var(--theme-content-avatar-size);
-	height: var(--theme-content-avatar-size);
+  width: var(--theme-content-avatar-size);
+  height: var(--theme-content-avatar-size);
   place-items: center;
   border-radius: 50%;
   background: radial-gradient(
@@ -103,11 +110,11 @@
   margin: 0;
 }
 .friend h2 {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 .friend p {
-	margin-top: 2px;
-	font-size: var(--ui-content-font-size);
+  margin-top: 2px;
+  font-size: var(--ui-content-font-size);
 }
 .friend span {
   display: block;
@@ -116,7 +123,8 @@
 }
 .status {
   align-self: start;
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+  padding: var(--theme-content-control-padding-block)
+    var(--theme-content-control-padding-inline);
   border-radius: 999px;
   color: var(--theme-text);
   background: var(--theme-info);
@@ -126,16 +134,17 @@
 }
 @media (max-width: 700px) {
   .page {
-		padding: var(--theme-content-page-padding) var(--theme-content-page-padding) var(--theme-content-mobile-bottom-inset);
+    padding: var(--theme-content-page-padding) var(--theme-content-page-padding)
+      var(--theme-content-mobile-bottom-inset);
   }
   .friend {
-		grid-template-columns: var(--theme-content-avatar-size-small) 1fr;
+    grid-template-columns: var(--theme-content-avatar-size-small) 1fr;
     min-height: 0;
     border-radius: var(--theme-content-radius);
   }
   .avatar {
-		width: var(--theme-content-avatar-size-small);
-		height: var(--theme-content-avatar-size-small);
+    width: var(--theme-content-avatar-size-small);
+    height: var(--theme-content-avatar-size-small);
   }
   .status {
     grid-column: 2;
