@@ -11,6 +11,7 @@ import type { TimetableSubject } from "@/features/timetable/types";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,
+	currentTimetableDayIndex,
 	periodLabel,
 } from "@/features/timetable/layout";
 import styles from "@/app/page.module.css";
@@ -27,6 +28,7 @@ export default function WeekView({
 		session: number;
 	} | null>(null);
 	const { openSheet } = useSheet();
+	const currentDayIndex = currentTimetableDayIndex();
 	const selectedSubject = selectedSlot
 		? subjects.find((subject) =>
 				subject.slots.some(
@@ -42,8 +44,17 @@ export default function WeekView({
 			<div className={styles.weekSurface}>
 				<div className={styles.weekHeader}>
 					<span aria-hidden="true"> </span>
-					{TIMETABLE_DAYS.map((day) => (
-						<span key={day}>{day}</span>
+					{TIMETABLE_DAYS.map((day, dayIndex) => (
+						<span
+							key={day}
+							className={
+								currentDayIndex === dayIndex
+									? styles.currentDayHeader
+									: undefined
+							}
+						>
+							{day}
+						</span>
 					))}
 				</div>
 				<div className={styles.weekGrid}>
@@ -57,7 +68,13 @@ export default function WeekView({
 											slot.day === dayIndex && slot.session === session.value,
 									),
 								);
-								if (!subject) return <div key={day} />;
+								const currentDayClass =
+									currentDayIndex === dayIndex
+										? styles.currentDayCell
+										: undefined;
+								if (!subject) {
+									return <div key={day} className={currentDayClass} />;
+								}
 								const isSelected =
 									selectedSlot?.day === dayIndex &&
 									selectedSlot.session === session.value;
@@ -66,7 +83,7 @@ export default function WeekView({
 										unstyled
 										key={day}
 										type="button"
-										className={styles.lessonButton}
+										className={`${styles.lessonButton} ${currentDayClass ?? ""}`}
 										aria-label={`Open ${subject.id} on ${day}`}
 										onClick={() => {
 											const slot = { day: dayIndex, session: session.value };

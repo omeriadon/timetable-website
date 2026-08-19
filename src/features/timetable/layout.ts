@@ -17,3 +17,8 @@ export function periodLabel(session: number) {
 		String(session)
 	);
 }
+
+export function currentTimetableDayIndex(date = new Date()) {
+	const index = date.getDay() - 1;
+	return index >= 0 && index < TIMETABLE_DAYS.length ? index : null;
+}

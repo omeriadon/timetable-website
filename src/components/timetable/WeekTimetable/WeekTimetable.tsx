@@ -3,6 +3,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,
+	currentTimetableDayIndex,
 } from "@/features/timetable/layout";
 import weekStyles from "@/app/page.module.css";
 
@@ -11,13 +12,24 @@ export default function WeekTimetable({
 }: {
 	subjects: TimetableSubject[];
 }) {
+	const currentDayIndex = currentTimetableDayIndex();
+
 	return (
 		<section className={weekStyles.week} aria-label="Weekly timetable">
 			<div className={weekStyles.weekSurface}>
 				<div className={weekStyles.weekHeader}>
 					<span aria-hidden="true"> </span>
-					{TIMETABLE_DAYS.map((day) => (
-						<span key={day}>{day}</span>
+					{TIMETABLE_DAYS.map((day, dayIndex) => (
+						<span
+							key={day}
+							className={
+								currentDayIndex === dayIndex
+									? weekStyles.currentDayHeader
+									: undefined
+							}
+						>
+							{day}
+						</span>
 					))}
 				</div>
 				<div className={weekStyles.weekGrid}>
@@ -31,10 +43,14 @@ export default function WeekTimetable({
 											slot.day === dayIndex && slot.session === session.value,
 									),
 								);
+								const currentDayClass =
+									currentDayIndex === dayIndex
+										? weekStyles.currentDayCell
+										: undefined;
 								return subject ? (
 									<article
 										key={day}
-										className={weekStyles.lesson}
+										className={`${weekStyles.lesson} ${currentDayClass ?? ""}`}
 										style={{
 											background: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
 										}}
@@ -46,7 +62,7 @@ export default function WeekTimetable({
 										<strong>{subject.id}</strong>
 									</article>
 								) : (
-									<div key={day} />
+									<div key={day} className={currentDayClass} />
 								);
 							})}
 						</div>
