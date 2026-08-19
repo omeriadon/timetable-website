@@ -66,12 +66,15 @@ xmark
 The editor defaults and runtime controls also use:
 
 ```text
-Abc
 book.and.wrench
 lock.fill
 lock.open
 wrench.and.screwdriver
 ```
+
+`character.svg` is the current SF Symbols Beta export used for the editor's
+subject default. The iCloud symbols were copied through the right-click
+`Copy Image As…` menu as SVG because Beta disables their direct File export.
 
 When a server-provided subject, badge, or tag symbol is introduced, export the
 same symbol from SF Symbols Beta into this directory before using it in the

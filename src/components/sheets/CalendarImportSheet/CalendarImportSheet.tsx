@@ -237,7 +237,7 @@ function buildSubjects(events: ParsedEvent[], existing: TimetableSubject[]) {
 		const key = event.title.toLowerCase();
 		const subject = subjects.get(key) ?? {
 			id: event.title,
-			symbol: "Abc",
+			symbol: "character",
 			colour: colours[subjects.size % colours.length],
 			slots: [],
 			classroom: { unknown: { rawLocation: event.location ?? "Not provided" } },

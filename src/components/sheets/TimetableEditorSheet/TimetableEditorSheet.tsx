@@ -49,7 +49,7 @@ export default function TimetableEditorSheet({
 			...current,
 			{
 				id: `Subject ${current.length + 1}`,
-				symbol: "Abc",
+				symbol: "character",
 				colour: { r: 0.45, g: 0.2, b: 0.8, a: 1 },
 				slots: [],
 				classroom: { unknown: { rawLocation: "Not provided" } },

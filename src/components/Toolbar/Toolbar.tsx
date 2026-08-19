@@ -23,13 +23,16 @@ export type ToolbarAction = {
 };
 
 export type ToolbarConfig = {
+	title: string;
 	searchPlaceholder?: string;
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
 	actions?: ToolbarAction[];
 };
 
-const defaultToolbar: ToolbarConfig = {};
+const defaultToolbar: ToolbarConfig = {
+	title: "Timetable",
+};
 
 const ToolbarContext = createContext<{
 	config: ToolbarConfig;
@@ -60,6 +63,7 @@ export default function Toolbar() {
 	const { openSheet } = useSheet();
 
 	const {
+		title,
 		searchPlaceholder,
 		searchValue = "",
 		onSearchChange,
@@ -72,6 +76,7 @@ export default function Toolbar() {
 				<LiquidGlass {...toolbarGlassProps}>
 					<label className={styles.search}>
 						<div className={styles.something}>
+							<span className="sr-only">Search {title}</span>
 							<Input
 								value={searchValue}
 								placeholder={searchPlaceholder}
