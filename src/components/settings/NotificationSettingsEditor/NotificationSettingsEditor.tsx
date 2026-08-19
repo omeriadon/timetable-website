@@ -12,7 +12,8 @@ import NotificationLeadTimesSheet from "@/components/sheets/NotificationLeadTime
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
+import settingsStyles from "@/components/settings/Settings.module.css";
 
 export default function NotificationSettingsEditor({
 	initial,
@@ -215,7 +216,7 @@ export default function NotificationSettingsEditor({
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Event Notifications</span>
 				</div>
-				<div className={styles.scheduleList}>
+				<div className={settingsStyles.scheduleList}>
 					{draft.eventNotificationSchedules
 						.slice()
 						.sort(
@@ -227,7 +228,7 @@ export default function NotificationSettingsEditor({
 						.map((schedule) => (
 							<div
 								key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`}
-								className={styles.scheduleRow}
+								className={settingsStyles.scheduleRow}
 							>
 								<span>{formatTime(schedule)}</span>
 								<small>{formatOffset(schedule.dayOffset)}</small>

@@ -9,7 +9,8 @@ import AdminAuthorityChangeSheet from "@/components/administration/AdminAuthorit
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function AdminAdministratorsEditor() {
 	const { openSheet } = useSheet();
@@ -42,8 +43,8 @@ export default function AdminAdministratorsEditor() {
 
 	return (
 		<main className={styles.page}>
-			<div className={styles.adminToolbar}>
-				<label className={styles.adminSearch}>
+			<div className={adminStyles.adminToolbar}>
+				<label className={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query}
@@ -78,7 +79,7 @@ export default function AdminAdministratorsEditor() {
 								)
 							}
 						>
-							<div className={styles.userRow}>
+						<div className={adminStyles.userRow}>
 								<ProfilePicture
 									profile={user}
 									size={38}
@@ -86,7 +87,7 @@ export default function AdminAdministratorsEditor() {
 								/>
 								<span>
 									<b className={styles.label}>{user.displayName}</b>
-									<small className={styles.userMeta}>
+									<small className={adminStyles.userMeta}>
 										{isSystemOwner ? "System Administrator" : user.email}
 									</small>
 								</span>

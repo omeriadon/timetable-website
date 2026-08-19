@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/Input";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 
 type AdminVersionFieldProps = {
 	label: string;

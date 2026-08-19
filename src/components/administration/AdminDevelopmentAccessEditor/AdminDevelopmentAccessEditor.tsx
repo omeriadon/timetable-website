@@ -6,7 +6,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminDevelopmentAccessChangeSheet from "@/components/administration/AdminDevelopmentAccessChangeSheet/AdminDevelopmentAccessChangeSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 
 export default function AdminDevelopmentAccessEditor() {
 	const { openSheet } = useSheet();

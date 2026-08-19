@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import ConfirmationSheet from "@/components/sheets/ConfirmationSheet/ConfirmationSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -80,7 +81,7 @@ export default function AdminUserReportsEditor() {
 	};
 	return (
 		<main className={styles.page}>
-			<label className={styles.adminSearch}>
+			<label className={adminStyles.adminSearch}>
 				<Symbol name="magnifyingglass" fallback="⌕" />
 				<Input
 					value={query}
@@ -95,8 +96,8 @@ export default function AdminUserReportsEditor() {
 			) : null}
 			<section className={styles.card}>
 				{filtered.map((report) => (
-					<article key={report.id} className={styles.reportCard}>
-						<div className={styles.reportHeader}>
+					<article key={report.id} className={adminStyles.reportCard}>
+						<div className={adminStyles.reportHeader}>
 							<Symbol name="exclamationmark.bubble" />
 							<strong>
 								{report.reportedUserDisplayName ?? report.reportedUserID}
@@ -105,14 +106,14 @@ export default function AdminUserReportsEditor() {
 								{statusLabel(report.action)}
 							</span>
 						</div>
-						<div className={styles.reportMeta}>
+						<div className={adminStyles.reportMeta}>
 							Reported by {report.reporterDisplayName ?? report.reporterID}
 							{report.createdAt
 								? ` · ${new Date(report.createdAt).toLocaleDateString("en-AU")}`
 								: ""}
 						</div>
 						{report.action === "pending" ? (
-							<div className={styles.reportActions}>
+							<div className={adminStyles.reportActions}>
 								<SheetActionButton
 									label="Leave account unchanged"
 									onClick={() => resolveReport(report, "noAction")}

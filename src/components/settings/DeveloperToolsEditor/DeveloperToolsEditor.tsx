@@ -8,7 +8,8 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
+import actionStyles from "@/components/ui/ContentActions.module.css";
 
 type DebugState = {
 	isActive: boolean;
@@ -134,7 +135,7 @@ export default function DeveloperToolsEditor() {
 						{debugState?.isActive ? "Active" : "Inactive"}
 					</span>
 				</div>
-				<div className={styles.actionRow}>
+				<div className={actionStyles.actionRow}>
 					<SheetActionButton
 						label="Start Live Activity"
 						onClick={() => void runLiveActivityAction("start")}
@@ -155,7 +156,7 @@ export default function DeveloperToolsEditor() {
 					<Symbol name="app.badge" />
 					<span className={styles.label}>Test status badges</span>
 				</div>
-				<div className={styles.actionRow}>
+				<div className={actionStyles.actionRow}>
 					{["progress", "success", "warning"].map((badge) => (
 						<SheetActionButton
 							key={badge}
@@ -166,7 +167,7 @@ export default function DeveloperToolsEditor() {
 						</SheetActionButton>
 					))}
 				</div>
-				<div className={styles.actionRow}>
+				<div className={actionStyles.actionRow}>
 					<SheetActionButton
 						label="Reload website data"
 						onClick={() => window.location.reload()}
@@ -197,7 +198,7 @@ export default function DeveloperToolsEditor() {
 								unstyled
 								key={transition}
 								type="button"
-								className={styles.adminAction}
+								className={actionStyles.action}
 								onClick={() => void runLiveActivityAction("update", transition)}
 							>
 								{transition}

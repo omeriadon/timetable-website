@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";

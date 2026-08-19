@@ -11,7 +11,8 @@ import AdminUserEditorSheet, {
 	type AdministrationUser,
 } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function AdminUsersEditor() {
 	const { openSheet } = useSheet();
@@ -62,8 +63,8 @@ export default function AdminUsersEditor() {
 
 	return (
 		<main className={styles.page}>
-			<div className={styles.adminToolbar}>
-				<label className={styles.adminSearch}>
+			<div className={adminStyles.adminToolbar}>
+				<label className={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query}
@@ -89,7 +90,7 @@ export default function AdminUsersEditor() {
 						className={styles.rowButton}
 						onClick={() => edit(user)}
 					>
-						<div className={styles.userRow}>
+						<div className={adminStyles.userRow}>
 							<ProfilePicture
 								profile={user}
 								size={38}
@@ -97,7 +98,7 @@ export default function AdminUsersEditor() {
 							/>
 							<span>
 								<b className={styles.label}>{user.displayName}</b>
-								<small className={styles.userMeta}>
+									<small className={adminStyles.userMeta}>
 									{user.authority} · {user.email}
 								</small>
 							</span>

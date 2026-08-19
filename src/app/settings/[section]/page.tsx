@@ -13,7 +13,7 @@ import AccountSyncEditor from "@/components/settings/AccountSyncEditor/AccountSy
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
 import DeveloperToolsEditor from "@/components/settings/DeveloperToolsEditor/DeveloperToolsEditor";
 import NavigationPersistenceEditor from "@/components/settings/NavigationPersistenceEditor/NavigationPersistenceEditor";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "../page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { ProfileResponse, Settings } from "@/features/settings/types";

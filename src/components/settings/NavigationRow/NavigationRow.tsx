@@ -1,7 +1,7 @@
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
 
 export default function NavigationRow({
 	title,

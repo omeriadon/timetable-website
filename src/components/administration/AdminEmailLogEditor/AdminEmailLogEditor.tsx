@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 type EmailLogEntry = {
 	id: string;
@@ -44,22 +45,22 @@ export default function AdminEmailLogEditor() {
 			{entries?.length ? (
 				<section className={styles.card}>
 					{entries.map((entry) => (
-						<article className={styles.adminRecord} key={entry.id}>
+						<article className={adminStyles.adminRecord} key={entry.id}>
 							<div className={styles.profileRow}>
 								<Symbol name="envelope.badge" />
 								<span className={styles.label}>{entry.subject}</span>
 								<strong className={styles.detail}>{entry.status}</strong>
 							</div>
-							<div className={styles.adminField}>
+							<div className={adminStyles.adminField}>
 								<span>Recipient</span>
 								<strong>{entry.recipient}</strong>
 							</div>
-							<div className={styles.adminField}>
+							<div className={adminStyles.adminField}>
 								<span>Created</span>
 								<strong>{formatDate(entry.createdAt)}</strong>
 							</div>
 							{entry.failureReason ? (
-								<div className={styles.adminField}>
+								<div className={adminStyles.adminField}>
 									<span>Failure</span>
 									<strong>{entry.failureReason}</strong>
 								</div>

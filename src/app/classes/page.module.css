@@ -1,0 +1,108 @@
+.page {
+	width: 100%;
+	margin: 0;
+	padding: var(--ds-content-page-padding) var(--ds-content-page-padding);
+	color: var(--ds-color-text);
+}
+
+@media (min-width: 701px) {
+	.page {
+		max-width: var(--ds-content-max-width);
+		margin-inline: auto;
+	}
+}
+
+.card {
+	overflow: hidden;
+	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-list-background);
+	box-shadow:
+		inset 0 1px var(--ds-color-highlight),
+		var(--ds-surface-content-shadow);
+}
+
+.row {
+	display: grid;
+	grid-template-columns: 42px minmax(0, 1fr) auto auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	min-height: var(--ds-list-row-height);
+	padding: var(--ds-list-row-padding-block) var(--ds-content-page-padding);
+	color: inherit;
+	text-decoration: none;
+}
+
+.rowButton {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.row + .row {
+	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+}
+
+.symbol {
+	color: var(--ds-color-accent);
+	font-size: 1.6rem;
+	text-align: center;
+}
+
+.symbolIcon,
+.symbol .symbolIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	object-fit: contain;
+	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
+		hue-rotate(318deg) brightness(86%);
+}
+
+.label {
+	font-size: var(--ds-font-content);
+	font-weight: 520;
+}
+
+.chevronIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	filter: brightness(0) invert(1);
+	opacity: 0.5;
+}
+
+.error {
+	margin: var(--ds-content-section-gap) 0;
+	color: var(--ds-color-danger-text);
+	text-align: center;
+}
+
+.loading {
+	color: var(--ds-color-text-secondary);
+	text-align: center;
+}
+
+@media (max-width: 700px) {
+	.page {
+		padding: var(--ds-content-page-padding) var(--ds-content-page-padding)
+			var(--ds-mobile-bottom-inset);
+	}
+
+	.card {
+		border-radius: var(--ds-radius-content-card);
+	}
+
+	.row {
+		min-height: var(--ds-list-row-height);
+		padding: var(--ds-list-row-padding-block) var(--ds-content-page-padding);
+	}
+
+	.label {
+		font-size: var(--ds-font-content);
+	}
+}

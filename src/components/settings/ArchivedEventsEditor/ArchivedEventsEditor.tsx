@@ -7,7 +7,7 @@ import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarE
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
 
 export default function ArchivedEventsEditor() {
 	const { openSheet } = useSheet();

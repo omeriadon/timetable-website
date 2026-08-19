@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/ui/ContentActions.module.css";
 
 export default function TestEmailButton() {
 	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">(
@@ -25,7 +25,7 @@ export default function TestEmailButton() {
 		<Button
 			unstyled
 			type="button"
-			className={styles.adminAction}
+			className={styles.action}
 			onClick={send}
 			disabled={state === "sending"}
 		>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 type AdminStorageQuotaCardProps = {
 	title: string;
@@ -25,7 +26,7 @@ export default function AdminStorageQuotaCard({
 				<strong className={styles.detail}>{percentage}% used</strong>
 			</div>
 			<div
-				className={styles.quotaTrack}
+				className={adminStyles.quotaTrack}
 				aria-label={`${title}: ${percentage} percent used`}
 			>
 				<span

@@ -1,4 +1,4 @@
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 
 export type AdminRecordValue = Record<string, unknown>;
 

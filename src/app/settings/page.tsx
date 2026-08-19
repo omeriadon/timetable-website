@@ -10,7 +10,7 @@ import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
 import CalendarImportSheet from "@/components/sheets/CalendarImportSheet/CalendarImportSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";

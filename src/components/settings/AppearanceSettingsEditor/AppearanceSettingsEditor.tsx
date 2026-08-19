@@ -5,7 +5,7 @@ import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
 
 export default function AppearanceSettingsEditor({
 	initial,

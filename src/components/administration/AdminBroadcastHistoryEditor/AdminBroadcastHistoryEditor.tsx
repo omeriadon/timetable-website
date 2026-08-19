@@ -6,7 +6,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
 import AdminBroadcastDetailSheet from "../AdminBroadcastDetailSheet/AdminBroadcastDetailSheet";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 
 export type BroadcastNotificationRecord = {
 	id: string;

@@ -3,7 +3,7 @@
 import { Checkbox } from "@/components/ui/Checkbox";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/settings/Settings.module.css";
 
 const storageKey = "timetable.persist-navigation";
 

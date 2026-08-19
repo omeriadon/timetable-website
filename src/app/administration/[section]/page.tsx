@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "../page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
 import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";

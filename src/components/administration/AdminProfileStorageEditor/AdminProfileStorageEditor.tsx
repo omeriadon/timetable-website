@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 
 import AdminStorageMetric from "@/components/administration/AdminStorageMetric/AdminStorageMetric";
 import AdminStorageQuotaCard from "@/components/administration/AdminStorageQuotaCard/AdminStorageQuotaCard";

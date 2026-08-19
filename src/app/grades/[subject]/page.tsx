@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "./page.module.css";
+import actionStyles from "@/components/ui/ContentActions.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
 import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
@@ -170,7 +171,7 @@ export default function GradeSubjectPage() {
 						<Button
 							unstyled
 							type="button"
-							className={`${styles.row} ${styles.rowAction}`}
+							className={`${styles.row} ${actionStyles.rowAction}`}
 							disabled={saving}
 							onClick={() => createAssessment(semester)}
 						>

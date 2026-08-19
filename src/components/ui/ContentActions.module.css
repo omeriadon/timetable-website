@@ -1,0 +1,35 @@
+.rowAction {
+	width: 100%;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	text-align: left;
+}
+
+.actionRow {
+	display: flex;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	width: 100%;
+}
+
+.action {
+	display: flex;
+	width: 100%;
+	min-height: var(--ds-list-row-height);
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	padding: var(--ds-control-padding-block) var(--ds-content-page-padding);
+	border: 0;
+	color: var(--ds-color-text);
+	background: transparent;
+	font: inherit;
+	font-weight: 620;
+	text-align: left;
+	cursor: pointer;
+}
+
+.action:disabled {
+	opacity: 0.5;
+	cursor: wait;
+}

@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import actionStyles from "@/components/ui/ContentActions.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 import AdminEventTagSheet from "../AdminEventTagSheet/AdminEventTagSheet";
 import AdminEventTagSectionSheet from "../AdminEventTagSectionSheet/AdminEventTagSectionSheet";
 
@@ -104,11 +106,11 @@ export default function AdminEventTagsEditor() {
 					{error}
 				</p>
 			) : null}
-			<div className={styles.adminToolbar}>
+			<div className={adminStyles.adminToolbar}>
 				<Button
 					unstyled
 					type="button"
-					className={styles.adminAction}
+					className={actionStyles.action}
 					onClick={() => setIsReordering((value) => !value)}
 				>
 					<Symbol
@@ -122,7 +124,7 @@ export default function AdminEventTagsEditor() {
 					<Button
 						unstyled
 						type="button"
-						className={styles.sectionButton}
+							className={adminStyles.sectionButton}
 						onClick={() => editSection(section)}
 						aria-label={`Edit ${section.displayName} section`}
 					>
@@ -130,7 +132,7 @@ export default function AdminEventTagsEditor() {
 					</Button>
 					<div className={styles.card}>
 						{section.tags.map((tag) => (
-							<div key={tag.id} className={styles.rowWithAction}>
+							<div key={tag.id} className={adminStyles.rowWithAction}>
 								<Button
 									unstyled
 									type="button"
@@ -153,7 +155,7 @@ export default function AdminEventTagsEditor() {
 									</div>
 								</Button>
 								{isReordering ? (
-									<div className={styles.reorderButtons}>
+									<div className={adminStyles.reorderButtons}>
 										<Button
 											unstyled
 											type="button"

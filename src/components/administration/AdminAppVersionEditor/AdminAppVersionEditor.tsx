@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 import AdminVersionField from "@/components/administration/AdminVersionField/AdminVersionField";
 
 type AppVersionRequirement = {
@@ -133,7 +134,7 @@ export default function AdminAppVersionEditor() {
 			<Button
 				unstyled
 				type="button"
-				className={styles.profileSave}
+				className={adminStyles.profileSave}
 				onClick={() => void save()}
 				disabled={!valid || saving}
 			>

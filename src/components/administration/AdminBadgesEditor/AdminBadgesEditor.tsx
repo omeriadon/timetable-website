@@ -8,7 +8,9 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import actionStyles from "@/components/ui/ContentActions.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 export type ProfileColor = {
 	red: number;
@@ -131,7 +133,7 @@ export default function AdminBadgesEditor() {
 
 	return (
 		<main className={styles.page}>
-			<div className={styles.adminToolbar}>
+			<div className={adminStyles.adminToolbar}>
 				<p className={styles.detail}>
 					Built-in authority badges and custom badges
 				</p>
@@ -153,7 +155,7 @@ export default function AdminBadgesEditor() {
 				<Button
 					unstyled
 					type="button"
-					className={styles.adminAction}
+					className={actionStyles.action}
 					onClick={() => setIsReordering((value) => !value)}
 					aria-pressed={isReordering}
 				>
@@ -173,7 +175,7 @@ export default function AdminBadgesEditor() {
 			) : (
 				<section className={styles.card} aria-label="Badges">
 					{displayedBadges.map((badge, index) => (
-						<div className={styles.rowWithAction} key={badge.id}>
+						<div className={adminStyles.rowWithAction} key={badge.id}>
 							<Button
 								unstyled
 								type="button"
@@ -191,7 +193,7 @@ export default function AdminBadgesEditor() {
 							>
 								<div className={styles.row}>
 									<span
-										className={styles.badgePreview}
+										className={adminStyles.badgePreview}
 										style={{
 											background: colorToCSS(badge.backgroundColor),
 											color: colorToCSS(badge.symbolColor),
@@ -214,7 +216,7 @@ export default function AdminBadgesEditor() {
 								</div>
 							</Button>
 							{isReordering ? (
-								<div className={styles.reorderButtons}>
+								<div className={adminStyles.reorderButtons}>
 									<Button
 										unstyled
 										type="button"

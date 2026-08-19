@@ -6,7 +6,9 @@ import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
+import actionStyles from "@/components/ui/ContentActions.module.css";
+import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function BroadcastNotificationEditor() {
 	const [title, setTitle] = useState("");
@@ -39,7 +41,7 @@ export default function BroadcastNotificationEditor() {
 	};
 
 	return (
-		<section className={styles.formCard}>
+		<section className={adminStyles.formCard}>
 			<label>
 				Title
 				<Input
@@ -68,7 +70,7 @@ export default function BroadcastNotificationEditor() {
 			<Button
 				unstyled
 				type="button"
-				className={styles.adminAction}
+			className={actionStyles.action}
 				onClick={send}
 				disabled={!title.trim()}
 			>

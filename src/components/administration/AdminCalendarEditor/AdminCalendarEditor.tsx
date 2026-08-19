@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/IOSScreen/IOSScreen.module.css";
+import styles from "@/components/administration/Administration.module.css";
 import AdminCalendarEntrySheet from "../AdminCalendarEntrySheet/AdminCalendarEntrySheet";
 
 export type AdminCalendarEntry = {
