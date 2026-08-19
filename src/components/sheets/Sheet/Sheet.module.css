@@ -67,6 +67,10 @@
 }
 
 .detailTabs button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--theme-content-row-gap);
 	padding: 7px 6px;
 	border: 0;
 	border-radius: 999px;
@@ -75,6 +79,13 @@
 	font: inherit;
 	font-weight: 650;
 	cursor: pointer;
+}
+
+.detailTabs button svg,
+.detailTabs button img {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	object-fit: contain;
 }
 
 .detailTabActive {
@@ -138,6 +149,22 @@
 .detailRow strong {
 	color: var(--theme-info);
 	font-weight: 650;
+}
+
+.detailRowLabel {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--theme-content-row-gap);
+	min-width: 0;
+	color: var(--theme-text-secondary);
+}
+
+.detailRowLabel svg,
+.detailRowLabel img {
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	flex: 0 0 var(--ds-icon-size-small);
+	object-fit: contain;
 }
 
 .dangerButton {

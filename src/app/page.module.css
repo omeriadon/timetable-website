@@ -85,6 +85,34 @@
 	color: var(--theme-text-secondary);
 	font-size: 1.05rem;
 }
+.sectionHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--theme-content-row-gap);
+	margin-bottom: var(--theme-content-section-gap);
+}
+.sectionHeading {
+	display: flex;
+	align-items: center;
+	gap: var(--theme-content-row-gap);
+	min-width: 0;
+}
+.sectionHeadingIcon {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	flex: 0 0 var(--ds-icon-size-row);
+	object-fit: contain;
+}
+.sectionHeader h1,
+.sectionHeader h2 {
+	margin: 0;
+}
+.sectionHeader > span {
+	color: color-mix(in srgb, currentColor 62%, transparent);
+	font-size: var(--ds-font-small);
+	white-space: nowrap;
+}
 .paperCard {
 	width: 100%;
 	margin: var(--theme-content-section-gap) 0;
@@ -249,6 +277,23 @@
 	min-height: var(--theme-content-event-min-height);
 	border: 1px solid var(--theme-highlight);
 	border-radius: var(--theme-radius-control);
+	transition:
+		background var(--ds-duration-fast) var(--ds-ease-standard),
+		transform var(--ds-duration-fast) var(--ds-ease-standard),
+		border-color var(--ds-duration-fast) var(--ds-ease-standard);
+}
+.eventRow {
+	background: color-mix(in srgb, var(--theme-paper) 58%, transparent);
+}
+.eventRow:hover,
+.eventRow:focus-visible {
+	border-color: color-mix(in srgb, var(--theme-black) 35%, transparent);
+	background: color-mix(in srgb, var(--theme-paper) 78%, transparent);
+}
+.eventRow:active,
+.plannerEvent:active,
+.subjectRow:active {
+	transform: scale(0.99);
 }
 .eventRow + .eventRow {
 	margin-top: var(--theme-space-3);
@@ -291,7 +336,9 @@
 }
 .subjectRow {
 	display: grid;
-	grid-template-columns: 24px minmax(0, 1fr) auto;
+	grid-template-columns: 24px minmax(0, 1fr) auto var(
+			--ds-control-icon-size-small
+		);
 	gap: var(--theme-content-row-gap);
 	align-items: center;
 	min-height: var(--theme-content-event-min-height);
@@ -311,10 +358,24 @@
 	font-size: 1.25rem;
 	font-style: normal;
 }
+.rowDisclosureIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	color: color-mix(in srgb, currentColor 58%, transparent);
+	object-fit: contain;
+}
 .week {
 	width: 100%;
 	margin: 0;
 	overflow-x: auto;
+	padding: var(--theme-content-card-padding);
+	border: 1px solid var(--theme-divider);
+	border-radius: var(--theme-content-radius);
+	background: var(--theme-glass);
+	box-shadow: inset 0 1px var(--theme-highlight);
+}
+.weekSurface {
+	min-width: var(--theme-content-week-min-width);
 }
 .weekHeader,
 .weekRow {
@@ -364,6 +425,11 @@
 	font: inherit;
 	text-align: left;
 	cursor: pointer;
+}
+.lessonButton:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--theme-accent);
+	outline-offset: var(--ds-control-focus-offset);
+	border-radius: var(--theme-content-radius);
 }
 .lessonSelected {
 	outline: 2px solid var(--theme-text);
@@ -418,6 +484,9 @@
 	letter-spacing: 0.08em;
 }
 .plannerEvent {
+	grid-template-columns: 30px minmax(0, 1fr) auto var(
+			--ds-control-icon-size-small
+		);
 	width: 100%;
 	min-height: var(--theme-content-event-min-height);
 	margin: var(--theme-content-section-gap) 0;
@@ -444,8 +513,22 @@
 	font-weight: 700;
 }
 .planner h2 {
-	margin: var(--theme-content-section-gap) 0 var(--theme-content-heading-gap);
+	margin: 0;
 	font-size: 1.25rem;
+}
+.plannerSection {
+	margin-bottom: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding);
+	border: 1px solid var(--theme-divider);
+	border-radius: var(--theme-content-radius);
+	background: var(--theme-glass);
+	box-shadow: inset 0 1px var(--theme-highlight);
+}
+.plannerSection:last-child {
+	margin-bottom: 0;
+}
+.plannerSection .plannerEvent {
+	margin: var(--theme-content-row-gap) 0 0;
 }
 .empty {
 	margin: 0;

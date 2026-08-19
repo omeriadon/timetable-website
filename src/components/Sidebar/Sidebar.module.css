@@ -97,6 +97,13 @@
 	gap: var(--ds-space-2);
 }
 
+.sidebarGroup {
+	display: grid;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-3) 0;
+	border-bottom: var(--ds-divider-width) solid var(--theme-divider);
+}
+
 .sidebarHeader {
 	display: flex;
 	gap: var(--ds-space-3);
@@ -125,13 +132,6 @@
 .sidebarHeader span {
 	color: var(--theme-text-secondary);
 	font-size: var(--ds-font-small);
-}
-
-.sidebarGroup {
-	display: grid;
-	gap: var(--ds-space-2);
-	padding: var(--ds-space-3) 0;
-	border-bottom: var(--ds-divider-width) solid var(--theme-divider);
 }
 
 .sidebarBottom {

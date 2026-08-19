@@ -40,11 +40,17 @@ export default function SubjectContextSheet({
 			</header>
 			<section className={styles.detailCard}>
 				<div className={styles.detailRow}>
-					<span>Classroom</span>
+					<span className={styles.detailRowLabel}>
+						<Symbol name="door.left.hand.open" />
+						Classroom
+					</span>
 					<strong>{classroomName(subject.classroom)}</strong>
 				</div>
 				<div className={styles.detailRow}>
-					<span>Teacher</span>
+					<span className={styles.detailRowLabel}>
+						<Symbol name="person.fill" />
+						Teacher
+					</span>
 					<strong>{teacherName(subject.teacher)}</strong>
 				</div>
 				{!day && subject.slots.length
@@ -53,7 +59,10 @@ export default function SubjectContextSheet({
 								key={`${slot.day}-${slot.session}`}
 								className={styles.detailRow}
 							>
-								<span>{dayName(slot.day)}</span>
+								<span className={styles.detailRowLabel}>
+									<Symbol name="calendar" />
+									{dayName(slot.day)}
+								</span>
 								<strong>Period {periodLabel(slot.session)}</strong>
 							</div>
 						))

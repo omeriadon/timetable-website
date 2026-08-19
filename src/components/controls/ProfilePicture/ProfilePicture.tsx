@@ -40,7 +40,14 @@ export default function ProfilePicture({
 				alt=""
 			/>
 		) : appearance?.contentKind === "emoji" ? (
-			<span aria-hidden="true">{appearance.emoji || "👤"}</span>
+			appearance.emoji ? (
+				<span aria-hidden="true">{appearance.emoji}</span>
+			) : (
+				<Symbol
+					name="person.fill"
+					className={styles.profilePictureFallbackIcon}
+				/>
+			)
 		) : (
 			<span aria-hidden="true">{initials}</span>
 		);

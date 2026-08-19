@@ -11,6 +11,12 @@ import {
 } from "@/features/timetable/layout";
 import styles from "../Sheet/Sheet.module.css";
 
+const tabs = [
+	{ value: "main", label: "Overview", symbol: "person.crop.circle" },
+	{ value: "week", label: "Week", symbol: "7.calendar" },
+	{ value: "info", label: "Notifications", symbol: "bell" },
+] as const;
+
 export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 	const [detail, setDetail] = useState<FriendDetail | null>(null);
 	const [tab, setTab] = useState<"main" | "week" | "info">("main");
@@ -62,26 +68,35 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 				</div>
 			</header>
 			<nav className={styles.detailTabs} aria-label="Friend details">
-				{(["main", "week", "info"] as const).map((value) => (
+				{tabs.map(({ value, label, symbol }) => (
 					<Button
 						unstyled
 						key={value}
 						type="button"
 						className={tab === value ? styles.detailTabActive : ""}
 						onClick={() => setTab(value)}
+						role="tab"
+						aria-selected={tab === value}
 					>
-						{value[0].toUpperCase() + value.slice(1)}
+						<Symbol name={symbol} />
+						{label}
 					</Button>
 				))}
 			</nav>
 			{tab === "main" ? (
 				<section className={styles.detailCard}>
 					<div className={styles.detailRow}>
-						<span>Location</span>
+						<span className={styles.detailRowLabel}>
+							<Symbol name="location" />
+							Location
+						</span>
 						<strong>{status}</strong>
 					</div>
 					<div className={styles.detailRow}>
-						<span>School status</span>
+						<span className={styles.detailRowLabel}>
+							<Symbol name="building.2" />
+							School status
+						</span>
 						<strong>School&apos;s Out</strong>
 					</div>
 				</section>
@@ -159,7 +174,10 @@ export default function FriendDetailSheet({ friend }: { friend: Friend }) {
 						onClick={() => void updatePreference("arrived")}
 					/>
 					<div className={styles.detailRow}>
-						<span>Friends since</span>
+						<span className={styles.detailRowLabel}>
+							<Symbol name="person.2" />
+							Friends since
+						</span>
 						<strong>
 							{detail?.acceptedAt
 								? new Date(detail.acceptedAt).toLocaleDateString("en-AU", {

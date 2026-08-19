@@ -62,7 +62,18 @@ export default function TodayView({
 				<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
 			</header>
 			<section className={styles.paperCard}>
-				<h2>Events</h2>
+				<div className={styles.sectionHeader}>
+					<div className={styles.sectionHeading}>
+						<Symbol
+							name="calendar.badge.clock"
+							className={styles.sectionHeadingIcon}
+						/>
+						<h2>Events</h2>
+					</div>
+					<span>
+						{events.length ? `${events.length} upcoming` : "Nothing scheduled"}
+					</span>
+				</div>
 				<h3>Upcoming</h3>
 				{events.length ? (
 					events
@@ -140,7 +151,16 @@ export default function TodayView({
 			</section>
 			{grades.document.assessments.length ? (
 				<section className={styles.paperCard}>
-					<h2>Assessments</h2>
+					<div className={styles.sectionHeader}>
+						<div className={styles.sectionHeading}>
+							<Symbol
+								name="list.bullet.rectangle"
+								className={styles.sectionHeadingIcon}
+							/>
+							<h2>Assessments</h2>
+						</div>
+						<span>{grades.document.assessments.length} total</span>
+					</div>
 					{grades.document.assessments
 						.slice()
 						.sort((left, right) => compareDate(left.date, right.date))
@@ -184,7 +204,16 @@ export default function TodayView({
 				</section>
 			) : null}
 			<section className={styles.paperCard}>
-				<h2>Classes</h2>
+				<div className={styles.sectionHeader}>
+					<div className={styles.sectionHeading}>
+						<Symbol
+							name="books.vertical"
+							className={styles.sectionHeadingIcon}
+						/>
+						<h2>Classes</h2>
+					</div>
+					<span>{subjects.length} subjects</span>
+				</div>
 				<div className={styles.subjectList}>
 					{subjects.map((subject, index) => (
 						<Button
@@ -205,6 +234,10 @@ export default function TodayView({
 									className={styles.eventSymbolIcon}
 								/>
 							</em>
+							<Symbol
+								name="chevron.right"
+								className={styles.rowDisclosureIcon}
+							/>
 						</Button>
 					))}
 				</div>

@@ -76,6 +76,12 @@
 	object-fit: cover;
 }
 
+.profilePictureFallbackIcon {
+	width: 42%;
+	height: 42%;
+	object-fit: contain;
+}
+
 .glassButton::after {
 	position: absolute;
 	inset: 0;

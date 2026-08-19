@@ -20,40 +20,64 @@ export default function PlannerView({
 
 	return (
 		<section className={styles.planner}>
-			<h1>Upcoming</h1>
-			{events.map((event) => (
-				<EventRow key={event.id} event={event} prominent />
-			))}
-			<h2>Term Dates</h2>
-			{schoolCalendar.termRanges.map((term) => (
-				<Button
-					unstyled
-					key={term.label}
-					type="button"
-					className={styles.plannerEvent}
-					onClick={() =>
-						openSheet(
-							<TermDateSheet
-								label={term.label}
-								start={term.start}
-								end={term.end}
-							/>,
-						)
-					}
-					aria-label={`Open ${term.label} dates`}
-				>
-					<span className={styles.eventSymbol} aria-hidden="true">
-						<Symbol name="calendar" className={styles.eventSymbolIcon} />
-					</span>
-					<div>
-						<strong>{term.label}</strong>
-						<span>{formatDateRange(term.start, term.end)}</span>
+			<section className={styles.plannerSection}>
+				<div className={styles.sectionHeader}>
+					<div className={styles.sectionHeading}>
+						<Symbol
+							name="calendar.badge.clock"
+							className={styles.sectionHeadingIcon}
+						/>
+						<h1>Upcoming</h1>
 					</div>
-					<time>
-						{term.start.day} {monthName(term.start.month)}
-					</time>
-				</Button>
-			))}
+					<span>{events.length} events</span>
+				</div>
+				{events.length ? (
+					events.map((event) => (
+						<EventRow key={event.id} event={event} prominent />
+					))
+				) : (
+					<p className={styles.empty}>No upcoming events.</p>
+				)}
+			</section>
+			<section className={styles.plannerSection}>
+				<div className={styles.sectionHeader}>
+					<div className={styles.sectionHeading}>
+						<Symbol name="calendar" className={styles.sectionHeadingIcon} />
+						<h2>Term Dates</h2>
+					</div>
+					<span>{schoolCalendar.termRanges.length} terms</span>
+				</div>
+				{schoolCalendar.termRanges.map((term) => (
+					<Button
+						unstyled
+						key={term.label}
+						type="button"
+						className={styles.plannerEvent}
+						onClick={() =>
+							openSheet(
+								<TermDateSheet
+									label={term.label}
+									start={term.start}
+									end={term.end}
+								/>,
+							)
+						}
+						aria-label={`Open ${term.label} dates`}
+					>
+						<span className={styles.eventSymbol} aria-hidden="true">
+							<Symbol name="calendar" className={styles.eventSymbolIcon} />
+						</span>
+						<div>
+							<strong>{term.label}</strong>
+							<span>{formatDateRange(term.start, term.end)}</span>
+						</div>
+						<time>
+							{term.start.day} {monthName(term.start.month)}
+						</time>
+						<Symbol name="chevron.right" className={styles.rowDisclosureIcon} />
+					</Button>
+				))}
+			</section>
 		</section>
 	);
 }

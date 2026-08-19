@@ -39,65 +39,68 @@ export default function WeekView({
 
 	return (
 		<section className={styles.week} aria-label="Weekly timetable">
-			<div className={styles.weekHeader}>
-				{TIMETABLE_DAYS.map((day) => (
-					<span key={day}>{day}</span>
-				))}
-			</div>
-			<div className={styles.weekGrid}>
-				{TIMETABLE_SESSIONS.map((session) => (
-					<div key={session.value} className={styles.weekRow}>
-						<small>{session.label}</small>
-						{TIMETABLE_DAYS.map((day, dayIndex) => {
-							const subject = subjects.find((item) =>
-								item.slots.some(
-									(slot) =>
-										slot.day === dayIndex && slot.session === session.value,
-								),
-							);
-							if (!subject) return <div key={day} />;
-							const isSelected =
-								selectedSlot?.day === dayIndex &&
-								selectedSlot.session === session.value;
-							return (
-								<Button
-									unstyled
-									key={day}
-									type="button"
-									className={styles.lessonButton}
-									aria-label={`Open ${subject.id} on ${day}`}
-									onClick={() => {
-										const slot = { day: dayIndex, session: session.value };
-										setSelectedSlot(slot);
-										openSheet(
-											<SubjectContextSheet
-												owner="You"
-												subject={subject}
-												day={day}
-												session={session.value}
-											/>,
-										);
-									}}
-								>
-									<article
-										className={
-											isSelected
-												? `${styles.lesson} ${styles.lessonSelected}`
-												: styles.lesson
-										}
-										style={{ background: colour(subject) }}
+			<div className={styles.weekSurface}>
+				<div className={styles.weekHeader}>
+					<span aria-hidden="true"> </span>
+					{TIMETABLE_DAYS.map((day) => (
+						<span key={day}>{day}</span>
+					))}
+				</div>
+				<div className={styles.weekGrid}>
+					{TIMETABLE_SESSIONS.map((session) => (
+						<div key={session.value} className={styles.weekRow}>
+							<small>{session.label}</small>
+							{TIMETABLE_DAYS.map((day, dayIndex) => {
+								const subject = subjects.find((item) =>
+									item.slots.some(
+										(slot) =>
+											slot.day === dayIndex && slot.session === session.value,
+									),
+								);
+								if (!subject) return <div key={day} />;
+								const isSelected =
+									selectedSlot?.day === dayIndex &&
+									selectedSlot.session === session.value;
+								return (
+									<Button
+										unstyled
+										key={day}
+										type="button"
+										className={styles.lessonButton}
+										aria-label={`Open ${subject.id} on ${day}`}
+										onClick={() => {
+											const slot = { day: dayIndex, session: session.value };
+											setSelectedSlot(slot);
+											openSheet(
+												<SubjectContextSheet
+													owner="You"
+													subject={subject}
+													day={day}
+													session={session.value}
+												/>,
+											);
+										}}
 									>
-										<Symbol
-											name={subject.symbol}
-											className={styles.lessonSymbol}
-										/>
-										<strong>{subject.id}</strong>
-									</article>
-								</Button>
-							);
-						})}
-					</div>
-				))}
+										<article
+											className={
+												isSelected
+													? `${styles.lesson} ${styles.lessonSelected}`
+													: styles.lesson
+											}
+											style={{ background: colour(subject) }}
+										>
+											<Symbol
+												name={subject.symbol}
+												className={styles.lessonSymbol}
+											/>
+											<strong>{subject.id}</strong>
+										</article>
+									</Button>
+								);
+							})}
+						</div>
+					))}
+				</div>
 			</div>
 			{selectedSlot && selectedSubject ? (
 				<section className={styles.selectedLesson}>

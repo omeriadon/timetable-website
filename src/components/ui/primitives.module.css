@@ -458,6 +458,32 @@
 	filter: brightness(0) invert(1);
 }
 
+/* The wide SwiftUI layout presents detail in an inspector column. Keep the
+   same Base UI Drawer primitive, but change its presentation geometry at the
+   iPad breakpoint. */
+@media (min-width: 701px) {
+	.drawerViewport {
+		align-items: stretch;
+		justify-content: flex-end;
+	}
+
+	.drawerPopup {
+		width: min(500px, 42vw);
+		max-height: none;
+		height: 100%;
+		padding-top: var(--ds-toolbar-height);
+		border-bottom: var(--ds-border-width) solid var(--ds-surface-border);
+		border-radius: var(--ds-radius-card) 0 0 var(--ds-radius-card);
+		transform: translateX(var(--drawer-swipe-movement-x, 0));
+		transition: transform var(--ds-duration-sheet) var(--ds-ease-sheet);
+	}
+
+	.drawerPopup[data-starting-style],
+	.drawerPopup[data-ending-style] {
+		transform: translateX(100%);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.button,
 	.popup,
