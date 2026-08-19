@@ -80,7 +80,7 @@ export default function GradesPage() {
 									{formatPercent(average)}
 								</div>
 							</div>
-							<div style={{ textAlign: "right" }}>
+							<div>
 								<strong className={styles.summaryLabel}>Top 4</strong>
 								<div className={styles.summaryValue}>
 									{formatPercent(average)}

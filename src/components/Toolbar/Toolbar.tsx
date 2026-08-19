@@ -9,12 +9,9 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
-import { toolbarGlassProps } from "@/components/LiquidGlass/presets";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import QuickSettingsDrawer from "@/components/drawers/QuickSettingsDrawer/QuickSettingsDrawer";
-import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
 	label: string;
@@ -71,21 +68,16 @@ export default function Toolbar() {
 	} = config;
 
 	return (
-		<header className={styles.toolbar}>
+		<header>
 			{searchPlaceholder ? (
-				<LiquidGlass {...toolbarGlassProps}>
-					<label className={styles.search}>
-						<div className={styles.something}>
-							<span className="sr-only">Search {title}</span>
-							<Input
-								value={searchValue}
-								placeholder={searchPlaceholder}
-								onChange={(event) => onSearchChange?.(event.target.value)}
-								className={styles.searchInput}
-							/>
-						</div>
-					</label>
-				</LiquidGlass>
+				<label>
+					<span>Search {title}</span>
+					<Input
+						value={searchValue}
+						placeholder={searchPlaceholder}
+						onChange={(event) => onSearchChange?.(event.target.value)}
+					/>
+				</label>
 			) : null}
 
 			{actions.map((action) => (
@@ -95,7 +87,7 @@ export default function Toolbar() {
 					aria-label={action.label}
 					onClick={action.onPress}
 				>
-					<Symbol name={action.icon} className={styles.actionIcon} />
+					<Symbol name={action.icon} />
 				</Button>
 			))}
 
@@ -104,7 +96,7 @@ export default function Toolbar() {
 				aria-label="Open settings"
 				onClick={() => openDrawer(<QuickSettingsDrawer />)}
 			>
-				<Symbol name="gear" className={styles.actionIcon} />
+				<Symbol name="gear" />
 			</Button>
 		</header>
 	);

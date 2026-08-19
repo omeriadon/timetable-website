@@ -10,9 +10,6 @@ import {
 	type ReactElement,
 	type ReactNode,
 } from "react";
-import { cn } from "@/lib/utils";
-import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "./primitives.module.css";
 
 type OptionProps = {
 	value?: string | number;
@@ -32,7 +29,14 @@ export type SelectProps = Omit<
 
 export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 	function Select(
-		{ children, className, value, defaultValue, onChange, ...props },
+		{
+			children,
+			className: _className,
+			value,
+			defaultValue,
+			onChange,
+			...props
+		},
 		ref,
 	) {
 		const options = Children.toArray(children).filter(isValidElement) as Array<
@@ -65,19 +69,13 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 				}
 				onValueChange={emitChange}
 			>
-				<BaseSelect.Trigger
-					ref={ref}
-					className={cn(styles.selectTrigger, className)}
-				>
-					<BaseSelect.Value className={styles.selectValue} />
-					<BaseSelect.Icon className={styles.selectIcon}>
-						<Symbol name="chevron.down" className={styles.selectSymbol} />
-					</BaseSelect.Icon>
+				<BaseSelect.Trigger ref={ref}>
+					<BaseSelect.Value />
 				</BaseSelect.Trigger>
 				<BaseSelect.Portal>
 					<BaseSelect.Positioner sideOffset={4}>
-						<BaseSelect.Popup className={styles.popup}>
-							<BaseSelect.List className={styles.selectList}>
+						<BaseSelect.Popup>
+							<BaseSelect.List>
 								{options.map((option, index) => {
 									const optionValue = String(
 										option.props.value ?? option.props.children ?? "",
@@ -88,7 +86,6 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 											key={`${optionValue}-${index}`}
 											value={optionValue}
 											disabled={option.props.disabled}
-											className={styles.selectItem}
 										>
 											<BaseSelect.ItemText>
 												{option.props.children}

@@ -1,9 +1,7 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import type { CSSProperties } from "react";
 import type { ProfileAppearance } from "@/lib/api/contracts";
-import styles from "./ProfileColourGrid.module.css";
 
 type Colour = ProfileAppearance["colours"][number];
 
@@ -26,18 +24,13 @@ export function ProfileColourGrid({
 	const palette = makePalette(6, columnCount, true, 0.92, 0.08);
 
 	return (
-		<div
-			className={styles.grid}
-			style={{ "--profile-grid-columns": columnCount } as CSSProperties}
-		>
+		<div>
 			{palette.map((colour, index) => {
 				const selected = selection.some((item) => sameColour(item, colour));
 				return (
 					<Button
 						key={`background-${index}`}
 						type="button"
-						className={selected ? styles.swatchSelected : styles.swatch}
-						style={{ background: rgba(colour) }}
 						onClick={() => {
 							if (selected) {
 								if (selection.length > 1) {
@@ -70,18 +63,13 @@ export function ProfileForegroundColourGrid({
 	const colours = [...palette, ...monochrome];
 
 	return (
-		<div
-			className={styles.grid}
-			style={{ "--profile-grid-columns": columnCount } as CSSProperties}
-		>
+		<div>
 			{colours.map((colour, index) => {
 				const selected = sameColour(selection, colour);
 				return (
 					<Button
 						key={`foreground-${index}`}
 						type="button"
-						className={selected ? styles.swatchSelected : styles.swatch}
-						style={{ background: rgba(colour) }}
 						onClick={() => onChange(colour)}
 						aria-label={`Foreground colour ${index + 1}`}
 						aria-pressed={selected}
@@ -150,8 +138,4 @@ function sameColour(left: Colour, right: Colour) {
 		Math.abs(left.g - right.g) < 0.002 &&
 		Math.abs(left.b - right.b) < 0.002
 	);
-}
-
-function rgba(colour: Colour) {
-	return `rgba(${Math.round(colour.r * 255)} ${Math.round(colour.g * 255)} ${Math.round(colour.b * 255)} / ${colour.a})`;
 }

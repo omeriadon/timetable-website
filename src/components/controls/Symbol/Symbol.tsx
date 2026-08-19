@@ -6,7 +6,6 @@ import {
 	type ImgHTMLAttributes,
 	type ReactNode,
 } from "react";
-import styles from "../controls.module.css";
 
 export type SymbolProps = Omit<
 	ImgHTMLAttributes<HTMLImageElement>,
@@ -38,12 +37,10 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 			: null);
 	const [failedName, setFailedName] = useState<string | null>(null);
 	const decorative = !alt;
-	const resolvedClassName = className ?? styles.symbolIcon;
-
 	if (imageSource === null) {
 		return fallback !== undefined ? (
 			<span
-				className={resolvedClassName}
+				className={className}
 				aria-hidden={decorative || undefined}
 				aria-label={decorative ? undefined : alt}
 				role={decorative ? undefined : "img"}
@@ -56,7 +53,7 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 	if (failedName === imageSource && fallback !== undefined) {
 		return (
 			<span
-				className={resolvedClassName}
+				className={className}
 				aria-hidden={decorative || undefined}
 				aria-label={decorative ? undefined : alt}
 				role={decorative ? undefined : "img"}
@@ -70,7 +67,7 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 		<img
 			{...props}
 			ref={ref}
-			className={resolvedClassName}
+			className={className}
 			src={imageSource}
 			alt={alt ?? ""}
 			aria-hidden={decorative || undefined}

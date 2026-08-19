@@ -28,13 +28,7 @@ export default function AdminStorageQuotaCard({
 			<div
 				className={adminStyles.quotaTrack}
 				aria-label={`${title}: ${percentage} percent used`}
-			>
-				<span
-					style={{
-						width: `${Math.min(100, Math.max(0, percentage))}%`,
-					}}
-				/>
-			</div>
+			/>
 			{children}
 		</section>
 	);

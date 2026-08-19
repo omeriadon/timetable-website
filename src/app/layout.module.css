@@ -1,228 +1,34 @@
 .appShell {
-	position: relative;
 	display: flex;
-	height: 100svh;
-	overflow: hidden;
-	background: var(--ds-color-background);
-	overscroll-behavior: none;
-}
-
-.appShell::before {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-	width: var(--ds-sidebar-frame);
-	height: 46px;
-	content: "";
-	pointer-events: none;
-	background:
-		radial-gradient(
-				circle at 100% 100%,
-				transparent 29px,
-				var(--ds-color-background) 30px
-			)
-			16px 16px / 30px 30px no-repeat,
-		radial-gradient(
-				circle at 0 100%,
-				transparent 29px,
-				var(--ds-color-background) 30px
-			)
-			286px 16px / 30px 30px no-repeat;
-}
-
-.appShell::after {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 1;
-	width: var(--ds-sidebar-frame);
-	height: 46px;
-	content: "";
-	pointer-events: none;
-	background:
-		radial-gradient(
-				circle at 100% 0,
-				transparent 29px,
-				var(--ds-color-background) 30px
-			)
-			16px 0 / 30px 30px no-repeat,
-		radial-gradient(
-				circle at 0 0,
-				transparent 29px,
-				var(--ds-color-background) 30px
-			)
-			286px 0 / 30px 30px no-repeat;
+	min-height: 100svh;
 }
 
 .outerAppShell {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	overflow: visible;
-	background: var(--ds-color-background);
-	overscroll-behavior: none;
+	flex: 1;
+	min-width: 0;
+	min-height: 100svh;
 }
 
 .pageContent {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: calc(-1 * var(--ds-sidebar-frame));
-	height: 100%;
-	overflow-y: auto;
-	overflow-x: hidden;
-	overscroll-behavior-x: none;
-	overscroll-behavior-y: none;
-	mask-image: linear-gradient(black, black), linear-gradient(black, black);
-	mask-position:
-		right top,
-		16px 16px;
-	mask-repeat: no-repeat;
-	mask-size:
-		calc(100% - var(--ds-sidebar-frame)) 100%,
-		var(--ds-sidebar-width) calc(100% - 32px);
-	-webkit-mask-image:
-		linear-gradient(black, black), linear-gradient(black, black);
-	-webkit-mask-position:
-		right top,
-		16px 16px;
-	-webkit-mask-repeat: no-repeat;
-	-webkit-mask-size:
-		calc(100% - var(--ds-sidebar-frame)) 100%,
-		var(--ds-sidebar-width) calc(100% - 32px);
+	min-height: 100%;
+	overflow: auto;
 }
 
 .contentSurface {
-	position: relative;
-	width: calc(100% - var(--ds-sidebar-frame));
 	min-height: 100%;
-	margin-left: var(--ds-sidebar-frame);
-	padding-left: var(--ds-content-page-padding);
-	padding-right: var(--ds-content-page-padding);
-	padding-top: 52px;
-	background: var(--ds-color-background);
-}
-
-.reflectionMirror {
-	position: absolute;
-	top: 0;
-	left: 16px;
-	width: var(--ds-sidebar-width);
-	min-height: 100%;
-	overflow: hidden;
-	pointer-events: none;
-	opacity: 0.7;
-	user-select: none;
-	filter: blur(40px);
-	mask-image: linear-gradient(to left, black 0%, transparent 100%);
-	-webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
-}
-
-.reflectionMirror > .contentSurface {
-	width: calc(100vw - var(--ds-sidebar-frame));
-	margin-left: calc(var(--ds-sidebar-width) + 1px);
-	transform: scaleX(-1);
-	transform-origin: left top;
-}
-
-.toolbar {
-	position: absolute;
-	top: 16px;
-	left: 16px;
-	right: 16px;
-	z-index: 20;
-}
-
-.liquidGlassTestButton {
-	position: fixed;
-	top: 50%;
-	left: 40%;
-	z-index: 100;
-	display: block;
-	width: 320px;
-	min-height: 180px;
-	transform: translate(-50%, -50%);
-	border-radius: 32px;
-	font-size: 1.1rem;
-}
-
-.liquidGlassTestButton2 {
-	position: fixed;
-
-	top: 10%;
-	left: 95%;
-
-	z-index: 100;
-
-	width: 60px;
-	height: 60px;
-
-	transform: translate(-50%, -50%);
-
-	padding: 5px 10px;
-}
-
-.fadeToBackgroundTop {
-	z-index: 20;
-}
-
-.liquidGlassTestContent {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: var(--ds-space-3);
-	text-align: left;
-}
-
-.liquidGlassTestContent strong {
-	font-size: 1.5rem;
-}
-
-.liquidGlassTestContent span {
-	font-size: 0.9rem;
-	opacity: 0.75;
+	background: Canvas;
+	color: CanvasText;
+	font-family: initial;
 }
 
 @media (max-width: 700px) {
 	.appShell {
 		display: block;
-		overflow: hidden;
 	}
 
-	.appShell::before,
-	.appShell::after {
-		display: none;
-	}
-
-	.outerAppShell {
-		width: 100%;
-	}
-
-	.pageContent {
-		position: relative;
-		top: auto;
-		right: auto;
-		bottom: auto;
-		left: auto;
-		width: 100%;
-		height: 100svh;
-		mask: none;
-		-webkit-mask: none;
-	}
-
+	.outerAppShell,
+	.pageContent,
 	.contentSurface {
-		width: 100%;
-		margin-left: 0;
-		padding-top: var(--ds-content-page-padding);
-		padding-bottom: calc(
-			var(--ds-content-page-padding) + var(--ds-mobile-bottom-inset) +
-				env(safe-area-inset-bottom)
-		);
-	}
-
-	.reflectionMirror {
-		display: none;
+		min-height: 100svh;
 	}
 }

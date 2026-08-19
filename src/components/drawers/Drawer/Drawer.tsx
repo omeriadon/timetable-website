@@ -54,10 +54,10 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 				}}
 			>
 				<DrawerContent>
-					<DrawerHeader className="sr-only">
+					<DrawerHeader>
 						<DrawerTitle>Timetable drawer</DrawerTitle>
 					</DrawerHeader>
-					<div className="min-h-0 overflow-y-auto p-4">{content}</div>
+					<div>{content}</div>
 					<DrawerFooter>
 						<DrawerClose render={<Button type="button" />}>
 							<Symbol name="xmark" />

@@ -51,9 +51,6 @@ export default function WeekTimetable({
 									<article
 										key={day}
 										className={`${weekStyles.lesson} ${currentDayClass ?? ""}`}
-										style={{
-											background: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
-										}}
 									>
 										<Symbol
 											name={subject.symbol}

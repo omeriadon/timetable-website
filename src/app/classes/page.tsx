@@ -40,23 +40,12 @@ export default function ClassesPage() {
 							content={<SubjectDetailDrawer subject={subject} />}
 						>
 							<article className={styles.row}>
-								<span
-									className={styles.symbol}
-									style={{
-										color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
-									}}
-								>
+								<span className={styles.symbol}>
 									<Symbol name={subject.symbol} className={styles.symbolIcon} />
 								</span>
 								<span>
 									<b className={styles.label}>{subject.id}</b>
-									<small
-										style={{
-											display: "block",
-											color: "var(--ds-color-text-secondary)",
-											marginTop: 4,
-										}}
-									>
+									<small>
 										{subject.slots.length} class
 										{subject.slots.length === 1 ? "" : "es"} each week
 									</small>

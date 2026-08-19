@@ -106,7 +106,6 @@ export default function WeekView({
 														? `${styles.lesson} ${styles.lessonSelected}`
 														: styles.lesson
 												}
-												style={{ background: colour(subject) }}
 											>
 												<Symbol
 													name={subject.symbol}
@@ -154,9 +153,4 @@ export default function WeekView({
 			<TimetableComparison selectedSlot={selectedSlot} friends={friends} />
 		</section>
 	);
-}
-
-function colour(subject: TimetableSubject) {
-	const { r, g, b, a } = subject.colour;
-	return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
 }

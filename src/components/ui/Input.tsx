@@ -6,16 +6,12 @@ import {
 	type ComponentPropsWithoutRef,
 	type ElementRef,
 } from "react";
-import { cn } from "@/lib/utils";
-import styles from "./primitives.module.css";
 
 export type InputProps = ComponentPropsWithoutRef<typeof BaseInput>;
 
 export const Input = forwardRef<ElementRef<typeof BaseInput>, InputProps>(
-	function Input({ className, ...props }, ref) {
-		return (
-			<BaseInput ref={ref} className={cn(styles.input, className)} {...props} />
-		);
+	function Input({ className: _className, ...props }, ref) {
+		return <BaseInput ref={ref} {...props} />;
 	},
 );
 

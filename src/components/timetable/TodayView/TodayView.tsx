@@ -194,7 +194,7 @@ export default function TodayView({
 									</div>
 								</div>
 							</div>
-							<em style={{ color: colour(subject) }}>
+							<em>
 								<Symbol
 									name={subject.symbol}
 									className={styles.eventSymbolIcon}

@@ -141,10 +141,7 @@ export default function AdminSpecialBadgeDrawer({
 	return (
 		<div className={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
-				<div
-					className={styles.detailAvatar}
-					style={{ background: backgroundColor, color: symbolColor }}
-				>
+				<div className={styles.detailAvatar}>
 					<Symbol name={symbol} fallback="★" />
 				</div>
 				<div>

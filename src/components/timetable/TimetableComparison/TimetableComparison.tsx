@@ -49,7 +49,6 @@ export default function TimetableComparison({
 						key={friend.relationshipID}
 						type="button"
 						className={styles.friendSubject}
-						style={{ background: subjectColour(subject) }}
 						onClick={() =>
 							openDrawer(
 								<SubjectContextDrawer
@@ -88,8 +87,4 @@ function subjectAtSlot(subjects: TimetableSubject[], slot: TimetableSlot) {
 				candidate.day === slot.day && candidate.session === slot.session,
 		),
 	);
-}
-
-function subjectColour(subject: TimetableSubject) {
-	return `linear-gradient(135deg, rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)} / 0.82), color-mix(in srgb, var(--ds-color-background) 34%, transparent))`;
 }

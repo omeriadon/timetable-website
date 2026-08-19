@@ -189,13 +189,7 @@ export default function AdminBadgesEditor() {
 								aria-label={`Edit ${badge.accessibilityLabel}`}
 							>
 								<div className={styles.row}>
-									<span
-										className={adminStyles.badgePreview}
-										style={{
-											background: colorToCSS(badge.backgroundColor),
-											color: colorToCSS(badge.symbolColor),
-										}}
-									>
+									<span className={adminStyles.badgePreview}>
 										<Symbol name={badge.symbol} fallback="*" />
 									</span>
 									<span>
@@ -235,14 +229,4 @@ export default function AdminBadgesEditor() {
 			)}
 		</main>
 	);
-}
-
-function colorToCSS(color: ProfileColor | null) {
-	if (!color) {
-		return "#000000";
-	}
-
-	return `rgba(${Math.round(color.red * 255)}, ${Math.round(
-		color.green * 255,
-	)}, ${Math.round(color.blue * 255)}, ${color.alpha})`;
 }

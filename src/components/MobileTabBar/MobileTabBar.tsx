@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "./MobileTabBar.module.css";
 
 type TabItem = {
 	href: string;
@@ -54,11 +52,7 @@ export default function MobileTabBar() {
 	}
 
 	return (
-		<nav
-			className={styles.tabBar}
-			style={{ "--tab-count": isAdministrator ? 5 : 4 } as CSSProperties}
-			aria-label="Primary navigation"
-		>
+		<nav aria-label="Primary navigation">
 			{tabs
 				.filter((tab) => tab.label !== "Admin" || isAdministrator)
 				.map((tab) => {
@@ -69,15 +63,12 @@ export default function MobileTabBar() {
 						<Link
 							key={tab.href}
 							href={tab.href}
-							className={active ? `${styles.tab} ${styles.active}` : styles.tab}
 							aria-current={active ? "page" : undefined}
 						>
-							<Symbol name={tab.icon} className={styles.symbol} />
+							<Symbol name={tab.icon} />
 							<span>{tab.label}</span>
 							{tab.badge && incomingFriendRequestCount > 0 ? (
-								<span className={styles.badge} aria-hidden="true">
-									{incomingFriendRequestCount}
-								</span>
+								<span aria-hidden="true">{incomingFriendRequestCount}</span>
 							) : null}
 						</Link>
 					);
