@@ -122,12 +122,15 @@
 }
 
 .brandIcon {
-	height: 44px;
-	transition: scale var(--ds-duration-normal) ease;
+	height: 70px;
+	--random-deg: 0deg;
+	--random-scale: 1;
+	transform: rotate(var(--random-deg)) scale(1);
+	transition: transform var(--ds-duration-normal) var(--ds-ease-standard);
 }
 
-.brandIcon:hover {
-	scale: 1.05;
+.brandLink:hover .brandIcon {
+	transform: rotate(var(--random-deg)) scale(var(--random-scale));
 }
 
 .sidebarBottom {

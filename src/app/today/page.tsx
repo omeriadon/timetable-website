@@ -8,7 +8,22 @@ import { useDashboard } from "@/features/timetable/useDashboard";
 import type { CalendarEvent } from "@/features/timetable/types";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { Button } from "@base-ui/react/button";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 import styles from "@/components/timetable/timetable.module.css";
+
+const MODES = [
+	{ href: "/today", label: "Today", icon: "calendar.day.timeline.left" },
+	{ href: "/week", label: "Week", icon: "7.calendar" },
+	{ href: "/planner", label: "Planner", icon: "pencil.and.list.clipboard" },
+] as const;
 
 export default function TodayPage() {
 	const pathname = usePathname();
@@ -46,33 +61,50 @@ export default function TodayPage() {
 }
 
 function TimetableModePicker({ pathname }: { pathname: string }) {
+	const current = MODES.find((mode) => mode.href === pathname);
+
 	return (
-		<nav className={styles.modePicker} aria-label="Timetable section">
-			<Link
-				href="/today"
-				className={pathname === "/today" ? styles.activeMode : undefined}
-				aria-current={pathname === "/today" ? "page" : undefined}
+		<Drawer>
+			<DrawerTrigger
+				render={
+					<Button
+						type="button"
+						className={styles.modePickerTrigger}
+						aria-label="Open timetable section picker"
+					/>
+				}
 			>
-				<Symbol name="calendar.day.timeline.left" className={styles.modeIcon} />
-				Today
-			</Link>
-			<Link
-				href="/week"
-				className={pathname === "/week" ? styles.activeMode : undefined}
-				aria-current={pathname === "/week" ? "page" : undefined}
-			>
-				<Symbol name="7.calendar" className={styles.modeIcon} />
-				Week
-			</Link>
-			<Link
-				href="/planner"
-				className={pathname === "/planner" ? styles.activeMode : undefined}
-				aria-current={pathname === "/planner" ? "page" : undefined}
-			>
-				<Symbol name="pencil.and.list.clipboard" className={styles.modeIcon} />
-				Planner
-			</Link>
-		</nav>
+				<Symbol
+					name={current?.icon ?? "line.3.horizontal"}
+					className={styles.modeIcon}
+				/>
+				{current?.label ?? "Timetable"}
+			</DrawerTrigger>
+			<DrawerContent>
+				<DrawerHeader>
+					<DrawerTitle>Timetable section</DrawerTitle>
+				</DrawerHeader>
+				<nav className={styles.modePicker} aria-label="Timetable section">
+					{MODES.map((mode) => (
+						<DrawerClose
+							key={mode.href}
+							render={
+								<Link
+									href={mode.href}
+									className={
+										pathname === mode.href ? styles.activeMode : undefined
+									}
+									aria-current={pathname === mode.href ? "page" : undefined}
+								/>
+							}
+						>
+							<Symbol name={mode.icon} className={styles.modeIcon} />
+							{mode.label}
+						</DrawerClose>
+					))}
+				</nav>
+			</DrawerContent>
+		</Drawer>
 	);
 }
 

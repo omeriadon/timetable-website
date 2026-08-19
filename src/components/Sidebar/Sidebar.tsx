@@ -3,7 +3,7 @@
 import styles from "./Sidebar.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { Friend } from "@/features/timetable/types";
@@ -18,17 +18,9 @@ type SidebarItem = {
 };
 
 const topGroups: SidebarItem[] = [
-	{
-		label: "Today",
-		href: "/today",
-		icon: "calendar.day.timeline.left",
-	},
+	{ label: "Today", href: "/today", icon: "calendar.day.timeline.left" },
 	{ label: "Week", href: "/week", icon: "calendar.badge.clock" },
-	{
-		label: "Planner",
-		href: "/planner",
-		icon: "pencil.and.list.clipboard",
-	},
+	{ label: "Planner", href: "/planner", icon: "pencil.and.list.clipboard" },
 	{ label: "Friends", href: "/friends", icon: "person.2", badge: true },
 	{ label: "Grades", href: "/grades", icon: "chart.bar.xaxis" },
 ];
@@ -49,6 +41,11 @@ export default function Sidebar() {
 	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
 		useState(0);
 
+	// State or ref to hold dynamic hover values for the brand icon
+	const [iconTransformProps, setIconTransformProps] = useState<CSSProperties>(
+		{},
+	);
+
 	useEffect(() => {
 		apiRequest<Account>("v1/account")
 			.then((account) => {
@@ -65,6 +62,23 @@ export default function Sidebar() {
 			)
 			.catch(() => setIncomingFriendRequestCount(0));
 	}, []);
+
+	const handleIconHover = () => {
+		const randomDeg = Math.random() * 20 - 10; // -10 to 10
+		const randomScale = Math.random() * 0.2 + 0.9; // 0.9 to 1.1
+
+		setIconTransformProps({
+			["--random-deg" as string]: `${randomDeg}deg`,
+			["--random-scale" as string]: `${randomScale}`,
+		} as CSSProperties);
+	};
+
+	const handleIconLeave = () => {
+		setIconTransformProps({
+			["--random-deg" as string]: `0deg`,
+			["--random-scale" as string]: `1`,
+		} as CSSProperties);
+	};
 
 	if (isCompact) {
 		return null;
@@ -105,10 +119,17 @@ export default function Sidebar() {
 			<div className={styles.saturationOutline} aria-hidden="true" />
 
 			<div className={styles.sidebarHeader}>
-				<Link href="/" className={styles.brandLink} aria-label="Home">
+				<Link
+					href="/"
+					className={styles.brandLink}
+					aria-label="Home"
+					onMouseEnter={handleIconHover}
+					onMouseLeave={handleIconLeave}
+				>
 					<Symbol
 						src="/icon.png"
 						className={styles.brandIcon}
+						style={iconTransformProps}
 						alt=""
 						aria-hidden="true"
 						loading="eager"
