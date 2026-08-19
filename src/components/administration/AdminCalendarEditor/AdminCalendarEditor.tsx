@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
-import AdminCalendarEntrySheet from "../AdminCalendarEntrySheet/AdminCalendarEntrySheet";
+import AdminCalendarEntryDrawer from "../AdminCalendarEntryDrawer/AdminCalendarEntryDrawer";
 
 export type AdminCalendarEntry = {
 	id: string;
@@ -23,7 +23,7 @@ export default function AdminCalendarEditor({
 	kind: string;
 	title: string;
 }) {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [entries, setEntries] = useState<AdminCalendarEntry[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const load = () =>
@@ -45,13 +45,12 @@ export default function AdminCalendarEditor({
 			<section className={styles.card}>
 				{entries?.map((entry) => (
 					<Button
-						unstyled
 						key={entry.id}
 						type="button"
 						className={styles.rowButton}
 						onClick={() =>
-							openSheet(
-								<AdminCalendarEntrySheet
+							openDrawer(
+								<AdminCalendarEntryDrawer
 									entry={entry}
 									kind={kind}
 									onSaved={() => {
@@ -75,12 +74,11 @@ export default function AdminCalendarEditor({
 					</Button>
 				))}
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
-						openSheet(
-							<AdminCalendarEntrySheet
+						openDrawer(
+							<AdminCalendarEntryDrawer
 								entry={null}
 								kind={kind}
 								onSaved={() => {

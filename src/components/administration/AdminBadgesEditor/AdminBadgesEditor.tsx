@@ -1,12 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useMemo, useState } from "react";
-import AdminSpecialBadgeSheet from "@/components/administration/AdminSpecialBadgeSheet/AdminSpecialBadgeSheet";
-import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
+import AdminSpecialBadgeDrawer from "@/components/administration/AdminSpecialBadgeDrawer/AdminSpecialBadgeDrawer";
+import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import actionStyles from "@/components/ui/ContentActions.module.css";
@@ -53,7 +52,7 @@ const builtInBadges: SpecialBadge[] = [
 const builtInBadgeIDs = new Set(builtInBadges.map((badge) => badge.id));
 
 export default function AdminBadgesEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [badges, setBadges] = useState<SpecialBadge[] | null>(null);
 	const [users, setUsers] = useState<AdministrationUser[]>([]);
 	const [error, setError] = useState<string | null>(null);
@@ -137,11 +136,11 @@ export default function AdminBadgesEditor() {
 				<p className={styles.detail}>
 					Built-in authority badges and custom badges
 				</p>
-				<SheetActionButton
-					label="Add badge"
+				<Button
+					aria-label="Add badge"
 					onClick={() =>
-						openSheet(
-							<AdminSpecialBadgeSheet
+						openDrawer(
+							<AdminSpecialBadgeDrawer
 								badge={null}
 								users={users}
 								onSaved={load}
@@ -151,9 +150,8 @@ export default function AdminBadgesEditor() {
 				>
 					<Symbol name="plus" fallback="+" />
 					Add Badge
-				</SheetActionButton>
+				</Button>
 				<Button
-					unstyled
 					type="button"
 					className={actionStyles.action}
 					onClick={() => setIsReordering((value) => !value)}
@@ -177,12 +175,11 @@ export default function AdminBadgesEditor() {
 					{displayedBadges.map((badge, index) => (
 						<div className={adminStyles.rowWithAction} key={badge.id}>
 							<Button
-								unstyled
 								type="button"
 								className={styles.rowButton}
 								onClick={() =>
-									openSheet(
-										<AdminSpecialBadgeSheet
+									openDrawer(
+										<AdminSpecialBadgeDrawer
 											badge={badge}
 											users={users}
 											onSaved={load}
@@ -209,16 +206,12 @@ export default function AdminBadgesEditor() {
 											{badge.assignedUserIDs.length} users
 										</small>
 									</span>
-									<Symbol
-										name="chevron.right"
-										className={styles.chevronIcon}
-									/>
+									<Symbol name="chevron.right" className={styles.chevronIcon} />
 								</div>
 							</Button>
 							{isReordering ? (
 								<div className={adminStyles.reorderButtons}>
 									<Button
-										unstyled
 										type="button"
 										onClick={() => void moveBadge(badge.id, -1)}
 										disabled={saving || index === 0}
@@ -227,7 +220,6 @@ export default function AdminBadgesEditor() {
 										^
 									</Button>
 									<Button
-										unstyled
 										type="button"
 										onClick={() => void moveBadge(badge.id, 1)}
 										disabled={saving || index === displayedBadges.length - 1}

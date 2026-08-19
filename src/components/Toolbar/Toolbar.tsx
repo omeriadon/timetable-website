@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import {
 	createContext,
@@ -10,10 +11,9 @@ import {
 } from "react";
 import LiquidGlass from "@/components/LiquidGlass/LiquidGlass";
 import { toolbarGlassProps } from "@/components/LiquidGlass/presets";
-import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import QuickSettingsSheet from "@/components/sheets/QuickSettingsSheet/QuickSettingsSheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import QuickSettingsDrawer from "@/components/drawers/QuickSettingsDrawer/QuickSettingsDrawer";
 import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
@@ -60,7 +60,7 @@ export function useToolbar() {
 
 export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	const {
 		title,
@@ -89,21 +89,23 @@ export default function Toolbar() {
 			) : null}
 
 			{actions.map((action) => (
-				<GlassButton
+				<Button
+					type="button"
 					key={`${action.icon}-${action.label}`}
-					label={action.label}
+					aria-label={action.label}
 					onClick={action.onPress}
 				>
 					<Symbol name={action.icon} className={styles.actionIcon} />
-				</GlassButton>
+				</Button>
 			))}
 
-			<GlassButton
-				label="Open settings"
-				onClick={() => openSheet(<QuickSettingsSheet />)}
+			<Button
+				type="button"
+				aria-label="Open settings"
+				onClick={() => openDrawer(<QuickSettingsDrawer />)}
 			>
 				<Symbol name="gear" className={styles.actionIcon} />
-			</GlassButton>
+			</Button>
 		</header>
 	);
 }

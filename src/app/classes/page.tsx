@@ -5,8 +5,8 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { OwnerTimetable } from "@/features/timetable/types";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import SubjectDetailDrawer from "@/components/drawers/SubjectDetailDrawer/SubjectDetailDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function ClassesPage() {
@@ -33,11 +33,11 @@ export default function ClassesPage() {
 			) : (
 				<section className={styles.card}>
 					{timetable.subjects.map((subject) => (
-						<SheetTrigger
+						<DrawerTrigger
 							key={subject.id}
 							className={styles.rowButton}
 							ariaLabel={`Open ${subject.id}`}
-							content={<SubjectDetailSheet subject={subject} />}
+							content={<SubjectDetailDrawer subject={subject} />}
 						>
 							<article className={styles.row}>
 								<span
@@ -63,7 +63,7 @@ export default function ClassesPage() {
 								</span>
 								<Symbol name="chevron.right" className={styles.chevronIcon} />
 							</article>
-						</SheetTrigger>
+						</DrawerTrigger>
 					))}
 				</section>
 			)}

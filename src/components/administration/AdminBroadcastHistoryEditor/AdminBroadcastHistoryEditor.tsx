@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
-import AdminBroadcastDetailSheet from "../AdminBroadcastDetailSheet/AdminBroadcastDetailSheet";
+import AdminBroadcastDetailDrawer from "../AdminBroadcastDetailDrawer/AdminBroadcastDetailDrawer";
 import styles from "@/components/administration/Administration.module.css";
 
 export type BroadcastNotificationRecord = {
@@ -30,7 +30,7 @@ export default function AdminBroadcastHistoryEditor() {
 		null,
 	);
 	const [error, setError] = useState<string | null>(null);
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	useEffect(() => {
 		apiRequest<BroadcastNotificationRecord[]>(
@@ -55,13 +55,12 @@ export default function AdminBroadcastHistoryEditor() {
 				{records.length ? (
 					records.map((record) => (
 						<Button
-							unstyled
 							key={record.id}
 							type="button"
 							className={styles.rowButton}
 							onClick={() =>
-								openSheet(
-									<AdminBroadcastDetailSheet
+								openDrawer(
+									<AdminBroadcastDetailDrawer
 										record={record}
 										onChanged={(updated) =>
 											setRecords(
@@ -94,10 +93,7 @@ export default function AdminBroadcastHistoryEditor() {
 											: "Unknown date"}
 									</small>
 								</span>
-								<Symbol
-									name="chevron.right"
-									className={styles.chevronIcon}
-								/>
+								<Symbol name="chevron.right" className={styles.chevronIcon} />
 							</div>
 						</Button>
 					))

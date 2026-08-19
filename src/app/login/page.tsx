@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -143,7 +143,6 @@ export default function LoginPage() {
 						</p>
 					) : null}
 					<Button
-						unstyled
 						className={styles.submit}
 						type="submit"
 						disabled={isSubmitting}
@@ -172,7 +171,6 @@ export default function LoginPage() {
 
 				{mode !== "verify" ? (
 					<Button
-						unstyled
 						className={styles.switchMode}
 						type="button"
 						onClick={() => setMode(mode === "sign-in" ? "sign-up" : "sign-in")}

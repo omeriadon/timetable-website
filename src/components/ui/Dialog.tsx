@@ -22,8 +22,8 @@ export function Dialog({
 				{trigger}
 			</BaseDialog.Trigger>
 			<BaseDialog.Portal>
-				<BaseDialog.Backdrop className={styles.sheetBackdrop} />
-				<BaseDialog.Popup className={cn(styles.sheetPopup, className)}>
+				<BaseDialog.Backdrop className={styles.drawerBackdrop} />
+				<BaseDialog.Popup className={cn(styles.drawerPopup, className)}>
 					<BaseDialog.Title className={styles.drawerTitle}>
 						{title}
 					</BaseDialog.Title>

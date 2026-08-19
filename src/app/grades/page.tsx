@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
@@ -11,7 +11,7 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
-import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
+import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import {
 	Drawer,
 	DrawerClose,
@@ -171,7 +171,7 @@ export default function GradesPage() {
 													: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"} recorded`}
 											</DrawerDescription>
 										</DrawerHeader>
-										<GradeSubjectSheet
+										<GradeSubjectDrawer
 											subjectID={subject.id}
 											symbol={subject.symbol}
 											colour={subjectColour(subject)}
@@ -179,9 +179,7 @@ export default function GradesPage() {
 											assessments={subjectAssessments}
 										/>
 										<DrawerFooter>
-											<DrawerClose render={<Button variant="destructive" />}>
-												Close
-											</DrawerClose>
+											<DrawerClose render={<Button />}>Close</DrawerClose>
 										</DrawerFooter>
 									</DrawerContent>
 								</Drawer>

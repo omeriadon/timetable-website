@@ -1,21 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import AdminUserEditorSheet, {
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import AdminUserEditorDrawer, {
 	type AdministrationUser,
-} from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
+} from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function AdminUsersEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [users, setUsers] = useState<AdministrationUser[]>([]);
 	const [query, setQuery] = useState("");
 	const [error, setError] = useState<string | null>(null);
@@ -43,8 +42,8 @@ export default function AdminUsersEditor() {
 	}, [query, users]);
 
 	const edit = (user?: AdministrationUser) =>
-		openSheet(
-			<AdminUserEditorSheet
+		openDrawer(
+			<AdminUserEditorDrawer
 				user={user}
 				isSystemOwner={isSystemOwner}
 				onSaved={(saved) =>
@@ -72,9 +71,9 @@ export default function AdminUsersEditor() {
 						placeholder="Search users"
 					/>
 				</label>
-				<GlassButton label="Add user" size="compact" onClick={() => edit()}>
+				<Button type="button" aria-label="Add user" onClick={() => edit()}>
 					<Symbol name="plus" fallback="＋" />
-				</GlassButton>
+				</Button>
 			</div>
 			{error ? (
 				<p className={styles.error} role="alert">
@@ -84,7 +83,6 @@ export default function AdminUsersEditor() {
 			<section className={styles.card}>
 				{filtered.map((user) => (
 					<Button
-						unstyled
 						key={user.id}
 						type="button"
 						className={styles.rowButton}
@@ -98,7 +96,7 @@ export default function AdminUsersEditor() {
 							/>
 							<span>
 								<b className={styles.label}>{user.displayName}</b>
-									<small className={adminStyles.userMeta}>
+								<small className={adminStyles.userMeta}>
 									{user.authority} · {user.email}
 								</small>
 							</span>

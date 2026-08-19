@@ -1,5 +1,5 @@
 import type { ProfileAppearance } from "@/lib/api/contracts";
-import type { EventNotificationSchedule } from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
+import type { EventNotificationSchedule } from "@/components/drawers/EventNotificationScheduleDrawer/EventNotificationScheduleDrawer";
 
 export type Settings = {
 	appFontDesign: string;

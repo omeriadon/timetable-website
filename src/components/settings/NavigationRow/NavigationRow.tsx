@@ -1,5 +1,5 @@
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/settings/Settings.module.css";
 
@@ -15,11 +15,11 @@ export default function NavigationRow({
 	icon: string;
 }) {
 	return (
-		<SheetTrigger
+		<DrawerTrigger
 			className={styles.rowButton}
 			ariaLabel={`Open ${title}`}
 			content={
-				<NavigationSheet
+				<NavigationDrawer
 					title={title}
 					description={description}
 					href={href}
@@ -32,6 +32,6 @@ export default function NavigationRow({
 				<span className={styles.label}>{title}</span>
 				<Symbol name="chevron.right" className={styles.chevronIcon} />
 			</div>
-		</SheetTrigger>
+		</DrawerTrigger>
 	);
 }

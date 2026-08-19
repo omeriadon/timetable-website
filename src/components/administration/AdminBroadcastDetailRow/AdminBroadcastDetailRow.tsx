@@ -1,4 +1,4 @@
-import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import styles from "@/components/drawers/Drawer/Drawer.module.css";
 
 type AdminBroadcastDetailRowProps = {
 	label: string;

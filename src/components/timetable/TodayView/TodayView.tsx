@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
 	CalendarEvent,
@@ -9,9 +9,9 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
-import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
+import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/SectionCard";
 import { cn } from "@/lib/utils";
 import styles from "@/components/timetable/timetable.module.css";
@@ -154,7 +154,6 @@ export default function TodayView({
 				<div className={styles.subjectList}>
 					{subjects.map((subject, index) => (
 						<Button
-							unstyled
 							key={subject.id}
 							type="button"
 							className={cn(
@@ -217,9 +216,7 @@ function TodayEntryRow({
 	showDate: boolean;
 }) {
 	if (entry.kind === "event") {
-		return (
-			<EventRow event={entry.event} showDate={showDate} presentation="drawer" />
-		);
+		return <EventRow event={entry.event} showDate={showDate} />;
 	}
 
 	return <AssessmentEntryRow entry={entry} showDate={showDate} />;
@@ -232,19 +229,18 @@ function AssessmentEntryRow({
 	entry: Extract<TodayEntry, { kind: "assessment" }>;
 	showDate: boolean;
 }) {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	return (
 		<Button
-			unstyled
 			type="button"
 			className={cn(styles.cardRow, styles.eventRow)}
 			onClick={() => {
 				if (!entry.subject) {
 					return;
 				}
-				openSheet(
-					<GradeSubjectSheet
+				openDrawer(
+					<GradeSubjectDrawer
 						subjectID={entry.subject.id}
 						symbol={entry.subject.symbol}
 						colour={colour(entry.subject)}

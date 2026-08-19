@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import {
 	Popover,
 	PopoverContent,
@@ -9,7 +9,7 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
-import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
+import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import type { DashboardData } from "@/features/timetable/useDashboard";
@@ -88,7 +88,6 @@ export default function WeekView({
 										<PopoverTrigger
 											render={
 												<Button
-													unstyled
 													type="button"
 													className={`${styles.lessonButton} ${currentDayClass ?? ""}`}
 													aria-label={`Open ${subject.id} on ${day}`}
@@ -120,7 +119,7 @@ export default function WeekView({
 											<PopoverHeader>
 												<PopoverTitle>{subject.id}</PopoverTitle>
 											</PopoverHeader>
-											<SubjectContextSheet
+											<SubjectContextDrawer
 												owner="You"
 												subject={subject}
 												day={day}

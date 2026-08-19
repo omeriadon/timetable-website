@@ -6,9 +6,9 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
-import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
-import ConfirmationSheet from "@/components/sheets/ConfirmationSheet/ConfirmationSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { Button } from "@base-ui/react/button";
+import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 
 type UserReport = {
 	id: string;
@@ -21,7 +21,7 @@ type UserReport = {
 };
 
 export default function AdminUserReportsEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [reports, setReports] = useState<UserReport[]>([]);
 	const [query, setQuery] = useState("");
 	const [error, setError] = useState<string | null>(null);
@@ -67,8 +67,8 @@ export default function AdminUserReportsEditor() {
 		action: "noAction" | "accountDeleted",
 	) => {
 		if (action === "accountDeleted") {
-			openSheet(
-				<ConfirmationSheet
+			openDrawer(
+				<ConfirmationDrawer
 					title="Delete reported account"
 					message={`Delete ${report.reportedUserDisplayName ?? "this account"}? This cannot be undone.`}
 					confirmLabel="Delete account"
@@ -114,21 +114,20 @@ export default function AdminUserReportsEditor() {
 						</div>
 						{report.action === "pending" ? (
 							<div className={adminStyles.reportActions}>
-								<SheetActionButton
-									label="Leave account unchanged"
+								<Button
+									aria-label="Leave account unchanged"
 									onClick={() => resolveReport(report, "noAction")}
 									disabled={busy === report.id}
 								>
 									<Symbol name="checkmark" fallback="✓" /> Do Nothing
-								</SheetActionButton>
-								<SheetActionButton
-									label="Delete reported account"
-									tone="destructive"
+								</Button>
+								<Button
+									aria-label="Delete reported account"
 									onClick={() => resolveReport(report, "accountDeleted")}
 									disabled={busy === report.id}
 								>
 									<Symbol name="trash" fallback="×" /> Delete Account
-								</SheetActionButton>
+								</Button>
 							</div>
 						) : null}
 					</article>

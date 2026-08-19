@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
-import EventNotificationScheduleSheet, {
+import EventNotificationScheduleDrawer, {
 	type EventNotificationSchedule,
-} from "@/components/sheets/EventNotificationScheduleSheet/EventNotificationScheduleSheet";
-import NotificationLeadTimesSheet from "@/components/sheets/NotificationLeadTimesSheet/NotificationLeadTimesSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+} from "@/components/drawers/EventNotificationScheduleDrawer/EventNotificationScheduleDrawer";
+import NotificationLeadTimesDrawer from "@/components/drawers/NotificationLeadTimesDrawer/NotificationLeadTimesDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
 import styles from "@/components/settings/Settings.module.css";
@@ -25,7 +25,7 @@ export default function NotificationSettingsEditor({
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	const save = async (next: Settings) => {
 		setDraft(next);
@@ -62,8 +62,8 @@ export default function NotificationSettingsEditor({
 		title: string,
 		description: string,
 	) => {
-		openSheet(
-			<NotificationLeadTimesSheet
+		openDrawer(
+			<NotificationLeadTimesDrawer
 				title={title}
 				description={description}
 				selection={draft[key]}
@@ -169,7 +169,6 @@ export default function NotificationSettingsEditor({
 					disabled={saving}
 				/>
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -191,7 +190,6 @@ export default function NotificationSettingsEditor({
 					</div>
 				</Button>
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
@@ -233,7 +231,6 @@ export default function NotificationSettingsEditor({
 								<span>{formatTime(schedule)}</span>
 								<small>{formatOffset(schedule.dayOffset)}</small>
 								<Button
-									unstyled
 									type="button"
 									onClick={() => removeSchedule(schedule)}
 									disabled={saving}
@@ -244,11 +241,12 @@ export default function NotificationSettingsEditor({
 							</div>
 						))}
 					<Button
-						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={() =>
-							openSheet(<EventNotificationScheduleSheet onSave={addSchedule} />)
+							openDrawer(
+								<EventNotificationScheduleDrawer onSave={addSchedule} />,
+							)
 						}
 					>
 						<div className={styles.row}>
@@ -259,7 +257,6 @@ export default function NotificationSettingsEditor({
 				</div>
 				{onSignOut ? (
 					<Button
-						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={async () => {

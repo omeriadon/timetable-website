@@ -358,53 +358,53 @@
 	filter: brightness(0) invert(1);
 }
 
-.sheetBackdrop {
+.drawerBackdrop {
 	position: fixed;
 	inset: 0;
 	z-index: 100;
-	background: var(--ds-surface-sheet-scrim);
-	backdrop-filter: blur(var(--ds-sheet-scrim-blur)) saturate(1.08);
+	background: var(--ds-surface-drawer-scrim);
+	backdrop-filter: blur(var(--ds-drawer-scrim-blur)) saturate(1.08);
 	opacity: 1;
-	transition: opacity var(--ds-duration-sheet) var(--ds-ease-sheet);
+	transition: opacity var(--ds-duration-drawer) var(--ds-ease-drawer);
 }
 
-.sheetBackdrop[data-starting-style],
-.sheetBackdrop[data-ending-style] {
+.drawerBackdrop[data-starting-style],
+.drawerBackdrop[data-ending-style] {
 	opacity: 0;
 }
 
-.sheetPopup {
+.drawerPopup {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	z-index: 101;
 	display: flex;
-	width: min(var(--ds-sheet-width), calc(100vw - 32px));
-	max-height: min(var(--ds-sheet-max-height), calc(100svh - 32px));
+	width: min(var(--ds-drawer-width), calc(100vw - 32px));
+	max-height: min(var(--ds-drawer-max-height), calc(100svh - 32px));
 	flex-direction: column;
-	padding: var(--ds-sheet-padding-top) var(--ds-sheet-padding-inline)
-		var(--ds-sheet-padding-bottom);
+	padding: var(--ds-drawer-padding-top) var(--ds-drawer-padding-inline)
+		var(--ds-drawer-padding-bottom);
 	border: var(--ds-border-width) solid var(--ds-surface-border);
 	border-radius: var(--ds-radius-card);
 	color: var(--ds-color-text);
-	background: color-mix(in srgb, var(--ds-surface-sheet) 82%, transparent);
-	box-shadow: var(--ds-surface-shadow), var(--ds-sheet-highlight);
-	backdrop-filter: blur(var(--ds-sheet-blur)) saturate(1.35);
+	background: color-mix(in srgb, var(--ds-surface-drawer) 82%, transparent);
+	box-shadow: var(--ds-surface-shadow), var(--ds-drawer-highlight);
+	backdrop-filter: blur(var(--ds-drawer-blur)) saturate(1.35);
 	overflow: auto;
 	pointer-events: auto;
 	transform: translate(-50%, -50%) scale(1);
 	transition:
-		opacity var(--ds-duration-sheet) var(--ds-ease-sheet),
-		transform var(--ds-duration-sheet) var(--ds-ease-sheet);
+		opacity var(--ds-duration-drawer) var(--ds-ease-drawer),
+		transform var(--ds-duration-drawer) var(--ds-ease-drawer);
 }
 
-.sheetPopup[data-starting-style],
-.sheetPopup[data-ending-style] {
+.drawerPopup[data-starting-style],
+.drawerPopup[data-ending-style] {
 	opacity: 0;
 	transform: translate(-50%, -50%) scale(0.96);
 }
 
-.sheetClose {
+.drawerClose {
 	position: absolute;
 	top: 12px;
 	right: 12px;
@@ -422,7 +422,7 @@
 	cursor: pointer;
 }
 
-.sheetCloseIcon {
+.drawerCloseIcon {
 	width: var(--ds-control-icon-size-small);
 	height: var(--ds-control-icon-size-small);
 	object-fit: contain;
@@ -447,8 +447,8 @@
 	.menuPopup,
 	.switch,
 	.switchThumb,
-	.sheetBackdrop,
-	.sheetPopup {
+	.drawerBackdrop,
+	.drawerPopup {
 		transition: none;
 	}
 }
@@ -456,8 +456,8 @@
 @media (prefers-reduced-transparency: reduce) {
 	.popup,
 	.menuPopup,
-	.sheetBackdrop,
-	.sheetPopup {
+	.drawerBackdrop,
+	.drawerPopup {
 		backdrop-filter: none;
 	}
 }

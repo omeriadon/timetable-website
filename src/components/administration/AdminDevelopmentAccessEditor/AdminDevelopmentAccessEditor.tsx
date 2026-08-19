@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import AdminDevelopmentAccessChangeSheet from "@/components/administration/AdminDevelopmentAccessChangeSheet/AdminDevelopmentAccessChangeSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import AdminDevelopmentAccessChangeDrawer from "@/components/administration/AdminDevelopmentAccessChangeDrawer/AdminDevelopmentAccessChangeDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 
 export default function AdminDevelopmentAccessEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [enabled, setEnabled] = useState<boolean | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
@@ -33,12 +33,11 @@ export default function AdminDevelopmentAccessEditor() {
 					<p className={styles.loading}>Loading server access…</p>
 				) : (
 					<Button
-						unstyled
 						type="button"
 						className={styles.rowButton}
 						onClick={() =>
-							openSheet(
-								<AdminDevelopmentAccessChangeSheet
+							openDrawer(
+								<AdminDevelopmentAccessChangeDrawer
 									enabled={enabled}
 									onSaved={setEnabled}
 								/>,

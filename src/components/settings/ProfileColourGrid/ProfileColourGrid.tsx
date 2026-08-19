@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import type { CSSProperties } from "react";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import styles from "./ProfileColourGrid.module.css";
@@ -34,7 +34,6 @@ export function ProfileColourGrid({
 				const selected = selection.some((item) => sameColour(item, colour));
 				return (
 					<Button
-						unstyled
 						key={`background-${index}`}
 						type="button"
 						className={selected ? styles.swatchSelected : styles.swatch}
@@ -79,7 +78,6 @@ export function ProfileForegroundColourGrid({
 				const selected = sameColour(selection, colour);
 				return (
 					<Button
-						unstyled
 						key={`foreground-${index}`}
 						type="button"
 						className={selected ? styles.swatchSelected : styles.swatch}

@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import type { ProfileAppearance, ProfilePhoto } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import MessageSheet from "@/components/sheets/MessageSheet/MessageSheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import MessageDrawer from "@/components/drawers/MessageDrawer/MessageDrawer";
 import {
 	ProfileColourGrid,
 	ProfileForegroundColourGrid,
@@ -31,7 +31,7 @@ type Props = {
 const emojiOptions = ["👤", "⭐️", "⚡️", "📚", "🏃", "🎵", "🎮", "🎨", "✈️"];
 
 export default function ProfileAppearanceEditor({ profile, save }: Props) {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [draft, setDraft] = useState<ProfileAppearance>(
 		withDefaults(profile.appearance),
 	);
@@ -54,8 +54,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			);
 			setPhoto(updated.photo);
 		} catch (requestError) {
-			openSheet(
-				<MessageSheet
+			openDrawer(
+				<MessageDrawer
 					title="Photo upload failed"
 					message={(requestError as Error).message}
 				/>,
@@ -72,8 +72,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			setPhoto(null);
 			update({ contentKind: "emoji" });
 		} catch (requestError) {
-			openSheet(
-				<MessageSheet
+			openDrawer(
+				<MessageDrawer
 					title="Photo removal failed"
 					message={(requestError as Error).message}
 				/>,
@@ -102,7 +102,6 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			<div className={styles.segmented} aria-label="Profile content">
 				{(["photo", "monogram", "emoji"] as const).map((kind) => (
 					<Button
-						unstyled
 						key={kind}
 						type="button"
 						className={
@@ -142,7 +141,6 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					/>
 					{photo ? (
 						<Button
-							unstyled
 							type="button"
 							className={styles.removePhoto}
 							onClick={() => void removePhoto()}
@@ -174,7 +172,6 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					<div className={styles.emojiOptions}>
 						{emojiOptions.map((emoji) => (
 							<Button
-								unstyled
 								type="button"
 								key={emoji}
 								onClick={() => update({ emoji })}
@@ -255,12 +252,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</div>
 				</>
 			) : null}
-			<Button
-				unstyled
-				type="button"
-				className={styles.save}
-				onClick={() => save(draft)}
-			>
+			<Button type="button" className={styles.save} onClick={() => save(draft)}>
 				<Symbol name="checkmark" fallback="✓" />
 				Save Profile Appearance
 			</Button>

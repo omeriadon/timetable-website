@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 
 type Dashboard = {
@@ -94,12 +94,12 @@ export default function AdministrationPage() {
 								<h2 className={styles.section}>{heading as string}</h2>
 								<div className={styles.card}>
 									{(rows as string[][]).map(([symbol, label, destination]) => (
-										<SheetTrigger
+										<DrawerTrigger
 											key={label}
 											className={styles.rowButton}
 											ariaLabel={`Open ${label}`}
 											content={
-												<NavigationSheet
+												<NavigationDrawer
 													title={label}
 													description={`Manage ${label.toLowerCase()} through the authenticated server.`}
 													href={`/administration/${destination}`}
@@ -115,7 +115,7 @@ export default function AdministrationPage() {
 													className={styles.chevronIcon}
 												/>
 											</div>
-										</SheetTrigger>
+										</DrawerTrigger>
 									))}
 								</div>
 							</section>

@@ -9,7 +9,7 @@ import { FadeToBackground } from "@/components/ui/FadeToBackground/FadeToBackgro
 import ReflectedPageContent from "@/components/ReflectedPageContent/ReflectedPageContent";
 import MobileTabBar from "@/components/MobileTabBar/MobileTabBar";
 import SessionGate from "@/components/SessionGate/SessionGate";
-import { SheetProvider } from "@/components/sheets/Sheet/Sheet";
+import { DrawerProvider } from "@/components/drawers/Drawer/Drawer";
 import ThemeSettingsSync from "@/components/ThemeSettingsSync/ThemeSettingsSync";
 import styles from "@/app/layout.module.css";
 
@@ -25,7 +25,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 	return (
 		<SessionGate>
 			<ThemeSettingsSync />
-			<SheetProvider>
+			<DrawerProvider>
 				<ToolbarProvider>
 					<div className={styles.appShell}>
 						<Sidebar />
@@ -47,7 +47,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 						<MobileTabBar />
 					</div>
 				</ToolbarProvider>
-			</SheetProvider>
+			</DrawerProvider>
 		</SessionGate>
 	);
 }

@@ -1,11 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import SheetActionButton from "@/components/controls/SheetActionButton/SheetActionButton";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
 import styles from "@/components/settings/Settings.module.css";
@@ -136,21 +135,20 @@ export default function DeveloperToolsEditor() {
 					</span>
 				</div>
 				<div className={actionStyles.actionRow}>
-					<SheetActionButton
-						label="Start Live Activity"
+					<Button
+						aria-label="Start Live Activity"
 						onClick={() => void runLiveActivityAction("start")}
 					>
 						<Symbol name="play.fill" fallback=">" />
 						Start
-					</SheetActionButton>
-					<SheetActionButton
-						label="Stop Live Activity"
-						tone="destructive"
+					</Button>
+					<Button
+						aria-label="Stop Live Activity"
 						onClick={() => void runLiveActivityAction("stop")}
 					>
 						<Symbol name="stop.fill" fallback="[]" />
 						Stop
-					</SheetActionButton>
+					</Button>
 				</div>
 				<div className={styles.row}>
 					<Symbol name="app.badge" />
@@ -158,27 +156,27 @@ export default function DeveloperToolsEditor() {
 				</div>
 				<div className={actionStyles.actionRow}>
 					{["progress", "success", "warning"].map((badge) => (
-						<SheetActionButton
+						<Button
 							key={badge}
-							label={`Test ${badge} status`}
+							aria-label={`Test ${badge} status`}
 							onClick={() => setStatus(`${badge} status badge requested.`)}
 						>
 							{badge}
-						</SheetActionButton>
+						</Button>
 					))}
 				</div>
 				<div className={actionStyles.actionRow}>
-					<SheetActionButton
-						label="Reload website data"
+					<Button
+						aria-label="Reload website data"
 						onClick={() => window.location.reload()}
 					>
 						<Symbol name="widget.large" fallback="[]" />
 						Reload Data
-					</SheetActionButton>
-					<SheetActionButton label="Reset tips" onClick={resetTips}>
+					</Button>
+					<Button aria-label="Reset tips" onClick={resetTips}>
 						<Symbol name="lightbulb" fallback="i" />
 						Reset Tips
-					</SheetActionButton>
+					</Button>
 				</div>
 				<div className={styles.row}>
 					<Symbol name="checkmark.icloud" fallback="*" />
@@ -195,7 +193,6 @@ export default function DeveloperToolsEditor() {
 					{["morning", "period1", "recess", "lunch", "period6", "finished"].map(
 						(transition) => (
 							<Button
-								unstyled
 								key={transition}
 								type="button"
 								className={actionStyles.action}

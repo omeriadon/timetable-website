@@ -1,19 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useMemo, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import AdminAuthorityChangeSheet from "@/components/administration/AdminAuthorityChangeSheet/AdminAuthorityChangeSheet";
-import type { AdministrationUser } from "@/components/administration/AdminUserEditorSheet/AdminUserEditorSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import AdminAuthorityChangeDrawer from "@/components/administration/AdminAuthorityChangeDrawer/AdminAuthorityChangeDrawer";
+import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function AdminAdministratorsEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [users, setUsers] = useState<AdministrationUser[]>([]);
 	const [query, setQuery] = useState("");
 	const [error, setError] = useState<string | null>(null);
@@ -64,14 +64,13 @@ export default function AdminAdministratorsEditor() {
 					const isAdministrator = user.authority === "administrator";
 					return (
 						<Button
-							unstyled
 							key={user.id}
 							type="button"
 							className={styles.rowButton}
 							disabled={isSystemOwner}
 							onClick={() =>
-								openSheet(
-									<AdminAuthorityChangeSheet
+								openDrawer(
+									<AdminAuthorityChangeDrawer
 										user={user}
 										makeAdministrator={!isAdministrator}
 										onSaved={saveUser}
@@ -79,7 +78,7 @@ export default function AdminAdministratorsEditor() {
 								)
 							}
 						>
-						<div className={adminStyles.userRow}>
+							<div className={adminStyles.userRow}>
 								<ProfilePicture
 									profile={user}
 									size={38}

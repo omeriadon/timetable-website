@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import type {
 	Friend,
 	TimetableSlot,
 	TimetableSubject,
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
-import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/SubjectContextSheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./TimetableComparison.module.css";
 
@@ -21,7 +21,7 @@ export default function TimetableComparison({
 	selectedSlot,
 	friends,
 }: TimetableComparisonProps) {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	if (!selectedSlot) return null;
 
 	const comparableFriends = friends.filter((friend) => friend.timetable);
@@ -46,14 +46,13 @@ export default function TimetableComparison({
 				);
 				return subject ? (
 					<Button
-						unstyled
 						key={friend.relationshipID}
 						type="button"
 						className={styles.friendSubject}
 						style={{ background: subjectColour(subject) }}
 						onClick={() =>
-							openSheet(
-								<SubjectContextSheet
+							openDrawer(
+								<SubjectContextDrawer
 									owner={friend.friend.displayName}
 									subject={subject}
 								/>,

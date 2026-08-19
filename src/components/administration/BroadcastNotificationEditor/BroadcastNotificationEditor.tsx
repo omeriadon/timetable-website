@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useState } from "react";
@@ -68,9 +68,8 @@ export default function BroadcastNotificationEditor() {
 				/>
 			</label>
 			<Button
-				unstyled
 				type="button"
-			className={actionStyles.action}
+				className={actionStyles.action}
 				onClick={send}
 				disabled={!title.trim()}
 			>

@@ -41,12 +41,12 @@
 		var(--ds-color-surface-elevated) 88%,
 		transparent
 	);
-	--ds-surface-sheet: color-mix(
+	--ds-surface-drawer: color-mix(
 		in srgb,
 		var(--ds-color-surface-elevated) 88%,
 		transparent
 	);
-	--ds-surface-sheet-scrim: color-mix(
+	--ds-surface-drawer-scrim: color-mix(
 		in srgb,
 		var(--ds-color-background) 58%,
 		transparent
@@ -108,14 +108,14 @@
 	--ds-content-grid-gap: 4px;
 	--ds-content-list-padding-inline: 7px;
 	--ds-content-list-row-padding-block: 2px;
-	--ds-sheet-padding-top: 34px;
-	--ds-sheet-padding-inline: 10px;
-	--ds-sheet-padding-bottom: 10px;
-	--ds-sheet-max-height: 92svh;
-	--ds-sheet-scrim-blur: 16px;
-	--ds-sheet-blur: 34px;
-	--ds-sheet-shadow: 0 -20px 70px rgb(0 0 0 / 50%);
-	--ds-sheet-highlight: inset 0 1px rgb(255 255 255 / 15%);
+	--ds-drawer-padding-top: 34px;
+	--ds-drawer-padding-inline: 10px;
+	--ds-drawer-padding-bottom: 10px;
+	--ds-drawer-max-height: 92svh;
+	--ds-drawer-scrim-blur: 16px;
+	--ds-drawer-blur: 34px;
+	--ds-drawer-shadow: 0 -20px 70px rgb(0 0 0 / 50%);
+	--ds-drawer-highlight: inset 0 1px rgb(255 255 255 / 15%);
 	--ds-row-height: 44px;
 	--ds-card-padding: 10px;
 	--ds-list-padding-inline: 12px;
@@ -186,9 +186,9 @@
 	/* Motion */
 	--ds-duration-fast: 120ms;
 	--ds-duration-normal: 220ms;
-	--ds-duration-sheet: 260ms;
+	--ds-duration-drawer: 260ms;
 	--ds-ease-standard: cubic-bezier(0.2, 0.9, 0.2, 1);
-	--ds-ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+	--ds-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
 	/* Shared feature geometry */
 	--ds-avatar-size: 38px;
@@ -202,8 +202,8 @@
 	--ds-week-min-width: 380px;
 	--ds-week-row-min-height: 42px;
 	--ds-mobile-bottom-inset: 96px;
-	--ds-sheet-row-height: 36px;
-	--ds-sheet-card-padding: 7px;
+	--ds-drawer-row-height: 36px;
+	--ds-drawer-card-padding: 7px;
 	--ds-auth-page-padding: 16px;
 	--ds-auth-card-padding: 24px;
 	--ds-auth-control-height: 40px;
@@ -214,15 +214,15 @@
 	--ds-switch-track-padding: 3px;
 	--ds-checkbox-size: 20px;
 	--ds-checkbox-radius: 6px;
-	--ds-sheet-width: min(100%, 720px);
+	--ds-drawer-width: min(100%, 720px);
 }
 
 @media (prefers-reduced-transparency: reduce) {
 	:root {
 		--ds-surface-glass: var(--ds-color-surface);
 		--ds-surface-glass-strong: var(--ds-color-surface-elevated);
-		--ds-surface-sheet: var(--ds-color-surface-elevated);
-		--ds-surface-sheet-scrim: rgba(0, 0, 0, 0.78);
+		--ds-surface-drawer: var(--ds-color-surface-elevated);
+		--ds-surface-drawer-scrim: rgba(0, 0, 0, 0.78);
 	}
 }
 

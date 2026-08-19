@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useMemo, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
@@ -132,7 +132,6 @@ export default function AdminAppVersionEditor() {
 				/>
 			</section>
 			<Button
-				unstyled
 				type="button"
 				className={adminStyles.profileSave}
 				onClick={() => void save()}

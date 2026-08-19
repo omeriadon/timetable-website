@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -9,9 +9,9 @@ import styles from "./page.module.css";
 import actionStyles from "@/components/ui/ContentActions.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import GradeAssessmentSheet from "@/components/sheets/GradeAssessmentSheet/GradeAssessmentSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import GradeAssessmentDrawer from "@/components/drawers/GradeAssessmentDrawer/GradeAssessmentDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function GradeSubjectPage() {
@@ -37,8 +37,8 @@ export default function GradeSubjectPage() {
 		[tracker, subjectID],
 	);
 	const createAssessment = (semester: number) => {
-		openSheet(
-			<GradeAssessmentSheet
+		openDrawer(
+			<GradeAssessmentDrawer
 				subjectID={subjectID}
 				semester={semester}
 				onSave={saveAssessment}
@@ -104,7 +104,7 @@ export default function GradeSubjectPage() {
 		}
 	};
 
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	return (
 		<main className={styles.page}>
@@ -126,12 +126,12 @@ export default function GradeSubjectPage() {
 							assessments
 								.filter((assessment) => assessment.semester === semester)
 								.map((assessment) => (
-									<SheetTrigger
+									<DrawerTrigger
 										key={assessment.id}
 										className={styles.rowButton}
 										ariaLabel={`Edit ${assessment.name}`}
 										content={
-											<GradeAssessmentSheet
+											<GradeAssessmentDrawer
 												assessment={assessment}
 												subjectID={subjectID}
 												semester={semester}
@@ -163,13 +163,12 @@ export default function GradeSubjectPage() {
 												{(assessment.score * 100).toFixed(1)}%
 											</strong>
 										</article>
-									</SheetTrigger>
+									</DrawerTrigger>
 								))
 						) : (
 							<p className={styles.emptyRow}>No assessments yet.</p>
 						)}
 						<Button
-							unstyled
 							type="button"
 							className={`${styles.row} ${actionStyles.rowAction}`}
 							disabled={saving}

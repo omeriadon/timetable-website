@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Select } from "@/components/ui/Select";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -101,7 +101,6 @@ export default function AccountSyncEditor({
 					</Select>
 				</div>
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={async () => {

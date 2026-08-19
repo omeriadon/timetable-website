@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
-import TermDateSheet from "@/components/sheets/TermDateSheet/TermDateSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { SectionCard } from "@/components/ui/SectionCard";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ export default function PlannerView({
 	events: CalendarEvent[];
 	schoolCalendar: DashboardData["schoolCalendar"];
 }) {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const todayTimestamp = startOfToday().getTime();
 	const todayEvents = events.filter(
 		(event) => eventDate(event) === todayTimestamp,
@@ -58,13 +58,12 @@ export default function PlannerView({
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{schoolCalendar.termRanges.map((term) => (
 					<Button
-						unstyled
 						key={term.label}
 						type="button"
 						className={cn(styles.cardRow, styles.plannerEvent)}
 						onClick={() =>
-							openSheet(
-								<TermDateSheet
+							openDrawer(
+								<TermDateDrawer
 									label={term.label}
 									start={term.start}
 									end={term.end}

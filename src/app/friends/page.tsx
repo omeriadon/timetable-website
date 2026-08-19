@@ -1,17 +1,17 @@
 "use client";
 
+import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import FriendDetailSheet from "@/components/sheets/FriendDetailSheet/FriendDetailSheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import FriendDetailDrawer from "@/components/drawers/FriendDetailDrawer/FriendDetailDrawer";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import FriendSearchSheet from "@/components/sheets/FriendSearchSheet/FriendSearchSheet";
-import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet/FriendRequestsSheet";
-import GlassButton from "@/components/controls/GlassButton/GlassButton";
+import FriendSearchDrawer from "@/components/drawers/FriendSearchDrawer/FriendSearchDrawer";
+import FriendRequestsDrawer from "@/components/drawers/FriendRequestsDrawer/FriendRequestsDrawer";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
 
@@ -20,7 +20,7 @@ export default function FriendsPage() {
 	const [friends, setFriends] = useState<Friend[]>([]);
 	const [account, setAccount] = useState<Account | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	useEffect(() => {
 		setToolbar({ title: "Friends" });
@@ -38,18 +38,20 @@ export default function FriendsPage() {
 	return (
 		<main className={styles.page}>
 			<div className={styles.friendActions}>
-				<GlassButton
-					label="Friend requests"
-					onClick={() => openSheet(<FriendRequestsSheet />)}
+				<Button
+					type="button"
+					aria-label="Friend requests"
+					onClick={() => openDrawer(<FriendRequestsDrawer />)}
 				>
 					<Symbol name="bell.badge" className={styles.friendActionIcon} />
-				</GlassButton>
-				<GlassButton
-					label="Add friend"
-					onClick={() => openSheet(<FriendSearchSheet />)}
+				</Button>
+				<Button
+					type="button"
+					aria-label="Add friend"
+					onClick={() => openDrawer(<FriendSearchDrawer />)}
 				>
 					<Symbol name="plus" className={styles.friendActionIcon} />
-				</GlassButton>
+				</Button>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{account ? (
@@ -64,11 +66,11 @@ export default function FriendsPage() {
 			) : null}
 			<div className={styles.list}>
 				{friends.map((friend) => (
-					<SheetTrigger
+					<DrawerTrigger
 						key={friend.relationshipID}
 						className={styles.friendButton}
 						ariaLabel={`Open ${friend.friend.displayName}`}
-						content={<FriendDetailSheet friend={friend} />}
+						content={<FriendDetailDrawer friend={friend} />}
 					>
 						<article className={styles.friend}>
 							<ProfilePicture
@@ -88,7 +90,7 @@ export default function FriendsPage() {
 								{friend.state === "friends" ? "Friends" : "Pending"}
 							</strong>
 						</article>
-					</SheetTrigger>
+					</DrawerTrigger>
 				))}
 			</div>
 		</main>

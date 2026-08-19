@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import actionStyles from "@/components/ui/ContentActions.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
-import AdminEventTagSheet from "../AdminEventTagSheet/AdminEventTagSheet";
-import AdminEventTagSectionSheet from "../AdminEventTagSectionSheet/AdminEventTagSectionSheet";
+import AdminEventTagDrawer from "../AdminEventTagDrawer/AdminEventTagDrawer";
+import AdminEventTagSectionDrawer from "../AdminEventTagSectionDrawer/AdminEventTagSectionDrawer";
 
 export type AdminEventTag = {
 	id: string;
@@ -38,7 +38,7 @@ export type AdminEventTagSection = {
 export type Catalogue = { sections: AdminEventTagSection[] };
 
 export default function AdminEventTagsEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [catalogue, setCatalogue] = useState<Catalogue | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isReordering, setIsReordering] = useState(false);
@@ -50,8 +50,8 @@ export default function AdminEventTagsEditor() {
 		void load();
 	}, []);
 	const edit = (tag: AdminEventTag | null, section: AdminEventTagSection) =>
-		openSheet(
-			<AdminEventTagSheet
+		openDrawer(
+			<AdminEventTagDrawer
 				tag={tag}
 				section={section}
 				onSaved={() => {
@@ -60,8 +60,8 @@ export default function AdminEventTagsEditor() {
 			/>,
 		);
 	const editSection = (section: AdminEventTagSection) =>
-		openSheet(
-			<AdminEventTagSectionSheet section={section} onSaved={setCatalogue} />,
+		openDrawer(
+			<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />,
 		);
 
 	const moveTag = async (tagID: string, offset: -1 | 1) => {
@@ -108,23 +108,19 @@ export default function AdminEventTagsEditor() {
 			) : null}
 			<div className={adminStyles.adminToolbar}>
 				<Button
-					unstyled
 					type="button"
 					className={actionStyles.action}
 					onClick={() => setIsReordering((value) => !value)}
 				>
-					<Symbol
-						name={isReordering ? "checkmark" : "arrow.up.arrow.down"}
-					/>
+					<Symbol name={isReordering ? "checkmark" : "arrow.up.arrow.down"} />
 					<span>{isReordering ? "Done" : "Reorder"}</span>
 				</Button>
 			</div>
 			{catalogue?.sections.map((section) => (
 				<section key={section.id}>
 					<Button
-						unstyled
 						type="button"
-							className={adminStyles.sectionButton}
+						className={adminStyles.sectionButton}
 						onClick={() => editSection(section)}
 						aria-label={`Edit ${section.displayName} section`}
 					>
@@ -134,7 +130,6 @@ export default function AdminEventTagsEditor() {
 						{section.tags.map((tag) => (
 							<div key={tag.id} className={adminStyles.rowWithAction}>
 								<Button
-									unstyled
 									type="button"
 									className={styles.rowButton}
 									onClick={() => edit(tag, section)}
@@ -157,7 +152,6 @@ export default function AdminEventTagsEditor() {
 								{isReordering ? (
 									<div className={adminStyles.reorderButtons}>
 										<Button
-											unstyled
 											type="button"
 											onClick={() => void moveTag(tag.id, -1)}
 											aria-label={`Move ${tag.displayName} up`}
@@ -165,7 +159,6 @@ export default function AdminEventTagsEditor() {
 											<span aria-hidden="true">↑</span>
 										</Button>
 										<Button
-											unstyled
 											type="button"
 											onClick={() => void moveTag(tag.id, 1)}
 											aria-label={`Move ${tag.displayName} down`}
@@ -177,7 +170,6 @@ export default function AdminEventTagsEditor() {
 							</div>
 						))}
 						<Button
-							unstyled
 							type="button"
 							className={styles.rowButton}
 							onClick={() => edit(null, section)}

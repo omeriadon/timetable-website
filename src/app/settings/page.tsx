@@ -1,21 +1,21 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { Select } from "@/components/ui/Select";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
-import NavigationSheet from "@/components/sheets/NavigationSheet/NavigationSheet";
-import CalendarImportSheet from "@/components/sheets/CalendarImportSheet/CalendarImportSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
+import CalendarImportDrawer from "@/components/drawers/CalendarImportDrawer/CalendarImportDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
-import VersionSheet from "@/components/settings/VersionSheet/VersionSheet";
+import VersionDrawer from "@/components/settings/VersionDrawer/VersionDrawer";
 
 type Settings = {
 	liveActivitiesEnabled: boolean;
@@ -39,7 +39,7 @@ export default function SettingsPage() {
 	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 
 	useEffect(() => {
 		setToolbar({ title: "Settings" });
@@ -89,11 +89,11 @@ export default function SettingsPage() {
 	return (
 		<main className={styles.page}>
 			{account ? (
-				<SheetTrigger
+				<DrawerTrigger
 					className={styles.rowButton}
 					ariaLabel="Open profile appearance"
 					content={
-						<NavigationSheet
+						<NavigationDrawer
 							title="Profile Appearance"
 							description="Change your profile picture, colours, and monogram style."
 							href="/settings/profile-appearance"
@@ -109,7 +109,7 @@ export default function SettingsPage() {
 						</span>
 						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</section>
-				</SheetTrigger>
+				</DrawerTrigger>
 			) : null}
 			{error ? (
 				<p className={styles.error} role="alert">
@@ -119,12 +119,11 @@ export default function SettingsPage() {
 			<h2 className={styles.section}>My Timetable</h2>
 			<section className={styles.card}>
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
 					onClick={() =>
-						openSheet(
-							<CalendarImportSheet
+						openDrawer(
+							<CalendarImportDrawer
 								timetable={timetable}
 								onImported={setTimetable}
 							/>,
@@ -262,10 +261,9 @@ export default function SettingsPage() {
 					icon="info.circle"
 				/>
 				<Button
-					unstyled
 					type="button"
 					className={styles.rowButton}
-					onClick={() => openSheet(<VersionSheet />)}
+					onClick={() => openDrawer(<VersionDrawer />)}
 					aria-label="Open version information"
 				>
 					<div className={styles.row}>

@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@base-ui/react/button";
 import { useEffect, useMemo, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarEventSheet";
-import { useSheet } from "@/components/sheets/Sheet/Sheet";
+import CalendarEventDrawer from "@/components/drawers/CalendarEventDrawer/CalendarEventDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function ArchivedEventsEditor() {
-	const { openSheet } = useSheet();
+	const { openDrawer } = useDrawer();
 	const [events, setEvents] = useState<CalendarEvents | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
@@ -66,13 +66,12 @@ export default function ArchivedEventsEditor() {
 				{archived.length ? (
 					archived.map((event) => (
 						<Button
-							unstyled
 							key={event.id}
 							type="button"
 							className={styles.rowButton}
 							onClick={() =>
-								openSheet(
-									<CalendarEventSheet
+								openDrawer(
+									<CalendarEventDrawer
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
 									/>,
@@ -89,10 +88,7 @@ export default function ArchivedEventsEditor() {
 										})}
 									</small>
 								</span>
-								<Symbol
-									name="chevron.right"
-									className={styles.chevronIcon}
-								/>
+								<Symbol name="chevron.right" className={styles.chevronIcon} />
 							</div>
 						</Button>
 					))
