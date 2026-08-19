@@ -291,10 +291,15 @@
 .eventRow {
 	background: color-mix(in srgb, var(--theme-paper) 58%, transparent);
 }
-.eventRow:hover,
 .eventRow:focus-visible {
 	border-color: color-mix(in srgb, var(--theme-black) 35%, transparent);
 	background: color-mix(in srgb, var(--theme-paper) 78%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+	.eventRow:hover {
+		border-color: color-mix(in srgb, var(--theme-black) 35%, transparent);
+		background: color-mix(in srgb, var(--theme-paper) 78%, transparent);
+	}
 }
 .eventRow:active,
 .plannerEvent:active,

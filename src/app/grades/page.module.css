@@ -88,9 +88,13 @@
 .subjectRow + .subjectRow {
 	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
 }
-.subjectRow:hover,
 .subjectRow:focus-visible {
 	background: color-mix(in srgb, var(--ds-color-foreground) 6%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+	.subjectRow:hover {
+		background: color-mix(in srgb, var(--ds-color-foreground) 6%, transparent);
+	}
 }
 
 .gauge {

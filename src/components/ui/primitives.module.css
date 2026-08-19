@@ -22,9 +22,14 @@
 		opacity var(--ds-duration-fast) ease;
 }
 
-.button:hover:not([data-disabled]),
 .button[data-pressed] {
 	background: var(--ds-surface-glass-strong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.button:hover:not([data-disabled]) {
+		background: var(--ds-surface-glass-strong);
+	}
 }
 
 .button:active:not([data-disabled]) {
@@ -131,8 +136,10 @@
 	text-align: left;
 }
 
-.listRowInteractive:hover {
-	background: color-mix(in srgb, var(--ds-color-foreground) 6%, transparent);
+@media (hover: hover) and (pointer: fine) {
+	.listRowInteractive:hover {
+		background: color-mix(in srgb, var(--ds-color-foreground) 6%, transparent);
+	}
 }
 
 .buttonCompact {
@@ -301,12 +308,18 @@
 	cursor: pointer;
 }
 
-.selectItem:hover,
 .selectItem[data-highlighted],
-.menuItem:hover,
 .menuItem[data-highlighted] {
 	color: var(--ds-menu-highlight-foreground);
 	background: var(--ds-menu-highlight);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.selectItem:hover,
+	.menuItem:hover {
+		color: var(--ds-menu-highlight-foreground);
+		background: var(--ds-menu-highlight);
+	}
 }
 
 .selectItem[data-selected] {
