@@ -1,9 +1,9 @@
 .sheetRoot {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  align-items: end;
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: grid;
+	align-items: end;
 	animation: sheetRootIn 220ms ease both;
 	--theme-space-1: var(--ui-space-1);
 	--theme-space-2: var(--ui-space-2);
@@ -34,32 +34,33 @@
 }
 
 .scrim {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: var(--theme-sheet-scrim);
-  backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
-  -webkit-backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
-  cursor: pointer;
+	position: absolute;
+	inset: 0;
+	border: 0;
+	background: var(--theme-sheet-scrim);
+	backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
+	-webkit-backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
+	cursor: pointer;
 	animation: scrimIn 220ms ease both;
 }
 
 .sheet {
-  position: relative;
-  width: 100%;
+	position: relative;
+	width: 100%;
 	min-height: 0;
 	max-height: var(--theme-sheet-max-height);
-  overflow: auto;
-	padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline) var(--theme-sheet-padding-bottom);
-  border: 1px solid var(--theme-divider);
-  border-bottom: 0;
+	overflow: auto;
+	padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline)
+		var(--theme-sheet-padding-bottom);
+	border: 1px solid var(--theme-divider);
+	border-bottom: 0;
 	border-radius: var(--theme-radius-card) var(--theme-radius-card) 0 0;
 	background: var(--theme-sheet-surface);
-  box-shadow:
-    0 -20px 70px rgba(0, 0, 0, 0.5),
-    inset 0 1px rgba(255, 255, 255, 0.15);
+	box-shadow:
+		0 -20px 70px rgba(0, 0, 0, 0.5),
+		inset 0 1px rgba(255, 255, 255, 0.15);
 	backdrop-filter: blur(var(--theme-sheet-blur)) saturate(1.35);
-  animation: sheetIn 260ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+	animation: sheetIn 260ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
 }
 
 .closing .scrim {
@@ -71,46 +72,46 @@
 }
 
 .closeButton {
-  position: absolute;
+	position: absolute;
 	top: var(--theme-content-card-padding);
 	right: var(--theme-content-page-padding);
 }
 
 .closeButton span {
-  font-size: 1.8rem;
-  line-height: 1;
+	font-size: 1.8rem;
+	line-height: 1;
 }
 
 .sheetContent {
-  width: 100%;
+	width: 100%;
 }
 
 .detailSheet {
-  display: grid;
+	display: grid;
 	gap: var(--theme-content-section-gap);
 }
 
 .detailHeader {
-  display: flex;
+	display: flex;
 	gap: var(--theme-content-row-gap);
-  align-items: center;
+	align-items: center;
 }
 
 .detailAvatar {
-  display: grid;
-  width: var(--theme-content-avatar-size);
-  height: var(--theme-content-avatar-size);
-  place-items: center;
-  border-radius: 50%;
-  color: var(--theme-text);
-  background: var(--theme-surface-soft);
-  font-size: 1.35rem;
+	display: grid;
+	width: var(--theme-content-avatar-size);
+	height: var(--theme-content-avatar-size);
+	place-items: center;
+	border-radius: 50%;
+	color: var(--theme-text);
+	background: var(--theme-surface-soft);
+	font-size: 1.35rem;
 }
 
 .detailHeader h2,
 .detailHeader p,
 .detailCard h3 {
-  margin: 0;
+	margin: 0;
 }
 
 .detailEyebrow {
@@ -128,19 +129,19 @@
 
 .detailHeader p,
 .detailMuted {
-  margin-top: 3px;
-  color: var(--theme-text-secondary);
+	margin-top: 3px;
+	color: var(--theme-text-secondary);
 }
 
 .detailTabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--theme-divider);
-  border-radius: 999px;
-  background: var(--theme-surface);
-  text-align: center;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+	padding: 4px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 999px;
+	background: var(--theme-surface);
+	text-align: center;
 }
 
 .detailTabs span {
@@ -161,15 +162,19 @@
 }
 
 .detailTabActive {
-  background: linear-gradient(135deg, var(--theme-gold), var(--theme-gold-dark));
+	background: linear-gradient(
+		135deg,
+		var(--theme-gold),
+		var(--theme-gold-dark)
+	);
 }
 
 .detailCard {
-  display: grid;
-  gap: 0;
+	display: grid;
+	gap: 0;
 	padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
 	border-radius: var(--theme-radius-card);
-  background: var(--theme-surface);
+	background: var(--theme-surface);
 }
 
 .leadTimeOption,
@@ -201,22 +206,22 @@
 
 .detailRow,
 .detailSubject {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 	gap: var(--theme-content-row-gap);
-  align-items: center;
+	align-items: center;
 	min-height: var(--theme-content-sheet-row-height);
-  border-bottom: 1px solid var(--theme-divider);
+	border-bottom: 1px solid var(--theme-divider);
 }
 
 .detailRow:last-child,
 .detailSubject:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .detailRow strong {
-  color: var(--theme-info);
-  font-weight: 650;
+	color: var(--theme-info);
+	font-weight: 650;
 }
 
 .dangerButton {
@@ -226,7 +231,8 @@
 	gap: var(--theme-content-row-gap);
 	min-height: var(--theme-content-control-height);
 	margin: var(--theme-content-section-gap) var(--theme-content-page-padding);
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
 	border: 1px solid color-mix(in srgb, var(--theme-error) 50%, transparent);
 	border-radius: var(--theme-content-control-radius);
 	color: var(--theme-error);
@@ -241,14 +247,14 @@
 }
 
 .detailSubject {
-  justify-content: flex-start;
+	justify-content: flex-start;
 }
 
 .detailSubject span {
-  width: 28px;
-  color: var(--theme-accent);
-  font-size: 1.25rem;
-  text-align: center;
+	width: 28px;
+	color: var(--theme-accent);
+	font-size: 1.25rem;
+	text-align: center;
 }
 
 .friendWeekGrid {
@@ -339,7 +345,8 @@
 .formCard input,
 .formCard textarea {
 	width: 100%;
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-divider);
 	border-radius: var(--theme-content-control-radius);
 	outline: none;
@@ -359,7 +366,8 @@
 	min-height: var(--theme-content-control-height);
 	align-items: center;
 	justify-content: center;
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
 	border: 1px solid var(--theme-highlight);
 	border-radius: var(--theme-content-control-radius);
 	color: var(--theme-text);
@@ -376,7 +384,8 @@
 .primaryButton,
 .destructiveButton {
 	min-height: var(--theme-content-control-height);
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
 	border: 0;
 	border-radius: 999px;
 	color: var(--theme-text);
@@ -394,48 +403,50 @@
 }
 
 .sheetInput {
-  width: 100%;
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
-  border: 1px solid var(--theme-divider);
+	width: 100%;
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 1px solid var(--theme-divider);
 	border-radius: var(--theme-content-control-radius);
-  outline: none;
-  color: var(--theme-text);
-  background: var(--theme-black);
-  font: inherit;
+	outline: none;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
 }
 
 .searchResult {
-  display: flex;
+	display: flex;
 	gap: var(--theme-content-row-gap);
-  align-items: center;
+	align-items: center;
 	min-height: var(--theme-content-row-height);
-  border-bottom: 1px solid var(--theme-divider);
+	border-bottom: 1px solid var(--theme-divider);
 }
 
 .searchResult:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .searchResult div {
-  display: grid;
-  gap: 2px;
-  flex: 1;
+	display: grid;
+	gap: 2px;
+	flex: 1;
 }
 
 .searchResult span {
-  color: var(--theme-text-secondary);
-  font-size: 0.82rem;
+	color: var(--theme-text-secondary);
+	font-size: 0.82rem;
 }
 
 .searchResult button {
 	min-height: var(--theme-content-control-height);
-	padding: var(--theme-content-control-padding-block) var(--theme-content-control-padding-inline);
-  border: 0;
-  border-radius: 999px;
-  color: var(--theme-text);
-  background: var(--theme-accent);
-  font: inherit;
-  cursor: pointer;
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 0;
+	border-radius: 999px;
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font: inherit;
+	cursor: pointer;
 }
 
 .editorSubject {
@@ -537,14 +548,14 @@
 }
 
 @keyframes sheetIn {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes sheetOut {
@@ -559,23 +570,39 @@
 }
 
 @keyframes sheetRootIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes sheetRootOut {
-	from { opacity: 1; }
-	to { opacity: 0; }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 @keyframes scrimIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes scrimOut {
-	from { opacity: 1; }
-	to { opacity: 0; }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
