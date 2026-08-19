@@ -18,26 +18,6 @@ export default function SubjectContextSheet({
 }: SubjectContextSheetProps) {
 	return (
 		<div className={styles.detailSheet}>
-			<header className={styles.detailHeader}>
-				<div
-					className={styles.detailSubjectSymbol}
-					style={{ background: subjectColour(subject) }}
-				>
-					<Symbol
-						name={subject.symbol}
-						className={styles.detailSubjectSymbolIcon}
-					/>
-				</div>
-				<div>
-					<span className={styles.detailEyebrow}>{owner}</span>
-					<h2>{subject.id}</h2>
-					<p>
-						{day && session !== undefined
-							? `${day}, period ${periodLabel(session)}`
-							: `${subject.slots.length} classes each week`}
-					</p>
-				</div>
-			</header>
 			<section className={styles.detailCard}>
 				<div className={styles.detailRow}>
 					<span className={styles.detailRowLabel}>
