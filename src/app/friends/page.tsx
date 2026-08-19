@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -12,6 +11,7 @@ import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture"
 import Symbol from "@/components/controls/Symbol/Symbol";
 import FriendSearchSheet from "@/components/sheets/FriendSearchSheet/FriendSearchSheet";
 import FriendRequestsSheet from "@/components/sheets/FriendRequestsSheet/FriendRequestsSheet";
+import GlassButton from "@/components/controls/GlassButton/GlassButton";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
 
@@ -38,24 +38,18 @@ export default function FriendsPage() {
 	return (
 		<main className={styles.page}>
 			<div className={styles.friendActions}>
-				<Button
-					unstyled
-					type="button"
-					className={styles.circleAction}
-					aria-label="Friend requests"
+				<GlassButton
+					label="Friend requests"
 					onClick={() => openSheet(<FriendRequestsSheet />)}
 				>
-					<Symbol name="bell.badge" />
-				</Button>
-				<Button
-					unstyled
-					type="button"
-					className={styles.circleAction}
-					aria-label="Add friend"
+					<Symbol name="bell.badge" className={styles.friendActionIcon} />
+				</GlassButton>
+				<GlassButton
+					label="Add friend"
 					onClick={() => openSheet(<FriendSearchSheet />)}
 				>
-					<Symbol name="plus" />
-				</Button>
+					<Symbol name="plus" className={styles.friendActionIcon} />
+				</GlassButton>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{account ? (

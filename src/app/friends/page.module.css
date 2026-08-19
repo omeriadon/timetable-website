@@ -32,21 +32,7 @@
 	gap: var(--theme-space-2);
 	margin-bottom: var(--theme-content-section-gap);
 }
-.circleAction {
-	display: grid;
-	width: var(--theme-control-height);
-	height: var(--theme-control-height);
-	place-items: center;
-	border: 1px solid var(--theme-divider);
-	border-radius: 50%;
-	color: var(--theme-text);
-	background: var(--theme-glass);
-	font: inherit;
-	font-size: 1.25rem;
-	cursor: pointer;
-}
-
-.circleAction img {
+.friendActionIcon {
 	width: var(--ds-control-icon-size-small);
 	height: var(--ds-control-icon-size-small);
 	filter: brightness(0) invert(1);

@@ -10,6 +10,11 @@
 	box-shadow: var(--ds-glass-shadow);
 }
 
+.glassButton:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--ds-color-ring);
+	outline-offset: var(--ds-control-focus-offset);
+}
+
 .symbolIcon {
 	width: var(--ds-icon-size-row);
 	height: var(--ds-icon-size-row);
