@@ -1,19 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
 	CalendarEvent,
+	GradeAssessment,
 	TimetableSubject,
 } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";
-import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
 import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjectSheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { SectionCard } from "@/components/ui/SectionCard";
 import { cn } from "@/lib/utils";
 import styles from "@/app/page.module.css";
+
+type TodayEntry =
+	| {
+			kind: "event";
+			id: string;
+			date: CalendarEvent["date"];
+			event: CalendarEvent;
+		}
+	| {
+			kind: "assessment";
+			id: string;
+			date: GradeAssessment["date"];
+			assessment: GradeAssessment;
+			subject?: TimetableSubject;
+		};
 
 const schoolPeriods = [
 	{ label: "1", start: "8:50 am", end: "9:48 am", session: 0 },
@@ -37,7 +53,9 @@ export default function TodayView({
 	schoolCalendar: DashboardData["schoolCalendar"];
 	schoolWeather: DashboardData["schoolWeather"];
 }) {
-	const { openSheet } = useSheet();
+	const [expandedSubjectID, setExpandedSubjectID] = useState<string | null>(
+		null,
+	);
 	const today = new Date();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 	const todayTimestamp = new Date(
@@ -46,11 +64,32 @@ export default function TodayView({
 		today.getDate(),
 	).getTime();
 	const dayIndex = todayDayIndex();
-	const todayEvents = events.filter(
-		(event) => eventDate(event) === todayTimestamp,
+	const entries = [
+		...events.map<TodayEntry>((event) => ({
+			kind: "event",
+			id: `event-${event.id}`,
+			date: event.date,
+			event,
+		})),
+		...grades.document.assessments.map<TodayEntry>((assessment) => ({
+			kind: "assessment",
+			id: `assessment-${assessment.id}`,
+			date: assessment.date,
+			assessment,
+			subject: subjects.find((subject) => subject.id === assessment.subjectID),
+		})),
+	].sort((left, right) => {
+		const dateOrder = compareDate(left.date, right.date);
+		if (dateOrder !== 0) {
+			return dateOrder;
+		}
+		return entryTitle(left).localeCompare(entryTitle(right));
+	});
+	const todayEntries = entries.filter(
+		(entry) => entryDate(entry) === todayTimestamp,
 	);
-	const upcomingEvents = events.filter(
-		(event) => eventDate(event) > todayTimestamp,
+	const upcomingEntries = entries.filter(
+		(entry) => entryDate(entry) > todayTimestamp,
 	);
 	const noSchool = schoolCalendar.skippedDates.find((item) => {
 		const date = item.date;
@@ -74,25 +113,25 @@ export default function TodayView({
 				</h1>
 				<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
 			</header>
-			{events.length ? (
+			{entries.length ? (
 				<SectionCard
 					background="paper"
 					title="Events"
 					symbolName="calendar.badge.clock"
 				>
-					{todayEvents.length ? (
+					{todayEntries.length ? (
 						<>
 							<h3>Today</h3>
-							{todayEvents.map((event) => (
-								<EventRow key={event.id} event={event} showDate={false} />
+							{todayEntries.map((entry) => (
+								<TodayEntryRow key={entry.id} entry={entry} showDate={false} />
 							))}
 						</>
 					) : null}
-					{upcomingEvents.length ? (
+					{upcomingEntries.length ? (
 						<>
 							<h3>Upcoming</h3>
-							{upcomingEvents.map((event) => (
-								<EventRow key={event.id} event={event} />
+							{upcomingEntries.map((entry) => (
+								<TodayEntryRow key={entry.id} entry={entry} showDate />
 							))}
 						</>
 					) : null}
@@ -156,54 +195,6 @@ export default function TodayView({
 					</p>
 				)}
 			</SectionCard>
-			{grades.document.assessments.length ? (
-				<SectionCard
-					background="paper"
-					title="Assessments"
-					symbolName="list.bullet.rectangle"
-				>
-					{grades.document.assessments
-						.slice()
-						.sort((left, right) => compareDate(left.date, right.date))
-						.slice(0, 3)
-						.map((assessment) => (
-							<Button
-								unstyled
-								key={assessment.id}
-								type="button"
-								className={cn(styles.cardRow, styles.assessmentRow)}
-								onClick={() => {
-									const subject = subjects.find(
-										(item) => item.id === assessment.subjectID,
-									);
-									if (!subject) {
-										return;
-									}
-									openSheet(
-										<GradeSubjectSheet
-											subjectID={subject.id}
-											symbol={subject.symbol}
-											colour={colour(subject)}
-											average={assessment.score}
-											assessments={[assessment]}
-										/>,
-									);
-								}}
-								aria-label={`Open ${assessment.name}`}
-							>
-								<Symbol name="plus" className={styles.eventSymbol} />
-								<div>
-									<strong>{assessment.name}</strong>
-									<span>
-										{assessment.subjectID} ·{" "}
-										{displayAssessmentDate(assessment.date)}
-									</span>
-								</div>
-								<b>{assessment.score.toFixed(1)}%</b>
-							</Button>
-						))}
-				</SectionCard>
-			) : null}
 			<SectionCard
 				background="paper"
 				title="Classes"
@@ -215,29 +206,113 @@ export default function TodayView({
 							unstyled
 							key={subject.id}
 							type="button"
-							className={cn(styles.cardRow, styles.subjectRow)}
+							className={cn(
+								styles.cardRow,
+								styles.subjectRow,
+								expandedSubjectID === subject.id && styles.subjectRowExpanded,
+							)}
 							onClick={() =>
-								openSheet(<SubjectDetailSheet subject={subject} />)
+								setExpandedSubjectID((current) =>
+									current === subject.id ? null : subject.id,
+								)
 							}
 							aria-label={`Open ${subject.id} details`}
+							aria-expanded={expandedSubjectID === subject.id}
 						>
-							<span>{index + 1}</span>
-							<strong>{subject.id}</strong>
+							<span className={styles.subjectNumber}>{index + 1}</span>
+							<div className={styles.subjectDetails}>
+								<strong>{subject.id}</strong>
+								<div
+									className={styles.subjectMeta}
+									aria-hidden={expandedSubjectID !== subject.id}
+								>
+									<div className={styles.subjectMetaContent}>
+										<span>
+											<Symbol
+												name="person.fill"
+												className={styles.subjectMetaIcon}
+											/>
+											{teacherName(subject.teacher)}
+										</span>
+										<span>
+											<Symbol
+												name="door.left.hand.open"
+												className={styles.subjectMetaIcon}
+											/>
+											{classroomName(subject.classroom)}
+										</span>
+									</div>
+								</div>
+							</div>
 							<em style={{ color: colour(subject) }}>
 								<Symbol
 									name={subject.symbol}
 									className={styles.eventSymbolIcon}
 								/>
 							</em>
-							<Symbol
-								name="chevron.right"
-								className={styles.rowDisclosureIcon}
-							/>
 						</Button>
 					))}
 				</div>
 			</SectionCard>
 		</>
+	);
+}
+
+function TodayEntryRow({
+	entry,
+	showDate,
+}: {
+	entry: TodayEntry;
+	showDate: boolean;
+}) {
+	if (entry.kind === "event") {
+		return <EventRow event={entry.event} showDate={showDate} />;
+	}
+
+	return <AssessmentEntryRow entry={entry} showDate={showDate} />;
+}
+
+function AssessmentEntryRow({
+	entry,
+	showDate,
+}: {
+	entry: Extract<TodayEntry, { kind: "assessment" }>;
+	showDate: boolean;
+}) {
+	const { openSheet } = useSheet();
+
+	return (
+		<Button
+			unstyled
+			type="button"
+			className={cn(styles.cardRow, styles.eventRow)}
+			onClick={() => {
+				if (!entry.subject) {
+					return;
+				}
+				openSheet(
+					<GradeSubjectSheet
+						subjectID={entry.subject.id}
+						symbol={entry.subject.symbol}
+						colour={colour(entry.subject)}
+						average={entry.assessment.score}
+						assessments={[entry.assessment]}
+					/>,
+				);
+			}}
+			aria-label={`Open ${entry.assessment.name}`}
+		>
+			<span className={styles.eventSymbol} aria-hidden="true">
+				<Symbol
+					name={entry.subject?.symbol ?? "doc.text"}
+					className={styles.eventSymbolIcon}
+				/>
+			</span>
+			<div>
+				<strong>{entry.assessment.name}</strong>
+			</div>
+			{showDate ? <time>{displayAssessmentDate(entry.date)}</time> : null}
+		</Button>
 	);
 }
 
@@ -316,6 +391,36 @@ function eventDate(event: CalendarEvent) {
 		event.date.month - 1,
 		event.date.day,
 	).getTime();
+}
+
+function entryDate(entry: TodayEntry) {
+	return new Date(
+		entry.date.year,
+		entry.date.month - 1,
+		entry.date.day,
+	).getTime();
+}
+
+function entryTitle(entry: TodayEntry) {
+	return entry.kind === "event" ? entry.event.title : entry.assessment.name;
+}
+
+function teacherName(teacher: TimetableSubject["teacher"]) {
+	if (!teacher) return "Not provided";
+	if (typeof teacher === "string") return teacher;
+	if (teacher.displayName) return teacher.displayName;
+	if (teacher.named) return `Teacher: ${teacher.named.lastName}`;
+	return teacher.unknown?.rawNotes ?? "Not provided";
+}
+
+function classroomName(classroom: TimetableSubject["classroom"]) {
+	if (!classroom) return "Not provided";
+	if (typeof classroom === "string") return classroom;
+	if (classroom.unknown) return classroom.unknown.rawLocation;
+	if (classroom.room) {
+		return `${classroom.room.building} ${classroom.room.number}`;
+	}
+	return "Not provided";
 }
 
 function displayAssessmentDate(date: {

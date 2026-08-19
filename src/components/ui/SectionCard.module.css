@@ -2,7 +2,7 @@
 	width: 100%;
 	margin: var(--ds-content-section-gap) 0;
 	padding: var(--ds-content-card-padding);
-	border: 1px solid var(--ds-color-border);
+	padding-top: calc(var(--ds-content-card-padding) - 5px);
 	border-radius: var(--ds-radius-content-card);
 }
 
@@ -51,10 +51,10 @@
 }
 
 .icon {
-	width: var(--ds-icon-size-row);
 	height: var(--ds-icon-size-row);
 	flex: 0 0 var(--ds-icon-size-row);
 	object-fit: contain;
+	filter: brightness(0) saturate(100%);
 }
 
 .paper h3 {

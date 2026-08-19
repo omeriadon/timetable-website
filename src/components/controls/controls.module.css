@@ -16,7 +16,6 @@
 }
 
 .symbolIcon {
-	width: var(--ds-icon-size-row);
 	height: var(--ds-icon-size-row);
 	object-fit: contain;
 	filter: brightness(0) saturate(100%) invert(25%) sepia(54%) saturate(1450%)
