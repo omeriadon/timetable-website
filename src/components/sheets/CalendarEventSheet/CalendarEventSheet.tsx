@@ -12,11 +12,16 @@ import SheetActionButton from "@/components/controls/SheetActionButton/SheetActi
 export default function CalendarEventSheet({
 	event,
 	onChanged,
+	onClose,
+	showHeader = true,
 }: {
 	event: CalendarEvent;
 	onChanged: (event: CalendarEvent | null) => void;
+	onClose?: () => void;
+	showHeader?: boolean;
 }) {
 	const { closeSheet } = useSheet();
+	const dismiss = onClose ?? closeSheet;
 	const [title, setTitle] = useState(event.title);
 	const [notes, setNotes] = useState(event.notes ?? "");
 	const [saving, setSaving] = useState(false);
@@ -52,7 +57,7 @@ export default function CalendarEventSheet({
 				notes: notes.trim() || undefined,
 			};
 			onChanged(replacement);
-			closeSheet();
+			dismiss();
 		} catch (error) {
 			setStatus((error as Error).message);
 		} finally {
@@ -68,7 +73,7 @@ export default function CalendarEventSheet({
 				{ method: "DELETE" },
 			);
 			onChanged(null);
-			closeSheet();
+			dismiss();
 		} catch (error) {
 			setStatus((error as Error).message);
 			setSaving(false);
@@ -77,18 +82,20 @@ export default function CalendarEventSheet({
 
 	return (
 		<div className={styles.detailSheet}>
-			<header className={styles.detailHeader}>
-				<div>
-					<h2>{event.title}</h2>
-					<p>
-						{new Date(
-							event.date.year,
-							event.date.month - 1,
-							event.date.day,
-						).toLocaleDateString("en-AU", { dateStyle: "long" })}
-					</p>
-				</div>
-			</header>
+			{showHeader ? (
+				<header className={styles.detailHeader}>
+					<div>
+						<h2>{event.title}</h2>
+						<p>
+							{new Date(
+								event.date.year,
+								event.date.month - 1,
+								event.date.day,
+							).toLocaleDateString("en-AU", { dateStyle: "long" })}
+						</p>
+					</div>
+				</header>
+			) : null}
 			<section className={styles.formCard}>
 				<label>
 					Title

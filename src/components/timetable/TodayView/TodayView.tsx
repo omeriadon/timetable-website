@@ -217,7 +217,9 @@ function TodayEntryRow({
 	showDate: boolean;
 }) {
 	if (entry.kind === "event") {
-		return <EventRow event={entry.event} showDate={showDate} />;
+		return (
+			<EventRow event={entry.event} showDate={showDate} presentation="drawer" />
+		);
 	}
 
 	return <AssessmentEntryRow entry={entry} showDate={showDate} />;
