@@ -39,6 +39,7 @@
   border: 0;
   background: var(--theme-sheet-scrim);
   backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
+  -webkit-backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
   cursor: pointer;
 	animation: scrimIn 220ms ease both;
 }
