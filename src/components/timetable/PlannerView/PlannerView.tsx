@@ -8,6 +8,7 @@ import TermDateSheet from "@/components/sheets/TermDateSheet/TermDateSheet";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { SectionCard } from "@/components/ui/SectionCard";
+import { cn } from "@/lib/utils";
 import styles from "@/app/page.module.css";
 
 export default function PlannerView({
@@ -54,17 +55,13 @@ export default function PlannerView({
 					<p className={styles.empty}>No upcoming events.</p>
 				)}
 			</SectionCard>
-			<SectionCard
-				background="paper"
-				title="Term Dates"
-				symbolName="calendar"
-			>
+			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{schoolCalendar.termRanges.map((term) => (
 					<Button
 						unstyled
 						key={term.label}
 						type="button"
-						className={styles.plannerEvent}
+						className={cn(styles.cardRow, styles.plannerEvent)}
 						onClick={() =>
 							openSheet(
 								<TermDateSheet

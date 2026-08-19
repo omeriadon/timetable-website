@@ -5,6 +5,7 @@ import CalendarEventSheet from "@/components/sheets/CalendarEventSheet/CalendarE
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import type { CalendarEvent } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { cn } from "@/lib/utils";
 import styles from "@/app/page.module.css";
 
 export default function EventRow({
@@ -21,7 +22,10 @@ export default function EventRow({
 		<Button
 			unstyled
 			type="button"
-			className={prominent ? styles.plannerEvent : styles.eventRow}
+			className={cn(
+				styles.cardRow,
+				prominent ? styles.plannerEvent : styles.eventRow,
+			)}
 			onClick={() =>
 				openSheet(
 					<CalendarEventSheet event={event} onChanged={() => undefined} />,

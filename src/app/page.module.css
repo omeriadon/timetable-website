@@ -160,22 +160,44 @@
 	font-size: 0.78rem;
 }
 
+.cardRow {
+	width: 100%;
+	min-height: var(--ds-event-min-height);
+	padding: var(--ds-content-card-padding);
+	border: 1px solid var(--ds-color-highlight);
+	border-radius: var(--ds-radius-control);
+	color: inherit;
+	background: color-mix(in srgb, var(--ds-color-paper) 80%, transparent);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition:
+		background var(--ds-duration-fast) var(--ds-ease-standard),
+		transform var(--ds-duration-fast) var(--ds-ease-standard),
+		border-color var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+.cardRow:focus-visible {
+	border-color: color-mix(in srgb, currentColor 35%, transparent);
+	background: color-mix(in srgb, var(--ds-color-paper) 88%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.cardRow:hover {
+		border-color: color-mix(in srgb, currentColor 35%, transparent);
+		background: color-mix(in srgb, var(--ds-color-paper) 88%, transparent);
+	}
+}
+
+.cardRow:active {
+	transform: scale(0.99);
+}
+
 .assessmentRow {
 	display: grid;
 	grid-template-columns: 32px minmax(0, 1fr) auto;
 	gap: var(--ds-space-3);
 	align-items: center;
-	padding: var(--ds-space-2) 0;
-	border-top: 1px solid
-		color-mix(in srgb, var(--ds-color-background) 20%, transparent);
-	border-right: 0;
-	border-bottom: 0;
-	border-left: 0;
-	color: inherit;
-	background: transparent;
-	font: inherit;
-	text-align: left;
-	cursor: pointer;
 }
 
 .assessmentRow strong,
@@ -196,44 +218,6 @@
 	grid-template-columns: 30px minmax(0, 1fr) auto;
 	gap: var(--ds-space-3);
 	align-items: center;
-	width: 100%;
-	color: inherit;
-	font: inherit;
-	text-align: left;
-	cursor: pointer;
-	padding: var(--ds-space-3);
-	min-height: var(--ds-event-min-height);
-	border: 1px solid var(--ds-color-highlight);
-	border-radius: var(--ds-radius-control);
-	transition:
-		background var(--ds-duration-fast) var(--ds-ease-standard),
-		transform var(--ds-duration-fast) var(--ds-ease-standard),
-		border-color var(--ds-duration-fast) var(--ds-ease-standard);
-}
-.eventRow {
-	background: color-mix(in srgb, var(--ds-color-paper) 58%, transparent);
-}
-.eventRow:focus-visible {
-	border-color: color-mix(in srgb, var(--ds-color-background) 35%, transparent);
-	background: color-mix(in srgb, var(--ds-color-paper) 78%, transparent);
-}
-@media (hover: hover) and (pointer: fine) {
-	.eventRow:hover {
-		border-color: color-mix(
-			in srgb,
-			var(--ds-color-background) 35%,
-			transparent
-		);
-		background: color-mix(in srgb, var(--ds-color-paper) 78%, transparent);
-	}
-}
-.eventRow:active,
-.plannerEvent:active,
-.subjectRow:active {
-	transform: scale(0.99);
-}
-.eventRow + .eventRow {
-	margin-top: var(--ds-space-3);
 }
 .eventRow strong,
 .eventRow span {
@@ -278,14 +262,6 @@
 		);
 	gap: var(--ds-list-row-gap);
 	align-items: center;
-	min-height: var(--ds-event-min-height);
-	padding: var(--ds-content-card-padding);
-	border: 1px solid var(--ds-color-highlight);
-	border-radius: var(--ds-radius-content-card);
-	background: color-mix(in srgb, var(--ds-color-paper) 80%, transparent);
-	font: inherit;
-	text-align: left;
-	cursor: pointer;
 }
 .subjectRow strong {
 	font-size: 1rem;
@@ -447,9 +423,6 @@
 	grid-template-columns: 30px minmax(0, 1fr) auto var(
 			--ds-control-icon-size-small
 		);
-	width: 100%;
-	min-height: var(--ds-event-min-height);
-	margin: var(--ds-content-section-gap) 0;
 	border-color: var(--ds-color-paper-edge);
 	color: var(--ds-color-text);
 	background: linear-gradient(

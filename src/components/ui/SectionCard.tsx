@@ -30,7 +30,7 @@ export function SectionCard({
 					<Heading>{title}</Heading>
 				</div>
 			</header>
-			{children}
+			<div className={styles.content}>{children}</div>
 		</section>
 	);
 }

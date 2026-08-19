@@ -12,6 +12,7 @@ import GradeSubjectSheet from "@/components/grades/GradeSubjectSheet/GradeSubjec
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
 import { SectionCard } from "@/components/ui/SectionCard";
+import { cn } from "@/lib/utils";
 import styles from "@/app/page.module.css";
 
 const schoolPeriods = [
@@ -170,7 +171,7 @@ export default function TodayView({
 								unstyled
 								key={assessment.id}
 								type="button"
-								className={styles.assessmentRow}
+								className={cn(styles.cardRow, styles.assessmentRow)}
 								onClick={() => {
 									const subject = subjects.find(
 										(item) => item.id === assessment.subjectID,
@@ -214,7 +215,7 @@ export default function TodayView({
 							unstyled
 							key={subject.id}
 							type="button"
-							className={styles.subjectRow}
+							className={cn(styles.cardRow, styles.subjectRow)}
 							onClick={() =>
 								openSheet(<SubjectDetailSheet subject={subject} />)
 							}
