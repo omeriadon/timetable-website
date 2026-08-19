@@ -1,6 +1,12 @@
+<img src="public/icon.png" width="30%">
+
 # Timetable website
 
-Server-rendered Timetable website built with Next.js and Bun.
+Timetable website built with Next.js, React, and Bun.
+
+This is effectively a web port of the existing SwiftUI app.
+
+It is also designed to look like the existing SwiftUI app, for example my recreating of the liquid glass toolbars and sidebars
 
 ## Development
 
@@ -13,9 +19,5 @@ bun run dev
 
 ```bash
 bun run build
-bun run start
+bun run start,
 ```
-
-Pushing `main` to the `production` Git remote deploys the application to the
-Timetable production server. The remote hook installs locked dependencies,
-builds the standalone Next.js application, and restarts its PM2 process.
