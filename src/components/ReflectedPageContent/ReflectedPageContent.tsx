@@ -4,83 +4,83 @@ import { type ReactNode, useLayoutEffect, useRef } from "react";
 import styles from "@/app/layout.module.css";
 
 type ReflectedPageContentProps = {
-  children: ReactNode;
+	children: ReactNode;
 };
 
 export default function ReflectedPageContent({
-  children,
+	children,
 }: ReflectedPageContentProps) {
-  const sourceRef = useRef<HTMLDivElement>(null);
-  const mirrorRef = useRef<HTMLDivElement>(null);
+	const sourceRef = useRef<HTMLDivElement>(null);
+	const mirrorRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const source = sourceRef.current;
-    const mirror = mirrorRef.current;
+	useLayoutEffect(() => {
+		const source = sourceRef.current;
+		const mirror = mirrorRef.current;
 
-    if (!source || !mirror) {
-      return;
-    }
+		if (!source || !mirror) {
+			return;
+		}
 
-    let pendingFrame: number | undefined;
+		let pendingFrame: number | undefined;
 
-    const updateMirror = () => {
-      const clone = source.cloneNode(true) as HTMLElement;
+		const updateMirror = () => {
+			const clone = source.cloneNode(true) as HTMLElement;
 
-      clone.removeAttribute("data-reflection-source");
-      clone.removeAttribute("id");
+			clone.removeAttribute("data-reflection-source");
+			clone.removeAttribute("id");
 
-      for (const element of clone.querySelectorAll("[id]")) {
-        element.removeAttribute("id");
-      }
+			for (const element of clone.querySelectorAll("[id]")) {
+				element.removeAttribute("id");
+			}
 
-      mirror.replaceChildren(clone);
-    };
+			mirror.replaceChildren(clone);
+		};
 
-    const scheduleMirrorUpdate = () => {
-      if (pendingFrame !== undefined) {
-        return;
-      }
+		const scheduleMirrorUpdate = () => {
+			if (pendingFrame !== undefined) {
+				return;
+			}
 
-      pendingFrame = window.requestAnimationFrame(() => {
-        pendingFrame = undefined;
-        updateMirror();
-      });
-    };
+			pendingFrame = window.requestAnimationFrame(() => {
+				pendingFrame = undefined;
+				updateMirror();
+			});
+		};
 
-    updateMirror();
+		updateMirror();
 
-    const observer = new MutationObserver(scheduleMirrorUpdate);
-    observer.observe(source, {
-      attributes: true,
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
+		const observer = new MutationObserver(scheduleMirrorUpdate);
+		observer.observe(source, {
+			attributes: true,
+			characterData: true,
+			childList: true,
+			subtree: true,
+		});
 
-    return () => {
-      observer.disconnect();
+		return () => {
+			observer.disconnect();
 
-      if (pendingFrame !== undefined) {
-        window.cancelAnimationFrame(pendingFrame);
-      }
-    };
-  }, [children]);
+			if (pendingFrame !== undefined) {
+				window.cancelAnimationFrame(pendingFrame);
+			}
+		};
+	}, [children]);
 
-  return (
-    <div className={styles.pageContent}>
-      <div
-        ref={mirrorRef}
-        className={styles.reflectionMirror}
-        aria-hidden="true"
-        inert
-      />
-      <div
-        ref={sourceRef}
-        className={styles.contentSurface}
-        data-reflection-source
-      >
-        {children}
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.pageContent}>
+			<div
+				ref={mirrorRef}
+				className={styles.reflectionMirror}
+				aria-hidden="true"
+				inert
+			/>
+			<div
+				ref={sourceRef}
+				className={styles.contentSurface}
+				data-reflection-source
+			>
+				{children}
+			</div>
+		</div>
+	);
 }

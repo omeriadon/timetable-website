@@ -1,45 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  authenticatedPMSTTRequest,
-  clearSession,
-  writeSession,
+	authenticatedPMSTTRequest,
+	clearSession,
+	writeSession,
 } from "@/lib/server/pmstt";
 
 async function forward(
-  request: NextRequest,
-  context: { params: Promise<{ path: string[] }> },
+	request: NextRequest,
+	context: { params: Promise<{ path: string[] }> },
 ) {
-  const { path } = await context.params;
-  const upstreamPath = `${path.join("/")}${request.nextUrl.search}`;
-  const body = ["GET", "HEAD"].includes(request.method)
-    ? undefined
-    : request.headers.get("content-type")?.startsWith("application/json")
-      ? await request.text()
-      : await request.arrayBuffer();
-  const { response: upstream, tokens } = await authenticatedPMSTTRequest(
-    upstreamPath,
-    {
-      method: request.method,
-      body: body || undefined,
-    },
-  );
-  const response = new NextResponse(upstream.body, {
-    status: upstream.status,
-    headers: {
-      "Content-Type":
-        upstream.headers.get("Content-Type") ?? "application/json",
-    },
-  });
+	const { path } = await context.params;
+	const upstreamPath = `${path.join("/")}${request.nextUrl.search}`;
+	const body = ["GET", "HEAD"].includes(request.method)
+		? undefined
+		: request.headers.get("content-type")?.startsWith("application/json")
+			? await request.text()
+			: await request.arrayBuffer();
+	const { response: upstream, tokens } = await authenticatedPMSTTRequest(
+		upstreamPath,
+		{
+			method: request.method,
+			body: body || undefined,
+		},
+	);
+	const response = new NextResponse(upstream.body, {
+		status: upstream.status,
+		headers: {
+			"Content-Type":
+				upstream.headers.get("Content-Type") ?? "application/json",
+		},
+	});
 
-  if (tokens) {
-    writeSession(response, tokens);
-  }
+	if (tokens) {
+		writeSession(response, tokens);
+	}
 
-  if (upstream.status === 401) {
-    clearSession(response);
-  }
+	if (upstream.status === 401) {
+		clearSession(response);
+	}
 
-  return response;
+	return response;
 }
 
 export const GET = forward;

@@ -1,240 +1,240 @@
 .appShell {
-  position: relative;
-  display: flex;
-  height: 100svh;
-  overflow: hidden;
-  background: var(--theme-black);
+	position: relative;
+	display: flex;
+	height: 100svh;
+	overflow: hidden;
+	background: var(--theme-black);
 }
 
 .appShell::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: var(--theme-sidebar-frame);
-  height: 46px;
-  content: "";
-  pointer-events: none;
-  background:
-    radial-gradient(
-        circle at 100% 100%,
-        transparent 29px,
-        var(--theme-black) 30px
-      )
-      16px 16px / 30px 30px no-repeat,
-    radial-gradient(circle at 0 100%, transparent 29px, var(--theme-black) 30px)
-      286px 16px / 30px 30px no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: var(--theme-sidebar-frame);
+	height: 46px;
+	content: "";
+	pointer-events: none;
+	background:
+		radial-gradient(
+				circle at 100% 100%,
+				transparent 29px,
+				var(--theme-black) 30px
+			)
+			16px 16px / 30px 30px no-repeat,
+		radial-gradient(circle at 0 100%, transparent 29px, var(--theme-black) 30px)
+			286px 16px / 30px 30px no-repeat;
 }
 
 .appShell::after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  width: var(--theme-sidebar-frame);
-  height: 46px;
-  content: "";
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 100% 0, transparent 29px, var(--theme-black) 30px)
-      16px 0 / 30px 30px no-repeat,
-    radial-gradient(circle at 0 0, transparent 29px, var(--theme-black) 30px)
-      286px 0 / 30px 30px no-repeat;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	width: var(--theme-sidebar-frame);
+	height: 46px;
+	content: "";
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 100% 0, transparent 29px, var(--theme-black) 30px)
+			16px 0 / 30px 30px no-repeat,
+		radial-gradient(circle at 0 0, transparent 29px, var(--theme-black) 30px)
+			286px 0 / 30px 30px no-repeat;
 }
 
 .outerAppShell {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  background: var(--theme-black);
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	background: var(--theme-black);
 }
 
 .pageContent {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: calc(-1 * var(--theme-sidebar-frame));
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  mask-image: linear-gradient(black, black), linear-gradient(black, black);
-  mask-position:
-    right top,
-    16px 16px;
-  mask-repeat: no-repeat;
-  mask-size:
-    calc(100% - var(--theme-sidebar-frame)) 100%,
-    var(--theme-sidebar-width) calc(100% - 32px);
-  -webkit-mask-image:
-    linear-gradient(black, black), linear-gradient(black, black);
-  -webkit-mask-position:
-    right top,
-    16px 16px;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size:
-    calc(100% - var(--theme-sidebar-frame)) 100%,
-    var(--theme-sidebar-width) calc(100% - 32px);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: calc(-1 * var(--theme-sidebar-frame));
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	mask-image: linear-gradient(black, black), linear-gradient(black, black);
+	mask-position:
+		right top,
+		16px 16px;
+	mask-repeat: no-repeat;
+	mask-size:
+		calc(100% - var(--theme-sidebar-frame)) 100%,
+		var(--theme-sidebar-width) calc(100% - 32px);
+	-webkit-mask-image:
+		linear-gradient(black, black), linear-gradient(black, black);
+	-webkit-mask-position:
+		right top,
+		16px 16px;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size:
+		calc(100% - var(--theme-sidebar-frame)) 100%,
+		var(--theme-sidebar-width) calc(100% - 32px);
 }
 
 .contentSurface {
-  position: relative;
-  width: calc(100% - var(--theme-sidebar-frame));
-  min-height: 100%;
-  margin-left: var(--theme-sidebar-frame);
-  padding: var(--theme-page-padding);
-  padding-top: 52px;
-  background: var(--theme-black);
-  /* Content inherits the compact design system; the sidebar and toolbar keep
+	position: relative;
+	width: calc(100% - var(--theme-sidebar-frame));
+	min-height: 100%;
+	margin-left: var(--theme-sidebar-frame);
+	padding: var(--theme-page-padding);
+	padding-top: 52px;
+	background: var(--theme-black);
+	/* Content inherits the compact design system; the sidebar and toolbar keep
 	   their original geometry outside this surface. */
-  --theme-space-1: var(--ui-space-1);
-  --theme-space-2: var(--ui-space-2);
-  --theme-space-3: var(--ui-space-3);
-  --theme-space-4: var(--ui-space-4);
-  --theme-row-height: var(--ui-row-height);
-  --theme-control-height: var(--ui-control-height);
-  --theme-card-padding: var(--ui-card-padding);
-  --theme-list-padding-inline: var(--ui-list-padding-inline);
-  --theme-list-row-padding-block: var(--ui-list-row-padding-block);
-  --theme-list-row-gap: var(--ui-list-row-gap);
-  --theme-control-padding-inline: var(--ui-control-padding-inline);
-  --theme-control-padding-block: var(--ui-control-padding-block);
-  --theme-section-gap: var(--ui-section-gap);
-  --theme-surface: var(--ui-surface);
-  --theme-surface-elevated: var(--ui-surface-elevated);
-  --theme-surface-soft: var(--ui-surface-soft);
-  --theme-divider: var(--ui-divider);
-  --theme-text: var(--ui-text);
-  --theme-text-secondary: var(--ui-text-secondary);
-  --theme-accent: var(--ui-accent);
-  --theme-radius-card: var(--ui-radius-card);
-  --theme-radius-control: var(--ui-radius-control);
-  --theme-content-font-size: var(--ui-body-font-size);
-  --theme-content-label-size: var(--ui-label-font-size);
-  --theme-content-display-size: var(--ui-display-font-size);
-  --theme-content-heading-size: var(--ui-heading-font-size);
-  --theme-content-title-size: var(--ui-title-size);
+	--theme-space-1: var(--ui-space-1);
+	--theme-space-2: var(--ui-space-2);
+	--theme-space-3: var(--ui-space-3);
+	--theme-space-4: var(--ui-space-4);
+	--theme-row-height: var(--ui-row-height);
+	--theme-control-height: var(--ui-control-height);
+	--theme-card-padding: var(--ui-card-padding);
+	--theme-list-padding-inline: var(--ui-list-padding-inline);
+	--theme-list-row-padding-block: var(--ui-list-row-padding-block);
+	--theme-list-row-gap: var(--ui-list-row-gap);
+	--theme-control-padding-inline: var(--ui-control-padding-inline);
+	--theme-control-padding-block: var(--ui-control-padding-block);
+	--theme-section-gap: var(--ui-section-gap);
+	--theme-surface: var(--ui-surface);
+	--theme-surface-elevated: var(--ui-surface-elevated);
+	--theme-surface-soft: var(--ui-surface-soft);
+	--theme-divider: var(--ui-divider);
+	--theme-text: var(--ui-text);
+	--theme-text-secondary: var(--ui-text-secondary);
+	--theme-accent: var(--ui-accent);
+	--theme-radius-card: var(--ui-radius-card);
+	--theme-radius-control: var(--ui-radius-control);
+	--theme-content-font-size: var(--ui-body-font-size);
+	--theme-content-label-size: var(--ui-label-font-size);
+	--theme-content-display-size: var(--ui-display-font-size);
+	--theme-content-heading-size: var(--ui-heading-font-size);
+	--theme-content-title-size: var(--ui-title-size);
 }
 
 .reflectionMirror {
-  position: absolute;
-  top: 0;
-  left: 16px;
-  width: var(--theme-sidebar-width);
-  min-height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0.7;
-  user-select: none;
-  filter: blur(40px);
-  mask-image: linear-gradient(to left, black 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+	position: absolute;
+	top: 0;
+	left: 16px;
+	width: var(--theme-sidebar-width);
+	min-height: 100%;
+	overflow: hidden;
+	pointer-events: none;
+	opacity: 0.7;
+	user-select: none;
+	filter: blur(40px);
+	mask-image: linear-gradient(to left, black 0%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
 }
 
 .reflectionMirror > .contentSurface {
-  width: calc(100vw - var(--theme-sidebar-frame));
-  margin-left: calc(var(--theme-sidebar-width) + 1px);
-  transform: scaleX(-1);
-  transform-origin: left top;
+	width: calc(100vw - var(--theme-sidebar-frame));
+	margin-left: calc(var(--theme-sidebar-width) + 1px);
+	transform: scaleX(-1);
+	transform-origin: left top;
 }
 
 .toolbar {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  z-index: 20;
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	right: 16px;
+	z-index: 20;
 }
 
 .liquidGlassTestButton {
-  position: fixed;
-  top: 50%;
-  left: 40%;
-  z-index: 100;
-  display: block;
-  width: 320px;
-  min-height: 180px;
-  transform: translate(-50%, -50%);
-  border-radius: 32px;
-  font-size: 1.1rem;
+	position: fixed;
+	top: 50%;
+	left: 40%;
+	z-index: 100;
+	display: block;
+	width: 320px;
+	min-height: 180px;
+	transform: translate(-50%, -50%);
+	border-radius: 32px;
+	font-size: 1.1rem;
 }
 
 .liquidGlassTestButton2 {
-  position: fixed;
+	position: fixed;
 
-  top: 10%;
-  left: 95%;
+	top: 10%;
+	left: 95%;
 
-  z-index: 100;
+	z-index: 100;
 
-  width: 60px;
-  height: 60px;
+	width: 60px;
+	height: 60px;
 
-  transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 
-  padding: 5px 10px;
+	padding: 5px 10px;
 }
 
 .fadeToBackgroundTop {
-  z-index: 20;
+	z-index: 20;
 }
 
 .liquidGlassTestContent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--theme-space-3);
-  text-align: left;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--theme-space-3);
+	text-align: left;
 }
 
 .liquidGlassTestContent strong {
-  font-size: 1.5rem;
+	font-size: 1.5rem;
 }
 
 .liquidGlassTestContent span {
-  font-size: 0.9rem;
-  opacity: 0.75;
+	font-size: 0.9rem;
+	opacity: 0.75;
 }
 
 @media (max-width: 700px) {
-  .appShell {
-    display: block;
-    overflow: hidden;
-  }
+	.appShell {
+		display: block;
+		overflow: hidden;
+	}
 
-  .appShell::before,
-  .appShell::after {
-    display: none;
-  }
+	.appShell::before,
+	.appShell::after {
+		display: none;
+	}
 
-  .outerAppShell {
-    width: 100%;
-  }
+	.outerAppShell {
+		width: 100%;
+	}
 
-  .pageContent {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    width: 100%;
-    height: 100svh;
-    mask: none;
-    -webkit-mask: none;
-  }
+	.pageContent {
+		position: relative;
+		top: auto;
+		right: auto;
+		bottom: auto;
+		left: auto;
+		width: 100%;
+		height: 100svh;
+		mask: none;
+		-webkit-mask: none;
+	}
 
-  .contentSurface {
-    width: 100%;
-    margin-left: 0;
-    padding-top: var(--theme-page-padding);
-    padding-bottom: calc(
-      var(--theme-page-padding) + var(--theme-content-mobile-bottom-inset) +
-        env(safe-area-inset-bottom)
-    );
-  }
+	.contentSurface {
+		width: 100%;
+		margin-left: 0;
+		padding-top: var(--theme-page-padding);
+		padding-bottom: calc(
+			var(--theme-page-padding) + var(--theme-content-mobile-bottom-inset) +
+				env(safe-area-inset-bottom)
+		);
+	}
 
-  .reflectionMirror {
-    display: none;
-  }
+	.reflectionMirror {
+		display: none;
+	}
 }

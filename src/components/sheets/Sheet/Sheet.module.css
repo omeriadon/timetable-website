@@ -1,616 +1,616 @@
 .sheetRoot {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  align-items: end;
-  animation: sheetRootIn 220ms ease both;
-  --theme-space-1: var(--ui-space-1);
-  --theme-space-2: var(--ui-space-2);
-  --theme-space-3: var(--ui-space-3);
-  --theme-space-4: var(--ui-space-4);
-  --theme-row-height: var(--ui-row-height);
-  --theme-control-height: var(--ui-control-height);
-  --theme-card-padding: var(--ui-card-padding);
-  --theme-list-padding-inline: var(--ui-list-padding-inline);
-  --theme-list-row-padding-block: var(--ui-list-row-padding-block);
-  --theme-list-row-gap: var(--ui-list-row-gap);
-  --theme-control-padding-inline: var(--ui-control-padding-inline);
-  --theme-control-padding-block: var(--ui-control-padding-block);
-  --theme-section-gap: var(--ui-section-gap);
-  --theme-surface: var(--ui-surface);
-  --theme-surface-elevated: var(--ui-surface-elevated);
-  --theme-surface-soft: var(--ui-surface-soft);
-  --theme-divider: var(--ui-divider);
-  --theme-text: var(--ui-text);
-  --theme-text-secondary: var(--ui-text-secondary);
-  --theme-accent: var(--ui-accent);
-  --theme-radius-card: var(--ui-radius-card);
-  --theme-radius-control: var(--ui-radius-control);
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: grid;
+	align-items: end;
+	animation: sheetRootIn 220ms ease both;
+	--theme-space-1: var(--ui-space-1);
+	--theme-space-2: var(--ui-space-2);
+	--theme-space-3: var(--ui-space-3);
+	--theme-space-4: var(--ui-space-4);
+	--theme-row-height: var(--ui-row-height);
+	--theme-control-height: var(--ui-control-height);
+	--theme-card-padding: var(--ui-card-padding);
+	--theme-list-padding-inline: var(--ui-list-padding-inline);
+	--theme-list-row-padding-block: var(--ui-list-row-padding-block);
+	--theme-list-row-gap: var(--ui-list-row-gap);
+	--theme-control-padding-inline: var(--ui-control-padding-inline);
+	--theme-control-padding-block: var(--ui-control-padding-block);
+	--theme-section-gap: var(--ui-section-gap);
+	--theme-surface: var(--ui-surface);
+	--theme-surface-elevated: var(--ui-surface-elevated);
+	--theme-surface-soft: var(--ui-surface-soft);
+	--theme-divider: var(--ui-divider);
+	--theme-text: var(--ui-text);
+	--theme-text-secondary: var(--ui-text-secondary);
+	--theme-accent: var(--ui-accent);
+	--theme-radius-card: var(--ui-radius-card);
+	--theme-radius-control: var(--ui-radius-control);
 }
 
 .closing {
-  animation: sheetRootOut 240ms ease both;
+	animation: sheetRootOut 240ms ease both;
 }
 
 .scrim {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: var(--theme-sheet-scrim);
-  backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
-  -webkit-backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
-  cursor: pointer;
-  animation: scrimIn 220ms ease both;
+	position: absolute;
+	inset: 0;
+	border: 0;
+	background: var(--theme-sheet-scrim);
+	backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
+	-webkit-backdrop-filter: blur(var(--theme-sheet-scrim-blur)) saturate(1.08);
+	cursor: pointer;
+	animation: scrimIn 220ms ease both;
 }
 
 .sheet {
-  position: relative;
-  width: 100%;
-  min-height: 0;
-  max-height: var(--theme-sheet-max-height);
-  overflow: auto;
-  padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline)
-    var(--theme-sheet-padding-bottom);
-  border: 1px solid var(--theme-divider);
-  border-bottom: 0;
-  border-radius: var(--theme-radius-card) var(--theme-radius-card) 0 0;
-  background: var(--theme-sheet-surface);
-  box-shadow:
-    0 -20px 70px rgba(0, 0, 0, 0.5),
-    inset 0 1px rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(var(--theme-sheet-blur)) saturate(1.35);
-  animation: sheetIn 260ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+	position: relative;
+	width: 100%;
+	min-height: 0;
+	max-height: var(--theme-sheet-max-height);
+	overflow: auto;
+	padding: var(--theme-sheet-padding-top) var(--theme-sheet-padding-inline)
+		var(--theme-sheet-padding-bottom);
+	border: 1px solid var(--theme-divider);
+	border-bottom: 0;
+	border-radius: var(--theme-radius-card) var(--theme-radius-card) 0 0;
+	background: var(--theme-sheet-surface);
+	box-shadow:
+		0 -20px 70px rgba(0, 0, 0, 0.5),
+		inset 0 1px rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(var(--theme-sheet-blur)) saturate(1.35);
+	animation: sheetIn 260ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
 }
 
 .closing .scrim {
-  animation: scrimOut 240ms ease both;
+	animation: scrimOut 240ms ease both;
 }
 
 .closing .sheet {
-  animation: sheetOut 240ms cubic-bezier(0.4, 0, 1, 1) both;
+	animation: sheetOut 240ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 .closeButton {
-  position: absolute;
-  top: var(--theme-content-card-padding);
-  right: var(--theme-content-page-padding);
+	position: absolute;
+	top: var(--theme-content-card-padding);
+	right: var(--theme-content-page-padding);
 }
 
 .closeButton span {
-  font-size: 1.8rem;
-  line-height: 1;
+	font-size: 1.8rem;
+	line-height: 1;
 }
 
 .sheetContent {
-  width: 100%;
+	width: 100%;
 }
 
 .detailSheet {
-  display: grid;
-  gap: var(--theme-content-section-gap);
+	display: grid;
+	gap: var(--theme-content-section-gap);
 }
 
 .detailHeader {
-  display: flex;
-  gap: var(--theme-content-row-gap);
-  align-items: center;
+	display: flex;
+	gap: var(--theme-content-row-gap);
+	align-items: center;
 }
 
 .detailAvatar {
-  display: grid;
-  width: var(--theme-content-avatar-size);
-  height: var(--theme-content-avatar-size);
-  place-items: center;
-  border-radius: 50%;
-  color: var(--theme-text);
-  background: var(--theme-surface-soft);
-  font-size: 1.35rem;
+	display: grid;
+	width: var(--theme-content-avatar-size);
+	height: var(--theme-content-avatar-size);
+	place-items: center;
+	border-radius: 50%;
+	color: var(--theme-text);
+	background: var(--theme-surface-soft);
+	font-size: 1.35rem;
 }
 
 .detailHeader h2,
 .detailHeader p,
 .detailCard h3 {
-  margin: 0;
+	margin: 0;
 }
 
 .detailEyebrow {
-  display: block;
-  margin-bottom: 2px;
-  color: var(--theme-text-secondary);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+	display: block;
+	margin-bottom: 2px;
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
 .detailHeader h2 {
-  font-size: 1.25rem;
+	font-size: 1.25rem;
 }
 
 .detailHeader p,
 .detailMuted {
-  margin-top: 3px;
-  color: var(--theme-text-secondary);
+	margin-top: 3px;
+	color: var(--theme-text-secondary);
 }
 
 .detailTabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--theme-divider);
-  border-radius: 999px;
-  background: var(--theme-surface);
-  text-align: center;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+	padding: 4px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 999px;
+	background: var(--theme-surface);
+	text-align: center;
 }
 
 .detailTabs span {
-  padding: 8px 6px;
-  border-radius: 999px;
-  font-weight: 650;
+	padding: 8px 6px;
+	border-radius: 999px;
+	font-weight: 650;
 }
 
 .detailTabs button {
-  padding: 7px 6px;
-  border: 0;
-  border-radius: 999px;
-  color: inherit;
-  background: transparent;
-  font: inherit;
-  font-weight: 650;
-  cursor: pointer;
+	padding: 7px 6px;
+	border: 0;
+	border-radius: 999px;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
 }
 
 .detailTabActive {
-  background: linear-gradient(
-    135deg,
-    var(--theme-gold),
-    var(--theme-gold-dark)
-  );
+	background: linear-gradient(
+		135deg,
+		var(--theme-gold),
+		var(--theme-gold-dark)
+	);
 }
 
 .detailCard {
-  display: grid;
-  gap: 0;
-  padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
-  border-radius: var(--theme-radius-card);
-  background: var(--theme-surface);
+	display: grid;
+	gap: 0;
+	padding: var(--theme-content-grid-gap) var(--theme-content-sheet-card-padding);
+	border-radius: var(--theme-radius-card);
+	background: var(--theme-surface);
 }
 
 .leadTimeOption,
 .leadTimeOptionActive {
-  display: flex;
-  width: 100%;
-  min-height: var(--theme-content-row-height);
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--theme-content-row-gap);
-  padding: 0 var(--theme-content-page-padding);
-  border: 0;
-  border-bottom: 1px solid var(--theme-divider);
-  color: var(--theme-text);
-  background: transparent;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+	display: flex;
+	width: 100%;
+	min-height: var(--theme-content-row-height);
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--theme-content-row-gap);
+	padding: 0 var(--theme-content-page-padding);
+	border: 0;
+	border-bottom: 1px solid var(--theme-divider);
+	color: var(--theme-text);
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
 }
 
 .leadTimeOption:last-child,
 .leadTimeOptionActive:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .leadTimeOptionActive {
-  color: var(--theme-accent-bright);
+	color: var(--theme-accent-bright);
 }
 
 .detailRow,
 .detailSubject {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--theme-content-row-gap);
-  align-items: center;
-  min-height: var(--theme-content-sheet-row-height);
-  border-bottom: 1px solid var(--theme-divider);
+	display: flex;
+	justify-content: space-between;
+	gap: var(--theme-content-row-gap);
+	align-items: center;
+	min-height: var(--theme-content-sheet-row-height);
+	border-bottom: 1px solid var(--theme-divider);
 }
 
 .detailRow:last-child,
 .detailSubject:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .detailRow strong {
-  color: var(--theme-info);
-  font-weight: 650;
+	color: var(--theme-info);
+	font-weight: 650;
 }
 
 .dangerButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--theme-content-row-gap);
-  min-height: var(--theme-content-control-height);
-  margin: var(--theme-content-section-gap) var(--theme-content-page-padding);
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 1px solid color-mix(in srgb, var(--theme-error) 50%, transparent);
-  border-radius: var(--theme-content-control-radius);
-  color: var(--theme-error);
-  background: color-mix(in srgb, var(--theme-error) 10%, transparent);
-  font: inherit;
-  cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--theme-content-row-gap);
+	min-height: var(--theme-content-control-height);
+	margin: var(--theme-content-section-gap) var(--theme-content-page-padding);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 1px solid color-mix(in srgb, var(--theme-error) 50%, transparent);
+	border-radius: var(--theme-content-control-radius);
+	color: var(--theme-error);
+	background: color-mix(in srgb, var(--theme-error) 10%, transparent);
+	font: inherit;
+	cursor: pointer;
 }
 
 .dangerButton:disabled {
-  opacity: 0.55;
-  cursor: wait;
+	opacity: 0.55;
+	cursor: wait;
 }
 
 .detailSubject {
-  justify-content: flex-start;
+	justify-content: flex-start;
 }
 
 .detailSubject span {
-  width: 28px;
-  color: var(--theme-accent);
-  font-size: 1.25rem;
-  text-align: center;
+	width: 28px;
+	color: var(--theme-accent);
+	font-size: 1.25rem;
+	text-align: center;
 }
 
 .friendWeekGrid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 4px;
-  overflow-x: auto;
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 4px;
+	overflow-x: auto;
 }
 
 .friendWeekGrid > div {
-  display: grid;
-  align-content: start;
-  gap: 4px;
-  min-width: 56px;
+	display: grid;
+	align-content: start;
+	gap: 4px;
+	min-width: 56px;
 }
 
 .friendWeekGrid strong {
-  color: var(--theme-text-secondary);
-  font-size: 0.82rem;
+	color: var(--theme-text-secondary);
+	font-size: 0.82rem;
 }
 
 .friendWeekGrid span {
-  padding: 5px 4px;
-  border-radius: 8px;
-  background: var(--theme-surface-soft);
-  font-size: 0.74rem;
+	padding: 5px 4px;
+	border-radius: 8px;
+	background: var(--theme-surface-soft);
+	font-size: 0.74rem;
 }
 
 .detailSubjectSymbol {
-  display: grid;
-  width: var(--theme-content-avatar-size);
-  height: var(--theme-content-avatar-size);
-  place-items: center;
-  border-radius: 18px;
-  color: var(--theme-text);
-  background: var(--theme-accent);
-  font-size: 1.7rem;
+	display: grid;
+	width: var(--theme-content-avatar-size);
+	height: var(--theme-content-avatar-size);
+	place-items: center;
+	border-radius: 18px;
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font-size: 1.7rem;
 }
 
 .importInstructions {
-  display: grid;
-  gap: var(--theme-content-row-gap);
-  padding: var(--theme-content-card-padding);
+	display: grid;
+	gap: var(--theme-content-row-gap);
+	padding: var(--theme-content-card-padding);
 }
 
 .importInstructions p {
-  margin: 0;
-  color: var(--theme-text-secondary);
-  font-size: 0.84rem;
+	margin: 0;
+	color: var(--theme-text-secondary);
+	font-size: 0.84rem;
 }
 
 .filePicker {
-  display: flex;
-  min-height: var(--theme-content-row-height);
-  align-items: center;
-  gap: var(--theme-content-row-gap);
-  padding: 0 var(--theme-content-page-padding);
-  border: 1px solid var(--theme-highlight);
-  border-radius: var(--theme-content-radius);
-  color: var(--theme-text);
-  background: var(--theme-glass);
-  cursor: pointer;
+	display: flex;
+	min-height: var(--theme-content-row-height);
+	align-items: center;
+	gap: var(--theme-content-row-gap);
+	padding: 0 var(--theme-content-page-padding);
+	border: 1px solid var(--theme-highlight);
+	border-radius: var(--theme-content-radius);
+	color: var(--theme-text);
+	background: var(--theme-glass);
+	cursor: pointer;
 }
 
 .filePicker input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	pointer-events: none;
 }
 
 .formCard {
-  display: grid;
-  gap: var(--theme-content-section-gap);
-  padding: var(--theme-content-card-padding);
-  border-radius: var(--theme-radius-card);
-  background: var(--theme-surface);
+	display: grid;
+	gap: var(--theme-content-section-gap);
+	padding: var(--theme-content-card-padding);
+	border-radius: var(--theme-radius-card);
+	background: var(--theme-surface);
 }
 
 .formCard label {
-  display: grid;
-  gap: 5px;
-  color: var(--theme-text-secondary);
-  font-size: 0.9rem;
+	display: grid;
+	gap: 5px;
+	color: var(--theme-text-secondary);
+	font-size: 0.9rem;
 }
 
 .formCard input,
 .formCard textarea {
-  width: 100%;
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 1px solid var(--theme-divider);
-  border-radius: var(--theme-content-control-radius);
-  outline: none;
-  color: var(--theme-text);
-  background: var(--theme-black);
-  font: inherit;
+	width: 100%;
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 1px solid var(--theme-divider);
+	border-radius: var(--theme-content-control-radius);
+	outline: none;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
 }
 
 .sheetActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
 }
 
 .sheetLink {
-  display: inline-flex;
-  min-height: var(--theme-content-control-height);
-  align-items: center;
-  justify-content: center;
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 1px solid var(--theme-highlight);
-  border-radius: var(--theme-content-control-radius);
-  color: var(--theme-text);
-  background: var(--theme-accent);
-  font-weight: 650;
-  text-decoration: none;
+	display: inline-flex;
+	min-height: var(--theme-content-control-height);
+	align-items: center;
+	justify-content: center;
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 1px solid var(--theme-highlight);
+	border-radius: var(--theme-content-control-radius);
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font-weight: 650;
+	text-decoration: none;
 }
 
 .sheetLinkList {
-  display: grid;
-  gap: var(--theme-space-2);
+	display: grid;
+	gap: var(--theme-space-2);
 }
 
 .primaryButton,
 .destructiveButton {
-  min-height: var(--theme-content-control-height);
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 0;
-  border-radius: 999px;
-  color: var(--theme-text);
-  font: inherit;
-  font-weight: 650;
-  cursor: pointer;
+	min-height: var(--theme-content-control-height);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 0;
+	border-radius: 999px;
+	color: var(--theme-text);
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
 }
 
 .primaryButton {
-  background: var(--theme-accent);
+	background: var(--theme-accent);
 }
 
 .destructiveButton {
-  background: var(--theme-error);
+	background: var(--theme-error);
 }
 
 .sheetInput {
-  width: 100%;
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 1px solid var(--theme-divider);
-  border-radius: var(--theme-content-control-radius);
-  outline: none;
-  color: var(--theme-text);
-  background: var(--theme-black);
-  font: inherit;
+	width: 100%;
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 1px solid var(--theme-divider);
+	border-radius: var(--theme-content-control-radius);
+	outline: none;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
 }
 
 .searchResult {
-  display: flex;
-  gap: var(--theme-content-row-gap);
-  align-items: center;
-  min-height: var(--theme-content-row-height);
-  border-bottom: 1px solid var(--theme-divider);
+	display: flex;
+	gap: var(--theme-content-row-gap);
+	align-items: center;
+	min-height: var(--theme-content-row-height);
+	border-bottom: 1px solid var(--theme-divider);
 }
 
 .searchResult:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .searchResult div {
-  display: grid;
-  gap: 2px;
-  flex: 1;
+	display: grid;
+	gap: 2px;
+	flex: 1;
 }
 
 .searchResult span {
-  color: var(--theme-text-secondary);
-  font-size: 0.82rem;
+	color: var(--theme-text-secondary);
+	font-size: 0.82rem;
 }
 
 .searchResult button {
-  min-height: var(--theme-content-control-height);
-  padding: var(--theme-content-control-padding-block)
-    var(--theme-content-control-padding-inline);
-  border: 0;
-  border-radius: 999px;
-  color: var(--theme-text);
-  background: var(--theme-accent);
-  font: inherit;
-  cursor: pointer;
+	min-height: var(--theme-content-control-height);
+	padding: var(--theme-content-control-padding-block)
+		var(--theme-content-control-padding-inline);
+	border: 0;
+	border-radius: 999px;
+	color: var(--theme-text);
+	background: var(--theme-accent);
+	font: inherit;
+	cursor: pointer;
 }
 
 .editorSubject {
-  display: grid;
-  gap: var(--theme-space-3);
-  padding: var(--theme-space-3) 0;
-  border-bottom: 1px solid var(--theme-divider);
+	display: grid;
+	gap: var(--theme-space-3);
+	padding: var(--theme-space-3) 0;
+	border-bottom: 1px solid var(--theme-divider);
 }
 
 .editorFields {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 72px 30px;
-  gap: var(--theme-space-2);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 72px 30px;
+	gap: var(--theme-space-2);
 }
 
 .editorFields input {
-  min-width: 0;
-  padding: 6px 8px;
-  border: 1px solid var(--theme-divider);
-  border-radius: 8px;
-  color: var(--theme-text);
-  background: var(--theme-black);
-  font: inherit;
+	min-width: 0;
+	padding: 6px 8px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 8px;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
 }
 
 .editorMetadata {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--theme-content-row-gap);
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--theme-content-row-gap);
 }
 
 .editorMetadata label {
-  display: grid;
-  gap: 3px;
-  color: var(--theme-text-secondary);
-  font-size: 0.72rem;
+	display: grid;
+	gap: 3px;
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
 }
 
 .editorMetadata input {
-  min-width: 0;
-  padding: 6px 8px;
-  border: 1px solid var(--theme-divider);
-  border-radius: 8px;
-  color: var(--theme-text);
-  background: var(--theme-black);
-  font: inherit;
+	min-width: 0;
+	padding: 6px 8px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 8px;
+	color: var(--theme-text);
+	background: var(--theme-black);
+	font: inherit;
 }
 
 .editorFields button {
-  border: 0;
-  border-radius: 8px;
-  color: var(--theme-error);
-  background: transparent;
-  font-size: 1.2rem;
-  cursor: pointer;
+	border: 0;
+	border-radius: 8px;
+	color: var(--theme-error);
+	background: transparent;
+	font-size: 1.2rem;
+	cursor: pointer;
 }
 
 .slotGrid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 4px;
-  overflow-x: auto;
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 4px;
+	overflow-x: auto;
 }
 
 .slotGrid > div {
-  display: grid;
-  gap: 3px;
-  min-width: 44px;
+	display: grid;
+	gap: 3px;
+	min-width: 44px;
 }
 
 .slotGrid strong {
-  color: var(--theme-text-secondary);
-  font-size: 0.72rem;
+	color: var(--theme-text-secondary);
+	font-size: 0.72rem;
 }
 
 .slot,
 .slotActive {
-  padding: 3px;
-  border: 1px solid var(--theme-divider);
-  border-radius: 6px;
-  color: var(--theme-text-secondary);
-  background: var(--theme-black);
-  font: inherit;
-  font-size: 0.68rem;
-  cursor: pointer;
+	padding: 3px;
+	border: 1px solid var(--theme-divider);
+	border-radius: 6px;
+	color: var(--theme-text-secondary);
+	background: var(--theme-black);
+	font: inherit;
+	font-size: 0.68rem;
+	cursor: pointer;
 }
 
 .slotActive {
-  color: var(--theme-text);
-  background: var(--theme-accent);
+	color: var(--theme-text);
+	background: var(--theme-accent);
 }
 
 .editorCheck {
-  display: flex;
-  gap: var(--theme-space-2);
-  align-items: center;
-  padding: var(--theme-space-3);
-  font-size: 0.86rem;
+	display: flex;
+	gap: var(--theme-space-2);
+	align-items: center;
+	padding: var(--theme-space-3);
+	font-size: 0.86rem;
 }
 
 @keyframes sheetIn {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes sheetOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(100%);
-  }
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(100%);
+	}
 }
 
 @keyframes sheetRootIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes sheetRootOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 @keyframes scrimIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes scrimOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sheetRoot,
-  .scrim,
-  .sheet,
-  .closing .scrim,
-  .closing .sheet {
-    animation: none;
-  }
+	.sheetRoot,
+	.scrim,
+	.sheet,
+	.closing .scrim,
+	.closing .sheet {
+		animation: none;
+	}
 }

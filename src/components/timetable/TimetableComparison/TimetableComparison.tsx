@@ -1,9 +1,9 @@
 "use client";
 
 import type {
-  Friend,
-  TimetableSlot,
-  TimetableSubject,
+	Friend,
+	TimetableSlot,
+	TimetableSubject,
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { useSheet } from "@/components/sheets/Sheet/Sheet";
@@ -11,82 +11,82 @@ import SubjectContextSheet from "@/components/sheets/SubjectContextSheet/Subject
 import styles from "./TimetableComparison.module.css";
 
 type TimetableComparisonProps = {
-  selectedSlot: TimetableSlot | null;
-  friends: Friend[];
+	selectedSlot: TimetableSlot | null;
+	friends: Friend[];
 };
 
 export default function TimetableComparison({
-  selectedSlot,
-  friends,
+	selectedSlot,
+	friends,
 }: TimetableComparisonProps) {
-  const { openSheet } = useSheet();
-  if (!selectedSlot) return null;
+	const { openSheet } = useSheet();
+	if (!selectedSlot) return null;
 
-  const comparableFriends = friends.filter((friend) => friend.timetable);
-  if (!comparableFriends.length) {
-    return (
-      <section className={styles.empty}>
-        <strong>No Friend Timetables</strong>
-        <span>Add a friend to compare their timetable with yours here.</span>
-      </section>
-    );
-  }
+	const comparableFriends = friends.filter((friend) => friend.timetable);
+	if (!comparableFriends.length) {
+		return (
+			<section className={styles.empty}>
+				<strong>No Friend Timetables</strong>
+				<span>Add a friend to compare their timetable with yours here.</span>
+			</section>
+		);
+	}
 
-  return (
-    <section
-      className={styles.comparison}
-      aria-label="Friend timetable comparison"
-    >
-      {comparableFriends.map((friend) => {
-        const subject = subjectAtSlot(
-          friend.timetable?.subjects ?? [],
-          selectedSlot,
-        );
-        return subject ? (
-          <button
-            key={friend.relationshipID}
-            type="button"
-            className={styles.friendSubject}
-            style={{ background: subjectColour(subject) }}
-            onClick={() =>
-              openSheet(
-                <SubjectContextSheet
-                  owner={friend.friend.displayName}
-                  subject={subject}
-                />,
-              )
-            }
-          >
-            <ProfilePicture
-              profile={friend.friend}
-              size={28}
-              label={`${friend.friend.displayName} profile picture`}
-            />
-            <span>{friend.friend.displayName}</span>
-            <strong>
-              {subject.symbol} {subject.id}
-            </strong>
-          </button>
-        ) : (
-          <div key={friend.relationshipID} className={styles.freePeriod}>
-            <span>{friend.friend.displayName}</span>
-            <strong>Free period</strong>
-          </div>
-        );
-      })}
-    </section>
-  );
+	return (
+		<section
+			className={styles.comparison}
+			aria-label="Friend timetable comparison"
+		>
+			{comparableFriends.map((friend) => {
+				const subject = subjectAtSlot(
+					friend.timetable?.subjects ?? [],
+					selectedSlot,
+				);
+				return subject ? (
+					<button
+						key={friend.relationshipID}
+						type="button"
+						className={styles.friendSubject}
+						style={{ background: subjectColour(subject) }}
+						onClick={() =>
+							openSheet(
+								<SubjectContextSheet
+									owner={friend.friend.displayName}
+									subject={subject}
+								/>,
+							)
+						}
+					>
+						<ProfilePicture
+							profile={friend.friend}
+							size={28}
+							label={`${friend.friend.displayName} profile picture`}
+						/>
+						<span>{friend.friend.displayName}</span>
+						<strong>
+							{subject.symbol} {subject.id}
+						</strong>
+					</button>
+				) : (
+					<div key={friend.relationshipID} className={styles.freePeriod}>
+						<span>{friend.friend.displayName}</span>
+						<strong>Free period</strong>
+					</div>
+				);
+			})}
+		</section>
+	);
 }
 
 function subjectAtSlot(subjects: TimetableSubject[], slot: TimetableSlot) {
-  return subjects.find((subject) =>
-    subject.slots.some(
-      (candidate) =>
-        candidate.day === slot.day && candidate.session === slot.session,
-    ),
-  );
+	return subjects.find((subject) =>
+		subject.slots.some(
+			(candidate) =>
+				candidate.day === slot.day && candidate.session === slot.session,
+		),
+	);
 }
 
 function subjectColour(subject: TimetableSubject) {
-  return `linear-gradient(135deg, rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)} / 0.82), color-mix(in srgb, var(--theme-black) 34%, transparent))`;
+	return `linear-gradient(135deg, rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)} / 0.82), color-mix(in srgb, var(--theme-black) 34%, transparent))`;
 }

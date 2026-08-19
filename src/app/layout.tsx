@@ -3,23 +3,23 @@ import "./globals.css";
 import AppShell from "@/components/AppShell/AppShell";
 
 export const metadata: Metadata = {
-  title: "Timetable",
-  description: "Timetable",
-  icons: {
-    icon: "/favicon.svg",
-  },
+	title: "Timetable",
+	description: "Timetable",
+	icons: {
+		icon: "/favicon.svg",
+	},
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        <AppShell>{children}</AppShell>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body>
+				<AppShell>{children}</AppShell>
+			</body>
+		</html>
+	);
 }

@@ -9,63 +9,63 @@ import SheetTrigger from "@/components/sheets/SheetTrigger/SheetTrigger";
 import SubjectDetailSheet from "@/components/sheets/SubjectDetailSheet/SubjectDetailSheet";
 
 export default function ClassesPage() {
-  const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const setToolbar = useToolbar();
+	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const setToolbar = useToolbar();
 
-  useEffect(() => {
-    setToolbar({ title: "Classes" });
-    apiRequest<OwnerTimetable>("v1/timetables/owner")
-      .then(setTimetable)
-      .catch((requestError: Error) => setError(requestError.message));
-  }, [setToolbar]);
+	useEffect(() => {
+		setToolbar({ title: "Classes" });
+		apiRequest<OwnerTimetable>("v1/timetables/owner")
+			.then(setTimetable)
+			.catch((requestError: Error) => setError(requestError.message));
+	}, [setToolbar]);
 
-  return (
-    <main className={styles.page}>
-      {error ? (
-        <p className={styles.error} role="alert">
-          {error}
-        </p>
-      ) : null}
-      {!timetable ? (
-        <p className={styles.loading}>Loading classes…</p>
-      ) : (
-        <section className={styles.card}>
-          {timetable.subjects.map((subject) => (
-            <SheetTrigger
-              key={subject.id}
-              className={styles.rowButton}
-              ariaLabel={`Open ${subject.id}`}
-              content={<SubjectDetailSheet subject={subject} />}
-            >
-              <article className={styles.row}>
-                <span
-                  className={styles.symbol}
-                  style={{
-                    color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
-                  }}
-                >
-                  {subject.symbol}
-                </span>
-                <span>
-                  <b className={styles.label}>{subject.id}</b>
-                  <small
-                    style={{
-                      display: "block",
-                      color: "var(--theme-text-secondary)",
-                      marginTop: 4,
-                    }}
-                  >
-                    {subject.slots.length} class
-                    {subject.slots.length === 1 ? "" : "es"} each week
-                  </small>
-                </span>
-                <span className={styles.chevron}>›</span>
-              </article>
-            </SheetTrigger>
-          ))}
-        </section>
-      )}
-    </main>
-  );
+	return (
+		<main className={styles.page}>
+			{error ? (
+				<p className={styles.error} role="alert">
+					{error}
+				</p>
+			) : null}
+			{!timetable ? (
+				<p className={styles.loading}>Loading classes…</p>
+			) : (
+				<section className={styles.card}>
+					{timetable.subjects.map((subject) => (
+						<SheetTrigger
+							key={subject.id}
+							className={styles.rowButton}
+							ariaLabel={`Open ${subject.id}`}
+							content={<SubjectDetailSheet subject={subject} />}
+						>
+							<article className={styles.row}>
+								<span
+									className={styles.symbol}
+									style={{
+										color: `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`,
+									}}
+								>
+									{subject.symbol}
+								</span>
+								<span>
+									<b className={styles.label}>{subject.id}</b>
+									<small
+										style={{
+											display: "block",
+											color: "var(--theme-text-secondary)",
+											marginTop: 4,
+										}}
+									>
+										{subject.slots.length} class
+										{subject.slots.length === 1 ? "" : "es"} each week
+									</small>
+								</span>
+								<span className={styles.chevron}>›</span>
+							</article>
+						</SheetTrigger>
+					))}
+				</section>
+			)}
+		</main>
+	);
 }
