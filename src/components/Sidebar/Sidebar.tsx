@@ -122,10 +122,6 @@ export default function Sidebar() {
 					width={44}
 					height={44}
 				/>
-				<div>
-					<strong>Timetable</strong>
-					<span>School week</span>
-				</div>
 			</div>
 
 			<nav className={styles.sidebarNav} aria-label="Main navigation">
