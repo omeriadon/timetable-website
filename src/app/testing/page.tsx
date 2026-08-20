@@ -21,14 +21,6 @@ import {
 } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -248,20 +240,6 @@ export default function TestingPage() {
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
-
-				<Dialog>
-					<DialogTrigger render={<Button variant="outline" />}>
-						<PanelRightIcon />
-						Open dialog
-					</DialogTrigger>
-					<DialogContent>
-						<DialogHeader>
-							<DialogTitle>Dialog title</DialogTitle>
-							<DialogDescription>Dialog description.</DialogDescription>
-						</DialogHeader>
-						<p>Dialog content.</p>
-					</DialogContent>
-				</Dialog>
 
 				<Popover>
 					<PopoverTrigger render={<Button variant="outline" />}>

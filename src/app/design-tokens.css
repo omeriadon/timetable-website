@@ -31,16 +31,6 @@
 	--ds-color-danger-text: #ff8879;
 
 	/* Shared surfaces */
-	--ds-surface-glass: color-mix(
-		in srgb,
-		var(--ds-color-surface-elevated) 72%,
-		transparent
-	);
-	--ds-surface-glass-strong: color-mix(
-		in srgb,
-		var(--ds-color-surface-elevated) 88%,
-		transparent
-	);
 	--ds-surface-drawer: color-mix(
 		in srgb,
 		var(--ds-color-surface-elevated) 88%,
@@ -59,18 +49,22 @@
 	--ds-popup-max-height: min(320px, 50svh);
 
 	/* Popovers and menus */
+
+	--ds-overlay-background: rgb(0 0 0 / 0.3);
+	--ds-overlay-backdrop-blur: 1px;
+	--ds-overlay-z-index: 50;
+	--ds-overlay-duration: 100ms;
+
 	--ds-popover-background: var(--ds-surface-glass-strong);
 	--ds-popover-border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	--ds-popover-radius: var(--ds-radius-control);
 	--ds-popover-padding: var(--ds-space-2);
 	--ds-popover-shadow: var(--ds-surface-shadow);
-	--ds-popover-blur: var(--ds-glass-popup-blur);
 	--ds-menu-background: var(--ds-surface-glass-strong);
 	--ds-menu-border: var(--ds-list-outline-width) solid var(--ds-list-outline);
 	--ds-menu-radius: var(--ds-radius-control);
 	--ds-menu-padding: var(--ds-space-2);
 	--ds-menu-shadow: var(--ds-surface-shadow);
-	--ds-menu-blur: var(--ds-glass-popup-blur);
 	--ds-menu-item-height: var(--ds-list-row-height);
 	--ds-menu-item-padding-inline: var(--ds-list-row-padding-inline);
 	--ds-menu-item-padding-block: var(--ds-list-row-padding-block);
@@ -183,18 +177,6 @@
 	--ds-sidebar-row-radius: 10px;
 	--ds-sidebar-item-padding-block: 8px;
 	--ds-sidebar-item-padding-inline: 10px;
-
-	/* Glass */
-	--ds-glass-saturation: 1.3;
-	--ds-glass-border: 1px solid var(--ds-color-highlight);
-	--ds-glass-shadow:
-		inset 0 1px var(--ds-color-highlight), var(--ds-surface-shadow);
-	--ds-glass-sidebar-blur: 30px;
-	--ds-glass-popup-blur: 12px;
-	--ds-glass-effect-shadow:
-		0 4px 16px rgb(17 17 26 / 5%), 0 8px 24px rgb(17 17 26 / 5%),
-		0 16px 56px rgb(17 17 26 / 5%);
-	--ds-glass-effect-border: transparent;
 
 	/* Motion */
 	--ds-duration-fast: 120ms;
