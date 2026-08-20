@@ -1,9 +1,3 @@
-.contentPanel {
-	width: 100%;
-	margin: 0 auto;
-	padding: var(--ds-content-page-padding);
-}
-
 .actions {
 	display: flex;
 	justify-content: flex-end;

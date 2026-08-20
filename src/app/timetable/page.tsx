@@ -27,7 +27,7 @@ export default function Timetable() {
 	}, [setToolbar]);
 
 	return (
-		<main className={styles.contentPanel}>
+		<main>
 			{error ? (
 				<p className={styles.error} role="alert">
 					{error}

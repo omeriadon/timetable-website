@@ -278,28 +278,6 @@ export default function TestingPage() {
 			</section>
 
 			<section>
-				<h2>Icons and profiles</h2>
-				<Symbol name="star" />
-				<Symbol name="person.2" />
-				<ProfilePicture
-					profile={{
-						displayName: "Test Person",
-						appearance: {
-							contentKind: "monogram",
-							monogram: "TP",
-							emoji: "",
-							foregroundColour: { r: 1, g: 1, b: 1, a: 1 },
-							colours: [
-								{ r: 0.2, g: 0.4, b: 0.7, a: 1 },
-								{ r: 0.5, g: 0.3, b: 0.8, a: 1 },
-							],
-						},
-					}}
-					label="Test profile picture"
-				/>
-			</section>
-
-			<section>
 				<h2>Alert dialog</h2>
 				<AlertDialog>
 					<AlertDialogTrigger render={<Button variant="destructive" />}>
