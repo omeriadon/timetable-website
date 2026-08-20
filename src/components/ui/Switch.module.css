@@ -6,13 +6,24 @@
 }
 
 .thumb[data-checked] {
-	background: transparent;
-	backdrop-filter: blur(1px);
-	transform: translateX(calc(100% - 8px)) scale(1.2);
+	transform: translateX(calc(100% - 8px)) scale(1);
 }
 
 .thumb[data-unchecked] {
 	transform: translateX(0) scale(1);
+}
+
+.root:active .thumb {
+	background: transparent;
+	backdrop-filter: blur(1px);
+}
+
+.root:active .thumb[data-checked] {
+	transform: translateX(calc(100% - 8px)) scale(1.2);
+}
+
+.root:active .thumb[data-unchecked] {
+	transform: translateX(0) scale(1.2);
 }
 
 @media (prefers-reduced-motion: reduce) {
