@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BellIcon, SaveIcon, TrashIcon } from "lucide-react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/Input";
@@ -29,11 +30,26 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-	Alert,
-	AlertAction,
-	AlertDescription,
-	AlertTitle,
-} from "@/components/ui/alert";
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemGroup,
+	ItemMedia,
+	ItemTitle,
+} from "@/components/ui/item";
 import { SectionCard } from "@/components/ui/SectionCard";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -64,19 +80,12 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-	List,
-	ListRow,
-	ListSection,
-	ListSectionHeader,
-} from "@/components/ui/List";
 import styles from "./page.module.css";
 
 export default function TestingPage() {
 	const setToolbar = useToolbar();
 	const [checked, setChecked] = useState(false);
 	const [switched, setSwitched] = useState(false);
-	const [alertVisible, setAlertVisible] = useState(true);
 
 	useEffect(() => {
 		setToolbar({ title: "Testing" });
@@ -88,59 +97,100 @@ export default function TestingPage() {
 
 			<section>
 				<h2>Buttons</h2>
-				<Button type="button">Button</Button>
-				<Button type="button" disabled>
+				<div className={styles.exampleRow}>
+					<Button type="button">
+						<SaveIcon />
+						Save
+					</Button>
+					<Button type="button" variant="outline">
+						<BellIcon />
+						Notify
+					</Button>
+					<Button type="button" variant="destructive">
+						<TrashIcon />
+						Delete
+					</Button>
+				</div>
+				<Button type="button" disabled className={styles.fitControl}>
 					Disabled button
 				</Button>
 			</section>
 
 			<section>
 				<h2>Fields</h2>
-				<label>
-					Text input
-					<Input placeholder="Enter text" />
-				</label>
-				<label>
-					Textarea
-					<Textarea placeholder="Enter a longer value" />
-				</label>
-				<label>
-					Select
-					<Select
-						defaultValue="one"
-						items={[
-							{ value: "one", label: "Option one" },
-							{ value: "two", label: "Option two" },
-						]}
-					>
-						<SelectTrigger>
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="one">Option one</SelectItem>
-							<SelectItem value="two">Option two</SelectItem>
-						</SelectContent>
-					</Select>
-				</label>
-				<label>
-					<Checkbox checked={checked} onCheckedChange={setChecked} />
-					Checkbox
-				</label>
-				<label>
-					<Switch checked={switched} onCheckedChange={setSwitched} />
-					Switch
-				</label>
+				<FieldGroup>
+					<Field>
+						<FieldLabel htmlFor="testing-text">Text input</FieldLabel>
+						<Input id="testing-text" placeholder="Enter text" />
+					</Field>
+					<Field>
+						<FieldLabel htmlFor="testing-textarea">Textarea</FieldLabel>
+						<Textarea
+							id="testing-textarea"
+							placeholder="Enter a longer value"
+						/>
+					</Field>
+					<Field>
+						<FieldLabel>Select</FieldLabel>
+						<Select
+							defaultValue="one"
+							items={[
+								{ value: "one", label: "Option one" },
+								{ value: "two", label: "Option two" },
+							]}
+						>
+							<SelectTrigger>
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="one">Option one</SelectItem>
+								<SelectItem value="two">Option two</SelectItem>
+							</SelectContent>
+						</Select>
+					</Field>
+					<Field orientation="horizontal">
+						<Checkbox
+							id="testing-checkbox"
+							checked={checked}
+							onCheckedChange={setChecked}
+						/>
+						<FieldLabel htmlFor="testing-checkbox">Checkbox</FieldLabel>
+					</Field>
+					<Field orientation="horizontal">
+						<Switch
+							id="testing-switch"
+							checked={switched}
+							onCheckedChange={setSwitched}
+						/>
+						<FieldLabel htmlFor="testing-switch">Switch</FieldLabel>
+					</Field>
+				</FieldGroup>
 			</section>
 
 			<section>
 				<h2>Lists</h2>
-				<List>
-					<ListSection>
-						<ListSectionHeader>Section</ListSectionHeader>
-						<ListRow>First row</ListRow>
-						<ListRow>Second row</ListRow>
-					</ListSection>
-				</List>
+				<ItemGroup>
+					<Item variant="outline">
+						<ItemMedia variant="icon">
+							<BellIcon />
+						</ItemMedia>
+						<ItemContent>
+							<ItemTitle>Notifications</ItemTitle>
+							<ItemDescription>Control timetable reminders.</ItemDescription>
+						</ItemContent>
+						<ItemActions>
+							<Button variant="outline" size="sm">
+								Manage
+							</Button>
+						</ItemActions>
+					</Item>
+					<Item variant="outline">
+						<ItemContent>
+							<ItemTitle>Second reusable row</ItemTitle>
+							<ItemDescription>Secondary list-row content.</ItemDescription>
+						</ItemContent>
+					</Item>
+				</ItemGroup>
 				<SectionCard
 					background="surface"
 					title="Section card"
@@ -231,22 +281,27 @@ export default function TestingPage() {
 			</section>
 
 			<section>
-				<h2>Alerts</h2>
-				{alertVisible ? (
-					<Alert>
-						<AlertTitle>Example alert</AlertTitle>
-						<AlertDescription>Example alert message.</AlertDescription>
-						<AlertAction>
-							<Button type="button" onClick={() => setAlertVisible(false)}>
-								Dismiss
-							</Button>
-						</AlertAction>
-					</Alert>
-				) : (
-					<Button type="button" onClick={() => setAlertVisible(true)}>
-						Show alert
-					</Button>
-				)}
+				<h2>Alert dialog</h2>
+				<AlertDialog>
+					<AlertDialogTrigger render={<Button variant="destructive" />}>
+						<TrashIcon />
+						Open alert dialog
+					</AlertDialogTrigger>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Delete this example?</AlertDialogTitle>
+							<AlertDialogDescription>
+								This demonstrates the reusable modal alert dialog.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction variant="destructive">
+								Delete
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			</section>
 		</main>
 	);

@@ -22,3 +22,13 @@
 .page section {
 	align-items: start;
 }
+
+.exampleRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ds-space-3);
+}
+
+.fitControl {
+	width: fit-content;
+}

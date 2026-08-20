@@ -99,9 +99,6 @@ textarea {
 }
 
 button {
-	border: 0;
-	color: inherit;
-	background: transparent;
 	cursor: pointer;
 }
 
