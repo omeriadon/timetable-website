@@ -32,6 +32,7 @@ const bottomItems: SidebarItem[] = [
 		href: "/administration",
 		icon: "calendar.badge.lock",
 	},
+	{ label: "Testing", href: "/testing", icon: "testtube.2" },
 ];
 
 export default function Sidebar() {

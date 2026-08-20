@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import styles from "./primitives.module.css";
 
 export function List({
 	children,
@@ -9,7 +7,7 @@ export function List({
 	children: ReactNode;
 	className?: string;
 }) {
-	return <div className={cn(styles.list, className)}>{children}</div>;
+	return <div className={className}>{children}</div>;
 }
 
 export function ListSection({
@@ -19,13 +17,11 @@ export function ListSection({
 	children: ReactNode;
 	className?: string;
 }) {
-	return (
-		<section className={cn(styles.listSection, className)}>{children}</section>
-	);
+	return <section className={className}>{children}</section>;
 }
 
 export function ListSectionHeader({ children }: { children: ReactNode }) {
-	return <div className={styles.listSectionHeader}>{children}</div>;
+	return <div>{children}</div>;
 }
 
 export function ListRow({
@@ -35,5 +31,5 @@ export function ListRow({
 	children: ReactNode;
 	className?: string;
 }) {
-	return <div className={cn(styles.listRow, className)}>{children}</div>;
+	return <div className={className}>{children}</div>;
 }

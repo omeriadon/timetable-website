@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
-import { cn } from "@/lib/utils";
 
 type DrawerContextProps = {
 	hasSnapPoints: boolean;
@@ -27,7 +26,7 @@ function Drawer({
 	modal = true,
 	showSwipeHandle = false,
 	snapPoints,
-	swipeDirection = "down",
+	swipeDirection = "right",
 	...props
 }: DrawerPrimitive.Root.Props & {
 	showSwipeHandle?: boolean;
@@ -63,17 +62,8 @@ function DrawerClose({ ...props }: DrawerPrimitive.Close.Props) {
 	return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
-function DrawerOverlay({
-	className,
-	...props
-}: DrawerPrimitive.Backdrop.Props) {
-	return (
-		<DrawerPrimitive.Backdrop
-			data-slot="drawer-overlay"
-			className={cn("fixed inset-0 z-50", className)}
-			{...props}
-		/>
-	);
+function DrawerOverlay({ ...props }: DrawerPrimitive.Backdrop.Props) {
+	return <DrawerPrimitive.Backdrop data-slot="drawer-overlay" {...props} />;
 }
 
 function DrawerSwipeHandle({
@@ -95,29 +85,15 @@ function DrawerContent({
 	return (
 		<DrawerPortal data-slot="drawer-portal">
 			{modal === true && <DrawerOverlay />}
-			<DrawerPrimitive.Viewport
-				data-slot="drawer-viewport"
-				data-modal={modal}
-				className="pointer-events-none fixed inset-0 z-50 data-[modal=true]:pointer-events-auto"
-			>
+			<DrawerPrimitive.Viewport data-slot="drawer-viewport" data-modal={modal}>
 				<DrawerPrimitive.Popup
 					data-slot="drawer-popup"
 					data-swipe-direction={swipeDirection}
-					className={cn(
-						"pointer-events-auto fixed z-50 flex max-h-screen min-h-0 w-full flex-col overflow-auto",
-						swipeDirection === "down" && "inset-x-0 bottom-0",
-						swipeDirection === "up" && "inset-x-0 top-0",
-						swipeDirection === "left" && "inset-y-0 left-0 w-auto",
-						swipeDirection === "right" && "inset-y-0 right-0 w-auto",
-						className,
-					)}
+					className={className}
 					{...props}
 				>
 					{showSwipeHandle && <DrawerSwipeHandle />}
-					<DrawerPrimitive.Content
-						data-slot="drawer-content"
-						className="flex min-h-0 flex-1 flex-col overflow-auto"
-					>
+					<DrawerPrimitive.Content data-slot="drawer-content">
 						{children}
 					</DrawerPrimitive.Content>
 				</DrawerPrimitive.Popup>
