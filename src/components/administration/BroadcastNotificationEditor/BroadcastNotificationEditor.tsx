@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { useState } from "react";
+
+import Symbol from "@/components/controls/Symbol/Symbol";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
+
 import styles from "@/components/administration/Administration.module.css";
-import actionStyles from "@/components/ui/contentactions.module.css";
-import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function BroadcastNotificationEditor() {
 	const [title, setTitle] = useState("");
@@ -18,6 +18,7 @@ export default function BroadcastNotificationEditor() {
 
 	const send = async () => {
 		setStatus(null);
+
 		try {
 			const result = await apiRequest<{ deliveredDeviceCount: number }>(
 				"v1/administration/broadcast-notification",
@@ -31,17 +32,19 @@ export default function BroadcastNotificationEditor() {
 					}),
 				},
 			);
+
 			setStatus(`Sent to ${result.deliveredDeviceCount} devices.`);
+
 			setTitle("");
 			setSubtitle("");
 			setBody("");
-		} catch (requestError) {
-			setStatus((requestError as Error).message);
+		} catch (error) {
+			setStatus((error as Error).message);
 		}
 	};
 
 	return (
-		<section className={adminStyles.formCard}>
+		<section className={styles.formCard}>
 			<label>
 				Title
 				<Input
@@ -50,6 +53,7 @@ export default function BroadcastNotificationEditor() {
 					maxLength={200}
 				/>
 			</label>
+
 			<label>
 				Subtitle
 				<Input
@@ -58,6 +62,7 @@ export default function BroadcastNotificationEditor() {
 					maxLength={200}
 				/>
 			</label>
+
 			<label>
 				Message
 				<Textarea
@@ -67,20 +72,17 @@ export default function BroadcastNotificationEditor() {
 					rows={4}
 				/>
 			</label>
-			<Button
-				type="button"
-				className={actionStyles.action}
-				onClick={send}
-				disabled={!title.trim()}
-			>
+
+			<Button type="button" onClick={send} disabled={!title.trim()}>
 				<Symbol name="megaphone" />
-				<span>Broadcast notification</span>
+				Broadcast notification
 			</Button>
-			{status ? (
+
+			{status && (
 				<p className={styles.detail} role="status">
 					{status}
 				</p>
-			) : null}
+			)}
 		</section>
 	);
 }

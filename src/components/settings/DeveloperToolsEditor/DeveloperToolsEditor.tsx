@@ -1,19 +1,31 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
-import { Toggle } from "@/components/ui/toggle";
-import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
+
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Toggle } from "@/components/ui/toggle";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
+
 import styles from "@/components/settings/Settings.module.css";
-import actionStyles from "@/components/ui/contentactions.module.css";
 
 type DebugState = {
 	isActive: boolean;
 	canUpdate: boolean;
 };
+
+const liveActivityTransitions = [
+	"morning",
+	"period1",
+	"recess",
+	"lunch",
+	"period6",
+	"finished",
+] as const;
+
+const statusBadges = ["progress", "success", "warning"] as const;
 
 const debugStatePath = () =>
 	`v1/live-activities/debug?installationID=${encodeURIComponent(websiteInstallationID())}`;
@@ -30,14 +42,15 @@ export default function DeveloperToolsEditor() {
 		setDebugOffset(
 			window.localStorage.getItem("timetable.debug-offset") ?? "0",
 		);
+
 		setUsesReleaseIcon(
 			window.localStorage.getItem("timetable.release-app-icon") === "true",
 		);
+
 		const sync = new Date().toISOString();
 		window.localStorage.setItem("timetable.last-server-sync", sync);
-		setLastServerSync(
-			window.localStorage.getItem("timetable.last-server-sync") ?? sync,
-		);
+		setLastServerSync(sync);
+
 		void refreshDebugState();
 	}, []);
 
@@ -70,11 +83,13 @@ export default function DeveloperToolsEditor() {
 	) {
 		setError(null);
 		setStatus(null);
+
 		try {
-			const body =
-				action === "update"
-					? { installationID: websiteInstallationID(), transition }
-					: { installationID: websiteInstallationID() };
+			const body = {
+				installationID: websiteInstallationID(),
+				...(action === "update" ? { transition } : {}),
+			};
+
 			const next = await apiRequest<DebugState>(
 				`v1/live-activities/debug/${action}`,
 				{
@@ -82,6 +97,7 @@ export default function DeveloperToolsEditor() {
 					body: JSON.stringify(body),
 				},
 			);
+
 			setDebugState(next);
 			setStatus(`Live Activity ${action} request completed.`);
 		} catch (requestError) {
@@ -90,12 +106,17 @@ export default function DeveloperToolsEditor() {
 	}
 
 	const resetTips = () => {
-		for (let index = 0; index < window.localStorage.length; index += 1) {
-			const key = window.localStorage.key(index);
-			if (key?.toLowerCase().includes("tip")) {
+		const keys = Array.from(
+			{ length: window.localStorage.length },
+			(_, index) => window.localStorage.key(index),
+		).filter((key): key is string => key !== null);
+
+		for (const key of keys) {
+			if (key.toLowerCase().includes("tip")) {
 				window.localStorage.removeItem(key);
 			}
 		}
+
 		setStatus("Website tips have been reset.");
 	};
 
@@ -108,12 +129,13 @@ export default function DeveloperToolsEditor() {
 						Release App Icon
 					</label>
 					<Toggle
-						aria-label="Release App Icon"
 						id="release-app-icon"
+						aria-label="Release App Icon"
 						checked={usesReleaseIcon}
 						onCheckedChange={toggleReleaseIcon}
 					/>
 				</div>
+
 				<div className={styles.row}>
 					<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
 					<label className={styles.label} htmlFor="debug-offset">
@@ -127,6 +149,7 @@ export default function DeveloperToolsEditor() {
 						onChange={(event) => saveOffset(event.target.value)}
 					/>
 				</div>
+
 				<div className={styles.row}>
 					<Symbol name="rectangle.bottomthird.inset.filled" />
 					<span className={styles.label}>Test Live Activity</span>
@@ -134,50 +157,60 @@ export default function DeveloperToolsEditor() {
 						{debugState?.isActive ? "Active" : "Inactive"}
 					</span>
 				</div>
-				<div className={actionStyles.actionRow}>
+
+				<div className={styles.actionRow}>
 					<Button
-						aria-label="Start Live Activity"
+						type="button"
 						onClick={() => void runLiveActivityAction("start")}
 					>
 						<Symbol name="play.fill" fallback=">" />
 						Start
 					</Button>
+
 					<Button
-						aria-label="Stop Live Activity"
+						type="button"
+						variant="outline"
 						onClick={() => void runLiveActivityAction("stop")}
 					>
 						<Symbol name="stop.fill" fallback="[]" />
 						Stop
 					</Button>
 				</div>
+
 				<div className={styles.row}>
 					<Symbol name="app.badge" />
 					<span className={styles.label}>Test status badges</span>
 				</div>
-				<div className={actionStyles.actionRow}>
-					{["progress", "success", "warning"].map((badge) => (
+
+				<div className={styles.actionRow}>
+					{statusBadges.map((badge) => (
 						<Button
 							key={badge}
-							aria-label={`Test ${badge} status`}
+							type="button"
+							variant="outline"
 							onClick={() => setStatus(`${badge} status badge requested.`)}
 						>
 							{badge}
 						</Button>
 					))}
 				</div>
-				<div className={actionStyles.actionRow}>
+
+				<div className={styles.actionRow}>
 					<Button
-						aria-label="Reload website data"
+						type="button"
+						variant="outline"
 						onClick={() => window.location.reload()}
 					>
 						<Symbol name="widget.large" fallback="[]" />
 						Reload Data
 					</Button>
-					<Button aria-label="Reset tips" onClick={resetTips}>
+
+					<Button type="button" variant="outline" onClick={resetTips}>
 						<Symbol name="lightbulb" fallback="i" />
 						Reset Tips
 					</Button>
 				</div>
+
 				<div className={styles.row}>
 					<Symbol name="checkmark.icloud" fallback="*" />
 					<span className={styles.label}>Last Server Sync</span>
@@ -188,28 +221,35 @@ export default function DeveloperToolsEditor() {
 					</span>
 				</div>
 			</section>
-			{debugState?.canUpdate ? (
+
+			{debugState?.canUpdate && (
 				<section className={styles.card}>
-					{["morning", "period1", "recess", "lunch", "period6", "finished"].map(
-						(transition) => (
+					<div className={styles.actionRow}>
+						{liveActivityTransitions.map((transition) => (
 							<Button
 								key={transition}
 								type="button"
-								className={actionStyles.action}
+								variant="outline"
 								onClick={() => void runLiveActivityAction("update", transition)}
 							>
 								{transition}
 							</Button>
-						),
-					)}
+						))}
+					</div>
 				</section>
-			) : null}
-			{status ? <p className={styles.detailNote}>{status}</p> : null}
-			{error ? (
+			)}
+
+			{status && (
+				<p className={styles.detailNote} role="status">
+					{status}
+				</p>
+			)}
+
+			{error && (
 				<p className={styles.error} role="alert">
 					{error}
 				</p>
-			) : null}
+			)}
 		</main>
 	);
 }

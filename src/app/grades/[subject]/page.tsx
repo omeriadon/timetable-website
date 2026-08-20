@@ -1,29 +1,34 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useToolbar } from "@/components/Toolbar/Toolbar";
-import styles from "./page.module.css";
-import actionStyles from "@/components/ui/contentactions.module.css";
-import { apiRequest } from "@/lib/api/client";
-import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
+
+import Symbol from "@/components/controls/Symbol/Symbol";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import GradeAssessmentDrawer from "@/components/drawers/GradeAssessmentDrawer/GradeAssessmentDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
-import Symbol from "@/components/controls/Symbol/Symbol";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
+import { Button } from "@/components/ui/button";
+import { apiRequest } from "@/lib/api/client";
+import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
+
+import styles from "./page.module.css";
 
 export default function GradeSubjectPage() {
 	const { subject } = useParams<{ subject: string }>();
 	const subjectID = decodeURIComponent(subject);
+
 	const setToolbar = useToolbar();
+	const { openDrawer } = useDrawer();
+
 	const [tracker, setTracker] = useState<GradeTracker | null>(null);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		setToolbar({ title: subjectID });
+
 		apiRequest<GradeTracker>("v1/grades")
 			.then(setTracker)
 			.catch((requestError: Error) => setError(requestError.message));
@@ -36,6 +41,7 @@ export default function GradeSubjectPage() {
 			) ?? [],
 		[tracker, subjectID],
 	);
+
 	const createAssessment = (semester: number) => {
 		openDrawer(
 			<GradeAssessmentDrawer
@@ -49,8 +55,10 @@ export default function GradeSubjectPage() {
 
 	const saveAssessment = async (assessment: GradeAssessment) => {
 		if (!tracker) return;
+
 		setSaving(true);
 		setError(null);
+
 		try {
 			setTracker(
 				await apiRequest<GradeTracker>("v1/grades", {
@@ -79,8 +87,10 @@ export default function GradeSubjectPage() {
 
 	const deleteAssessment = async (assessment: GradeAssessment) => {
 		if (!tracker) return;
+
 		setSaving(true);
 		setError(null);
+
 		try {
 			setTracker(
 				await apiRequest<GradeTracker>("v1/grades", {
@@ -104,28 +114,30 @@ export default function GradeSubjectPage() {
 		}
 	};
 
-	const { openDrawer } = useDrawer();
-
 	return (
 		<main className={styles.page}>
 			<Link href="/grades" className={styles.backLink}>
 				‹ Grades
 			</Link>
-			{error ? (
+
+			{error && (
 				<p className={styles.error} role="alert">
 					{error}
 				</p>
-			) : null}
-			{[1, 2].map((semester) => (
-				<div key={semester}>
-					<h2 className={styles.section}>Semester {semester}</h2>
-					<section className={styles.card}>
-						{assessments.filter(
-							(assessment) => assessment.semester === semester,
-						).length ? (
-							assessments
-								.filter((assessment) => assessment.semester === semester)
-								.map((assessment) => (
+			)}
+
+			{[1, 2].map((semester) => {
+				const semesterAssessments = assessments.filter(
+					(assessment) => assessment.semester === semester,
+				);
+
+				return (
+					<div key={semester}>
+						<h2 className={styles.section}>Semester {semester}</h2>
+
+						<section className={styles.card}>
+							{semesterAssessments.length ? (
+								semesterAssessments.map((assessment) => (
 									<DrawerTrigger
 										key={assessment.id}
 										className={styles.rowButton}
@@ -145,8 +157,10 @@ export default function GradeSubjectPage() {
 												name="list.bullet.rectangle"
 												className={styles.symbolIcon}
 											/>
+
 											<span>
 												<b className={styles.label}>{assessment.name}</b>
+
 												<small className={styles.rowMeta}>
 													{new Date(
 														assessment.date.year,
@@ -159,29 +173,33 @@ export default function GradeSubjectPage() {
 													· Weighting {assessment.weighting.toFixed(1)}%
 												</small>
 											</span>
+
 											<strong className={styles.scoreEmphasis}>
 												{(assessment.score * 100).toFixed(1)}%
 											</strong>
 										</article>
 									</DrawerTrigger>
 								))
-						) : (
-							<p className={styles.emptyRow}>No assessments yet.</p>
-						)}
-						<Button
-							type="button"
-							className={`${styles.row} ${actionStyles.rowAction}`}
-							disabled={saving}
-							onClick={() => createAssessment(semester)}
-						>
-							<Symbol name="plus" className={styles.symbolIcon} />
-							<span className={styles.label}>
-								{saving ? "Saving…" : "New Assessment"}
-							</span>
-						</Button>
-					</section>
-				</div>
-			))}
+							) : (
+								<p className={styles.emptyRow}>No assessments yet.</p>
+							)}
+
+							<Button
+								type="button"
+								variant="ghost"
+								className={styles.row}
+								disabled={saving}
+								onClick={() => createAssessment(semester)}
+							>
+								<Symbol name="plus" className={styles.symbolIcon} />
+								<span className={styles.label}>
+									{saving ? "Saving…" : "New Assessment"}
+								</span>
+							</Button>
+						</section>
+					</div>
+				);
+			})}
 		</main>
 	);
 }

@@ -1,15 +1,16 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
 import { useEffect, useState } from "react";
-import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/administration/Administration.module.css";
-import actionStyles from "@/components/ui/contentactions.module.css";
-import adminStyles from "@/components/administration/Administration.module.css";
+
 import AdminEventTagDrawer from "../AdminEventTagDrawer/AdminEventTagDrawer";
 import AdminEventTagSectionDrawer from "../AdminEventTagSectionDrawer/AdminEventTagSectionDrawer";
+
+import styles from "@/components/administration/Administration.module.css";
 
 export type AdminEventTag = {
 	id: string;
@@ -35,54 +36,71 @@ export type AdminEventTagSection = {
 	tags: AdminEventTag[];
 };
 
-export type Catalogue = { sections: AdminEventTagSection[] };
+export type Catalogue = {
+	sections: AdminEventTagSection[];
+};
 
 export default function AdminEventTagsEditor() {
 	const { openDrawer } = useDrawer();
+
 	const [catalogue, setCatalogue] = useState<Catalogue | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isReordering, setIsReordering] = useState(false);
-	const load = () =>
-		apiRequest<Catalogue>("v1/administration/event-tags")
-			.then(setCatalogue)
-			.catch((requestError: Error) => setError(requestError.message));
+	const [saving, setSaving] = useState(false);
+
+	const load = async () => {
+		setError(null);
+
+		try {
+			setCatalogue(await apiRequest<Catalogue>("v1/administration/event-tags"));
+		} catch (requestError) {
+			setError((requestError as Error).message);
+		}
+	};
+
 	useEffect(() => {
 		void load();
 	}, []);
-	const edit = (tag: AdminEventTag | null, section: AdminEventTagSection) =>
+
+	const editTag = (
+		tag: AdminEventTag | null,
+		section: AdminEventTagSection,
+	) => {
 		openDrawer(
 			<AdminEventTagDrawer
 				tag={tag}
 				section={section}
-				onSaved={() => {
-					void load();
-				}}
+				onSaved={() => void load()}
 			/>,
 		);
-	const editSection = (section: AdminEventTagSection) =>
+	};
+
+	const editSection = (section: AdminEventTagSection) => {
 		openDrawer(
 			<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />,
 		);
+	};
 
 	const moveTag = async (tagID: string, offset: -1 | 1) => {
-		if (!catalogue) {
-			return;
-		}
+		if (!catalogue || saving) return;
 
 		const tags = catalogue.sections
 			.flatMap((section) => section.tags)
-			.slice()
-			.sort((left, right) => left.sortOrder - right.sortOrder);
+			.toSorted((left, right) => left.sortOrder - right.sortOrder);
+
 		const currentIndex = tags.findIndex((tag) => tag.id === tagID);
 		const nextIndex = currentIndex + offset;
 
-		if (currentIndex < 0 || nextIndex < 0 || nextIndex >= tags.length) {
-			return;
-		}
+		if (currentIndex < 0 || nextIndex < 0 || nextIndex >= tags.length) return;
 
-		const reordered = tags.slice();
+		const reordered = [...tags];
 		const [moved] = reordered.splice(currentIndex, 1);
+
+		if (!moved) return;
+
 		reordered.splice(nextIndex, 0, moved);
+
+		setSaving(true);
 		setError(null);
 
 		try {
@@ -90,52 +108,65 @@ export default function AdminEventTagsEditor() {
 				"v1/administration/event-tags/order",
 				{
 					method: "PUT",
-					body: JSON.stringify({ tagIDs: reordered.map((tag) => tag.id) }),
+					body: JSON.stringify({
+						tagIDs: reordered.map((tag) => tag.id),
+					}),
 				},
 			);
+
 			setCatalogue(updated);
 		} catch (requestError) {
 			setError((requestError as Error).message);
+		} finally {
+			setSaving(false);
 		}
 	};
 
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error && (
 				<p className={styles.error} role="alert">
 					{error}
 				</p>
-			) : null}
-			<div className={adminStyles.adminToolbar}>
+			)}
+
+			<div className={styles.adminToolbar}>
 				<Button
 					type="button"
-					className={actionStyles.action}
+					variant="outline"
 					onClick={() => setIsReordering((value) => !value)}
+					aria-pressed={isReordering}
 				>
 					<Symbol name={isReordering ? "checkmark" : "arrow.up.arrow.down"} />
-					<span>{isReordering ? "Done" : "Reorder"}</span>
+					{isReordering ? "Done" : "Reorder"}
 				</Button>
 			</div>
+
 			{catalogue?.sections.map((section) => (
 				<section key={section.id}>
 					<Button
 						type="button"
-						className={adminStyles.sectionButton}
+						variant="ghost"
+						className={styles.sectionButton}
 						onClick={() => editSection(section)}
 						aria-label={`Edit ${section.displayName} section`}
 					>
 						<h2 className={styles.section}>{section.displayName}</h2>
 					</Button>
+
 					<div className={styles.card}>
 						{section.tags.map((tag) => (
-							<div key={tag.id} className={adminStyles.rowWithAction}>
+							<div key={tag.id} className={styles.rowWithAction}>
 								<Button
 									type="button"
+									variant="ghost"
 									className={styles.rowButton}
-									onClick={() => edit(tag, section)}
+									onClick={() => editTag(tag, section)}
+									aria-label={`Edit ${tag.displayName}`}
 								>
 									<div className={styles.row}>
 										<Symbol name={tag.symbol ?? "tag"} fallback="#" />
+
 										<span>
 											<b className={styles.label}>{tag.displayName}</b>
 											<small className={styles.rowMeta}>
@@ -143,36 +174,47 @@ export default function AdminEventTagsEditor() {
 												{tag.isArchived ? " · Archived" : ""}
 											</small>
 										</span>
+
 										<Symbol
 											name="chevron.right"
 											className={styles.chevronIcon}
 										/>
 									</div>
 								</Button>
-								{isReordering ? (
-									<div className={adminStyles.reorderButtons}>
+
+								{isReordering && (
+									<div className={styles.reorderButtons}>
 										<Button
 											type="button"
+											variant="ghost"
+											size="icon"
 											onClick={() => void moveTag(tag.id, -1)}
+											disabled={saving}
 											aria-label={`Move ${tag.displayName} up`}
 										>
-											<span aria-hidden="true">↑</span>
+											<Symbol name="chevron.up" fallback="↑" />
 										</Button>
+
 										<Button
 											type="button"
+											variant="ghost"
+											size="icon"
 											onClick={() => void moveTag(tag.id, 1)}
+											disabled={saving}
 											aria-label={`Move ${tag.displayName} down`}
 										>
-											<span aria-hidden="true">↓</span>
+											<Symbol name="chevron.down" fallback="↓" />
 										</Button>
 									</div>
-								) : null}
+								)}
 							</div>
 						))}
+
 						<Button
 							type="button"
+							variant="ghost"
 							className={styles.rowButton}
-							onClick={() => edit(null, section)}
+							onClick={() => editTag(null, section)}
 						>
 							<div className={styles.row}>
 								<Symbol name="plus" fallback="＋" />
@@ -182,9 +224,10 @@ export default function AdminEventTagsEditor() {
 					</div>
 				</section>
 			))}
-			{!catalogue && !error ? (
+
+			{!catalogue && !error && (
 				<p className={styles.loading}>Loading event tags…</p>
-			) : null}
+			)}
 		</main>
 	);
 }

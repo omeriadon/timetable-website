@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
 import { useState } from "react";
+
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/ui/contentactions.module.css";
 
 export default function TestEmailButton() {
 	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">(
@@ -13,31 +13,32 @@ export default function TestEmailButton() {
 
 	const send = async () => {
 		setState("sending");
+
 		try {
-			await apiRequest("v1/administration/test-email", { method: "POST" });
+			await apiRequest("v1/administration/test-email", {
+				method: "POST",
+			});
 			setState("sent");
 		} catch {
 			setState("error");
 		}
 	};
 
+	const label = {
+		idle: "Send test email",
+		sending: "Sending…",
+		sent: "Test email sent",
+		error: "Unable to send test email",
+	}[state];
+
 	return (
 		<Button
 			type="button"
-			className={styles.action}
-			onClick={send}
+			onClick={() => void send()}
 			disabled={state === "sending"}
 		>
 			<Symbol name="envelope.badge" />
-			<span>
-				{state === "sending"
-					? "Sending…"
-					: state === "sent"
-						? "Test email sent"
-						: state === "error"
-							? "Unable to send test email"
-							: "Send test email"}
-			</span>
+			{label}
 		</Button>
 	);
 }
