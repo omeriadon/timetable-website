@@ -3,32 +3,45 @@
 	gap: var(--ds-content-section-gap);
 }
 
+.section {
+	display: grid;
+	gap: 0;
+}
+
 .card {
 	--card-spacing: var(--ds-content-card-padding);
+
 	gap: 0;
+
 	width: 100%;
+
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-content-card);
+
 	background: var(--ds-color-surface);
 	box-shadow: none;
 }
 
-.card > * + *,
-.section > * + * {
+.card > * + * {
 	border-top: var(--ds-divider-width) solid var(--ds-color-border);
 }
 
 .sectionHeader {
-	padding: var(--ds-space-5) var(--ds-content-card-padding) var(--ds-space-2);
+	padding: 0 var(--ds-content-card-padding);
+
 	color: var(--ds-color-text-secondary);
+
 	font-size: var(--ds-font-small);
 	font-weight: 600;
 }
 
 .row {
 	display: flex;
+
 	min-height: var(--ds-list-row-height);
+
 	align-items: center;
 	gap: var(--ds-list-row-gap);
+
 	padding: var(--ds-list-row-padding-block) var(--ds-content-card-padding);
 }

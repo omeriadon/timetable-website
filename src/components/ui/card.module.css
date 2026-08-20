@@ -7,8 +7,6 @@
 
 	overflow: hidden;
 
-	padding-block: var(--card-spacing);
-
 	border-radius: 2rem;
 
 	background: var(--card);

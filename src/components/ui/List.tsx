@@ -1,6 +1,13 @@
-import { Children, isValidElement, type ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import {
+	Children,
+	isValidElement,
+	type ReactElement,
+	type ReactNode,
+} from "react";
+
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
 import styles from "./list.module.css";
 
 export function List({
@@ -11,47 +18,76 @@ export function List({
 	className?: string;
 }) {
 	const items = Children.toArray(children);
+
 	const hasSections = items.some(
 		(item) => isValidElement(item) && item.type === ListSection,
 	);
 
-	if (hasSections) {
+	if (!hasSections) {
 		return (
-			<div className={cn(styles.sectionList, className)}>
-				{items.map((item, index) =>
-					isValidElement(item) && item.type === ListSection ? (
-						<Card key={item.key ?? index} role="group" className={styles.card}>
-							{item}
-						</Card>
-					) : (
-						item
-					),
-				)}
-			</div>
+			<Card role="list" className={cn(styles.card, className)}>
+				{children}
+			</Card>
 		);
 	}
 
 	return (
-		<Card role="list" className={cn(styles.card, className)}>
-			{children}
-		</Card>
+		<div role="list" className={cn(styles.sectionList, className)}>
+			{items.map((item, index) => {
+				if (!isValidElement(item) || item.type !== ListSection) {
+					return item;
+				}
+
+				const section = item as ReactElement<{
+					children: ReactNode;
+					className?: string;
+				}>;
+
+				const sectionChildren = Children.toArray(section.props.children);
+
+				const header = sectionChildren.find(
+					(child) => isValidElement(child) && child.type === ListSectionHeader,
+				);
+
+				const content = sectionChildren.filter(
+					(child) =>
+						!(isValidElement(child) && child.type === ListSectionHeader),
+				);
+
+				return (
+					<div
+						key={section.key ?? index}
+						className={cn(styles.section, section.props.className)}
+					>
+						{header}
+
+						<Card role="group" className={styles.card}>
+							{content}
+						</Card>
+					</div>
+				);
+			})}
+		</div>
 	);
 }
 
 export function ListSection({
+	children,
+}: {
+	children: ReactNode;
+	className?: string;
+}) {
+	return children;
+}
+
+export function ListSectionHeader({
 	children,
 	className,
 }: {
 	children: ReactNode;
 	className?: string;
 }) {
-	return (
-		<section className={cn(styles.section, className)}>{children}</section>
-	);
-}
-
-export function ListSectionHeader({ children }: { children: ReactNode }) {
-	return <div className={styles.sectionHeader}>{children}</div>;
+	return <div className={cn(styles.sectionHeader, className)}>{children}</div>;
 }
 
 export function ListRow({

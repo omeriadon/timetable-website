@@ -72,6 +72,7 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import styles from "./page.module.css";
 
 export default function TestingPage() {
 	const setToolbar = useToolbar();
@@ -83,7 +84,7 @@ export default function TestingPage() {
 	}, [setToolbar]);
 
 	return (
-		<main>
+		<main className={styles.page}>
 			<h1>Shared component testing</h1>
 
 			<section>
@@ -198,8 +199,10 @@ export default function TestingPage() {
 							<span>Friend activity</span>
 						</ListRow>
 					</ListSection>
+
 					<ListSection>
 						<ListSectionHeader>Account</ListSectionHeader>
+
 						<ListRow>
 							<span>Profile visibility</span>
 						</ListRow>
@@ -208,10 +211,16 @@ export default function TestingPage() {
 						</ListRow>
 					</ListSection>
 				</List>
+			</section>
+
+			<section>
 				<List>
 					<ListRow>Single-card list row</ListRow>
 					<ListRow>Another direct React child</ListRow>
 				</List>
+			</section>
+
+			<section>
 				<SectionCard
 					background="surface"
 					title="Section card"
