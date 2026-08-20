@@ -68,7 +68,11 @@ export default function EventNotificationScheduleDrawer({
 					Send notification
 					<Select
 						value={dayOffset}
-						onChange={(event) => setDayOffset(Number(event.target.value))}
+						onValueChange={(value) => {
+							if (value !== null) {
+								setDayOffset(Number(value));
+							}
+						}}
 					>
 						{offsets.map((offset) => (
 							<option key={offset.value} value={offset.value}>
@@ -81,7 +85,11 @@ export default function EventNotificationScheduleDrawer({
 					Time
 					<Select
 						value={timeMinutes}
-						onChange={(event) => setTimeMinutes(Number(event.target.value))}
+						onValueChange={(value) => {
+							if (value !== null) {
+								setTimeMinutes(Number(value));
+							}
+						}}
 					>
 						{times.map((minutes) => (
 							<option key={minutes} value={minutes}>

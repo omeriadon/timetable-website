@@ -154,7 +154,11 @@ export default function AdminSpecialBadgeDrawer({
 					SF Symbol
 					<Select
 						value={symbol}
-						onChange={(event) => setSymbol(event.target.value)}
+						onValueChange={(value) => {
+							if (value !== null) {
+								setSymbol(value);
+							}
+						}}
 					>
 						{symbolOptions.map((option) => (
 							<option key={option} value={option}>

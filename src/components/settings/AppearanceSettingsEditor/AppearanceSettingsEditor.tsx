@@ -52,12 +52,13 @@ export default function AppearanceSettingsEditor({
 					</label>
 					<Select
 						id="app-font-design"
-						className={styles.inlineSelect}
 						value={draft.appFontDesign}
 						disabled={saving}
-						onChange={(event) =>
-							void save({ appFontDesign: event.target.value })
-						}
+						onValueChange={(value) => {
+							if (value !== null) {
+								void save({ appFontDesign: value });
+							}
+						}}
 					>
 						<option value="monospaced">Monospaced</option>
 						<option value="rounded">Rounded</option>
@@ -71,12 +72,13 @@ export default function AppearanceSettingsEditor({
 					</label>
 					<Select
 						id="app-background"
-						className={styles.inlineSelect}
 						value={draft.appBackground}
 						disabled={saving}
-						onChange={(event) =>
-							void save({ appBackground: event.target.value })
-						}
+						onValueChange={(value) => {
+							if (value !== null) {
+								void save({ appBackground: value });
+							}
+						}}
 					>
 						<option value="solid">Solid</option>
 						<option value="paper">Paper</option>

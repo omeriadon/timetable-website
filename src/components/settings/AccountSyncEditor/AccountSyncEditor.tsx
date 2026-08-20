@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Select } from "@/components/ui/select";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
@@ -85,19 +91,26 @@ export default function AccountSyncEditor({
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
-						className={styles.inlineSelect}
-						value={draft.calendarEventAutoDeleteDays}
+						value={String(draft.calendarEventAutoDeleteDays)}
 						disabled={saving}
-						onChange={(event) =>
-							void save({
-								calendarEventAutoDeleteDays: Number(event.target.value),
-							})
-						}
+						onValueChange={(value) => {
+							if (value !== null) {
+								void save({
+									calendarEventAutoDeleteDays: Number(value),
+								});
+							}
+						}}
 					>
-						<option value={0}>Never</option>
-						<option value={7}>After 1 week</option>
-						<option value={30}>After 1 month</option>
-						<option value={365}>After 1 year</option>
+						<SelectTrigger>
+							<SelectValue />
+						</SelectTrigger>
+
+						<SelectContent>
+							<SelectItem value="0">Never</SelectItem>
+							<SelectItem value="7">After 1 week</SelectItem>
+							<SelectItem value="30">After 1 month</SelectItem>
+							<SelectItem value="365">After 1 year</SelectItem>
+						</SelectContent>
 					</Select>
 				</div>
 				<Button

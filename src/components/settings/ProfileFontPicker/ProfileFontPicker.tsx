@@ -2,6 +2,7 @@
 
 import { Select } from "@/components/ui/select";
 import type { ProfileAppearance } from "@/lib/api/contracts";
+import type { ChangeEvent } from "react";
 import styles from "./ProfileFontPicker.module.css";
 
 type Props = {
@@ -36,7 +37,11 @@ export default function ProfileFontPicker({
 				<span>Design</span>
 				<Select
 					value={design}
-					onChange={(event) => onDesignChange(event.target.value)}
+					onValueChange={(value) => {
+						if (value !== null) {
+							onDesignChange(value);
+						}
+					}}
 				>
 					{designs.map((item) => (
 						<option key={item} value={item}>
@@ -51,7 +56,11 @@ export default function ProfileFontPicker({
 				<span>Weight</span>
 				<Select
 					value={weight}
-					onChange={(event) => onWeightChange(event.target.value)}
+					onValueChange={(value) => {
+						if (value !== null) {
+							onWeightChange(value);
+						}
+					}}
 				>
 					{weights.map((item) => (
 						<option key={item} value={item}>

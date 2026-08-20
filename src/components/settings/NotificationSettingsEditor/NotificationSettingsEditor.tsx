@@ -134,14 +134,15 @@ export default function NotificationSettingsEditor({
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
-						className={styles.inlineSelect}
 						value={draft.calendarEventAutoDeleteDays}
 						disabled={saving}
-						onChange={(event) =>
-							update({
-								calendarEventAutoDeleteDays: Number(event.target.value),
-							})
-						}
+						onValueChange={(value) => {
+							if (value !== null) {
+								update({
+									calendarEventAutoDeleteDays: Number(value),
+								});
+							}
+						}}
 					>
 						<option value={0}>Never</option>
 						<option value={7}>After 1 week</option>
