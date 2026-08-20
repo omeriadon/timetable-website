@@ -63,7 +63,7 @@ import {
 	PopoverDescription,
 	PopoverTitle,
 	PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@/components/ui/popover";
 import {
 	List,
 	ListRow,
