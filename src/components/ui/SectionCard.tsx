@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { cn } from "@/lib/utils";
-import styles from "./SectionCard.module.css";
+import styles from "./sectioncard.module.css";
 
 type SectionCardProps = {
 	background: "paper" | "surface";

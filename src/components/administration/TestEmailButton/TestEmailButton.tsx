@@ -4,7 +4,7 @@ import { Button } from "@base-ui/react/button";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
-import styles from "@/components/ui/ContentActions.module.css";
+import styles from "@/components/ui/contentactions.module.css";
 
 export default function TestEmailButton() {
 	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">(

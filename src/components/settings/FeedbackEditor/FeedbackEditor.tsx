@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { NativeSelect as Select } from "@/components/ui/NativeSelect";
-import { Textarea } from "@/components/ui/Textarea";
+import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";

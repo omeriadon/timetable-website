@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
-import actionStyles from "@/components/ui/ContentActions.module.css";
+import actionStyles from "@/components/ui/contentactions.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 
 export default function BroadcastNotificationEditor() {

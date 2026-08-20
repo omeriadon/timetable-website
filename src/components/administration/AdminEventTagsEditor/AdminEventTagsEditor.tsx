@@ -6,7 +6,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
-import actionStyles from "@/components/ui/ContentActions.module.css";
+import actionStyles from "@/components/ui/contentactions.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 import AdminEventTagDrawer from "../AdminEventTagDrawer/AdminEventTagDrawer";
 import AdminEventTagSectionDrawer from "../AdminEventTagSectionDrawer/AdminEventTagSectionDrawer";

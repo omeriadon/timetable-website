@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
-import actionStyles from "@/components/ui/ContentActions.module.css";
+import actionStyles from "@/components/ui/contentactions.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";

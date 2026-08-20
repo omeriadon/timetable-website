@@ -1,7 +1,7 @@
 import { Children, isValidElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import styles from "./List.module.css";
+import styles from "./list.module.css";
 
 export function List({
 	children,

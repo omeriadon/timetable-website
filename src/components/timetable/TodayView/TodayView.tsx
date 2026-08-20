@@ -12,7 +12,7 @@ import EventRow from "@/components/timetable/EventRow/EventRow";
 import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
-import { SectionCard } from "@/components/ui/SectionCard";
+import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import styles from "@/components/timetable/timetable.module.css";
 

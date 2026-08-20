@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import type {
 	OwnerTimetable,

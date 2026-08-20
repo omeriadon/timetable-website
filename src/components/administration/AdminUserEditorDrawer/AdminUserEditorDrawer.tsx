@@ -1,7 +1,7 @@
 "use client";
 
-import { Input } from "@/components/ui/Input";
-import { NativeSelect as Select } from "@/components/ui/NativeSelect";
+import { Input } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/nativeselect";
 import { useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";

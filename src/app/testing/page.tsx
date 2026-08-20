@@ -10,15 +10,15 @@ import {
 } from "lucide-react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 import {
 	Dialog,
@@ -27,7 +27,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -51,8 +51,8 @@ import {
 	ListRow,
 	ListSection,
 	ListSectionHeader,
-} from "@/components/ui/List";
-import { SectionCard } from "@/components/ui/SectionCard";
+} from "@/components/ui/list";
+import { SectionCard } from "@/components/ui/sectioncard";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import {

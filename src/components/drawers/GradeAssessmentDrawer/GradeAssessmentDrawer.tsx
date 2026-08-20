@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Input } from "@/components/ui/Input";
-import { NativeSelect as Select } from "@/components/ui/NativeSelect";
+import { Input } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/nativeselect";
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";

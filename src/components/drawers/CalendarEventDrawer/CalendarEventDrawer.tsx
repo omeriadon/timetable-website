@@ -1,7 +1,7 @@
 "use client";
 
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";

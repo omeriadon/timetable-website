@@ -1,8 +1,8 @@
 "use client";
 
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { Textarea } from "@/components/ui/Textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import type {
 	AdminEventTag,

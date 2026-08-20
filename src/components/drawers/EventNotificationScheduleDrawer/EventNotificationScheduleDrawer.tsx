@@ -1,6 +1,6 @@
 "use client";
 
-import { NativeSelect as Select } from "@/components/ui/NativeSelect";
+import { NativeSelect as Select } from "@/components/ui/nativeselect";
 import { useMemo, useState } from "react";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";

@@ -7,7 +7,7 @@ import EventRow from "@/components/timetable/EventRow/EventRow";
 import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { SectionCard } from "@/components/ui/SectionCard";
+import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import styles from "@/components/timetable/timetable.module.css";
 

@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import styles from "@/components/administration/Administration.module.css";
 
 type AdminVersionFieldProps = {

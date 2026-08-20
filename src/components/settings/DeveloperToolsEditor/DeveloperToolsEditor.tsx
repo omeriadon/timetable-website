@@ -2,13 +2,13 @@
 
 import { Button } from "@base-ui/react/button";
 import { Toggle } from "@/components/ui/toggle";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
 import styles from "@/components/settings/Settings.module.css";
-import actionStyles from "@/components/ui/ContentActions.module.css";
+import actionStyles from "@/components/ui/contentactions.module.css";
 
 type DebugState = {
 	isActive: boolean;

@@ -8,7 +8,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
-import actionStyles from "@/components/ui/ContentActions.module.css";
+import actionStyles from "@/components/ui/contentactions.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 
 export type ProfileColor = {

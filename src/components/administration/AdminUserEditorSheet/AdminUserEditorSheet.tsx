@@ -5,8 +5,8 @@ import { useRef, useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 
-import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import {
 	Sheet,
 	SheetClose,
