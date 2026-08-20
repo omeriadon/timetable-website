@@ -1,1 +1,61 @@
-/* Intentionally unstyled. */
+.toolbar {
+	position: absolute;
+	top: var(--ds-toolbar-inset);
+	right: var(--ds-toolbar-inset);
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--ds-toolbar-gap);
+}
+
+.toolbar button {
+	display: inline-grid;
+	width: var(--ds-control-height-compact);
+	height: var(--ds-control-height-compact);
+	place-items: center;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+}
+
+.toolbar button:hover,
+.toolbar button:focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.toolbar button:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
+	outline-offset: var(--ds-control-focus-offset);
+}
+
+.toolbar img {
+	width: var(--ds-icon-size-toolbar);
+	height: var(--ds-icon-size-toolbar);
+	object-fit: contain;
+	opacity: 0.9;
+}
+
+.search {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-space-2);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.search input {
+	width: var(--ds-toolbar-search-width);
+	height: var(--ds-toolbar-search-height);
+	padding: 0 var(--ds-space-3);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface);
+}
+
+@media (max-width: 700px) {
+	.toolbar {
+		display: none;
+	}
+}

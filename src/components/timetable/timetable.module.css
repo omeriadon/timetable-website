@@ -1,1 +1,170 @@
-/* Intentionally unstyled. */
+.page {
+	width: 100%;
+	max-width: var(--ds-content-max-width);
+	margin: 0 auto;
+	padding: var(--ds-content-page-padding);
+}
+
+.modePicker {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.modePicker a,
+.modePickerTrigger {
+	display: inline-flex;
+	min-height: var(--ds-control-height-compact);
+	align-items: center;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-2) var(--ds-control-padding-inline);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text-secondary);
+	background: var(--ds-color-surface);
+	font: inherit;
+	text-decoration: none;
+}
+
+.modePicker a:hover,
+.modePicker a:focus-visible,
+.modePickerTrigger:hover,
+.modePickerTrigger:focus-visible,
+.activeMode {
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface-elevated);
+}
+
+.modePicker a:focus-visible,
+.modePickerTrigger:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
+	outline-offset: var(--ds-control-focus-offset);
+}
+
+.modeIcon,
+.lessonSymbol,
+.eventSymbolIcon,
+.rowDisclosureIcon,
+.selectedLessonSymbol {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.message,
+.error {
+	margin: var(--ds-content-section-gap) 0;
+	color: var(--ds-color-text-secondary);
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}
+
+.todayHeader {
+	display: grid;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.todayHeader h1 {
+	margin: 0;
+	font-size: var(--ds-font-display);
+}
+
+.todayHeader p,
+.todayHeader span {
+	margin: 0;
+	color: var(--ds-color-text-secondary);
+}
+
+.week {
+	width: 100%;
+	overflow-x: auto;
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.weekSurface {
+	min-width: var(--ds-week-min-width);
+}
+
+.weekGrid {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+}
+
+.weekHeader,
+.weekRow {
+	display: grid;
+	grid-template-columns: var(--ds-week-label-width) repeat(
+		5,
+		minmax(var(--ds-week-column-min), 1fr)
+	);
+	gap: var(--ds-content-grid-gap);
+	min-width: var(--ds-week-min-width);
+}
+
+.weekHeader {
+	margin-bottom: var(--ds-content-grid-gap);
+}
+
+.weekHeader span {
+	padding: var(--ds-space-2) 0;
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	text-align: center;
+}
+
+.weekRow {
+	min-height: var(--ds-week-row-min-height);
+}
+
+.weekRow > small {
+	display: grid;
+	place-items: center;
+	color: var(--ds-color-text-secondary);
+}
+
+.lesson {
+	display: flex;
+	min-height: var(--ds-week-row-min-height);
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-2);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface-elevated);
+	overflow: hidden;
+}
+
+.lesson strong {
+	font-size: var(--ds-font-small);
+}
+
+.selectedLesson {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ds-space-3);
+	margin-top: var(--ds-content-section-gap);
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+}
+
+.selectedLesson div {
+	display: grid;
+	gap: var(--ds-space-1);
+}
+
+.selectedEyebrow {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	letter-spacing: 0.08em;
+}

@@ -41,6 +41,7 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 		return fallback !== undefined ? (
 			<span
 				className={className}
+				data-default-symbol={className ? undefined : ""}
 				aria-hidden={decorative || undefined}
 				aria-label={decorative ? undefined : alt}
 				role={decorative ? undefined : "img"}
@@ -54,6 +55,7 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 		return (
 			<span
 				className={className}
+				data-default-symbol={className ? undefined : ""}
 				aria-hidden={decorative || undefined}
 				aria-label={decorative ? undefined : alt}
 				role={decorative ? undefined : "img"}
@@ -68,6 +70,7 @@ const Symbol = forwardRef<HTMLImageElement, SymbolProps>(function Symbol(
 			{...props}
 			ref={ref}
 			className={className}
+			data-default-symbol={className ? undefined : ""}
 			src={imageSource}
 			alt={alt ?? ""}
 			aria-hidden={decorative || undefined}

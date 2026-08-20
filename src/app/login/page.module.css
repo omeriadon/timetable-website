@@ -1,1 +1,116 @@
-/* Intentionally unstyled. */
+.page {
+	display: grid;
+	min-height: 100svh;
+	place-items: center;
+	padding: var(--ds-auth-page-padding);
+	background: var(--ds-color-background);
+}
+
+.card {
+	width: min(100%, 560px);
+	padding: var(--ds-auth-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-card);
+	background: var(--ds-color-surface);
+}
+
+.brandMark {
+	display: grid;
+	width: 44px;
+	height: 44px;
+	margin-bottom: var(--ds-content-section-gap);
+	place-items: center;
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface-elevated);
+	font-family: var(--ds-font-mono);
+	font-weight: 700;
+}
+
+.eyebrow {
+	margin: 0 0 var(--ds-space-2);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.card h1 {
+	margin: 0;
+	font-size: var(--ds-font-display);
+}
+
+.intro {
+	margin: var(--ds-list-row-gap) 0 var(--ds-content-section-gap);
+	color: var(--ds-color-text-secondary);
+}
+
+.form {
+	display: grid;
+	gap: var(--ds-auth-gap);
+}
+
+.form label {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.form input {
+	width: 100%;
+	min-height: var(--ds-auth-control-height);
+	padding: 0 var(--ds-control-padding-inline);
+	border: var(--ds-border-width) solid var(--ds-color-input);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-background);
+}
+
+.submit,
+.switchMode {
+	display: inline-flex;
+	min-height: var(--ds-auth-control-height);
+	align-items: center;
+	justify-content: center;
+	gap: var(--ds-list-row-gap);
+	border-radius: var(--ds-radius-control);
+	font: inherit;
+	font-weight: 700;
+}
+
+.submit {
+	color: var(--ds-color-accent-foreground);
+	background: var(--ds-color-accent);
+}
+
+.submit:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+.switchMode {
+	width: 100%;
+	margin-top: var(--ds-content-section-gap);
+	color: var(--ds-color-text-secondary);
+}
+
+.error {
+	margin: 0;
+	color: var(--ds-color-danger-text);
+	font-size: var(--ds-font-small);
+}
+
+.actionIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	flex: 0 0 var(--ds-control-icon-size-small);
+	object-fit: contain;
+}
+
+@media (max-width: 480px) {
+	.card {
+		padding: var(--ds-content-card-padding) var(--ds-content-page-padding);
+	}
+}

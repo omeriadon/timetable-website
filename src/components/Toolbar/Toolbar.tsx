@@ -12,6 +12,7 @@ import {
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import QuickSettingsDrawer from "@/components/drawers/QuickSettingsDrawer/QuickSettingsDrawer";
+import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
 	label: string;
@@ -68,9 +69,9 @@ export default function Toolbar() {
 	} = config;
 
 	return (
-		<header>
+		<header className={styles.toolbar}>
 			{searchPlaceholder ? (
-				<label>
+				<label className={styles.search}>
 					<span>Search {title}</span>
 					<Input
 						value={searchValue}

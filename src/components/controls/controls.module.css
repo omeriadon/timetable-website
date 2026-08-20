@@ -1,1 +1,85 @@
-/* Intentionally unstyled. */
+.symbolIcon,
+.chevronIcon {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	flex: 0 0 var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.chevronIcon {
+	width: var(--ds-control-icon-size-small);
+	height: var(--ds-control-icon-size-small);
+	flex-basis: var(--ds-control-icon-size-small);
+	opacity: 0.6;
+}
+
+.profilePicture {
+	display: inline-grid;
+	width: var(--ds-avatar-size);
+	height: var(--ds-avatar-size);
+	place-items: center;
+	overflow: hidden;
+	border-radius: 50%;
+	background: var(--ds-color-surface-elevated);
+	font-size: 1rem;
+}
+
+.profilePictureImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profilePictureFallbackIcon {
+	width: 42%;
+	height: 42%;
+	object-fit: contain;
+}
+
+.settingToggle {
+	display: flex;
+	width: 100%;
+	min-height: var(--ds-list-row-height);
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+	text-align: left;
+}
+
+.settingToggle:first-child {
+	border-top: 0;
+}
+
+.switch {
+	display: inline-flex;
+	width: var(--ds-switch-width);
+	height: var(--ds-switch-height);
+	align-items: center;
+	padding: var(--ds-switch-track-padding);
+	border-radius: var(--ds-radius-pill);
+	background: var(--ds-color-text-secondary);
+}
+
+.switchOn {
+	background: var(--ds-color-success);
+}
+
+.switchThumb {
+	display: block;
+	width: var(--ds-switch-thumb-size);
+	height: var(--ds-switch-thumb-size);
+	border-radius: 50%;
+	background: var(--ds-color-text);
+	transition: transform var(--ds-duration-normal) var(--ds-ease-standard);
+}
+
+.switchOn .switchThumb {
+	transform: translateX(
+		calc(
+			var(--ds-switch-width) - var(--ds-switch-thumb-size) -
+				var(--ds-switch-track-padding) - var(--ds-switch-track-padding)
+		)
+	);
+}

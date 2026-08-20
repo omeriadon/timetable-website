@@ -90,6 +90,40 @@
 	box-sizing: border-box;
 }
 
+button,
+input,
+select,
+textarea {
+	margin: 0;
+	font: inherit;
+}
+
+button {
+	border: 0;
+	color: inherit;
+	background: transparent;
+	cursor: pointer;
+}
+
+a {
+	color: inherit;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+img[data-default-symbol],
+span[data-default-symbol] {
+	display: inline-grid;
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	flex: 0 0 var(--ds-icon-size-row);
+	place-items: center;
+	object-fit: contain;
+}
+
 html,
 body {
 	position: relative;
@@ -126,13 +160,6 @@ body,
 		scroll-behavior: auto !important;
 		transition-duration: 0.01ms !important;
 	}
-}
-
-button,
-input,
-select,
-textarea {
-	font: inherit;
 }
 
 html[data-app-font="monospaced"] body {

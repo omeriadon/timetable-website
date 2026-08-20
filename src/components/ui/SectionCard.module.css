@@ -1,1 +1,51 @@
-/* Intentionally unstyled. */
+.card {
+	width: 100%;
+	margin: var(--ds-content-section-gap) 0;
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.paper,
+.surface {
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface);
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ds-list-row-gap);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.content {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+}
+
+.heading {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	min-width: 0;
+}
+
+.heading h1,
+.heading h2 {
+	margin: 0;
+	font-size: var(--ds-font-heading-size);
+}
+
+.icon {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.paper h3 {
+	margin: 0;
+	font-size: var(--ds-font-body-size);
+}

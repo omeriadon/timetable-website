@@ -1,1 +1,153 @@
-/* Intentionally unstyled. */
+.list {
+	display: grid;
+	gap: var(--ds-list-section-gap);
+	padding: var(--ds-list-row-padding-block) var(--ds-list-padding-inline);
+	border: var(--ds-list-outline-width) solid var(--ds-list-outline);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-list-background);
+}
+
+.listSection {
+	display: grid;
+	gap: var(--ds-list-section-header-gap);
+}
+
+.listSection + .listSection {
+	padding-top: var(--ds-list-section-gap);
+	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+}
+
+.listSectionHeader {
+	padding: var(--ds-space-2) var(--ds-list-row-padding-inline);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-list-section-header-size);
+	font-weight: 650;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.listRow {
+	display: flex;
+	min-height: var(--ds-list-row-min-height);
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	border-bottom: var(--ds-divider-width) solid var(--ds-list-divider);
+}
+
+.listRow:last-child {
+	border-bottom: 0;
+}
+
+.button {
+	display: inline-flex;
+	min-height: var(--ds-control-height);
+	align-items: center;
+	justify-content: center;
+	gap: var(--ds-control-gap);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+	font: inherit;
+	font-size: var(--ds-font-body-size);
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.button:hover,
+.button:focus-visible,
+.menuTrigger:hover,
+.menuTrigger:focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.button:focus-visible,
+.input:focus-visible,
+.textarea:focus-visible,
+.selectTrigger:focus-visible,
+.switch:focus-visible,
+.checkbox:focus-visible,
+.menuTrigger:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
+	outline-offset: var(--ds-control-focus-offset);
+}
+
+.buttonProminent {
+	border-color: var(--ds-color-accent);
+	background: var(--ds-color-accent);
+}
+
+.buttonDestructive {
+	border-color: var(--ds-color-danger);
+	color: var(--ds-color-danger-text);
+}
+
+.buttonPlain {
+	width: 100%;
+	justify-content: flex-start;
+	border-color: transparent;
+	background: transparent;
+	text-align: left;
+}
+
+.buttonCompact {
+	min-height: var(--ds-control-height-compact);
+	padding: var(--ds-space-2);
+}
+
+.input,
+.textarea,
+.selectTrigger {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: var(--ds-control-height);
+	padding: var(--ds-control-padding-block) var(--ds-control-padding-inline);
+	border: var(--ds-border-width) solid var(--ds-color-input);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface);
+	font: inherit;
+}
+
+.textarea {
+	min-height: 88px;
+	resize: vertical;
+}
+
+.selectTrigger,
+.menuTrigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ds-control-gap);
+	text-align: left;
+}
+
+.selectValue {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.checkbox {
+	display: inline-grid;
+	width: var(--ds-checkbox-size);
+	height: var(--ds-checkbox-size);
+	place-items: center;
+	padding: 0;
+	border: var(--ds-border-width) solid var(--ds-color-input);
+	border-radius: var(--ds-checkbox-radius);
+	background: var(--ds-color-surface);
+}
+
+.checkbox[data-checked] {
+	border-color: var(--ds-color-accent);
+	background: var(--ds-color-accent);
+}
+
+.checkboxSymbol {
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+}
