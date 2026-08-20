@@ -90,7 +90,6 @@
 	--ds-font-display: 1.45rem;
 
 	/* Geometry and spacing */
-	--ds-content-max-width: 860px;
 	--ds-inspector-width: min(500px, 42vw);
 	--ds-radius-control: 12px;
 	--ds-radius-card: 18px;

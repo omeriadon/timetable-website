@@ -82,7 +82,6 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import styles from "./page.module.css";
 
 export default function TestingPage() {
 	const setToolbar = useToolbar();
@@ -94,28 +93,38 @@ export default function TestingPage() {
 	}, [setToolbar]);
 
 	return (
-		<main className={styles.page}>
+		<main>
 			<h1>Shared component testing</h1>
 
 			<section>
 				<h2>Buttons</h2>
-				<div className={styles.exampleRow}>
-					<Button type="button">
-						<SaveIcon />
-						Save
-					</Button>
-					<Button type="button" variant="outline">
-						<BellIcon />
-						Notify
-					</Button>
-					<Button type="button" variant="destructive">
-						<TrashIcon />
-						Delete
-					</Button>
-				</div>
-				<Button type="button" disabled className={styles.fitControl}>
-					Disabled button
+
+				<Button>
+					<SaveIcon />
+					Save
 				</Button>
+
+				<Button variant="outline">
+					<BellIcon />
+					Notify
+				</Button>
+
+				<Button variant="secondary">
+					<BellIcon />
+					Notify
+				</Button>
+
+				<Button variant="destructive">
+					<TrashIcon />
+					Delete
+				</Button>
+
+				<Button variant="link">
+					<TrashIcon />
+					Delete
+				</Button>
+
+				<Button disabled>Disabled button</Button>
 			</section>
 
 			<section>

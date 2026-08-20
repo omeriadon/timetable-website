@@ -1,6 +1,5 @@
 .page {
 	width: 100%;
-	max-width: var(--ds-content-max-width);
 	margin: 0 auto;
 	padding: var(--ds-content-page-padding);
 }
