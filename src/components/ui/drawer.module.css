@@ -416,6 +416,10 @@
 	user-select: text;
 }
 
+.closeButton {
+	border-radius: var(--ds-radius-drawer-button);
+}
+
 .popup[data-nested-drawer-open] .content {
 	opacity: 0;
 }

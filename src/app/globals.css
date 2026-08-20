@@ -16,6 +16,7 @@
 	--ds-popover-blur: 7px;
 
 	--ds-drawer-blur: 20px;
+	--ds-radius-drawer-button: 1rem;
 
 	/* thing */
 	--primary: oklch(0.205 0 0);

@@ -6,6 +6,7 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { cn } from "@/lib/utils";
 
 import styles from "./drawer.module.css";
+import { Button } from "./button";
 
 type DrawerContextProps = {
 	hasSnapPoints: boolean;
@@ -68,8 +69,26 @@ function DrawerPortal(props: DrawerPrimitive.Portal.Props) {
 	return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
 }
 
-function DrawerClose(props: DrawerPrimitive.Close.Props) {
-	return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
+function DrawerClose({
+	children,
+	variant = "outline",
+	size = "default",
+	...props
+}: DrawerPrimitive.Close.Props & {
+	children: React.ReactNode;
+	variant?: React.ComponentProps<typeof Button>["variant"];
+	size?: React.ComponentProps<typeof Button>["size"];
+}) {
+	return (
+		<DrawerPrimitive.Close
+			render={
+				<Button variant={variant} size={size} className={styles.closeButton}>
+					{children}
+				</Button>
+			}
+			{...props}
+		/>
+	);
 }
 
 function DrawerOverlay({

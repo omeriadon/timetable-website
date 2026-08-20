@@ -236,9 +236,7 @@ export default function TestingPage() {
 						</DrawerHeader>
 						<p>Drawer content.</p>
 						<DrawerFooter>
-							<DrawerClose>
-								<Button fullWidth>Close drawer</Button>
-							</DrawerClose>
+							<DrawerClose>Close drawer</DrawerClose>
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
