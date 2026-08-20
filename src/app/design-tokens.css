@@ -111,8 +111,8 @@
 	--ds-drawer-padding-inline: 10px;
 	--ds-drawer-padding-bottom: 10px;
 	--ds-drawer-max-height: 92svh;
-	--ds-drawer-scrim-blur: 16px;
-	--ds-drawer-blur: 34px;
+	--ds-drawer-scrim-blur: 1px;
+	--ds-drawer-blur: 20px;
 	--ds-drawer-shadow: 0 -20px 70px rgb(0 0 0 / 50%);
 	--ds-drawer-highlight: inset 0 1px rgb(255 255 255 / 15%);
 	--ds-row-height: 44px;
