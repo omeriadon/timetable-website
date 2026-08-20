@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BellIcon, SaveIcon, TrashIcon } from "lucide-react";
+import {
+	BellIcon,
+	MenuIcon,
+	PanelRightIcon,
+	SaveIcon,
+	TrashIcon,
+} from "lucide-react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/Input";
@@ -42,14 +48,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemGroup,
-	ItemMedia,
-	ItemTitle,
-} from "@/components/ui/item";
+	List,
+	ListRow,
+	ListSection,
+	ListSectionHeader,
+} from "@/components/ui/List";
 import { SectionCard } from "@/components/ui/SectionCard";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -169,28 +172,27 @@ export default function TestingPage() {
 
 			<section>
 				<h2>Lists</h2>
-				<ItemGroup>
-					<Item variant="outline">
-						<ItemMedia variant="icon">
+				<List>
+					<ListSection>
+						<ListSectionHeader>Notifications</ListSectionHeader>
+						<ListRow>
 							<BellIcon />
-						</ItemMedia>
-						<ItemContent>
-							<ItemTitle>Notifications</ItemTitle>
-							<ItemDescription>Control timetable reminders.</ItemDescription>
-						</ItemContent>
-						<ItemActions>
-							<Button variant="outline" size="sm">
-								Manage
-							</Button>
-						</ItemActions>
-					</Item>
-					<Item variant="outline">
-						<ItemContent>
-							<ItemTitle>Second reusable row</ItemTitle>
-							<ItemDescription>Secondary list-row content.</ItemDescription>
-						</ItemContent>
-					</Item>
-				</ItemGroup>
+							<span>Timetable reminders</span>
+						</ListRow>
+						<ListRow>
+							<span>Friend activity</span>
+						</ListRow>
+					</ListSection>
+					<ListSection>
+						<ListSectionHeader>Account</ListSectionHeader>
+						<ListRow>
+							<span>Profile visibility</span>
+						</ListRow>
+						<ListRow>
+							<span>Sign-in security</span>
+						</ListRow>
+					</ListSection>
+				</List>
 				<SectionCard
 					background="surface"
 					title="Section card"
@@ -203,7 +205,10 @@ export default function TestingPage() {
 			<section>
 				<h2>Overlays</h2>
 				<Drawer>
-					<DrawerTrigger>Open drawer</DrawerTrigger>
+					<DrawerTrigger render={<Button variant="outline" />}>
+						<PanelRightIcon />
+						Open drawer
+					</DrawerTrigger>
 					<DrawerContent>
 						<DrawerHeader>
 							<DrawerTitle>Drawer title</DrawerTitle>
@@ -217,7 +222,10 @@ export default function TestingPage() {
 				</Drawer>
 
 				<Dialog>
-					<DialogTrigger>Open dialog</DialogTrigger>
+					<DialogTrigger render={<Button variant="outline" />}>
+						<PanelRightIcon />
+						Open dialog
+					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
 							<DialogTitle>Dialog title</DialogTitle>
@@ -228,7 +236,10 @@ export default function TestingPage() {
 				</Dialog>
 
 				<Sheet>
-					<SheetTrigger>Open sheet</SheetTrigger>
+					<SheetTrigger render={<Button variant="outline" />}>
+						<PanelRightIcon />
+						Open sheet
+					</SheetTrigger>
 					<SheetContent>
 						<SheetHeader>
 							<SheetTitle>Sheet title</SheetTitle>
@@ -242,7 +253,10 @@ export default function TestingPage() {
 				</Sheet>
 
 				<Popover>
-					<PopoverTrigger>Open popover</PopoverTrigger>
+					<PopoverTrigger render={<Button variant="outline" />}>
+						<MenuIcon />
+						Open popover
+					</PopoverTrigger>
 					<PopoverContent>
 						<PopoverTitle>Popover title</PopoverTitle>
 						<PopoverDescription>Popover description.</PopoverDescription>
@@ -250,7 +264,10 @@ export default function TestingPage() {
 				</Popover>
 
 				<DropdownMenu>
-					<DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
+					<DropdownMenuTrigger render={<Button variant="outline" />}>
+						<MenuIcon />
+						Open menu
+					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						<DropdownMenuItem>First menu item</DropdownMenuItem>
 						<DropdownMenuItem>Second menu item</DropdownMenuItem>

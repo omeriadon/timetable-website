@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+import styles from "./List.module.css";
 
 export function List({
 	children,
@@ -7,7 +9,11 @@ export function List({
 	children: ReactNode;
 	className?: string;
 }) {
-	return <div className={className}>{children}</div>;
+	return (
+		<div role="list" className={cn(styles.list, className)}>
+			{children}
+		</div>
+	);
 }
 
 export function ListSection({
@@ -17,11 +23,13 @@ export function ListSection({
 	children: ReactNode;
 	className?: string;
 }) {
-	return <section className={className}>{children}</section>;
+	return (
+		<section className={cn(styles.section, className)}>{children}</section>
+	);
 }
 
 export function ListSectionHeader({ children }: { children: ReactNode }) {
-	return <div>{children}</div>;
+	return <div className={styles.sectionHeader}>{children}</div>;
 }
 
 export function ListRow({
@@ -31,5 +39,9 @@ export function ListRow({
 	children: ReactNode;
 	className?: string;
 }) {
-	return <div className={className}>{children}</div>;
+	return (
+		<div role="listitem" className={cn(styles.row, className)}>
+			{children}
+		</div>
+	);
 }
