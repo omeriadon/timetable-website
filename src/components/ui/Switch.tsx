@@ -161,13 +161,16 @@ function Switch({
 
 			const startOffset = state.startChecked ? state.maxOffset : 0;
 
-			const offset = Math.max(
+			const draggedOffset = Math.max(
 				0,
 				Math.min(state.maxOffset, startOffset + delta),
 			);
 
-			thumb.style.transition = "none";
-			thumb.style.transform = `translateX(${offset}px) scale(1.8)`;
+			const snappedOffset =
+				draggedOffset >= state.maxOffset / 2 ? state.maxOffset : 0;
+
+			thumb.style.transition = "";
+			thumb.style.transform = `translateX(${snappedOffset}px) scale(1.8)`;
 		};
 
 		const pointerUp = (event: PointerEvent) => {
