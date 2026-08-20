@@ -88,6 +88,7 @@ function TimetableModePicker({ pathname }: { pathname: string }) {
 					{MODES.map((mode) => (
 						<DrawerClose
 							key={mode.href}
+							nativeButton={false}
 							render={
 								<Link
 									href={mode.href}

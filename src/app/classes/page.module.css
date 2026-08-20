@@ -1,1 +1,77 @@
-/* Intentionally unstyled. */
+.page {
+	width: 100%;
+	max-width: var(--ds-content-max-width);
+	margin-inline: auto;
+	padding: var(--ds-content-page-padding);
+}
+
+.card {
+	overflow: hidden;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.rowButton {
+	display: block;
+	width: 100%;
+	padding: 0;
+	text-align: left;
+}
+
+.rowButton + .rowButton {
+	border-top: var(--ds-divider-width) solid var(--ds-color-border);
+}
+
+.rowButton:hover {
+	background: var(--ds-color-surface-elevated);
+}
+
+.rowButton:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+}
+
+.row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	min-height: var(--ds-list-row-height);
+	padding: var(--ds-list-row-padding-block) var(--ds-content-card-padding);
+}
+
+.row > span:nth-child(2) {
+	display: grid;
+	gap: var(--ds-space-1);
+}
+
+.row small,
+.loading {
+	color: var(--ds-color-text-secondary);
+}
+
+.symbolIcon,
+.chevronIcon {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.chevronIcon {
+	opacity: 0.5;
+}
+
+.label {
+	font-size: var(--ds-font-content);
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}
+
+@media (max-width: 700px) {
+	.page {
+		padding-bottom: var(--ds-mobile-bottom-inset);
+	}
+}

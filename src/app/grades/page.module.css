@@ -1,1 +1,105 @@
-/* Intentionally unstyled. */
+.page {
+	width: 100%;
+	max-width: var(--ds-content-max-width);
+	margin: 0 auto;
+	padding: var(--ds-content-page-padding);
+}
+
+.summary {
+	display: grid;
+	gap: var(--ds-content-section-gap);
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.summaryTop,
+.summaryStats {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ds-list-row-gap);
+}
+
+.summaryTop > div {
+	display: grid;
+	gap: var(--ds-space-1);
+}
+
+.summaryLabel,
+.summaryStats {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.summaryValue {
+	color: var(--ds-color-text);
+	font-size: var(--ds-font-display);
+	font-weight: 700;
+}
+
+.summaryStats {
+	text-align: center;
+}
+
+.summaryStats b {
+	color: var(--ds-color-text);
+	font-size: var(--ds-font-body-size);
+}
+
+.subjects {
+	display: grid;
+	margin-top: var(--ds-content-section-gap);
+	overflow: hidden;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.subjectRow {
+	display: grid;
+	width: 100%;
+	grid-template-columns: var(--ds-avatar-size) minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	border-bottom: var(--ds-divider-width) solid var(--ds-list-divider);
+	text-align: left;
+}
+
+.subjects > :last-child .subjectRow {
+	border-bottom: 0;
+}
+
+.subjectRow:hover,
+.subjectRow:focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.subjectName,
+.subjectDetail {
+	display: block;
+}
+
+.subjectName {
+	font-size: var(--ds-font-body-size);
+}
+
+.subjectDetail {
+	margin-top: var(--ds-space-1);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.subjectScore {
+	font-size: var(--ds-font-body-size);
+}
+
+.loading,
+.error {
+	text-align: center;
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}

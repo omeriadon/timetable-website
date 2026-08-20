@@ -1,1 +1,105 @@
-/* Intentionally unstyled. */
+.page {
+	width: 100%;
+	max-width: var(--ds-content-max-width);
+	margin: 0 auto;
+	padding: var(--ds-content-page-padding);
+}
+
+.friendActions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.friendActions button {
+	display: inline-grid;
+	width: var(--ds-control-height-compact);
+	height: var(--ds-control-height-compact);
+	place-items: center;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+}
+
+.friendActionIcon {
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	object-fit: contain;
+}
+
+.selfCard {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	margin-bottom: var(--ds-content-section-gap);
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.selfCard div {
+	display: grid;
+	gap: var(--ds-space-1);
+}
+
+.selfCard span,
+.selfCard em {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	font-style: normal;
+}
+
+.list {
+	display: grid;
+	overflow: hidden;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.friendButton {
+	width: 100%;
+	padding: 0;
+	text-align: left;
+}
+
+.friendButton + .friendButton {
+	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+}
+
+.friend {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	min-height: var(--ds-friend-row-min-height);
+	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+}
+
+.friend h2,
+.friend p,
+.friend span {
+	margin: 0;
+}
+
+.friend h2 {
+	font-size: var(--ds-font-body-size);
+}
+
+.friend p,
+.friend span {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.status {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}

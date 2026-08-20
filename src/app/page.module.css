@@ -1,1 +1,110 @@
-/* Intentionally unstyled. */
+.homePage {
+	width: 100%;
+	max-width: var(--ds-content-max-width);
+	min-height: 100%;
+	margin-inline: auto;
+	padding: var(--ds-content-page-padding);
+}
+
+.homeHeader {
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.homeEyebrow {
+	margin: 0 0 var(--ds-space-2);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	font-weight: 600;
+}
+
+.homeHeader h1 {
+	margin: 0;
+	font-size: var(--ds-font-heading-size);
+}
+
+.homeHeader > p:last-child {
+	margin: var(--ds-space-2) 0 0;
+	color: var(--ds-color-text-secondary);
+}
+
+.homeStats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--ds-content-grid-gap);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.homeStat {
+	display: grid;
+	gap: var(--ds-space-1);
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.homeStat strong {
+	font-size: 1.25rem;
+}
+
+.homeStat span,
+.destination small {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.destinationList {
+	overflow: hidden;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.destination {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	min-height: var(--ds-list-row-height);
+	padding: var(--ds-list-row-padding-block) var(--ds-content-card-padding);
+	text-decoration: none;
+}
+
+.destination + .destination {
+	border-top: var(--ds-divider-width) solid var(--ds-color-border);
+}
+
+.destination:hover {
+	background: var(--ds-color-surface-elevated);
+}
+
+.destination:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+}
+
+.destination span {
+	display: grid;
+	gap: var(--ds-space-1);
+}
+
+.destinationIcon,
+.destinationChevron {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.destinationChevron {
+	opacity: 0.5;
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}
+
+@media (max-width: 700px) {
+	.homePage {
+		padding-bottom: var(--ds-mobile-bottom-inset);
+	}
+}
