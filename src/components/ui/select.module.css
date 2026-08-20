@@ -55,8 +55,7 @@
 
 .trigger[aria-invalid="true"] {
 	border-color: var(--destructive);
-	box-shadow: 0 0 0 3px
-		color-mix(in srgb, var(--destructive) 20%, transparent);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
 }
 
 .trigger[data-placeholder] {
@@ -328,10 +327,7 @@
 
 @keyframes select-slide-in {
 	from {
-		transform: translate(
-				var(--select-offset-x, 0),
-				var(--select-offset-y, 0)
-			)
+		transform: translate(var(--select-offset-x, 0), var(--select-offset-y, 0))
 			scale(0.95);
 	}
 
@@ -342,11 +338,7 @@
 
 @media (prefers-color-scheme: dark) {
 	.trigger[aria-invalid="true"] {
-		border-color: color-mix(
-			in srgb,
-			var(--destructive) 50%,
-			transparent
-		);
+		border-color: color-mix(in srgb, var(--destructive) 50%, transparent);
 		box-shadow: 0 0 0 3px
 			color-mix(in srgb, var(--destructive) 40%, transparent);
 	}
