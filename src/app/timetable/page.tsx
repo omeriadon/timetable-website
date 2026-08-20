@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";

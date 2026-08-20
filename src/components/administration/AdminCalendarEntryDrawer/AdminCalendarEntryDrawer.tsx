@@ -6,7 +6,7 @@ import type { AdminCalendarEntry } from "../AdminCalendarEditor/AdminCalendarEdi
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 
 export default function AdminCalendarEntryDrawer({
 	entry,

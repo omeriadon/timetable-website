@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
 	CalendarEvent,

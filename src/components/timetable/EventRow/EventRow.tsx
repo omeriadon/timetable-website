@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import CalendarEventDrawer from "@/components/drawers/CalendarEventDrawer/CalendarEventDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import type { CalendarEvent } from "@/features/timetable/types";

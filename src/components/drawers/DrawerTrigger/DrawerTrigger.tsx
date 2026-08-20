@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 import { useDrawer } from "../Drawer/Drawer";
 

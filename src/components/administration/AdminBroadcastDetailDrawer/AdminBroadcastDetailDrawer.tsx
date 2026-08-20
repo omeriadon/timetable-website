@@ -5,7 +5,7 @@ import type { BroadcastNotificationRecord } from "../AdminBroadcastHistoryEditor
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import AdminBroadcastDetailRow from "@/components/administration/AdminBroadcastDetailRow/AdminBroadcastDetailRow";
 
 export default function AdminBroadcastDetailDrawer({

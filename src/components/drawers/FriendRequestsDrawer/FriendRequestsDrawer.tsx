@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";

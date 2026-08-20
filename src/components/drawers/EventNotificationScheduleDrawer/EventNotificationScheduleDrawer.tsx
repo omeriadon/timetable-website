@@ -4,7 +4,7 @@ import { Select } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 
 export type EventNotificationSchedule = {
 	hour: number;

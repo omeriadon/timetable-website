@@ -1,14 +1,20 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
 
 export type AdministrationUser = Account & { authority: string };

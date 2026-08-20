@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent } from "@/features/timetable/types";
 import EventRow from "@/components/timetable/EventRow/EventRow";

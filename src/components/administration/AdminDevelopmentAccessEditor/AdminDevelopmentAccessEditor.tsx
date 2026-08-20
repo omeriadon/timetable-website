@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminDevelopmentAccessChangeDrawer from "@/components/administration/AdminDevelopmentAccessChangeDrawer/AdminDevelopmentAccessChangeDrawer";

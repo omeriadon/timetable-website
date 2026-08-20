@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";

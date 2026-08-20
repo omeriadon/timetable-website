@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 

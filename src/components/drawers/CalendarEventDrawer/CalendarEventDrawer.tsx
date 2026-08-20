@@ -7,7 +7,7 @@ import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 
 export default function CalendarEventDrawer({
 	event,

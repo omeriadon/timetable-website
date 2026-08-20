@@ -6,7 +6,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 

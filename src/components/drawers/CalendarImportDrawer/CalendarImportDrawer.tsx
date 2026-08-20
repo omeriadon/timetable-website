@@ -11,7 +11,7 @@ import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Drawer/Drawer.module.css";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import ConfirmationDrawer from "../ConfirmationDrawer/ConfirmationDrawer";
 
 type CalendarImportDrawerProps = {

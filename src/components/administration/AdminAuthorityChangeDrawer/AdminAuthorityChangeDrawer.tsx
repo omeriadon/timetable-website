@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
-import { Button } from "@base-ui/react/button";
+import { Button } from "@/components/ui/button";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
