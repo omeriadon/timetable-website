@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 import styles from "./List.module.css";
 
 export function List({
@@ -9,10 +10,31 @@ export function List({
 	children: ReactNode;
 	className?: string;
 }) {
+	const items = Children.toArray(children);
+	const hasSections = items.some(
+		(item) => isValidElement(item) && item.type === ListSection,
+	);
+
+	if (hasSections) {
+		return (
+			<div className={cn(styles.sectionList, className)}>
+				{items.map((item, index) =>
+					isValidElement(item) && item.type === ListSection ? (
+						<Card key={item.key ?? index} role="group" className={styles.card}>
+							{item}
+						</Card>
+					) : (
+						item
+					),
+				)}
+			</div>
+		);
+	}
+
 	return (
-		<div role="list" className={cn(styles.list, className)}>
+		<Card role="list" className={cn(styles.card, className)}>
 			{children}
-		</div>
+		</Card>
 	);
 }
 

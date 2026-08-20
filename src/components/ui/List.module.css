@@ -1,12 +1,20 @@
-.list {
-	overflow: hidden;
+.sectionList {
+	display: grid;
+	gap: var(--ds-content-section-gap);
+}
+
+.card {
+	--card-spacing: var(--ds-content-card-padding);
+	gap: 0;
 	width: 100%;
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-content-card);
 	background: var(--ds-color-surface);
+	box-shadow: none;
 }
 
-.section + .section {
+.card > * + *,
+.section > * + * {
 	border-top: var(--ds-divider-width) solid var(--ds-color-border);
 }
 
@@ -23,8 +31,4 @@
 	align-items: center;
 	gap: var(--ds-list-row-gap);
 	padding: var(--ds-list-row-padding-block) var(--ds-content-card-padding);
-}
-
-.row + .row {
-	border-top: var(--ds-divider-width) solid var(--ds-color-border);
 }

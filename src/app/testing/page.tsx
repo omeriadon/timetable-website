@@ -193,6 +193,10 @@ export default function TestingPage() {
 						</ListRow>
 					</ListSection>
 				</List>
+				<List>
+					<ListRow>Single-card list row</ListRow>
+					<ListRow>Another direct React child</ListRow>
+				</List>
 				<SectionCard
 					background="surface"
 					title="Section card"
