@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
@@ -136,14 +136,25 @@ export default function AdminUserEditorDrawer({
 					Authority
 					<Select
 						value={authority}
-						onChange={(event) => setAuthority(event.target.value)}
+						onValueChange={(value) => {
+							if (value !== null) {
+								setAuthority(value);
+							}
+						}}
 						disabled={!isSystemOwner || user?.authority === "systemOwner"}
 					>
-						<option value="user">User</option>
-						<option value="administrator">Administrator</option>
-						{user?.authority === "systemOwner" ? (
-							<option value="systemOwner">System owner</option>
-						) : null}
+						<SelectTrigger>
+							<SelectValue />
+						</SelectTrigger>
+
+						<SelectContent>
+							<SelectItem value="user">User</SelectItem>
+							<SelectItem value="administrator">Administrator</SelectItem>
+
+							{user?.authority === "systemOwner" && (
+								<SelectItem value="systemOwner">System owner</SelectItem>
+							)}
+						</SelectContent>
 					</Select>
 				</label>
 			</section>

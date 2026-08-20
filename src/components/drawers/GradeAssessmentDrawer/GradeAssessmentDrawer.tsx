@@ -2,7 +2,7 @@
 
 import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/input";
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import { Select } from "@/components/ui/select";
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -92,11 +92,11 @@ export default function GradeAssessmentDrawer({
 					Assessment period
 					<Select
 						value={current.location}
-						onChange={(event) =>
-							update({
-								location: event.target.value as GradeAssessment["location"],
-							})
-						}
+						onValueChange={(value) => {
+							if (value !== null) {
+								update({ location: value as GradeAssessment["location"] });
+							}
+						}}
 					>
 						<option value="exam">Exam</option>
 						<option value="directedStudy">Directed Study</option>

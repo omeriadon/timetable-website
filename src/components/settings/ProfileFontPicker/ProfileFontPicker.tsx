@@ -1,6 +1,6 @@
 "use client";
 
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import { Select } from "@/components/ui/select";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import styles from "./ProfileFontPicker.module.css";
 

@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import { Select } from "@/components/ui/select";
 import { useState } from "react";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import type {

@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -38,12 +44,21 @@ export default function FeedbackEditor() {
 				<Symbol name="exclamationmark.bubble" />
 				<label htmlFor="feedback-category">Type</label>
 				<Select
-					id="feedback-category"
 					value={category}
-					onChange={(event) => setCategory(event.target.value)}
+					onValueChange={(value) => {
+						if (value !== null) {
+							setCategory(value);
+						}
+					}}
 				>
-					<option>Feedback</option>
-					<option>Bug Report</option>
+					<SelectTrigger id="feedback-category">
+						<SelectValue />
+					</SelectTrigger>
+
+					<SelectContent>
+						<SelectItem value="Feedback">Feedback</SelectItem>
+						<SelectItem value="Bug Report">Bug Report</SelectItem>
+					</SelectContent>
 				</Select>
 			</div>
 			<label className={styles.messageLabel} htmlFor="feedback-message">

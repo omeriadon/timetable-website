@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { NativeSelect as Select } from "@/components/ui/nativeselect";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -168,20 +174,29 @@ export default function SettingsPage() {
 							<Symbol name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
 							<Select
-								className={styles.inlineSelect}
 								value={settings.futureEventRange}
 								disabled={saving}
-								aria-label="Show Future Events range"
-								onChange={(event) =>
-									void updateFutureEventRange(event.target.value)
-								}
+								onValueChange={(value) => {
+									if (value !== null) {
+										void updateFutureEventRange(value);
+									}
+								}}
 							>
-								<option value="oneWeek">1 Week</option>
-								<option value="twoWeeks">2 Weeks</option>
-								<option value="oneMonth">1 Month</option>
-								<option value="twoMonths">2 Months</option>
-								<option value="threeMonths">3 Months</option>
-								<option value="endOfYear">Until End of Year</option>
+								<SelectTrigger
+									className={styles.inlineSelect}
+									aria-label="Show Future Events range"
+								>
+									<SelectValue />
+								</SelectTrigger>
+
+								<SelectContent>
+									<SelectItem value="oneWeek">1 Week</SelectItem>
+									<SelectItem value="twoWeeks">2 Weeks</SelectItem>
+									<SelectItem value="oneMonth">1 Month</SelectItem>
+									<SelectItem value="twoMonths">2 Months</SelectItem>
+									<SelectItem value="threeMonths">3 Months</SelectItem>
+									<SelectItem value="endOfYear">Until End of Year</SelectItem>
+								</SelectContent>
 							</Select>
 						</div>
 						<NavigationRow
