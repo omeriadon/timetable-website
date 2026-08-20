@@ -86,7 +86,7 @@ export default function AdminEventTagSectionDrawer({
 				</label>
 				<label className={styles.editorCheck}>
 					<Checkbox
-						label="Archive section"
+						aria-label="Archive section"
 						checked={isArchived}
 						onCheckedChange={setIsArchived}
 					/>

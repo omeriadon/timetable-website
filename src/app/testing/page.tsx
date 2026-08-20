@@ -5,11 +5,35 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
-import { Select } from "@/components/ui/Select";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Switch } from "@/components/ui/Switch";
-import { Dialog } from "@/components/ui/Dialog";
-import { Menu, MenuItem } from "@/components/ui/Menu";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/Dialog";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+	Alert,
+	AlertAction,
+	AlertDescription,
+	AlertTitle,
+} from "@/components/ui/alert";
 import { SectionCard } from "@/components/ui/SectionCard";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -39,7 +63,7 @@ import {
 	PopoverDescription,
 	PopoverTitle,
 	PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/ui/Popover";
 import {
 	List,
 	ListRow,
@@ -82,9 +106,20 @@ export default function TestingPage() {
 				</label>
 				<label>
 					Select
-					<Select defaultValue="one">
-						<option value="one">Option one</option>
-						<option value="two">Option two</option>
+					<Select
+						defaultValue="one"
+						items={[
+							{ value: "one", label: "Option one" },
+							{ value: "two", label: "Option two" },
+						]}
+					>
+						<SelectTrigger>
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="one">Option one</SelectItem>
+							<SelectItem value="two">Option two</SelectItem>
+						</SelectContent>
 					</Select>
 				</label>
 				<label>
@@ -131,8 +166,15 @@ export default function TestingPage() {
 					</DrawerContent>
 				</Drawer>
 
-				<Dialog trigger="Open dialog" title="Dialog title">
-					<p>Dialog content.</p>
+				<Dialog>
+					<DialogTrigger>Open dialog</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Dialog title</DialogTitle>
+							<DialogDescription>Dialog description.</DialogDescription>
+						</DialogHeader>
+						<p>Dialog content.</p>
+					</DialogContent>
 				</Dialog>
 
 				<Sheet>
@@ -157,10 +199,13 @@ export default function TestingPage() {
 					</PopoverContent>
 				</Popover>
 
-				<Menu label="Open menu">
-					<MenuItem>First menu item</MenuItem>
-					<MenuItem>Second menu item</MenuItem>
-				</Menu>
+				<DropdownMenu>
+					<DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuItem>First menu item</DropdownMenuItem>
+						<DropdownMenuItem>Second menu item</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</section>
 
 			<section>
@@ -188,12 +233,15 @@ export default function TestingPage() {
 			<section>
 				<h2>Alerts</h2>
 				{alertVisible ? (
-					<div role="alert">
-						<p>Example alert message.</p>
-						<Button type="button" onClick={() => setAlertVisible(false)}>
-							Dismiss alert
-						</Button>
-					</div>
+					<Alert>
+						<AlertTitle>Example alert</AlertTitle>
+						<AlertDescription>Example alert message.</AlertDescription>
+						<AlertAction>
+							<Button type="button" onClick={() => setAlertVisible(false)}>
+								Dismiss
+							</Button>
+						</AlertAction>
+					</Alert>
 				) : (
 					<Button type="button" onClick={() => setAlertVisible(true)}>
 						Show alert

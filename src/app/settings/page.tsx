@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Select } from "@/components/ui/Select";
+import { NativeSelect as Select } from "@/components/ui/NativeSelect";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";

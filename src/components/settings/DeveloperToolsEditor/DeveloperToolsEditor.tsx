@@ -108,7 +108,7 @@ export default function DeveloperToolsEditor() {
 						Release App Icon
 					</label>
 					<Checkbox
-						label="Release App Icon"
+						aria-label="Release App Icon"
 						id="release-app-icon"
 						checked={usesReleaseIcon}
 						onCheckedChange={toggleReleaseIcon}

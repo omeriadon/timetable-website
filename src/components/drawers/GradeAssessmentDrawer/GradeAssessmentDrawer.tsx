@@ -2,7 +2,7 @@
 
 import { Button } from "@base-ui/react/button";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import { NativeSelect as Select } from "@/components/ui/NativeSelect";
 import { useState } from "react";
 import type { GradeAssessment } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";

@@ -30,7 +30,7 @@ export default function NavigationPersistenceEditor() {
 					Restore Navigation
 				</label>
 				<Checkbox
-					label="Restore Navigation"
+					aria-label="Restore Navigation"
 					id="restore-navigation"
 					checked={isEnabled}
 					onCheckedChange={update}

@@ -215,7 +215,7 @@ export default function TimetableEditorDrawer({
 			<section className={styles.detailCard}>
 				<label className={styles.editorCheck}>
 					<Checkbox
-						label="Allow friends to compare my timetable"
+						aria-label="Allow friends to compare my timetable"
 						checked={isSearchable}
 						onCheckedChange={setIsSearchable}
 					/>{" "}
