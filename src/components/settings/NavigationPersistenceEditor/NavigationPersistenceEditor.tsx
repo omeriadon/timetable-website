@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Toggle } from "@/components/ui/toggle";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/settings/Settings.module.css";
@@ -29,7 +29,7 @@ export default function NavigationPersistenceEditor() {
 				<label className={styles.label} htmlFor="restore-navigation">
 					Restore Navigation
 				</label>
-				<Checkbox
+				<Toggle
 					aria-label="Restore Navigation"
 					id="restore-navigation"
 					checked={isEnabled}

@@ -19,8 +19,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/Select";
-import { Checkbox } from "@/components/ui/Checkbox";
-import { Switch } from "@/components/ui/Switch";
+import { Toggle } from "@/components/ui/toggle";
 import {
 	Dialog,
 	DialogContent,
@@ -152,15 +151,7 @@ export default function TestingPage() {
 						</Select>
 					</Field>
 					<Field orientation="horizontal">
-						<Checkbox
-							id="testing-checkbox"
-							checked={checked}
-							onCheckedChange={setChecked}
-						/>
-						<FieldLabel htmlFor="testing-checkbox">Checkbox</FieldLabel>
-					</Field>
-					<Field orientation="horizontal">
-						<Switch
+						<Toggle
 							id="testing-switch"
 							checked={switched}
 							onCheckedChange={setSwitched}

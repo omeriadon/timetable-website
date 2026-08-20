@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
+import { Switch as TogglePrimitive } from "@base-ui/react/switch";
 
 import { cn } from "@/lib/utils";
-import styles from "./Switch.module.css";
+import styles from "./toggle.module.css";
 
 function readPx(el: HTMLElement, prop: string, fallback: number) {
 	const value = getComputedStyle(el).getPropertyValue(prop);
@@ -13,14 +13,14 @@ function readPx(el: HTMLElement, prop: string, fallback: number) {
 	return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function Switch({
+function Toggle({
 	className,
 	size = "default",
 	checked,
 	defaultChecked,
 	onCheckedChange,
 	...props
-}: SwitchPrimitive.Root.Props & {
+}: TogglePrimitive.Root.Props & {
 	size?: "sm" | "default";
 }) {
 	const rootRef = React.useRef<HTMLButtonElement>(null);
@@ -232,7 +232,7 @@ function Switch({
 	const handleCheckedChange = (
 		next: boolean,
 		event: Parameters<
-			NonNullable<SwitchPrimitive.Root.Props["onCheckedChange"]>
+			NonNullable<TogglePrimitive.Root.Props["onCheckedChange"]>
 		>[1],
 	) => {
 		if (suppressNextChange.current) {
@@ -244,31 +244,31 @@ function Switch({
 	};
 
 	return (
-		<SwitchPrimitive.Root
+		<TogglePrimitive.Root
 			{...props}
 			ref={rootRef}
 			nativeButton
 			render={<button type="button" />}
-			data-slot="switch"
+			data-slot="Toggle"
 			data-size={size}
 			checked={isChecked}
 			onCheckedChange={handleCheckedChange}
 			className={cn(
-				"peer group/switch relative inline-flex shrink-0 items-center rounded-full border-2 transition-all outline-none group-has-focus-visible/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-5 data-[size=default]:w-11 data-[size=sm]:h-4 data-[size=sm]:w-7 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary group-has-focus-visible/field-label:data-checked:border-primary data-unchecked:border-transparent data-unchecked:bg-input/90 group-has-focus-visible/field-label:data-unchecked:border-transparent data-disabled:cursor-not-allowed data-disabled:opacity-50",
+				"peer group/Toggle relative inline-flex shrink-0 items-center rounded-full border-2 transition-all outline-none group-has-focus-visible/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-5 data-[size=default]:w-11 data-[size=sm]:h-4 data-[size=sm]:w-7 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary group-has-focus-visible/field-label:data-checked:border-primary data-unchecked:border-transparent data-unchecked:bg-input/90 group-has-focus-visible/field-label:data-unchecked:border-transparent data-disabled:cursor-not-allowed data-disabled:opacity-50",
 				styles.root,
 				className,
 			)}
 		>
-			<SwitchPrimitive.Thumb
+			<TogglePrimitive.Thumb
 				ref={thumbRef}
-				data-slot="switch-thumb"
+				data-slot="Toggle-thumb"
 				className={cn(
-					"pointer-events-none block rounded-full bg-background shadow-sm ring-0 not-dark:bg-clip-padding group-data-[size=default]/switch:h-4 group-data-[size=default]/switch:w-6 group-data-[size=sm]/switch:h-3 group-data-[size=sm]/switch:w-4 dark:data-unchecked:bg-foreground",
+					"pointer-events-none block rounded-full bg-background shadow-sm ring-0 not-dark:bg-clip-padding group-data-[size=default]/Toggle:h-4 group-data-[size=default]/Toggle:w-6 group-data-[size=sm]/Toggle:h-3 group-data-[size=sm]/Toggle:w-4 dark:data-unchecked:bg-foreground",
 					styles.thumb,
 				)}
 			/>
-		</SwitchPrimitive.Root>
+		</TogglePrimitive.Root>
 	);
 }
 
-export { Switch };
+export { Toggle };

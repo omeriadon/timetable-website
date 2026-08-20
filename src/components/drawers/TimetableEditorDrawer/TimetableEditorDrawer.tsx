@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import type {
@@ -214,7 +214,7 @@ export default function TimetableEditorDrawer({
 			</section>
 			<section className={styles.detailCard}>
 				<label className={styles.editorCheck}>
-					<Checkbox
+					<Toggle
 						aria-label="Allow friends to compare my timetable"
 						checked={isSearchable}
 						onCheckedChange={setIsSearchable}

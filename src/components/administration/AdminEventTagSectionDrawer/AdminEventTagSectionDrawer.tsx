@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/Input";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Toggle } from "@/components/ui/toggle";
 import { useState } from "react";
 import type {
 	AdminEventTagSection,
@@ -85,7 +85,7 @@ export default function AdminEventTagSectionDrawer({
 					/>
 				</label>
 				<label className={styles.editorCheck}>
-					<Checkbox
+					<Toggle
 						aria-label="Archive section"
 						checked={isArchived}
 						onCheckedChange={setIsArchived}

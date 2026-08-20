@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@base-ui/react/button";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -107,7 +107,7 @@ export default function DeveloperToolsEditor() {
 					<label className={styles.label} htmlFor="release-app-icon">
 						Release App Icon
 					</label>
-					<Checkbox
+					<Toggle
 						aria-label="Release App Icon"
 						id="release-app-icon"
 						checked={usesReleaseIcon}

@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/Input";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { Toggle } from "@/components/ui/toggle";
 import { NativeSelect as Select } from "@/components/ui/NativeSelect";
 import { useState } from "react";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
@@ -200,7 +200,7 @@ export default function AdminSpecialBadgeDrawer({
 					<h3>Users</h3>
 					{users.map((user) => (
 						<label key={user.id} className={styles.editorCheck}>
-							<Checkbox
+							<Toggle
 								aria-label={user.displayName}
 								checked={selectedUserIDs.includes(user.id)}
 								onCheckedChange={() => toggleUser(user.id)}
