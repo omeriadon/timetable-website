@@ -1,0 +1,156 @@
+.positioner {
+	isolation: isolate;
+	z-index: 50;
+}
+
+.content {
+	z-index: 50;
+
+	display: flex;
+	flex-direction: column;
+
+	width: 18rem;
+	gap: 1rem;
+	padding: 1rem;
+
+	transform-origin: var(--transform-origin);
+
+	border-radius: 1.5rem;
+	background: var(--popover);
+	color: var(--popover-foreground);
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+	outline: none;
+	transition-duration: 100ms;
+
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1),
+		0 0 0 1px color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+
+/* Open / close */
+
+.content[data-open] {
+	animation:
+		popover-fade-in 100ms ease-out,
+		popover-zoom-in 100ms ease-out;
+}
+
+.content[data-closed] {
+	animation:
+		popover-fade-out 100ms ease-in,
+		popover-zoom-out 100ms ease-in;
+}
+
+/* Side movement */
+
+.content[data-open][data-side="bottom"] {
+	--popover-translate-x: 0;
+	--popover-translate-y: -0.5rem;
+}
+
+.content[data-open][data-side="top"] {
+	--popover-translate-x: 0;
+	--popover-translate-y: 0.5rem;
+}
+
+.content[data-open][data-side="left"] {
+	--popover-translate-x: 0.5rem;
+	--popover-translate-y: 0;
+}
+
+.content[data-open][data-side="right"] {
+	--popover-translate-x: -0.5rem;
+	--popover-translate-y: 0;
+}
+
+.content[data-open][data-side="inline-start"] {
+	--popover-translate-x: 0.5rem;
+	--popover-translate-y: 0;
+}
+
+.content[data-open][data-side="inline-end"] {
+	--popover-translate-x: -0.5rem;
+	--popover-translate-y: 0;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+.title {
+	font-size: 1rem;
+	line-height: 1.5rem;
+	font-weight: 500;
+}
+
+.description {
+	color: var(--muted-foreground);
+}
+
+@keyframes popover-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes popover-fade-out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes popover-zoom-in {
+	from {
+		transform:
+			translate(
+				var(--popover-translate-x, 0),
+				var(--popover-translate-y, 0)
+			)
+			scale(0.95);
+	}
+
+	to {
+		transform: translate(0, 0) scale(1);
+	}
+}
+
+@keyframes popover-zoom-out {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.content {
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1),
+			0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+	}
+}
