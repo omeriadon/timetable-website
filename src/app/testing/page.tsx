@@ -89,32 +89,57 @@ export default function TestingPage() {
 			<section>
 				<h2>Buttons</h2>
 
-				<Button>
+				<div>
+					<Button>
+						<SaveIcon />
+						Save
+					</Button>
+
+					<Button variant="outline">
+						<BellIcon />
+						Notify
+					</Button>
+
+					<Button variant="secondary">
+						<BellIcon />
+						Notify
+					</Button>
+
+					<Button variant="destructive">
+						<TrashIcon />
+						Delete
+					</Button>
+
+					<Button variant="link">
+						<TrashIcon />
+						Delete
+					</Button>
+				</div>
+
+				<Button disabled>
 					<SaveIcon />
 					Save
 				</Button>
 
-				<Button variant="outline">
+				<Button disabled variant="outline">
 					<BellIcon />
 					Notify
 				</Button>
 
-				<Button variant="secondary">
+				<Button disabled variant="secondary">
 					<BellIcon />
 					Notify
 				</Button>
 
-				<Button variant="destructive">
+				<Button disabled variant="destructive">
 					<TrashIcon />
 					Delete
 				</Button>
 
-				<Button variant="link">
+				<Button disabled variant="link">
 					<TrashIcon />
 					Delete
 				</Button>
-
-				<Button disabled>Disabled button</Button>
 			</section>
 
 			<section>
