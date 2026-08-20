@@ -407,6 +407,8 @@
 	overflow: hidden;
 	overscroll-behavior: contain;
 
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
 	border-radius: inherit;
 
 	transition: opacity 300ms cubic-bezier(0.45, 1.005, 0, 1.005);
