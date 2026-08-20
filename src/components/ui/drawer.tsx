@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 import styles from "./drawer.module.css";
 import { Button } from "./button";
+import { XIcon } from "lucide-react";
 
 type DrawerContextProps = {
 	hasSnapPoints: boolean;
@@ -160,13 +161,29 @@ function DrawerContent({
 	);
 }
 
-function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DrawerHeader({
+	className,
+	children,
+	...props
+}: React.ComponentProps<"div">) {
+	const hasClose = React.Children.toArray(children).some(
+		(child) => React.isValidElement(child) && child.type === DrawerClose,
+	);
+
 	return (
 		<div
 			data-slot="drawer-header"
 			className={cn(styles.header, className)}
 			{...props}
-		/>
+		>
+			<div className={styles.headerContent}>{children}</div>
+
+			{!hasClose && (
+				<DrawerClose size="icon" aria-label="Close drawer">
+					<XIcon />
+				</DrawerClose>
+			)}
+		</div>
 	);
 }
 
