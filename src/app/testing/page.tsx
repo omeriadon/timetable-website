@@ -66,16 +66,6 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
-import {
 	Popover,
 	PopoverContent,
 	PopoverDescription,
@@ -238,23 +228,6 @@ export default function TestingPage() {
 						<p>Dialog content.</p>
 					</DialogContent>
 				</Dialog>
-
-				<Sheet>
-					<SheetTrigger render={<Button variant="outline" />}>
-						<PanelRightIcon />
-						Open sheet
-					</SheetTrigger>
-					<SheetContent>
-						<SheetHeader>
-							<SheetTitle>Sheet title</SheetTitle>
-							<SheetDescription>Sheet description.</SheetDescription>
-						</SheetHeader>
-						<p>Sheet content.</p>
-						<SheetFooter>
-							<SheetClose>Close sheet</SheetClose>
-						</SheetFooter>
-					</SheetContent>
-				</Sheet>
 
 				<Popover>
 					<PopoverTrigger render={<Button variant="outline" />}>

@@ -1,25 +1,30 @@
 "use client";
 
-import { useRef, useState } from "react";
-
-import type { Account } from "@/lib/api/contracts";
-import { apiRequest } from "@/lib/api/client";
-
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-} from "@/components/ui/sheet";
+import { useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
-import styles from "@/components/sheets/Sheet/Sheet.module.css";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { apiRequest } from "@/lib/api/client";
+import type { Account } from "@/lib/api/contracts";
+
+import styles from "@/components/administration/Administration.module.css";
 
 export type AdministrationUser = Account & {
 	authority: string;
@@ -30,6 +35,7 @@ type AdminUserEditorSheetProps = {
 	isSystemOwner: boolean;
 	onSaved: (user: AdministrationUser) => void;
 	onDeleted: (userID: string) => void;
+	onClose?: () => void;
 };
 
 export default function AdminUserEditorSheet({
@@ -37,9 +43,8 @@ export default function AdminUserEditorSheet({
 	isSystemOwner,
 	onSaved,
 	onDeleted,
+	onClose,
 }: AdminUserEditorSheetProps) {
-	const parentCloseRef = useRef<HTMLButtonElement>(null);
-
 	const [displayName, setDisplayName] = useState(user?.displayName ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
 	const [password, setPassword] = useState("");
@@ -49,12 +54,14 @@ export default function AdminUserEditorSheet({
 	const [error, setError] = useState<string | null>(null);
 	const [deleteOpen, setDeleteOpen] = useState(false);
 
-	const closeParentSheet = () => {
-		parentCloseRef.current?.click();
-	};
+	const canSave =
+		!saving &&
+		displayName.trim().length > 0 &&
+		email.trim().length > 0 &&
+		(user !== undefined || password.length >= 8);
 
 	const save = async () => {
-		if (saving || !displayName.trim() || !email.trim()) return;
+		if (!canSave) return;
 
 		setSaving(true);
 		setError(null);
@@ -64,7 +71,7 @@ export default function AdminUserEditorSheet({
 				? `v1/administration/users/${user.id}`
 				: "v1/administration/users";
 
-			const updated = await apiRequest<AdministrationUser>(path, {
+			let updated = await apiRequest<AdministrationUser>(path, {
 				method: user ? "PUT" : "POST",
 				body: JSON.stringify(
 					user
@@ -81,15 +88,13 @@ export default function AdminUserEditorSheet({
 				),
 			});
 
-			let finalUser = updated;
-
 			if (
 				user &&
 				isSystemOwner &&
 				authority !== user.authority &&
 				authority !== "systemOwner"
 			) {
-				finalUser = await apiRequest<AdministrationUser>(
+				updated = await apiRequest<AdministrationUser>(
 					`v1/administration/users/${user.id}/authority`,
 					{
 						method: "PUT",
@@ -98,13 +103,13 @@ export default function AdminUserEditorSheet({
 				);
 			}
 
-			onSaved(finalUser);
-			closeParentSheet();
+			onSaved(updated);
+			onClose?.();
 		} catch (requestError) {
 			setError(
 				requestError instanceof Error
 					? requestError.message
-					: "Failed to save user",
+					: "Failed to save user.",
 			);
 		} finally {
 			setSaving(false);
@@ -124,12 +129,12 @@ export default function AdminUserEditorSheet({
 
 			onDeleted(user.id);
 			setDeleteOpen(false);
-			closeParentSheet();
+			onClose?.();
 		} catch (requestError) {
 			setError(
 				requestError instanceof Error
 					? requestError.message
-					: "Failed to delete user",
+					: "Failed to delete user.",
 			);
 		} finally {
 			setSaving(false);
@@ -139,13 +144,6 @@ export default function AdminUserEditorSheet({
 	return (
 		<>
 			<div className={styles.detailSheet}>
-				<SheetClose
-					ref={parentCloseRef}
-					className="hidden"
-					aria-hidden="true"
-					tabIndex={-1}
-				/>
-
 				<header className={styles.detailHeader}>
 					<Symbol name="person" fallback="●" />
 
@@ -162,6 +160,7 @@ export default function AdminUserEditorSheet({
 							value={displayName}
 							onChange={(event) => setDisplayName(event.target.value)}
 							autoComplete="name"
+							disabled={saving}
 						/>
 					</label>
 
@@ -172,6 +171,7 @@ export default function AdminUserEditorSheet({
 							value={email}
 							onChange={(event) => setEmail(event.target.value)}
 							autoComplete="email"
+							disabled={saving}
 						/>
 					</label>
 
@@ -182,6 +182,8 @@ export default function AdminUserEditorSheet({
 							value={password}
 							onChange={(event) => setPassword(event.target.value)}
 							autoComplete="new-password"
+							minLength={8}
+							disabled={saving}
 						/>
 					</label>
 
@@ -194,14 +196,22 @@ export default function AdminUserEditorSheet({
 									setAuthority(value);
 								}
 							}}
-							disabled={!isSystemOwner || user?.authority === "systemOwner"}
+							disabled={
+								saving || !isSystemOwner || user?.authority === "systemOwner"
+							}
 						>
-							<option value="user">User</option>
-							<option value="administrator">Administrator</option>
+							<SelectTrigger>
+								<SelectValue />
+							</SelectTrigger>
 
-							{user?.authority === "systemOwner" && (
-								<option value="systemOwner">System owner</option>
-							)}
+							<SelectContent>
+								<SelectItem value="user">User</SelectItem>
+								<SelectItem value="administrator">Administrator</SelectItem>
+
+								{user?.authority === "systemOwner" && (
+									<SelectItem value="systemOwner">System owner</SelectItem>
+								)}
+							</SelectContent>
 						</Select>
 					</label>
 				</section>
@@ -215,6 +225,7 @@ export default function AdminUserEditorSheet({
 				<div className={styles.sheetActions}>
 					{user && (
 						<Button
+							type="button"
 							variant="destructive"
 							onClick={() => setDeleteOpen(true)}
 							disabled={saving}
@@ -224,15 +235,7 @@ export default function AdminUserEditorSheet({
 						</Button>
 					)}
 
-					<Button
-						onClick={() => void save()}
-						disabled={
-							saving ||
-							!displayName.trim() ||
-							!email.trim() ||
-							(!user && password.length < 8)
-						}
-					>
+					<Button type="button" onClick={() => void save()} disabled={!canSave}>
 						<Symbol name="checkmark" fallback="✓" />
 						{saving ? "Saving…" : user ? "Save" : "Create"}
 					</Button>
@@ -240,29 +243,24 @@ export default function AdminUserEditorSheet({
 			</div>
 
 			{user && (
-				<Sheet open={deleteOpen} onOpenChange={setDeleteOpen}>
-					<SheetContent>
-						<SheetHeader>
-							<SheetTitle>Delete account</SheetTitle>
-							<SheetDescription>
+				<Drawer open={deleteOpen} onOpenChange={setDeleteOpen}>
+					<DrawerContent>
+						<DrawerHeader>
+							<DrawerTitle>Delete account</DrawerTitle>
+							<DrawerDescription>
 								Delete {user.displayName}&apos;s account? This cannot be undone.
-							</SheetDescription>
-						</SheetHeader>
+							</DrawerDescription>
+						</DrawerHeader>
 
-						<SheetFooter>
-							<SheetClose
-								render={
-									<SheetClose
-										render={<Button variant="outline" disabled={saving} />}
-									>
-										Cancel
-									</SheetClose>
-								}
+						<DrawerFooter>
+							<DrawerClose
+								render={<Button variant="outline" disabled={saving} />}
 							>
 								Cancel
-							</SheetClose>
+							</DrawerClose>
 
 							<Button
+								type="button"
 								variant="destructive"
 								onClick={() => void remove()}
 								disabled={saving}
@@ -270,9 +268,9 @@ export default function AdminUserEditorSheet({
 								<Symbol name="trash" fallback="×" />
 								{saving ? "Deleting…" : "Delete account"}
 							</Button>
-						</SheetFooter>
-					</SheetContent>
-				</Sheet>
+						</DrawerFooter>
+					</DrawerContent>
+				</Drawer>
 			)}
 		</>
 	);
