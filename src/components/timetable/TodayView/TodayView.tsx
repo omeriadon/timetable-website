@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
@@ -56,6 +56,8 @@ export default function TodayView({
 	const [expandedSubjectID, setExpandedSubjectID] = useState<string | null>(
 		null,
 	);
+	const [localEvents, setLocalEvents] = useState(events);
+	useEffect(() => setLocalEvents(events), [events]);
 	const today = new Date();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 	const todayTimestamp = new Date(
@@ -65,7 +67,7 @@ export default function TodayView({
 	).getTime();
 	const dayIndex = todayDayIndex();
 	const entries = [
-		...events.map<TodayEntry>((event) => ({
+		...localEvents.map<TodayEntry>((event) => ({
 			kind: "event",
 			id: `event-${event.id}`,
 			date: event.date,
@@ -96,6 +98,13 @@ export default function TodayView({
 		return `${date.year}-${date.month}-${date.day}` === todayKey;
 	});
 	const isSchoolDay = dayIndex >= 0 && dayIndex < 5 && !noSchool;
+	const updateEvent = (updated: CalendarEvent | null, originalID: string) => {
+		setLocalEvents((current) =>
+			updated
+				? current.map((event) => (event.id === originalID ? updated : event))
+				: current.filter((event) => event.id !== originalID),
+		);
+	};
 
 	return (
 		<>
@@ -124,7 +133,12 @@ export default function TodayView({
 						<>
 							<h3>Today</h3>
 							{todayEntries.map((entry) => (
-								<TodayEntryRow key={entry.id} entry={entry} showDate={false} />
+								<TodayEntryRow
+									key={entry.id}
+									entry={entry}
+									showDate={false}
+									onEventChanged={updateEvent}
+								/>
 							))}
 						</>
 					) : null}
@@ -132,7 +146,12 @@ export default function TodayView({
 						<>
 							<h3>Upcoming</h3>
 							{upcomingEntries.map((entry) => (
-								<TodayEntryRow key={entry.id} entry={entry} showDate />
+								<TodayEntryRow
+									key={entry.id}
+									entry={entry}
+									showDate
+									onEventChanged={updateEvent}
+								/>
 							))}
 						</>
 					) : null}
@@ -253,12 +272,20 @@ export default function TodayView({
 function TodayEntryRow({
 	entry,
 	showDate,
+	onEventChanged,
 }: {
 	entry: TodayEntry;
 	showDate: boolean;
+	onEventChanged: (event: CalendarEvent | null, originalID: string) => void;
 }) {
 	if (entry.kind === "event") {
-		return <EventRow event={entry.event} showDate={showDate} />;
+		return (
+			<EventRow
+				event={entry.event}
+				showDate={showDate}
+				onChanged={(updated) => onEventChanged(updated, entry.event.id)}
+			/>
+		);
 	}
 
 	return <AssessmentEntryRow entry={entry} showDate={showDate} />;

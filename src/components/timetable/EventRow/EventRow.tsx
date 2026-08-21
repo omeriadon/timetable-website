@@ -12,10 +12,12 @@ export default function EventRow({
 	event,
 	prominent = false,
 	showDate = true,
+	onChanged,
 }: {
 	event: CalendarEvent;
 	prominent?: boolean;
 	showDate?: boolean;
+	onChanged?: (event: CalendarEvent | null) => void;
 }) {
 	const { openDrawer } = useDrawer();
 	const eventRowContent = (
@@ -40,7 +42,10 @@ export default function EventRow({
 			)}
 			onClick={() =>
 				openDrawer(
-					<CalendarEventDrawer event={event} onChanged={() => undefined} />,
+					<CalendarEventDrawer
+						event={event}
+						onChanged={onChanged ?? (() => undefined)}
+					/>,
 				)
 			}
 			aria-label={`Open ${event.title}`}

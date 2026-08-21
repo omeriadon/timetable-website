@@ -41,6 +41,13 @@ export default function PlannerView({
 	const upcomingNoSchoolDays = schoolCalendar.skippedDates.filter(
 		(item) => skippedDate(item) >= todayTimestamp,
 	);
+	const updateEvent = (updated: CalendarEvent | null, originalID: string) => {
+		setLocalEvents((current) =>
+			updated
+				? current.map((event) => (event.id === originalID ? updated : event))
+				: current.filter((event) => event.id !== originalID),
+		);
+	};
 
 	return (
 		<section className={styles.planner}>
@@ -67,7 +74,13 @@ export default function PlannerView({
 					symbolName="calendar.day.timeline.left"
 				>
 					{todayEvents.map((event) => (
-						<EventRow key={event.id} event={event} prominent showDate={false} />
+						<EventRow
+							key={event.id}
+							event={event}
+							prominent
+							showDate={false}
+							onChanged={(updated) => updateEvent(updated, event.id)}
+						/>
 					))}
 				</SectionCard>
 			) : null}
@@ -78,7 +91,12 @@ export default function PlannerView({
 			>
 				{upcomingEvents.length ? (
 					upcomingEvents.map((event) => (
-						<EventRow key={event.id} event={event} prominent />
+						<EventRow
+							key={event.id}
+							event={event}
+							prominent
+							onChanged={(updated) => updateEvent(updated, event.id)}
+						/>
 					))
 				) : (
 					<p className={styles.empty}>No upcoming events.</p>
