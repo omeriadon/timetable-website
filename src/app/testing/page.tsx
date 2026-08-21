@@ -100,6 +100,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import styles from "./page.module.css";
 
+const declaredFonts = [
+	{
+		family: "SF Pro Display",
+		className: styles.fontDisplay,
+	},
+	{
+		family: "SF Mono",
+		className: styles.fontMono,
+	},
+	{
+		family: "SF Rounded",
+		className: styles.fontRounded,
+	},
+	{
+		family: "SF Pro",
+		className: styles.fontPro,
+	},
+	{
+		family: "SF Pro Expanded",
+		className: styles.fontExpanded,
+	},
+] as const;
+
 export default function TestingPage() {
 	const setToolbar = useToolbar();
 	const [switched, setSwitched] = useState(false);
@@ -113,6 +136,20 @@ export default function TestingPage() {
 
 	return (
 		<main className={styles.page}>
+			<section>
+				<h2>Fonts</h2>
+				<div className={styles.fontList}>
+					{declaredFonts.map(({ family, className }) => (
+						<div className={styles.fontExample} key={family}>
+							<div className={styles.fontLabel}>{family}</div>
+							<p className={className}>
+								The quick brown fox jumps over the lazy dog. 0123456789
+							</p>
+						</div>
+					))}
+				</div>
+			</section>
+
 			<section>
 				<h2>Buttons</h2>
 

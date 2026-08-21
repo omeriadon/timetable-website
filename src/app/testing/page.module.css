@@ -9,6 +9,53 @@
 	margin: var(--ds-space-4) 0;
 }
 
+.fontList {
+	display: grid;
+	gap: var(--ds-space-3);
+}
+
+.fontExample {
+	display: grid;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-4);
+	border: 1px solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+}
+
+.fontLabel {
+	font-family: var(--ds-font-mono);
+	font-size: var(--ds-font-small);
+	font-weight: 600;
+	color: var(--ds-color-text-muted);
+}
+
+.fontExample p {
+	margin: 0;
+	font-size: clamp(1.25rem, 3vw, 2rem);
+	line-height: 1.2;
+}
+
+.fontDisplay {
+	font-family: "SF Pro Display", sans-serif;
+}
+
+.fontMono {
+	font-family: "SF Mono", monospace;
+}
+
+.fontRounded {
+	font-family: "SF Rounded", sans-serif;
+}
+
+.fontPro {
+	font-family: "SF Pro", sans-serif;
+}
+
+.fontExpanded {
+	font-family: "SF Pro Expanded", sans-serif;
+}
+
 .standaloneField {
 	display: grid;
 	gap: var(--ds-space-3);
