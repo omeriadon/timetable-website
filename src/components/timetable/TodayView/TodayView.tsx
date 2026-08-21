@@ -95,6 +95,7 @@ export default function TodayView({
 		const date = item.date;
 		return `${date.year}-${date.month}-${date.day}` === todayKey;
 	});
+	const isSchoolDay = dayIndex >= 0 && dayIndex < 5 && !noSchool;
 
 	return (
 		<>
@@ -151,58 +152,99 @@ export default function TodayView({
 				title="Classes"
 				symbolName="books.vertical"
 			>
-				<div className={styles.subjectList}>
-					{subjects.map((subject, index) => (
-						<Button
-							key={subject.id}
-							type="button"
-							className={cn(
-								styles.cardRow,
-								styles.subjectRow,
-								expandedSubjectID === subject.id && styles.subjectRowExpanded,
-							)}
-							onClick={() =>
-								setExpandedSubjectID((current) =>
-									current === subject.id ? null : subject.id,
-								)
-							}
-							aria-label={`Open ${subject.id} details`}
-							aria-expanded={expandedSubjectID === subject.id}
-						>
-							<span className={styles.subjectNumber}>{index + 1}</span>
-							<div className={styles.subjectDetails}>
-								<strong>{subject.id}</strong>
+				{isSchoolDay ? (
+					<div className={styles.subjectList}>
+						{schoolPeriods.map((period) => {
+							const subject = subjects.find((candidate) =>
+								candidate.slots.some(
+									(slot) =>
+										slot.day === dayIndex && slot.session === period.session,
+								),
+							);
+							const current = isCurrentPeriod(period.start, period.end);
+							return (
 								<div
-									className={styles.subjectMeta}
-									aria-hidden={expandedSubjectID !== subject.id}
+									key={period.session}
+									className={cn(
+										styles.cardRow,
+										styles.subjectRow,
+										current && styles.subjectRowExpanded,
+									)}
 								>
-									<div className={styles.subjectMetaContent}>
-										<span>
-											<Symbol
-												name="person.fill"
-												className={styles.subjectMetaIcon}
-											/>
-											{teacherName(subject.teacher)}
-										</span>
-										<span>
-											<Symbol
-												name="door.left.hand.open"
-												className={styles.subjectMetaIcon}
-											/>
-											{classroomName(subject.classroom)}
+									<span className={styles.subjectNumber}>{period.label}</span>
+									<div className={styles.subjectDetails}>
+										<strong>{subject?.id ?? "Free Period"}</strong>
+										<span className={styles.subjectMetaContent}>
+											{period.start} – {period.end}
 										</span>
 									</div>
+									{current ? (
+										<strong aria-label="Current period">Now</strong>
+									) : null}
+									<em>
+										<Symbol
+											name={subject?.symbol ?? "clock"}
+											className={styles.eventSymbolIcon}
+										/>
+									</em>
 								</div>
-							</div>
-							<em>
-								<Symbol
-									name={subject.symbol}
-									className={styles.eventSymbolIcon}
-								/>
-							</em>
-						</Button>
-					))}
-				</div>
+							);
+						})}
+					</div>
+				) : (
+					<div className={styles.subjectList}>
+						{subjects.map((subject, index) => (
+							<Button
+								key={subject.id}
+								type="button"
+								className={cn(
+									styles.cardRow,
+									styles.subjectRow,
+									expandedSubjectID === subject.id && styles.subjectRowExpanded,
+								)}
+								onClick={() =>
+									setExpandedSubjectID((current) =>
+										current === subject.id ? null : subject.id,
+									)
+								}
+								aria-label={`Open ${subject.id} details`}
+								aria-expanded={expandedSubjectID === subject.id}
+							>
+								<span className={styles.subjectNumber}>{index + 1}</span>
+								<div className={styles.subjectDetails}>
+									<strong>{subject.id}</strong>
+									<div
+										className={styles.subjectMeta}
+										aria-hidden={expandedSubjectID !== subject.id}
+									>
+										<div className={styles.subjectMetaContent}>
+											<span>
+												<Symbol
+													name="person.fill"
+													className={styles.subjectMetaIcon}
+												/>
+												{teacherName(subject.teacher)}
+											</span>
+											<span>
+												<Symbol
+													name="door.left.hand.open"
+													className={styles.subjectMetaIcon}
+												/>
+												{classroomName(subject.classroom)}
+											</span>
+										</div>
+									</div>
+								</div>
+								<em>
+									<Symbol
+										name={subject.symbol}
+										className={styles.eventSymbolIcon}
+									/>
+								</em>
+							</Button>
+						))}
+					</div>
+				)}
 			</SectionCard>
 		</>
 	);
