@@ -40,6 +40,7 @@ export default function AccountSyncEditor({
 	const [displayName, setDisplayName] = useState("");
 	const [yearGroups, setYearGroups] = useState<YearGroupTag[]>([]);
 	const [selectedYearGroupID, setSelectedYearGroupID] = useState("");
+	const [savingYearGroup, setSavingYearGroup] = useState(false);
 	const [savingAccount, setSavingAccount] = useState(false);
 	const { openDrawer } = useDrawer();
 
@@ -85,14 +86,24 @@ export default function AccountSyncEditor({
 	};
 
 	const saveYearGroup = async (tagID: string) => {
+		const previous = selectedYearGroupID;
 		setSelectedYearGroupID(tagID);
+		setSavingYearGroup(true);
+		setError(null);
 		try {
-			await apiRequest("v1/tags/subscriptions", {
+			const updated = await apiRequest<{ tagIDs: string[] }>(
+				"v1/tags/subscriptions",
+				{
 				method: "PUT",
 				body: JSON.stringify({ tagIDs: [tagID] }),
-			});
+				},
+			);
+			setSelectedYearGroupID(updated.tagIDs[0] ?? tagID);
 		} catch (requestError) {
+			setSelectedYearGroupID(previous);
 			setError((requestError as Error).message);
+		} finally {
+			setSavingYearGroup(false);
 		}
 	};
 
@@ -174,6 +185,7 @@ export default function AccountSyncEditor({
 						<select
 							id="account-year-group"
 							value={selectedYearGroupID}
+							disabled={savingYearGroup}
 							onChange={(event) => void saveYearGroup(event.target.value)}
 						>
 							{yearGroups.map((tag) => (
