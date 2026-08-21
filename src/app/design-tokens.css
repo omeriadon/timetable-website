@@ -50,8 +50,7 @@
 
 	/* Popovers and menus */
 
-	--ds-overlay-background: rgb(0 0 0 / 0.6);
-	--ds-overlay-backdrop-blur: 2px;
+	--ds-overlay-background: rgb(0 0 0 / 0.3);
 	--ds-overlay-z-index: 50;
 	--ds-overlay-duration: 100ms;
 
