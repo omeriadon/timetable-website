@@ -137,7 +137,11 @@ export default function FriendsPage() {
 					type="button"
 					className={styles.selfCard}
 					aria-label="Open your arrival statistics"
-					onClick={() => openDrawer(<PersonalArrivalDrawer />)}
+					onClick={() =>
+						openDrawer(
+							<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />,
+						)
+					}
 				>
 					<ProfilePicture profile={account} size={68} />
 					<div>
@@ -209,13 +213,18 @@ export default function FriendsPage() {
 	);
 }
 
-function PersonalArrivalDrawer() {
+function PersonalArrivalDrawer({
+	onStatusUpdated,
+}: {
+	onStatusUpdated: (status: CurrentLocationStatus["item"]) => void;
+}) {
 	type ArrivalStatistics = {
 		averageArrivalSecondsSinceMidnight: number | null;
 		weekdayAverageArrivalSecondsSinceMidnight: Array<number | null>;
 	};
 	const [statistics, setStatistics] = useState<ArrivalStatistics | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [updatingLocation, setUpdatingLocation] = useState(false);
 
 	useEffect(() => {
 		apiRequest<ArrivalStatistics>("v1/account/status/statistics")
@@ -223,9 +232,54 @@ function PersonalArrivalDrawer() {
 			.catch((requestError: Error) => setError(requestError.message));
 	}, []);
 
+	const updateLocation = () => {
+		if (!navigator.geolocation) {
+			setError("Location updates are not supported by this browser.");
+			return;
+		}
+
+		setUpdatingLocation(true);
+		setError(null);
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				const item = {
+					state: locationStateForDistance(
+						distanceFromSchool(
+							position.coords.latitude,
+							position.coords.longitude,
+						),
+					),
+					updatedAt: new Date(position.timestamp).toISOString(),
+				};
+
+				void apiRequest("v1/account/status", {
+					method: "POST",
+					body: JSON.stringify(item),
+				})
+					.then(() => onStatusUpdated(item))
+					.catch((requestError: Error) => setError(requestError.message))
+					.finally(() => setUpdatingLocation(false));
+			},
+			(positionError) => {
+				setUpdatingLocation(false);
+				setError(locationErrorMessage(positionError));
+			},
+			{ enableHighAccuracy: false, maximumAge: 60_000, timeout: 15_000 },
+		);
+	};
+
 	return (
 		<section aria-labelledby="arrival-statistics-title">
 			<h2 id="arrival-statistics-title">Average arrival</h2>
+			<Button
+				type="button"
+				onClick={updateLocation}
+				disabled={updatingLocation}
+				aria-label="Update your location status"
+			>
+				<Symbol name="location.fill" />
+				{updatingLocation ? "Updating location…" : "Update location status"}
+			</Button>
 			<div>
 				<strong>Overall</strong>
 				<span>
@@ -314,4 +368,52 @@ function formatArrival(seconds?: number | null) {
 	const displayHour = hours % 12 || 12;
 
 	return `${displayHour}:${String(minutes).padStart(2, "0")} ${period}`;
+}
+
+const schoolLocation = {
+	latitude: -31.944462605584388,
+	longitude: 115.8380028573902,
+};
+
+function distanceFromSchool(latitude: number, longitude: number) {
+	const earthRadius = 6_371_000;
+	const latitudeDelta = degreesToRadians(latitude - schoolLocation.latitude);
+	const longitudeDelta = degreesToRadians(longitude - schoolLocation.longitude);
+	const firstLatitude = degreesToRadians(schoolLocation.latitude);
+	const secondLatitude = degreesToRadians(latitude);
+	const haversine =
+		Math.sin(latitudeDelta / 2) ** 2 +
+		Math.cos(firstLatitude) *
+			Math.cos(secondLatitude) *
+			Math.sin(longitudeDelta / 2) ** 2;
+
+	return (
+		2 *
+		earthRadius *
+		Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+	);
+}
+
+function degreesToRadians(value: number) {
+	return (value * Math.PI) / 180;
+}
+
+function locationStateForDistance(distance: number): LocationStatus {
+	if (distance <= 225) return "onCampus";
+	if (distance <= 1_500) return "withinFiveMinutes";
+	if (distance <= 3_500) return "withinTenMinutes";
+	return "offCampus";
+}
+
+function locationErrorMessage(error: GeolocationPositionError) {
+	switch (error.code) {
+		case error.PERMISSION_DENIED:
+			return "Location permission was denied. Allow it in your browser settings to update status.";
+		case error.POSITION_UNAVAILABLE:
+			return "Your location is currently unavailable.";
+		case error.TIMEOUT:
+			return "Location lookup timed out. Try again.";
+		default:
+			return "Timetable could not determine your location.";
+	}
 }
