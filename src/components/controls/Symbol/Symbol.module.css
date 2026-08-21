@@ -1,0 +1,30 @@
+.symbol,
+.fallback {
+	display: inline-block;
+
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+
+	flex: 0 0 var(--ds-icon-size-row);
+
+	color: var(--foreground);
+}
+
+.symbol {
+	background: currentColor;
+
+	mask-image: var(--symbol-image);
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
+
+	-webkit-mask-image: var(--symbol-image);
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	-webkit-mask-size: contain;
+}
+
+.fallback {
+	display: inline-grid;
+	place-items: center;
+}
