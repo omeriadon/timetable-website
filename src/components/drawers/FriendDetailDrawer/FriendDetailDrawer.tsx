@@ -1,10 +1,12 @@
 import { Tabs } from "@base-ui/react/tabs";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type {
 	Friend,
 	FriendDetail,
 	LocationStatus,
+	OwnerTimetable,
+	TimetableSubject,
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
@@ -26,6 +28,9 @@ const tabs = [
 
 export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	const [detail, setDetail] = useState<FriendDetail | null>(null);
+	const [ownerTimetable, setOwnerTimetable] = useState<OwnerTimetable | null>(
+		null,
+	);
 	const [tab, setTab] = useState<"main" | "week" | "info">("main");
 	const [error, setError] = useState<string | null>(null);
 	const [friendsSinceDate, setFriendsSinceDate] = useState("");
@@ -34,12 +39,26 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	const status = locationStatusTitle(friend.locationStatus?.state);
 	const subjects =
 		detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
+	const sharedSubjects = useMemo(() => {
+		const ownerSubjectIDs = new Set(
+			ownerTimetable?.subjects.map((subject) => subject.id) ?? [],
+		);
+		return subjects.filter((subject) => ownerSubjectIDs.has(subject.id));
+	}, [ownerTimetable?.subjects, subjects]);
+	const sharedClasses = useMemo(
+		() => sharedClassRows(sharedSubjects, ownerTimetable?.subjects ?? []),
+		[ownerTimetable?.subjects, sharedSubjects],
+	);
 
 	useEffect(() => {
-		apiRequest<FriendDetail>(`v1/friends/${friend.friend.userID}`)
-			.then((nextDetail) => {
+		Promise.all([
+			apiRequest<FriendDetail>(`v1/friends/${friend.friend.userID}`),
+			apiRequest<OwnerTimetable>("v1/timetables/owner"),
+		])
+			.then(([nextDetail, nextOwnerTimetable]) => {
 				setDetail(nextDetail);
 				setFriendsSinceDate(nextDetail.acceptedAt.slice(0, 10));
+				setOwnerTimetable(nextOwnerTimetable);
 			})
 			.catch((requestError: Error) => setError(requestError.message));
 	}, [friend.friend.userID]);
@@ -199,9 +218,29 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					</div>
 				</section>
 				<section className={styles.detailCard}>
+					<h3>Shared Classes</h3>
+					{sharedClasses.length ? (
+						sharedClasses.map((sharedClass) => (
+							<div
+								key={`${sharedClass.id}-class`}
+								className={styles.detailSubject}
+							>
+								<Symbol
+									name={sharedClass.symbol}
+									className={styles.detailSubjectSymbolIcon}
+								/>
+								<strong>{sharedClass.id}</strong>
+								<span>{sharedClass.slotCount} shared classes</span>
+							</div>
+						))
+					) : (
+						<p className={styles.detailMuted}>No shared classes.</p>
+					)}
+				</section>
+				<section className={styles.detailCard}>
 					<h3>Shared Subjects</h3>
-					{subjects.length ? (
-						subjects.slice(0, 6).map((subject) => (
+					{sharedSubjects.length ? (
+						sharedSubjects.slice(0, 6).map((subject) => (
 							<div key={subject.id} className={styles.detailSubject}>
 								<Symbol
 									name={subject.symbol}
@@ -330,6 +369,30 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			) : null}
 		</Tabs.Root>
 	);
+}
+
+function sharedClassRows(
+	friendSubjects: TimetableSubject[],
+	ownerSubjects: TimetableSubject[],
+) {
+	return friendSubjects.flatMap((friendSubject) => {
+		const ownerSubject = ownerSubjects.find(
+			(subject) => subject.id === friendSubject.id,
+		);
+		if (!ownerSubject) {
+			return [];
+		}
+
+		const ownerSlots = new Set(
+			ownerSubject.slots.map((slot) => `${slot.day}:${slot.session}`),
+		);
+		const slotCount = friendSubject.slots.filter((slot) =>
+			ownerSlots.has(`${slot.day}:${slot.session}`),
+		).length;
+		return slotCount
+			? [{ id: friendSubject.id, symbol: friendSubject.symbol, slotCount }]
+			: [];
+	});
 }
 
 function locationStatusTitle(state?: LocationStatus) {
