@@ -118,7 +118,7 @@
 }
 
 .button[data-variant="link"] {
-	color: var(--primary);
+	color: rgba(0, 145, 255, 1);
 	text-underline-offset: 4px;
 }
 
