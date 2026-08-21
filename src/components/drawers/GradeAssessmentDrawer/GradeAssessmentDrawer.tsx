@@ -10,6 +10,7 @@ import type {
 } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "../Drawer/Drawer";
+import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "../Drawer/Drawer.module.css";
 
 type GradeAssessmentDrawerProps = {
@@ -32,6 +33,7 @@ export default function GradeAssessmentDrawer({
 	onDelete,
 }: GradeAssessmentDrawerProps) {
 	const { closeDrawer } = useDrawer();
+	const now = useTimetableNow();
 	const [draft, setDraft] = useState(assessment);
 	const [status, setStatus] = useState<string | null>(null);
 	const initialDraft = assessment ?? {
@@ -39,7 +41,7 @@ export default function GradeAssessmentDrawer({
 		subjectID,
 		semester,
 		name: "",
-		date: nextWeekday(),
+		date: nextWeekday(now),
 		score: 0,
 		weighting: 1,
 		location: "exam" as const,
@@ -187,8 +189,8 @@ function parseDate(value: string) {
 	return { year, month, day };
 }
 
-function nextWeekday() {
-	const date = new Date();
+function nextWeekday(now: Date) {
+	const date = new Date(now);
 	if (date.getDay() === 6) date.setDate(date.getDate() + 2);
 	if (date.getDay() === 0) date.setDate(date.getDate() + 1);
 	return {

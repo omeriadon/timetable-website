@@ -7,12 +7,14 @@ import CalendarEventDrawer from "@/components/drawers/CalendarEventDrawer/Calend
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
+import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function ArchivedEventsEditor() {
 	const { openDrawer } = useDrawer();
 	const [events, setEvents] = useState<CalendarEvents | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const now = useTimetableNow();
 
 	useEffect(() => {
 		apiRequest<CalendarEvents>("v1/events")
@@ -21,7 +23,7 @@ export default function ArchivedEventsEditor() {
 	}, []);
 
 	const archived = useMemo(() => {
-		const today = new Date();
+		const today = new Date(now);
 		const todayStart = new Date(
 			today.getFullYear(),
 			today.getMonth(),
@@ -32,7 +34,7 @@ export default function ArchivedEventsEditor() {
 			.sort(
 				(left, right) => eventDate(right).getTime() - eventDate(left).getTime(),
 			);
-	}, [events]);
+	}, [events, now]);
 
 	const update = (event: CalendarEvent | null, removedID?: string) => {
 		setEvents((current) => {
