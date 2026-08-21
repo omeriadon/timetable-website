@@ -74,7 +74,7 @@
 	--ds-menu-highlight-foreground: var(--ds-color-accent-foreground);
 
 	/* Typography */
-	--ds-font-body: "SF Pro Display", "SF Pro", sans-serif;
+	--ds-font-body: "SF Pro", "SF Pro", sans-serif;
 	--ds-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
 	--ds-font-mono: "SF Mono", monospace;
 	--ds-font-content: 0.9rem;
