@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
+import { useTimetableNow } from "@/features/timetable/clock";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { TimetableSubject } from "@/features/timetable/types";
@@ -33,7 +34,7 @@ export default function WeekView({
 		day: number;
 		session: number;
 	} | null>(null);
-	const currentDayIndex = currentTimetableDayIndex();
+	const currentDayIndex = currentTimetableDayIndex(useTimetableNow());
 	const selectedSubject = selectedSlot
 		? subjects.find((subject) =>
 				subject.slots.some(

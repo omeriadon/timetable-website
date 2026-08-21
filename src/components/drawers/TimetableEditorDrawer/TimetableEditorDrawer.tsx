@@ -176,6 +176,16 @@ export default function TimetableEditorDrawer({
 									updateSubject(subject.id, { symbol: event.target.value })
 								}
 							/>
+							<Input
+								type="color"
+								value={colourHex(subject.colour)}
+								aria-label={`${subject.id} colour`}
+								onChange={(event) =>
+									updateSubject(subject.id, {
+										colour: hexToColour(event.target.value),
+									})
+								}
+							/>
 							<Button
 								type="button"
 								onClick={() => removeSubject(subject.id)}
@@ -296,4 +306,20 @@ function slotLabel(slot: TimetableSlot) {
 	const day = TIMETABLE_DAYS[slot.day] ?? "Unknown day";
 	const session = TIMETABLE_SESSIONS.find((item) => item.value === slot.session);
 	return `${day} period ${session?.label ?? slot.session}`;
+}
+
+function colourHex(colour: TimetableSubject["colour"]) {
+	return `#${[colour.r, colour.g, colour.b]
+		.map((value) => Math.round(value * 255).toString(16).padStart(2, "0"))
+		.join("")}`;
+}
+
+function hexToColour(value: string): TimetableSubject["colour"] {
+	const hex = value.replace("#", "");
+	return {
+		r: Number.parseInt(hex.slice(0, 2), 16) / 255,
+		g: Number.parseInt(hex.slice(2, 4), 16) / 255,
+		b: Number.parseInt(hex.slice(4, 6), 16) / 255,
+		a: 1,
+	};
 }
