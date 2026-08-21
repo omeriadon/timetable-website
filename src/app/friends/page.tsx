@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -25,9 +26,22 @@ export default function FriendsPage() {
 	const [account, setAccount] = useState<Account | null>(null);
 	const [locationStatus, setLocationStatus] =
 		useState<CurrentLocationStatus["item"]>(null);
+	const [searchText, setSearchText] = useState("");
 	const [movingFriendID, setMovingFriendID] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
+	const filteredFriends = useMemo(() => {
+		const query = searchText.trim().toLocaleLowerCase();
+		if (!query) {
+			return friends;
+		}
+
+		return friends.filter((friend) =>
+			[friend.friend.displayName, friend.friend.email].some((value) =>
+				value.toLocaleLowerCase().includes(query),
+			),
+		);
+	}, [friends, searchText]);
 
 	const moveFriend = async (friendID: string, offset: -1 | 1) => {
 		const index = friends.findIndex(
@@ -90,6 +104,16 @@ export default function FriendsPage() {
 				</Button>
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
+			<label className={styles.searchLabel} htmlFor="friends-search">
+				Search friends
+			</label>
+			<Input
+				id="friends-search"
+				className={styles.searchInput}
+				value={searchText}
+				placeholder="Search by name or school email"
+				onChange={(event) => setSearchText(event.target.value)}
+			/>
 			{account ? (
 				<Button
 					type="button"
@@ -106,7 +130,10 @@ export default function FriendsPage() {
 				</Button>
 			) : null}
 			<div className={styles.list}>
-				{friends.map((friend, index) => (
+				{filteredFriends.length ? (
+					filteredFriends.map((friend) => {
+						const index = friends.indexOf(friend);
+						return (
 					<div key={friend.relationshipID} className={styles.friendRow}>
 						<DrawerTrigger
 							className={styles.friendButton}
@@ -151,8 +178,14 @@ export default function FriendsPage() {
 								<Symbol name="chevron.down" />
 							</Button>
 						</div>
-					</div>
-				))}
+						</div>
+						);
+					})
+				) : (
+					<p className={styles.emptyState}>
+						{friends.length ? "No friends match your search." : "No friends yet."}
+					</p>
+				)}
 			</div>
 		</main>
 	);

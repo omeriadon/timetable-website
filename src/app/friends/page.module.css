@@ -11,6 +11,19 @@
 	margin-bottom: var(--ds-content-section-gap);
 }
 
+.searchLabel {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.searchInput {
+	margin-bottom: var(--ds-content-section-gap);
+}
+
 .friendActions button {
 	display: inline-grid;
 	width: var(--ds-control-height-compact);
@@ -120,4 +133,11 @@
 
 .error {
 	color: var(--ds-color-danger-text);
+}
+
+.emptyState {
+	margin: 0;
+	padding: var(--ds-content-card-padding);
+	color: var(--ds-color-text-secondary);
+	text-align: center;
 }
