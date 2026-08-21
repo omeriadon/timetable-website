@@ -123,6 +123,8 @@ const declaredFonts = [
 	},
 ] as const;
 
+const fontSizes = [12, 18, 28, 40] as const;
+
 export default function TestingPage() {
 	const setToolbar = useToolbar();
 	const [switched, setSwitched] = useState(false);
@@ -142,9 +144,18 @@ export default function TestingPage() {
 					{declaredFonts.map(({ family, className }) => (
 						<div className={styles.fontExample} key={family}>
 							<div className={styles.fontLabel}>{family}</div>
-							<p className={className}>
-								The quick brown fox jumps over the lazy dog. 0123456789
-							</p>
+							<div className={styles.fontSamples}>
+								{fontSizes.map((size) => (
+									<p
+										className={className}
+										key={size}
+										style={{ fontSize: `${size}px` }}
+									>
+										<span className={styles.fontSizeLabel}>{size}px</span>
+										The quick brown fox jumps over the lazy dog. 0123456789
+									</p>
+								))}
+							</div>
 						</div>
 					))}
 				</div>

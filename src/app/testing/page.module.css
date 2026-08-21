@@ -30,10 +30,25 @@
 	color: var(--ds-color-text-muted);
 }
 
+.fontSamples {
+	display: grid;
+	gap: var(--ds-space-2);
+}
+
 .fontExample p {
+	display: flex;
+	align-items: baseline;
+	gap: var(--ds-space-3);
 	margin: 0;
-	font-size: clamp(1.25rem, 3vw, 2rem);
 	line-height: 1.2;
+}
+
+.fontSizeLabel {
+	width: 3rem;
+	flex: 0 0 3rem;
+	font-family: var(--ds-font-mono);
+	font-size: var(--ds-font-small);
+	color: var(--ds-color-text-muted);
 }
 
 .fontDisplay {
