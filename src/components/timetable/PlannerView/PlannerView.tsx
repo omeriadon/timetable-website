@@ -9,6 +9,7 @@ import Link from "next/link";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent, GradeTracker } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import EventRow from "@/components/timetable/EventRow/EventRow";
 import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -69,6 +70,25 @@ export default function PlannerView({
 				<Symbol name="plus" />
 				Add Personal Event
 			</Button>
+			{canManageGlobalEvents ? (
+				<Button
+					type="button"
+					aria-label="Add global event"
+					onClick={() =>
+						openDrawer(
+							<CreatePrivateEventDrawer
+								globally
+								onCreated={(event) =>
+									setLocalEvents((current) => [...current, event])
+								}
+							/>,
+						)
+					}
+				>
+					<Symbol name="megaphone" />
+					Add Global Event
+				</Button>
+			) : null}
 			{todayEvents.length ? (
 				<SectionCard
 					background="paper"
@@ -190,13 +210,16 @@ export default function PlannerView({
 
 function CreatePrivateEventDrawer({
 	onCreated,
+	globally = false,
 }: {
 	onCreated: (event: CalendarEvent) => void;
+	globally?: boolean;
 }) {
 	const { closeDrawer } = useDrawer();
 	const [title, setTitle] = useState("");
 	const [notes, setNotes] = useState("");
 	const [date, setDate] = useState(() => dateValue(new Date()));
+	const [showsWeather, setShowsWeather] = useState(false);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -207,8 +230,9 @@ function CreatePrivateEventDrawer({
 		const [year, month, day] = date.split("-").map(Number);
 		try {
 			const response = await apiRequest<{
-				privateEvents: CalendarEvent[];
-			}>("v1/events/private", {
+				privateEvents?: CalendarEvent[];
+				globalEvents?: CalendarEvent[];
+			}>(`v1/events/${globally ? "global" : "private"}`, {
 				method: "POST",
 				body: JSON.stringify({
 					title: title.trim(),
@@ -216,9 +240,13 @@ function CreatePrivateEventDrawer({
 					symbol: "calendar",
 					date: { year, month, day },
 					tagIDs: [],
+					showsWeather: globally && showsWeather,
 				}),
 			});
-			const created = response.privateEvents.find(
+			const created = [
+				...(response.privateEvents ?? []),
+				...(response.globalEvents ?? []),
+			].find(
 				(candidate) =>
 					candidate.title === title.trim() &&
 					candidate.date.year === year &&
@@ -238,7 +266,9 @@ function CreatePrivateEventDrawer({
 
 	return (
 		<section aria-labelledby="create-event-title">
-			<h2 id="create-event-title">Add Personal Event</h2>
+			<h2 id="create-event-title">
+				{globally ? "Add Global Event" : "Add Personal Event"}
+			</h2>
 			<label>
 				Title
 				<Input
@@ -246,6 +276,14 @@ function CreatePrivateEventDrawer({
 					onChange={(event) => setTitle(event.target.value)}
 				/>
 			</label>
+			{globally ? (
+				<SettingToggle
+					label="Show Weather"
+					enabled={showsWeather}
+					onClick={() => setShowsWeather((current) => !current)}
+					disabled={saving}
+				/>
+			) : null}
 			<label>
 				Date
 				<Input
