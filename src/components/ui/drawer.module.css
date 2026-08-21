@@ -120,7 +120,6 @@
 
 	overflow: visible;
 
-	border: 1px solid var(--popover);
 	border-radius: 2rem;
 
 	background: var(--popover);
@@ -408,6 +407,8 @@
 	overscroll-behavior: contain;
 
 	backdrop-filter: blur(var(--ds-drawer-blur));
+
+	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	border-radius: inherit;
 

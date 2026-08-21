@@ -16,23 +16,16 @@
 	transform-origin: var(--transform-origin);
 
 	border-radius: 1.5rem;
-	background: var(--popover);
+	background: var(--ds-color-surface);
 	color: var(--popover-foreground);
 
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 
-	box-shadow:
-		0 10px 15px -3px rgb(0 0 0 / 0.1),
-		0 4px 6px -4px rgb(0 0 0 / 0.1);
+	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	outline: none;
 	transition-duration: 100ms;
-
-	box-shadow:
-		0 10px 15px -3px rgb(0 0 0 / 0.1),
-		0 4px 6px -4px rgb(0 0 0 / 0.1),
-		0 0 0 1px color-mix(in srgb, var(--foreground) 5%, transparent);
 }
 
 /* Open / close */
@@ -122,8 +115,7 @@
 
 @keyframes popover-zoom-in {
 	from {
-		transform:
-			translate(
+		transform: translate(
 				var(--popover-translate-x, 0),
 				var(--popover-translate-y, 0)
 			)

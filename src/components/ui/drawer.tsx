@@ -164,8 +164,11 @@ function DrawerContent({
 function DrawerHeader({
 	className,
 	children,
+	showCloseButton = true,
 	...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+	showCloseButton?: boolean;
+}) {
 	const hasClose = React.Children.toArray(children).some(
 		(child) => React.isValidElement(child) && child.type === DrawerClose,
 	);
@@ -178,7 +181,7 @@ function DrawerHeader({
 		>
 			<div className={styles.headerContent}>{children}</div>
 
-			{!hasClose && (
+			{showCloseButton && !hasClose && (
 				<DrawerClose size="icon" aria-label="Close drawer">
 					<XIcon />
 				</DrawerClose>

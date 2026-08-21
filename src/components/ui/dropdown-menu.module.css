@@ -20,9 +20,10 @@
 	transform-origin: var(--transform-origin);
 
 	border: var(--ds-border-width) solid var(--ds-color-border);
+	background: var(--ds-color-surface);
+
 	border-radius: 1.5rem;
 
-	background: var(--popover);
 	color: var(--popover-foreground);
 
 	box-shadow:
