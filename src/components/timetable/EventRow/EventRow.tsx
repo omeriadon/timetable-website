@@ -30,6 +30,7 @@ export default function EventRow({
 			<div>
 				<strong>{event.title}</strong>
 				{event.notes ? <span>{event.notes}</span> : null}
+				{event.weather ? <span>{weatherSummary(event.weather)}</span> : null}
 			</div>
 			{showDate ? <time>{displayDate(event)}</time> : null}
 		</>
@@ -56,6 +57,14 @@ export default function EventRow({
 			{eventRowContent}
 		</Button>
 	);
+}
+
+function weatherSummary(weather: NonNullable<CalendarEvent["weather"]>) {
+	const condition = weather.conditionCode
+		.replace(/([a-z])([A-Z])/g, "$1 $2")
+		.replace(/^./, (character) => character.toUpperCase());
+
+	return `${Math.round(weather.temperatureCelsius)}°C ${condition} · ${Math.round(weather.precipitationChance * 100)}% rain · UV ${weather.uvIndex}`;
 }
 
 function displayDate(event: CalendarEvent) {
