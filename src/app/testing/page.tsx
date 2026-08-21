@@ -69,18 +69,6 @@ import {
 	FieldTitle,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemFooter,
-	ItemGroup,
-	ItemHeader,
-	ItemMedia,
-	ItemSeparator,
-	ItemTitle,
-} from "@/components/ui/item";
 import { Label } from "@/components/ui/label";
 import {
 	List,
@@ -265,54 +253,6 @@ export default function TestingPage() {
 						/>
 					</FieldGroup>
 				</FieldSet>
-			</section>
-
-			<section>
-				<h2>Items</h2>
-				<ItemGroup>
-					<Item variant="outline">
-						<ItemHeader>
-							<ItemTitle>Item header</ItemTitle>
-							<ItemActions>
-								<span>Today</span>
-							</ItemActions>
-						</ItemHeader>
-						<ItemMedia variant="icon">
-							<BellIcon />
-						</ItemMedia>
-						<ItemContent>
-							<ItemTitle>Notification settings</ItemTitle>
-							<ItemDescription>
-								Reusable item content and description.
-							</ItemDescription>
-						</ItemContent>
-						<ItemActions>
-							<Button variant="outline" size="sm">
-								<Settings2Icon />
-								Manage
-							</Button>
-						</ItemActions>
-						<ItemFooter>
-							<span>Item footer</span>
-							<span>Outline</span>
-						</ItemFooter>
-					</Item>
-					<ItemSeparator />
-					<Item variant="muted" size="sm">
-						<ItemMedia variant="image">
-							<ProfilePicture
-								profile={{ displayName: "Ada Lovelace" }}
-								size={40}
-							/>
-						</ItemMedia>
-						<ItemContent>
-							<ItemTitle>Compact muted item</ItemTitle>
-							<ItemDescription>
-								The small and muted variants use the same compound parts.
-							</ItemDescription>
-						</ItemContent>
-					</Item>
-				</ItemGroup>
 			</section>
 
 			<section>
