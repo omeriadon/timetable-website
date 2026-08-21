@@ -75,7 +75,7 @@
 
 	/* Typography */
 	--ds-font-body: "SF Pro", "SF Pro", sans-serif;
-	--ds-font-rounded: "SF Rounded", "SF Pro Display", sans-serif;
+	--ds-font-rounded: "SF Rounded", "SF Pro", sans-serif;
 	--ds-font-mono: "SF Mono", monospace;
 	--ds-font-content: 0.9rem;
 	--ds-font-small: 0.76rem;
