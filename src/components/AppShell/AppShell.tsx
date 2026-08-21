@@ -9,6 +9,7 @@ import MobileTabBar from "@/components/MobileTabBar/MobileTabBar";
 import SessionGate from "@/components/SessionGate/SessionGate";
 import { DrawerProvider } from "@/components/drawers/Drawer/Drawer";
 import ThemeSettingsSync from "@/components/ThemeSettingsSync/ThemeSettingsSync";
+import { StatusBadgeProvider } from "@/components/StatusBadge/StatusBadge";
 import styles from "@/app/layout.module.css";
 
 export default function AppShell({ children }: { children: ReactNode }) {
@@ -20,19 +21,21 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
 	return (
 		<SessionGate>
-			<ThemeSettingsSync />
-			<DrawerProvider>
-				<ToolbarProvider>
-					<div className={styles.appShell}>
-						<Sidebar />
-						<div className={styles.outerAppShell}>
-							<ReflectedPageContent>{children}</ReflectedPageContent>
-							<Toolbar />
+			<StatusBadgeProvider>
+				<ThemeSettingsSync />
+				<DrawerProvider>
+					<ToolbarProvider>
+						<div className={styles.appShell}>
+							<Sidebar />
+							<div className={styles.outerAppShell}>
+								<ReflectedPageContent>{children}</ReflectedPageContent>
+								<Toolbar />
+							</div>
+							<MobileTabBar />
 						</div>
-						<MobileTabBar />
-					</div>
-				</ToolbarProvider>
-			</DrawerProvider>
+					</ToolbarProvider>
+				</DrawerProvider>
+			</StatusBadgeProvider>
 		</SessionGate>
 	);
 }

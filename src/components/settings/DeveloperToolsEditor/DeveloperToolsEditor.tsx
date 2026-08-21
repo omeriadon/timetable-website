@@ -9,6 +9,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
 import { notifyTimetableClockChanged } from "@/features/timetable/clock";
+import { useStatusBadge } from "@/components/StatusBadge/StatusBadge";
 
 import styles from "@/components/settings/Settings.module.css";
 
@@ -38,6 +39,7 @@ export default function DeveloperToolsEditor() {
 	const [status, setStatus] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [lastServerSync, setLastServerSync] = useState<string | null>(null);
+	const { addStatusBadge } = useStatusBadge();
 
 	useEffect(() => {
 		setDebugOffset(
@@ -69,6 +71,10 @@ export default function DeveloperToolsEditor() {
 				? "Release icon preference saved."
 				: "Default icon preference saved.",
 		);
+		addStatusBadge({
+			title: value ? "Release icon enabled" : "Default icon enabled",
+			kind: "success",
+		});
 	};
 
 	async function refreshDebugState() {
@@ -102,8 +108,18 @@ export default function DeveloperToolsEditor() {
 
 			setDebugState(next);
 			setStatus(`Live Activity ${action} request completed.`);
+			addStatusBadge({
+				title: "Live Activity request completed",
+				secondaryText: action,
+				kind: "success",
+			});
 		} catch (requestError) {
 			setError((requestError as Error).message);
+			addStatusBadge({
+				title: "Live Activity request failed",
+				secondaryText: (requestError as Error).message,
+				kind: "error",
+			});
 		}
 	}
 
@@ -120,6 +136,7 @@ export default function DeveloperToolsEditor() {
 		}
 
 		setStatus("Website tips have been reset.");
+		addStatusBadge({ title: "Tips reset", kind: "success" });
 	};
 
 	return (
@@ -190,8 +207,23 @@ export default function DeveloperToolsEditor() {
 							key={badge}
 							type="button"
 							variant="outline"
-							onClick={() => setStatus(`${badge} status badge requested.`)}
+							onClick={() =>
+								addStatusBadge({
+									title: `${badge[0].toUpperCase()}${badge.slice(1)} status badge`,
+									secondaryText: "Developer test",
+									kind: badge,
+								})
+							}
 						>
+							<Symbol
+								name={
+									badge === "progress"
+										? "arrow.trianglehead.2.clockwise.rotate.90"
+										: badge === "success"
+											? "checkmark.circle"
+											: "exclamationmark.triangle"
+								}
+							/>
 							{badge}
 						</Button>
 					))}
