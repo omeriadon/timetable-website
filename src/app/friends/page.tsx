@@ -25,8 +25,36 @@ export default function FriendsPage() {
 	const [account, setAccount] = useState<Account | null>(null);
 	const [locationStatus, setLocationStatus] =
 		useState<CurrentLocationStatus["item"]>(null);
+	const [movingFriendID, setMovingFriendID] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
+
+	const moveFriend = async (friendID: string, offset: -1 | 1) => {
+		const index = friends.findIndex(
+			(friend) => friend.friend.userID === friendID,
+		);
+		const targetIndex = index + offset;
+		if (index < 0 || targetIndex < 0 || targetIndex >= friends.length) return;
+
+		const next = [...friends];
+		[next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+		setFriends(next);
+		setMovingFriendID(friendID);
+		try {
+			const saved = await apiRequest<Friend[]>("v1/friends/order", {
+				method: "PUT",
+				body: JSON.stringify({
+					friendIDs: next.map((friend) => friend.friend.userID),
+				}),
+			});
+			setFriends(saved);
+		} catch (requestError) {
+			setFriends(friends);
+			setError((requestError as Error).message);
+		} finally {
+			setMovingFriendID(null);
+		}
+	};
 
 	useEffect(() => {
 		setToolbar({ title: "Friends" });
@@ -78,32 +106,55 @@ export default function FriendsPage() {
 				</Button>
 			) : null}
 			<div className={styles.list}>
-				{friends.map((friend) => (
-					<DrawerTrigger
-						key={friend.relationshipID}
-						className={styles.friendButton}
-						ariaLabel={`Open ${friend.friend.displayName}`}
-						content={<FriendDetailDrawer friend={friend} />}
-					>
-						<article className={styles.friend}>
-							<ProfilePicture
-								profile={friend.friend}
-								size={64}
-								label={`${friend.friend.displayName} profile picture`}
-							/>
-							<div>
-								<h2>{friend.friend.displayName}</h2>
-								<p>{friend.locationStatus?.state ?? "Unavailable"}</p>
-								<span>
-									Next:{" "}
-									{friend.timetable?.subjects[0]?.id ?? "No timetable shared"}
-								</span>
-							</div>
-							<strong className={styles.status}>
-								{friend.state === "friends" ? "Friends" : "Pending"}
-							</strong>
-						</article>
-					</DrawerTrigger>
+				{friends.map((friend, index) => (
+					<div key={friend.relationshipID} className={styles.friendRow}>
+						<DrawerTrigger
+							className={styles.friendButton}
+							ariaLabel={`Open ${friend.friend.displayName}`}
+							content={<FriendDetailDrawer friend={friend} />}
+						>
+							<article className={styles.friend}>
+								<ProfilePicture
+									profile={friend.friend}
+									size={64}
+									label={`${friend.friend.displayName} profile picture`}
+								/>
+								<div>
+									<h2>{friend.friend.displayName}</h2>
+									<p>{friend.locationStatus?.state ?? "Unavailable"}</p>
+									<span>
+										Next:{" "}
+										{friend.timetable?.subjects[0]?.id ?? "No timetable shared"}
+									</span>
+								</div>
+								<strong className={styles.status}>
+									{friend.state === "friends" ? "Friends" : "Pending"}
+								</strong>
+							</article>
+						</DrawerTrigger>
+						<div className={styles.reorderActions}>
+							<Button
+								type="button"
+								size="icon-xs"
+								disabled={index === 0 || movingFriendID !== null}
+								aria-label={`Move ${friend.friend.displayName} up`}
+								onClick={() => void moveFriend(friend.friend.userID, -1)}
+							>
+								<Symbol name="chevron.up" />
+							</Button>
+							<Button
+								type="button"
+								size="icon-xs"
+								disabled={
+									index === friends.length - 1 || movingFriendID !== null
+								}
+								aria-label={`Move ${friend.friend.displayName} down`}
+								onClick={() => void moveFriend(friend.friend.userID, 1)}
+							>
+								<Symbol name="chevron.down" />
+							</Button>
+						</div>
+					</div>
 				))}
 			</div>
 		</main>

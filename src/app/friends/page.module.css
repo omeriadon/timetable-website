@@ -69,6 +69,25 @@
 	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
+.friendRow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: stretch;
+}
+
+.friendRow + .friendRow {
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
+}
+
+.reorderActions {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--ds-space-1);
+	padding: var(--ds-space-2);
+	border-inline-start: var(--ds-border-width) solid var(--ds-color-border);
+}
+
 .friend {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
