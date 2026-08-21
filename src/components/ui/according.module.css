@@ -13,8 +13,16 @@
 	border-bottom: var(--ds-divider-width) solid var(--ds-color-border);
 }
 
+.item {
+	transition: background-color 200ms ease;
+}
+
 .item[data-open] {
 	background: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.item[data-closed] {
+	background: transparent;
 }
 
 .header {
