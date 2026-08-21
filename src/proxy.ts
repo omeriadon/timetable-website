@@ -14,7 +14,7 @@ export function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 	const hasSession = sessionCookies.some((name) => request.cookies.has(name));
 
-	if (pathname === "/login" || pathname.startsWith("/web-api")) {
+	if (pathname === "/" || pathname === "/login" || pathname.startsWith("/web-api")) {
 		return NextResponse.next();
 	}
 

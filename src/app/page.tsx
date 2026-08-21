@@ -1,96 +1,82 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect } from "react";
-import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useDashboard } from "@/features/timetable/useDashboard";
 import styles from "./page.module.css";
 
-const destinations = [
+const features = [
 	{
-		href: "/today",
-		label: "Today",
-		description: "See your school day and what is coming up.",
+		title: "See your day",
+		description: "Know what is next, where it is, and when you need to leave.",
 		icon: "calendar.day.timeline.left",
 	},
 	{
-		href: "/week",
-		label: "Week",
-		description: "View every class across the school week.",
+		title: "Plan ahead",
+		description: "Keep classes, assessments, events, and term dates together.",
 		icon: "calendar.badge.clock",
 	},
 	{
-		href: "/planner",
-		label: "Planner",
-		description: "Keep events, assessments, and term dates together.",
-		icon: "pencil.and.list.clipboard",
+		title: "Stay connected",
+		description: "Share your timetable and coordinate with friends at school.",
+		icon: "person.2",
 	},
-];
+] as const;
 
-export default function Home() {
-	const setToolbar = useToolbar();
-	const { data, error, isLoading } = useDashboard();
-
-	useEffect(() => {
-		setToolbar({ title: "Home" });
-	}, [setToolbar]);
-
-	const displayName = data?.account.displayName ?? "there";
-	const eventCount = data
-		? data.events.globalEvents.length + data.events.privateEvents.length
-		: 0;
-
+export default function LandingPage() {
 	return (
-		<main className={styles.homePage}>
-			<header className={styles.homeHeader}>
-				<p className={styles.homeEyebrow}>Timetable</p>
-				<h1>Good to see you, {displayName}.</h1>
-				<p>Everything for your school day, in one place.</p>
-			</header>
+		<main className={styles.landingPage}>
+			<nav className={styles.navigation} aria-label="Main navigation">
+				<Link className={styles.wordmark} href="/" aria-label="Timetable home">
+					<span className={styles.wordmarkMark}>T</span>
+					<span>Timetable</span>
+				</Link>
+				<Link className={styles.signInLink} href="/login">
+					Sign in
+					<Symbol name="arrow.up.right" />
+				</Link>
+			</nav>
 
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
-				</p>
-			) : null}
-
-			<section className={styles.homeStats} aria-label="Your overview">
-				<div className={styles.homeStat}>
-					<strong>
-						{isLoading ? "—" : data?.timetable.subjects.length ?? 0}
-					</strong>
-					<span>Classes</span>
-				</div>
-				<div className={styles.homeStat}>
-					<strong>{isLoading ? "—" : eventCount}</strong>
-					<span>Events</span>
-				</div>
-				<div className={styles.homeStat}>
-					<strong>{isLoading ? "—" : data?.friends.length ?? 0}</strong>
-					<span>Friends</span>
-				</div>
-			</section>
-
-			<section className={styles.destinationList} aria-label="Timetable views">
-				{destinations.map((destination) => (
-					<Link
-						key={destination.href}
-						href={destination.href}
-						className={styles.destination}
-					>
-						<Symbol name={destination.icon} className={styles.destinationIcon} />
-						<span>
-							<strong>{destination.label}</strong>
-							<small>{destination.description}</small>
-						</span>
-						<Symbol
-							name="chevron.right"
-							className={styles.destinationChevron}
-						/>
+			<section className={styles.hero} aria-labelledby="landing-heading">
+				<div className={styles.heroCopy}>
+					<p className={styles.eyebrow}>Your school week, in one place.</p>
+					<h1 id="landing-heading">
+						Make time for what matters.
+					</h1>
+					<p className={styles.introduction}>
+						Timetable brings your classes, plans, grades, events, and friends into
+						one calm, focused space.
+					</p>
+					<Link className={styles.primaryAction} href="/login">
+						<span>Open Timetable</span>
+						<Symbol name="arrow.right" />
 					</Link>
-				))}
+				</div>
+				<div className={styles.heroMark} aria-hidden="true">
+					<div className={styles.heroMarkGlow} />
+					<span>T</span>
+				</div>
 			</section>
+
+			<section className={styles.featureSection} aria-labelledby="features-heading">
+				<div className={styles.sectionHeading}>
+					<p className={styles.eyebrow}>Everything in sync</p>
+					<h2 id="features-heading">A clearer school day.</h2>
+				</div>
+				<div className={styles.featureGrid}>
+					{features.map((feature) => (
+						<article className={styles.feature} key={feature.title}>
+							<div className={styles.featureIcon} aria-hidden="true">
+								<Symbol name={feature.icon} />
+							</div>
+							<h3>{feature.title}</h3>
+							<p>{feature.description}</p>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<footer className={styles.footer}>
+				<span>Timetable</span>
+				<span>© {new Date().getFullYear()}, JDCQ.</span>
+			</footer>
 		</main>
 	);
 }
