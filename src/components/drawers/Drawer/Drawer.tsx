@@ -7,7 +7,6 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import { Button } from "@/components/ui/button";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	Drawer,
@@ -59,14 +58,10 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 					</DrawerHeader>
 					<div>{content}</div>
 					<DrawerFooter>
-						<DrawerClose
-							render={() => (
-								<Button>
-									<Symbol name="xmark" />
-									Close
-								</Button>
-							)}
-						/>
+						<DrawerClose>
+							<Symbol name="xmark" />
+							Close
+						</DrawerClose>
 					</DrawerFooter>
 				</DrawerContent>
 			</Drawer>

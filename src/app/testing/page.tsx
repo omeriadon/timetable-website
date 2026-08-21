@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {
 	BellIcon,
+	Menu as MenuIcon2,
 	MenuIcon,
 	PanelRightIcon,
 	SaveIcon,
@@ -77,8 +78,6 @@ export default function TestingPage() {
 
 	return (
 		<main className={styles.page}>
-			<h1>Shared component testing</h1>
-
 			<section>
 				<h2>Buttons</h2>
 

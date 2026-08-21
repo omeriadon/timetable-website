@@ -1,0 +1,277 @@
+.positioner {
+	isolation: isolate;
+	z-index: 50;
+	outline: none;
+}
+
+.content {
+	position: relative;
+	z-index: 50;
+
+	width: var(--anchor-width);
+	min-width: 12rem;
+	max-height: var(--available-height);
+
+	padding: 0.375rem;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	transform-origin: var(--transform-origin);
+
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: 1.5rem;
+
+	background: var(--popover);
+	color: var(--popover-foreground);
+
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+	outline: none;
+
+	transition-duration: 100ms;
+}
+
+.content[data-open] {
+	animation:
+		dropdown-fade-in 100ms ease-out,
+		dropdown-zoom-in 100ms ease-out,
+		dropdown-slide-in 100ms ease-out;
+}
+
+.content[data-closed] {
+	overflow: hidden;
+
+	animation:
+		dropdown-fade-out 100ms ease-in,
+		dropdown-zoom-out 100ms ease-in;
+}
+
+.content[data-side="bottom"] {
+	--dropdown-offset-x: 0;
+	--dropdown-offset-y: -0.5rem;
+}
+
+.content[data-side="top"] {
+	--dropdown-offset-x: 0;
+	--dropdown-offset-y: 0.5rem;
+}
+
+.content[data-side="left"],
+.content[data-side="inline-start"] {
+	--dropdown-offset-x: 0.5rem;
+	--dropdown-offset-y: 0;
+}
+
+.content[data-side="right"],
+.content[data-side="inline-end"] {
+	--dropdown-offset-x: -0.5rem;
+	--dropdown-offset-y: 0;
+}
+
+.label {
+	padding: 0.625rem 0.75rem;
+
+	color: var(--muted-foreground);
+
+	font-size: 0.75rem;
+	line-height: 1rem;
+}
+
+.label[data-inset] {
+	padding-left: 2.375rem;
+}
+
+.item,
+.checkboxItem,
+.radioItem,
+.subTrigger {
+	position: relative;
+
+	display: flex;
+
+	align-items: center;
+	gap: 0.625rem;
+
+	padding: 0.5rem 0.75rem;
+
+	border-radius: 1rem;
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+
+	outline: none;
+
+	cursor: default;
+	user-select: none;
+}
+
+.checkboxItem,
+.radioItem {
+	padding-right: 2rem;
+}
+
+.item[data-inset],
+.checkboxItem[data-inset],
+.radioItem[data-inset],
+.subTrigger[data-inset] {
+	padding-left: 2.375rem;
+}
+
+.item:focus,
+.checkboxItem:focus,
+.radioItem:focus,
+.subTrigger:focus,
+.subTrigger[data-popup-open],
+.subTrigger[data-open] {
+	background: var(--accent);
+	color: var(--accent-foreground);
+}
+
+.item:focus-visible,
+.checkboxItem:focus-visible,
+.radioItem:focus-visible,
+.subTrigger:focus-visible {
+	box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ring) 30%, transparent);
+}
+
+.item[data-disabled],
+.checkboxItem[data-disabled],
+.radioItem[data-disabled] {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.item[data-variant="destructive"] {
+	color: var(--destructive);
+}
+
+.item[data-variant="destructive"]:focus {
+	background: color-mix(in srgb, var(--destructive) 10%, transparent);
+	color: var(--destructive);
+}
+
+.item svg,
+.checkboxItem svg,
+.radioItem svg,
+.subTrigger svg {
+	pointer-events: none;
+	flex-shrink: 0;
+}
+
+.item svg:not([class*="size-"]),
+.checkboxItem svg:not([class*="size-"]),
+.radioItem svg:not([class*="size-"]),
+.subTrigger svg:not([class*="size-"]) {
+	width: 1rem;
+	height: 1rem;
+}
+
+.item[data-variant="destructive"] svg {
+	color: var(--destructive);
+}
+
+.subTriggerIcon {
+	margin-left: auto;
+}
+
+.subContent {
+	width: auto;
+	min-width: 9rem;
+
+	padding: 0.375rem;
+
+	border-radius: 1.5rem;
+}
+
+.itemIndicator {
+	position: absolute;
+	right: 0.5rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	pointer-events: none;
+}
+
+.separator {
+	height: 1px;
+
+	margin: 0.375rem -0.375rem;
+
+	background: color-mix(in srgb, var(--border) 50%, transparent);
+
+	pointer-events: none;
+}
+
+.shortcut {
+	margin-left: auto;
+
+	color: var(--muted-foreground);
+
+	font-size: 0.75rem;
+	line-height: 1rem;
+	letter-spacing: 0.1em;
+}
+
+.item:focus .shortcut {
+	color: var(--accent-foreground);
+}
+
+@keyframes dropdown-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes dropdown-fade-out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes dropdown-zoom-in {
+	from {
+		transform: scale(0.95);
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+@keyframes dropdown-zoom-out {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(0.95);
+	}
+}
+
+@keyframes dropdown-slide-in {
+	from {
+		transform: translate(
+				var(--dropdown-offset-x, 0),
+				var(--dropdown-offset-y, 0)
+			)
+			scale(0.95);
+	}
+
+	to {
+		transform: translate(0, 0) scale(1);
+	}
+}

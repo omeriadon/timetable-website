@@ -124,7 +124,7 @@
 	--ds-row-height: 44px;
 	--ds-card-padding: 10px;
 	--ds-list-padding-inline: 12px;
-	--ds-list-row-padding-block: 4px;
+	--ds-list-row-padding-block: 8px;
 	--ds-list-row-gap: 10px;
 	--ds-section-gap: 12px;
 
@@ -152,7 +152,6 @@
 	--ds-list-row-height: 36px;
 	--ds-list-row-min-height: 40px;
 	--ds-list-row-padding-inline: 7px;
-	--ds-list-row-padding-block: 2px;
 	--ds-list-row-gap: 6px;
 	--ds-list-section-gap: 6px;
 	--ds-list-section-header-gap: 4px;
@@ -232,14 +231,14 @@
 	:root {
 		--ds-content-page-padding: 20px;
 		--ds-content-section-gap: 14px;
-		--ds-content-card-padding: 14px;
+		--ds-content-card-padding: 20px;
 		--ds-content-grid-gap: 8px;
-		--ds-content-list-padding-inline: 14px;
-		--ds-content-list-row-padding-block: 6px;
+		--ds-content-list-padding-inline: 16px;
+		--ds-content-list-row-padding-block: 8px;
 		--ds-row-height: 44px;
 		--ds-card-padding: 14px;
 		--ds-list-padding-inline: 14px;
-		--ds-list-row-padding-block: 6px;
+		--ds-list-row-padding-block: 20px;
 		--ds-list-row-gap: 12px;
 		--ds-section-gap: 16px;
 		--ds-control-height: 44px;

@@ -1,0 +1,294 @@
+.fieldSet {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.fieldSet:has(> [data-slot="checkbox-group"]),
+.fieldSet:has(> [data-slot="radio-group"]) {
+	gap: 0.75rem;
+}
+
+.legend {
+	margin-bottom: 0.75rem;
+
+	font-weight: 500;
+}
+
+.legend[data-variant="label"] {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+.legend[data-variant="legend"] {
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
+
+.group {
+	display: flex;
+
+	width: 100%;
+
+	flex-direction: column;
+	gap: 1.75rem;
+
+	container-type: inline-size;
+	container-name: field-group;
+}
+
+.group[data-slot="checkbox-group"] {
+	gap: 0.75rem;
+}
+
+.group > [data-slot="field-group"] {
+	gap: 1rem;
+}
+
+.field {
+	display: flex;
+
+	width: 100%;
+	gap: 0.75rem;
+}
+
+.field[data-invalid="true"] {
+	color: var(--destructive);
+}
+
+/* Vertical */
+
+.field[data-orientation="vertical"] {
+	flex-direction: column;
+}
+
+.field[data-orientation="vertical"] > * {
+	width: 100%;
+}
+
+.field[data-orientation="vertical"] > .sr-only {
+	width: auto;
+}
+
+/* Horizontal */
+
+.field[data-orientation="horizontal"] {
+	flex-direction: row;
+	align-items: center;
+}
+
+.field[data-orientation="horizontal"]:has(> [data-slot="field-content"]) {
+	align-items: flex-start;
+}
+
+.field[data-orientation="horizontal"] > [data-slot="field-label"] {
+	flex: 1 1 auto;
+}
+
+.field[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+	> [role="checkbox"],
+.field[data-orientation="horizontal"]:has(> [data-slot="field-content"])
+	> [role="radio"] {
+	margin-top: 1px;
+}
+
+/* Responsive */
+
+.field[data-orientation="responsive"] {
+	flex-direction: column;
+}
+
+.field[data-orientation="responsive"] > * {
+	width: 100%;
+}
+
+.field[data-orientation="responsive"] > .sr-only {
+	width: auto;
+}
+
+@container field-group (min-width: 28rem) {
+	.field[data-orientation="responsive"] {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.field[data-orientation="responsive"] > * {
+		width: auto;
+	}
+
+	.field[data-orientation="responsive"]:has(> [data-slot="field-content"]) {
+		align-items: flex-start;
+	}
+
+	.field[data-orientation="responsive"] > [data-slot="field-label"] {
+		flex: 1 1 auto;
+	}
+
+	.field[data-orientation="responsive"]:has(> [data-slot="field-content"])
+		> [role="checkbox"],
+	.field[data-orientation="responsive"]:has(> [data-slot="field-content"])
+		> [role="radio"] {
+		margin-top: 1px;
+	}
+}
+
+.content {
+	display: flex;
+
+	flex: 1;
+
+	flex-direction: column;
+	gap: 0.25rem;
+
+	line-height: 1.375;
+}
+
+.label {
+	display: flex;
+
+	width: fit-content;
+
+	gap: 0.5rem;
+
+	line-height: 1.375;
+}
+
+.field[data-disabled="true"] .label {
+	opacity: 0.5;
+}
+
+.label:has([data-checked]) {
+	background: color-mix(in srgb, var(--input) 30%, transparent);
+}
+
+.label:has(> [data-slot="field"]) {
+	width: 100%;
+
+	flex-direction: column;
+
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+}
+
+.label:has(> [data-slot="field"]):not(:has(:disabled, [data-disabled])):hover {
+	background: color-mix(in srgb, var(--input) 40%, transparent);
+}
+
+.label:has(> [data-slot="field"]):has(:focus-visible) {
+	border-color: var(--ring);
+
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+}
+
+.label > [data-slot="field"] {
+	padding: 1rem;
+}
+
+.title {
+	display: flex;
+
+	width: fit-content;
+
+	align-items: center;
+	gap: 0.5rem;
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+.field[data-disabled="true"] .title {
+	opacity: 0.5;
+}
+
+.description {
+	margin: 0;
+
+	color: var(--muted-foreground);
+
+	text-align: left;
+
+	font-size: 0.875rem;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+.field[data-orientation="horizontal"] .description {
+	text-wrap: balance;
+}
+
+.legend[data-variant="legend"] + .description {
+	margin-top: -0.375rem;
+}
+
+.description:last-child {
+	margin-top: 0;
+}
+
+.description:nth-last-child(2) {
+	margin-top: -0.25rem;
+}
+
+.description > a {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.description > a:hover {
+	color: var(--primary);
+}
+
+.separator {
+	position: relative;
+
+	height: 1.25rem;
+
+	margin-block: -0.5rem;
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+.group[data-variant="outline"] .separator {
+	margin-bottom: -0.5rem;
+}
+
+.separatorLine {
+	position: absolute;
+	inset: 0;
+	top: 50%;
+}
+
+.separatorContent {
+	position: relative;
+
+	display: block;
+
+	width: fit-content;
+
+	margin-inline: auto;
+	padding-inline: 0.5rem;
+
+	background: var(--background);
+	color: var(--muted-foreground);
+}
+
+.error {
+	color: var(--destructive);
+
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 400;
+}
+
+.errorList {
+	display: flex;
+
+	margin: 0 0 0 1rem;
+	padding: 0;
+
+	flex-direction: column;
+	gap: 0.25rem;
+
+	list-style-type: disc;
+}
