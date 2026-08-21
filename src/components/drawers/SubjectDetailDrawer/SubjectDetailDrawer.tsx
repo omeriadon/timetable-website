@@ -1,13 +1,19 @@
 import type { TimetableSubject } from "@/features/timetable/types";
+import type { Friend, TimetableSlot } from "@/features/timetable/types";
 import { periodLabel } from "@/features/timetable/layout";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import styles from "../Drawer/Drawer.module.css";
 
 export default function SubjectDetailDrawer({
 	subject,
+	friends,
 }: {
 	subject: TimetableSubject;
+	friends: Friend[];
 }) {
+	const selectedSlot: TimetableSlot | null = subject.slots[0] ?? null;
+
 	return (
 		<div className={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
@@ -54,6 +60,15 @@ export default function SubjectDetailDrawer({
 					<p className={styles.detailMuted}>No scheduled classes.</p>
 				)}
 			</section>
+			{selectedSlot ? (
+				<section aria-label="Compare friend timetables">
+					<h3>At this time</h3>
+					<TimetableComparison
+						selectedSlot={selectedSlot}
+						friends={friends}
+					/>
+				</section>
+			) : null}
 		</div>
 	);
 }
