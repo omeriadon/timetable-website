@@ -77,6 +77,11 @@ function mean(values: number[]) {
 		: null;
 }
 
+function supportsGradeTracking(subject: TimetableSubject) {
+	const normalizedName = subject.id.trim().toLocaleLowerCase();
+	return normalizedName !== "directed study" && normalizedName !== "advocacy";
+}
+
 function ATARSettingsDrawer({
 	grades,
 	onSaved,
@@ -185,8 +190,11 @@ export default function GradesPage() {
 	}, [setToolbar]);
 
 	const scored = useMemo(() => grades?.document.assessments ?? [], [grades]);
+	const gradeSubjects = timetable
+		? timetable.subjects.filter(supportsGradeTracking)
+		: [];
 	const subjectAverages = timetable
-		? timetable.subjects
+		? gradeSubjects
 				.map((subject) => subjectAverage(subject.id, scored))
 				.filter((value): value is number => value !== null)
 		: [];
@@ -268,8 +276,9 @@ export default function GradesPage() {
 							Edit ATAR
 						</Button>
 					) : null}
-					<section className={styles.subjects}>
-						{timetable.subjects.map((subject) => {
+					{gradeSubjects.length ? (
+						<section className={styles.subjects}>
+						{gradeSubjects.map((subject) => {
 							const subjectAssessments = scored.filter(
 								(assessment) => assessment.subjectID === subject.id,
 							);
@@ -341,7 +350,14 @@ export default function GradesPage() {
 								</Drawer>
 							);
 						})}
-					</section>
+						</section>
+					) : (
+						<section className={styles.emptyState}>
+							<Symbol name="book.closed" />
+							<strong>No Subjects Yet</strong>
+							<span>Add subjects to your timetable before tracking grades.</span>
+						</section>
+					)}
 				</>
 			)}
 		</main>
