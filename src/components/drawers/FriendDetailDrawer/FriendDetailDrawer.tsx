@@ -19,6 +19,7 @@ import {
 	TIMETABLE_SESSIONS,
 } from "@/features/timetable/layout";
 import styles from "../Drawer/Drawer.module.css";
+import { useTimetableNow } from "@/features/timetable/clock";
 
 const tabs = [
 	{ value: "main", label: "Overview", symbol: "person.crop.circle" },
@@ -36,6 +37,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	const [friendsSinceDate, setFriendsSinceDate] = useState("");
 	const [isSavingFriendsSince, setIsSavingFriendsSince] = useState(false);
 	const { openDrawer, closeDrawer } = useDrawer();
+	const now = useTimetableNow();
 	const status = locationStatusTitle(friend.locationStatus?.state);
 	const subjects =
 		detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
@@ -214,7 +216,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							<Symbol name="building.2" />
 							School status
 						</span>
-						<strong>{schoolStatus(subjects)}</strong>
+						<strong>{schoolStatus(subjects, now)}</strong>
 					</div>
 				</section>
 				<section className={styles.detailCard}>
@@ -412,12 +414,13 @@ function locationStatusTitle(state?: LocationStatus) {
 
 function schoolStatus(
 	subjects: NonNullable<FriendDetail["timetable"]>["subjects"] | undefined,
+	now: Date,
 ) {
 	if (!subjects?.length) {
 		return "No timetable";
 	}
 
-	const day = new Date().getDay() - 1;
+	const day = now.getDay() - 1;
 	if (day < 0 || day > 4) {
 		return "School's Out";
 	}

@@ -19,6 +19,7 @@ import FriendSearchDrawer from "@/components/drawers/FriendSearchDrawer/FriendSe
 import FriendRequestsDrawer from "@/components/drawers/FriendRequestsDrawer/FriendRequestsDrawer";
 import type { Account } from "@/lib/api/contracts";
 import styles from "./page.module.css";
+import { useTimetableNow } from "@/features/timetable/clock";
 
 export default function FriendsPage() {
 	const setToolbar = useToolbar();
@@ -31,6 +32,7 @@ export default function FriendsPage() {
 	const [movingFriendID, setMovingFriendID] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
+	const now = useTimetableNow();
 	const filteredFriends = useMemo(() => {
 		const query = searchText.trim().toLocaleLowerCase();
 		if (!query) {
@@ -165,7 +167,7 @@ export default function FriendsPage() {
 								<div>
 									<h2>{friend.friend.displayName}</h2>
 									<p>{locationStatusTitle(friend.locationStatus?.state)}</p>
-									<span>{friendScheduleTitle(friend.timetable?.subjects)}</span>
+									<span>{friendScheduleTitle(friend.timetable?.subjects, now)}</span>
 								</div>
 								<strong className={styles.status}>
 									{friend.state === "friends" ? "Friends" : "Pending"}
@@ -282,12 +284,13 @@ function locationStatusTime(status: CurrentLocationStatus["item"]) {
 
 function friendScheduleTitle(
 	subjects: NonNullable<Friend["timetable"]>["subjects"] | undefined,
+	now: Date,
 ) {
 	if (!subjects?.length) {
 		return "No timetable shared";
 	}
 
-	const day = new Date().getDay() - 1;
+	const day = now.getDay() - 1;
 	if (day < 0 || day > 4) {
 		return "School's Out";
 	}
