@@ -1,3 +1,69 @@
 .page section {
 	margin: 2rem 0rem;
 }
+
+.exampleRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ds-control-gap);
+	margin: var(--ds-space-4) 0;
+}
+
+.standaloneField {
+	display: grid;
+	gap: var(--ds-space-3);
+	margin-top: var(--ds-space-6);
+}
+
+.cardGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+	gap: var(--ds-space-6);
+}
+
+.controlGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+	gap: var(--ds-space-5);
+}
+
+.controlExample {
+	display: flex;
+	min-height: 88px;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ds-space-3);
+	flex-direction: column;
+	border: 1px solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	padding: var(--ds-space-4);
+	color: var(--ds-color-text-muted);
+	font-size: var(--ds-font-small);
+	text-align: center;
+}
+
+.symbolExample {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.settingExamples {
+	display: grid;
+	gap: var(--ds-space-3);
+	margin-top: var(--ds-space-6);
+}
+
+.separatorExample {
+	display: grid;
+	gap: var(--ds-space-4);
+	align-items: center;
+	margin-bottom: var(--ds-space-6);
+}
+
+.verticalSeparatorExample {
+	display: flex;
+	height: 40px;
+	align-items: center;
+	gap: var(--ds-space-4);
+}
