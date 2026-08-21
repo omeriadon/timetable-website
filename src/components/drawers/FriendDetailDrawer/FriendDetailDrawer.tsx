@@ -1,5 +1,6 @@
 import { Tabs } from "@base-ui/react/tabs";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import type {
 	Friend,
 	FriendDetail,
@@ -8,6 +9,8 @@ import type {
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
+import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import {
 	TIMETABLE_DAYS,
@@ -25,13 +28,19 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	const [detail, setDetail] = useState<FriendDetail | null>(null);
 	const [tab, setTab] = useState<"main" | "week" | "info">("main");
 	const [error, setError] = useState<string | null>(null);
+	const [friendsSinceDate, setFriendsSinceDate] = useState("");
+	const [isSavingFriendsSince, setIsSavingFriendsSince] = useState(false);
+	const { openDrawer, closeDrawer } = useDrawer();
 	const status = locationStatusTitle(friend.locationStatus?.state);
 	const subjects =
 		detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
 
 	useEffect(() => {
 		apiRequest<FriendDetail>(`v1/friends/${friend.friend.userID}`)
-			.then(setDetail)
+			.then((nextDetail) => {
+				setDetail(nextDetail);
+				setFriendsSinceDate(nextDetail.acceptedAt.slice(0, 10));
+			})
 			.catch((requestError: Error) => setError(requestError.message));
 	}, [friend.friend.userID]);
 
@@ -58,6 +67,65 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 		}
 	};
 
+	const saveFriendsSince = async () => {
+		if (!friendsSinceDate || isSavingFriendsSince) return;
+		setIsSavingFriendsSince(true);
+		setError(null);
+		try {
+			await apiRequest(`v1/friends/${friend.friend.userID}/friends-since`, {
+				method: "PUT",
+				body: JSON.stringify({
+					requestedDate: new Date(
+						`${friendsSinceDate}T00:00:00.000Z`,
+					).toISOString(),
+				}),
+			});
+			setDetail((current) =>
+				current
+					? { ...current, acceptedAt: `${friendsSinceDate}T00:00:00.000Z` }
+					: current,
+			);
+		} catch (requestError) {
+			setError((requestError as Error).message);
+		} finally {
+			setIsSavingFriendsSince(false);
+		}
+	};
+
+	const confirmRemove = () => {
+		openDrawer(
+			<ConfirmationDrawer
+				title={`Remove ${friend.friend.displayName}?`}
+				message="This removes the friend and their timetable from your account."
+				confirmLabel="Remove friend"
+				icon="person.badge.minus"
+				onConfirm={async () => {
+					await apiRequest(`v1/friends/${friend.friend.userID}`, {
+						method: "DELETE",
+					});
+					closeDrawer();
+				}}
+			/>,
+		);
+	};
+
+	const confirmReport = () => {
+		openDrawer(
+			<ConfirmationDrawer
+				title={`Report ${friend.friend.displayName}?`}
+				message="This sends a report for review. The friend remains visible in your account."
+				confirmLabel="Report friend"
+				icon="exclamationmark.bubble"
+				onConfirm={() =>
+					apiRequest("v1/report/user", {
+						method: "POST",
+						body: JSON.stringify({ reportedAccountID: friend.friend.userID }),
+					})
+				}
+			/>,
+		);
+	};
+
 	return (
 		<Tabs.Root
 			className={styles.detailDrawer}
@@ -79,6 +147,24 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					<p>{friend.friend.email}</p>
 				</div>
 			</header>
+			<div className={styles.drawerActions}>
+				<Button
+					type="button"
+					onClick={confirmRemove}
+					aria-label="Remove friend"
+				>
+					<Symbol name="person.badge.minus" />
+					Remove
+				</Button>
+				<Button
+					type="button"
+					onClick={confirmReport}
+					aria-label="Report friend"
+				>
+					<Symbol name="exclamationmark.bubble" />
+					Report
+				</Button>
+			</div>
 			<Tabs.List className={styles.detailTabs} aria-label="Friend details">
 				{tabs.map(({ value, label, symbol }) => (
 					<Tabs.Tab
@@ -198,6 +284,43 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 								: "—"}
 						</strong>
 					</div>
+					<h3>Average arrival</h3>
+					<div className={styles.detailRow}>
+						<span>Overall</span>
+						<strong>
+							{formatArrival(detail?.averageArrivalSecondsSinceMidnight)}
+						</strong>
+					</div>
+					{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
+						(day, index) => (
+							<div className={styles.detailRow} key={day}>
+								<span>{day}</span>
+								<strong>
+									{formatArrival(
+										detail?.weekdayAverageArrivalSecondsSinceMidnight[index],
+									)}
+								</strong>
+							</div>
+						),
+					)}
+					<h3>Friends since</h3>
+					<input
+						type="date"
+						value={friendsSinceDate}
+						max={new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)}
+						min="2010-01-01"
+						aria-label="Friends since date"
+						onChange={(event) => setFriendsSinceDate(event.target.value)}
+					/>
+					<Button
+						type="button"
+						onClick={() => void saveFriendsSince()}
+						disabled={isSavingFriendsSince || !friendsSinceDate}
+						aria-label="Save friends since date"
+					>
+						<Symbol name="checkmark" />
+						{isSavingFriendsSince ? "Saving…" : "Save date"}
+					</Button>
 				</section>
 			</Tabs.Panel>
 			{error ? (
@@ -241,4 +364,18 @@ function schoolStatus(
 	);
 
 	return hasClassesToday ? "Scheduled today" : "School's Out";
+}
+
+function formatArrival(seconds?: number | null) {
+	if (seconds == null) {
+		return "No data";
+	}
+
+	const totalMinutes = Math.round(seconds / 60);
+	const hours = Math.floor(totalMinutes / 60);
+	const minutes = totalMinutes % 60;
+	const period = hours >= 12 ? "pm" : "am";
+	const displayHour = hours % 12 || 12;
+
+	return `${displayHour}:${String(minutes).padStart(2, "0")} ${period}`;
 }
