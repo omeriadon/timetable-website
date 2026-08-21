@@ -20,6 +20,7 @@ import {
 } from "@/features/timetable/layout";
 import styles from "../Drawer/Drawer.module.css";
 import { useTimetableNow } from "@/features/timetable/clock";
+import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
 
 const tabs = [
 	{ value: "main", label: "Overview", symbol: "person.crop.circle" },
@@ -216,7 +217,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							<Symbol name="building.2" />
 							School status
 						</span>
-						<strong>{schoolStatus(subjects, now)}</strong>
+						<strong>{friendScheduleTitle(subjects, now)}</strong>
 					</div>
 				</section>
 				<section className={styles.detailCard}>
@@ -410,26 +411,6 @@ function locationStatusTitle(state?: LocationStatus) {
 		default:
 			return "Unavailable";
 	}
-}
-
-function schoolStatus(
-	subjects: NonNullable<FriendDetail["timetable"]>["subjects"] | undefined,
-	now: Date,
-) {
-	if (!subjects?.length) {
-		return "No timetable";
-	}
-
-	const day = now.getDay() - 1;
-	if (day < 0 || day > 4) {
-		return "School's Out";
-	}
-
-	const hasClassesToday = subjects.some((subject) =>
-		subject.slots.some((slot) => slot.day === day),
-	);
-
-	return hasClassesToday ? "Scheduled today" : "School's Out";
 }
 
 function formatArrival(seconds?: number | null) {
