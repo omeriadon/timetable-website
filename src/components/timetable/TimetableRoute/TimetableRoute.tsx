@@ -117,6 +117,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 					schoolCalendar={data.schoolCalendar}
 					grades={data.grades}
 					canManageGlobalEvents={data.events.canManageGlobalEvents}
+					futureEventRange={data.settings.futureEventRange}
 				/>
 			) : null}
 		</main>

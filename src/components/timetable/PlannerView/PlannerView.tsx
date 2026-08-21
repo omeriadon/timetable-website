@@ -8,6 +8,7 @@ import { apiRequest } from "@/lib/api/client";
 import Link from "next/link";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent, GradeTracker } from "@/features/timetable/types";
+import { futureEventEndDate } from "@/features/timetable/eventRange";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import EventRow from "@/components/timetable/EventRow/EventRow";
@@ -22,16 +23,23 @@ export default function PlannerView({
 	schoolCalendar,
 	grades,
 	canManageGlobalEvents,
+	futureEventRange,
 }: {
 	events: CalendarEvent[];
 	schoolCalendar: DashboardData["schoolCalendar"];
 	grades: GradeTracker;
 	canManageGlobalEvents: boolean;
+	futureEventRange: string;
 }) {
 	const { openDrawer } = useDrawer();
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
-	const todayTimestamp = startOfToday().getTime();
+	const today = startOfToday();
+	const todayTimestamp = today.getTime();
+	const futureEventEndTimestamp = futureEventEndDate(
+		futureEventRange,
+		today,
+	).getTime();
 	const todayEvents = localEvents.filter(
 		(event) => eventDate(event) === todayTimestamp,
 	);
@@ -39,10 +47,19 @@ export default function PlannerView({
 		(event) => eventDate(event) > todayTimestamp,
 	);
 	const upcomingAssessments = grades.document.assessments.filter(
-		(assessment) => assessmentDate(assessment) >= todayTimestamp,
+		(assessment) =>
+			assessmentDate(assessment) >= todayTimestamp &&
+			assessmentDate(assessment) <= futureEventEndTimestamp,
 	);
 	const upcomingNoSchoolDays = schoolCalendar.skippedDates.filter(
-		(item) => skippedDate(item) >= todayTimestamp,
+		(item) =>
+			skippedDate(item) >= todayTimestamp &&
+			skippedDate(item) <= futureEventEndTimestamp,
+	);
+	const visibleTermRanges = schoolCalendar.termRanges.filter(
+		(term) =>
+			calendarDateTimestamp(term.end) >= todayTimestamp &&
+			calendarDateTimestamp(term.start) <= futureEventEndTimestamp,
 	);
 	const updateEvent = (updated: CalendarEvent | null, originalID: string) => {
 		setLocalEvents((current) =>
@@ -174,7 +191,7 @@ export default function PlannerView({
 				</SectionCard>
 			) : null}
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
-				{schoolCalendar.termRanges.map((term) => (
+				{visibleTermRanges.map((term) => (
 					<Button
 						key={term.label}
 						type="button"
@@ -358,6 +375,14 @@ function skippedDate(
 	item: DashboardData["schoolCalendar"]["skippedDates"][number],
 ) {
 	return new Date(item.date.year, item.date.month - 1, item.date.day).getTime();
+}
+
+function calendarDateTimestamp(date: {
+	year: number;
+	month: number;
+	day: number;
+}) {
+	return new Date(date.year, date.month - 1, date.day).getTime();
 }
 
 function formatAssessmentDate(

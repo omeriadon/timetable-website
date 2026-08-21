@@ -39,6 +39,7 @@ export default function PlannerPage() {
 					schoolCalendar={data.schoolCalendar}
 					grades={data.grades}
 					canManageGlobalEvents={data.events.canManageGlobalEvents}
+					futureEventRange={data.settings.futureEventRange}
 				/>
 			) : null}
 		</main>
