@@ -5,6 +5,7 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
 import type { CalendarEvent } from "@/features/timetable/types";
+import { useTimetableNow } from "@/features/timetable/clock";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import TimetableModeNavigation from "@/components/timetable/TimetableModeNavigation/TimetableModeNavigation";
 import styles from "@/components/timetable/timetable.module.css";
@@ -12,14 +13,15 @@ import styles from "@/components/timetable/timetable.module.css";
 export default function TodayPage() {
 	const setToolbar = useToolbar();
 	const { data, error, isLoading } = useDashboard();
+	const now = useTimetableNow();
 
 	useEffect(() => {
 		setToolbar({ title: "Today" });
 	}, [setToolbar]);
 
 	const events = useMemo(
-		() => visibleEvents(data?.events, data?.settings.futureEventRange),
-		[data],
+		() => visibleEvents(data?.events, data?.settings.futureEventRange, now),
+		[data, now],
 	);
 
 	return (
@@ -55,16 +57,16 @@ function visibleEvents(
 			}
 		| undefined,
 	range: string | undefined,
+	now: Date,
 ) {
 	if (!events) {
 		return [];
 	}
 
-	const today = new Date();
 	const start = new Date(
-		today.getFullYear(),
-		today.getMonth(),
-		today.getDate(),
+		now.getFullYear(),
+		now.getMonth(),
+		now.getDate(),
 	);
 	const end = futureEventEndDate(range, start);
 

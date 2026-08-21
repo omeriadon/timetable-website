@@ -14,6 +14,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
+import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "@/components/timetable/timetable.module.css";
 
 type TodayEntry =
@@ -60,14 +61,14 @@ export default function TodayView({
 	);
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
-	const today = new Date();
+	const today = useTimetableNow();
 	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 	const todayTimestamp = new Date(
 		today.getFullYear(),
 		today.getMonth(),
 		today.getDate(),
 	).getTime();
-	const dayIndex = todayDayIndex();
+	const dayIndex = todayDayIndex(today);
 	const entries = [
 		...localEvents.map<TodayEntry>((event) => ({
 			kind: "event",
@@ -123,7 +124,7 @@ export default function TodayView({
 						month: "long",
 					}).format(today)}
 				</h1>
-				<span>{termWeekLabel(schoolCalendar) ?? "Outside school term"}</span>
+				<span>{termWeekLabel(schoolCalendar, today) ?? "Outside school term"}</span>
 			</header>
 			{entries.length ? (
 				<SectionCard
@@ -184,7 +185,7 @@ export default function TodayView({
 										slot.day === dayIndex && slot.session === period.session,
 								),
 							);
-							const current = isCurrentPeriod(period.start, period.end);
+							const current = isCurrentPeriod(period.start, period.end, today);
 							return (
 								<div
 									key={period.session}
@@ -346,12 +347,11 @@ function colour(subject: TimetableSubject) {
 	return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
 }
 
-function todayDayIndex() {
-	return new Date().getDay() - 1;
+function todayDayIndex(date: Date) {
+	return date.getDay() - 1;
 }
 
-function isCurrentPeriod(start: string, end: string) {
-	const now = new Date();
+function isCurrentPeriod(start: string, end: string, now: Date) {
 	const minutes = now.getHours() * 60 + now.getMinutes();
 	const parse = (value: string) => {
 		const [time, meridiem] = value.split(" ");
@@ -370,8 +370,7 @@ function weatherLabel(conditionCode: string) {
 		.replace(/^./, (character) => character.toUpperCase());
 }
 
-function termWeekLabel(calendar: DashboardData["schoolCalendar"]) {
-	const now = new Date();
+function termWeekLabel(calendar: DashboardData["schoolCalendar"], now: Date) {
 	const today = {
 		year: now.getFullYear(),
 		month: now.getMonth() + 1,

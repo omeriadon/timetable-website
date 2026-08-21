@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { apiRequest } from "@/lib/api/client";
 import { websiteInstallationID } from "@/lib/auth/installation";
+import { notifyTimetableClockChanged } from "@/features/timetable/clock";
 
 import styles from "@/components/settings/Settings.module.css";
 
@@ -57,6 +58,7 @@ export default function DeveloperToolsEditor() {
 	const saveOffset = (value: string) => {
 		setDebugOffset(value);
 		window.localStorage.setItem("timetable.debug-offset", value);
+		notifyTimetableClockChanged();
 	};
 
 	const toggleReleaseIcon = (value: boolean) => {

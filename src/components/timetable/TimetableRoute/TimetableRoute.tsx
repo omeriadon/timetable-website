@@ -11,6 +11,7 @@ import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import PlannerView from "@/components/timetable/PlannerView/PlannerView";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "./TimetableRoute.module.css";
 
 export type TimetableMode = "today" | "week" | "planner";
@@ -45,6 +46,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 	const pathname = usePathname();
 	const setToolbar = useToolbar();
 	const { data, error, isLoading } = useDashboard();
+	const now = useTimetableNow();
 
 	useEffect(() => {
 		setToolbar({ title: modeLabel(mode) });
@@ -55,11 +57,10 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 			return [];
 		}
 
-		const today = new Date();
 		const start = new Date(
-			today.getFullYear(),
-			today.getMonth(),
-			today.getDate(),
+			now.getFullYear(),
+			now.getMonth(),
+			now.getDate(),
 		);
 		const end = futureEventEndDate(data.settings.futureEventRange, start);
 
@@ -73,7 +74,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 				return date >= start && date <= end;
 			})
 			.sort((left, right) => eventDate(left) - eventDate(right));
-	}, [data]);
+	}, [data, now]);
 
 	return (
 		<main className={styles.page}>

@@ -16,6 +16,7 @@ import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
+import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "@/components/timetable/timetable.module.css";
 
 export default function PlannerView({
@@ -32,9 +33,10 @@ export default function PlannerView({
 	futureEventRange: string;
 }) {
 	const { openDrawer } = useDrawer();
+	const now = useTimetableNow();
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
-	const today = startOfToday();
+	const today = startOfToday(now);
 	const todayTimestamp = today.getTime();
 	const futureEventEndTimestamp = futureEventEndDate(
 		futureEventRange,
@@ -344,9 +346,8 @@ function monthName(month: number) {
 	);
 }
 
-function startOfToday() {
-	const today = new Date();
-	return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+function startOfToday(now: Date) {
+	return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
 function dateValue(date: Date) {
