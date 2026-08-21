@@ -56,9 +56,6 @@ export default function TodayView({
 	schoolWeather: DashboardData["schoolWeather"];
 	canManageGlobalEvents: boolean;
 }) {
-	const [expandedSubjectID, setExpandedSubjectID] = useState<string | null>(
-		null,
-	);
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
 	const today = useTimetableNow();
@@ -101,6 +98,7 @@ export default function TodayView({
 		return `${date.year}-${date.month}-${date.day}` === todayKey;
 	});
 	const isSchoolDay = dayIndex >= 0 && dayIndex < 5 && !noSchool;
+	const nextSubject = nextScheduledSubject(subjects, schoolCalendar, today);
 	const updateEvent = (updated: CalendarEvent | null, originalID: string) => {
 		setLocalEvents((current) =>
 			updated
@@ -171,11 +169,12 @@ export default function TodayView({
 					<p>{noSchool.label}</p>
 				</SectionCard>
 			) : null}
-			<SectionCard
-				background="paper"
-				title="Classes"
-				symbolName="books.vertical"
-			>
+			{isSchoolDay || !noSchool ? (
+				<SectionCard
+					background="paper"
+					title={isSchoolDay ? "Classes" : "Nothing Scheduled Today"}
+					symbolName={isSchoolDay ? "books.vertical" : "face.dashed"}
+				>
 				{isSchoolDay ? (
 					<div className={styles.subjectList}>
 						{schoolPeriods.map((period) => {
@@ -217,59 +216,16 @@ export default function TodayView({
 					</div>
 				) : (
 					<div className={styles.subjectList}>
-						{subjects.map((subject, index) => (
-							<Button
-								key={subject.id}
-								type="button"
-								className={cn(
-									styles.cardRow,
-									styles.subjectRow,
-									expandedSubjectID === subject.id && styles.subjectRowExpanded,
-								)}
-								onClick={() =>
-									setExpandedSubjectID((current) =>
-										current === subject.id ? null : subject.id,
-									)
-								}
-								aria-label={`Open ${subject.id} details`}
-								aria-expanded={expandedSubjectID === subject.id}
-							>
-								<span className={styles.subjectNumber}>{index + 1}</span>
-								<div className={styles.subjectDetails}>
-									<strong>{subject.id}</strong>
-									<div
-										className={styles.subjectMeta}
-										aria-hidden={expandedSubjectID !== subject.id}
-									>
-										<div className={styles.subjectMetaContent}>
-											<span>
-												<Symbol
-													name="person.fill"
-													className={styles.subjectMetaIcon}
-												/>
-												{teacherName(subject.teacher)}
-											</span>
-											<span>
-												<Symbol
-													name="door.left.hand.open"
-													className={styles.subjectMetaIcon}
-												/>
-												{classroomName(subject.classroom)}
-											</span>
-										</div>
-									</div>
-								</div>
-								<em>
-									<Symbol
-										name={subject.symbol}
-										className={styles.eventSymbolIcon}
-									/>
-								</em>
-							</Button>
-						))}
+						<strong>Nothing Scheduled Today</strong>
+						<span>
+							{nextSubject
+								? `Next: ${nextSubject}`
+								: "No upcoming subjects"}
+						</span>
 					</div>
 				)}
-			</SectionCard>
+				</SectionCard>
+			) : null}
 		</>
 	);
 }
@@ -397,6 +353,50 @@ function termWeekLabel(calendar: DashboardData["schoolCalendar"], now: Date) {
 		Math.floor((currentMonday.getTime() - monday.getTime()) / 604800000),
 	);
 	return `${term.label}, Week ${weeks + 1}`;
+}
+
+function nextScheduledSubject(
+	subjects: TimetableSubject[],
+	calendar: DashboardData["schoolCalendar"],
+	now: Date,
+) {
+	for (let offset = 1; offset <= 14; offset += 1) {
+		const date = new Date(
+			now.getFullYear(),
+			now.getMonth(),
+			now.getDate() + offset,
+		);
+		const day = date.getDay() - 1;
+		if (day < 0 || day > 4) {
+			continue;
+		}
+
+		const schoolDate = {
+			year: date.getFullYear(),
+			month: date.getMonth() + 1,
+			day: date.getDate(),
+		};
+		const isInTerm = calendar.termRanges.some(
+			(range) =>
+				compareDate(schoolDate, range.start) >= 0 &&
+				compareDate(schoolDate, range.end) <= 0,
+		);
+		const isSkipped = calendar.skippedDates.some(
+			(item) => compareDate(schoolDate, item.date) === 0,
+		);
+		if (!isInTerm || isSkipped) {
+			continue;
+		}
+
+		const subject = subjects.find((candidate) =>
+			candidate.slots.some((slot) => slot.day === day),
+		);
+		if (subject) {
+			return subject.id;
+		}
+	}
+
+	return null;
 }
 
 function compareDate(
