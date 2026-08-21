@@ -34,7 +34,6 @@ export default function PlannerView({
 					background="paper"
 					title="Today"
 					symbolName="calendar.day.timeline.left"
-					headingLevel="h1"
 				>
 					{todayEvents.map((event) => (
 						<EventRow key={event.id} event={event} prominent showDate={false} />
@@ -45,7 +44,6 @@ export default function PlannerView({
 				background="paper"
 				title="Upcoming"
 				symbolName="calendar.badge.clock"
-				headingLevel="h1"
 			>
 				{upcomingEvents.length ? (
 					upcomingEvents.map((event) => (
