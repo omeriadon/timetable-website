@@ -19,6 +19,7 @@
 	justify-content: space-between;
 	gap: var(--ds-list-row-gap);
 	margin-bottom: var(--ds-content-section-gap);
+	color: var(--foreground);
 }
 
 .content {

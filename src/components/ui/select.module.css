@@ -114,7 +114,10 @@
 
 	padding: var(--select-content-padding);
 
-	background: var(--input);
+	background: var(--ds-overlay-background);
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
+	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	overflow-x: hidden;
 	overflow-y: auto;

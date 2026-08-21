@@ -31,15 +31,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
-	Card,
-	CardAction,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
@@ -266,7 +257,6 @@ export default function TestingPage() {
 							</FieldContent>
 							<Toggle aria-label="Responsive field toggle" />
 						</Field>
-						<FieldSeparator>or</FieldSeparator>
 						<FieldError
 							errors={[
 								{ message: "Example validation error" },
@@ -275,45 +265,6 @@ export default function TestingPage() {
 						/>
 					</FieldGroup>
 				</FieldSet>
-
-				<div className={styles.standaloneField}>
-					<Label htmlFor="testing-label">Standalone label</Label>
-					<Input id="testing-label" placeholder="Label component" />
-				</div>
-			</section>
-
-			<section>
-				<h2>Cards</h2>
-				<div className={styles.cardGrid}>
-					<Card>
-						<CardHeader>
-							<CardTitle>Card title</CardTitle>
-							<CardDescription>Card description.</CardDescription>
-							<CardAction>
-								<Button size="icon-sm" aria-label="Copy card content">
-									<CopyIcon />
-								</Button>
-							</CardAction>
-						</CardHeader>
-						<CardContent>
-							<p>Card content with a header, action, and footer.</p>
-						</CardContent>
-						<CardFooter>
-							<Button variant="outline" size="sm">
-								<CheckIcon />
-								Done
-							</Button>
-						</CardFooter>
-					</Card>
-					<Card size="sm">
-						<CardHeader>
-							<CardTitle>Compact card</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p>The small card spacing variant.</p>
-						</CardContent>
-					</Card>
-				</div>
 			</section>
 
 			<section>
@@ -411,9 +362,9 @@ export default function TestingPage() {
 			<section>
 				<h2>Separators</h2>
 				<div className={styles.separatorExample}>
-					<span>Leading content</span>
+					<span>Top content</span>
 					<Separator />
-					<span>Trailing content</span>
+					<span>bottom content</span>
 				</div>
 				<div className={styles.verticalSeparatorExample}>
 					<span>Left</span>

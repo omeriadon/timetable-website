@@ -19,8 +19,10 @@
 
 	transform-origin: var(--transform-origin);
 
+	background: var(--ds-overlay-background);
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
 	border: var(--ds-border-width) solid var(--ds-color-border);
-	background: var(--ds-color-surface);
 
 	border-radius: 1.5rem;
 

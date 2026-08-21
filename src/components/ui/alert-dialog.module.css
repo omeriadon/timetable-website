@@ -42,8 +42,10 @@
 
 	border-radius: 2rem;
 
-	background: var(--popover);
-	backdrop-filter: blur(var(--ds-popover-blur));
+	background: var(--ds-overlay-background);
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
+	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	color: var(--popover-foreground);
 
@@ -89,22 +91,6 @@
 .content[data-size="sm"] .footer {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.media {
-	display: inline-flex;
-
-	width: 4rem;
-	height: 4rem;
-
-	align-items: center;
-	justify-content: center;
-
-	margin-bottom: 0.5rem;
-
-	border-radius: 9999px;
-
-	background: var(--muted);
 }
 
 .media svg:not([class*="size-"]) {

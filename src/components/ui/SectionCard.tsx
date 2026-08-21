@@ -8,7 +8,6 @@ type SectionCardProps = {
 	title: string;
 	symbolName: string;
 	children: ReactNode;
-	headingLevel?: "h1" | "h2";
 	className?: string;
 };
 
@@ -17,17 +16,14 @@ export function SectionCard({
 	title,
 	symbolName,
 	children,
-	headingLevel = "h2",
 	className,
 }: SectionCardProps) {
-	const Heading = headingLevel;
-
 	return (
 		<section className={cn(styles.card, styles[background], className)}>
 			<header className={styles.header}>
 				<div className={styles.heading}>
 					<Symbol name={symbolName} className={styles.icon} />
-					<Heading>{title}</Heading>
+					<div>{title}</div>
 				</div>
 			</header>
 			<div className={styles.content}>{children}</div>

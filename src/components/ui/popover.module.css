@@ -22,6 +22,9 @@
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 
+	background: var(--ds-overlay-background);
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
 	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	outline: none;

@@ -67,3 +67,21 @@
 	align-items: center;
 	gap: var(--ds-space-4);
 }
+
+.page h2 {
+	font-size: var(--ds-font-heading-size);
+	color: var(--ds-color-text-accent);
+}
+
+.page h2 {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-space-3);
+
+	padding: 0.3rem;
+	border-radius: 10px;
+
+	background: gray;
+
+	margin: 2rem 0;
+}
