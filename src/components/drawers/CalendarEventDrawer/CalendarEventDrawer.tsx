@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "../Drawer/Drawer";
@@ -31,8 +31,22 @@ export default function CalendarEventDrawer({
 	const [symbol, setSymbol] = useState(event.symbol);
 	const [date, setDate] = useState(() => dateValue(event));
 	const [showsWeather, setShowsWeather] = useState(event.showsWeather);
+	const [tagSections, setTagSections] = useState<EventTagSection[]>([]);
+	const [selectedTagIDs, setSelectedTagIDs] = useState<string[]>(
+		event.tagIDs ?? [],
+	);
 	const [saving, setSaving] = useState(false);
 	const [status, setStatus] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (!event.isGlobal) {
+			return;
+		}
+
+		apiRequest<{ sections: EventTagSection[] }>("v1/tags")
+			.then((response) => setTagSections(response.sections))
+			.catch(() => setTagSections([]));
+	}, [event.isGlobal]);
 
 	const save = async () => {
 		const [year, month, day] = date.split("-").map(Number);
@@ -55,7 +69,7 @@ export default function CalendarEventDrawer({
 					notes: notes.trim() || null,
 					symbol: symbol.trim() || "calendar",
 					date: { year, month, day },
-					tagIDs: event.tagIDs ?? [],
+					tagIDs: selectedTagIDs,
 					baseRevision: event.revision,
 					showsWeather: event.isGlobal && showsWeather,
 				}),
@@ -69,6 +83,7 @@ export default function CalendarEventDrawer({
 				notes: notes.trim() || undefined,
 				symbol: symbol.trim() || "calendar",
 				date: { year, month, day },
+				tagIDs: selectedTagIDs,
 				showsWeather: event.isGlobal && showsWeather,
 			};
 			onChanged(replacement);
@@ -150,6 +165,37 @@ export default function CalendarEventDrawer({
 					/>
 				</label>
 				{event.isGlobal ? (
+					<section
+						className={styles.formCard}
+						aria-labelledby="event-tags-title"
+					>
+						<h3 id="event-tags-title">Tags</h3>
+						{tagSections.length ? (
+							tagSections.flatMap((section) => section.tags).map((tag) => {
+								const selected = selectedTagIDs.includes(tag.id);
+								return (
+									<Button
+										key={tag.id}
+										type="button"
+										aria-pressed={selected}
+										aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
+										disabled={readOnly || saving}
+										onClick={() =>
+											setSelectedTagIDs(selected ? [] : [tag.id])
+										}
+									>
+										<Symbol name={tag.symbol ?? "tag"} />
+										{tag.displayName}
+										{selected ? <Symbol name="checkmark" /> : null}
+									</Button>
+								);
+							})
+						) : (
+							<p className={styles.detailMuted}>Loading event tags…</p>
+						)}
+					</section>
+				) : null}
+				{event.isGlobal ? (
 					<SettingToggle
 						label="Show Weather"
 						enabled={showsWeather}
@@ -190,3 +236,14 @@ export default function CalendarEventDrawer({
 function dateValue(event: CalendarEvent) {
 	return `${event.date.year}-${String(event.date.month).padStart(2, "0")}-${String(event.date.day).padStart(2, "0")}`;
 }
+
+type EventTagSection = {
+	displayName: string;
+	tags: EventTag[];
+};
+
+type EventTag = {
+	id: string;
+	displayName: string;
+	symbol?: string | null;
+};
