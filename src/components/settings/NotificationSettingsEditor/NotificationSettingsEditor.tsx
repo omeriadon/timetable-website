@@ -27,7 +27,30 @@ export default function NotificationSettingsEditor({
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
 
-	const save = async (next: Settings) => {
+	const saveGeneral = async (next: Settings) => {
+		const previous = draft;
+		setDraft(next);
+		setSaving(true);
+		setError(null);
+		try {
+			const updated = await apiRequest<Settings>("v1/settings", {
+				method: "PUT",
+				body: JSON.stringify({
+					...next,
+					serverRevision: previous.serverRevision,
+				}),
+			});
+			setDraft(updated);
+		} catch (requestError) {
+			setDraft(previous);
+			setError((requestError as Error).message);
+		} finally {
+			setSaving(false);
+		}
+	};
+
+	const saveNotifications = async (next: Settings) => {
+		const previous = draft;
 		setDraft(next);
 		setSaving(true);
 		setError(null);
@@ -41,20 +64,22 @@ export default function NotificationSettingsEditor({
 					breakToPeriodNotificationLeadTimes:
 						next.breakToPeriodNotificationLeadTimes,
 					eventNotificationSchedules: next.eventNotificationSchedules,
-					serverRevision: next.serverRevision,
+					serverRevision: previous.serverRevision,
 				}),
 			});
 			setDraft(updated);
 		} catch (requestError) {
-			setDraft(initial);
+			setDraft(previous);
 			setError((requestError as Error).message);
 		} finally {
 			setSaving(false);
 		}
 	};
 
-	const update = (changes: Partial<Settings>) =>
-		void save({ ...draft, ...changes });
+	const updateGeneral = (changes: Partial<Settings>) =>
+		void saveGeneral({ ...draft, ...changes });
+	const updateNotifications = (changes: Partial<Settings>) =>
+		void saveNotifications({ ...draft, ...changes });
 	const formatLeadTimes = (values: number[]) =>
 		values.length ? values.map((value) => `${value}m`).join(", ") : "None";
 	const openLeadTimes = (
@@ -67,7 +92,7 @@ export default function NotificationSettingsEditor({
 				title={title}
 				description={description}
 				selection={draft[key]}
-				onSave={async (selection) => update({ [key]: selection })}
+				onSave={async (selection) => updateNotifications({ [key]: selection })}
 			/>,
 		);
 	};
@@ -82,7 +107,7 @@ export default function NotificationSettingsEditor({
 		) {
 			return;
 		}
-		update({
+		updateNotifications({
 			eventNotificationSchedules: [
 				...draft.eventNotificationSchedules,
 				schedule,
@@ -90,7 +115,7 @@ export default function NotificationSettingsEditor({
 		});
 	};
 	const removeSchedule = (schedule: EventNotificationSchedule) => {
-		update({
+		updateNotifications({
 			eventNotificationSchedules: draft.eventNotificationSchedules.filter(
 				(item) =>
 					item.hour !== schedule.hour ||
@@ -118,7 +143,7 @@ export default function NotificationSettingsEditor({
 					label="Live Activities"
 					enabled={draft.liveActivitiesEnabled}
 					onClick={() =>
-						update({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })
+						updateGeneral({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })
 					}
 					disabled={saving}
 				/>
@@ -126,7 +151,7 @@ export default function NotificationSettingsEditor({
 					label="Watch Bleed"
 					enabled={draft.watchBleedEnabled}
 					onClick={() =>
-						update({ watchBleedEnabled: !draft.watchBleedEnabled })
+						updateGeneral({ watchBleedEnabled: !draft.watchBleedEnabled })
 					}
 					disabled={saving}
 				/>
@@ -138,7 +163,7 @@ export default function NotificationSettingsEditor({
 						disabled={saving}
 						onValueChange={(value) => {
 							if (value !== null) {
-								update({
+								updateGeneral({
 									calendarEventAutoDeleteDays: Number(value),
 								});
 							}
@@ -154,7 +179,9 @@ export default function NotificationSettingsEditor({
 					label="Allow Class Notifications"
 					enabled={draft.notificationsEnabled}
 					onClick={() =>
-						update({ notificationsEnabled: !draft.notificationsEnabled })
+						updateNotifications({
+							notificationsEnabled: !draft.notificationsEnabled,
+						})
 					}
 					disabled={saving}
 				/>
@@ -162,7 +189,7 @@ export default function NotificationSettingsEditor({
 					label="Special Event Notifications"
 					enabled={draft.broadcastNotificationsEnabled}
 					onClick={() =>
-						update({
+						updateNotifications({
 							broadcastNotificationsEnabled:
 								!draft.broadcastNotificationsEnabled,
 						})
