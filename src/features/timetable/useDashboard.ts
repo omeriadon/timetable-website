@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
+import type { Settings } from "@/features/settings/types";
 import type {
 	CalendarEvents,
 	Friend,
@@ -20,6 +21,7 @@ export type DashboardData = {
 	grades: GradeTracker;
 	schoolCalendar: SchoolCalendar;
 	schoolWeather: SchoolWeather | null;
+	settings: Settings;
 };
 
 let cachedDashboardData: DashboardData | null = null;
@@ -44,6 +46,7 @@ function requestDashboard() {
 			apiRequest<GradeTracker>("v1/grades"),
 			apiRequest<SchoolCalendar>("v1/settings/calendar"),
 			apiRequest<SchoolWeather>("v1/weather").catch(() => null),
+			apiRequest<Settings>("v1/settings"),
 		]).then(
 			([
 				account,
@@ -53,6 +56,7 @@ function requestDashboard() {
 				grades,
 				schoolCalendar,
 				schoolWeather,
+				settings,
 			]) => {
 				const data = {
 					account,
@@ -62,6 +66,7 @@ function requestDashboard() {
 					grades,
 					schoolCalendar,
 					schoolWeather,
+					settings,
 				};
 
 				cachedDashboardData = data;

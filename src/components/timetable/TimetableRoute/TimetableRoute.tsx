@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
+import { futureEventEndDate } from "@/features/timetable/eventRange";
 import type { CalendarEvent } from "@/features/timetable/types";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import WeekView from "@/components/timetable/WeekView/WeekView";
@@ -60,8 +61,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 			today.getMonth(),
 			today.getDate(),
 		);
-		const end = new Date(start);
-		end.setMonth(end.getMonth() + 2);
+		const end = futureEventEndDate(data.settings.futureEventRange, start);
 
 		return [...data.events.globalEvents, ...data.events.privateEvents]
 			.filter((event) => {
