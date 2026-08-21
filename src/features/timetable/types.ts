@@ -117,13 +117,23 @@ export type Friend = {
 	};
 	state: "pendingOutgoing" | "pendingIncoming" | "friends";
 	locationStatus?: {
-		state: string;
+		state: LocationStatus;
 		updatedAt: string;
 	};
 	timetable?: {
 		title: string;
 		subjects: TimetableSubject[];
 	};
+};
+
+export type LocationStatus =
+	"offCampus" | "withinTenMinutes" | "withinFiveMinutes" | "onCampus";
+
+export type CurrentLocationStatus = {
+	item: {
+		state: LocationStatus;
+		updatedAt: string;
+	} | null;
 };
 
 export type FriendSearchResult = {

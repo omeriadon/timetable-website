@@ -1,6 +1,10 @@
 import { Tabs } from "@base-ui/react/tabs";
 import { useEffect, useState } from "react";
-import type { Friend, FriendDetail } from "@/features/timetable/types";
+import type {
+	Friend,
+	FriendDetail,
+	LocationStatus,
+} from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -21,7 +25,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	const [detail, setDetail] = useState<FriendDetail | null>(null);
 	const [tab, setTab] = useState<"main" | "week" | "info">("main");
 	const [error, setError] = useState<string | null>(null);
-	const status = friend.locationStatus?.state ?? "Unavailable";
+	const status = locationStatusTitle(friend.locationStatus?.state);
 	const subjects =
 		detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
 
@@ -105,7 +109,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							<Symbol name="building.2" />
 							School status
 						</span>
-						<strong>School&apos;s Out</strong>
+						<strong>{schoolStatus(subjects)}</strong>
 					</div>
 				</section>
 				<section className={styles.detailCard}>
@@ -203,4 +207,38 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			) : null}
 		</Tabs.Root>
 	);
+}
+
+function locationStatusTitle(state?: LocationStatus) {
+	switch (state) {
+		case "onCampus":
+			return "On Campus";
+		case "withinFiveMinutes":
+			return "Within 5 mins";
+		case "withinTenMinutes":
+			return "Within 10 mins";
+		case "offCampus":
+			return "Off Campus";
+		default:
+			return "Unavailable";
+	}
+}
+
+function schoolStatus(
+	subjects: NonNullable<FriendDetail["timetable"]>["subjects"] | undefined,
+) {
+	if (!subjects?.length) {
+		return "No timetable";
+	}
+
+	const day = new Date().getDay() - 1;
+	if (day < 0 || day > 4) {
+		return "School's Out";
+	}
+
+	const hasClassesToday = subjects.some((subject) =>
+		subject.slots.some((slot) => slot.day === day),
+	);
+
+	return hasClassesToday ? "Scheduled today" : "School's Out";
 }

@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
-import type { Friend } from "@/features/timetable/types";
+import type {
+	CurrentLocationStatus,
+	Friend,
+	LocationStatus,
+} from "@/features/timetable/types";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import FriendDetailDrawer from "@/components/drawers/FriendDetailDrawer/FriendDetailDrawer";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
@@ -19,6 +23,8 @@ export default function FriendsPage() {
 	const setToolbar = useToolbar();
 	const [friends, setFriends] = useState<Friend[]>([]);
 	const [account, setAccount] = useState<Account | null>(null);
+	const [locationStatus, setLocationStatus] =
+		useState<CurrentLocationStatus["item"]>(null);
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
 
@@ -27,10 +33,12 @@ export default function FriendsPage() {
 		Promise.all([
 			apiRequest<Friend[]>("v1/friends"),
 			apiRequest<Account>("v1/account"),
+			apiRequest<CurrentLocationStatus>("v1/account/status"),
 		])
-			.then(([friendList, currentAccount]) => {
+			.then(([friendList, currentAccount, currentLocationStatus]) => {
 				setFriends(friendList);
 				setAccount(currentAccount);
+				setLocationStatus(currentLocationStatus.item);
 			})
 			.catch((requestError: Error) => setError(requestError.message));
 	}, [setToolbar]);
@@ -59,9 +67,9 @@ export default function FriendsPage() {
 					<ProfilePicture profile={account} size={68} />
 					<div>
 						<strong>{account.displayName}</strong>
-						<span>Off Campus</span>
+						<span>{locationStatusTitle(locationStatus?.state)}</span>
 					</div>
-					<em>Left: 6:54 pm</em>
+					<em>{locationStatusTime(locationStatus)}</em>
 				</section>
 			) : null}
 			<div className={styles.list}>
@@ -95,4 +103,37 @@ export default function FriendsPage() {
 			</div>
 		</main>
 	);
+}
+
+function locationStatusTitle(state?: LocationStatus) {
+	switch (state) {
+		case "onCampus":
+			return "On Campus";
+		case "withinFiveMinutes":
+			return "Within 5 mins";
+		case "withinTenMinutes":
+			return "Within 10 mins";
+		case "offCampus":
+			return "Off Campus";
+		default:
+			return "Unavailable";
+	}
+}
+
+function locationStatusTime(status: CurrentLocationStatus["item"]) {
+	if (!status) {
+		return "Status unavailable";
+	}
+
+	const prefix =
+		status.state === "onCampus"
+			? "Arrived"
+			: status.state === "offCampus"
+				? "Left"
+				: "Updated";
+
+	return `${prefix}: ${new Date(status.updatedAt).toLocaleTimeString("en-AU", {
+		hour: "numeric",
+		minute: "2-digit",
+	})}`;
 }
