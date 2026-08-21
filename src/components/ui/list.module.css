@@ -27,6 +27,7 @@
 }
 
 .sectionHeader {
+	margin-bottom: 0.3rem;
 	padding: 0 var(--ds-content-card-padding);
 
 	color: var(--ds-color-text-secondary);
