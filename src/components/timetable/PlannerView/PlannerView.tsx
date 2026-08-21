@@ -196,7 +196,13 @@ function CreatePrivateEventDrawer({
 					tagIDs: [],
 				}),
 			});
-			const created = response.privateEvents.at(-1);
+			const created = response.privateEvents.find(
+				(candidate) =>
+					candidate.title === title.trim() &&
+					candidate.date.year === year &&
+					candidate.date.month === month &&
+					candidate.date.day === day,
+			);
 			if (created) {
 				onCreated(created);
 			}
