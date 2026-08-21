@@ -3,7 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import styles from "./accordion.module.css";
+import styles from "./according.module.css";
 
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
 	return (
