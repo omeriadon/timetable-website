@@ -30,13 +30,13 @@
 }
 .rowButton + .rowButton,
 .rowButton + .row {
-	border-top: var(--ds-divider-width) solid var(--ds-color-border);
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 .rowButton:hover {
 	background: var(--ds-color-surface-elevated);
 }
 .label {
-	font-size: var(--ds-font-content);
+	font-size: var(--ds-font-body-size);
 }
 .rowMeta {
 	display: block;

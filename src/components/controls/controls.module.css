@@ -7,9 +7,9 @@
 }
 
 .chevronIcon {
-	width: var(--ds-control-icon-size-small);
-	height: var(--ds-control-icon-size-small);
-	flex-basis: var(--ds-control-icon-size-small);
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	flex-basis: var(--ds-icon-size-small);
 	opacity: 0.6;
 }
 
@@ -44,7 +44,7 @@
 	justify-content: space-between;
 	gap: var(--ds-list-row-gap);
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
-	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 	text-align: left;
 }
 

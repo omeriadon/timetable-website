@@ -103,9 +103,9 @@
 }
 
 .actionIcon {
-	width: var(--ds-control-icon-size-small);
-	height: var(--ds-control-icon-size-small);
-	flex: 0 0 var(--ds-control-icon-size-small);
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	flex: 0 0 var(--ds-icon-size-small);
 	object-fit: contain;
 }
 

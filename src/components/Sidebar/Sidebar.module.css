@@ -41,8 +41,8 @@
 		transparent 0%,
 		color-mix(in srgb, var(--ds-color-highlight) 13%, transparent) 100%
 	);
-	-webkit-backdrop-filter: blur(var(--ds-glass-sidebar-blur)) saturate(1.9);
-	backdrop-filter: blur(var(--ds-glass-sidebar-blur)) saturate(1.9);
+	-webkit-backdrop-filter: blur(var(--ds-drawer-blur)) saturate(1.9);
+	backdrop-filter: blur(var(--ds-drawer-blur)) saturate(1.9);
 	mask-image: linear-gradient(to right, transparent 0% 62%, black 92% 100%);
 	-webkit-mask-image: linear-gradient(
 		to right,

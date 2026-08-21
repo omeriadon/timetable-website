@@ -25,7 +25,7 @@
 }
 
 .toolbar button:focus-visible {
-	outline: var(--ds-control-focus-width) solid var(--ds-color-focus);
+	outline: var(--ds-control-focus-width) solid var(--ds-color-accent);
 	outline-offset: var(--ds-control-focus-offset);
 }
 

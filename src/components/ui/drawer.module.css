@@ -20,7 +20,7 @@
 
 @supports (backdrop-filter: blur(1px)) {
 	.overlay {
-		backdrop-filter: blur(var(--ds-overlay-backdrop-blur));
+		backdrop-filter: blur(var(--ds-drawer-blur));
 	}
 }
 
@@ -474,7 +474,7 @@
 .title {
 	color: var(--foreground);
 
-	font-family: var(--font-heading);
+	font-family: var(--ds-font-body);
 	font-size: 1rem;
 	line-height: 1.5rem;
 	font-weight: 500;

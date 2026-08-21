@@ -70,7 +70,7 @@
 }
 
 .destination + .destination {
-	border-top: var(--ds-divider-width) solid var(--ds-color-border);
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .destination:hover {

@@ -66,7 +66,7 @@
 }
 
 .friendButton + .friendButton {
-	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .friend {

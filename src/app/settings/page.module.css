@@ -7,7 +7,7 @@
 .section {
 	margin: var(--ds-content-section-gap) 0 var(--ds-space-2);
 	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-list-section-header-size);
+	font-size: var(--ds-font-small);
 	font-weight: 650;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
@@ -29,7 +29,7 @@
 
 .rowButton + .rowButton,
 .card > .row + .row {
-	border-top: var(--ds-divider-width) solid var(--ds-list-divider);
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .row {

@@ -62,7 +62,7 @@
 	gap: var(--ds-list-row-gap);
 	align-items: center;
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
-	border-bottom: var(--ds-divider-width) solid var(--ds-list-divider);
+	border-bottom: var(--ds-border-width) solid var(--ds-color-border);
 	text-align: left;
 }
 

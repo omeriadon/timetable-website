@@ -10,7 +10,7 @@
 }
 
 .item:not(:last-child) {
-	border-bottom: var(--ds-divider-width) solid var(--ds-color-border);
+	border-bottom: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .item {
