@@ -130,11 +130,13 @@ export default function Sidebar() {
 					<Symbol
 						src="/icon.png"
 						className={styles.brandIcon}
-						style={iconTransformProps}
+						style={{
+							...iconTransformProps,
+							height: 44,
+							width: 44,
+						}}
 						alt=""
 						aria-hidden="true"
-						loading="eager"
-						height={44}
 					/>
 				</Link>
 			</div>
