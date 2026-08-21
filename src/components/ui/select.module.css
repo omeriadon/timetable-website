@@ -97,6 +97,12 @@
 }
 
 .content {
+	--select-content-padding: 0.175rem;
+	--select-content-radius: 1rem;
+	--select-item-radius: calc(
+		var(--select-content-radius) - var(--select-content-padding)
+	);
+
 	position: relative;
 
 	isolation: isolate;
@@ -106,6 +112,8 @@
 	min-width: 9rem;
 	max-height: var(--available-height);
 
+	padding: var(--select-content-padding);
+
 	background: var(--input);
 
 	overflow-x: hidden;
@@ -113,11 +121,10 @@
 
 	transform-origin: var(--transform-origin);
 
-	border-radius: 1rem;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--select-content-radius);
 
 	color: var(--popover-foreground);
-
-	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	transition-duration: 100ms;
 }
@@ -180,7 +187,7 @@
 
 	padding: 0.5rem 2rem 0.5rem 0.75rem;
 
-	border-radius: 0.9rem;
+	border-radius: var(--select-item-radius);
 
 	outline: none;
 
@@ -193,9 +200,8 @@
 }
 
 .item:focus-visible {
-	border-color: var(--ring);
-
-	box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 30%, transparent);
+	outline: 1px solid color-mix(in srgb, var(--ring) 30%, transparent);
+	outline-offset: -2px;
 }
 
 .item:focus {
@@ -252,7 +258,6 @@
 
 .separator {
 	height: 1px;
-	margin: 0.375rem -0.375rem;
 
 	background: var(--border);
 
