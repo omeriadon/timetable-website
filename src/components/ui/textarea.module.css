@@ -12,7 +12,9 @@
 
 	border-radius: 1rem;
 
-	background: color-mix(in srgb, var(--input) 50%, transparent);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+
+	background: var(--input);
 
 	font-size: 1rem;
 	line-height: 1.5rem;

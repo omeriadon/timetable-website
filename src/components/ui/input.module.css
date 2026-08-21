@@ -5,10 +5,10 @@
 
 	padding: 0.25rem 0.75rem;
 
-	border: 1px solid transparent;
+	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: 1.5rem;
 
-	background: color-mix(in srgb, var(--input) 50%, transparent);
+	background: var(--input);
 
 	font-size: 1rem;
 	line-height: 1.5rem;

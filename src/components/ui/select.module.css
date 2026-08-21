@@ -18,16 +18,14 @@
 
 	padding: 0.5rem 0.75rem;
 
-	border: 1px solid transparent;
+	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: 1.5rem;
 
-	background: color-mix(in srgb, var(--input) 50%, transparent);
+	background: var(--input);
 
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	white-space: nowrap;
-
-	outline: none;
 
 	transition:
 		color 150ms,
@@ -105,20 +103,18 @@
 	min-width: 9rem;
 	max-height: var(--available-height);
 
+	background: var(--input);
+
 	overflow-x: hidden;
 	overflow-y: auto;
 
 	transform-origin: var(--transform-origin);
 
-	border-radius: 1.5rem;
+	border-radius: 1rem;
 
-	background: var(--popover);
 	color: var(--popover-foreground);
 
-	box-shadow:
-		0 10px 15px -3px rgb(0 0 0 / 0.1),
-		0 4px 6px -4px rgb(0 0 0 / 0.1),
-		0 0 0 1px color-mix(in srgb, var(--foreground) 5%, transparent);
+	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	transition-duration: 100ms;
 }
@@ -181,15 +177,12 @@
 
 	padding: 0.5rem 2rem 0.5rem 0.75rem;
 
-	border-radius: 1rem;
+	border-radius: 0.9rem;
 
 	cursor: default;
 
 	font-size: 0.875rem;
 	line-height: 1.25rem;
-	font-weight: 500;
-
-	outline: none;
 
 	user-select: none;
 }
