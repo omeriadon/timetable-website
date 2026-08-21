@@ -182,12 +182,20 @@
 
 	border-radius: 0.9rem;
 
+	outline: none;
+
 	cursor: default;
 
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 
 	user-select: none;
+}
+
+.item:focus-visible {
+	border-color: var(--ring);
+
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 30%, transparent);
 }
 
 .item:focus {
