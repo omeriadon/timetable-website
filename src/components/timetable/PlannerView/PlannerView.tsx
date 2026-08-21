@@ -237,10 +237,23 @@ function CreatePrivateEventDrawer({
 	const { closeDrawer } = useDrawer();
 	const [title, setTitle] = useState("");
 	const [notes, setNotes] = useState("");
+	const [symbol, setSymbol] = useState("calendar");
 	const [date, setDate] = useState(() => dateValue(new Date()));
 	const [showsWeather, setShowsWeather] = useState(false);
+	const [tagSections, setTagSections] = useState<EventTagSection[]>([]);
+	const [selectedTagIDs, setSelectedTagIDs] = useState<string[]>([]);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (!globally) {
+			return;
+		}
+
+		apiRequest<{ sections: EventTagSection[] }>("v1/tags")
+			.then((response) => setTagSections(response.sections))
+			.catch(() => setTagSections([]));
+	}, [globally]);
 
 	const save = async () => {
 		if (!title.trim() || saving) return;
@@ -256,9 +269,9 @@ function CreatePrivateEventDrawer({
 				body: JSON.stringify({
 					title: title.trim(),
 					notes: notes.trim() || null,
-					symbol: "calendar",
+					symbol: symbol.trim() || "calendar",
 					date: { year, month, day },
-					tagIDs: [],
+					tagIDs: selectedTagIDs,
 					showsWeather: globally && showsWeather,
 				}),
 			});
@@ -304,6 +317,42 @@ function CreatePrivateEventDrawer({
 				/>
 			) : null}
 			<label>
+				Symbol
+				<Input
+					value={symbol}
+					onChange={(event) => setSymbol(event.target.value)}
+					maxLength={120}
+					disabled={saving}
+				/>
+			</label>
+			{globally ? (
+				<section className={styles.formCard} aria-labelledby="new-event-tags-title">
+					<h3 id="new-event-tags-title">Tags</h3>
+					{tagSections.length ? (
+						tagSections.flatMap((section) => section.tags).map((tag) => {
+							const selected = selectedTagIDs.includes(tag.id);
+							return (
+								<Button
+									key={tag.id}
+									type="button"
+									aria-pressed={selected}
+									aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
+									onClick={() =>
+										setSelectedTagIDs(selected ? [] : [tag.id])
+									}
+								>
+									<Symbol name={tag.symbol ?? "tag"} />
+									{tag.displayName}
+									{selected ? <Symbol name="checkmark" /> : null}
+								</Button>
+							);
+						})
+					) : (
+						<p className={styles.empty}>Loading event tags…</p>
+					)}
+				</section>
+			) : null}
+			<label>
 				Date
 				<Input
 					type="date"
@@ -332,6 +381,17 @@ function CreatePrivateEventDrawer({
 		</section>
 	);
 }
+
+type EventTagSection = {
+	displayName: string;
+	tags: EventTag[];
+};
+
+type EventTag = {
+	id: string;
+	displayName: string;
+	symbol?: string | null;
+};
 
 function formatDateRange(
 	start: DashboardData["schoolCalendar"]["termRanges"][number]["start"],
