@@ -26,6 +26,7 @@ export default function FriendsPage() {
 	const [account, setAccount] = useState<Account | null>(null);
 	const [locationStatus, setLocationStatus] =
 		useState<CurrentLocationStatus["item"]>(null);
+	const [incomingRequestCount, setIncomingRequestCount] = useState(0);
 	const [searchText, setSearchText] = useState("");
 	const [movingFriendID, setMovingFriendID] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -83,6 +84,9 @@ export default function FriendsPage() {
 				setLocationStatus(currentLocationStatus.item);
 			})
 			.catch((requestError: Error) => setError(requestError.message));
+		apiRequest<Friend[]>("v1/friends/requests")
+			.then((requests) => setIncomingRequestCount(requests.length))
+			.catch(() => setIncomingRequestCount(0));
 	}, [setToolbar]);
 
 	return (
@@ -90,10 +94,22 @@ export default function FriendsPage() {
 			<div className={styles.friendActions}>
 				<Button
 					type="button"
-					aria-label="Friend requests"
+					aria-label={
+						incomingRequestCount
+							? `${incomingRequestCount} pending friend requests`
+							: "Friend requests, no pending requests"
+					}
 					onClick={() => openDrawer(<FriendRequestsDrawer />)}
 				>
-					<Symbol name="bell.badge" className={styles.friendActionIcon} />
+					<Symbol
+						name={incomingRequestCount ? "bell.badge" : "bell"}
+						className={styles.friendActionIcon}
+					/>
+					{incomingRequestCount ? (
+						<span className={styles.requestCount} aria-hidden="true">
+							{incomingRequestCount}
+						</span>
+					) : null}
 				</Button>
 				<Button
 					type="button"
