@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormEvent, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";
@@ -14,7 +14,6 @@ type Mode = "sign-in" | "sign-up" | "verify";
 
 export default function LoginPage() {
 	const router = useRouter();
-	const searchParams = useSearchParams();
 	const [mode, setMode] = useState<Mode>("sign-in");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -48,7 +47,7 @@ export default function LoginPage() {
 					method: "POST",
 					body: JSON.stringify({ email, password, installationID }),
 				});
-				router.replace(returnDestination(searchParams.get("returnTo")));
+				router.replace(returnDestination());
 				router.refresh();
 				return;
 			}
@@ -66,7 +65,7 @@ export default function LoginPage() {
 				method: "POST",
 				body: JSON.stringify({ email, password, code, installationID }),
 			});
-			router.replace(returnDestination(searchParams.get("returnTo")));
+			router.replace(returnDestination());
 			router.refresh();
 		} catch (requestError) {
 			setError(
@@ -190,7 +189,12 @@ export default function LoginPage() {
 	);
 }
 
-function returnDestination(value: string | null) {
+function returnDestination() {
+	const value =
+		typeof window === "undefined"
+			? null
+			: new URLSearchParams(window.location.search).get("returnTo");
+
 	if (!value || !value.startsWith("/") || value.startsWith("//")) {
 		return "/";
 	}
