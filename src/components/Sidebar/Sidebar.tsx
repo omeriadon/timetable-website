@@ -2,6 +2,7 @@
 
 import styles from "./Sidebar.module.css";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
@@ -127,13 +128,14 @@ export default function Sidebar() {
 					onMouseEnter={handleIconHover}
 					onMouseLeave={handleIconLeave}
 				>
-					<Symbol
+					<Image
 						src="/icon.png"
+						width={80}
+						height={44}
 						className={styles.brandIcon}
 						style={{
 							...iconTransformProps,
-							height: 44,
-							width: 44,
+							marginRight: "auto",
 						}}
 						alt=""
 						aria-hidden="true"
