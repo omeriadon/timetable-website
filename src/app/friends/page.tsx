@@ -63,14 +63,19 @@ export default function FriendsPage() {
 			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			{account ? (
-				<section className={styles.selfCard}>
+				<Button
+					type="button"
+					className={styles.selfCard}
+					aria-label="Open your arrival statistics"
+					onClick={() => openDrawer(<PersonalArrivalDrawer />)}
+				>
 					<ProfilePicture profile={account} size={68} />
 					<div>
 						<strong>{account.displayName}</strong>
 						<span>{locationStatusTitle(locationStatus?.state)}</span>
 					</div>
 					<em>{locationStatusTime(locationStatus)}</em>
-				</section>
+				</Button>
 			) : null}
 			<div className={styles.list}>
 				{friends.map((friend) => (
@@ -105,6 +110,46 @@ export default function FriendsPage() {
 	);
 }
 
+function PersonalArrivalDrawer() {
+	type ArrivalStatistics = {
+		averageArrivalSecondsSinceMidnight: number | null;
+		weekdayAverageArrivalSecondsSinceMidnight: Array<number | null>;
+	};
+	const [statistics, setStatistics] = useState<ArrivalStatistics | null>(null);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		apiRequest<ArrivalStatistics>("v1/account/status/statistics")
+			.then(setStatistics)
+			.catch((requestError: Error) => setError(requestError.message));
+	}, []);
+
+	return (
+		<section aria-labelledby="arrival-statistics-title">
+			<h2 id="arrival-statistics-title">Average arrival</h2>
+			<div>
+				<strong>Overall</strong>
+				<span>
+					{formatArrival(statistics?.averageArrivalSecondsSinceMidnight)}
+				</span>
+			</div>
+			{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
+				(day, index) => (
+					<div key={day}>
+						<strong>{day}</strong>
+						<span>
+							{formatArrival(
+								statistics?.weekdayAverageArrivalSecondsSinceMidnight[index],
+							)}
+						</span>
+					</div>
+				),
+			)}
+			{error ? <p role="alert">{error}</p> : null}
+		</section>
+	);
+}
+
 function locationStatusTitle(state?: LocationStatus) {
 	switch (state) {
 		case "onCampus":
@@ -136,4 +181,18 @@ function locationStatusTime(status: CurrentLocationStatus["item"]) {
 		hour: "numeric",
 		minute: "2-digit",
 	})}`;
+}
+
+function formatArrival(seconds?: number | null) {
+	if (seconds == null) {
+		return "No data";
+	}
+
+	const totalMinutes = Math.round(seconds / 60);
+	const hours = Math.floor(totalMinutes / 60);
+	const minutes = totalMinutes % 60;
+	const period = hours >= 12 ? "pm" : "am";
+	const displayHour = hours % 12 || 12;
+
+	return `${displayHour}:${String(minutes).padStart(2, "0")} ${period}`;
 }
