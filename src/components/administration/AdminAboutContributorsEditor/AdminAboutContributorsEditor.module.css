@@ -1,0 +1,80 @@
+.page {
+	display: grid;
+	gap: 1rem;
+}
+
+.card {
+	display: grid;
+	gap: 1rem;
+	padding: 1.25rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 1.25rem;
+	background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.heading,
+.contributor,
+.formActions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.heading h2,
+.card > h2,
+.eyebrow {
+	margin: 0;
+}
+
+.eyebrow {
+	font-size: 0.75rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.list {
+	display: grid;
+	gap: 0.25rem;
+}
+
+.contributor {
+	padding: 0.75rem 0;
+}
+
+.contributor + .contributor {
+	border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.contributorCopy,
+.field {
+	display: grid;
+	gap: 0.25rem;
+}
+
+.contributorCopy span,
+.field span,
+.status {
+	font-size: 0.875rem;
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.actions {
+	display: flex;
+	gap: 0.125rem;
+}
+
+.formActions {
+	justify-content: flex-end;
+}
+
+.status {
+	margin: 0;
+}

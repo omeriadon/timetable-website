@@ -24,6 +24,7 @@ import AdminRecord, {
 import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
 import TestEmailButton from "@/components/administration/TestEmailButton/TestEmailButton";
 import BroadcastNotificationEditor from "@/components/administration/BroadcastNotificationEditor/BroadcastNotificationEditor";
+import AdminAboutContributorsEditor from "@/components/administration/AdminAboutContributorsEditor/AdminAboutContributorsEditor";
 
 const sectionConfig: Record<
 	string,
@@ -106,6 +107,7 @@ const sectionConfig: Record<
 		icon: "person.badge.shield.checkmark",
 	},
 	"server-access": { title: "Debug Testing", icon: "testtube.2" },
+	"about-contributors": { title: "About Contributors", icon: "person.3" },
 };
 
 export default function AdministrationSectionPage() {
@@ -175,6 +177,8 @@ export default function AdministrationSectionPage() {
 		<AdminProfileStorageEditor />
 	) : section === "broadcast-notifications" ? (
 		<AdminBroadcastHistoryEditor />
+	) : section === "about-contributors" ? (
+		<AdminAboutContributorsEditor />
 	) : (
 		<main className={styles.page}>
 			<section className={styles.card}>

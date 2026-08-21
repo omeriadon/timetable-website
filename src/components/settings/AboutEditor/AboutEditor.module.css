@@ -1,1 +1,98 @@
-/* Intentionally unstyled. */
+.page {
+	display: grid;
+	gap: 1rem;
+	justify-items: center;
+	padding: 1rem 0 2rem;
+}
+
+.icon {
+	display: grid;
+	place-items: center;
+	width: 7rem;
+	height: 7rem;
+	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+	border-radius: 2rem;
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+.page h2,
+.subtitle,
+.copyright {
+	margin: 0;
+	text-align: center;
+}
+
+.page h2 {
+	font-size: 2rem;
+}
+
+.subtitle,
+.copyright,
+.status,
+.error {
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.card {
+	display: grid;
+	width: min(100%, 40rem);
+	overflow: hidden;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 1.25rem;
+	background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.card h3 {
+	margin: 0;
+	padding: 0.8rem 1rem 0.45rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.contributor {
+	display: grid;
+	gap: 0.25rem;
+	padding: 1rem;
+}
+
+.contributor + .contributor {
+	border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.contributor strong {
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.version {
+	display: flex;
+	gap: 0.55rem;
+	align-items: center;
+	color: var(
+		--muted-foreground,
+		color-mix(in srgb, currentColor 62%, transparent)
+	);
+}
+
+.version strong {
+	color: inherit;
+}
+
+.error {
+	margin: 0;
+	color: var(--destructive, #d44);
+}

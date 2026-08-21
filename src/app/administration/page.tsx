@@ -44,6 +44,7 @@ const sections = [
 		],
 	],
 	["Testing", [["textformat.size", "Font Width Test", "font-width-test"]]],
+	["Content", [["person.3", "About Contributors", "about-contributors"]]],
 	[
 		"System Administration",
 		[

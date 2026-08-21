@@ -34,6 +34,13 @@ export type ProfileBadge = {
 	accessibilityLabel: string;
 };
 
+export type AboutContributor = {
+	id: string;
+	name: string;
+	role: string;
+	sortOrder: number;
+};
+
 export type TokenResponse = {
 	accessToken: string;
 	refreshToken: string;
