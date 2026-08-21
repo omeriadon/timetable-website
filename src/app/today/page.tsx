@@ -40,6 +40,7 @@ export default function TodayPage() {
 					grades={data.grades}
 					schoolCalendar={data.schoolCalendar}
 					schoolWeather={data.schoolWeather}
+					canManageGlobalEvents={data.events.canManageGlobalEvents}
 				/>
 			) : null}
 		</main>

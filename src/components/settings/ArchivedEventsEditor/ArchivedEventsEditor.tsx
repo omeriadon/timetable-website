@@ -74,6 +74,7 @@ export default function ArchivedEventsEditor() {
 									<CalendarEventDrawer
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
+										readOnly={event.isGlobal && !events?.canManageGlobalEvents}
 									/>,
 								)
 							}

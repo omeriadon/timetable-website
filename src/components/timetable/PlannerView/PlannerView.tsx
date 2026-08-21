@@ -20,10 +20,12 @@ export default function PlannerView({
 	events,
 	schoolCalendar,
 	grades,
+	canManageGlobalEvents,
 }: {
 	events: CalendarEvent[];
 	schoolCalendar: DashboardData["schoolCalendar"];
 	grades: GradeTracker;
+	canManageGlobalEvents: boolean;
 }) {
 	const { openDrawer } = useDrawer();
 	const [localEvents, setLocalEvents] = useState(events);
@@ -80,6 +82,7 @@ export default function PlannerView({
 							prominent
 							showDate={false}
 							onChanged={(updated) => updateEvent(updated, event.id)}
+							readOnly={event.isGlobal && !canManageGlobalEvents}
 						/>
 					))}
 				</SectionCard>
@@ -96,6 +99,7 @@ export default function PlannerView({
 							event={event}
 							prominent
 							onChanged={(updated) => updateEvent(updated, event.id)}
+							readOnly={event.isGlobal && !canManageGlobalEvents}
 						/>
 					))
 				) : (

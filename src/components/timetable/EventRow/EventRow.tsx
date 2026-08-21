@@ -13,11 +13,13 @@ export default function EventRow({
 	prominent = false,
 	showDate = true,
 	onChanged,
+	readOnly = false,
 }: {
 	event: CalendarEvent;
 	prominent?: boolean;
 	showDate?: boolean;
 	onChanged?: (event: CalendarEvent | null) => void;
+	readOnly?: boolean;
 }) {
 	const { openDrawer } = useDrawer();
 	const eventRowContent = (
@@ -45,6 +47,7 @@ export default function EventRow({
 					<CalendarEventDrawer
 						event={event}
 						onChanged={onChanged ?? (() => undefined)}
+						readOnly={readOnly}
 					/>,
 				)
 			}

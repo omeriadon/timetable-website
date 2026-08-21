@@ -105,6 +105,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 					grades={data.grades}
 					schoolCalendar={data.schoolCalendar}
 					schoolWeather={data.schoolWeather}
+					canManageGlobalEvents={data.events.canManageGlobalEvents}
 				/>
 			) : null}
 			{data && mode === "week" ? (
@@ -115,6 +116,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 					events={events}
 					schoolCalendar={data.schoolCalendar}
 					grades={data.grades}
+					canManageGlobalEvents={data.events.canManageGlobalEvents}
 				/>
 			) : null}
 		</main>

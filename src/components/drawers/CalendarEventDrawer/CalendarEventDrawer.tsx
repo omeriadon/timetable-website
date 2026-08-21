@@ -16,11 +16,13 @@ export default function CalendarEventDrawer({
 	onChanged,
 	onClose,
 	showHeader = true,
+	readOnly = false,
 }: {
 	event: CalendarEvent;
 	onChanged: (event: CalendarEvent | null) => void;
 	onClose?: () => void;
 	showHeader?: boolean;
+	readOnly?: boolean;
 }) {
 	const { closeDrawer } = useDrawer();
 	const dismiss = onClose ?? closeDrawer;
@@ -116,6 +118,7 @@ export default function CalendarEventDrawer({
 						value={title}
 						onChange={(input) => setTitle(input.target.value)}
 						maxLength={120}
+						disabled={readOnly || saving}
 					/>
 				</label>
 				<label>
@@ -125,6 +128,7 @@ export default function CalendarEventDrawer({
 						onChange={(input) => setNotes(input.target.value)}
 						rows={3}
 						maxLength={2000}
+						disabled={readOnly || saving}
 					/>
 				</label>
 				<label>
@@ -133,6 +137,7 @@ export default function CalendarEventDrawer({
 						value={symbol}
 						onChange={(input) => setSymbol(input.target.value)}
 						maxLength={120}
+						disabled={readOnly || saving}
 					/>
 				</label>
 				<label>
@@ -141,6 +146,7 @@ export default function CalendarEventDrawer({
 						type="date"
 						value={date}
 						onChange={(input) => setDate(input.target.value)}
+						disabled={readOnly || saving}
 					/>
 				</label>
 				{event.isGlobal ? (
@@ -148,27 +154,29 @@ export default function CalendarEventDrawer({
 						label="Show Weather"
 						enabled={showsWeather}
 						onClick={() => setShowsWeather((current) => !current)}
-						disabled={saving}
+						disabled={readOnly || saving}
 					/>
 				) : null}
-				<div className={styles.drawerActions}>
-					<Button
-						aria-label="Delete event"
-						onClick={() => void remove()}
-						disabled={saving}
-					>
-						<Symbol name="trash" />
-						Delete
-					</Button>
-					<Button
-						aria-label="Save event"
-						onClick={() => void save()}
-						disabled={saving || !title.trim()}
-					>
-						<Symbol name="checkmark" />
-						{saving ? "Saving…" : "Save"}
-					</Button>
-				</div>
+				{!readOnly ? (
+					<div className={styles.drawerActions}>
+						<Button
+							aria-label="Delete event"
+							onClick={() => void remove()}
+							disabled={saving}
+						>
+							<Symbol name="trash" />
+							Delete
+						</Button>
+						<Button
+							aria-label="Save event"
+							onClick={() => void save()}
+							disabled={saving || !title.trim()}
+						>
+							<Symbol name="checkmark" />
+							{saving ? "Saving…" : "Save"}
+						</Button>
+					</div>
+				) : null}
 			</section>
 			{status ? (
 				<p className={styles.detailMuted} role="alert">

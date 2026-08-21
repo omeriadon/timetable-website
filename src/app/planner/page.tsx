@@ -38,6 +38,7 @@ export default function PlannerPage() {
 					events={events}
 					schoolCalendar={data.schoolCalendar}
 					grades={data.grades}
+					canManageGlobalEvents={data.events.canManageGlobalEvents}
 				/>
 			) : null}
 		</main>

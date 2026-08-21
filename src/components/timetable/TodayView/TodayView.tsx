@@ -46,12 +46,14 @@ export default function TodayView({
 	grades,
 	schoolCalendar,
 	schoolWeather,
+	canManageGlobalEvents,
 }: {
 	events: CalendarEvent[];
 	subjects: TimetableSubject[];
 	grades: DashboardData["grades"];
 	schoolCalendar: DashboardData["schoolCalendar"];
 	schoolWeather: DashboardData["schoolWeather"];
+	canManageGlobalEvents: boolean;
 }) {
 	const [expandedSubjectID, setExpandedSubjectID] = useState<string | null>(
 		null,
@@ -138,6 +140,7 @@ export default function TodayView({
 									entry={entry}
 									showDate={false}
 									onEventChanged={updateEvent}
+									canManageGlobalEvents={canManageGlobalEvents}
 								/>
 							))}
 						</>
@@ -151,6 +154,7 @@ export default function TodayView({
 									entry={entry}
 									showDate
 									onEventChanged={updateEvent}
+									canManageGlobalEvents={canManageGlobalEvents}
 								/>
 							))}
 						</>
@@ -273,10 +277,12 @@ function TodayEntryRow({
 	entry,
 	showDate,
 	onEventChanged,
+	canManageGlobalEvents,
 }: {
 	entry: TodayEntry;
 	showDate: boolean;
 	onEventChanged: (event: CalendarEvent | null, originalID: string) => void;
+	canManageGlobalEvents: boolean;
 }) {
 	if (entry.kind === "event") {
 		return (
@@ -284,6 +290,7 @@ function TodayEntryRow({
 				event={entry.event}
 				showDate={showDate}
 				onChanged={(updated) => onEventChanged(updated, entry.event.id)}
+				readOnly={entry.event.isGlobal && !canManageGlobalEvents}
 			/>
 		);
 	}
