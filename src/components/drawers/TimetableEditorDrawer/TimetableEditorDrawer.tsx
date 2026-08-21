@@ -15,6 +15,7 @@ import {
 	TIMETABLE_SESSIONS,
 } from "@/features/timetable/layout";
 import { useDrawer } from "../Drawer/Drawer";
+import ConfirmationDrawer from "../ConfirmationDrawer/ConfirmationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Drawer/Drawer.module.css";
 
@@ -29,7 +30,7 @@ export default function TimetableEditorDrawer({
 	timetable: OwnerTimetable;
 	onSaved: (timetable: OwnerTimetable) => void;
 }) {
-	const { closeDrawer } = useDrawer();
+	const { closeDrawer, openDrawer } = useDrawer();
 	const [subjects, setSubjects] = useState<TimetableSubject[]>(
 		timetable.subjects,
 	);
@@ -57,7 +58,7 @@ export default function TimetableEditorDrawer({
 		]);
 	const removeSubject = (id: string) =>
 		setSubjects((current) => current.filter((subject) => subject.id !== id));
-	const toggleSlot = (subjectID: string, slot: TimetableSlot) => {
+	const assignSlot = (subjectID: string, slot: TimetableSlot) => {
 		const key = `${slot.day}:${slot.session}`;
 		setSubjects((current) =>
 			current.map((subject) => {
@@ -90,6 +91,41 @@ export default function TimetableEditorDrawer({
 						}
 					: subject;
 			}),
+		);
+	};
+	const toggleSlot = (subjectID: string, slot: TimetableSlot) => {
+		const subject = subjects.find((item) => item.id === subjectID);
+		if (
+			subject?.slots.some(
+				(candidate) => candidate.day === slot.day && candidate.session === slot.session,
+			)
+		) {
+			assignSlot(subjectID, slot);
+			return;
+		}
+
+		const conflict = subjects.find(
+			(item) =>
+				item.id !== subjectID &&
+				item.slots.some(
+					(candidate) =>
+						candidate.day === slot.day && candidate.session === slot.session,
+				),
+		);
+		if (!conflict) {
+			assignSlot(subjectID, slot);
+			return;
+		}
+
+		openDrawer(
+			<ConfirmationDrawer
+				title="Slot conflict"
+				message={`${conflict.id} already uses ${slotLabel(slot)}. Move this slot to ${subjectID}?`}
+				confirmLabel="Move slot"
+				icon="arrow.triangle.2.circlepath"
+				tone="prominent"
+				onConfirm={() => assignSlot(subjectID, slot)}
+			/>,
 		);
 	};
 
@@ -232,6 +268,7 @@ export default function TimetableEditorDrawer({
 				onClick={() => void save()}
 				disabled={saving}
 			>
+				<Symbol name="checkmark" />
 				{saving ? "Saving…" : "Save Timetable"}
 			</Button>
 		</div>
@@ -253,4 +290,10 @@ function classroomValue(classroom: TimetableSubject["classroom"]) {
 	if (classroom.room)
 		return `${classroom.room.building} ${classroom.room.number}`;
 	return "";
+}
+
+function slotLabel(slot: TimetableSlot) {
+	const day = TIMETABLE_DAYS[slot.day] ?? "Unknown day";
+	const session = TIMETABLE_SESSIONS.find((item) => item.value === slot.session);
+	return `${day} period ${session?.label ?? slot.session}`;
 }
