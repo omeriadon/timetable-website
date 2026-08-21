@@ -409,56 +409,6 @@ export default function TestingPage() {
 			</section>
 
 			<section>
-				<h2>Controls</h2>
-				<div className={styles.controlGrid}>
-					<div className={styles.controlExample}>
-						<ProfilePicture
-							profile={{ displayName: "Ada Lovelace" }}
-							label="Ada Lovelace profile picture"
-						/>
-						<span>Monogram</span>
-					</div>
-					<div className={styles.controlExample}>
-						<ProfilePicture
-							profile={{ displayName: "Grace Hopper" }}
-							size={42}
-							label="Grace Hopper profile picture"
-						/>
-						<span>Custom size</span>
-					</div>
-					<div className={styles.controlExample}>
-						<Symbol
-							name="calendar.badge.clock"
-							alt="Calendar schedule"
-							className={styles.symbolExample}
-						/>
-						<span>Named symbol</span>
-					</div>
-					<div className={styles.controlExample}>
-						<Symbol
-							fallback={<BellIcon />}
-							alt="Notification symbol fallback"
-							className={styles.symbolExample}
-						/>
-						<span>Fallback symbol</span>
-					</div>
-				</div>
-				<div className={styles.settingExamples}>
-					<SettingToggle
-						label="Setting toggle"
-						enabled={settingEnabled}
-						onClick={() => setSettingEnabled((value) => !value)}
-					/>
-					<SettingToggle
-						label="Disabled setting"
-						enabled={false}
-						onClick={() => undefined}
-						disabled
-					/>
-				</div>
-			</section>
-
-			<section>
 				<h2>Separators</h2>
 				<div className={styles.separatorExample}>
 					<span>Leading content</span>
@@ -513,8 +463,8 @@ export default function TestingPage() {
 						Open menu
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						<DropdownMenuLabel>Menu controls</DropdownMenuLabel>
 						<DropdownMenuGroup>
+							<DropdownMenuLabel>Menu controls</DropdownMenuLabel>
 							<DropdownMenuItem>
 								<CopyIcon />
 								Copy
