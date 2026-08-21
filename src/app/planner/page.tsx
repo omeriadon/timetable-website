@@ -30,7 +30,11 @@ export default function PlannerPage() {
 				</p>
 			) : null}
 			{data ? (
-				<PlannerView events={events} schoolCalendar={data.schoolCalendar} />
+				<PlannerView
+					events={events}
+					schoolCalendar={data.schoolCalendar}
+					grades={data.grades}
+				/>
 			) : null}
 		</main>
 	);

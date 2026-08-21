@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
+import Link from "next/link";
 import type { DashboardData } from "@/features/timetable/useDashboard";
-import type { CalendarEvent } from "@/features/timetable/types";
+import type { CalendarEvent, GradeTracker } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import EventRow from "@/components/timetable/EventRow/EventRow";
 import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
@@ -18,9 +19,11 @@ import styles from "@/components/timetable/timetable.module.css";
 export default function PlannerView({
 	events,
 	schoolCalendar,
+	grades,
 }: {
 	events: CalendarEvent[];
 	schoolCalendar: DashboardData["schoolCalendar"];
+	grades: GradeTracker;
 }) {
 	const { openDrawer } = useDrawer();
 	const [localEvents, setLocalEvents] = useState(events);
@@ -31,6 +34,12 @@ export default function PlannerView({
 	);
 	const upcomingEvents = localEvents.filter(
 		(event) => eventDate(event) > todayTimestamp,
+	);
+	const upcomingAssessments = grades.document.assessments.filter(
+		(assessment) => assessmentDate(assessment) >= todayTimestamp,
+	);
+	const upcomingNoSchoolDays = schoolCalendar.skippedDates.filter(
+		(item) => skippedDate(item) >= todayTimestamp,
 	);
 
 	return (
@@ -75,6 +84,53 @@ export default function PlannerView({
 					<p className={styles.empty}>No upcoming events.</p>
 				)}
 			</SectionCard>
+			{upcomingAssessments.length ? (
+				<SectionCard
+					background="paper"
+					title="Assessments"
+					symbolName="doc.text"
+				>
+					{upcomingAssessments.map((assessment) => (
+						<Link
+							key={assessment.id}
+							href={`/grades/${encodeURIComponent(assessment.subjectID)}`}
+							className={styles.cardRow}
+							aria-label={`Open ${assessment.name}`}
+						>
+							<span className={styles.eventSymbol} aria-hidden="true">
+								<Symbol name="doc.text" className={styles.eventSymbolIcon} />
+							</span>
+							<div>
+								<strong>{assessment.name}</strong>
+								<span>{assessment.subjectID}</span>
+							</div>
+							<time>{formatAssessmentDate(assessment)}</time>
+						</Link>
+					))}
+				</SectionCard>
+			) : null}
+			{upcomingNoSchoolDays.length ? (
+				<SectionCard
+					background="paper"
+					title="Pupil Free Days"
+					symbolName="calendar.badge.exclamationmark"
+				>
+					{upcomingNoSchoolDays.map((item) => (
+						<div
+							key={`${item.date.year}-${item.date.month}-${item.date.day}`}
+							className={styles.cardRow}
+						>
+							<span className={styles.eventSymbol} aria-hidden="true">
+								<Symbol name="figure.wave" className={styles.eventSymbolIcon} />
+							</span>
+							<div>
+								<strong>{item.label}</strong>
+							</div>
+							<time>{formatSkippedDate(item)}</time>
+						</div>
+					))}
+				</SectionCard>
+			) : null}
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{schoolCalendar.termRanges.map((term) => (
 					<Button
@@ -220,4 +276,40 @@ function eventDate(event: CalendarEvent) {
 		event.date.month - 1,
 		event.date.day,
 	).getTime();
+}
+
+function assessmentDate(
+	assessment: GradeTracker["document"]["assessments"][number],
+) {
+	return new Date(
+		assessment.date.year,
+		assessment.date.month - 1,
+		assessment.date.day,
+	).getTime();
+}
+
+function skippedDate(
+	item: DashboardData["schoolCalendar"]["skippedDates"][number],
+) {
+	return new Date(item.date.year, item.date.month - 1, item.date.day).getTime();
+}
+
+function formatAssessmentDate(
+	assessment: GradeTracker["document"]["assessments"][number],
+) {
+	return new Date(
+		assessment.date.year,
+		assessment.date.month - 1,
+		assessment.date.day,
+	).toLocaleDateString("en-AU", { day: "numeric", month: "short" });
+}
+
+function formatSkippedDate(
+	item: DashboardData["schoolCalendar"]["skippedDates"][number],
+) {
+	return new Date(
+		item.date.year,
+		item.date.month - 1,
+		item.date.day,
+	).toLocaleDateString("en-AU", { day: "numeric", month: "short" });
 }

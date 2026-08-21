@@ -111,7 +111,11 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 				<WeekView subjects={data.timetable.subjects} friends={data.friends} />
 			) : null}
 			{data && mode === "planner" ? (
-				<PlannerView events={events} schoolCalendar={data.schoolCalendar} />
+				<PlannerView
+					events={events}
+					schoolCalendar={data.schoolCalendar}
+					grades={data.grades}
+				/>
 			) : null}
 		</main>
 	);
