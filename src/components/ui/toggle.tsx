@@ -4,6 +4,7 @@ import * as React from "react";
 import { Switch as TogglePrimitive } from "@base-ui/react/switch";
 
 import { cn } from "@/lib/utils";
+
 import styles from "./toggle.module.css";
 
 function readPx(el: HTMLElement, prop: string, fallback: number) {
@@ -48,10 +49,6 @@ function Toggle({
 		threshold: 4,
 	});
 
-	/*
-	 * When a drag finishes, the browser still emits a click.
-	 * Base UI would interpret that click as another toggle.
-	 */
 	const suppressNextChange = React.useRef(false);
 
 	const commitChecked = React.useCallback(
@@ -66,14 +63,6 @@ function Toggle({
 		},
 		[isControlled, onCheckedChange],
 	);
-
-	const applyDragOffset = (offset: number) => {
-		const thumb = thumbRef.current;
-		if (!thumb) return;
-
-		thumb.style.transition = "none";
-		thumb.style.transform = `translateX(${offset}px) scale(1.8)`;
-	};
 
 	const clearDragStyles = () => {
 		const thumb = thumbRef.current;
@@ -93,10 +82,6 @@ function Toggle({
 
 		const target = next ? dragState.current.maxOffset : 0;
 
-		/*
-		 * Keep the current drag position, restore the transition,
-		 * then move to the appropriate endpoint.
-		 */
 		thumb.style.transition = "";
 
 		void thumb.offsetWidth;
@@ -166,8 +151,10 @@ function Toggle({
 				Math.min(state.maxOffset, startOffset + delta),
 			);
 
-			const snappedOffset =
-				draggedOffset >= state.maxOffset / 2 ? state.maxOffset : 0;
+			const next = draggedOffset >= state.maxOffset / 2;
+			const snappedOffset = next ? state.maxOffset : 0;
+
+			root.dataset.dragChecked = next ? "true" : "false";
 
 			thumb.style.transition = "";
 			thumb.style.transform = `translateX(${snappedOffset}px) scale(1.8)`;
@@ -184,14 +171,13 @@ function Toggle({
 				root.releasePointerCapture(event.pointerId);
 			}
 
-			// Normal click — Base UI handles the toggle.
 			if (!state.hasDragged) {
+				delete root.dataset.dragChecked;
 				clearDragStyles();
 				return;
 			}
 
 			const delta = event.clientX - state.startX;
-
 			const startOffset = state.startChecked ? state.maxOffset : 0;
 
 			const finalOffset = Math.max(
@@ -201,6 +187,8 @@ function Toggle({
 
 			const next = finalOffset >= state.maxOffset / 2;
 
+			delete root.dataset.dragChecked;
+
 			suppressNextChange.current = true;
 			snapTo(next);
 		};
@@ -208,6 +196,8 @@ function Toggle({
 		const pointerCancel = (event: PointerEvent) => {
 			dragState.current.active = false;
 			dragState.current.hasDragged = false;
+
+			delete root.dataset.dragChecked;
 
 			if (root.hasPointerCapture(event.pointerId)) {
 				root.releasePointerCapture(event.pointerId);
@@ -249,23 +239,16 @@ function Toggle({
 			ref={rootRef}
 			nativeButton
 			render={<button type="button" />}
-			data-slot="Toggle"
+			data-slot="toggle"
 			data-size={size}
 			checked={isChecked}
 			onCheckedChange={handleCheckedChange}
-			className={cn(
-				"peer group/Toggle relative inline-flex shrink-0 items-center rounded-full border-2 transition-all outline-none group-has-focus-visible/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-5 data-[size=default]:w-11 data-[size=sm]:h-4 data-[size=sm]:w-7 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary group-has-focus-visible/field-label:data-checked:border-primary data-unchecked:border-transparent data-unchecked:bg-input/90 group-has-focus-visible/field-label:data-unchecked:border-transparent data-disabled:cursor-not-allowed data-disabled:opacity-50",
-				styles.root,
-				className,
-			)}
+			className={cn(styles.root, className)}
 		>
 			<TogglePrimitive.Thumb
 				ref={thumbRef}
-				data-slot="Toggle-thumb"
-				className={cn(
-					"pointer-events-none block rounded-full bg-background shadow-sm ring-0 not-dark:bg-clip-padding group-data-[size=default]/Toggle:h-4 group-data-[size=default]/Toggle:w-6 group-data-[size=sm]/Toggle:h-3 group-data-[size=sm]/Toggle:w-4 dark:data-unchecked:bg-foreground",
-					styles.thumb,
-				)}
+				data-slot="toggle-thumb"
+				className={styles.thumb}
 			/>
 		</TogglePrimitive.Root>
 	);
