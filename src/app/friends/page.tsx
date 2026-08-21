@@ -121,11 +121,8 @@ export default function FriendsPage() {
 								/>
 								<div>
 									<h2>{friend.friend.displayName}</h2>
-									<p>{friend.locationStatus?.state ?? "Unavailable"}</p>
-									<span>
-										Next:{" "}
-										{friend.timetable?.subjects[0]?.id ?? "No timetable shared"}
-									</span>
+									<p>{locationStatusTitle(friend.locationStatus?.state)}</p>
+									<span>{friendScheduleTitle(friend.timetable?.subjects)}</span>
 								</div>
 								<strong className={styles.status}>
 									{friend.state === "friends" ? "Friends" : "Pending"}
@@ -232,6 +229,25 @@ function locationStatusTime(status: CurrentLocationStatus["item"]) {
 		hour: "numeric",
 		minute: "2-digit",
 	})}`;
+}
+
+function friendScheduleTitle(
+	subjects: NonNullable<Friend["timetable"]>["subjects"] | undefined,
+) {
+	if (!subjects?.length) {
+		return "No timetable shared";
+	}
+
+	const day = new Date().getDay() - 1;
+	if (day < 0 || day > 4) {
+		return "School's Out";
+	}
+
+	return subjects.some((subject) =>
+		subject.slots.some((slot) => slot.day === day),
+	)
+		? "Scheduled today"
+		: "School's Out";
 }
 
 function formatArrival(seconds?: number | null) {
