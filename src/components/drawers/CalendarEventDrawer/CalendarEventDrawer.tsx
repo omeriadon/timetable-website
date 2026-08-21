@@ -8,6 +8,8 @@ import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function CalendarEventDrawer({
 	event,
@@ -24,10 +26,18 @@ export default function CalendarEventDrawer({
 	const dismiss = onClose ?? closeDrawer;
 	const [title, setTitle] = useState(event.title);
 	const [notes, setNotes] = useState(event.notes ?? "");
+	const [symbol, setSymbol] = useState(event.symbol);
+	const [date, setDate] = useState(() => dateValue(event));
+	const [showsWeather, setShowsWeather] = useState(event.showsWeather);
 	const [saving, setSaving] = useState(false);
 	const [status, setStatus] = useState<string | null>(null);
 
 	const save = async () => {
+		const [year, month, day] = date.split("-").map(Number);
+		if (!year || !month || !day) {
+			setStatus("Choose a valid event date.");
+			return;
+		}
 		setSaving(true);
 		setStatus(null);
 		try {
@@ -41,11 +51,11 @@ export default function CalendarEventDrawer({
 					id: event.id,
 					title: title.trim(),
 					notes: notes.trim() || null,
-					symbol: event.symbol,
-					date: event.date,
+					symbol: symbol.trim() || "calendar",
+					date: { year, month, day },
 					tagIDs: event.tagIDs ?? [],
 					baseRevision: event.revision,
-					showsWeather: event.showsWeather,
+					showsWeather: event.isGlobal && showsWeather,
 				}),
 			});
 			const replacement = [
@@ -55,6 +65,9 @@ export default function CalendarEventDrawer({
 				...event,
 				title: title.trim(),
 				notes: notes.trim() || undefined,
+				symbol: symbol.trim() || "calendar",
+				date: { year, month, day },
+				showsWeather: event.isGlobal && showsWeather,
 			};
 			onChanged(replacement);
 			dismiss();
@@ -114,12 +127,37 @@ export default function CalendarEventDrawer({
 						maxLength={2000}
 					/>
 				</label>
+				<label>
+					Symbol
+					<Input
+						value={symbol}
+						onChange={(input) => setSymbol(input.target.value)}
+						maxLength={120}
+					/>
+				</label>
+				<label>
+					Date
+					<Input
+						type="date"
+						value={date}
+						onChange={(input) => setDate(input.target.value)}
+					/>
+				</label>
+				{event.isGlobal ? (
+					<SettingToggle
+						label="Show Weather"
+						enabled={showsWeather}
+						onClick={() => setShowsWeather((current) => !current)}
+						disabled={saving}
+					/>
+				) : null}
 				<div className={styles.drawerActions}>
 					<Button
 						aria-label="Delete event"
 						onClick={() => void remove()}
 						disabled={saving}
 					>
+						<Symbol name="trash" />
 						Delete
 					</Button>
 					<Button
@@ -127,6 +165,7 @@ export default function CalendarEventDrawer({
 						onClick={() => void save()}
 						disabled={saving || !title.trim()}
 					>
+						<Symbol name="checkmark" />
 						{saving ? "Saving…" : "Save"}
 					</Button>
 				</div>
@@ -138,4 +177,8 @@ export default function CalendarEventDrawer({
 			) : null}
 		</div>
 	);
+}
+
+function dateValue(event: CalendarEvent) {
+	return `${event.date.year}-${String(event.date.month).padStart(2, "0")}-${String(event.date.day).padStart(2, "0")}`;
 }
