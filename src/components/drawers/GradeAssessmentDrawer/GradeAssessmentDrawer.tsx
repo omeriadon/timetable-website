@@ -4,13 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useState } from "react";
-import type { GradeAssessment } from "@/features/timetable/types";
+import type {
+	GradeAssessment,
+	TimetableSubject,
+} from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 
 type GradeAssessmentDrawerProps = {
 	assessment?: GradeAssessment;
+	subject?: TimetableSubject;
+	subjects: TimetableSubject[];
 	subjectID: string;
 	semester: number;
 	onSave: (assessment: GradeAssessment) => Promise<void>;
@@ -19,6 +24,8 @@ type GradeAssessmentDrawerProps = {
 
 export default function GradeAssessmentDrawer({
 	assessment,
+	subject,
+	subjects,
 	subjectID,
 	semester,
 	onSave,
@@ -38,6 +45,11 @@ export default function GradeAssessmentDrawer({
 		location: "exam" as const,
 	};
 	const current = draft ?? initialDraft;
+	const locationOptions = availableLocations(
+		current.date,
+		subject,
+		subjects,
+	);
 	const update = (changes: Partial<GradeAssessment>) =>
 		setDraft((value) => ({ ...(value ?? initialDraft), ...changes }));
 	const save = async () => {
@@ -83,9 +95,16 @@ export default function GradeAssessmentDrawer({
 					<Input
 						type="date"
 						value={dateValue(current)}
-						onChange={(event) =>
-							update({ date: parseDate(event.target.value) })
-						}
+						onChange={(event) => {
+							const date = nearestWeekday(parseDate(event.target.value));
+							const options = availableLocations(date, subject, subjects);
+							update({
+								date,
+								location: options.includes(current.location)
+									? current.location
+									: options[0],
+							});
+						}}
 					/>
 				</label>
 				<label>
@@ -98,9 +117,11 @@ export default function GradeAssessmentDrawer({
 							}
 						}}
 					>
-						<option value="exam">Exam</option>
-						<option value="directedStudy">Directed Study</option>
-						<option value="subjectPeriod">Subject Period</option>
+						{locationOptions.map((option) => (
+							<option key={option} value={option}>
+								{locationLabel(option, subjectID)}
+							</option>
+						))}
 					</Select>
 				</label>
 				<label>
@@ -175,4 +196,59 @@ function nextWeekday() {
 		month: date.getMonth() + 1,
 		day: date.getDate(),
 	};
+}
+
+function nearestWeekday(date: GradeAssessment["date"]) {
+	const value = new Date(date.year, date.month - 1, date.day);
+	if (value.getDay() === 6) {
+		value.setDate(value.getDate() + 2);
+	}
+	if (value.getDay() === 0) {
+		value.setDate(value.getDate() + 1);
+	}
+	return {
+		year: value.getFullYear(),
+		month: value.getMonth() + 1,
+		day: value.getDate(),
+	};
+}
+
+type AssessmentLocation = GradeAssessment["location"];
+
+function availableLocations(
+	date: GradeAssessment["date"],
+	subject: TimetableSubject | undefined,
+	subjects: TimetableSubject[],
+): AssessmentLocation[] {
+	const options: AssessmentLocation[] = ["exam"];
+	const weekday = new Date(date.year, date.month - 1, date.day).getDay();
+	if (weekday < 1 || weekday > 5) {
+		return options;
+	}
+
+	const day = weekday - 1;
+	if (
+		subjects.some(
+			(item) =>
+				item.id.toLocaleLowerCase().includes("directed study") &&
+				item.slots.some((slot) => slot.day === day),
+		)
+	) {
+		options.push("directedStudy");
+	}
+	if (subject?.slots.some((slot) => slot.day === day)) {
+		options.push("subjectPeriod");
+	}
+	return options;
+}
+
+function locationLabel(location: AssessmentLocation, subjectID: string) {
+	switch (location) {
+		case "directedStudy":
+			return "Directed Study";
+		case "subjectPeriod":
+			return subjectID;
+		default:
+			return "Exam";
+	}
 }

@@ -11,7 +11,12 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
-import type { GradeAssessment, GradeTracker } from "@/features/timetable/types";
+import type {
+	GradeAssessment,
+	GradeTracker,
+	OwnerTimetable,
+	TimetableSubject,
+} from "@/features/timetable/types";
 
 import styles from "./page.module.css";
 
@@ -23,14 +28,21 @@ export default function GradeSubjectPage() {
 	const { openDrawer } = useDrawer();
 
 	const [tracker, setTracker] = useState<GradeTracker | null>(null);
+	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		setToolbar({ title: subjectID });
 
-		apiRequest<GradeTracker>("v1/grades")
-			.then(setTracker)
+		Promise.all([
+			apiRequest<GradeTracker>("v1/grades"),
+			apiRequest<OwnerTimetable>("v1/timetables/owner"),
+		])
+			.then(([nextTracker, nextTimetable]) => {
+				setTracker(nextTracker);
+				setTimetable(nextTimetable);
+			})
 			.catch((requestError: Error) => setError(requestError.message));
 	}, [setToolbar, subjectID]);
 
@@ -41,10 +53,16 @@ export default function GradeSubjectPage() {
 			) ?? [],
 		[tracker, subjectID],
 	);
+	const timetableSubject = timetable?.subjects.find(
+		(item) => item.id === subjectID,
+	);
+	const subjects = timetable?.subjects ?? [];
 
 	const createAssessment = (semester: number) => {
 		openDrawer(
 			<GradeAssessmentDrawer
+				subject={timetableSubject}
+				subjects={subjects}
 				subjectID={subjectID}
 				semester={semester}
 				onSave={saveAssessment}
@@ -144,6 +162,8 @@ export default function GradeSubjectPage() {
 										ariaLabel={`Edit ${assessment.name}`}
 										content={
 											<GradeAssessmentDrawer
+												subject={timetableSubject}
+												subjects={subjects}
 												assessment={assessment}
 												subjectID={subjectID}
 												semester={semester}
