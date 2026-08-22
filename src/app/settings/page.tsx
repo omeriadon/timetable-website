@@ -16,6 +16,7 @@ import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import CalendarImportDrawer from "@/components/drawers/CalendarImportDrawer/CalendarImportDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import { List, ListRow } from "@/components/ui/list";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
@@ -123,7 +124,7 @@ export default function SettingsPage() {
 				</p>
 			) : null}
 			<h2 className={styles.section}>My Timetable</h2>
-			<section className={styles.card}>
+			<List>
 				<Button
 					type="button"
 					className={styles.rowButton}
@@ -153,9 +154,9 @@ export default function SettingsPage() {
 					href="/timetable"
 					icon="pencil.and.list.clipboard"
 				/>
-			</section>
+			</List>
 			<h2 className={styles.section}>Preferences</h2>
-			<section className={styles.card}>
+			<List>
 				{settings ? (
 					<>
 						<NavigationRow
@@ -170,7 +171,7 @@ export default function SettingsPage() {
 							href="/settings/notifications"
 							icon="switch.2"
 						/>
-						<div className={styles.row}>
+						<ListRow className={styles.row}>
 							<Symbol name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
 							<Select
@@ -198,7 +199,7 @@ export default function SettingsPage() {
 									<SelectItem value="endOfYear">Until End of Year</SelectItem>
 								</SelectContent>
 							</Select>
-						</div>
+						</ListRow>
 						<NavigationRow
 							title="Archived Events"
 							description="Review and edit past calendar events."
@@ -215,9 +216,9 @@ export default function SettingsPage() {
 				) : (
 					<p className={styles.loading}>Loading preferences…</p>
 				)}
-			</section>
+			</List>
 			<h2 className={styles.section}>Developer</h2>
-			<section className={styles.card}>
+			<List>
 				<NavigationRow
 					title="Release App Icon"
 					description="Choose the alternate release icon preference for this website installation."
@@ -260,9 +261,9 @@ export default function SettingsPage() {
 					href="/settings/developer"
 					icon="checkmark.icloud"
 				/>
-			</section>
+			</List>
 			<h2 className={styles.section}>Support</h2>
-			<section className={styles.card}>
+			<List>
 				<NavigationRow
 					title="Report Feedback or Bug"
 					description="Send feedback through the authenticated server."
@@ -288,7 +289,7 @@ export default function SettingsPage() {
 						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</div>
 				</Button>
-			</section>
+			</List>
 		</main>
 	);
 }

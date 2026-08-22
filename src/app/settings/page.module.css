@@ -23,8 +23,23 @@
 .rowButton {
 	display: block;
 	width: 100%;
-	padding: 0;
 	text-align: left;
+}
+
+.rowButton[data-size="default"] {
+	display: block;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+}
+
+.rowButton[data-variant="default"] {
+	background: transparent;
+	color: inherit;
 }
 
 .rowButton + .rowButton,
@@ -42,8 +57,73 @@
 }
 
 .rowButton:hover,
-.rowButton:focus-visible {
+.rowButton:focus-visible,
+.rowButton[data-variant="default"]:hover,
+.rowButton[data-variant="default"]:focus-visible {
 	background: var(--ds-color-surface-elevated);
+}
+
+.page :global([data-slot="button"][data-size="default"]) {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.page :global([data-slot="button"][data-size="default"]):hover,
+.page :global([data-slot="button"][data-size="default"]):focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.page :global([data-slot="button"][data-size="default"]) > div {
+	display: grid;
+	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr) auto auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+	min-height: var(--ds-list-row-height);
+	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+}
+
+.page :global([data-slot="button"][data-size="default"]) > div > img,
+.page
+	:global([data-slot="button"][data-size="default"])
+	> div
+	> span:first-child {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.page :global([data-slot="button"][data-size="default"]) > div > span {
+	display: block;
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.page
+	:global([data-slot="button"][data-size="default"])
+	> div
+	> span:nth-child(2) {
+	grid-column: 2;
+	min-width: 0;
+}
+
+.page :global([data-slot="button"][data-size="default"]) > div > img:last-child,
+.page
+	:global([data-slot="button"][data-size="default"])
+	> div
+	> span:last-child {
+	grid-column: 4;
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	object-fit: contain;
+	opacity: 0.6;
 }
 
 .row > img,
