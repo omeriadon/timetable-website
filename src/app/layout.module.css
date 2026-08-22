@@ -6,12 +6,27 @@
 	background: var(--ds-color-background);
 }
 
+.aboutAppShell {
+	background: transparent;
+}
+
+.aboutBackground {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
 .outerAppShell {
 	position: relative;
 	flex: 1 1 auto;
 	min-width: 0;
 	height: 100%;
 	background: var(--ds-color-background);
+}
+
+.aboutAppShell .outerAppShell {
+	background: transparent;
 }
 
 .pageContent {
@@ -30,6 +45,10 @@
 	background: var(--ds-color-background);
 	color: var(--ds-color-text);
 	font-family: var(--ds-font-body);
+}
+
+.aboutAppShell .contentSurface {
+	background: transparent;
 }
 
 .contentSurface :global(main) {

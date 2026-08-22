@@ -6,7 +6,6 @@ import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
 import Image from "next/image";
-import GradientBlinds from "@/components/GradientBlinds";
 
 export default function AboutEditor() {
 	const [contributors, setContributors] = useState<AboutContributor[]>([]);
@@ -28,25 +27,6 @@ export default function AboutEditor() {
 
 	return (
 		<section className={styles.page}>
-			<div className={styles.background} aria-hidden="true">
-				<GradientBlinds
-					className={styles.background}
-					dpr={window.devicePixelRatio}
-					gradientColors={["#997554", "#d1b38c"]}
-					angle={261}
-					noise={0}
-					blindCount={16}
-					blindMinWidth={10}
-					spotlightRadius={1}
-					spotlightSoftness={1}
-					spotlightOpacity={1}
-					mouseDampening={1}
-					distortAmount={4}
-					shineDirection="left"
-					mixBlendMode="lighten"
-				/>
-			</div>
-
 			<div className={styles.content}>
 				<div className={styles.icon}>
 					<Image

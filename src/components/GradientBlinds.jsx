@@ -21,8 +21,8 @@ const prepStops = stops => {
 };
 
 const GradientBlinds = ({
-  className,
-  dpr,
+  className = '',
+  dpr = undefined,
   paused = false,
   gradientColors,
   angle = 0,
@@ -36,7 +36,8 @@ const GradientBlinds = ({
   spotlightOpacity = 1,
   distortAmount = 0,
   shineDirection = 'left',
-  mixBlendMode = 'lighten'
+  mixBlendMode = 'lighten',
+  pointerTarget = 'canvas'
 }) => {
   const containerRef = useRef(null);
   const rafRef = useRef(null);
@@ -256,7 +257,7 @@ void main() {
     ro.observe(container);
 
     const onPointerMove = e => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       const scale = renderer.dpr || 1;
       const x = (e.clientX - rect.left) * scale;
       const y = (rect.height - (e.clientY - rect.top)) * scale;
@@ -265,7 +266,8 @@ void main() {
         uniforms.iMouse.value = [x, y];
       }
     };
-    canvas.addEventListener('pointermove', onPointerMove);
+    const pointerEventTarget = pointerTarget === 'window' ? window : canvas;
+    pointerEventTarget.addEventListener('pointermove', onPointerMove);
 
     const loop = t => {
       rafRef.current = requestAnimationFrame(loop);
@@ -296,7 +298,7 @@ void main() {
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      canvas.removeEventListener('pointermove', onPointerMove);
+      pointerEventTarget.removeEventListener('pointermove', onPointerMove);
       ro.disconnect();
       if (canvas.parentElement === container) {
         container.removeChild(canvas);
@@ -329,7 +331,8 @@ void main() {
     spotlightSoftness,
     spotlightOpacity,
     distortAmount,
-    shineDirection
+    shineDirection,
+    pointerTarget
   ]);
 
   return (
