@@ -3,7 +3,11 @@
 	padding: 1.25rem clamp(1.25rem, 5vw, 5rem) 1.5rem;
 	color: #f5f5f2;
 	background:
-		radial-gradient(circle at 76% 13%, rgb(255 255 255 / 0.1), transparent 25rem),
+		radial-gradient(
+			circle at 76% 13%,
+			rgb(255 255 255 / 0.1),
+			transparent 25rem
+		),
 		linear-gradient(135deg, #161616 0%, #080808 62%, #101010 100%);
 }
 
@@ -116,7 +120,9 @@
 	background: #f5f5f2;
 	color: #111;
 	font-weight: 650;
-	transition: transform 160ms ease, background 160ms ease;
+	transition:
+		transform 160ms ease,
+		background 160ms ease;
 }
 
 .primaryAction:hover,
@@ -134,8 +140,14 @@
 	margin-inline: auto;
 	border: 1px solid rgb(255 255 255 / 0.16);
 	border-radius: 28%;
-	background: linear-gradient(145deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.03));
-	box-shadow: 0 2rem 6rem rgb(0 0 0 / 0.35), inset 0 1px rgb(255 255 255 / 0.2);
+	background: linear-gradient(
+		145deg,
+		rgb(255 255 255 / 0.16),
+		rgb(255 255 255 / 0.03)
+	);
+	box-shadow:
+		0 2rem 6rem rgb(0 0 0 / 0.35),
+		inset 0 1px rgb(255 255 255 / 0.2);
 	font-size: clamp(8rem, 22vw, 18rem);
 	font-weight: 700;
 	letter-spacing: -0.12em;

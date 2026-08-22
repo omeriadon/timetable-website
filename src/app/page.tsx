@@ -37,12 +37,10 @@ export default function LandingPage() {
 			<section className={styles.hero} aria-labelledby="landing-heading">
 				<div className={styles.heroCopy}>
 					<p className={styles.eyebrow}>Your school week, in one place.</p>
-					<h1 id="landing-heading">
-						Make time for what matters.
-					</h1>
+					<h1 id="landing-heading">Make time for what matters.</h1>
 					<p className={styles.introduction}>
-						Timetable brings your classes, plans, grades, events, and friends into
-						one calm, focused space.
+						Timetable brings your classes, plans, grades, events, and friends
+						into one calm, focused space.
 					</p>
 					<Link className={styles.primaryAction} href="/login">
 						<span>Open Timetable</span>
@@ -55,7 +53,10 @@ export default function LandingPage() {
 				</div>
 			</section>
 
-			<section className={styles.featureSection} aria-labelledby="features-heading">
+			<section
+				className={styles.featureSection}
+				aria-labelledby="features-heading"
+			>
 				<div className={styles.sectionHeading}>
 					<p className={styles.eyebrow}>Everything in sync</p>
 					<h2 id="features-heading">A clearer school day.</h2>
