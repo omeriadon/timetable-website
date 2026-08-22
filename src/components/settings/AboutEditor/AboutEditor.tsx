@@ -6,6 +6,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
 import Image from "next/image";
+import GradientBlinds from "@/components/GradientBlinds";
 
 export default function AboutEditor() {
 	const [contributors, setContributors] = useState<AboutContributor[]>([]);
@@ -27,47 +28,71 @@ export default function AboutEditor() {
 
 	return (
 		<section className={styles.page}>
-			<div className={styles.icon}>
-				<Image
-					src="/icon.png"
-					width={300}
-					height={300}
-					alt=""
-					aria-hidden="true"
+			<div className={styles.background} aria-hidden="true">
+				<GradientBlinds
+					className={styles.background}
+					dpr={window.devicePixelRatio}
+					gradientColors={["#997554", "#d1b38c"]}
+					angle={261}
+					noise={0}
+					blindCount={16}
+					blindMinWidth={10}
+					spotlightRadius={1}
+					spotlightSoftness={1}
+					spotlightOpacity={1}
+					mouseDampening={1}
+					distortAmount={4}
+					shineDirection="left"
+					mixBlendMode="lighten"
 				/>
-
-				{isLocalhost && (
-					<div className={styles.overlay}>
-						<Symbol name="ant" fallback="⚠" />
-						<span>DEBUG</span>
-					</div>
-				)}
 			</div>
 
-			<h2>Timetable</h2>
+			<div className={styles.content}>
+				<div className={styles.icon}>
+					<Image
+						src="/icon.png"
+						width={300}
+						height={300}
+						alt=""
+						aria-hidden="true"
+					/>
 
-			<section
-				className={styles.card}
-				aria-labelledby="about-development-heading"
-			>
-				{contributors.map((contributor) => (
-					<div className={styles.contributor} key={contributor.id}>
-						<span>{contributor.name}</span>
-						<span>{contributor.role}</span>
-					</div>
-				))}
-				{!contributors.length && !error ? (
-					<p className={styles.status}>Loading contributors…</p>
-				) : null}
-			</section>
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
+					{isLocalhost && (
+						<div className={styles.overlay}>
+							<Symbol name="ant" fallback="⚠" />
+							<span>DEBUG</span>
+						</div>
+					)}
+				</div>
+
+				<h2>Timetable</h2>
+
+				<section
+					className={styles.card}
+					aria-labelledby="about-development-heading"
+				>
+					{contributors.map((contributor) => (
+						<div className={styles.contributor} key={contributor.id}>
+							<span>{contributor.name}</span>
+							<span>{contributor.role}</span>
+						</div>
+					))}
+
+					{!contributors.length && !error && (
+						<p className={styles.status}>Loading contributors…</p>
+					)}
+				</section>
+
+				{error && (
+					<p className={styles.error} role="alert">
+						{error}
+					</p>
+				)}
+
+				<p className={styles.copyright}>
+					© {new Date().getFullYear()}, JDCQ. All rights reserved.
 				</p>
-			) : null}
-			<p className={styles.copyright}>
-				© {new Date().getFullYear()}, JDCQ. All rights reserved.
-			</p>
+			</div>
 		</section>
 	);
 }
