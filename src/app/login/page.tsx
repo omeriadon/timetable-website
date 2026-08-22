@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
@@ -20,20 +20,6 @@ export default function LoginPage() {
 	const [code, setCode] = useState("");
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	useEffect(() => {
-		let active = true;
-		apiRequest("session")
-			.then(() => {
-				if (active) {
-					router.replace("/");
-				}
-			})
-			.catch(() => undefined);
-		return () => {
-			active = false;
-		};
-	}, [router]);
 
 	async function submit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
