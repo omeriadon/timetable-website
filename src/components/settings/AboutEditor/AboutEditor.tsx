@@ -5,10 +5,19 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
+import Image from "next/image";
 
 export default function AboutEditor() {
 	const [contributors, setContributors] = useState<AboutContributor[]>([]);
 	const [error, setError] = useState<string | null>(null);
+
+	const isLocalhost = Boolean(
+		window.location.hostname === "localhost" ||
+		window.location.hostname === "[::1]" ||
+		window.location.hostname.match(
+			/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+		),
+	);
 
 	useEffect(() => {
 		apiRequest<AboutContributor[]>("v1/about")
@@ -18,22 +27,33 @@ export default function AboutEditor() {
 
 	return (
 		<section className={styles.page}>
-			<div className={styles.icon} aria-hidden="true">
-				T
+			<div className={styles.icon}>
+				<Image
+					src="/icon.png"
+					width={300}
+					height={300}
+					alt=""
+					aria-hidden="true"
+				/>
+
+				{isLocalhost && (
+					<div className={styles.overlay}>
+						<Symbol name="ant" fallback="⚠" />
+						<span>DEBUG</span>
+					</div>
+				)}
 			</div>
+
 			<h2>Timetable</h2>
-			<p className={styles.subtitle}>
-				School week planning for every platform.
-			</p>
+
 			<section
 				className={styles.card}
 				aria-labelledby="about-development-heading"
 			>
-				<h3 id="about-development-heading">Development</h3>
 				{contributors.map((contributor) => (
 					<div className={styles.contributor} key={contributor.id}>
 						<span>{contributor.name}</span>
-						<strong>{contributor.role}</strong>
+						<span>{contributor.role}</span>
 					</div>
 				))}
 				{!contributors.length && !error ? (
@@ -45,11 +65,6 @@ export default function AboutEditor() {
 					{error}
 				</p>
 			) : null}
-			<div className={styles.version}>
-				<Symbol name="hammer" fallback="⌘" />
-				<span>Website client</span>
-				<strong>Web</strong>
-			</div>
 			<p className={styles.copyright}>
 				© {new Date().getFullYear()}, JDCQ. All rights reserved.
 			</p>

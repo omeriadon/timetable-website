@@ -2,32 +2,47 @@
 	display: grid;
 	gap: 1rem;
 	justify-items: center;
-	padding: 1rem 0 2rem;
+	margin-top: 4rem;
 }
 
 .icon {
-	display: grid;
-	place-items: center;
-	width: 7rem;
-	height: 7rem;
-	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
-	border-radius: 2rem;
-	font-size: 3rem;
-	font-weight: 700;
+	position: relative;
+	width: 300px;
+	height: 300px;
+}
+
+.overlay {
+	position: absolute;
+	right: -1rem;
+	bottom: 3rem;
+
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	padding: 0.75rem 1rem;
+
+	background: rgb(0 255 255 / 40%);
+	backdrop-filter: blur(3px);
+
+	font-family: "SF Mono";
+
+	border-radius: 1000px;
+
+	pointer-events: none;
 }
 
 .page h2,
-.subtitle,
 .copyright {
 	margin: 0;
 	text-align: center;
 }
 
 .page h2 {
-	font-size: 2rem;
+	font-size: 3rem;
+	font-family: "SF Mono";
 }
 
-.subtitle,
 .copyright,
 .status,
 .error {
@@ -60,13 +75,18 @@
 }
 
 .contributor {
-	display: grid;
+	display: flex;
+	justify-content: space-between;
 	gap: 0.25rem;
 	padding: 1rem;
 }
 
 .contributor + .contributor {
 	border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.contributor span + span {
+	color: color-mix(in srgb, currentColor 62%, transparent);
 }
 
 .contributor strong {
