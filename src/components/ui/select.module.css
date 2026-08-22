@@ -108,7 +108,6 @@
 	isolation: isolate;
 	z-index: 50;
 
-	width: var(--anchor-width);
 	min-width: 9rem;
 	max-height: var(--available-height);
 
