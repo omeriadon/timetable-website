@@ -184,7 +184,7 @@ function returnDestination() {
 			: new URLSearchParams(window.location.search).get("returnTo");
 
 	if (!value || !value.startsWith("/") || value.startsWith("//")) {
-		return "/";
+		return "/today";
 	}
 
 	return value;
