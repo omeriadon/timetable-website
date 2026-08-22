@@ -100,12 +100,13 @@ export default function LoginPage() {
 
 				<form className={styles.form} onSubmit={submit}>
 					<label>
-						<span>School email</span>
+						<span>Email address</span>
 						<Input
 							type="email"
 							value={email}
 							onChange={(event) => setEmail(event.target.value)}
 							autoComplete="email"
+							maxLength={100}
 							required
 							disabled={mode === "verify"}
 						/>
@@ -120,6 +121,7 @@ export default function LoginPage() {
 								mode === "sign-in" ? "current-password" : "new-password"
 							}
 							minLength={8}
+							maxLength={100}
 							required
 						/>
 					</label>
