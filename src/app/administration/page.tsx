@@ -44,10 +44,10 @@ const sections = [
 		],
 	],
 	["Testing", [["textformat.size", "Font Width Test", "font-width-test"]]],
-	["Content", [["person.3", "About Contributors", "about-contributors"]]],
 	[
 		"System Administration",
 		[
+			["person.3", "About Contributors", "about-contributors"],
 			["person.badge.shield.checkmark", "Administrators", "administrators"],
 			["arrow.down.app", "App Version", "app-version"],
 			["testtube.2", "Debug Testing", "server-access"],
@@ -89,16 +89,16 @@ export default function AdministrationPage() {
 							([heading]) =>
 								heading !== "System Administration" ||
 								dashboard.authority === "systemOwner",
-												)
-												.map(([heading, rows]) => (
-													<section key={heading as string}>
-														<h2 className={styles.section}>
-															{heading as string}
-															{heading === "Moderation" &&
-																dashboard.pendingModerationCount > 0
-																? ` (${dashboard.pendingModerationCount})`
-																: ""}
-														</h2>
+						)
+						.map(([heading, rows]) => (
+							<section key={heading as string}>
+								<h2 className={styles.section}>
+									{heading as string}
+									{heading === "Moderation" &&
+									dashboard.pendingModerationCount > 0
+										? ` (${dashboard.pendingModerationCount})`
+										: ""}
+								</h2>
 								<div className={styles.card}>
 									{(rows as string[][]).map(([symbol, label, destination]) => (
 										<DrawerTrigger
