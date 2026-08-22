@@ -37,10 +37,10 @@ export default function AppShell({ children }: { children: ReactNode }) {
 								<div className={styles.aboutBackground} aria-hidden="true">
 									<GradientBlinds
 										gradientColors={["#997554", "#d1b38c"]}
-										angle={261}
+										angle={0}
 										noise={0}
-										blindCount={16}
-										blindMinWidth={10}
+										blindCount={20}
+										blindMinWidth={60}
 										spotlightRadius={1}
 										spotlightSoftness={1}
 										spotlightOpacity={1}

@@ -61,9 +61,17 @@
 }
 
 .copyright {
-	color: gray;
-	justify-self: start;
-	padding: 0.5rem;
+	width: min(40vw, 100vw);
+	margin-top: 1rem;
+	padding: 0.55rem 1rem;
+
+	color: #fff;
+
+	background: var(--ds-overlay-background);
+	backdrop-filter: blur(var(--ds-drawer-blur));
+
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 1.25rem;
 }
 
 .page h2 {
