@@ -207,51 +207,6 @@ export default function SettingsPage() {
 					<p className={styles.loading}>Loading preferences…</p>
 				)}
 			</List>
-			<h2 className={styles.section}>Developer</h2>
-			<List>
-				<NavigationRow
-					title="Release App Icon"
-					description="Choose the alternate release icon preference for this website installation."
-					href="/settings/developer"
-					icon="app.badge"
-				/>
-				<NavigationRow
-					title="Debug Offset"
-					description="Adjust the local timetable debug clock offset."
-					href="/settings/developer"
-					icon="clock.arrow.trianglehead.counterclockwise.rotate.90"
-				/>
-				<NavigationRow
-					title="Test Live Activity"
-					description="Send authenticated Live Activity debug requests to the server."
-					href="/settings/developer"
-					icon="rectangle.bottomthird.inset.filled"
-				/>
-				<NavigationRow
-					title="Test status badges"
-					description="Exercise progress, success, warning, and error status surfaces."
-					href="/settings/developer"
-					icon="app.badge"
-				/>
-				<NavigationRow
-					title="Reload widgets now"
-					description="Reload website data and refresh the current client state."
-					href="/settings/developer"
-					icon="widget.large"
-				/>
-				<NavigationRow
-					title="Reset Tips"
-					description="Clear locally stored website tip state."
-					href="/settings/developer"
-					icon="lightbulb"
-				/>
-				<NavigationRow
-					title="Last Server Sync"
-					description="Inspect the most recent authenticated settings refresh."
-					href="/settings/developer"
-					icon="checkmark.icloud"
-				/>
-			</List>
 			<h2 className={styles.section}>Support</h2>
 			<List>
 				<NavigationRow
