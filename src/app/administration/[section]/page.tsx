@@ -21,7 +21,6 @@ import AdminDevelopmentAccessEditor from "@/components/administration/AdminDevel
 import AdminRecord, {
 	type AdminRecordValue,
 } from "@/components/administration/AdminRecord/AdminRecord";
-import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
 import TestEmailButton from "@/components/administration/TestEmailButton/TestEmailButton";
 import BroadcastNotificationEditor from "@/components/administration/BroadcastNotificationEditor/BroadcastNotificationEditor";
 import AdminAboutContributorsEditor from "@/components/administration/AdminAboutContributorsEditor/AdminAboutContributorsEditor";
@@ -85,7 +84,6 @@ const sectionConfig: Record<
 		icon: "envelope.badge",
 		endpoint: "v1/administration/email-log",
 	},
-	"font-width-test": { title: "Font Width Test", icon: "textformat.size" },
 	"app-version": {
 		title: "App Version",
 		icon: "arrow.down.app",
@@ -192,7 +190,6 @@ export default function AdministrationSectionPage() {
 					{error}
 				</p>
 			) : null}
-			{section === "font-width-test" ? <FontWidthTest /> : null}
 			{section === "broadcast-notification" ? (
 				<BroadcastNotificationEditor />
 			) : section === "test-email" ? (

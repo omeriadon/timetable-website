@@ -20,7 +20,6 @@ import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEdit
 import BroadcastNotificationEditor from "@/components/administration/BroadcastNotificationEditor/BroadcastNotificationEditor";
 import AdminBroadcastHistoryEditor from "@/components/administration/AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
 import AdminEmailLogEditor from "@/components/administration/AdminEmailLogEditor/AdminEmailLogEditor";
-import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
 import AdminAboutContributorsEditor from "@/components/administration/AdminAboutContributorsEditor/AdminAboutContributorsEditor";
 import AdminAdministratorsEditor from "@/components/administration/AdminAdministratorsEditor/AdminAdministratorsEditor";
 import AdminAppVersionEditor from "@/components/administration/AdminAppVersionEditor/AdminAppVersionEditor";
@@ -64,7 +63,6 @@ const sections = [
 			["envelope.badge", "Email Log", "email-log"],
 		],
 	],
-	["Testing", [["textformat.size", "Font Width Test", "font-width-test"]]],
 	[
 		"System Administration",
 		[
@@ -168,8 +166,6 @@ function administrationDrawerContent(destination: string) {
 			return <AdminBroadcastHistoryEditor />;
 		case "email-log":
 			return <AdminEmailLogEditor />;
-		case "font-width-test":
-			return <FontWidthTest />;
 		case "about-contributors":
 			return <AdminAboutContributorsEditor />;
 		case "administrators":
