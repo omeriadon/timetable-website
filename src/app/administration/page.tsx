@@ -5,7 +5,6 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
-import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	List,
@@ -13,6 +12,22 @@ import {
 	ListSection,
 	ListSectionHeader,
 } from "@/components/ui/list";
+import AdminStatisticsEditor from "@/components/administration/AdminStatisticsEditor/AdminStatisticsEditor";
+import AdminUsersEditor from "@/components/administration/AdminUsersEditor/AdminUsersEditor";
+import AdminUserReportsEditor from "@/components/administration/AdminUserReportsEditor/AdminUserReportsEditor";
+import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";
+import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
+import BroadcastNotificationEditor from "@/components/administration/BroadcastNotificationEditor/BroadcastNotificationEditor";
+import AdminBroadcastHistoryEditor from "@/components/administration/AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
+import AdminEmailLogEditor from "@/components/administration/AdminEmailLogEditor/AdminEmailLogEditor";
+import FontWidthTest from "@/components/administration/FontWidthTest/FontWidthTest";
+import AdminAboutContributorsEditor from "@/components/administration/AdminAboutContributorsEditor/AdminAboutContributorsEditor";
+import AdminAdministratorsEditor from "@/components/administration/AdminAdministratorsEditor/AdminAdministratorsEditor";
+import AdminAppVersionEditor from "@/components/administration/AdminAppVersionEditor/AdminAppVersionEditor";
+import AdminDevelopmentAccessEditor from "@/components/administration/AdminDevelopmentAccessEditor/AdminDevelopmentAccessEditor";
+import AdminProfileStorageEditor from "@/components/administration/AdminProfileStorageEditor/AdminProfileStorageEditor";
+import AdminBadgesEditor from "@/components/administration/AdminBadgesEditor/AdminBadgesEditor";
+import TestEmailButton from "@/components/administration/TestEmailButton/TestEmailButton";
 
 type Dashboard = {
 	isAdmin: boolean;
@@ -89,8 +104,9 @@ export default function AdministrationPage() {
 					</ListRow>
 				</List>
 			) : null}
-			{dashboard?.isAdmin
-				? sections
+			{dashboard?.isAdmin ? (
+				<List>
+					{sections
 						.filter(
 							([heading]) =>
 								heading !== "System Administration" ||
@@ -110,14 +126,7 @@ export default function AdministrationPage() {
 										key={label}
 										className={styles.rowButton}
 										ariaLabel={`Open ${label}`}
-										content={
-											<NavigationDrawer
-												title={label}
-												description={`Manage ${label.toLowerCase()} through the authenticated server.`}
-												href={`/administration/${destination}`}
-												icon={symbol}
-											/>
-										}
+										content={administrationDrawerContent(destination)}
 									>
 										<ListRow>
 											<Symbol name={symbol} />
@@ -127,11 +136,55 @@ export default function AdministrationPage() {
 									</DrawerTrigger>
 								))}
 							</ListSection>
-						))
-				: null}
+						))}
+				</List>
+			) : null}
 			{!dashboard && !error ? (
 				<p className={styles.loading}>Checking administrator access…</p>
 			) : null}
 		</main>
 	);
+}
+
+function administrationDrawerContent(destination: string) {
+	switch (destination) {
+		case "statistics":
+			return <AdminStatisticsEditor />;
+		case "users":
+			return <AdminUsersEditor />;
+		case "user-reports":
+			return <AdminUserReportsEditor />;
+		case "school-events":
+			return <AdminCalendarEditor kind="event" title="School Events" />;
+		case "event-tags":
+			return <AdminEventTagsEditor />;
+		case "term-dates":
+			return <AdminCalendarEditor kind="term" title="Term Dates" />;
+		case "pupil-free-days":
+			return <AdminCalendarEditor kind="noSchool" title="Pupil Free Days" />;
+		case "broadcast-notification":
+			return <BroadcastNotificationEditor />;
+		case "broadcast-notifications":
+			return <AdminBroadcastHistoryEditor />;
+		case "email-log":
+			return <AdminEmailLogEditor />;
+		case "font-width-test":
+			return <FontWidthTest />;
+		case "about-contributors":
+			return <AdminAboutContributorsEditor />;
+		case "administrators":
+			return <AdminAdministratorsEditor />;
+		case "app-version":
+			return <AdminAppVersionEditor />;
+		case "server-access":
+			return <AdminDevelopmentAccessEditor />;
+		case "profile-storage-quota":
+			return <AdminProfileStorageEditor />;
+		case "badges":
+			return <AdminBadgesEditor />;
+		case "test-email":
+			return <TestEmailButton />;
+		default:
+			return null;
+	}
 }
