@@ -3,6 +3,7 @@ import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import { ListRow } from "@/components/ui/list";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function NavigationRow({
@@ -11,12 +12,14 @@ export default function NavigationRow({
 	href,
 	icon,
 	direct = false,
+	drawerContent,
 }: {
 	title: string;
 	description: string;
 	href: string;
 	icon: string;
 	direct?: boolean;
+	drawerContent?: ReactNode;
 }) {
 	const row = (
 		<ListRow>
@@ -39,12 +42,14 @@ export default function NavigationRow({
 			className={styles.linkRow}
 			ariaLabel={`Open ${title}`}
 			content={
-				<NavigationDrawer
-					title={title}
-					description={description}
-					href={href}
-					icon={icon}
-				/>
+				drawerContent ?? (
+					<NavigationDrawer
+						title={title}
+						description={description}
+						href={href}
+						icon={icon}
+					/>
+				)
 			}
 		>
 			{row}

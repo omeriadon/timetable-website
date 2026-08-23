@@ -22,20 +22,10 @@ import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
 import VersionDrawer from "@/components/settings/VersionDrawer/VersionDrawer";
-
-type Settings = {
-	liveActivitiesEnabled: boolean;
-	appFontDesign: string;
-	futureEventRange: string;
-	watchBleedEnabled: boolean;
-	notificationsEnabled: boolean;
-	broadcastNotificationsEnabled: boolean;
-	notificationLeadTimes: number[];
-	breakToPeriodNotificationLeadTimes: number[];
-	eventNotificationSchedules: unknown[];
-	calendarEventAutoDeleteDays: number;
-	serverRevision: number;
-};
+import type { Settings } from "@/features/settings/types";
+import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
+import NotificationSettingsEditor from "@/components/settings/NotificationSettingsEditor/NotificationSettingsEditor";
+import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/ArchivedEventsEditor";
 
 export default function SettingsPage() {
 	const setToolbar = useToolbar();
@@ -156,12 +146,14 @@ export default function SettingsPage() {
 							description="Choose the app font design."
 							href="/settings/appearance"
 							icon="paintpalette"
+							drawerContent={<AppearanceSettingsEditor initial={settings} />}
 						/>
 						<NavigationRow
 							title="Updates & Notifications"
 							description="Control Live Activities, class notifications, event notifications, and sync."
 							href="/settings/notifications"
 							icon="switch.2"
+							drawerContent={<NotificationSettingsEditor initial={settings} />}
 						/>
 						<ListRow>
 							<Symbol name="calendar.badge.clock" />
@@ -199,6 +191,7 @@ export default function SettingsPage() {
 							description="Review and edit past calendar events."
 							href="/settings/archived-events"
 							icon="archivebox"
+							drawerContent={<ArchivedEventsEditor />}
 						/>
 					</>
 				) : (
