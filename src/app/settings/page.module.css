@@ -48,6 +48,8 @@
 }
 
 .listButton[data-size="default"] {
+	display: block;
+	width: 100%;
 	height: auto;
 	min-height: 0;
 }

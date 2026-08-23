@@ -32,12 +32,16 @@
 .rowHover .card > a:hover,
 .rowHover .card > button:hover,
 .rowHover .card > .row:hover {
-	background: color-mix(
-		in srgb,
-		var(--ds-color-surface-elevated) 36%,
-		var(--ds-color-surface)
-	);
+	background: rgb(255 255 255 / 0.06);
 	transition: background-color 80ms var(--ds-ease-standard);
+}
+
+.rowHover > a[data-size="default"]:hover,
+.rowHover > button[data-size="default"]:hover,
+.rowHover .card > a[data-size="default"]:hover,
+.rowHover .card > button[data-size="default"]:hover {
+	background: rgb(255 255 255 / 0.06) !important;
+	color: var(--ds-color-text);
 }
 
 .sectionHeader {

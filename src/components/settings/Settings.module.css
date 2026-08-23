@@ -5,6 +5,8 @@
 }
 
 .linkRow[data-size="default"] {
+	display: block;
+	width: 100%;
 	height: auto;
 	min-height: 0;
 	padding: 0;
@@ -33,6 +35,8 @@
 }
 
 .listButton[data-size="default"] {
+	display: block;
+	width: 100%;
 	height: auto;
 	min-height: 0;
 }
