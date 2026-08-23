@@ -143,24 +143,6 @@ export default function NotificationSettingsEditor({
 	return (
 		<>
 			<List rowHover>
-				<SettingToggle
-					label="Live Activities"
-					enabled={draft.liveActivitiesEnabled}
-					onClick={() =>
-						updateGeneral({
-							liveActivitiesEnabled: !draft.liveActivitiesEnabled,
-						})
-					}
-					disabled={saving}
-				/>
-				<SettingToggle
-					label="Watch Bleed"
-					enabled={draft.watchBleedEnabled}
-					onClick={() =>
-						updateGeneral({ watchBleedEnabled: !draft.watchBleedEnabled })
-					}
-					disabled={saving}
-				/>
 				<ListRow>
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>

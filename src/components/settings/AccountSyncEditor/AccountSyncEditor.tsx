@@ -199,14 +199,6 @@ export default function AccountSyncEditor({
 			</section>
 			<section className={styles.card}>
 				<SettingToggle
-					label="Live Activities"
-					enabled={draft.liveActivitiesEnabled}
-					onClick={() =>
-						void save({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })
-					}
-					disabled={saving}
-				/>
-				<SettingToggle
 					label="Class Notifications"
 					enabled={draft.notificationsEnabled}
 					onClick={() =>
@@ -222,14 +214,6 @@ export default function AccountSyncEditor({
 							broadcastNotificationsEnabled:
 								!draft.broadcastNotificationsEnabled,
 						})
-					}
-					disabled={saving}
-				/>
-				<SettingToggle
-					label="Watch Bleed"
-					enabled={draft.watchBleedEnabled}
-					onClick={() =>
-						void save({ watchBleedEnabled: !draft.watchBleedEnabled })
 					}
 					disabled={saving}
 				/>

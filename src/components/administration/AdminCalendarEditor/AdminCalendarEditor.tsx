@@ -7,6 +7,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import AdminCalendarEntryDrawer from "../AdminCalendarEntryDrawer/AdminCalendarEntryDrawer";
+import { List, ListRow } from "@/components/ui/list";
 
 export type AdminCalendarEntry = {
 	id: string;
@@ -42,12 +43,12 @@ export default function AdminCalendarEditor({
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{entries?.map((entry) => (
 					<Button
 						key={entry.id}
 						type="button"
-						className={styles.rowButton}
+						className={styles.listButton}
 						onClick={() =>
 							openDrawer(
 								<AdminCalendarEntryDrawer
@@ -60,22 +61,22 @@ export default function AdminCalendarEditor({
 							)
 						}
 					>
-						<div className={styles.row}>
+						<ListRow>
 							<Symbol name="calendar.badge.clock" />
 							<span>
 								<b className={styles.label}>{entry.label}</b>
-								<small className={styles.rowMeta}>
+								<small className={styles.detail}>
 									{formatDate(entry.startDate)}
 									{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}
 								</small>
 							</span>
-							<Symbol name="chevron.right" className={styles.chevronIcon} />
-						</div>
+							<Symbol name="chevron.right" />
+						</ListRow>
 					</Button>
 				))}
 				<Button
 					type="button"
-					className={styles.rowButton}
+					className={styles.listButton}
 					onClick={() =>
 						openDrawer(
 							<AdminCalendarEntryDrawer
@@ -88,12 +89,12 @@ export default function AdminCalendarEditor({
 						)
 					}
 				>
-					<div className={styles.row}>
-						<Symbol name="plus" className={styles.symbolIcon} />
+					<ListRow>
+						<Symbol name="plus" />
 						<span className={styles.label}>Add {title.replace(/s$/, "")}</span>
-					</div>
+					</ListRow>
 				</Button>
-			</section>
+			</List>
 			{!entries && !error ? (
 				<p className={styles.loading}>Loading {title.toLowerCase()}…</p>
 			) : null}

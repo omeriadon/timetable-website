@@ -1,1 +1,44 @@
-/* Intentionally unstyled. */
+.listButton {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.listButton[data-size="default"] {
+	height: auto;
+	min-height: 0;
+}
+
+.label {
+	min-width: 0;
+	flex: 1;
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.detail {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.page {
+	width: 100%;
+	padding: var(--ds-content-page-padding);
+}
+
+.error {
+	color: var(--ds-color-danger-text);
+}
+
+.loading {
+	padding: var(--ds-content-card-padding);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
