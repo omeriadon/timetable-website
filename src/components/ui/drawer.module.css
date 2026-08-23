@@ -417,6 +417,13 @@
 	user-select: text;
 }
 
+.content > div {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	padding-inline: 1rem;
+}
+
 .header {
 	display: flex;
 	flex-shrink: 0;
