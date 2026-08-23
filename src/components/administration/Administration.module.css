@@ -44,6 +44,7 @@
 }
 
 .adminSearch {
+	position: relative;
 	display: flex;
 	align-items: center;
 	gap: var(--ds-space-2);
@@ -51,8 +52,16 @@
 	color: var(--ds-color-text-secondary);
 }
 
+.adminSearch > span:first-child {
+	position: absolute;
+	inset-inline-start: var(--ds-space-4);
+	z-index: 1;
+	pointer-events: none;
+}
+
 .adminSearch input {
 	width: 100%;
+	padding-inline-start: calc(var(--ds-icon-size-row) + var(--ds-space-5));
 }
 
 .adminToolbar {
@@ -65,6 +74,11 @@
 .adminToolbar .adminSearch {
 	flex: 1;
 	margin-bottom: 0;
+}
+
+.addButton {
+	flex: 0 0 auto;
+	border-radius: 50%;
 }
 
 .userRow {

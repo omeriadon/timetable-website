@@ -72,7 +72,13 @@ export default function AdminUsersEditor() {
 						placeholder="Search users"
 					/>
 				</label>
-				<Button type="button" aria-label="Add user" onClick={() => edit()}>
+				<Button
+					type="button"
+					size="icon"
+					className={styles.addButton}
+					aria-label="Add user"
+					onClick={() => edit()}
+				>
 					<Symbol name="plus" fallback="＋" />
 				</Button>
 			</div>
