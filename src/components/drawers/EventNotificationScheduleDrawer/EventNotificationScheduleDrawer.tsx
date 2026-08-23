@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export type EventNotificationSchedule = {
 	hour: number;
@@ -98,11 +99,11 @@ export default function EventNotificationScheduleDrawer({
 						))}
 					</Select>
 				</label>
-				<div className={styles.drawerActions}>
+				<DrawerFooter>
 					<Button aria-label="Add event notification schedule" onClick={add}>
 						Add schedule
 					</Button>
-				</div>
+				</DrawerFooter>
 			</section>
 		</div>
 	);

@@ -12,6 +12,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import ConfirmationDrawer from "../ConfirmationDrawer/ConfirmationDrawer";
 
 type CalendarImportDrawerProps = {
@@ -145,7 +146,7 @@ export default function CalendarImportDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
+			<DrawerFooter>
 				<Button
 					aria-label="Import timetable"
 					onClick={() => void importCalendar()}
@@ -154,7 +155,7 @@ export default function CalendarImportDrawer({
 					<Symbol name="arrow.down.app" fallback="↓" />
 					{saving ? "Importing…" : "Import timetable"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }

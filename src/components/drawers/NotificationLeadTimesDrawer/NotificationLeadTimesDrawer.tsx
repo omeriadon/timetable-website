@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -88,7 +89,7 @@ export default function NotificationLeadTimesDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
+			<DrawerFooter>
 				<Button
 					aria-label="Save notification lead times"
 					onClick={() => void save()}
@@ -97,7 +98,7 @@ export default function NotificationLeadTimesDrawer({
 					<Symbol name="checkmark" fallback="✓" />
 					{saving ? "Saving…" : "Save"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useState } from "react";
@@ -47,11 +48,7 @@ export default function GradeAssessmentDrawer({
 		location: "exam" as const,
 	};
 	const current = draft ?? initialDraft;
-	const locationOptions = availableLocations(
-		current.date,
-		subject,
-		subjects,
-	);
+	const locationOptions = availableLocations(current.date, subject, subjects);
 	const update = (changes: Partial<GradeAssessment>) =>
 		setDraft((value) => ({ ...(value ?? initialDraft), ...changes }));
 	const save = async () => {
@@ -152,14 +149,16 @@ export default function GradeAssessmentDrawer({
 						}
 					/>
 				</label>
-				<div className={styles.drawerActions}>
+				<DrawerFooter>
 					{assessment && onDelete ? (
 						<Button
 							type="button"
+							variant="destructive"
 							aria-label="Delete assessment"
 							onClick={remove}
 						>
 							<Symbol name="trash" />
+							Delete
 						</Button>
 					) : null}
 					<Button
@@ -169,7 +168,7 @@ export default function GradeAssessmentDrawer({
 					>
 						<Symbol name="checkmark" />
 					</Button>
-				</div>
+				</DrawerFooter>
 				{status ? (
 					<p className={styles.detailMuted} role="status">
 						{status}
