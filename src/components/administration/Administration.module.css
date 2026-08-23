@@ -84,3 +84,17 @@
 	gap: var(--ds-space-2);
 	margin-top: var(--ds-space-2);
 }
+
+.rowWithAction {
+	justify-content: space-between;
+	padding: 0;
+}
+
+.rowWithAction > .listButton {
+	flex: 1;
+}
+
+.reorderButtons {
+	display: flex;
+	gap: var(--ds-space-1);
+}

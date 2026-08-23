@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { Button } from "@/components/ui/button";
+import { List, ListRow } from "@/components/ui/list";
 import { apiRequest } from "@/lib/api/client";
 
 import AdminEventTagDrawer from "../AdminEventTagDrawer/AdminEventTagDrawer";
@@ -154,32 +155,29 @@ export default function AdminEventTagsEditor() {
 						<h2 className={styles.section}>{section.displayName}</h2>
 					</Button>
 
-					<div className={styles.card}>
+					<List rowHover>
 						{section.tags.map((tag) => (
-							<div key={tag.id} className={styles.rowWithAction}>
+							<ListRow key={tag.id} className={styles.rowWithAction}>
 								<Button
 									type="button"
 									variant="ghost"
-									className={styles.rowButton}
+									className={styles.listButton}
 									onClick={() => editTag(tag, section)}
 									aria-label={`Edit ${tag.displayName}`}
 								>
-									<div className={styles.row}>
+									<ListRow>
 										<Symbol name={tag.symbol ?? "tag"} fallback="#" />
 
 										<span>
 											<b className={styles.label}>{tag.displayName}</b>
-											<small className={styles.rowMeta}>
+											<small className={styles.detail}>
 												{tag.slug}
 												{tag.isArchived ? " · Archived" : ""}
 											</small>
 										</span>
 
-										<Symbol
-											name="chevron.right"
-											className={styles.chevronIcon}
-										/>
-									</div>
+										<Symbol name="chevron.right" />
+									</ListRow>
 								</Button>
 
 								{isReordering && (
@@ -207,21 +205,21 @@ export default function AdminEventTagsEditor() {
 										</Button>
 									</div>
 								)}
-							</div>
+							</ListRow>
 						))}
 
 						<Button
 							type="button"
 							variant="ghost"
-							className={styles.rowButton}
+							className={styles.listButton}
 							onClick={() => editTag(null, section)}
 						>
-							<div className={styles.row}>
+							<ListRow>
 								<Symbol name="plus" fallback="＋" />
 								<span className={styles.label}>Add Tag</span>
-							</div>
+							</ListRow>
 						</Button>
-					</div>
+					</List>
 				</section>
 			))}
 
