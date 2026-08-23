@@ -267,6 +267,7 @@ export default function GradesPage() {
 					{isSenior ? (
 						<Button
 							type="button"
+							className={styles.editAtar}
 							aria-label="Edit ATAR settings"
 							onClick={() =>
 								openDrawer(

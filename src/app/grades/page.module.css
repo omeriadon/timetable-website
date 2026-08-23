@@ -37,6 +37,10 @@
 	font-weight: 700;
 }
 
+.editAtar {
+	margin-block: var(--ds-content-section-gap);
+}
+
 .summaryStats {
 	text-align: center;
 }
