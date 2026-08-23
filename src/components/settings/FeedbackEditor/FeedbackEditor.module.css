@@ -21,12 +21,6 @@
 	resize: vertical;
 }
 
-.actions {
-	display: flex;
-	justify-content: flex-end;
-	padding: var(--ds-content-card-padding);
-}
-
 .status {
 	margin: 0;
 	padding: var(--ds-content-card-padding);

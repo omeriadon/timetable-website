@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { List, ListRow } from "@/components/ui/list";
+import { DrawerFooter } from "@/components/ui/drawer";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
@@ -40,43 +41,51 @@ export default function FeedbackEditor() {
 	};
 
 	return (
-		<List>
-			<ListRow className={styles.categoryRow}>
-				<Symbol name="exclamationmark.bubble" />
-				<label htmlFor="feedback-category">Type</label>
-				<Select
-					value={category}
-					onValueChange={(value) => {
-						if (value !== null) {
-							setCategory(value);
-						}
-					}}
-				>
-					<SelectTrigger id="feedback-category">
-						<SelectValue>{category}</SelectValue>
-					</SelectTrigger>
+		<>
+			<List>
+				<ListRow className={styles.categoryRow}>
+					<Symbol name="exclamationmark.bubble" />
+					<label htmlFor="feedback-category">Type</label>
+					<Select
+						value={category}
+						onValueChange={(value) => {
+							if (value !== null) {
+								setCategory(value);
+							}
+						}}
+					>
+						<SelectTrigger id="feedback-category">
+							<SelectValue>{category}</SelectValue>
+						</SelectTrigger>
 
-					<SelectContent>
-						<SelectItem value="Feedback">Feedback</SelectItem>
-						<SelectItem value="Bug Report">Bug Report</SelectItem>
-					</SelectContent>
-				</Select>
-			</ListRow>
-			<div className={styles.messageField}>
-				<label htmlFor="feedback-message">
-					Describe the {category.toLowerCase()}
-				</label>
-				<Textarea
-					id="feedback-message"
-					value={message}
-					maxLength={4000}
-					rows={8}
-					onChange={(event) => setMessage(event.target.value)}
-				/>
-			</div>
-			<div className={styles.actions}>
+						<SelectContent>
+							<SelectItem value="Feedback">Feedback</SelectItem>
+							<SelectItem value="Bug Report">Bug Report</SelectItem>
+						</SelectContent>
+					</Select>
+				</ListRow>
+				<div className={styles.messageField}>
+					<label htmlFor="feedback-message">
+						Describe the {category.toLowerCase()}
+					</label>
+					<Textarea
+						id="feedback-message"
+						value={message}
+						maxLength={4000}
+						rows={8}
+						onChange={(event) => setMessage(event.target.value)}
+					/>
+				</div>
+				{status ? (
+					<p className={styles.status} role="status">
+						{status}
+					</p>
+				) : null}
+			</List>
+			<DrawerFooter>
 				<Button
 					type="button"
+					fullWidth
 					aria-label="Send feedback"
 					onClick={() => void submit()}
 					disabled={sending || !message.trim()}
@@ -84,12 +93,7 @@ export default function FeedbackEditor() {
 					<Symbol name="checkmark" fallback="✓" />
 					{sending ? "Sending…" : "Send Feedback"}
 				</Button>
-			</div>
-			{status ? (
-				<p className={styles.status} role="status">
-					{status}
-				</p>
-			) : null}
-		</List>
+			</DrawerFooter>
+		</>
 	);
 }
