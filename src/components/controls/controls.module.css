@@ -37,19 +37,7 @@
 }
 
 .settingToggle {
-	display: flex;
-	width: 100%;
-	min-height: var(--ds-list-row-height);
-	align-items: center;
 	justify-content: space-between;
-	gap: var(--ds-list-row-gap);
-	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
-	border-top: var(--ds-border-width) solid var(--ds-color-border);
-	text-align: left;
-}
-
-.settingToggle:first-child {
-	border-top: 0;
 }
 
 .switch {

@@ -3,7 +3,6 @@ import type { EventNotificationSchedule } from "@/components/drawers/EventNotifi
 
 export type Settings = {
 	appFontDesign: string;
-	appBackground: string;
 	liveActivitiesEnabled: boolean;
 	watchBleedEnabled: boolean;
 	calendarEventAutoDeleteDays: number;

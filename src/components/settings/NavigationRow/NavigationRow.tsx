@@ -1,4 +1,7 @@
 import Symbol from "@/components/controls/Symbol/Symbol";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
+import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
+import { ListRow } from "@/components/ui/list";
 import Link from "next/link";
 import styles from "@/components/settings/Settings.module.css";
 
@@ -7,19 +10,44 @@ export default function NavigationRow({
 	description,
 	href,
 	icon,
+	direct = false,
 }: {
 	title: string;
 	description: string;
 	href: string;
 	icon: string;
+	direct?: boolean;
 }) {
+	const row = (
+		<ListRow>
+			<Symbol name={icon} />
+			<span className={styles.label}>{title}</span>
+			<Symbol name="chevron.right" />
+		</ListRow>
+	);
+
+	if (direct) {
+		return (
+			<Link className={styles.linkRow} href={href} aria-label={`Open ${title}`}>
+				{row}
+			</Link>
+		);
+	}
+
 	return (
-		<Link className={styles.rowButton} href={href} aria-label={`Open ${title}`}>
-			<div className={styles.row}>
-				<Symbol name={icon} />
-				<span className={styles.label}>{title}</span>
-				<Symbol name="chevron.right" className={styles.chevronIcon} />
-			</div>
-		</Link>
+		<DrawerTrigger
+			className={styles.linkRow}
+			ariaLabel={`Open ${title}`}
+			content={
+				<NavigationDrawer
+					title={title}
+					description={description}
+					href={href}
+					icon={icon}
+				/>
+			}
+		>
+			{row}
+		</DrawerTrigger>
 	);
 }

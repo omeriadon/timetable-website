@@ -12,8 +12,8 @@ import NotificationLeadTimesDrawer from "@/components/drawers/NotificationLeadTi
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
+import { List, ListRow } from "@/components/ui/list";
 import styles from "@/components/settings/Settings.module.css";
-import settingsStyles from "@/components/settings/Settings.module.css";
 
 export default function NotificationSettingsEditor({
 	initial,
@@ -138,12 +138,14 @@ export default function NotificationSettingsEditor({
 
 	return (
 		<>
-			<section className={styles.card}>
+			<List>
 				<SettingToggle
 					label="Live Activities"
 					enabled={draft.liveActivitiesEnabled}
 					onClick={() =>
-						updateGeneral({ liveActivitiesEnabled: !draft.liveActivitiesEnabled })
+						updateGeneral({
+							liveActivitiesEnabled: !draft.liveActivitiesEnabled,
+						})
 					}
 					disabled={saving}
 				/>
@@ -155,7 +157,7 @@ export default function NotificationSettingsEditor({
 					}
 					disabled={saving}
 				/>
-				<div className={styles.row}>
+				<ListRow>
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
@@ -174,7 +176,7 @@ export default function NotificationSettingsEditor({
 						<option value={30}>After 1 month</option>
 						<option value={365}>After 1 year</option>
 					</Select>
-				</div>
+				</ListRow>
 				<SettingToggle
 					label="Allow Class Notifications"
 					enabled={draft.notificationsEnabled}
@@ -198,7 +200,7 @@ export default function NotificationSettingsEditor({
 				/>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					className={styles.listButton}
 					onClick={() =>
 						openLeadTimes(
 							"notificationLeadTimes",
@@ -208,18 +210,18 @@ export default function NotificationSettingsEditor({
 					}
 					disabled={saving}
 				>
-					<div className={styles.row}>
+					<ListRow>
 						<Symbol name="bell.badge" />
 						<span className={styles.label}>Send Notifications Early By</span>
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.notificationLeadTimes)}
 						</span>
-						<Symbol name="chevron.right" className={styles.chevronIcon} />
-					</div>
+						<Symbol name="chevron.right" />
+					</ListRow>
 				</Button>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					className={styles.listButton}
 					onClick={() =>
 						openLeadTimes(
 							"breakToPeriodNotificationLeadTimes",
@@ -229,20 +231,20 @@ export default function NotificationSettingsEditor({
 					}
 					disabled={saving}
 				>
-					<div className={styles.row}>
+					<ListRow>
 						<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
 						<span className={styles.label}>Before Class or From a Break</span>
 						<span className={styles.detail}>
 							{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}
 						</span>
-						<Symbol name="chevron.right" className={styles.chevronIcon} />
-					</div>
+						<Symbol name="chevron.right" />
+					</ListRow>
 				</Button>
-				<div className={styles.row}>
+				<ListRow>
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Event Notifications</span>
-				</div>
-				<div className={settingsStyles.scheduleList}>
+				</ListRow>
+				<div className={styles.scheduleList}>
 					{draft.eventNotificationSchedules
 						.slice()
 						.sort(
@@ -252,9 +254,9 @@ export default function NotificationSettingsEditor({
 								left.minute - right.minute,
 						)
 						.map((schedule) => (
-							<div
+							<ListRow
 								key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`}
-								className={settingsStyles.scheduleRow}
+								className={styles.scheduleRow}
 							>
 								<span>{formatTime(schedule)}</span>
 								<small>{formatOffset(schedule.dayOffset)}</small>
@@ -266,40 +268,40 @@ export default function NotificationSettingsEditor({
 								>
 									<Symbol name="minus" />
 								</Button>
-							</div>
+							</ListRow>
 						))}
 					<Button
 						type="button"
-						className={styles.rowButton}
+						className={styles.listButton}
 						onClick={() =>
 							openDrawer(
 								<EventNotificationScheduleDrawer onSave={addSchedule} />,
 							)
 						}
 					>
-						<div className={styles.row}>
+						<ListRow>
 							<Symbol name="plus" />
 							<span className={styles.label}>Add Event Notification</span>
-						</div>
+						</ListRow>
 					</Button>
 				</div>
 				{onSignOut ? (
 					<Button
 						type="button"
-						className={styles.rowButton}
+						className={styles.listButton}
 						onClick={async () => {
 							await apiRequest("auth/logout", { method: "DELETE" });
 							onSignOut();
 						}}
 						disabled={saving}
 					>
-						<div className={styles.row}>
+						<ListRow>
 							<Symbol name="person.2.slash" />
 							<span className={styles.label}>Sign Out</span>
-						</div>
+						</ListRow>
 					</Button>
 				) : null}
-			</section>
+			</List>
 			{error ? (
 				<p className={styles.error} role="alert">
 					{error}

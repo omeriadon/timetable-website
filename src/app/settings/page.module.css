@@ -13,54 +13,16 @@
 	text-transform: uppercase;
 }
 
-.card {
-	overflow: hidden;
-	border: var(--ds-border-width) solid var(--ds-color-border);
-	border-radius: var(--ds-radius-content-card);
-	background: var(--ds-color-surface);
-}
-
 .rowButton {
 	display: block;
 	width: 100%;
+	color: inherit;
 	text-align: left;
-	transition: background-color 80ms var(--ds-ease-standard);
-}
-
-.rowButton[data-size="default"] {
-	display: block;
-	height: auto;
-	min-height: 0;
-	padding: 0;
-	border: 0;
-	border-radius: 0;
-	background: transparent;
-	color: inherit;
-}
-
-.rowButton[data-variant="default"] {
-	background: transparent;
-	color: inherit;
-}
-
-.rowButton + .rowButton,
-.card > .row + .row {
-	border-top: var(--ds-border-width) solid var(--ds-color-border);
-}
-
-.row {
-	display: grid;
-	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr) auto auto;
-	gap: var(--ds-list-row-gap);
-	align-items: center;
-	min-height: var(--ds-list-row-height);
-	padding: var(--ds-space-3) var(--ds-content-card-padding);
+	text-decoration: none;
 }
 
 .rowButton:hover,
-.rowButton:focus-visible,
-.rowButton[data-variant="default"]:hover,
-.rowButton[data-variant="default"]:focus-visible {
+.rowButton:focus-visible {
 	background: var(--ds-color-surface-elevated);
 }
 
@@ -74,11 +36,9 @@
 	background: var(--ds-color-surface-elevated);
 }
 
-.page :global([data-slot="button"][data-size="default"]) {
+.listButton {
 	display: block;
 	width: 100%;
-	height: auto;
-	min-height: 0;
 	padding: 0;
 	border: 0;
 	border-radius: 0;
@@ -87,84 +47,21 @@
 	text-align: left;
 }
 
-.page :global([data-slot="button"][data-size="default"]):hover,
-.page :global([data-slot="button"][data-size="default"]):focus-visible {
+.listButton:hover,
+.listButton:focus-visible {
 	background: var(--ds-color-surface-elevated);
 }
 
-.page :global([data-slot="button"][data-size="default"]) > div {
-	display: grid;
-	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr) auto auto;
-	gap: var(--ds-list-row-gap);
-	align-items: center;
-	min-height: var(--ds-list-row-height);
-	padding: var(--ds-space-3) var(--ds-content-card-padding);
-}
-
-.page :global([data-slot="button"][data-size="default"]) > div > img,
-.page
-	:global([data-slot="button"][data-size="default"])
-	> div
-	> span:first-child {
-	width: var(--ds-icon-size-row);
-	height: var(--ds-icon-size-row);
-	object-fit: contain;
-}
-
-.page :global([data-slot="button"][data-size="default"]) > div > span {
-	display: block;
-	font-size: var(--ds-font-body-size);
-	font-weight: 600;
-}
-
-.page
-	:global([data-slot="button"][data-size="default"])
-	> div
-	> span:nth-child(2) {
-	grid-column: 2;
-	min-width: 0;
-}
-
-.page :global([data-slot="button"][data-size="default"]) > div > img:last-child,
-.page
-	:global([data-slot="button"][data-size="default"])
-	> div
-	> span:last-child {
-	grid-column: 4;
-	width: var(--ds-icon-size-small);
-	height: var(--ds-icon-size-small);
-	object-fit: contain;
-	opacity: 0.6;
-}
-
-.row > img,
-.row > span:first-child {
-	width: var(--ds-icon-size-row);
-	height: var(--ds-icon-size-row);
-	object-fit: contain;
-}
-
-.label,
-.detail {
-	display: block;
-}
-
 .label {
+	min-width: 0;
+	flex: 1;
 	font-size: var(--ds-font-body-size);
 	font-weight: 600;
 }
 
-.detail,
-.loading {
+.detail {
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
-}
-
-.chevronIcon {
-	width: var(--ds-icon-size-small);
-	height: var(--ds-icon-size-small);
-	object-fit: contain;
-	opacity: 0.6;
 }
 
 .paper {
@@ -199,4 +96,10 @@
 
 .error {
 	color: var(--ds-color-danger-text);
+}
+
+.loading {
+	padding: var(--ds-content-card-padding);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
 }

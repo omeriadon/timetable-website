@@ -1,1 +1,50 @@
-/* Intentionally unstyled. */
+.linkRow {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.linkRow:hover,
+.linkRow:focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.label {
+	min-width: 0;
+	flex: 1;
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.listButton {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.listButton:hover,
+.listButton:focus-visible {
+	background: var(--ds-color-surface-elevated);
+}
+
+.scheduleList {
+	display: grid;
+}
+
+.scheduleRow {
+	gap: var(--ds-list-row-gap);
+}
+
+.scheduleRow > span:first-child {
+	flex: 1;
+}
+
+.scheduleRow small {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}

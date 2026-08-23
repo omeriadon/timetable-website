@@ -226,13 +226,3 @@ html[data-app-font="expanded"] body {
 	font-family: var(--ds-font-body);
 	font-stretch: expanded;
 }
-
-html[data-app-background="paper"] body {
-	background:
-		radial-gradient(
-			circle at 18% 10%,
-			color-mix(in srgb, var(--ds-color-paper-warm) 10%, transparent),
-			transparent 36%
-		),
-		var(--ds-color-background);
-}

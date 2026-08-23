@@ -26,7 +26,6 @@ import VersionDrawer from "@/components/settings/VersionDrawer/VersionDrawer";
 type Settings = {
 	liveActivitiesEnabled: boolean;
 	appFontDesign: string;
-	appBackground: string;
 	futureEventRange: string;
 	watchBleedEnabled: boolean;
 	notificationsEnabled: boolean;
@@ -106,7 +105,7 @@ export default function SettingsPage() {
 							<b className={styles.profileName}>{account.displayName}</b>
 							<small className={styles.profileEmail}>{account.email}</small>
 						</span>
-						<Symbol name="chevron.right" className={styles.chevronIcon} />
+						<Symbol name="chevron.right" />
 					</section>
 				</Link>
 			) : null}
@@ -119,7 +118,7 @@ export default function SettingsPage() {
 			<List>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					className={styles.listButton}
 					onClick={() =>
 						openDrawer(
 							<CalendarImportDrawer
@@ -129,22 +128,23 @@ export default function SettingsPage() {
 						)
 					}
 				>
-					<div className={styles.row}>
+					<ListRow>
 						<Symbol name="calendar" fallback="▦" />
-						<span>
-							<span className={styles.label}>Re-import from Calendar</span>
+						<span className={styles.label}>
+							Re-import from Calendar
 							<small className={styles.detail}>
 								Subscribe to Compass Schedule in Calendar first.
 							</small>
 						</span>
-						<Symbol name="chevron.right" className={styles.chevronIcon} />
-					</div>
+						<Symbol name="chevron.right" />
+					</ListRow>
 				</Button>
 				<NavigationRow
 					title="Edit"
 					description="Update subjects and weekly classes."
 					href="/timetable"
 					icon="pencil.and.list.clipboard"
+					direct
 				/>
 			</List>
 			<h2 className={styles.section}>Preferences</h2>
@@ -153,7 +153,7 @@ export default function SettingsPage() {
 					<>
 						<NavigationRow
 							title="Appearance"
-							description="Choose the app font and background material."
+							description="Choose the app font design."
 							href="/settings/appearance"
 							icon="paintpalette"
 						/>
@@ -163,7 +163,7 @@ export default function SettingsPage() {
 							href="/settings/notifications"
 							icon="switch.2"
 						/>
-						<ListRow className={styles.row}>
+						<ListRow>
 							<Symbol name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
 							<Select
@@ -179,7 +179,9 @@ export default function SettingsPage() {
 									className={styles.inlineSelect}
 									aria-label="Show Future Events range"
 								>
-									<SelectValue />
+									<SelectValue>
+										{futureEventRangeLabel(settings.futureEventRange)}
+									</SelectValue>
 								</SelectTrigger>
 
 								<SelectContent>
@@ -210,27 +212,48 @@ export default function SettingsPage() {
 					description="Send feedback through the authenticated server."
 					href="/settings/feedback"
 					icon="exclamationmark.bubble"
+					direct
 				/>
 				<NavigationRow
 					title="About Timetable"
 					description="View website client information."
 					href="/settings/about"
 					icon="info.circle"
+					direct
 				/>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					className={styles.listButton}
 					onClick={() => openDrawer(<VersionDrawer />)}
 					aria-label="Open version information"
 				>
-					<div className={styles.row}>
+					<ListRow>
 						<Symbol name="hammer" fallback="+" />
 						<span className={styles.label}>Version</span>
 						<span className={styles.detail}>Web</span>
-						<Symbol name="chevron.right" className={styles.chevronIcon} />
-					</div>
+						<Symbol name="chevron.right" />
+					</ListRow>
 				</Button>
 			</List>
 		</main>
 	);
+}
+
+function futureEventRangeLabel(value: string) {
+	switch (value) {
+		case "oneWeek":
+			return "1 Week";
+		case "twoWeeks":
+			return "2 Weeks";
+		case "oneMonth":
+			return "1 Month";
+		case "twoMonths":
+			return "2 Months";
+		case "threeMonths":
+			return "3 Months";
+		case "endOfYear":
+			return "Until End of Year";
+		default:
+			return value;
+	}
 }

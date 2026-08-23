@@ -1,10 +1,17 @@
 "use client";
 
-import { Select } from "@/components/ui/select";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
+import { List, ListRow } from "@/components/ui/list";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function AppearanceSettingsEditor({
@@ -44,14 +51,13 @@ export default function AppearanceSettingsEditor({
 
 	return (
 		<>
-			<section className={styles.card}>
-				<div className={styles.row}>
+			<List>
+				<ListRow>
 					<Symbol name="textformat.size" />
 					<label className={styles.label} htmlFor="app-font-design">
 						App Font
 					</label>
 					<Select
-						id="app-font-design"
 						value={draft.appFontDesign}
 						disabled={saving}
 						onValueChange={(value) => {
@@ -60,31 +66,19 @@ export default function AppearanceSettingsEditor({
 							}
 						}}
 					>
-						<option value="monospaced">Monospaced</option>
-						<option value="rounded">Rounded</option>
-						<option value="expanded">Expanded</option>
+						<SelectTrigger id="app-font-design" aria-label="App Font">
+							<SelectValue>
+								{appFontDesignLabel(draft.appFontDesign)}
+							</SelectValue>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="monospaced">Monospaced</SelectItem>
+							<SelectItem value="rounded">Rounded</SelectItem>
+							<SelectItem value="expanded">Expanded</SelectItem>
+						</SelectContent>
 					</Select>
-				</div>
-				<div className={styles.row}>
-					<Symbol name="paintpalette" />
-					<label className={styles.label} htmlFor="app-background">
-						Background
-					</label>
-					<Select
-						id="app-background"
-						value={draft.appBackground}
-						disabled={saving}
-						onValueChange={(value) => {
-							if (value !== null) {
-								void save({ appBackground: value });
-							}
-						}}
-					>
-						<option value="solid">Solid</option>
-						<option value="paper">Paper</option>
-					</Select>
-				</div>
-			</section>
+				</ListRow>
+			</List>
 			{error ? (
 				<p className={styles.error} role="alert">
 					{error}
@@ -92,4 +86,17 @@ export default function AppearanceSettingsEditor({
 			) : null}
 		</>
 	);
+}
+
+function appFontDesignLabel(value: string) {
+	switch (value) {
+		case "monospaced":
+			return "Monospaced";
+		case "rounded":
+			return "Rounded";
+		case "expanded":
+			return "Expanded";
+		default:
+			return value;
+	}
 }
