@@ -24,6 +24,7 @@
 	display: block;
 	width: 100%;
 	text-align: left;
+	transition: background-color var(--ds-duration-fast) var(--ds-ease-standard);
 }
 
 .rowButton[data-size="default"] {
@@ -53,7 +54,7 @@
 	gap: var(--ds-list-row-gap);
 	align-items: center;
 	min-height: var(--ds-list-row-height);
-	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	padding: var(--ds-space-3) var(--ds-content-card-padding);
 }
 
 .rowButton:hover,
@@ -87,7 +88,7 @@
 	gap: var(--ds-list-row-gap);
 	align-items: center;
 	min-height: var(--ds-list-row-height);
-	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+	padding: var(--ds-space-3) var(--ds-content-card-padding);
 }
 
 .page :global([data-slot="button"][data-size="default"]) > div > img,
