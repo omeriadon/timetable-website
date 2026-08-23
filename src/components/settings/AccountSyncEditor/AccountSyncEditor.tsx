@@ -94,8 +94,8 @@ export default function AccountSyncEditor({
 			const updated = await apiRequest<{ tagIDs: string[] }>(
 				"v1/tags/subscriptions",
 				{
-				method: "PUT",
-				body: JSON.stringify({ tagIDs: [tagID] }),
+					method: "PUT",
+					body: JSON.stringify({ tagIDs: [tagID] }),
 				},
 			);
 			setSelectedYearGroupID(updated.tagIDs[0] ?? tagID);
