@@ -15,6 +15,7 @@ import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
 import {
 	Drawer,
@@ -278,7 +279,7 @@ export default function GradesPage() {
 						</Button>
 					) : null}
 					{gradeSubjects.length ? (
-						<section className={styles.subjects}>
+						<List rowHover>
 							{gradeSubjects.map((subject) => {
 								const subjectAssessments = scored.filter(
 									(assessment) => assessment.subjectID === subject.id,
@@ -304,29 +305,31 @@ export default function GradesPage() {
 											render={
 												<Button
 													type="button"
-													className={styles.subjectRow}
+													className={styles.subjectButton}
 													aria-label={`Open ${subject.id} grades`}
 												/>
 											}
 										>
-											<GradeGauge
-												value={subjectAverage}
-												color={subjectColour(subject)}
-												symbol={subject.symbol}
-											/>
-											<span>
-												<b className={styles.subjectName}>{subject.id}</b>
-												<small className={styles.subjectDetail}>
+											<ListRow>
+												<GradeGauge
+													value={subjectAverage}
+													color={subjectColour(subject)}
+													symbol={subject.symbol}
+												/>
+												<span>
+													<b className={styles.subjectName}>{subject.id}</b>
+													<small className={styles.subjectDetail}>
+														{subjectAverage === null
+															? "No assessments yet"
+															: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
+													</small>
+												</span>
+												<strong className={styles.subjectScore}>
 													{subjectAverage === null
-														? "No assessments yet"
-														: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
-												</small>
-											</span>
-											<strong className={styles.subjectScore}>
-												{subjectAverage === null
-													? "—"
-													: formatPercent(subjectAverage)}
-											</strong>
+														? "—"
+														: formatPercent(subjectAverage)}
+												</strong>
+											</ListRow>
 										</DrawerTrigger>
 										<DrawerContent>
 											<DrawerHeader>
@@ -348,7 +351,7 @@ export default function GradesPage() {
 									</Drawer>
 								);
 							})}
-						</section>
+						</List>
 					) : (
 						<section className={styles.emptyState}>
 							<Symbol name="book.closed" />
