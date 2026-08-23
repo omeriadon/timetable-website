@@ -48,6 +48,42 @@
 	gap: var(--ds-space-2);
 }
 
+.drawerInput {
+	width: 100%;
+}
+
+.searchResult {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	min-width: 0;
+	padding: var(--ds-space-3) 0;
+}
+
+.searchResult + .searchResult {
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
+}
+
+.searchResult > div {
+	display: grid;
+	min-width: 0;
+	gap: var(--ds-space-1);
+}
+
+.searchResult strong,
+.searchResult span {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.searchResult span {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
 .toggleRow {
 	justify-content: space-between;
 	margin-top: var(--ds-space-2);
