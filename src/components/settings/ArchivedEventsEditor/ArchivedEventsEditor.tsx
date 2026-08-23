@@ -8,6 +8,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import type { CalendarEvent, CalendarEvents } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useTimetableNow } from "@/features/timetable/clock";
+import { List, ListRow } from "@/components/ui/list";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function ArchivedEventsEditor() {
@@ -64,13 +65,13 @@ export default function ArchivedEventsEditor() {
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{archived.length ? (
 					archived.map((event) => (
 						<Button
 							key={event.id}
 							type="button"
-							className={styles.rowButton}
+							className={styles.listButton}
 							onClick={() =>
 								openDrawer(
 									<CalendarEventDrawer
@@ -81,18 +82,18 @@ export default function ArchivedEventsEditor() {
 								)
 							}
 						>
-							<div className={styles.row}>
+							<ListRow>
 								<Symbol name="archivebox" />
-								<span>
-									<b className={styles.label}>{event.title}</b>
-									<small className={styles.rowMeta}>
+								<span className={styles.label}>
+									<strong>{event.title}</strong>
+									<small className={styles.detail}>
 										{eventDate(event).toLocaleDateString("en-AU", {
 											dateStyle: "long",
 										})}
 									</small>
 								</span>
-								<Symbol name="chevron.right" className={styles.chevronIcon} />
-							</div>
+								<Symbol name="chevron.right" />
+							</ListRow>
 						</Button>
 					))
 				) : (
@@ -100,7 +101,7 @@ export default function ArchivedEventsEditor() {
 						{events ? "No archived events." : "Loading archived events…"}
 					</p>
 				)}
-			</section>
+			</List>
 		</>
 	);
 }
