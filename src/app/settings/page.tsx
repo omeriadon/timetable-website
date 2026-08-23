@@ -145,7 +145,6 @@ export default function SettingsPage() {
 					description="Update subjects and weekly classes."
 					href="/timetable"
 					icon="pencil.and.list.clipboard"
-					direct
 				/>
 			</List>
 			<h2 className={styles.section}>Preferences</h2>
@@ -157,14 +156,12 @@ export default function SettingsPage() {
 							description="Choose the app font and background material."
 							href="/settings/appearance"
 							icon="paintpalette"
-							direct
 						/>
 						<NavigationRow
 							title="Updates & Notifications"
 							description="Control Live Activities, class notifications, event notifications, and sync."
 							href="/settings/notifications"
 							icon="switch.2"
-							direct
 						/>
 						<ListRow className={styles.row}>
 							<Symbol name="calendar.badge.clock" />
@@ -200,7 +197,6 @@ export default function SettingsPage() {
 							description="Review and edit past calendar events."
 							href="/settings/archived-events"
 							icon="archivebox"
-							direct
 						/>
 					</>
 				) : (
@@ -214,14 +210,12 @@ export default function SettingsPage() {
 					description="Send feedback through the authenticated server."
 					href="/settings/feedback"
 					icon="exclamationmark.bubble"
-					direct
 				/>
 				<NavigationRow
 					title="About Timetable"
 					description="View website client information."
 					href="/settings/about"
 					icon="info.circle"
-					direct
 				/>
 				<Button
 					type="button"
