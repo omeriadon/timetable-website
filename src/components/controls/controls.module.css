@@ -40,6 +40,11 @@
 	justify-content: space-between;
 }
 
+.settingToggle > span:first-child {
+	min-width: 0;
+	flex: 1;
+}
+
 .switch {
 	display: inline-flex;
 	width: var(--ds-switch-width);

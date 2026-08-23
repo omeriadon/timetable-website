@@ -26,6 +26,31 @@
 	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
+.card > a,
+.card > button[data-slot="button"] {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent !important;
+	color: inherit;
+	text-align: left;
+}
+
+.card button[data-slot="button"][data-variant="default"] {
+	background: transparent !important;
+	color: inherit;
+}
+
+.card button[data-slot="button"][data-variant="default"]:hover,
+.card button[data-slot="button"][data-variant="default"]:focus-visible {
+	background: rgb(255 255 255 / 0.06) !important;
+	color: var(--ds-color-text);
+}
+
 .rowHover > a:hover,
 .rowHover > button:hover,
 .rowHover > .row:hover,
