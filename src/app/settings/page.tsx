@@ -145,6 +145,7 @@ export default function SettingsPage() {
 					description="Update subjects and weekly classes."
 					href="/timetable"
 					icon="pencil.and.list.clipboard"
+					direct
 				/>
 			</List>
 			<h2 className={styles.section}>Preferences</h2>
