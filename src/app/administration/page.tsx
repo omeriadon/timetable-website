@@ -7,6 +7,12 @@ import { apiRequest } from "@/lib/api/client";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import {
+	List,
+	ListRow,
+	ListSection,
+	ListSectionHeader,
+} from "@/components/ui/list";
 
 type Dashboard = {
 	isAdmin: boolean;
@@ -76,12 +82,12 @@ export default function AdministrationPage() {
 				</p>
 			) : null}
 			{dashboard && !dashboard.isAdmin ? (
-				<section className={styles.card}>
-					<div className={styles.row}>
+				<List>
+					<ListRow>
 						<Symbol name="exclamationmark.bubble" />
 						<span className={styles.label}>Administrator access required.</span>
-					</div>
-				</section>
+					</ListRow>
+				</List>
 			) : null}
 			{dashboard?.isAdmin
 				? sections
@@ -91,41 +97,36 @@ export default function AdministrationPage() {
 								dashboard.authority === "systemOwner",
 						)
 						.map(([heading, rows]) => (
-							<section key={heading as string}>
-								<h2 className={styles.section}>
+							<ListSection key={heading as string}>
+								<ListSectionHeader className={styles.section}>
 									{heading as string}
 									{heading === "Moderation" &&
 									dashboard.pendingModerationCount > 0
 										? ` (${dashboard.pendingModerationCount})`
 										: ""}
-								</h2>
-								<div className={styles.card}>
-									{(rows as string[][]).map(([symbol, label, destination]) => (
-										<DrawerTrigger
-											key={label}
-											className={styles.rowButton}
-											ariaLabel={`Open ${label}`}
-											content={
-												<NavigationDrawer
-													title={label}
-													description={`Manage ${label.toLowerCase()} through the authenticated server.`}
-													href={`/administration/${destination}`}
-													icon={symbol}
-												/>
-											}
-										>
-											<div className={styles.row}>
-												<Symbol name={symbol} />
-												<span className={styles.label}>{label}</span>
-												<Symbol
-													name="chevron.right"
-													className={styles.chevronIcon}
-												/>
-											</div>
-										</DrawerTrigger>
-									))}
-								</div>
-							</section>
+								</ListSectionHeader>
+								{(rows as string[][]).map(([symbol, label, destination]) => (
+									<DrawerTrigger
+										key={label}
+										className={styles.rowButton}
+										ariaLabel={`Open ${label}`}
+										content={
+											<NavigationDrawer
+												title={label}
+												description={`Manage ${label.toLowerCase()} through the authenticated server.`}
+												href={`/administration/${destination}`}
+												icon={symbol}
+											/>
+										}
+									>
+										<ListRow>
+											<Symbol name={symbol} />
+											<span className={styles.label}>{label}</span>
+											<Symbol name="chevron.right" />
+										</ListRow>
+									</DrawerTrigger>
+								))}
+							</ListSection>
 						))
 				: null}
 			{!dashboard && !error ? (

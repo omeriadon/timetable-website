@@ -24,11 +24,16 @@
 	display: block;
 	width: 100%;
 	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
 	text-align: left;
 }
 
-.rowButton + .rowButton {
-	border-top: var(--ds-border-width) solid var(--ds-color-border);
+.rowButton[data-size="default"] {
+	height: auto;
+	min-height: 0;
 }
 
 .rowButton:hover,
@@ -55,15 +60,10 @@
 }
 
 .label {
+	min-width: 0;
+	flex: 1;
 	font-size: var(--ds-font-body-size);
 	font-weight: 600;
-}
-
-.chevronIcon {
-	width: var(--ds-icon-size-small);
-	height: var(--ds-icon-size-small);
-	object-fit: contain;
-	opacity: 0.6;
 }
 
 .loading {
