@@ -17,6 +17,8 @@ import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import { useTimetableNow } from "@/features/timetable/clock";
 import styles from "@/components/timetable/timetable.module.css";
+import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export default function PlannerView({
 	events,
@@ -286,7 +288,10 @@ function CreatePrivateEventDrawer({
 	};
 
 	return (
-		<section aria-labelledby="create-event-title">
+		<section
+			className={drawerStyles.detailDrawer}
+			aria-labelledby="create-event-title"
+		>
 			<h2 id="create-event-title">
 				{globally ? "Add Global Event" : "Add Personal Event"}
 			</h2>
@@ -360,16 +365,19 @@ function CreatePrivateEventDrawer({
 					rows={3}
 				/>
 			</label>
-			<Button
-				type="button"
-				disabled={saving || !title.trim()}
-				onClick={() => void save()}
-				aria-label="Save personal event"
-			>
-				<Symbol name="checkmark" />
-				{saving ? "Saving…" : "Save Event"}
-			</Button>
 			{error ? <p role="alert">{error}</p> : null}
+			<DrawerFooter>
+				<Button
+					fullWidth
+					type="button"
+					disabled={saving || !title.trim()}
+					onClick={() => void save()}
+					aria-label="Save personal event"
+				>
+					<Symbol name="checkmark" />
+					{saving ? "Saving…" : "Save Event"}
+				</Button>
+			</DrawerFooter>
 		</section>
 	);
 }

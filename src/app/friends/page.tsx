@@ -23,6 +23,8 @@ import styles from "./page.module.css";
 import { useTimetableNow } from "@/features/timetable/clock";
 import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
 import { cn } from "@/lib/utils";
+import { DrawerFooter } from "@/components/ui/drawer";
+import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 
 export default function FriendsPage() {
 	const setToolbar = useToolbar();
@@ -288,17 +290,11 @@ function PersonalArrivalDrawer({
 	};
 
 	return (
-		<section aria-labelledby="arrival-statistics-title">
+		<section
+			className={drawerStyles.detailDrawer}
+			aria-labelledby="arrival-statistics-title"
+		>
 			<h2 id="arrival-statistics-title">Average arrival</h2>
-			<Button
-				type="button"
-				onClick={updateLocation}
-				disabled={updatingLocation}
-				aria-label="Update your location status"
-			>
-				<Symbol name="location.fill" />
-				{updatingLocation ? "Updating location…" : "Update location status"}
-			</Button>
 			<div>
 				<strong>Overall</strong>
 				<span>
@@ -318,6 +314,18 @@ function PersonalArrivalDrawer({
 				),
 			)}
 			{error ? <p role="alert">{error}</p> : null}
+			<DrawerFooter>
+				<Button
+					fullWidth
+					type="button"
+					onClick={updateLocation}
+					disabled={updatingLocation}
+					aria-label="Update your location status"
+				>
+					<Symbol name="location.fill" />
+					{updatingLocation ? "Updating location…" : "Update location status"}
+				</Button>
+			</DrawerFooter>
 		</section>
 	);
 }

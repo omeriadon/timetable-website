@@ -149,11 +149,17 @@ export default function GradeAssessmentDrawer({
 						}
 					/>
 				</label>
-				<DrawerFooter>
+				{status ? (
+					<p className={styles.detailMuted} role="status">
+						{status}
+					</p>
+				) : null}
+				<DrawerFooter className={styles.actionFooter}>
 					{assessment && onDelete ? (
 						<Button
 							type="button"
 							variant="destructive"
+							flexible
 							aria-label="Delete assessment"
 							onClick={remove}
 						>
@@ -163,17 +169,13 @@ export default function GradeAssessmentDrawer({
 					) : null}
 					<Button
 						type="button"
+						flexible
 						aria-label={assessment ? "Save assessment" : "Add assessment"}
 						onClick={save}
 					>
 						<Symbol name="checkmark" />
 					</Button>
 				</DrawerFooter>
-				{status ? (
-					<p className={styles.detailMuted} role="status">
-						{status}
-					</p>
-				) : null}
 			</section>
 		</div>
 	);

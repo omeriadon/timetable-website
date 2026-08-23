@@ -362,17 +362,6 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						aria-label="Friends since date"
 						onChange={(event) => setFriendsSinceDate(event.target.value)}
 					/>
-					<DrawerFooter>
-						<Button
-							type="button"
-							onClick={() => void saveFriendsSince()}
-							disabled={isSavingFriendsSince || !friendsSinceDate}
-							aria-label="Save friends since date"
-						>
-							<Symbol name="checkmark" />
-							{isSavingFriendsSince ? "Saving…" : "Save date"}
-						</Button>
-					</DrawerFooter>
 				</section>
 			</Tabs.Panel>
 			{error ? (
@@ -381,6 +370,18 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 				</p>
 			) : null}
 			<DrawerFooter>
+				{tab === "info" ? (
+					<Button
+						type="button"
+						fullWidth
+						onClick={() => void saveFriendsSince()}
+						disabled={isSavingFriendsSince || !friendsSinceDate}
+						aria-label="Save friends since date"
+					>
+						<Symbol name="checkmark" />
+						{isSavingFriendsSince ? "Saving…" : "Save date"}
+					</Button>
+				) : null}
 				<Button
 					type="button"
 					variant="destructive"

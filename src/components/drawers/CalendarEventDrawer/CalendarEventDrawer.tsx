@@ -137,7 +137,7 @@ export default function CalendarEventDrawer({
 						value={title}
 						onChange={(input) => setTitle(input.target.value)}
 						maxLength={120}
-						disabled={readOnly || saving || !allowsTagEditing}
+						disabled={readOnly || saving}
 					/>
 				</label>
 				<label>
@@ -185,7 +185,7 @@ export default function CalendarEventDrawer({
 											type="button"
 											aria-pressed={selected}
 											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
-											disabled={readOnly || saving}
+											disabled={readOnly || saving || !allowsTagEditing}
 											onClick={() =>
 												setSelectedTagIDs(selected ? [] : [tag.id])
 											}
@@ -213,10 +213,16 @@ export default function CalendarEventDrawer({
 					</ListRow>
 				) : null}
 			</section>
+			{status ? (
+				<p className={styles.detailMuted} role="alert">
+					{status}
+				</p>
+			) : null}
 			{!readOnly ? (
-				<DrawerFooter>
+				<DrawerFooter className={styles.actionFooter}>
 					<Button
 						variant="destructive"
+						flexible
 						aria-label="Delete event"
 						onClick={() => void remove()}
 						disabled={saving}
@@ -225,6 +231,7 @@ export default function CalendarEventDrawer({
 						Delete
 					</Button>
 					<Button
+						flexible
 						aria-label="Save event"
 						onClick={() => void save()}
 						disabled={saving || !title.trim()}
@@ -233,11 +240,6 @@ export default function CalendarEventDrawer({
 						{saving ? "Saving…" : "Save"}
 					</Button>
 				</DrawerFooter>
-			) : null}
-			{status ? (
-				<p className={styles.detailMuted} role="alert">
-					{status}
-				</p>
 			) : null}
 		</div>
 	);

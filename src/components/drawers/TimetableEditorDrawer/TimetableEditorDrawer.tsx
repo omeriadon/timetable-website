@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -97,7 +98,8 @@ export default function TimetableEditorDrawer({
 		const subject = subjects.find((item) => item.id === subjectID);
 		if (
 			subject?.slots.some(
-				(candidate) => candidate.day === slot.day && candidate.session === slot.session,
+				(candidate) =>
+					candidate.day === slot.day && candidate.session === slot.session,
 			)
 		) {
 			assignSlot(subjectID, slot);
@@ -273,14 +275,17 @@ export default function TimetableEditorDrawer({
 					{error}
 				</p>
 			) : null}
-			<Button
-				aria-label="Save timetable"
-				onClick={() => void save()}
-				disabled={saving}
-			>
-				<Symbol name="checkmark" />
-				{saving ? "Saving…" : "Save Timetable"}
-			</Button>
+			<DrawerFooter>
+				<Button
+					fullWidth
+					aria-label="Save timetable"
+					onClick={() => void save()}
+					disabled={saving}
+				>
+					<Symbol name="checkmark" />
+					{saving ? "Saving…" : "Save Timetable"}
+				</Button>
+			</DrawerFooter>
 		</div>
 	);
 }
@@ -304,13 +309,19 @@ function classroomValue(classroom: TimetableSubject["classroom"]) {
 
 function slotLabel(slot: TimetableSlot) {
 	const day = TIMETABLE_DAYS[slot.day] ?? "Unknown day";
-	const session = TIMETABLE_SESSIONS.find((item) => item.value === slot.session);
+	const session = TIMETABLE_SESSIONS.find(
+		(item) => item.value === slot.session,
+	);
 	return `${day} period ${session?.label ?? slot.session}`;
 }
 
 function colourHex(colour: TimetableSubject["colour"]) {
 	return `#${[colour.r, colour.g, colour.b]
-		.map((value) => Math.round(value * 255).toString(16).padStart(2, "0"))
+		.map((value) =>
+			Math.round(value * 255)
+				.toString(16)
+				.padStart(2, "0"),
+		)
 		.join("")}`;
 }
 

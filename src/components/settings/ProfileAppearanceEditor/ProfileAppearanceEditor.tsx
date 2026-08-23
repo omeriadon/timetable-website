@@ -15,6 +15,7 @@ import {
 } from "../ProfileColourGrid/ProfileColourGrid";
 import ProfileFontPicker from "../ProfileFontPicker/ProfileFontPicker";
 import { Slider } from "@/components/ui/slider";
+import { DrawerFooter } from "@/components/ui/drawer";
 import styles from "./ProfileAppearanceEditor.module.css";
 
 type ProfileResponse = {
@@ -249,10 +250,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</div>
 				</>
 			) : null}
-			<Button type="button" className={styles.save} onClick={() => save(draft)}>
-				<Symbol name="checkmark" fallback="✓" />
-				Save Profile Appearance
-			</Button>
+			<DrawerFooter>
+				<Button type="button" fullWidth onClick={() => save(draft)}>
+					<Symbol name="checkmark" fallback="✓" />
+					Save Profile Appearance
+				</Button>
+			</DrawerFooter>
 		</section>
 	);
 }

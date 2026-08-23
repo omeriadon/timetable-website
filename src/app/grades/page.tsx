@@ -17,6 +17,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
+import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 import {
 	Drawer,
 	DrawerContent,
@@ -124,7 +125,10 @@ function ATARSettingsDrawer({
 	};
 
 	return (
-		<section aria-labelledby="atar-settings-title">
+		<section
+			className={drawerStyles.detailDrawer}
+			aria-labelledby="atar-settings-title"
+		>
 			<h2 id="atar-settings-title">ATAR</h2>
 			<label>
 				Predicted ATAR
@@ -144,9 +148,11 @@ function ATARSettingsDrawer({
 					onChange={(event) => setGoalATAR(event.target.value)}
 				/>
 			</label>
+			{error ? <p role="alert">{error}</p> : null}
 			<DrawerFooter>
 				<Button
 					type="button"
+					fullWidth
 					onClick={() => void save()}
 					disabled={saving}
 					aria-label="Save ATAR settings"
@@ -155,7 +161,6 @@ function ATARSettingsDrawer({
 					Save
 				</Button>
 			</DrawerFooter>
-			{error ? <p role="alert">{error}</p> : null}
 		</section>
 	);
 }
