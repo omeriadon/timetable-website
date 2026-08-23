@@ -202,12 +202,6 @@ export default function SettingsPage() {
 							icon="archivebox"
 							direct
 						/>
-						<NavigationRow
-							title="Navigation Persistence"
-							description="Restore the selected tab and navigation path when reopening Timetable."
-							href="/settings/navigation"
-							icon="arrow.counterclockwise.circle"
-						/>
 					</>
 				) : (
 					<p className={styles.loading}>Loading preferences…</p>

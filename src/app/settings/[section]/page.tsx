@@ -12,7 +12,6 @@ import NotificationSettingsEditor from "@/components/settings/NotificationSettin
 import AccountSyncEditor from "@/components/settings/AccountSyncEditor/AccountSyncEditor";
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
 import DeveloperToolsEditor from "@/components/settings/DeveloperToolsEditor/DeveloperToolsEditor";
-import NavigationPersistenceEditor from "@/components/settings/NavigationPersistenceEditor/NavigationPersistenceEditor";
 import styles from "../page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
@@ -26,7 +25,6 @@ const labels: Record<string, string> = {
 	developer: "Developer Tools",
 	feedback: "Report Feedback or Bug",
 	about: "About Timetable",
-	navigation: "Navigation",
 	"profile-appearance": "Profile Appearance",
 };
 
@@ -87,7 +85,6 @@ export default function SettingsSectionPage() {
 			) : null}
 			{section === "archived-events" ? <ArchivedEventsEditor /> : null}
 			{section === "developer" ? <DeveloperToolsEditor /> : null}
-			{section === "navigation" ? <NavigationPersistenceEditor /> : null}
 			{section === "profile-appearance" ? (
 				profile ? (
 					<ProfileAppearanceEditor profile={profile} save={saveProfile} />
