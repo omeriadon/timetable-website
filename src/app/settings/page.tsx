@@ -259,6 +259,7 @@ export default function SettingsPage() {
 					description="Send feedback through the authenticated server."
 					href="/settings/feedback"
 					icon="exclamationmark.bubble"
+					direct
 				/>
 				<NavigationRow
 					title="About Timetable"
