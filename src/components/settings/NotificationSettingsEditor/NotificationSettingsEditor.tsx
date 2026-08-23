@@ -23,10 +23,8 @@ import styles from "@/components/settings/Settings.module.css";
 
 export default function NotificationSettingsEditor({
 	initial,
-	onSignOut,
 }: {
 	initial: Settings;
-	onSignOut?: () => void;
 }) {
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
@@ -298,22 +296,6 @@ export default function NotificationSettingsEditor({
 						</ListRow>
 					</Button>
 				</div>
-				{onSignOut ? (
-					<Button
-						type="button"
-						className={styles.listButton}
-						onClick={async () => {
-							await apiRequest("auth/logout", { method: "DELETE" });
-							onSignOut();
-						}}
-						disabled={saving}
-					>
-						<ListRow>
-							<Symbol name="person.2.slash" />
-							<span className={styles.label}>Sign Out</span>
-						</ListRow>
-					</Button>
-				) : null}
 			</List>
 			{error ? (
 				<p className={styles.error} role="alert">
