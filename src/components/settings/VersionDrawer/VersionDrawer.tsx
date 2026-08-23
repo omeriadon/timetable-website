@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/drawers/Drawer/Drawer.module.css";
+import { List, ListRow } from "@/components/ui/list";
+import { SectionCard } from "@/components/ui/sectioncard";
 
 export default function VersionDrawer() {
 	const [copied, setCopied] = useState(false);
@@ -19,20 +20,21 @@ export default function VersionDrawer() {
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>
-					<Symbol name="hammer" fallback="+" />
-				</div>
-				<div>
-					<h2>Version</h2>
-					<p>{version}</p>
-				</div>
-			</header>
-			<Button aria-label="Copy version" onClick={() => void copy()}>
+		<SectionCard background="surface" title="Version" symbolName="hammer">
+			<List>
+				<ListRow>
+					<span>Client</span>
+					<strong>{version}</strong>
+				</ListRow>
+			</List>
+			<Button
+				aria-label="Copy version"
+				variant="secondary"
+				onClick={() => void copy()}
+			>
 				<Symbol name="doc.on.doc" fallback="+" />
 				{copied ? "Copied" : "Copy Version"}
 			</Button>
-		</div>
+		</SectionCard>
 	);
 }

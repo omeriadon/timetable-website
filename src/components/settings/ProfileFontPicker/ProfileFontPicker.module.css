@@ -1,1 +1,13 @@
-/* Intentionally unstyled. */
+.picker {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+	margin-top: var(--ds-content-grid-gap);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+	overflow: hidden;
+}
+
+.picker :global([data-slot="list-row"]) {
+	justify-content: space-between;
+}

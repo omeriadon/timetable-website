@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import type { ProfileAppearance } from "@/lib/api/contracts";
+import styles from "./ProfileColourGrid.module.css";
 
 type Colour = ProfileAppearance["colours"][number];
 
@@ -24,7 +25,7 @@ export function ProfileColourGrid({
 	const palette = makePalette(6, columnCount, true, 0.92, 0.08);
 
 	return (
-		<div>
+		<div className={styles.grid}>
 			{palette.map((colour, index) => {
 				const selected = selection.some((item) => sameColour(item, colour));
 				return (
@@ -44,6 +45,8 @@ export function ProfileColourGrid({
 						}}
 						aria-label={`Background colour ${index + 1}`}
 						aria-pressed={selected}
+						className={`${styles.swatch} ${selected ? styles.selected : ""}`}
+						style={{ backgroundColor: colourValue(colour) }}
 					/>
 				);
 			})}
@@ -63,7 +66,7 @@ export function ProfileForegroundColourGrid({
 	const colours = [...palette, ...monochrome];
 
 	return (
-		<div>
+		<div className={styles.grid}>
 			{colours.map((colour, index) => {
 				const selected = sameColour(selection, colour);
 				return (
@@ -73,11 +76,17 @@ export function ProfileForegroundColourGrid({
 						onClick={() => onChange(colour)}
 						aria-label={`Foreground colour ${index + 1}`}
 						aria-pressed={selected}
+						className={`${styles.swatch} ${selected ? styles.selected : ""}`}
+						style={{ backgroundColor: colourValue(colour) }}
 					/>
 				);
 			})}
 		</div>
 	);
+}
+
+function colourValue(colour: Colour) {
+	return `rgb(${Math.round(colour.r * 255)} ${Math.round(colour.g * 255)} ${Math.round(colour.b * 255)} / ${colour.a})`;
 }
 
 function makePalette(

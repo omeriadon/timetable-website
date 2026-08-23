@@ -1,8 +1,14 @@
 "use client";
 
-import { Select } from "@/components/ui/select";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { ListRow } from "@/components/ui/list";
 import type { ProfileAppearance } from "@/lib/api/contracts";
-import type { ChangeEvent } from "react";
 import styles from "./ProfileFontPicker.module.css";
 
 type Props = {
@@ -33,7 +39,7 @@ export default function ProfileFontPicker({
 }: Props) {
 	return (
 		<div className={styles.picker}>
-			<label>
+			<ListRow>
 				<span>Design</span>
 				<Select
 					value={design}
@@ -43,16 +49,19 @@ export default function ProfileFontPicker({
 						}
 					}}
 				>
-					{designs.map((item) => (
-						<option key={item} value={item}>
-							{item === "default"
-								? "Default"
-								: item[0].toUpperCase() + item.slice(1)}
-						</option>
-					))}
+					<SelectTrigger aria-label="Font design">
+						<SelectValue>{fontLabel(design)}</SelectValue>
+					</SelectTrigger>
+					<SelectContent>
+						{designs.map((item) => (
+							<SelectItem key={item} value={item}>
+								{fontLabel(item)}
+							</SelectItem>
+						))}
+					</SelectContent>
 				</Select>
-			</label>
-			<label>
+			</ListRow>
+			<ListRow>
 				<span>Weight</span>
 				<Select
 					value={weight}
@@ -62,15 +71,26 @@ export default function ProfileFontPicker({
 						}
 					}}
 				>
-					{weights.map((item) => (
-						<option key={item} value={item}>
-							{item[0].toUpperCase() + item.slice(1)}
-						</option>
-					))}
+					<SelectTrigger aria-label="Font weight">
+						<SelectValue>{fontLabel(weight)}</SelectValue>
+					</SelectTrigger>
+					<SelectContent>
+						{weights.map((item) => (
+							<SelectItem key={item} value={item}>
+								{fontLabel(item)}
+							</SelectItem>
+						))}
+					</SelectContent>
 				</Select>
-			</label>
+			</ListRow>
 		</div>
 	);
+}
+
+function fontLabel(value: string) {
+	return value === "default"
+		? "Default"
+		: value[0].toUpperCase() + value.slice(1);
 }
 
 export type ProfileFontValues = Pick<

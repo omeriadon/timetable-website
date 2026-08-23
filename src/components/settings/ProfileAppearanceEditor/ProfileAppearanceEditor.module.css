@@ -1,1 +1,130 @@
-/* Intentionally unstyled. */
+.card {
+	display: grid;
+	gap: var(--ds-content-section-gap);
+	width: 100%;
+	padding: var(--ds-content-card-padding);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.preview {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-space-3);
+}
+
+.preview strong,
+.preview span {
+	display: block;
+}
+
+.preview span {
+	margin-top: var(--ds-space-1);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.segmented {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--ds-space-1);
+	padding: var(--ds-space-1);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface-elevated);
+}
+
+.segment,
+.segmentActive {
+	min-width: 0;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-3) var(--ds-space-2);
+	border: 0;
+	border-radius: calc(var(--ds-radius-control) - 4px);
+	color: var(--ds-color-text-secondary);
+	background: transparent;
+	font-size: var(--ds-font-small);
+}
+
+.segmentActive {
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface);
+}
+
+.row {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	padding: var(--ds-space-3) var(--ds-space-2);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+}
+
+.label {
+	min-width: 0;
+	flex: 1;
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.inlineInput {
+	max-width: 12rem;
+}
+
+.removePhoto {
+	flex: 0 0 auto;
+}
+
+.emojiPicker {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+}
+
+.emojiOptions {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: var(--ds-space-2);
+}
+
+.emojiOptions button {
+	min-height: 2.5rem;
+	padding: var(--ds-space-2);
+	font-size: 1.25rem;
+}
+
+.subheading {
+	margin-top: var(--ds-space-4);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	font-weight: 650;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.sliderList {
+	display: grid;
+	gap: var(--ds-space-5);
+	padding: var(--ds-space-3) var(--ds-space-2);
+}
+
+.sliderList label {
+	display: grid;
+	gap: var(--ds-space-2);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.sliderList output {
+	color: var(--ds-color-text);
+}
+
+.sliderList input {
+	width: 100%;
+}
+
+.save {
+	justify-self: start;
+	margin-top: var(--ds-space-3);
+}

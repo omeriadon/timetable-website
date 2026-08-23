@@ -1,1 +1,29 @@
-/* Intentionally unstyled. */
+.grid {
+	display: grid;
+	grid-template-columns: repeat(15, minmax(0, 1fr));
+	gap: 3px;
+	padding: var(--ds-space-3);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface);
+}
+
+.swatch {
+	aspect-ratio: 1;
+	min-width: 0;
+	padding: 0;
+	border: 1px solid rgb(255 255 255 / 0.16);
+	border-radius: 4px;
+	box-shadow: none;
+}
+
+.swatch:hover,
+.swatch:focus-visible {
+	transform: scale(1.12);
+	z-index: 1;
+}
+
+.selected {
+	outline: 2px solid var(--ds-color-text);
+	outline-offset: 1px;
+}
