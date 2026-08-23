@@ -9,6 +9,7 @@ import adminStyles from "@/components/administration/Administration.module.css";
 import { Button } from "@/components/ui/button";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import { List, ListRow } from "@/components/ui/list";
 
 type UserReport = {
 	id: string;
@@ -94,9 +95,9 @@ export default function AdminUserReportsEditor() {
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{filtered.map((report) => (
-					<article key={report.id} className={adminStyles.reportCard}>
+					<ListRow key={report.id} className={adminStyles.reportCard}>
 						<div className={adminStyles.reportHeader}>
 							<Symbol name="exclamationmark.bubble" />
 							<strong>
@@ -130,14 +131,14 @@ export default function AdminUserReportsEditor() {
 								</Button>
 							</div>
 						) : null}
-					</article>
+					</ListRow>
 				))}
 				{!filtered.length ? (
 					<p className={styles.loading}>
 						{reports.length ? "No matching reports." : "Loading reports…"}
 					</p>
 				) : null}
-			</section>
+			</List>
 		</main>
 	);
 }

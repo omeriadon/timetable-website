@@ -42,3 +42,45 @@
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
 }
+
+.adminSearch {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+	color: var(--ds-color-text-secondary);
+}
+
+.adminSearch input {
+	width: 100%;
+}
+
+.reportCard {
+	display: grid;
+	gap: var(--ds-space-2);
+	align-items: start;
+}
+
+.reportHeader {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-list-row-gap);
+	min-width: 0;
+}
+
+.reportHeader strong {
+	min-width: 0;
+	flex: 1;
+}
+
+.reportMeta {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.reportActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ds-space-2);
+	margin-top: var(--ds-space-2);
+}
