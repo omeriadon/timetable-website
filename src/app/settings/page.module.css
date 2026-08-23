@@ -21,14 +21,27 @@
 	text-decoration: none;
 }
 
+.rowButton[data-size="default"] {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+}
+
 .rowButton:hover,
 .rowButton:focus-visible {
 	background: var(--ds-color-surface-elevated);
 }
 
 .profileButton:hover,
-.profileButton:focus-visible {
-	background: transparent;
+.profileButton:focus-visible,
+.profileButton[data-variant="default"]:hover,
+.profileButton[data-variant="default"]:focus-visible {
+	background: transparent !important;
 }
 
 .profileButton:hover .profileRow,
@@ -75,6 +88,7 @@
 
 .profileRow {
 	display: grid;
+	width: 100%;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--ds-list-row-gap);
 	align-items: center;
