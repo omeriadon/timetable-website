@@ -106,7 +106,11 @@ export function ListRow({
 	className?: string;
 }) {
 	return (
-		<div role="listitem" className={cn(styles.row, className)}>
+		<div
+			role="listitem"
+			data-slot="list-row"
+			className={cn(styles.row, className)}
+		>
 			{children}
 		</div>
 	);

@@ -9,6 +9,7 @@
 	background: transparent;
 	color: inherit;
 	text-align: left;
+	white-space: normal;
 }
 
 .listButton[data-size="default"] {
@@ -21,16 +22,43 @@
 	flex: 1;
 	font-size: var(--ds-font-body-size);
 	font-weight: 600;
+	overflow-wrap: anywhere;
+	white-space: normal;
 }
 
 .detail {
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
+	overflow-wrap: anywhere;
+	white-space: normal;
 }
 
 .page {
 	width: 100%;
+	min-width: 0;
 	padding: var(--ds-content-page-padding);
+	overflow-wrap: anywhere;
+}
+
+.page [data-slot="list-row"] {
+	min-width: 0;
+}
+
+.listButton [data-slot="list-row"] {
+	width: 100%;
+}
+
+.listButton [data-slot="list-row"] > span:nth-child(2) {
+	display: grid;
+	min-width: 0;
+	flex: 1;
+	gap: var(--ds-space-1);
+}
+
+.listButton [data-slot="list-row"] strong,
+.listButton [data-slot="list-row"] small {
+	overflow-wrap: anywhere;
+	white-space: normal;
 }
 
 .error {
@@ -93,11 +121,10 @@
 }
 
 .userMeta {
-	overflow: hidden;
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-wrap: anywhere;
+	white-space: normal;
 }
 
 .adminRecord {
@@ -108,6 +135,7 @@
 
 .adminField {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	gap: var(--ds-list-row-gap);
 }
@@ -137,6 +165,7 @@
 
 .reportHeader {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--ds-list-row-gap);
 	min-width: 0;

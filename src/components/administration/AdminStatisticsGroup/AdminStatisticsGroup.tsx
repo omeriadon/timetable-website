@@ -1,5 +1,6 @@
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export type StatisticCount = {
 	label: string;
@@ -20,15 +21,15 @@ export function AdminStatisticsGroup({
 	return (
 		<section>
 			<h2 className={styles.section}>{title}</h2>
-			<div className={styles.card}>
+			<List>
 				{rows.map(([label, value]) => (
-					<div className={styles.row} key={label}>
+					<ListRow key={label}>
 						<Symbol name={icon} />
 						<span className={styles.label}>{label}</span>
 						<strong className={styles.detail}>{value}</strong>
-					</div>
+					</ListRow>
 				))}
-			</div>
+			</List>
 		</section>
 	);
 }
@@ -49,14 +50,14 @@ export function AdminStatisticsCountGroup({
 	return (
 		<section>
 			<h2 className={styles.section}>{title}</h2>
-			<div className={styles.card}>
+			<List>
 				{rows.map((row) => (
-					<div className={styles.row} key={row.label}>
+					<ListRow key={row.label}>
 						<span className={styles.label}>{row.label}</span>
 						<strong className={styles.detail}>{row.count}</strong>
-					</div>
+					</ListRow>
 				))}
-			</div>
+			</List>
 		</section>
 	);
 }
