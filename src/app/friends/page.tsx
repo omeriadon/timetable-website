@@ -22,6 +22,7 @@ import { List } from "@/components/ui/list";
 import styles from "./page.module.css";
 import { useTimetableNow } from "@/features/timetable/clock";
 import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
+import { cn } from "@/lib/utils";
 
 export default function FriendsPage() {
 	const setToolbar = useToolbar();
@@ -31,7 +32,8 @@ export default function FriendsPage() {
 		useState<CurrentLocationStatus["item"]>(null);
 	const [incomingRequestCount, setIncomingRequestCount] = useState(0);
 	const [searchText, setSearchText] = useState("");
-	const [movingFriendID, setMovingFriendID] = useState<string | null>(null);
+	const [draggedFriendID, setDraggedFriendID] = useState<string | null>(null);
+	const [dragOverFriendID, setDragOverFriendID] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
 	const now = useTimetableNow();
@@ -48,17 +50,22 @@ export default function FriendsPage() {
 		);
 	}, [friends, searchText]);
 
-	const moveFriend = async (friendID: string, offset: -1 | 1) => {
-		const index = friends.findIndex(
-			(friend) => friend.friend.userID === friendID,
+	const reorderFriends = async (sourceID: string, targetID: string) => {
+		const sourceIndex = friends.findIndex(
+			(friend) => friend.friend.userID === sourceID,
 		);
-		const targetIndex = index + offset;
-		if (index < 0 || targetIndex < 0 || targetIndex >= friends.length) return;
+		const targetIndex = friends.findIndex(
+			(friend) => friend.friend.userID === targetID,
+		);
+		if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) {
+			return;
+		}
 
 		const next = [...friends];
-		[next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+		const [moved] = next.splice(sourceIndex, 1);
+		next.splice(targetIndex, 0, moved);
 		setFriends(next);
-		setMovingFriendID(friendID);
+		setDraggedFriendID(sourceID);
 		try {
 			const saved = await apiRequest<Friend[]>("v1/friends/order", {
 				method: "PUT",
@@ -71,7 +78,7 @@ export default function FriendsPage() {
 			setFriends(friends);
 			setError((requestError as Error).message);
 		} finally {
-			setMovingFriendID(null);
+			setDraggedFriendID(null);
 		}
 	};
 
@@ -113,7 +120,7 @@ export default function FriendsPage() {
 	}, [incomingRequestCount, openDrawer, setToolbar]);
 
 	return (
-		<main className={styles.page}>
+		<main className={cn(styles.page, draggedFriendID && styles.pageDragging)}>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			<label className={styles.searchLabel} htmlFor="friends-search">
 				Search friends
@@ -147,9 +154,43 @@ export default function FriendsPage() {
 			<List>
 				{filteredFriends.length ? (
 					filteredFriends.map((friend) => {
-						const index = friends.indexOf(friend);
 						return (
-							<div key={friend.relationshipID} className={styles.friendRow}>
+							<div
+								key={friend.relationshipID}
+								className={cn(
+									styles.friendRow,
+									draggedFriendID === friend.friend.userID &&
+										styles.friendRowDragging,
+									dragOverFriendID === friend.friend.userID &&
+										styles.friendRowDropTarget,
+								)}
+								draggable
+								onDragStart={(event) => {
+									event.dataTransfer.effectAllowed = "move";
+									event.dataTransfer.setData(
+										"text/plain",
+										friend.friend.userID,
+									);
+									setDraggedFriendID(friend.friend.userID);
+								}}
+								onDragOver={(event) => {
+									event.preventDefault();
+									event.dataTransfer.dropEffect = "move";
+									setDragOverFriendID(friend.friend.userID);
+								}}
+								onDragLeave={() => setDragOverFriendID(null)}
+								onDrop={(event) => {
+									event.preventDefault();
+									const sourceID = event.dataTransfer.getData("text/plain");
+									void reorderFriends(sourceID, friend.friend.userID);
+									setDragOverFriendID(null);
+								}}
+								onDragEnd={() => {
+									setDraggedFriendID(null);
+									setDragOverFriendID(null);
+								}}
+								aria-label={`Reorder ${friend.friend.displayName}`}
+							>
 								<DrawerTrigger
 									className={styles.friendButton}
 									ariaLabel={`Open ${friend.friend.displayName}`}
@@ -176,30 +217,6 @@ export default function FriendsPage() {
 										</strong>
 									</article>
 								</DrawerTrigger>
-								<div className={styles.reorderActions}>
-									<Button
-										type="button"
-										variant="ghost"
-										size="icon-xs"
-										disabled={index === 0 || movingFriendID !== null}
-										aria-label={`Move ${friend.friend.displayName} up`}
-										onClick={() => void moveFriend(friend.friend.userID, -1)}
-									>
-										<Symbol name="chevron.up" />
-									</Button>
-									<Button
-										type="button"
-										variant="ghost"
-										size="icon-xs"
-										disabled={
-											index === friends.length - 1 || movingFriendID !== null
-										}
-										aria-label={`Move ${friend.friend.displayName} down`}
-										onClick={() => void moveFriend(friend.friend.userID, 1)}
-									>
-										<Symbol name="chevron.down" />
-									</Button>
-								</div>
 							</div>
 						);
 					})
