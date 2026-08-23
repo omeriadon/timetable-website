@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -62,15 +63,17 @@ export default function AdminDevelopmentAccessChangeDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
-				<Button
-					aria-label="Cancel server access change"
-					onClick={closeDrawer}
+			<DrawerFooter className={styles.actionFooter}>
+				<DrawerClose
+					variant="outline"
+					flexible
 					disabled={saving}
+					aria-label="Cancel server access change"
 				>
 					Cancel
-				</Button>
+				</DrawerClose>
 				<Button
+					flexible
 					aria-label={nextValue ? "Restrict access" : "Restore access"}
 					onClick={() => void save()}
 					disabled={saving}
@@ -81,7 +84,7 @@ export default function AdminDevelopmentAccessChangeDrawer({
 							? "Restrict Access"
 							: "Restore Access"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }

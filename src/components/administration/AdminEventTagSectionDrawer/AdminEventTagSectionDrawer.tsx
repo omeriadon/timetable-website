@@ -8,6 +8,7 @@ import type {
 	Catalogue,
 } from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
 import { Button } from "@/components/ui/button";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -92,28 +93,30 @@ export default function AdminEventTagSectionDrawer({
 					/>
 					Archive section
 				</label>
-				<div className={styles.drawerActions}>
-					<Button
-						aria-label="Cancel section edit"
-						onClick={closeDrawer}
-						disabled={saving}
-					>
-						Cancel
-					</Button>
-					<Button
-						aria-label="Save event tag section"
-						onClick={() => void save()}
-						disabled={saving || !displayName.trim()}
-					>
-						{saving ? "Saving…" : "Save"}
-					</Button>
-				</div>
 			</section>
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}
 				</p>
 			) : null}
+			<DrawerFooter className={styles.actionFooter}>
+				<DrawerClose
+					variant="outline"
+					flexible
+					disabled={saving}
+					aria-label="Cancel section edit"
+				>
+					Cancel
+				</DrawerClose>
+				<Button
+					flexible
+					aria-label="Save event tag section"
+					onClick={() => void save()}
+					disabled={saving || !displayName.trim()}
+				>
+					{saving ? "Saving…" : "Save"}
+				</Button>
+			</DrawerFooter>
 		</div>
 	);
 }

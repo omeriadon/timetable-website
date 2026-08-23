@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import { Button } from "@/components/ui/button";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -72,15 +73,17 @@ export default function AdminAuthorityChangeDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
-				<Button
-					aria-label="Cancel authority change"
-					onClick={closeDrawer}
+			<DrawerFooter className={styles.actionFooter}>
+				<DrawerClose
+					variant="outline"
+					flexible
 					disabled={saving}
+					aria-label="Cancel authority change"
 				>
 					Cancel
-				</Button>
+				</DrawerClose>
 				<Button
+					flexible
 					aria-label={
 						makeAdministrator ? "Make administrator" : "Remove administrator"
 					}
@@ -93,7 +96,7 @@ export default function AdminAuthorityChangeDrawer({
 							? "Make Administrator"
 							: "Remove Administrator"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }

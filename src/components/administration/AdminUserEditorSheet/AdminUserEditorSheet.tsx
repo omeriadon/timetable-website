@@ -253,9 +253,7 @@ export default function AdminUserEditorSheet({
 						</DrawerHeader>
 
 						<DrawerFooter>
-							<DrawerClose
-								render={<Button variant="outline" disabled={saving} />}
-							>
+							<DrawerClose variant="outline" disabled={saving}>
 								Cancel
 							</DrawerClose>
 

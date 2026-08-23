@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 
 import { cn } from "@/lib/utils";
@@ -17,6 +18,9 @@ type DrawerContextProps = {
 };
 
 const DrawerContext = React.createContext<DrawerContextProps | null>(null);
+const DrawerFooterHostContext = React.createContext<HTMLDivElement | null>(
+	null,
+);
 
 function useDrawer() {
 	const context = React.useContext(DrawerContext);
@@ -74,16 +78,23 @@ function DrawerClose({
 	children,
 	variant = "outline",
 	size = "default",
+	flexible = false,
 	...props
-}: DrawerPrimitive.Close.Props & {
+}: Omit<DrawerPrimitive.Close.Props, "render"> & {
 	children: React.ReactNode;
 	variant?: React.ComponentProps<typeof Button>["variant"];
 	size?: React.ComponentProps<typeof Button>["size"];
+	flexible?: React.ComponentProps<typeof Button>["flexible"];
 }) {
 	return (
 		<DrawerPrimitive.Close
 			render={
-				<Button variant={variant} size={size} className={styles.closeButton}>
+				<Button
+					variant={variant}
+					size={size}
+					flexible={flexible}
+					className={styles.closeButton}
+				>
 					{children}
 				</Button>
 			}
@@ -125,6 +136,9 @@ function DrawerContent({
 	...props
 }: DrawerPrimitive.Popup.Props) {
 	const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer();
+	const [footerHost, setFooterHost] = React.useState<HTMLDivElement | null>(
+		null,
+	);
 
 	const swipeAxis =
 		swipeDirection === "down" || swipeDirection === "up" ? "y" : "x";
@@ -153,7 +167,14 @@ function DrawerContent({
 						data-slot="drawer-content"
 						className={styles.content}
 					>
-						{children}
+						<DrawerFooterHostContext.Provider value={footerHost}>
+							{children}
+						</DrawerFooterHostContext.Provider>
+						<div
+							ref={setFooterHost}
+							data-slot="drawer-footer-host"
+							className={styles.footerHost}
+						/>
 					</DrawerPrimitive.Content>
 				</DrawerPrimitive.Popup>
 			</DrawerPrimitive.Viewport>
@@ -191,13 +212,16 @@ function DrawerHeader({
 }
 
 function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
-	return (
+	const footerHost = React.useContext(DrawerFooterHostContext);
+	const footer = (
 		<div
 			data-slot="drawer-footer"
 			className={cn(styles.footer, className)}
 			{...props}
 		/>
 	);
+
+	return footerHost ? createPortal(footer, footerHost) : null;
 }
 
 function DrawerTitle({ className, ...props }: DrawerPrimitive.Title.Props) {

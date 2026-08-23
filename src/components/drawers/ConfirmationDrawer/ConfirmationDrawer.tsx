@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
-import { DrawerFooter } from "@/components/ui/drawer";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 
@@ -59,12 +59,14 @@ export default function ConfirmationDrawer({
 					{error}
 				</p>
 			) : null}
-			<DrawerFooter>
-				<Button aria-label="Cancel" onClick={closeDrawer} disabled={isWorking}>
+			<DrawerFooter className={styles.actionFooter}>
+				<DrawerClose variant="outline" flexible disabled={isWorking}>
 					<Symbol name="xmark" fallback="×" />
 					Cancel
-				</Button>
+				</DrawerClose>
 				<Button
+					variant={tone === "destructive" ? "destructive" : "default"}
+					flexible
 					aria-label={confirmLabel}
 					onClick={() => void confirm()}
 					disabled={isWorking}

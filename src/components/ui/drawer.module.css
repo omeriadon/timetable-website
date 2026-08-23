@@ -500,6 +500,10 @@
 	padding-top: 0;
 }
 
+.footerHost {
+	display: contents;
+}
+
 .title {
 	color: var(--foreground);
 
