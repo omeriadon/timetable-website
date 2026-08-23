@@ -122,7 +122,9 @@ export default function TodayView({
 						month: "long",
 					}).format(today)}
 				</h1>
-				<span>{termWeekLabel(schoolCalendar, today) ?? "Outside school term"}</span>
+				<span>
+					{termWeekLabel(schoolCalendar, today) ?? "Outside school term"}
+				</span>
 			</header>
 			{entries.length ? (
 				<SectionCard
@@ -169,13 +171,12 @@ export default function TodayView({
 					<p>{noSchool.label}</p>
 				</SectionCard>
 			) : null}
-			{isSchoolDay || !noSchool ? (
+			{isSchoolDay ? (
 				<SectionCard
 					background="paper"
-					title={isSchoolDay ? "Classes" : "Nothing Scheduled Today"}
-					symbolName={isSchoolDay ? "books.vertical" : "face.dashed"}
+					title="Classes"
+					symbolName="books.vertical"
 				>
-				{isSchoolDay ? (
 					<div className={styles.subjectList}>
 						{schoolPeriods.map((period) => {
 							const subject = subjects.find((candidate) =>
@@ -214,17 +215,14 @@ export default function TodayView({
 							);
 						})}
 					</div>
-				) : (
-					<div className={styles.subjectList}>
-						<strong>Nothing Scheduled Today</strong>
-						<span>
-							{nextSubject
-								? `Next: ${nextSubject}`
-								: "No upcoming subjects"}
-						</span>
-					</div>
-				)}
 				</SectionCard>
+			) : !noSchool ? (
+				<div className={styles.emptyState} role="status">
+					<strong>Nothing Scheduled Today</strong>
+					<span>
+						{nextSubject ? `Next: ${nextSubject}` : "No upcoming subjects"}
+					</span>
+				</div>
 			) : null}
 		</>
 	);

@@ -81,13 +81,17 @@
 .cardRow {
 	width: 100%;
 	min-height: var(--ds-event-min-height);
-	padding: var(--ds-content-card-padding);
+	padding: var(--ds-space-4) var(--ds-space-5);
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);
 	color: var(--ds-color-text);
 	background: var(--ds-color-surface-elevated);
 	font: inherit;
 	text-align: left;
+}
+
+.cardRow[data-size="default"] {
+	height: auto;
 }
 
 .cardRow:hover,
@@ -109,7 +113,7 @@
 }
 
 .eventRow strong,
-.eventRow span {
+.eventRow div > span {
 	display: block;
 }
 
@@ -117,12 +121,18 @@
 	font-size: var(--ds-font-body-size);
 }
 
-.eventRow span {
+.eventRow div > span {
 	margin-top: var(--ds-space-1);
 	color: var(--ds-color-text-secondary);
 }
 
+.eventRow > div {
+	min-width: 0;
+}
+
 .eventRow time {
+	justify-self: end;
+	white-space: nowrap;
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
 	font-weight: 650;
@@ -136,6 +146,25 @@
 .subjectList {
 	display: grid;
 	gap: var(--ds-content-grid-gap);
+}
+
+.emptyState {
+	display: grid;
+	justify-items: center;
+	gap: var(--ds-space-1);
+	margin: var(--ds-content-section-gap) 0;
+	padding: var(--ds-space-6) var(--ds-space-4);
+	color: var(--ds-color-text-secondary);
+	text-align: center;
+}
+
+.emptyState strong {
+	color: var(--ds-color-text-muted);
+	font-size: var(--ds-font-body-size);
+}
+
+.emptyState span {
+	font-size: var(--ds-font-small);
 }
 
 .subjectRow {
