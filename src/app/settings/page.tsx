@@ -266,6 +266,7 @@ export default function SettingsPage() {
 					description="View website client information."
 					href="/settings/about"
 					icon="info.circle"
+					direct
 				/>
 				<Button
 					type="button"
