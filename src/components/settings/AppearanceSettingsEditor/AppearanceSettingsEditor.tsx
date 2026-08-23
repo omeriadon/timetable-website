@@ -16,8 +16,10 @@ import styles from "@/components/settings/Settings.module.css";
 
 export default function AppearanceSettingsEditor({
 	initial,
+	inline = false,
 }: {
 	initial: Settings;
+	inline?: boolean;
 }) {
 	const [draft, setDraft] = useState(initial);
 	const [saving, setSaving] = useState(false);
@@ -49,43 +51,39 @@ export default function AppearanceSettingsEditor({
 		}
 	};
 
-	return (
-		<>
-			<List rowHover>
-				<ListRow>
-					<Symbol name="textformat.size" />
-					<label className={styles.label} htmlFor="app-font-design">
-						App Font
-					</label>
-					<Select
-						value={draft.appFontDesign}
-						disabled={saving}
-						onValueChange={(value) => {
-							if (value !== null) {
-								void save({ appFontDesign: value });
-							}
-						}}
-					>
-						<SelectTrigger id="app-font-design" aria-label="App Font">
-							<SelectValue>
-								{appFontDesignLabel(draft.appFontDesign)}
-							</SelectValue>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="monospaced">Monospaced</SelectItem>
-							<SelectItem value="rounded">Rounded</SelectItem>
-							<SelectItem value="expanded">Expanded</SelectItem>
-						</SelectContent>
-					</Select>
-				</ListRow>
-			</List>
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
-				</p>
-			) : null}
-		</>
+	const row = (
+		<ListRow>
+			<Symbol name="textformat.size" />
+			<label className={styles.label} htmlFor="app-font-design">
+				App Font
+				{error ? (
+					<small className={styles.error} role="alert">
+						{error}
+					</small>
+				) : null}
+			</label>
+			<Select
+				value={draft.appFontDesign}
+				disabled={saving}
+				onValueChange={(value) => {
+					if (value !== null) {
+						void save({ appFontDesign: value });
+					}
+				}}
+			>
+				<SelectTrigger id="app-font-design" aria-label="App Font">
+					<SelectValue>{appFontDesignLabel(draft.appFontDesign)}</SelectValue>
+				</SelectTrigger>
+				<SelectContent>
+					<SelectItem value="monospaced">Monospaced</SelectItem>
+					<SelectItem value="rounded">Rounded</SelectItem>
+					<SelectItem value="expanded">Expanded</SelectItem>
+				</SelectContent>
+			</Select>
+		</ListRow>
 	);
+
+	return inline ? row : <List rowHover>{row}</List>;
 }
 
 function appFontDesignLabel(value: string) {

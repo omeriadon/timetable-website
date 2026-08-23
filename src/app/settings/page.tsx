@@ -184,13 +184,7 @@ export default function SettingsPage() {
 			<List rowHover>
 				{settings ? (
 					<>
-						<NavigationRow
-							title="Appearance"
-							description="Choose the app font design."
-							href="/settings/appearance"
-							icon="paintpalette"
-							drawerContent={<AppearanceSettingsEditor initial={settings} />}
-						/>
+						<AppearanceSettingsEditor initial={settings} inline />
 						<NavigationRow
 							title="Updates & Notifications"
 							description="Control Live Activities, class notifications, event notifications, and sync."
