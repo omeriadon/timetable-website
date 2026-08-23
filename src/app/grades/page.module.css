@@ -58,12 +58,22 @@
 .subjectRow {
 	display: grid;
 	width: 100%;
+	height: auto;
+	min-height: 56px;
 	grid-template-columns: var(--ds-avatar-size) minmax(0, 1fr) auto;
 	gap: var(--ds-list-row-gap);
 	align-items: center;
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
 	border-bottom: var(--ds-border-width) solid var(--ds-color-border);
 	text-align: left;
+}
+
+.subjectRow[data-size="default"] {
+	height: auto;
+	min-height: 56px;
+	padding: var(--ds-space-4) var(--ds-content-card-padding);
+	background: transparent;
+	color: var(--ds-color-text);
 }
 
 .subjects > :last-child .subjectRow {
@@ -73,6 +83,12 @@
 .subjectRow:hover,
 .subjectRow:focus-visible {
 	background: var(--ds-color-surface-elevated);
+}
+
+.subjectRow[data-variant="default"]:hover,
+.subjectRow[data-variant="default"]:focus-visible {
+	background: var(--ds-color-surface-elevated);
+	color: var(--ds-color-text);
 }
 
 .subjectName,
