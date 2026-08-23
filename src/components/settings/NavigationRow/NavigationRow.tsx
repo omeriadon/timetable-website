@@ -1,6 +1,5 @@
 import Symbol from "@/components/controls/Symbol/Symbol";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
-import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import { ListRow } from "@/components/ui/list";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -41,16 +40,7 @@ export default function NavigationRow({
 		<DrawerTrigger
 			className={styles.linkRow}
 			ariaLabel={`Open ${title}`}
-			content={
-				drawerContent ?? (
-					<NavigationDrawer
-						title={title}
-						description={description}
-						href={href}
-						icon={icon}
-					/>
-				)
-			}
+			content={drawerContent}
 		>
 			{row}
 		</DrawerTrigger>

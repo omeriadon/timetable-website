@@ -26,6 +26,7 @@ import type { Settings } from "@/features/settings/types";
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
 import NotificationSettingsEditor from "@/components/settings/NotificationSettingsEditor/NotificationSettingsEditor";
 import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/ArchivedEventsEditor";
+import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
 
 export default function SettingsPage() {
 	const setToolbar = useToolbar();
@@ -205,6 +206,7 @@ export default function SettingsPage() {
 					description="Send feedback through the authenticated server."
 					href="/settings/feedback"
 					icon="exclamationmark.bubble"
+					drawerContent={<FeedbackEditor />}
 				/>
 				<NavigationRow
 					title="About Timetable"
