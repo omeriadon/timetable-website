@@ -216,7 +216,7 @@
 	display: grid;
 	align-content: start;
 	gap: var(--ds-space-2);
-	min-width: 5rem;
+	min-width: 0;
 }
 
 .friendWeekGrid strong {
@@ -225,6 +225,8 @@
 }
 
 .friendWeekGrid span {
+	min-width: 0;
+	overflow-wrap: anywhere;
 	padding: var(--ds-space-2);
 	border-radius: var(--ds-radius-control);
 	background: var(--ds-color-surface-elevated);
