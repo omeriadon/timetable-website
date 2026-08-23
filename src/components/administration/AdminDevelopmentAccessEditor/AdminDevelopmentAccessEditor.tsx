@@ -7,6 +7,7 @@ import AdminDevelopmentAccessChangeDrawer from "@/components/administration/Admi
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminDevelopmentAccessEditor() {
 	const { openDrawer } = useDrawer();
@@ -28,13 +29,13 @@ export default function AdminDevelopmentAccessEditor() {
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{enabled === null ? (
 					<p className={styles.loading}>Loading server access…</p>
 				) : (
 					<Button
 						type="button"
-						className={styles.rowButton}
+						className={styles.listButton}
 						onClick={() =>
 							openDrawer(
 								<AdminDevelopmentAccessChangeDrawer
@@ -44,16 +45,16 @@ export default function AdminDevelopmentAccessEditor() {
 							)
 						}
 					>
-						<div className={styles.row}>
+						<ListRow>
 							<Symbol name="testtube.2" />
 							<span className={styles.label}>
 								Restrict Server to System Administrators
 							</span>
 							<span className={styles.detail}>{enabled ? "On" : "Off"}</span>
-						</div>
+						</ListRow>
 					</Button>
 				)}
-			</section>
+			</List>
 			<p className={styles.detailNote}>
 				When enabled, only the two system administrator accounts can use the
 				server. Existing sessions remain intact but receive an access error.

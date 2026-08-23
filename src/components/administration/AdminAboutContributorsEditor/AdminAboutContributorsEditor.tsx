@@ -7,6 +7,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AdminAboutContributorsEditor.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 type Draft = {
 	name: string;
@@ -108,7 +109,7 @@ export default function AdminAboutContributorsEditor() {
 
 	return (
 		<main className={styles.page}>
-			<section className={styles.card} aria-labelledby="contributors-heading">
+			<section aria-labelledby="contributors-heading">
 				<div className={styles.heading}>
 					<div>
 						<p className={styles.eyebrow}>About Timetable</p>
@@ -116,9 +117,9 @@ export default function AdminAboutContributorsEditor() {
 					</div>
 					<Symbol name="person.3" />
 				</div>
-				<div className={styles.list}>
+				<List>
 					{contributors.map((contributor, index) => (
-						<div className={styles.contributor} key={contributor.id}>
+						<ListRow className={styles.contributor} key={contributor.id}>
 							<div className={styles.contributorCopy}>
 								<strong>{contributor.name}</strong>
 								<span>{contributor.role}</span>
@@ -170,9 +171,9 @@ export default function AdminAboutContributorsEditor() {
 									<Symbol name="trash" />
 								</Button>
 							</div>
-						</div>
+						</ListRow>
 					))}
-				</div>
+				</List>
 			</section>
 			<section
 				className={styles.card}

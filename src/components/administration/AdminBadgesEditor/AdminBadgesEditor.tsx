@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
 
 import styles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export type ProfileColor = {
 	red: number;
@@ -187,13 +188,13 @@ export default function AdminBadgesEditor() {
 			) : displayedBadges.length === 0 ? (
 				<p className={styles.emptyRow}>No badges have been created.</p>
 			) : (
-				<section className={styles.card} aria-label="Badges">
+				<List rowHover>
 					{displayedBadges.map((badge, index) => (
-						<div className={styles.rowWithAction} key={badge.id}>
+						<ListRow className={styles.rowWithAction} key={badge.id}>
 							<Button
 								type="button"
 								variant="ghost"
-								className={styles.rowButton}
+								className={styles.listButton}
 								onClick={() =>
 									openDrawer(
 										<AdminSpecialBadgeDrawer
@@ -205,7 +206,7 @@ export default function AdminBadgesEditor() {
 								}
 								aria-label={`Edit ${badge.accessibilityLabel}`}
 							>
-								<div className={styles.row}>
+								<ListRow>
 									<span className={styles.badgePreview}>
 										<Symbol name={badge.symbol} fallback="*" />
 									</span>
@@ -219,8 +220,8 @@ export default function AdminBadgesEditor() {
 										</small>
 									</span>
 
-									<Symbol name="chevron.right" className={styles.chevronIcon} />
-								</div>
+									<Symbol name="chevron.right" />
+								</ListRow>
 							</Button>
 
 							{isReordering && (
@@ -248,9 +249,9 @@ export default function AdminBadgesEditor() {
 									</Button>
 								</div>
 							)}
-						</div>
+						</ListRow>
 					))}
-				</section>
+				</List>
 			)}
 		</main>
 	);
