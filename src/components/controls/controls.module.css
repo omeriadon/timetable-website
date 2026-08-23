@@ -50,7 +50,7 @@
 	background: var(--ds-color-text-secondary);
 }
 
-.switchOn {
+.switch[data-checked] {
 	background: var(--ds-color-success);
 }
 
@@ -63,7 +63,7 @@
 	transition: transform var(--ds-duration-normal) var(--ds-ease-standard);
 }
 
-.switchOn .switchThumb {
+.switch[data-checked] .switchThumb {
 	transform: translateX(
 		calc(
 			var(--ds-switch-width) - var(--ds-switch-thumb-size) -
