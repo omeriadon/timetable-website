@@ -107,6 +107,37 @@
 	padding-inline: 0;
 }
 
+.leadTimeOption,
+.leadTimeOptionActive {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.leadTimeOption[data-size="default"],
+.leadTimeOptionActive[data-size="default"] {
+	height: auto;
+	min-height: 0;
+}
+
+.leadTimeLabel {
+	min-width: 0;
+	flex: 1;
+}
+
+.selectionCheck {
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	flex: 0 0 var(--ds-icon-size-small);
+}
+
 .detailTabs {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));

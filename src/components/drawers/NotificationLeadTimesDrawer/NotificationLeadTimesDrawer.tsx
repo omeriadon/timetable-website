@@ -6,6 +6,7 @@ import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 const leadTimes = [0, 1, 2, 3, 5, 10];
 
@@ -63,7 +64,7 @@ export default function NotificationLeadTimesDrawer({
 					<p className={styles.detailMuted}>{description}</p>
 				) : null}
 			</header>
-			<section className={styles.detailCard} aria-label={title}>
+			<List>
 				{leadTimes.map((value) => {
 					const selected = draft.has(value);
 					return (
@@ -76,14 +77,22 @@ export default function NotificationLeadTimesDrawer({
 							onClick={() => toggle(value)}
 							aria-pressed={selected}
 						>
-							<span>
-								{value} {value === 1 ? "minute" : "minutes"} early
-							</span>
-							{selected ? <Symbol name="checkmark" fallback="✓" /> : null}
+							<ListRow>
+								<span className={styles.leadTimeLabel}>
+									{value} {value === 1 ? "minute" : "minutes"} early
+								</span>
+								{selected ? (
+									<Symbol
+										name="checkmark"
+										fallback="✓"
+										className={styles.selectionCheck}
+									/>
+								) : null}
+							</ListRow>
 						</Button>
 					);
 				})}
-			</section>
+			</List>
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}

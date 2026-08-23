@@ -45,6 +45,12 @@
 	display: grid;
 }
 
+.sectionHeader {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ds-space-2);
+}
+
 .scheduleRow {
 	gap: var(--ds-list-row-gap);
 }

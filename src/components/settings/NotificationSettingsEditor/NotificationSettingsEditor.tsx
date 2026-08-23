@@ -12,7 +12,12 @@ import NotificationLeadTimesDrawer from "@/components/drawers/NotificationLeadTi
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
-import { List, ListRow } from "@/components/ui/list";
+import {
+	List,
+	ListRow,
+	ListSection,
+	ListSectionHeader,
+} from "@/components/ui/list";
 import {
 	SelectContent,
 	SelectItem,
@@ -233,11 +238,15 @@ export default function NotificationSettingsEditor({
 						<Symbol name="chevron.right" />
 					</ListRow>
 				</Button>
-				<ListRow>
-					<Symbol name="calendar.badge.clock" />
-					<span className={styles.label}>Event Notifications</span>
-				</ListRow>
-				<div className={styles.scheduleList}>
+			</List>
+			<List>
+				<ListSection>
+					<ListSectionHeader>
+						<span className={styles.sectionHeader}>
+							<Symbol name="calendar.badge.clock" />
+							Event Notifications
+						</span>
+					</ListSectionHeader>
 					{draft.eventNotificationSchedules
 						.slice()
 						.sort(
@@ -277,7 +286,7 @@ export default function NotificationSettingsEditor({
 							<span className={styles.label}>Add Event Notification</span>
 						</ListRow>
 					</Button>
-				</div>
+				</ListSection>
 			</List>
 			{error ? (
 				<p className={styles.error} role="alert">
