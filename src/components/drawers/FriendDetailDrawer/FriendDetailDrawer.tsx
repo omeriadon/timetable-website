@@ -1,5 +1,5 @@
 import { Tabs } from "@base-ui/react/tabs";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type {
 	Friend,
@@ -10,7 +10,7 @@ import type {
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { Toggle } from "@/components/ui/toggle";
-import { ListRow } from "@/components/ui/list";
+import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
@@ -187,7 +187,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					</Tabs.Tab>
 				))}
 			</Tabs.List>
-			<Tabs.Panel value="main">
+			<Tabs.Panel value="main" className={styles.detailPanel}>
 				<section className={styles.detailCard}>
 					<div className={styles.detailRow}>
 						<span className={styles.detailRowLabel}>
@@ -204,69 +204,84 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						<strong>{friendScheduleTitle(subjects, now)}</strong>
 					</div>
 				</section>
-				<section className={styles.detailCard}>
+				<section className={styles.detailSection}>
 					<h3>Shared Classes</h3>
-					{sharedClasses.length ? (
-						sharedClasses.map((sharedClass) => (
-							<div
-								key={`${sharedClass.id}-class`}
-								className={styles.detailSubject}
-							>
-								<Symbol
-									name={sharedClass.symbol}
-									className={styles.detailSubjectSymbolIcon}
-								/>
-								<strong>{sharedClass.id}</strong>
-								<span>{sharedClass.slotCount} shared classes</span>
-							</div>
-						))
-					) : (
-						<p className={styles.detailMuted}>No shared classes.</p>
-					)}
+					<List>
+						{sharedClasses.length ? (
+							sharedClasses.map((sharedClass) => (
+								<ListRow
+									key={`${sharedClass.id}-class`}
+									className={styles.detailSubject}
+								>
+									<Symbol
+										name={sharedClass.symbol}
+										className={styles.detailSubjectSymbolIcon}
+									/>
+									<strong>{sharedClass.id}</strong>
+									<span>{sharedClass.slotCount} shared classes</span>
+								</ListRow>
+							))
+						) : (
+							<p className={styles.detailMuted}>No shared classes.</p>
+						)}
+					</List>
 				</section>
-				<section className={styles.detailCard}>
+				<section className={styles.detailSection}>
 					<h3>Shared Subjects</h3>
-					{sharedSubjects.length ? (
-						sharedSubjects.slice(0, 6).map((subject) => (
-							<div key={subject.id} className={styles.detailSubject}>
-								<Symbol
-									name={subject.symbol}
-									className={styles.detailSubjectSymbolIcon}
-								/>
-								<strong>{subject.id}</strong>
-							</div>
-						))
-					) : (
-						<p className={styles.detailMuted}>No shared classes.</p>
-					)}
+					<List>
+						{sharedSubjects.length ? (
+							sharedSubjects.slice(0, 6).map((subject) => (
+								<ListRow key={subject.id} className={styles.detailSubject}>
+									<Symbol
+										name={subject.symbol}
+										className={styles.detailSubjectSymbolIcon}
+									/>
+									<strong>{subject.id}</strong>
+								</ListRow>
+							))
+						) : (
+							<p className={styles.detailMuted}>No shared classes.</p>
+						)}
+					</List>
 				</section>
 			</Tabs.Panel>
-			<Tabs.Panel value="week">
+			<Tabs.Panel value="week" className={styles.detailPanel}>
 				<section className={styles.detailCard}>
 					<h3>Week</h3>
 					<div className={styles.friendWeekGrid}>
-						{TIMETABLE_DAYS.map((day, dayIndex) => (
-							<div key={day}>
-								<strong>{day}</strong>
-								{TIMETABLE_SESSIONS.filter(
-									(session) => session.value !== 2 && session.value !== 5,
-								).map((session) => {
+						<span aria-hidden="true" />
+						{TIMETABLE_DAYS.map((day) => (
+							<strong key={day} className={styles.friendWeekDay}>
+								{day}
+							</strong>
+						))}
+						{TIMETABLE_SESSIONS.map((session) => (
+							<Fragment key={session.value}>
+								<strong className={styles.friendWeekSession}>
+									{session.label}
+								</strong>
+								{TIMETABLE_DAYS.map((day, dayIndex) => {
 									const subject = subjects.find((item) =>
 										item.slots.some(
 											(slot) =>
 												slot.day === dayIndex && slot.session === session.value,
 										),
 									);
-									return subject ? (
-										<span key={session.value}>{subject.id}</span>
-									) : null;
+									return (
+										<span
+											key={`${day}-${session.value}`}
+											className={styles.friendWeekCell}
+										>
+											{subject?.id ?? ""}
+										</span>
+									);
 								})}
-							</div>
+							</Fragment>
 						))}
 					</div>
 				</section>
 			</Tabs.Panel>
-			<Tabs.Panel value="info">
+			<Tabs.Panel value="info" className={styles.detailPanel}>
 				<section className={styles.detailCard}>
 					<h3>Location notifications</h3>
 					<ListRow className={styles.toggleRow}>

@@ -1,10 +1,23 @@
 .detailDrawer {
-	display: grid;
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	flex-direction: column;
 	gap: var(--ds-content-section-gap);
 	width: 100%;
-	max-height: calc(100dvh - 7rem);
 	overflow-y: auto;
 	color: var(--ds-color-text);
+}
+
+.detailPanel,
+.detailSection {
+	display: grid;
+	gap: var(--ds-content-section-gap);
+}
+
+.detailSection h3 {
+	margin: 0;
+	font-size: var(--ds-font-body-size);
 }
 
 .detailHeader {
@@ -226,31 +239,46 @@
 
 .friendWeekGrid {
 	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
-	gap: var(--ds-space-2);
-	overflow-x: auto;
-}
-
-.friendWeekGrid > div {
-	display: grid;
-	align-content: start;
+	grid-template-columns: 1.75rem repeat(5, minmax(0, 1fr));
 	gap: var(--ds-space-2);
 	min-width: 0;
 }
 
-.friendWeekGrid strong {
+.friendWeekDay,
+.friendWeekSession {
+	min-width: 0;
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
 }
 
-.friendWeekGrid span {
+.friendWeekDay {
+	text-align: center;
+}
+
+.friendWeekSession {
+	display: grid;
+	place-items: center;
+}
+
+.friendWeekCell {
+	display: grid;
+	min-height: 2.25rem;
 	min-width: 0;
+	align-items: center;
 	overflow-wrap: anywhere;
 	padding: var(--ds-space-2);
 	border-radius: var(--ds-radius-control);
 	background: var(--ds-color-surface-elevated);
 	font-size: var(--ds-font-small);
 	line-height: 1.25;
+}
+
+.friendWeekCell:empty {
+	background: color-mix(
+		in srgb,
+		var(--ds-color-surface-elevated) 35%,
+		transparent
+	);
 }
 
 @media (max-width: 700px) {
