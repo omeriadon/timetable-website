@@ -200,6 +200,7 @@ export default function SettingsPage() {
 							description="Review and edit past calendar events."
 							href="/settings/archived-events"
 							icon="archivebox"
+							direct
 						/>
 						<NavigationRow
 							title="Navigation Persistence"
