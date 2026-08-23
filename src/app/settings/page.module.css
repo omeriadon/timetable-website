@@ -24,7 +24,7 @@
 	display: block;
 	width: 100%;
 	text-align: left;
-	transition: background-color var(--ds-duration-fast) var(--ds-ease-standard);
+	transition: background-color 80ms var(--ds-ease-standard);
 }
 
 .rowButton[data-size="default"] {
@@ -179,7 +179,7 @@
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--ds-list-row-gap);
 	align-items: center;
-	transition: background-color var(--ds-duration-fast) var(--ds-ease-standard);
+	transition: background-color 80ms var(--ds-ease-standard);
 }
 
 .profileName,
