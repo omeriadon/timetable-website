@@ -164,6 +164,7 @@ export default function SettingsPage() {
 							description="Control Live Activities, class notifications, event notifications, and sync."
 							href="/settings/notifications"
 							icon="switch.2"
+							direct
 						/>
 						<ListRow className={styles.row}>
 							<Symbol name="calendar.badge.clock" />
