@@ -19,6 +19,9 @@
 
 .selfCard {
 	display: grid;
+	width: 100%;
+	height: auto;
+	min-height: 72px;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--ds-list-row-gap);
 	align-items: center;
@@ -27,6 +30,12 @@
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-content-card);
 	background: var(--ds-color-surface);
+}
+
+.selfCard[data-size="default"] {
+	height: auto;
+	min-height: 72px;
+	padding: var(--ds-content-card-padding);
 }
 
 .selfCard[data-variant="default"] {
