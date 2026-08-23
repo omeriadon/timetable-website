@@ -14,6 +14,7 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
+import styles from "@/components/ui/drawer.module.css";
 
 type DrawerControls = {
 	openDrawer: (content: ReactNode) => void;
@@ -52,7 +53,7 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 			>
 				<DrawerContent>
 					<DrawerHeader>
-						<DrawerTitle>Timetable drawer</DrawerTitle>
+						<DrawerTitle className={styles.visuallyHidden}>Drawer</DrawerTitle>
 					</DrawerHeader>
 					<div>{content}</div>
 				</DrawerContent>

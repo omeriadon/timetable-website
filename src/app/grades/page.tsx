@@ -15,6 +15,7 @@ import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
+import { DrawerFooter } from "@/components/ui/drawer";
 import {
 	Drawer,
 	DrawerContent,
@@ -142,15 +143,17 @@ function ATARSettingsDrawer({
 					onChange={(event) => setGoalATAR(event.target.value)}
 				/>
 			</label>
-			<Button
-				type="button"
-				onClick={() => void save()}
-				disabled={saving}
-				aria-label="Save ATAR settings"
-			>
-				<Symbol name="checkmark" />
-				Save
-			</Button>
+			<DrawerFooter>
+				<Button
+					type="button"
+					onClick={() => void save()}
+					disabled={saving}
+					aria-label="Save ATAR settings"
+				>
+					<Symbol name="checkmark" />
+					Save
+				</Button>
+			</DrawerFooter>
 			{error ? <p role="alert">{error}</p> : null}
 		</section>
 	);
