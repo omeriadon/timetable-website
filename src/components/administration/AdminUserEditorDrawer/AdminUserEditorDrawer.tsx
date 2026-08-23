@@ -8,7 +8,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -40,6 +40,18 @@ export default function AdminUserEditorDrawer({
 	const [authority, setAuthority] = useState(user?.authority ?? "user");
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [rawData, setRawData] = useState("");
+	const [dataError, setDataError] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (!user) {
+			return;
+		}
+
+		apiRequest<{ rawData: string }>(`v1/administration/users/${user.id}`)
+			.then((response) => setRawData(response.rawData))
+			.catch((requestError: Error) => setDataError(requestError.message));
+	}, [user]);
 
 	const save = async () => {
 		if (saving || !displayName.trim() || !email.trim()) return;
@@ -165,6 +177,23 @@ export default function AdminUserEditorDrawer({
 					</Select>
 				</label>
 			</section>
+			{user ? (
+				<section
+					className={styles.formCard}
+					aria-labelledby="account-data-title"
+				>
+					<h3 id="account-data-title">Account Data</h3>
+					{dataError ? (
+						<p className={styles.detailMuted} role="alert">
+							{dataError}
+						</p>
+					) : rawData ? (
+						<pre className={styles.jsonData}>{formatJSON(rawData)}</pre>
+					) : (
+						<p className={styles.detailMuted}>Loading account data…</p>
+					)}
+				</section>
+			) : null}
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}
@@ -208,4 +237,57 @@ export default function AdminUserEditorDrawer({
 			</DrawerFooter>
 		</div>
 	);
+}
+
+function formatJSON(rawData: string) {
+	try {
+		return JSON.stringify(expandEmbeddedJSON(JSON.parse(rawData)), null, 2);
+	} catch {
+		return rawData;
+	}
+}
+
+function expandEmbeddedJSON(value: unknown): unknown {
+	if (Array.isArray(value)) {
+		return value.map(expandEmbeddedJSON);
+	}
+
+	if (value && typeof value === "object") {
+		return Object.fromEntries(
+			Object.entries(value).map(([key, child]) => [
+				key,
+				expandEmbeddedJSON(child),
+			]),
+		);
+	}
+
+	if (typeof value !== "string") {
+		return value;
+	}
+
+	const parsed = parseEmbeddedJSON(value);
+	if (parsed !== null) {
+		return expandEmbeddedJSON(parsed);
+	}
+
+	try {
+		const decoded = window.atob(value);
+		const decodedJSON = parseEmbeddedJSON(decoded);
+		return decodedJSON === null ? value : expandEmbeddedJSON(decodedJSON);
+	} catch {
+		return value;
+	}
+}
+
+function parseEmbeddedJSON(value: string): unknown | null {
+	const trimmed = value.trim();
+	if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+		return null;
+	}
+
+	try {
+		return JSON.parse(trimmed);
+	} catch {
+		return null;
+	}
 }

@@ -160,6 +160,21 @@
 	font-size: var(--ds-font-body-size);
 }
 
+.jsonData {
+	max-height: 28rem;
+	margin: 0;
+	padding: var(--ds-space-4);
+	overflow: auto;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-background);
+	color: var(--ds-color-text-secondary);
+	font-family: var(--ds-font-mono);
+	font-size: var(--ds-font-small);
+	line-height: 1.5;
+	white-space: pre;
+}
+
 .detailCard h3 {
 	margin: 0 0 var(--ds-space-2);
 	font-size: var(--ds-font-body-size);
