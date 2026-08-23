@@ -9,7 +9,6 @@ import {
 } from "react";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerHeader,
 	DrawerTitle,
@@ -24,41 +23,68 @@ type DrawerControls = {
 const DrawerContext = createContext<DrawerControls | null>(null);
 
 export function DrawerProvider({ children }: { children: ReactNode }) {
-	const [content, setContent] = useState<ReactNode>(null);
-	const [isOpen, setIsOpen] = useState(false);
+	const [stack, setStack] = useState<ReactNode[]>([]);
 
 	const openDrawer = useCallback((nextContent: ReactNode) => {
-		setContent(nextContent);
-		setIsOpen(true);
+		setStack((current) => [...current, nextContent]);
 	}, []);
 
 	const closeDrawer = useCallback(() => {
-		if (!content) {
-			return;
-		}
-		setIsOpen(false);
-	}, [content]);
+		setStack((current) => current.slice(0, -1));
+	}, []);
+
+	const dismissFrom = useCallback((index: number) => {
+		setStack((current) => current.slice(0, index));
+	}, []);
 
 	return (
 		<DrawerContext.Provider value={{ openDrawer, closeDrawer }}>
 			{children}
-			<Drawer
-				open={isOpen}
-				onOpenChange={(open) => {
-					setIsOpen(open);
-					if (!open) {
-						setContent(null);
-					}
-				}}
-			>
-				<DrawerContent>
-					<DrawerHeader>
-						<DrawerTitle className={styles.visuallyHidden}>Drawer</DrawerTitle>
-					</DrawerHeader>
-					<div className={styles.body}>{content}</div>
-				</DrawerContent>
-			</Drawer>
+			{stack.length ? (
+				<DrawerLayer stack={stack} index={0} dismissFrom={dismissFrom} />
+			) : null}
 		</DrawerContext.Provider>
+	);
+}
+
+function DrawerLayer({
+	stack,
+	index,
+	dismissFrom,
+}: {
+	stack: ReactNode[];
+	index: number;
+	dismissFrom: (index: number) => void;
+}) {
+	const content = stack[index];
+
+	if (!content) {
+		return null;
+	}
+
+	return (
+		<Drawer
+			open
+			onOpenChange={(open) => {
+				if (!open) {
+					dismissFrom(index);
+				}
+			}}
+		>
+			<DrawerContent>
+				<DrawerHeader>
+					<DrawerTitle className={styles.visuallyHidden}>Drawer</DrawerTitle>
+				</DrawerHeader>
+				<div className={styles.body}>{content}</div>
+				{stack[index + 1] ? (
+					<DrawerLayer
+						stack={stack}
+						index={index + 1}
+						dismissFrom={dismissFrom}
+					/>
+				) : null}
+			</DrawerContent>
+		</Drawer>
 	);
 }
 
