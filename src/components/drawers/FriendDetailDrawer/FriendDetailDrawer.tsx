@@ -9,7 +9,9 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import { Toggle } from "@/components/ui/toggle";
+import { ListRow } from "@/components/ui/list";
+import { DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -169,24 +171,6 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					<p>{friend.friend.email}</p>
 				</div>
 			</header>
-			<div className={styles.drawerActions}>
-				<Button
-					type="button"
-					onClick={confirmRemove}
-					aria-label="Remove friend"
-				>
-					<Symbol name="person.badge.minus" />
-					Remove
-				</Button>
-				<Button
-					type="button"
-					onClick={confirmReport}
-					aria-label="Report friend"
-				>
-					<Symbol name="exclamationmark.bubble" />
-					Report
-				</Button>
-			</div>
 			<Tabs.List className={styles.detailTabs} aria-label="Friend details">
 				{tabs.map(({ value, label, symbol }) => (
 					<Tabs.Tab
@@ -285,32 +269,41 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			<Tabs.Panel value="info">
 				<section className={styles.detailCard}>
 					<h3>Location notifications</h3>
-					<SettingToggle
-						label="Within 10 mins"
-						enabled={
-							detail?.locationNotificationPreferences.includes(
-								"withinTenMinutes",
-							) ?? false
-						}
-						onClick={() => void updatePreference("withinTenMinutes")}
-					/>
-					<SettingToggle
-						label="Within 5 mins"
-						enabled={
-							detail?.locationNotificationPreferences.includes(
-								"withinFiveMinutes",
-							) ?? false
-						}
-						onClick={() => void updatePreference("withinFiveMinutes")}
-					/>
-					<SettingToggle
-						label="Arrived"
-						enabled={
-							detail?.locationNotificationPreferences.includes("arrived") ??
-							false
-						}
-						onClick={() => void updatePreference("arrived")}
-					/>
+					<ListRow className={styles.toggleRow}>
+						<span>Within 10 mins</span>
+						<Toggle
+							checked={
+								detail?.locationNotificationPreferences.includes(
+									"withinTenMinutes",
+								) ?? false
+							}
+							onCheckedChange={() => void updatePreference("withinTenMinutes")}
+							aria-label="Within 10 mins"
+						/>
+					</ListRow>
+					<ListRow className={styles.toggleRow}>
+						<span>Within 5 mins</span>
+						<Toggle
+							checked={
+								detail?.locationNotificationPreferences.includes(
+									"withinFiveMinutes",
+								) ?? false
+							}
+							onCheckedChange={() => void updatePreference("withinFiveMinutes")}
+							aria-label="Within 5 mins"
+						/>
+					</ListRow>
+					<ListRow className={styles.toggleRow}>
+						<span>Arrived</span>
+						<Toggle
+							checked={
+								detail?.locationNotificationPreferences.includes("arrived") ??
+								false
+							}
+							onCheckedChange={() => void updatePreference("arrived")}
+							aria-label="Arrived"
+						/>
+					</ListRow>
 					<div className={styles.detailRow}>
 						<span className={styles.detailRowLabel}>
 							<Symbol name="person.2" />
@@ -354,15 +347,17 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						aria-label="Friends since date"
 						onChange={(event) => setFriendsSinceDate(event.target.value)}
 					/>
-					<Button
-						type="button"
-						onClick={() => void saveFriendsSince()}
-						disabled={isSavingFriendsSince || !friendsSinceDate}
-						aria-label="Save friends since date"
-					>
-						<Symbol name="checkmark" />
-						{isSavingFriendsSince ? "Saving…" : "Save date"}
-					</Button>
+					<DrawerFooter>
+						<Button
+							type="button"
+							onClick={() => void saveFriendsSince()}
+							disabled={isSavingFriendsSince || !friendsSinceDate}
+							aria-label="Save friends since date"
+						>
+							<Symbol name="checkmark" />
+							{isSavingFriendsSince ? "Saving…" : "Save date"}
+						</Button>
+					</DrawerFooter>
 				</section>
 			</Tabs.Panel>
 			{error ? (
@@ -370,6 +365,25 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					{error}
 				</p>
 			) : null}
+			<DrawerFooter>
+				<Button
+					type="button"
+					variant="destructive"
+					onClick={confirmRemove}
+					aria-label="Remove friend"
+				>
+					<Symbol name="person.badge.minus" />
+					Remove
+				</Button>
+				<Button
+					type="button"
+					onClick={confirmReport}
+					aria-label="Report friend"
+				>
+					<Symbol name="exclamationmark.bubble" />
+					Report
+				</Button>
+			</DrawerFooter>
 		</Tabs.Root>
 	);
 }

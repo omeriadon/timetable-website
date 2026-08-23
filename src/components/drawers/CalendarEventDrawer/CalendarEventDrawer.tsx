@@ -8,7 +8,9 @@ import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
-import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
+import { Toggle } from "@/components/ui/toggle";
+import { ListRow } from "@/components/ui/list";
+import { DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function CalendarEventDrawer({
@@ -171,59 +173,65 @@ export default function CalendarEventDrawer({
 					>
 						<h3 id="event-tags-title">Tags</h3>
 						{tagSections.length ? (
-							tagSections.flatMap((section) => section.tags).map((tag) => {
-								const selected = selectedTagIDs.includes(tag.id);
-								return (
-									<Button
-										key={tag.id}
-										type="button"
-										aria-pressed={selected}
-										aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
-										disabled={readOnly || saving}
-										onClick={() =>
-											setSelectedTagIDs(selected ? [] : [tag.id])
-										}
-									>
-										<Symbol name={tag.symbol ?? "tag"} />
-										{tag.displayName}
-										{selected ? <Symbol name="checkmark" /> : null}
-									</Button>
-								);
-							})
+							tagSections
+								.flatMap((section) => section.tags)
+								.map((tag) => {
+									const selected = selectedTagIDs.includes(tag.id);
+									return (
+										<Button
+											key={tag.id}
+											type="button"
+											aria-pressed={selected}
+											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
+											disabled={readOnly || saving}
+											onClick={() =>
+												setSelectedTagIDs(selected ? [] : [tag.id])
+											}
+										>
+											<Symbol name={tag.symbol ?? "tag"} />
+											{tag.displayName}
+											{selected ? <Symbol name="checkmark" /> : null}
+										</Button>
+									);
+								})
 						) : (
 							<p className={styles.detailMuted}>Loading event tags…</p>
 						)}
 					</section>
 				) : null}
 				{event.isGlobal ? (
-					<SettingToggle
-						label="Show Weather"
-						enabled={showsWeather}
-						onClick={() => setShowsWeather((current) => !current)}
-						disabled={readOnly || saving}
-					/>
-				) : null}
-				{!readOnly ? (
-					<div className={styles.drawerActions}>
-						<Button
-							aria-label="Delete event"
-							onClick={() => void remove()}
-							disabled={saving}
-						>
-							<Symbol name="trash" />
-							Delete
-						</Button>
-						<Button
-							aria-label="Save event"
-							onClick={() => void save()}
-							disabled={saving || !title.trim()}
-						>
-							<Symbol name="checkmark" />
-							{saving ? "Saving…" : "Save"}
-						</Button>
-					</div>
+					<ListRow className={styles.toggleRow}>
+						<span>Show Weather</span>
+						<Toggle
+							checked={showsWeather}
+							onCheckedChange={setShowsWeather}
+							disabled={readOnly || saving}
+							aria-label="Show Weather"
+						/>
+					</ListRow>
 				) : null}
 			</section>
+			{!readOnly ? (
+				<DrawerFooter>
+					<Button
+						variant="destructive"
+						aria-label="Delete event"
+						onClick={() => void remove()}
+						disabled={saving}
+					>
+						<Symbol name="trash" />
+						Delete
+					</Button>
+					<Button
+						aria-label="Save event"
+						onClick={() => void save()}
+						disabled={saving || !title.trim()}
+					>
+						<Symbol name="checkmark" />
+						{saving ? "Saving…" : "Save"}
+					</Button>
+				</DrawerFooter>
+			) : null}
 			{status ? (
 				<p className={styles.detailMuted} role="alert">
 					{status}
