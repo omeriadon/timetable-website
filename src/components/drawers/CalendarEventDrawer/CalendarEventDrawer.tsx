@@ -19,12 +19,14 @@ export default function CalendarEventDrawer({
 	onClose,
 	showHeader = true,
 	readOnly = false,
+	allowsTagEditing = true,
 }: {
 	event: CalendarEvent;
 	onChanged: (event: CalendarEvent | null) => void;
 	onClose?: () => void;
 	showHeader?: boolean;
 	readOnly?: boolean;
+	allowsTagEditing?: boolean;
 }) {
 	const { closeDrawer } = useDrawer();
 	const dismiss = onClose ?? closeDrawer;
@@ -135,7 +137,7 @@ export default function CalendarEventDrawer({
 						value={title}
 						onChange={(input) => setTitle(input.target.value)}
 						maxLength={120}
-						disabled={readOnly || saving}
+						disabled={readOnly || saving || !allowsTagEditing}
 					/>
 				</label>
 				<label>

@@ -78,6 +78,7 @@ export default function ArchivedEventsEditor() {
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
 										readOnly={event.isGlobal && !events?.canManageGlobalEvents}
+										allowsTagEditing={false}
 									/>,
 								)
 							}
