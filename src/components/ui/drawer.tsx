@@ -18,9 +18,9 @@ type DrawerContextProps = {
 };
 
 const DrawerContext = React.createContext<DrawerContextProps | null>(null);
-const DrawerFooterHostContext = React.createContext<HTMLDivElement | null>(
-	null,
-);
+const DrawerFooterHostContext = React.createContext<
+	HTMLDivElement | null | undefined
+>(undefined);
 
 function useDrawer() {
 	const context = React.useContext(DrawerContext);
@@ -220,6 +220,10 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
 			{...props}
 		/>
 	);
+
+	if (footerHost === undefined) {
+		return footer;
+	}
 
 	return footerHost ? createPortal(footer, footerHost) : null;
 }
