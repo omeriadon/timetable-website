@@ -73,30 +73,13 @@ export default function PlannerView({
 
 	return (
 		<section className={styles.planner}>
-			<Button
-				type="button"
-				aria-label="Add personal event"
-				onClick={() =>
-					openDrawer(
-						<CreatePrivateEventDrawer
-							onCreated={(event) =>
-								setLocalEvents((current) => [...current, event])
-							}
-						/>,
-					)
-				}
-			>
-				<Symbol name="plus" />
-				Add Personal Event
-			</Button>
-			{canManageGlobalEvents ? (
+			<div className={styles.plannerActions}>
 				<Button
 					type="button"
-					aria-label="Add global event"
+					aria-label="Add personal event"
 					onClick={() =>
 						openDrawer(
 							<CreatePrivateEventDrawer
-								globally
 								onCreated={(event) =>
 									setLocalEvents((current) => [...current, event])
 								}
@@ -104,10 +87,29 @@ export default function PlannerView({
 						)
 					}
 				>
-					<Symbol name="megaphone" />
-					Add Global Event
+					<Symbol name="plus" />
+					Add Personal Event
 				</Button>
-			) : null}
+				{canManageGlobalEvents ? (
+					<Button
+						type="button"
+						aria-label="Add global event"
+						onClick={() =>
+							openDrawer(
+								<CreatePrivateEventDrawer
+									globally
+									onCreated={(event) =>
+										setLocalEvents((current) => [...current, event])
+									}
+								/>,
+							)
+						}
+					>
+						<Symbol name="megaphone" />
+						Add Global Event
+					</Button>
+				) : null}
+			</div>
 			{todayEvents.length ? (
 				<SectionCard
 					background="paper"
@@ -326,27 +328,30 @@ function CreatePrivateEventDrawer({
 				/>
 			</label>
 			{globally ? (
-				<section className={styles.formCard} aria-labelledby="new-event-tags-title">
+				<section
+					className={styles.formCard}
+					aria-labelledby="new-event-tags-title"
+				>
 					<h3 id="new-event-tags-title">Tags</h3>
 					{tagSections.length ? (
-						tagSections.flatMap((section) => section.tags).map((tag) => {
-							const selected = selectedTagIDs.includes(tag.id);
-							return (
-								<Button
-									key={tag.id}
-									type="button"
-									aria-pressed={selected}
-									aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
-									onClick={() =>
-										setSelectedTagIDs(selected ? [] : [tag.id])
-									}
-								>
-									<Symbol name={tag.symbol ?? "tag"} />
-									{tag.displayName}
-									{selected ? <Symbol name="checkmark" /> : null}
-								</Button>
-							);
-						})
+						tagSections
+							.flatMap((section) => section.tags)
+							.map((tag) => {
+								const selected = selectedTagIDs.includes(tag.id);
+								return (
+									<Button
+										key={tag.id}
+										type="button"
+										aria-pressed={selected}
+										aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
+										onClick={() => setSelectedTagIDs(selected ? [] : [tag.id])}
+									>
+										<Symbol name={tag.symbol ?? "tag"} />
+										{tag.displayName}
+										{selected ? <Symbol name="checkmark" /> : null}
+									</Button>
+								);
+							})
 					) : (
 						<p className={styles.empty}>Loading event tags…</p>
 					)}

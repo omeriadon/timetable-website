@@ -7,11 +7,12 @@
 
 	flex: 0 0 var(--ds-icon-size-row);
 
-	color: var(--foreground);
+	color: inherit;
 }
 
 .symbol {
-	background: currentColor;
+	background-color: currentColor;
+	mask-type: alpha;
 
 	mask-image: var(--symbol-image);
 	mask-repeat: no-repeat;
