@@ -17,10 +17,8 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
@@ -278,84 +276,83 @@ export default function GradesPage() {
 					) : null}
 					{gradeSubjects.length ? (
 						<section className={styles.subjects}>
-						{gradeSubjects.map((subject) => {
-							const subjectAssessments = scored.filter(
-								(assessment) => assessment.subjectID === subject.id,
-							);
-							const subjectAverage = subjectAssessments.length
-								? subjectAssessments.reduce(
-										(sum, assessment) =>
-											sum + assessment.score * assessment.weighting,
-										0,
-									) /
-									subjectAssessments.reduce(
-										(sum, assessment) => sum + assessment.weighting,
-										0,
-									)
-								: null;
-							return (
-								<Drawer
-									key={subject.id}
-									swipeDirection="right"
-									snapPoints={SNAP_POINTS}
-								>
-									<DrawerTrigger
-										render={
-											<Button
-												type="button"
-												className={styles.subjectRow}
-												aria-label={`Open ${subject.id} grades`}
-											/>
-										}
+							{gradeSubjects.map((subject) => {
+								const subjectAssessments = scored.filter(
+									(assessment) => assessment.subjectID === subject.id,
+								);
+								const subjectAverage = subjectAssessments.length
+									? subjectAssessments.reduce(
+											(sum, assessment) =>
+												sum + assessment.score * assessment.weighting,
+											0,
+										) /
+										subjectAssessments.reduce(
+											(sum, assessment) => sum + assessment.weighting,
+											0,
+										)
+									: null;
+								return (
+									<Drawer
+										key={subject.id}
+										swipeDirection="right"
+										snapPoints={SNAP_POINTS}
 									>
-										<GradeGauge
-											value={subjectAverage}
-											color={subjectColour(subject)}
-											symbol={subject.symbol}
-										/>
-										<span>
-											<b className={styles.subjectName}>{subject.id}</b>
-											<small className={styles.subjectDetail}>
+										<DrawerTrigger
+											render={
+												<Button
+													type="button"
+													className={styles.subjectRow}
+													aria-label={`Open ${subject.id} grades`}
+												/>
+											}
+										>
+											<GradeGauge
+												value={subjectAverage}
+												color={subjectColour(subject)}
+												symbol={subject.symbol}
+											/>
+											<span>
+												<b className={styles.subjectName}>{subject.id}</b>
+												<small className={styles.subjectDetail}>
+													{subjectAverage === null
+														? "No assessments yet"
+														: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
+												</small>
+											</span>
+											<strong className={styles.subjectScore}>
 												{subjectAverage === null
-													? "No assessments yet"
-													: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
-											</small>
-										</span>
-										<strong className={styles.subjectScore}>
-											{subjectAverage === null
-												? "—"
-												: formatPercent(subjectAverage)}
-										</strong>
-									</DrawerTrigger>
-									<DrawerContent>
-										<DrawerHeader>
-											<DrawerTitle>{subject.id}</DrawerTitle>
-											<DrawerDescription>
-												{subjectAverage === null
-													? "No assessments yet"
-													: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"} recorded`}
-											</DrawerDescription>
-										</DrawerHeader>
-										<GradeSubjectDrawer
-											subjectID={subject.id}
-											symbol={subject.symbol}
-											colour={subjectColour(subject)}
-											average={subjectAverage}
-											assessments={subjectAssessments}
-										/>
-										<DrawerFooter>
-											<DrawerClose render={<Button />}>Close</DrawerClose>
-										</DrawerFooter>
-									</DrawerContent>
-								</Drawer>
-							);
-						})}
+													? "—"
+													: formatPercent(subjectAverage)}
+											</strong>
+										</DrawerTrigger>
+										<DrawerContent>
+											<DrawerHeader>
+												<DrawerTitle>{subject.id}</DrawerTitle>
+												<DrawerDescription>
+													{subjectAverage === null
+														? "No assessments yet"
+														: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"} recorded`}
+												</DrawerDescription>
+											</DrawerHeader>
+											<GradeSubjectDrawer
+												subjectID={subject.id}
+												symbol={subject.symbol}
+												colour={subjectColour(subject)}
+												average={subjectAverage}
+												assessments={subjectAssessments}
+											/>
+										</DrawerContent>
+									</Drawer>
+								);
+							})}
 						</section>
 					) : (
 						<section className={styles.emptyState}>
 							<Symbol name="book.closed" />
 							<strong>No Subjects Yet</strong>
-							<span>Add subjects to your timetable before tracking grades.</span>
+							<span>
+								Add subjects to your timetable before tracking grades.
+							</span>
 						</section>
 					)}
 				</>

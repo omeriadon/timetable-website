@@ -11,7 +11,6 @@ import {
 	SaveIcon,
 	Settings2Icon,
 	TrashIcon,
-	XIcon,
 } from "lucide-react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
@@ -38,10 +37,8 @@ import {
 import { Button } from "@/components/ui/button";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
@@ -397,12 +394,6 @@ export default function TestingPage() {
 									<DrawerDescription>Drawer description.</DrawerDescription>
 								</DrawerHeader>
 								<p>Drawer content.</p>
-								<DrawerFooter>
-									<DrawerClose>
-										<XIcon />
-										Close drawer
-									</DrawerClose>
-								</DrawerFooter>
 							</DrawerContent>
 						</Drawer>
 

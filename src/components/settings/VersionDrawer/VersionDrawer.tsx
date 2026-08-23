@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 
 export default function VersionDrawer() {
-	const { closeDrawer } = useDrawer();
 	const [copied, setCopied] = useState(false);
 	const version = "Web";
 
@@ -34,10 +32,6 @@ export default function VersionDrawer() {
 			<Button aria-label="Copy version" onClick={() => void copy()}>
 				<Symbol name="doc.on.doc" fallback="+" />
 				{copied ? "Copied" : "Copy Version"}
-			</Button>
-			<Button aria-label="Close version" onClick={closeDrawer}>
-				<Symbol name="xmark" fallback="x" />
-				Close
 			</Button>
 		</div>
 	);

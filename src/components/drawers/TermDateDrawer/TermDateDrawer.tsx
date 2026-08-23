@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 
 type TermDateDrawerProps = {
@@ -16,8 +14,6 @@ export default function TermDateDrawer({
 	start,
 	end,
 }: TermDateDrawerProps) {
-	const { closeDrawer } = useDrawer();
-
 	return (
 		<div className={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
@@ -39,10 +35,6 @@ export default function TermDateDrawer({
 					<strong>{formatDate(end)}</strong>
 				</div>
 			</section>
-			<Button aria-label="Close term dates" onClick={closeDrawer}>
-				<Symbol name="xmark" fallback="x" />
-				Close
-			</Button>
 		</div>
 	);
 }

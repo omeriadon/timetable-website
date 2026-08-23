@@ -7,12 +7,10 @@ import {
 	useState,
 	type ReactNode,
 } from "react";
-import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
@@ -57,12 +55,6 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 						<DrawerTitle>Timetable drawer</DrawerTitle>
 					</DrawerHeader>
 					<div>{content}</div>
-					<DrawerFooter>
-						<DrawerClose>
-							<Symbol name="xmark" />
-							Close
-						</DrawerClose>
-					</DrawerFooter>
 				</DrawerContent>
 			</Drawer>
 		</DrawerContext.Provider>

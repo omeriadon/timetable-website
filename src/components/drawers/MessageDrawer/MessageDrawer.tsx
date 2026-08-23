@@ -1,8 +1,6 @@
 "use client";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { Button } from "@/components/ui/button";
-import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 
 type MessageDrawerProps = {
@@ -16,8 +14,6 @@ export default function MessageDrawer({
 	message,
 	tone = "error",
 }: MessageDrawerProps) {
-	const { closeDrawer } = useDrawer();
-
 	return (
 		<div className={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
@@ -30,12 +26,6 @@ export default function MessageDrawer({
 					<p>{message}</p>
 				</div>
 			</header>
-			<div className={styles.drawerActions}>
-				<Button aria-label="Close" onClick={closeDrawer}>
-					<Symbol name="checkmark" fallback="✓" />
-					Close
-				</Button>
-			</div>
 		</div>
 	);
 }
