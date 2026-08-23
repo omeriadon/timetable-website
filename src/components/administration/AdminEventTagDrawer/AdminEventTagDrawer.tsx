@@ -12,6 +12,7 @@ import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export default function AdminEventTagDrawer({
 	tag,
@@ -132,30 +133,33 @@ export default function AdminEventTagDrawer({
 					/>{" "}
 					Archive tag
 				</label>
-				<div className={styles.drawerActions}>
-					{tag ? (
-						<Button
-							aria-label="Delete event tag"
-							onClick={() => void remove()}
-							disabled={saving}
-						>
-							Delete
-						</Button>
-					) : null}
-					<Button
-						aria-label="Save event tag"
-						onClick={() => void save()}
-						disabled={saving || !displayName.trim() || !slug.trim()}
-					>
-						{saving ? "Saving…" : "Save"}
-					</Button>
-				</div>
 			</section>
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}
 				</p>
 			) : null}
+			<DrawerFooter className={styles.actionFooter}>
+				{tag ? (
+					<Button
+						variant="destructive"
+						flexible
+						aria-label="Delete event tag"
+						onClick={() => void remove()}
+						disabled={saving}
+					>
+						Delete
+					</Button>
+				) : null}
+				<Button
+					flexible
+					aria-label="Save event tag"
+					onClick={() => void save()}
+					disabled={saving || !displayName.trim() || !slug.trim()}
+				>
+					{saving ? "Saving…" : "Save"}
+				</Button>
+			</DrawerFooter>
 		</div>
 	);
 }

@@ -7,6 +7,7 @@ import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export default function AdminCalendarEntryDrawer({
 	entry,
@@ -93,30 +94,33 @@ export default function AdminCalendarEntryDrawer({
 						onChange={(event) => setEndDate(event.target.value)}
 					/>
 				</label>
-				<div className={styles.drawerActions}>
-					{entry ? (
-						<Button
-							aria-label="Delete calendar entry"
-							onClick={() => void remove()}
-							disabled={saving}
-						>
-							Delete
-						</Button>
-					) : null}
-					<Button
-						aria-label="Save calendar entry"
-						onClick={() => void save()}
-						disabled={saving || !label.trim() || !startDate}
-					>
-						{saving ? "Saving…" : "Save"}
-					</Button>
-				</div>
 			</section>
 			{error ? (
 				<p className={styles.detailMuted} role="alert">
 					{error}
 				</p>
 			) : null}
+			<DrawerFooter className={styles.actionFooter}>
+				{entry ? (
+					<Button
+						variant="destructive"
+						flexible
+						aria-label="Delete calendar entry"
+						onClick={() => void remove()}
+						disabled={saving}
+					>
+						Delete
+					</Button>
+				) : null}
+				<Button
+					flexible
+					aria-label="Save calendar entry"
+					onClick={() => void save()}
+					disabled={saving || !label.trim() || !startDate}
+				>
+					{saving ? "Saving…" : "Save"}
+				</Button>
+			</DrawerFooter>
 		</div>
 	);
 }

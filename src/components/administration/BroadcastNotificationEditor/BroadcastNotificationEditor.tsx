@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { apiRequest } from "@/lib/api/client";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 import styles from "@/components/administration/Administration.module.css";
 
@@ -73,16 +74,17 @@ export default function BroadcastNotificationEditor() {
 				/>
 			</label>
 
-			<Button type="button" onClick={send} disabled={!title.trim()}>
-				<Symbol name="megaphone" />
-				Broadcast notification
-			</Button>
-
 			{status && (
 				<p className={styles.detail} role="status">
 					{status}
 				</p>
 			)}
+			<DrawerFooter>
+				<Button fullWidth type="button" onClick={send} disabled={!title.trim()}>
+					<Symbol name="megaphone" />
+					Broadcast notification
+				</Button>
+			</DrawerFooter>
 		</section>
 	);
 }

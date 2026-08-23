@@ -8,6 +8,7 @@ import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AdminAboutContributorsEditor.module.css";
 import { List, ListRow } from "@/components/ui/list";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 type Draft = {
 	name: string;
@@ -202,28 +203,28 @@ export default function AdminAboutContributorsEditor() {
 						placeholder="Contribution or role"
 					/>
 				</label>
-				<div className={styles.formActions}>
-					{editingID ? (
-						<Button type="button" variant="ghost" onClick={reset}>
-							<Symbol name="xmark" />
-							Cancel
-						</Button>
-					) : null}
-					<Button type="button" onClick={() => void save()} disabled={saving}>
-						<Symbol name={editingID ? "checkmark" : "plus"} />
-						{saving
-							? "Saving…"
-							: editingID
-								? "Save contributor"
-								: "Add contributor"}
-					</Button>
-				</div>
 			</section>
 			{status ? (
 				<p className={styles.status} role="status">
 					{status}
 				</p>
 			) : null}
+			<DrawerFooter className={styles.formActions}>
+				{editingID ? (
+					<Button type="button" variant="ghost" onClick={reset}>
+						<Symbol name="xmark" />
+						Cancel
+					</Button>
+				) : null}
+				<Button type="button" onClick={() => void save()} disabled={saving}>
+					<Symbol name={editingID ? "checkmark" : "plus"} />
+					{saving
+						? "Saving…"
+						: editingID
+							? "Save contributor"
+							: "Add contributor"}
+				</Button>
+			</DrawerFooter>
 		</main>
 	);
 }

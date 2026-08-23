@@ -7,6 +7,7 @@ import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
 import AdminVersionField from "@/components/administration/AdminVersionField/AdminVersionField";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 type AppVersionRequirement = {
 	appVersion: string;
@@ -131,15 +132,6 @@ export default function AdminAppVersionEditor() {
 					}
 				/>
 			</section>
-			<Button
-				type="button"
-				className={adminStyles.profileSave}
-				onClick={() => void save()}
-				disabled={!valid || saving}
-			>
-				<Symbol name="checkmark" fallback="✓" />
-				{saving ? "Saving…" : "Save App Versions"}
-			</Button>
 			{status ? (
 				<p
 					className={status.endsWith("saved.") ? styles.loading : styles.error}
@@ -148,6 +140,18 @@ export default function AdminAppVersionEditor() {
 					{status}
 				</p>
 			) : null}
+			<DrawerFooter>
+				<Button
+					fullWidth
+					type="button"
+					className={adminStyles.profileSave}
+					onClick={() => void save()}
+					disabled={!valid || saving}
+				>
+					<Symbol name="checkmark" fallback="✓" />
+					{saving ? "Saving…" : "Save App Versions"}
+				</Button>
+			</DrawerFooter>
 		</main>
 	);
 }

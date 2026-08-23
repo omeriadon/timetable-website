@@ -5,6 +5,7 @@ import { useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export default function TestEmailButton() {
 	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">(
@@ -32,13 +33,16 @@ export default function TestEmailButton() {
 	}[state];
 
 	return (
-		<Button
-			type="button"
-			onClick={() => void send()}
-			disabled={state === "sending"}
-		>
-			<Symbol name="envelope.badge" />
-			{label}
-		</Button>
+		<DrawerFooter>
+			<Button
+				fullWidth
+				type="button"
+				onClick={() => void send()}
+				disabled={state === "sending"}
+			>
+				<Symbol name="envelope.badge" />
+				{label}
+			</Button>
+		</DrawerFooter>
 	);
 }

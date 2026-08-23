@@ -10,6 +10,7 @@ import type {
 	SpecialBadge,
 } from "@/components/administration/AdminBadgesEditor/AdminBadgesEditor";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -219,9 +220,11 @@ export default function AdminSpecialBadgeDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
+			<DrawerFooter className={styles.actionFooter}>
 				{badge && !isBuiltIn ? (
 					<Button
+						variant="destructive"
+						flexible
 						aria-label="Delete badge"
 						onClick={() => void remove()}
 						disabled={saving}
@@ -230,13 +233,14 @@ export default function AdminSpecialBadgeDrawer({
 					</Button>
 				) : null}
 				<Button
+					flexible
 					aria-label={badge ? "Save badge" : "Create badge"}
 					onClick={() => void save()}
 					disabled={saving || !symbol.trim() || !accessibilityLabel.trim()}
 				>
 					{saving ? "Saving…" : badge ? "Save" : "Create"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }

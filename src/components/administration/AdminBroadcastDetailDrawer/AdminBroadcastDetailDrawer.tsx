@@ -6,6 +6,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
+import { DrawerFooter } from "@/components/ui/drawer";
 import AdminBroadcastDetailRow from "@/components/administration/AdminBroadcastDetailRow/AdminBroadcastDetailRow";
 
 export default function AdminBroadcastDetailDrawer({
@@ -85,20 +86,24 @@ export default function AdminBroadcastDetailDrawer({
 					/>
 				) : null}
 			</section>
-			{!record.isDeleted ? (
-				<Button
-					aria-label="Delete notification"
-					onClick={() => void remove()}
-					disabled={deleting}
-				>
-					<Symbol name="trash" fallback="−" />
-					{deleting ? "Deleting…" : "Delete Notification"}
-				</Button>
-			) : null}
 			{status ? (
 				<p className={styles.detailMuted} role="status">
 					{status}
 				</p>
+			) : null}
+			{!record.isDeleted ? (
+				<DrawerFooter>
+					<Button
+						fullWidth
+						variant="destructive"
+						aria-label="Delete notification"
+						onClick={() => void remove()}
+						disabled={deleting}
+					>
+						<Symbol name="trash" fallback="−" />
+						{deleting ? "Deleting…" : "Delete Notification"}
+					</Button>
+				</DrawerFooter>
 			) : null}
 		</div>
 	);
