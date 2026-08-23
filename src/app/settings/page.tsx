@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import {
 	Select,
 	SelectContent,
@@ -14,11 +13,13 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import CalendarImportDrawer from "@/components/drawers/CalendarImportDrawer/CalendarImportDrawer";
+import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { List, ListRow } from "@/components/ui/list";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
+import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
 import type { Settings } from "@/features/settings/types";
@@ -26,6 +27,7 @@ import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEd
 import NotificationSettingsEditor from "@/components/settings/NotificationSettingsEditor/NotificationSettingsEditor";
 import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/ArchivedEventsEditor";
 import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
+import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
 
 export default function SettingsPage() {
 	const setToolbar = useToolbar();
@@ -81,13 +83,54 @@ export default function SettingsPage() {
 		}
 	};
 
+	const saveProfileAppearance = async (appearance: ProfileAppearance) => {
+		if (!account) {
+			return;
+		}
+
+		const updated = await apiRequest<{
+			displayName: string;
+			appearance: ProfileAppearance;
+			photo?: Account["photo"];
+			revision: number;
+		}>("v1/friends/profile", {
+			method: "PUT",
+			body: JSON.stringify({
+				appearance,
+				baseRevision: account.revision,
+			}),
+		});
+		setAccount((current) =>
+			current
+				? {
+						...current,
+						appearance: updated.appearance,
+						photo: updated.photo,
+						revision: updated.revision,
+					}
+				: current,
+		);
+	};
+
 	return (
 		<main className={styles.page}>
 			{account ? (
-				<Link
+				<DrawerTrigger
 					className={`${styles.rowButton} ${styles.profileButton}`}
-					href="/settings/profile-appearance"
-					aria-label="Open profile appearance"
+					ariaLabel="Open profile appearance"
+					content={
+						account.appearance ? (
+							<ProfileAppearanceEditor
+								profile={{
+									displayName: account.displayName,
+									appearance: account.appearance,
+									photo: account.photo,
+									revision: account.revision,
+								}}
+								save={saveProfileAppearance}
+							/>
+						) : null
+					}
 				>
 					<section className={`${styles.paper} ${styles.profileRow}`}>
 						<ProfilePicture profile={account} size={52} />
@@ -97,7 +140,7 @@ export default function SettingsPage() {
 						</span>
 						<Symbol name="chevron.right" />
 					</section>
-				</Link>
+				</DrawerTrigger>
 			) : null}
 			{error ? (
 				<p className={styles.error} role="alert">
