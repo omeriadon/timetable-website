@@ -12,7 +12,6 @@ import { futureEventEndDate } from "@/features/timetable/eventRange";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import EventRow from "@/components/timetable/EventRow/EventRow";
-import TermDateDrawer from "@/components/drawers/TermDateDrawer/TermDateDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
@@ -157,7 +156,7 @@ export default function PlannerView({
 						<Link
 							key={assessment.id}
 							href={`/grades/${encodeURIComponent(assessment.subjectID)}`}
-							className={styles.cardRow}
+							className={cn(styles.cardRow, styles.plannerEvent)}
 							aria-label={`Open ${assessment.name}`}
 						>
 							<span className={styles.eventSymbol} aria-hidden="true">
@@ -196,20 +195,9 @@ export default function PlannerView({
 			) : null}
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{visibleTermRanges.map((term) => (
-					<Button
+					<div
 						key={term.label}
-						type="button"
 						className={cn(styles.cardRow, styles.plannerEvent)}
-						onClick={() =>
-							openDrawer(
-								<TermDateDrawer
-									label={term.label}
-									start={term.start}
-									end={term.end}
-								/>,
-							)
-						}
-						aria-label={`Open ${term.label} dates`}
 					>
 						<span className={styles.eventSymbol} aria-hidden="true">
 							<Symbol name="calendar" className={styles.eventSymbolIcon} />
@@ -221,8 +209,7 @@ export default function PlannerView({
 						<time>
 							{term.start.day} {monthName(term.start.month)}
 						</time>
-						<Symbol name="chevron.right" className={styles.rowDisclosureIcon} />
-					</Button>
+					</div>
 				))}
 			</SectionCard>
 		</section>

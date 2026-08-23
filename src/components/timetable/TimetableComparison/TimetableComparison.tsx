@@ -1,14 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import type {
 	Friend,
 	TimetableSlot,
 	TimetableSubject,
 } from "@/features/timetable/types";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import { useDrawer } from "@/components/drawers/Drawer/Drawer";
-import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./TimetableComparison.module.css";
 
@@ -21,7 +18,6 @@ export default function TimetableComparison({
 	selectedSlot,
 	friends,
 }: TimetableComparisonProps) {
-	const { openDrawer } = useDrawer();
 	if (!selectedSlot) return null;
 
 	const comparableFriends = friends.filter((friend) => friend.timetable);
@@ -45,19 +41,7 @@ export default function TimetableComparison({
 					selectedSlot,
 				);
 				return subject ? (
-					<Button
-						key={friend.relationshipID}
-						type="button"
-						className={styles.friendSubject}
-						onClick={() =>
-							openDrawer(
-								<SubjectContextDrawer
-									owner={friend.friend.displayName}
-									subject={subject}
-								/>,
-							)
-						}
-					>
+					<article key={friend.relationshipID} className={styles.friendSubject}>
 						<ProfilePicture
 							profile={friend.friend}
 							size={28}
@@ -68,7 +52,7 @@ export default function TimetableComparison({
 							<Symbol name={subject.symbol} className={styles.subjectSymbol} />{" "}
 							{subject.id}
 						</strong>
-					</Button>
+					</article>
 				) : (
 					<div key={friend.relationshipID} className={styles.freePeriod}>
 						<span>{friend.friend.displayName}</span>
