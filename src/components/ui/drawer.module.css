@@ -429,13 +429,17 @@
 	border: 0;
 }
 
-.content > div {
+.body {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	flex: 1;
 	min-height: 0;
 	overflow-y: auto;
+	padding-inline: 1rem;
+}
+
+.content > :not([data-slot="drawer-header"]):not(.body) {
 	padding-inline: 1rem;
 }
 

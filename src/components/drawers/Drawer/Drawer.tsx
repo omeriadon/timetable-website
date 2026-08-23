@@ -55,7 +55,7 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 					<DrawerHeader>
 						<DrawerTitle className={styles.visuallyHidden}>Drawer</DrawerTitle>
 					</DrawerHeader>
-					<div>{content}</div>
+					<div className={styles.body}>{content}</div>
 				</DrawerContent>
 			</Drawer>
 		</DrawerContext.Provider>
