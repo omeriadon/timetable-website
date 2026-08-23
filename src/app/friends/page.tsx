@@ -18,6 +18,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import FriendSearchDrawer from "@/components/drawers/FriendSearchDrawer/FriendSearchDrawer";
 import FriendRequestsDrawer from "@/components/drawers/FriendRequestsDrawer/FriendRequestsDrawer";
 import type { Account } from "@/lib/api/contracts";
+import { List } from "@/components/ui/list";
 import styles from "./page.module.css";
 import { useTimetableNow } from "@/features/timetable/clock";
 import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
@@ -75,7 +76,6 @@ export default function FriendsPage() {
 	};
 
 	useEffect(() => {
-		setToolbar({ title: "Friends" });
 		Promise.all([
 			apiRequest<Friend[]>("v1/friends"),
 			apiRequest<Account>("v1/account"),
@@ -90,38 +90,30 @@ export default function FriendsPage() {
 		apiRequest<Friend[]>("v1/friends/requests")
 			.then((requests) => setIncomingRequestCount(requests.length))
 			.catch(() => setIncomingRequestCount(0));
-	}, [setToolbar]);
+	}, []);
+
+	useEffect(() => {
+		setToolbar({
+			title: "Friends",
+			actions: [
+				{
+					label: incomingRequestCount
+						? `${incomingRequestCount} pending friend requests`
+						: "Friend requests, no pending requests",
+					icon: incomingRequestCount ? "bell.badge" : "bell",
+					onPress: () => openDrawer(<FriendRequestsDrawer />),
+				},
+				{
+					label: "Add friend",
+					icon: "plus",
+					onPress: () => openDrawer(<FriendSearchDrawer />),
+				},
+			],
+		});
+	}, [incomingRequestCount, openDrawer, setToolbar]);
 
 	return (
 		<main className={styles.page}>
-			<div className={styles.friendActions}>
-				<Button
-					type="button"
-					aria-label={
-						incomingRequestCount
-							? `${incomingRequestCount} pending friend requests`
-							: "Friend requests, no pending requests"
-					}
-					onClick={() => openDrawer(<FriendRequestsDrawer />)}
-				>
-					<Symbol
-						name={incomingRequestCount ? "bell.badge" : "bell"}
-						className={styles.friendActionIcon}
-					/>
-					{incomingRequestCount ? (
-						<span className={styles.requestCount} aria-hidden="true">
-							{incomingRequestCount}
-						</span>
-					) : null}
-				</Button>
-				<Button
-					type="button"
-					aria-label="Add friend"
-					onClick={() => openDrawer(<FriendSearchDrawer />)}
-				>
-					<Symbol name="plus" className={styles.friendActionIcon} />
-				</Button>
-			</div>
 			{error ? <p className={styles.error}>{error}</p> : null}
 			<label className={styles.searchLabel} htmlFor="friends-search">
 				Search friends
@@ -152,66 +144,73 @@ export default function FriendsPage() {
 					<em>{locationStatusTime(locationStatus)}</em>
 				</Button>
 			) : null}
-			<div className={styles.list}>
+			<List>
 				{filteredFriends.length ? (
 					filteredFriends.map((friend) => {
 						const index = friends.indexOf(friend);
 						return (
-					<div key={friend.relationshipID} className={styles.friendRow}>
-						<DrawerTrigger
-							className={styles.friendButton}
-							ariaLabel={`Open ${friend.friend.displayName}`}
-							content={<FriendDetailDrawer friend={friend} />}
-						>
-							<article className={styles.friend}>
-								<ProfilePicture
-									profile={friend.friend}
-									size={64}
-									label={`${friend.friend.displayName} profile picture`}
-								/>
-								<div>
-									<h2>{friend.friend.displayName}</h2>
-									<p>{locationStatusTitle(friend.locationStatus?.state)}</p>
-									<span>
-										{friendScheduleTitle(friend.timetable?.subjects ?? [], now)}
-									</span>
+							<div key={friend.relationshipID} className={styles.friendRow}>
+								<DrawerTrigger
+									className={styles.friendButton}
+									ariaLabel={`Open ${friend.friend.displayName}`}
+									content={<FriendDetailDrawer friend={friend} />}
+								>
+									<article className={styles.friend}>
+										<ProfilePicture
+											profile={friend.friend}
+											size={64}
+											label={`${friend.friend.displayName} profile picture`}
+										/>
+										<div>
+											<h2>{friend.friend.displayName}</h2>
+											<p>{locationStatusTitle(friend.locationStatus?.state)}</p>
+											<span>
+												{friendScheduleTitle(
+													friend.timetable?.subjects ?? [],
+													now,
+												)}
+											</span>
+										</div>
+										<strong className={styles.status}>
+											{friend.state === "friends" ? "Friends" : "Pending"}
+										</strong>
+									</article>
+								</DrawerTrigger>
+								<div className={styles.reorderActions}>
+									<Button
+										type="button"
+										variant="ghost"
+										size="icon-xs"
+										disabled={index === 0 || movingFriendID !== null}
+										aria-label={`Move ${friend.friend.displayName} up`}
+										onClick={() => void moveFriend(friend.friend.userID, -1)}
+									>
+										<Symbol name="chevron.up" />
+									</Button>
+									<Button
+										type="button"
+										variant="ghost"
+										size="icon-xs"
+										disabled={
+											index === friends.length - 1 || movingFriendID !== null
+										}
+										aria-label={`Move ${friend.friend.displayName} down`}
+										onClick={() => void moveFriend(friend.friend.userID, 1)}
+									>
+										<Symbol name="chevron.down" />
+									</Button>
 								</div>
-								<strong className={styles.status}>
-									{friend.state === "friends" ? "Friends" : "Pending"}
-								</strong>
-							</article>
-						</DrawerTrigger>
-						<div className={styles.reorderActions}>
-							<Button
-								type="button"
-								size="icon-xs"
-								disabled={index === 0 || movingFriendID !== null}
-								aria-label={`Move ${friend.friend.displayName} up`}
-								onClick={() => void moveFriend(friend.friend.userID, -1)}
-							>
-								<Symbol name="chevron.up" />
-							</Button>
-							<Button
-								type="button"
-								size="icon-xs"
-								disabled={
-									index === friends.length - 1 || movingFriendID !== null
-								}
-								aria-label={`Move ${friend.friend.displayName} down`}
-								onClick={() => void moveFriend(friend.friend.userID, 1)}
-							>
-								<Symbol name="chevron.down" />
-							</Button>
-						</div>
-						</div>
+							</div>
 						);
 					})
 				) : (
 					<p className={styles.emptyState}>
-						{friends.length ? "No friends match your search." : "No friends yet."}
+						{friends.length
+							? "No friends match your search."
+							: "No friends yet."}
 					</p>
 				)}
-			</div>
+			</List>
 		</main>
 	);
 }
@@ -371,9 +370,7 @@ function distanceFromSchool(latitude: number, longitude: number) {
 			Math.sin(longitudeDelta / 2) ** 2;
 
 	return (
-		2 *
-		earthRadius *
-		Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+		2 * earthRadius * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
 	);
 }
 

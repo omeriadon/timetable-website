@@ -4,13 +4,6 @@
 	padding: var(--ds-content-page-padding);
 }
 
-.friendActions {
-	display: flex;
-	justify-content: flex-end;
-	gap: var(--ds-space-2);
-	margin-bottom: var(--ds-content-section-gap);
-}
-
 .searchLabel {
 	position: absolute;
 	width: 1px;
@@ -22,39 +15,6 @@
 
 .searchInput {
 	margin-bottom: var(--ds-content-section-gap);
-}
-
-.friendActions button {
-	position: relative;
-	display: inline-grid;
-	width: var(--ds-control-height-compact);
-	height: var(--ds-control-height-compact);
-	place-items: center;
-	border: var(--ds-border-width) solid var(--ds-color-border);
-	border-radius: var(--ds-radius-control);
-	background: var(--ds-color-surface);
-}
-
-.requestCount {
-	position: absolute;
-	top: -0.35rem;
-	right: -0.35rem;
-	min-width: 1rem;
-	height: 1rem;
-	padding: 0 0.2rem;
-	border-radius: 999px;
-	background: var(--ds-color-danger);
-	color: var(--ds-color-text);
-	font-size: 0.65rem;
-	font-weight: 700;
-	line-height: 1rem;
-	text-align: center;
-}
-
-.friendActionIcon {
-	width: var(--ds-icon-size-small);
-	height: var(--ds-icon-size-small);
-	object-fit: contain;
 }
 
 .selfCard {
@@ -69,6 +29,11 @@
 	background: var(--ds-color-surface);
 }
 
+.selfCard[data-variant="default"] {
+	background: var(--ds-color-surface);
+	color: inherit;
+}
+
 .selfCard div {
 	display: grid;
 	gap: var(--ds-space-1);
@@ -81,18 +46,26 @@
 	font-style: normal;
 }
 
-.list {
-	display: grid;
-	overflow: hidden;
-	border: var(--ds-border-width) solid var(--ds-color-border);
-	border-radius: var(--ds-radius-content-card);
-	background: var(--ds-color-surface);
+.friendButton {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
 }
 
-.friendButton {
-	width: 100%;
-	padding: 0;
-	text-align: left;
+.friendButton[data-size="default"] {
+	height: auto;
+}
+
+.friendButton[data-variant="default"] {
+	background: transparent;
+	color: inherit;
 }
 
 .friendButton + .friendButton {
@@ -103,10 +76,6 @@
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: stretch;
-}
-
-.friendRow + .friendRow {
-	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .reorderActions {
@@ -125,6 +94,10 @@
 	align-items: center;
 	min-height: var(--ds-friend-row-min-height);
 	padding: var(--ds-list-row-padding-block) var(--ds-list-row-padding-inline);
+}
+
+.friend > div {
+	min-width: 0;
 }
 
 .friend h2,
