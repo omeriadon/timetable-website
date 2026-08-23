@@ -55,6 +55,66 @@
 	width: 100%;
 }
 
+.adminToolbar {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.adminToolbar .adminSearch {
+	flex: 1;
+	margin-bottom: 0;
+}
+
+.userRow {
+	width: 100%;
+}
+
+.userRow > span {
+	display: grid;
+	min-width: 0;
+	flex: 1;
+	gap: var(--ds-space-1);
+}
+
+.userMeta {
+	overflow: hidden;
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.adminRecord {
+	display: grid;
+	gap: var(--ds-space-3);
+	align-items: stretch;
+}
+
+.adminField {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ds-list-row-gap);
+}
+
+.adminField > span {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.adminField > strong {
+	min-width: 0;
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+
+.detailNote,
+.emptyRow {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
 .reportCard {
 	display: grid;
 	gap: var(--ds-space-2);

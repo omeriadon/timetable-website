@@ -7,6 +7,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import AdminBroadcastDetailDrawer from "../AdminBroadcastDetailDrawer/AdminBroadcastDetailDrawer";
 import styles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export type BroadcastNotificationRecord = {
 	id: string;
@@ -51,13 +52,13 @@ export default function AdminBroadcastHistoryEditor() {
 
 	return (
 		<main className={styles.page}>
-			<section className={styles.card}>
+			<List rowHover>
 				{records.length ? (
 					records.map((record) => (
 						<Button
 							key={record.id}
 							type="button"
-							className={styles.rowButton}
+							className={styles.listButton}
 							onClick={() =>
 								openDrawer(
 									<AdminBroadcastDetailDrawer
@@ -74,7 +75,7 @@ export default function AdminBroadcastHistoryEditor() {
 								)
 							}
 						>
-							<div className={styles.row}>
+							<ListRow>
 								<Symbol
 									name={
 										record.isDeleted
@@ -93,14 +94,14 @@ export default function AdminBroadcastHistoryEditor() {
 											: "Unknown date"}
 									</small>
 								</span>
-								<Symbol name="chevron.right" className={styles.chevronIcon} />
-							</div>
+								<Symbol name="chevron.right" />
+							</ListRow>
 						</Button>
 					))
 				) : (
 					<p className={styles.loading}>No broadcast notifications.</p>
 				)}
-			</section>
+			</List>
 		</main>
 	);
 }

@@ -12,6 +12,7 @@ import AdminUserEditorDrawer, {
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminUsersEditor() {
 	const { openDrawer } = useDrawer();
@@ -80,15 +81,15 @@ export default function AdminUsersEditor() {
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{filtered.map((user) => (
 					<Button
 						key={user.id}
 						type="button"
-						className={styles.rowButton}
+						className={styles.listButton}
 						onClick={() => edit(user)}
 					>
-						<div className={adminStyles.userRow}>
+						<ListRow className={adminStyles.userRow}>
 							<ProfilePicture
 								profile={user}
 								size={38}
@@ -100,8 +101,8 @@ export default function AdminUsersEditor() {
 									{user.authority} · {user.email}
 								</small>
 							</span>
-							<Symbol name="chevron.right" className={styles.chevronIcon} />
-						</div>
+							<Symbol name="chevron.right" />
+						</ListRow>
 					</Button>
 				))}
 				{!filtered.length ? (
@@ -109,7 +110,7 @@ export default function AdminUsersEditor() {
 						{users.length ? "No matching users." : "Loading users…"}
 					</p>
 				) : null}
-			</section>
+			</List>
 		</main>
 	);
 }

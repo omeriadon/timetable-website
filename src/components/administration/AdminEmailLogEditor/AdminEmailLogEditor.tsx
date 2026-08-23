@@ -5,6 +5,7 @@ import { apiRequest } from "@/lib/api/client";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 type EmailLogEntry = {
 	id: string;
@@ -43,9 +44,9 @@ export default function AdminEmailLogEditor() {
 				</p>
 			) : null}
 			{entries?.length ? (
-				<section className={styles.card}>
+				<List>
 					{entries.map((entry) => (
-						<article className={adminStyles.adminRecord} key={entry.id}>
+						<ListRow className={adminStyles.adminRecord} key={entry.id}>
 							<div className={styles.profileRow}>
 								<Symbol name="envelope.badge" />
 								<span className={styles.label}>{entry.subject}</span>
@@ -65,9 +66,9 @@ export default function AdminEmailLogEditor() {
 									<strong>{entry.failureReason}</strong>
 								</div>
 							) : null}
-						</article>
+						</ListRow>
 					))}
-				</section>
+				</List>
 			) : null}
 		</main>
 	);

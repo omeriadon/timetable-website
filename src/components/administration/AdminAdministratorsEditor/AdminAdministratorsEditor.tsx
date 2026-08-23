@@ -11,6 +11,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
+import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminAdministratorsEditor() {
 	const { openDrawer } = useDrawer();
@@ -58,7 +59,7 @@ export default function AdminAdministratorsEditor() {
 					{error}
 				</p>
 			) : null}
-			<section className={styles.card}>
+			<List rowHover>
 				{filtered.map((user) => {
 					const isSystemOwner = user.authority === "systemOwner";
 					const isAdministrator = user.authority === "administrator";
@@ -66,7 +67,7 @@ export default function AdminAdministratorsEditor() {
 						<Button
 							key={user.id}
 							type="button"
-							className={styles.rowButton}
+							className={styles.listButton}
 							disabled={isSystemOwner}
 							onClick={() =>
 								openDrawer(
@@ -78,7 +79,7 @@ export default function AdminAdministratorsEditor() {
 								)
 							}
 						>
-							<div className={adminStyles.userRow}>
+							<ListRow className={adminStyles.userRow}>
 								<ProfilePicture
 									profile={user}
 									size={38}
@@ -93,7 +94,7 @@ export default function AdminAdministratorsEditor() {
 								<span className={styles.detail}>
 									{isSystemOwner ? "Owner" : isAdministrator ? "On" : "Off"}
 								</span>
-							</div>
+							</ListRow>
 						</Button>
 					);
 				})}
@@ -102,7 +103,7 @@ export default function AdminAdministratorsEditor() {
 						{users.length ? "No matching users." : "Loading administrators…"}
 					</p>
 				) : null}
-			</section>
+			</List>
 			<p className={styles.detailNote}>
 				Only system administrators can change administrator access. System
 				administrators cannot be changed here.
