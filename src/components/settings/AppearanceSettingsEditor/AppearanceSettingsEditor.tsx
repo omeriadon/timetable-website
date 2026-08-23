@@ -51,7 +51,7 @@ export default function AppearanceSettingsEditor({
 
 	return (
 		<>
-			<List>
+			<List rowHover>
 				<ListRow>
 					<Symbol name="textformat.size" />
 					<label className={styles.label} htmlFor="app-font-design">
