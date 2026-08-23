@@ -10,8 +10,6 @@ import {
 	type ReactNode,
 } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useDrawer } from "@/components/drawers/Drawer/Drawer";
-import QuickSettingsDrawer from "@/components/drawers/QuickSettingsDrawer/QuickSettingsDrawer";
 import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
@@ -58,7 +56,6 @@ export function useToolbar() {
 
 export default function Toolbar() {
 	const { config } = useContext(ToolbarContext);
-	const { openDrawer } = useDrawer();
 
 	const {
 		title,
@@ -91,14 +88,6 @@ export default function Toolbar() {
 					<Symbol name={action.icon} />
 				</Button>
 			))}
-
-			<Button
-				type="button"
-				aria-label="Open settings"
-				onClick={() => openDrawer(<QuickSettingsDrawer />)}
-			>
-				<Symbol name="gear" />
-			</Button>
 		</header>
 	);
 }
