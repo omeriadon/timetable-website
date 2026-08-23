@@ -157,6 +157,7 @@ export default function SettingsPage() {
 							description="Choose the app font and background material."
 							href="/settings/appearance"
 							icon="paintpalette"
+							direct
 						/>
 						<NavigationRow
 							title="Updates & Notifications"
