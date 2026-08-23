@@ -26,9 +26,11 @@
 	--ds-overlay-duration: 100ms;
 
 	/* Typography. */
-	--ds-font-body: "SF Pro", sans-serif;
+	--ds-font-default: "SF Pro", sans-serif;
 	--ds-font-rounded: "SF Rounded", "SF Pro", sans-serif;
 	--ds-font-mono: "SF Mono", monospace;
+	--ds-font-expanded: "SF Pro Expanded", "SF Pro", sans-serif;
+	--ds-font-body: var(--ds-font-default);
 	--ds-font-small: 0.76rem;
 	--ds-font-body-size: 0.88rem;
 	--ds-font-heading-size: 1.2rem;

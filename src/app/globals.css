@@ -214,15 +214,14 @@ body,
 	}
 }
 
-html[data-app-font="monospaced"] body {
-	font-family: var(--ds-font-mono);
+html[data-app-font="monospaced"] {
+	--ds-font-body: var(--ds-font-mono);
 }
 
-html[data-app-font="rounded"] body {
-	font-family: var(--ds-font-rounded);
+html[data-app-font="rounded"] {
+	--ds-font-body: var(--ds-font-rounded);
 }
 
-html[data-app-font="expanded"] body {
-	font-family: var(--ds-font-body);
-	font-stretch: expanded;
+html[data-app-font="expanded"] {
+	--ds-font-body: var(--ds-font-expanded);
 }
