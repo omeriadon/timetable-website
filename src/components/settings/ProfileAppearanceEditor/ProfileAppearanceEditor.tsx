@@ -14,6 +14,7 @@ import {
 	ProfileForegroundColourGrid,
 } from "../ProfileColourGrid/ProfileColourGrid";
 import ProfileFontPicker from "../ProfileFontPicker/ProfileFontPicker";
+import { Slider } from "@/components/ui/slider";
 import styles from "./ProfileAppearanceEditor.module.css";
 
 type ProfileResponse = {
@@ -225,28 +226,24 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					<div className={styles.sliderList}>
 						<label>
 							Animation Speed <output>{(draft.speed ?? 0.2).toFixed(2)}</output>
-							<Input
-								type="range"
-								min="0"
-								max="5"
-								step="0.05"
+							<Slider
+								ariaLabel="Animation Speed"
+								min={0}
+								max={5}
+								step={0.05}
 								value={draft.speed ?? 0.2}
-								onChange={(event) =>
-									update({ speed: Number(event.target.value) })
-								}
+								onValueChange={(value) => update({ speed: value })}
 							/>
 						</label>
 						<label>
 							Texture Noise <output>{Math.round(draft.noise ?? 64)}</output>
-							<Input
-								type="range"
-								min="0"
-								max="100"
-								step="1"
+							<Slider
+								ariaLabel="Texture Noise"
+								min={0}
+								max={100}
+								step={1}
 								value={draft.noise ?? 64}
-								onChange={(event) =>
-									update({ noise: Number(event.target.value) })
-								}
+								onValueChange={(value) => update({ noise: value })}
 							/>
 						</label>
 					</div>
