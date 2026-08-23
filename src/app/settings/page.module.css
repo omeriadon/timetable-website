@@ -64,6 +64,16 @@
 	background: var(--ds-color-surface-elevated);
 }
 
+.profileButton:hover,
+.profileButton:focus-visible {
+	background: transparent;
+}
+
+.profileButton:hover .profileRow,
+.profileButton:focus-visible .profileRow {
+	background: var(--ds-color-surface-elevated);
+}
+
 .page :global([data-slot="button"][data-size="default"]) {
 	display: block;
 	width: 100%;
@@ -169,6 +179,7 @@
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--ds-list-row-gap);
 	align-items: center;
+	transition: background-color var(--ds-duration-fast) var(--ds-ease-standard);
 }
 
 .profileName,
