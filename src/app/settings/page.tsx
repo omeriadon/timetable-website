@@ -21,7 +21,6 @@ import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import NavigationRow from "@/components/settings/NavigationRow/NavigationRow";
-import VersionDrawer from "@/components/settings/VersionDrawer/VersionDrawer";
 import type { Settings } from "@/features/settings/types";
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
 import NotificationSettingsEditor from "@/components/settings/NotificationSettingsEditor/NotificationSettingsEditor";
@@ -215,19 +214,6 @@ export default function SettingsPage() {
 					icon="info.circle"
 					direct
 				/>
-				<Button
-					type="button"
-					className={styles.listButton}
-					onClick={() => openDrawer(<VersionDrawer />)}
-					aria-label="Open version information"
-				>
-					<ListRow>
-						<Symbol name="hammer" fallback="+" />
-						<span className={styles.label}>Version</span>
-						<span className={styles.detail}>Web</span>
-						<Symbol name="chevron.right" />
-					</ListRow>
-				</Button>
 			</List>
 		</main>
 	);
