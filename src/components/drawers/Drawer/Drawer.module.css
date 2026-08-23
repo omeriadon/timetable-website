@@ -48,6 +48,10 @@
 	gap: var(--ds-space-2);
 }
 
+.actionFooter {
+	flex-direction: row;
+}
+
 .drawerInput {
 	width: 100%;
 }

@@ -15,12 +15,14 @@ function Button({
 	variant = "default",
 	size = "default",
 	fullWidth = false,
+	flexible = false,
 	type = "button",
 	...props
 }: ButtonPrimitive.Props & {
 	variant?: ButtonVariant;
 	size?: ButtonSize;
 	fullWidth?: boolean;
+	flexible?: boolean;
 }) {
 	return (
 		<ButtonPrimitive
@@ -28,7 +30,12 @@ function Button({
 			data-slot="button"
 			data-variant={variant}
 			data-size={size}
-			className={cn(styles.button, fullWidth && styles.fullWidth, className)}
+			className={cn(
+				styles.button,
+				fullWidth && styles.fullWidth,
+				flexible && styles.flexible,
+				className,
+			)}
 			{...props}
 		/>
 	);

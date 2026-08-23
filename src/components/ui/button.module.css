@@ -68,6 +68,11 @@
 	width: 100%;
 }
 
+.flexible {
+	min-width: 0;
+	flex: 1;
+}
+
 .button[data-variant="default"]:hover {
 	background: color-mix(in srgb, var(--primary) 80%, transparent);
 }

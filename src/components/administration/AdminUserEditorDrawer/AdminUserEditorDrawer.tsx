@@ -16,6 +16,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
 import ConfirmationDrawer from "@/components/drawers/ConfirmationDrawer/ConfirmationDrawer";
+import { DrawerFooter } from "@/components/ui/drawer";
 
 export type AdministrationUser = Account & { authority: string };
 
@@ -169,9 +170,11 @@ export default function AdminUserEditorDrawer({
 					{error}
 				</p>
 			) : null}
-			<div className={styles.drawerActions}>
+			<DrawerFooter className={styles.actionFooter}>
 				{user ? (
 					<Button
+						variant="destructive"
+						flexible
 						aria-label="Delete user"
 						onClick={() =>
 							openDrawer(
@@ -189,6 +192,7 @@ export default function AdminUserEditorDrawer({
 					</Button>
 				) : null}
 				<Button
+					flexible
 					aria-label={user ? "Save user" : "Create user"}
 					onClick={() => void save()}
 					disabled={
@@ -201,7 +205,7 @@ export default function AdminUserEditorDrawer({
 					<Symbol name="checkmark" fallback="✓" />
 					{saving ? "Saving…" : user ? "Save" : "Create"}
 				</Button>
-			</div>
+			</DrawerFooter>
 		</div>
 	);
 }
