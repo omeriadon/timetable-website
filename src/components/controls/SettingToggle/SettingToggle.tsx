@@ -1,8 +1,7 @@
 "use client";
 
-import { Switch } from "@base-ui/react/switch";
 import { ListRow } from "@/components/ui/list";
-import styles from "@/components/controls/controls.module.css";
+import { Toggle } from "@/components/ui/toggle";
 
 type SettingToggleProps = {
 	label: string;
@@ -18,17 +17,14 @@ export default function SettingToggle({
 	disabled = false,
 }: SettingToggleProps) {
 	return (
-		<ListRow className={styles.settingToggle}>
+		<ListRow>
 			<span>{label}</span>
-			<Switch.Root
-				className={styles.switch}
+			<Toggle
 				checked={enabled}
-				onCheckedChange={onClick}
+				onCheckedChange={() => onClick()}
 				disabled={disabled}
 				aria-label={label}
-			>
-				<Switch.Thumb className={styles.switchThumb} />
-			</Switch.Root>
+			/>
 		</ListRow>
 	);
 }

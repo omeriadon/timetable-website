@@ -115,7 +115,7 @@ export default function SettingsPage() {
 				</p>
 			) : null}
 			<h2 className={styles.section}>My Timetable</h2>
-			<List>
+			<List rowHover>
 				<Button
 					type="button"
 					className={styles.listButton}
@@ -148,7 +148,7 @@ export default function SettingsPage() {
 				/>
 			</List>
 			<h2 className={styles.section}>Preferences</h2>
-			<List>
+			<List rowHover>
 				{settings ? (
 					<>
 						<NavigationRow
@@ -206,7 +206,7 @@ export default function SettingsPage() {
 				)}
 			</List>
 			<h2 className={styles.section}>Support</h2>
-			<List>
+			<List rowHover>
 				<NavigationRow
 					title="Report Feedback or Bug"
 					description="Send feedback through the authenticated server."

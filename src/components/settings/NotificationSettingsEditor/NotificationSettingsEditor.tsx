@@ -13,6 +13,12 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
 import { List, ListRow } from "@/components/ui/list";
+import {
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function NotificationSettingsEditor({
@@ -138,7 +144,7 @@ export default function NotificationSettingsEditor({
 
 	return (
 		<>
-			<List>
+			<List rowHover>
 				<SettingToggle
 					label="Live Activities"
 					enabled={draft.liveActivitiesEnabled}
@@ -171,10 +177,17 @@ export default function NotificationSettingsEditor({
 							}
 						}}
 					>
-						<option value={0}>Never</option>
-						<option value={7}>After 1 week</option>
-						<option value={30}>After 1 month</option>
-						<option value={365}>After 1 year</option>
+						<SelectTrigger aria-label="Delete Past Calendar Events">
+							<SelectValue>
+								{deleteEventLabel(draft.calendarEventAutoDeleteDays)}
+							</SelectValue>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="0">Never</SelectItem>
+							<SelectItem value="7">After 1 week</SelectItem>
+							<SelectItem value="30">After 1 month</SelectItem>
+							<SelectItem value="365">After 1 year</SelectItem>
+						</SelectContent>
 					</Select>
 				</ListRow>
 				<SettingToggle
@@ -309,4 +322,17 @@ export default function NotificationSettingsEditor({
 			) : null}
 		</>
 	);
+}
+
+function deleteEventLabel(value: number) {
+	switch (value) {
+		case 7:
+			return "After 1 week";
+		case 30:
+			return "After 1 month";
+		case 365:
+			return "After 1 year";
+		default:
+			return "Never";
+	}
 }

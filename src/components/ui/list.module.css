@@ -26,6 +26,20 @@
 	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
+.rowHover > a:hover,
+.rowHover > button:hover,
+.rowHover > .row:hover,
+.rowHover .card > a:hover,
+.rowHover .card > button:hover,
+.rowHover .card > .row:hover {
+	background: color-mix(
+		in srgb,
+		var(--ds-color-surface-elevated) 36%,
+		var(--ds-color-surface)
+	);
+	transition: background-color 80ms var(--ds-ease-standard);
+}
+
 .sectionHeader {
 	margin-bottom: 0.3rem;
 	padding: 0 var(--ds-content-card-padding);

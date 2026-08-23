@@ -1,1 +1,35 @@
-/* Intentionally unstyled. */
+.categoryRow label {
+	flex: 1;
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.messageField {
+	display: grid;
+	gap: var(--ds-space-2);
+	padding: var(--ds-content-card-padding);
+}
+
+.messageField label {
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}
+
+.messageField textarea {
+	width: 100%;
+	min-height: 10rem;
+	resize: vertical;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: var(--ds-content-card-padding);
+}
+
+.status {
+	margin: 0;
+	padding: var(--ds-content-card-padding);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+}

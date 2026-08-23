@@ -13,9 +13,11 @@ import styles from "./list.module.css";
 export function List({
 	children,
 	className,
+	rowHover = false,
 }: {
 	children: ReactNode;
 	className?: string;
+	rowHover?: boolean;
 }) {
 	const items = Children.toArray(children);
 
@@ -25,14 +27,20 @@ export function List({
 
 	if (!hasSections) {
 		return (
-			<Card role="list" className={cn(styles.card, className)}>
+			<Card
+				role="list"
+				className={cn(styles.card, rowHover && styles.rowHover, className)}
+			>
 				{children}
 			</Card>
 		);
 	}
 
 	return (
-		<div role="list" className={cn(styles.sectionList, className)}>
+		<div
+			role="list"
+			className={cn(styles.sectionList, rowHover && styles.rowHover, className)}
+		>
 			{items.map((item, index) => {
 				if (!isValidElement(item) || item.type !== ListSection) {
 					return item;

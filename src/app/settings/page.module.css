@@ -47,9 +47,9 @@
 	text-align: left;
 }
 
-.listButton:hover,
-.listButton:focus-visible {
-	background: var(--ds-color-surface-elevated);
+.listButton[data-size="default"] {
+	height: auto;
+	min-height: 0;
 }
 
 .label {
