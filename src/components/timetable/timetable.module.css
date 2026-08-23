@@ -297,6 +297,34 @@
 	color: var(--ds-color-text-secondary);
 }
 
+.lessonButton {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: var(--ds-week-row-min-height);
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.lessonButton[data-size="default"] {
+	height: auto;
+	min-height: var(--ds-week-row-min-height);
+	padding: 0;
+	background: transparent;
+	color: inherit;
+}
+
+.lessonButton:hover,
+.lessonButton:focus-visible,
+.lessonButton[data-variant="default"]:hover,
+.lessonButton[data-variant="default"]:focus-visible {
+	background: transparent;
+}
+
 .lesson {
 	display: flex;
 	min-height: var(--ds-week-row-min-height);
