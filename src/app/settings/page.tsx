@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
 	Select,
 	SelectContent,
@@ -12,8 +13,6 @@ import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
-import NavigationDrawer from "@/components/drawers/NavigationDrawer/NavigationDrawer";
 import CalendarImportDrawer from "@/components/drawers/CalendarImportDrawer/CalendarImportDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { List, ListRow } from "@/components/ui/list";
@@ -96,17 +95,10 @@ export default function SettingsPage() {
 	return (
 		<main className={styles.page}>
 			{account ? (
-				<DrawerTrigger
-					className={styles.rowButton}
-					ariaLabel="Open profile appearance"
-					content={
-						<NavigationDrawer
-							title="Profile Appearance"
-							description="Change your profile picture, colours, and monogram style."
-							href="/settings/profile-appearance"
-							icon="person.2"
-						/>
-					}
+				<Link
+					className={`${styles.rowButton} ${styles.profileButton}`}
+					href="/settings/profile-appearance"
+					aria-label="Open profile appearance"
 				>
 					<section className={`${styles.paper} ${styles.profileRow}`}>
 						<ProfilePicture profile={account} size={52} />
@@ -116,7 +108,7 @@ export default function SettingsPage() {
 						</span>
 						<Symbol name="chevron.right" className={styles.chevronIcon} />
 					</section>
-				</DrawerTrigger>
+				</Link>
 			) : null}
 			{error ? (
 				<p className={styles.error} role="alert">
