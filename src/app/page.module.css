@@ -24,10 +24,14 @@
 	z-index: 10;
 }
 
+.navLinkWrapper {
+	height: 3rem;
+}
+
 .navLink {
 	background: white;
 	color: black;
-	border-radius: 100px;
+	border-radius: calc(0.5rem + 14px);
 
 	display: flex;
 	align-items: center;

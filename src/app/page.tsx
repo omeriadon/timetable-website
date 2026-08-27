@@ -19,19 +19,27 @@ export default function LandingPage() {
 
 			<div className={styles.page}>
 				<nav className={styles.nav}>
-					<Link
-						className={styles.navLink}
-						href="/login"
-						onMouseEnter={() => setIsMenuOpen(true)}
-						onMouseLeave={() => setIsMenuOpen(false)}
+					<div className={styles.navLinkWrapper}>
+						<Link
+							className={styles.navLink}
+							href="/login"
+							onMouseEnter={() => setIsMenuOpen(true)}
+							onMouseLeave={() => setIsMenuOpen(false)}
 
-						style={{
-							height: !isMenuOpen ? "calc(1rem + 14px * 2)" : "100px",
-						}}
-					>
-						<div>Open Timetable</div>
-						<Symbol name="arrow.right" className={styles.navLinkIcon} />
-					</Link>
+							style={{
+								height: isMenuOpen ? "100px" : "calc(1rem + 14px * 2)",
+							}}
+						>
+							<div>Open Timetable</div>
+							<Symbol
+								name="arrow.right"
+								className={styles.navLinkIcon}
+								style={{
+									opacity: isMenuOpen ? 0 : 1,
+								}}
+							/>
+						</Link>
+					</div>
 				</nav>
 
 				<main>
