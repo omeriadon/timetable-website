@@ -52,7 +52,7 @@ export default function LandingPage() {
 								/>
 							</div>
 
-							<div className={styles.navRowThing}>
+							<div className={styles.navRowThing2}>
 								<div>
 									<div>Get the app</div>
 									<div className={styles.navSubtitle}>iOS, watchOS, macOS</div>
@@ -60,7 +60,7 @@ export default function LandingPage() {
 								<Symbol name="chevron.right" className={styles.navLinkIcon} />
 							</div>
 
-							<div className={styles.navRowThing}>
+							<div className={styles.navRowThing2}>
 								<div>
 									<div>For Web</div>
 								</div>
