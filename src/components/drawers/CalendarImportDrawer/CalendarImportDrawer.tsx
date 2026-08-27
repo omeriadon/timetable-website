@@ -2,11 +2,12 @@
 
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import type {
-	OwnerTimetable,
-	TimetableSlot,
-	TimetableSubject,
-} from "@/features/timetable/types";
+import type { OwnerTimetable } from "@/features/timetable/types";
+import {
+	buildImportedSubjects,
+	parseCalendar,
+	type ParsedCalendarEvent,
+} from "@/features/timetable/calendarImport";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -20,37 +21,13 @@ type CalendarImportDrawerProps = {
 	onImported: (timetable: OwnerTimetable) => void;
 };
 
-type ParsedEvent = {
-	title: string;
-	day: number;
-	startMinutes: number;
-	location: string | null;
-};
-
-const periods = [
-	{ session: 0, minutes: 8 * 60 + 50 },
-	{ session: 1, minutes: 9 * 60 + 48 },
-	{ session: 3, minutes: 11 * 60 + 8 },
-	{ session: 4, minutes: 12 * 60 + 6 },
-	{ session: 6, minutes: 13 * 60 + 34 },
-	{ session: 7, minutes: 14 * 60 + 32 },
-];
-
-const colours = [
-	{ r: 0.8, g: 0.05, b: 0.08, a: 1 },
-	{ r: 0.3, g: 0.05, b: 0.65, a: 1 },
-	{ r: 0.05, g: 0.55, b: 0.65, a: 1 },
-	{ r: 0.45, g: 0.7, b: 0.05, a: 1 },
-	{ r: 0.7, g: 0.25, b: 0.05, a: 1 },
-];
-
 export default function CalendarImportDrawer({
 	timetable,
 	onImported,
 }: CalendarImportDrawerProps) {
 	const { closeDrawer, openDrawer } = useDrawer();
 	const [fileName, setFileName] = useState<string | null>(null);
-	const [events, setEvents] = useState<ParsedEvent[]>([]);
+	const [events, setEvents] = useState<ParsedCalendarEvent[]>([]);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -71,7 +48,7 @@ export default function CalendarImportDrawer({
 		setSaving(true);
 		setError(null);
 		try {
-			const subjects = buildSubjects(events, timetable?.subjects ?? []);
+			const subjects = buildImportedSubjects(events);
 			const updated = await apiRequest<OwnerTimetable>("v1/timetables/owner", {
 				method: "PUT",
 				body: JSON.stringify({
@@ -136,7 +113,7 @@ export default function CalendarImportDrawer({
 					</label>
 					{events.length ? (
 						<p className={styles.detailMuted}>
-							{events.length} class events ready to import.
+							{events.length} events from the next six weeks ready to import.
 						</p>
 					) : null}
 				</div>
@@ -158,100 +135,4 @@ export default function CalendarImportDrawer({
 			</DrawerFooter>
 		</div>
 	);
-}
-
-function parseCalendar(text: string): ParsedEvent[] {
-	const lines = text.replace(/\r\n[ \t]/g, "").split(/\r?\n/);
-	const parsed: ParsedEvent[] = [];
-	let current: Record<string, string> | null = null;
-	for (const line of lines) {
-		if (line === "BEGIN:VEVENT") {
-			current = {};
-			continue;
-		}
-		if (line === "END:VEVENT") {
-			if (current) {
-				const date = parseDate(current.DTSTART ?? "");
-				const title = decodeText(current.SUMMARY ?? "").trim();
-				if (date && title && date.day >= 0 && date.day < 5) {
-					parsed.push({
-						title,
-						day: date.day,
-						startMinutes: date.startMinutes,
-						location: current.LOCATION ? decodeText(current.LOCATION) : null,
-					});
-				}
-			}
-			current = null;
-			continue;
-		}
-		if (!current) continue;
-		const separator = line.indexOf(":");
-		if (separator < 1) continue;
-		const key = line.slice(0, separator).split(";")[0];
-		current[key] = line.slice(separator + 1);
-	}
-	return parsed;
-}
-
-function parseDate(value: string) {
-	const raw = value.replace(/^.*:/, "");
-	const match = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2}))?/.exec(raw);
-	if (!match) return null;
-	const [, year, month, day, hours = "00", minutes = "00"] = match;
-	const date = new Date(
-		Number(year),
-		Number(month) - 1,
-		Number(day),
-		Number(hours),
-		Number(minutes),
-	);
-	const weekday = date.getDay();
-	return {
-		day: weekday - 1,
-		startMinutes: date.getHours() * 60 + date.getMinutes(),
-	};
-}
-
-function decodeText(value: string) {
-	return value
-		.replace(/\\n/gi, " ")
-		.replace(/\\,/g, ",")
-		.replace(/\\;/g, ";")
-		.replace(/\\\\/g, "\\");
-}
-
-function buildSubjects(events: ParsedEvent[], existing: TimetableSubject[]) {
-	const subjects = new Map(
-		existing.map((subject) => [
-			subject.id.toLowerCase(),
-			{ ...subject, slots: [] as TimetableSlot[] },
-		]),
-	);
-	for (const event of events) {
-		const session = periods.reduce((closest, period) =>
-			Math.abs(period.minutes - event.startMinutes) <
-			Math.abs(closest.minutes - event.startMinutes)
-				? period
-				: closest,
-		).session;
-		const key = event.title.toLowerCase();
-		const subject = subjects.get(key) ?? {
-			id: event.title,
-			symbol: "character",
-			colour: colours[subjects.size % colours.length],
-			slots: [],
-			classroom: { unknown: { rawLocation: event.location ?? "Not provided" } },
-			teacher: { unknown: { rawNotes: "Teacher: Unknown" } },
-		};
-		if (
-			!subject.slots.some(
-				(slot) => slot.day === event.day && slot.session === session,
-			)
-		) {
-			subject.slots.push({ day: event.day, session });
-		}
-		subjects.set(key, subject);
-	}
-	return [...subjects.values()].filter((subject) => subject.slots.length);
 }
