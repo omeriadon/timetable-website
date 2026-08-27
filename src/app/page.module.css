@@ -86,11 +86,11 @@
 	font-weight: 1000;
 	-webkit-text-stroke: 0.1px currentColor;
 
-	background: rgba(0, 0, 0, 0.1);
+	background: rgba(255, 255, 255, 0.2);
 }
 
 .navRowThing2:active {
-	background: rgba(0, 0, 0, 0.05);
+	background: rgba(255, 255, 255, 0.1);
 }
 
 .navTop {
@@ -117,14 +117,26 @@
 }
 
 .first {
-	margin-left: auto;
-	margin-top: 2rem;
-
 	position: absolute;
-
+	margin-top: 2rem;
 	font-size: 5rem;
 
-	z-index: 1;
+	z-index: 2;
+	isolation: isolate;
+}
+
+.first::before {
+	content: "";
+	position: absolute;
+	inset: -05px -155px;
+	z-index: -1;
+
+	background: rgba(0, 0, 0, 0);
+
+	-webkit-backdrop-filter: blur(5px);
+	backdrop-filter: blur(5px);
+
+	mask-image: radial-gradient(ellipse, black 40%, transparent 70%);
 }
 
 .second {
