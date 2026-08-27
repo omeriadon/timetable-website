@@ -27,9 +27,9 @@ export default function LandingPage() {
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								maxHeight: isMenuOpen ? "200px" : "calc(1rem + 14px * 2)",
+								maxHeight: isMenuOpen ? "164.2px" : "calc(1rem + 14px * 2)",
 								paddingBottom: isMenuOpen ? "15px" : "10px",
-								transition: "all 0.2s ease-out",
+								transition: "all 0.2s ease-in-out",
 							}}
 						>
 							<div className={`${styles.navRowThing} ${styles.navTop}`}>
