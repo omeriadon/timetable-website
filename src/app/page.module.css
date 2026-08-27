@@ -11,16 +11,13 @@
 	z-index: 5;
 }
 
-.navSubtitle {
-	opacity: 0.5;
-	font-size: 0.8rem;
-}
-
 .page {
 	min-height: 100svh;
 	margin-top: 130px;
 	font-family: "SF Mono", monospace;
 }
+
+/* Nav */
 
 .nav {
 	position: fixed;
@@ -30,14 +27,23 @@
 	z-index: 10;
 }
 
+.navSubtitle {
+	opacity: 0.5;
+	font-size: 0.8rem;
+}
+
 .navLinkWrapper {
 	height: 3rem;
 }
 
 .navLink {
-	background: white;
-	color: black;
+	background: rgba(0, 0, 0, 0.5);
 	border-radius: calc(0.5rem + 14px);
+
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+
+	border: 1px solid rgba(255, 255, 255, 0.2);
 
 	overflow: hidden;
 
@@ -100,6 +106,40 @@
 .navLinkIcon {
 	height: 17px;
 }
+
+/* Main */
+
+.titleContent {
+	display: flex;
+	justify-content: space-between;
+	margin: 0rem 2rem;
+	position: relative;
+}
+
+.first {
+	margin-left: auto;
+	margin-top: 2rem;
+
+	position: absolute;
+
+	font-size: 5rem;
+
+	z-index: 1;
+}
+
+.second {
+	position: relative;
+	align-self: flex-start;
+
+	margin-left: auto;
+}
+
+.brandIcon {
+	width: 70vw;
+	height: auto;
+}
+
+/* Footer */
 
 .footer {
 	color: rgba(100, 100, 100, 0.5);

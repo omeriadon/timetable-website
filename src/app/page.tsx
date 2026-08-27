@@ -4,6 +4,7 @@ import Link from "next/link";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
 import { useState } from "react";
+import Image from "next/image";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 export default function LandingPage() {
@@ -75,6 +76,19 @@ export default function LandingPage() {
 				</nav>
 
 				<main>
+					<div className={styles.titleContent}>
+						<h1 className={styles.first}>Timetable</h1>
+
+						<Image
+							src="/icon.png"
+							width={400}
+							height={250}
+							className={`${styles.brandIcon} ${styles.second}`}
+							alt=""
+							aria-hidden="true"
+						/>
+					</div>
+
 					<ul>
 						{numbers.map((num) => (
 							<li key={num}>Component {num}</li>
