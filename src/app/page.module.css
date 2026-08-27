@@ -45,7 +45,10 @@
 
 	display: flex;
 	flex-direction: column;
-	padding: 10px 12px 10px 20px;
+
+	padding: 10px;
+
+	user-select: none;
 }
 
 .navRowThing {
@@ -55,15 +58,40 @@
 }
 
 .navRowThing2 {
+	height: 3rem;
+
+	padding-left: 10px;
+	padding-right: 5px;
+
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	border-radius: 12px;
+
+	flex-shrink: 0;
+
+	cursor: pointer;
+
+	transition: all 0.1s ease-in-out;
+}
+
+.navRowThing2 .navLinkIcon {
+	transform-origin: right center;
+}
+
+.navRowThing2 .navLinkIcon:hover {
+	transform: scaleX(1.2);
 }
 
 .navRowThing2:hover {
 	font-weight: 1000;
 	-webkit-text-stroke: 0.1px currentColor;
 
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.navRowThing2:active {
 	background: rgba(0, 0, 0, 0.05);
 }
 

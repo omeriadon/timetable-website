@@ -20,15 +20,13 @@ export default function LandingPage() {
 			<div className={styles.page}>
 				<nav className={styles.nav}>
 					<div className={styles.navLinkWrapper}>
-						<Link
+						<div
 							className={styles.navLink}
-							href="/login"
 							onMouseEnter={() => setIsMenuOpen(true)}
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								maxHeight: isMenuOpen ? "164.2px" : "calc(1rem + 14px * 2)",
-								paddingBottom: isMenuOpen ? "15px" : "10px",
+								maxHeight: isMenuOpen ? "264.2px" : "calc(1rem + 14px * 2)",
 								transition: "all 0.2s ease-in-out",
 							}}
 						>
@@ -37,6 +35,7 @@ export default function LandingPage() {
 									style={{
 										opacity: isMenuOpen ? 0.5 : 1,
 										transition: "opacity 0.2s ease-out",
+										paddingLeft: "5px",
 									}}
 								>
 									Open Timetable
@@ -66,7 +65,7 @@ export default function LandingPage() {
 								</div>
 								<Symbol name="chevron.right" className={styles.navLinkIcon} />
 							</div>
-						</Link>
+						</div>
 					</div>
 				</nav>
 
