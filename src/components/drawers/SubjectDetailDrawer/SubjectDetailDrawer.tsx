@@ -63,10 +63,7 @@ export default function SubjectDetailDrawer({
 			{selectedSlot ? (
 				<section aria-label="Compare friend timetables">
 					<h3>At this time</h3>
-					<TimetableComparison
-						selectedSlot={selectedSlot}
-						friends={friends}
-					/>
+					<TimetableComparison selectedSlot={selectedSlot} friends={friends} />
 				</section>
 			) : null}
 		</div>
