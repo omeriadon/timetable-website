@@ -11,9 +11,15 @@
 	z-index: 5;
 }
 
+.navSubtitle {
+	opacity: 0.5;
+	font-size: 0.8rem;
+}
+
 .page {
 	min-height: 100svh;
 	margin-top: 120px;
+	font-family: "SF Mono", monospace;
 }
 
 .nav {
@@ -33,11 +39,29 @@
 	color: black;
 	border-radius: calc(0.5rem + 14px);
 
-	display: flex;
-	align-items: center;
+	overflow: hidden;
 
 	gap: 1rem;
-	padding: 14px 12px 14px 20px;
+
+	display: flex;
+	flex-direction: column;
+	padding: 10px 12px 10px 20px;
+}
+
+.navRowThing {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.navTop {
+	gap: 3rem;
+
+	margin-bottom: 1rem;
+}
+
+.navExpanded {
+	margin-top: 0rem;
 }
 
 .navLinkIcon {

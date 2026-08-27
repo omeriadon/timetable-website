@@ -27,17 +27,45 @@ export default function LandingPage() {
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								height: isMenuOpen ? "100px" : "calc(1rem + 14px * 2)",
+								maxHeight: isMenuOpen ? "200px" : "calc(1rem + 14px * 2)",
+								paddingBottom: isMenuOpen ? "15px" : "10px",
+								transition: "all 0.2s ease-out",
 							}}
 						>
-							<div>Open Timetable</div>
-							<Symbol
-								name="arrow.right"
-								className={styles.navLinkIcon}
-								style={{
-									opacity: isMenuOpen ? 0 : 1,
-								}}
-							/>
+							<div className={`${styles.navRowThing} ${styles.navTop}`}>
+								<div
+									style={{
+										opacity: isMenuOpen ? 0.5 : 1,
+										transition: "opacity 0.2s ease-out",
+									}}
+								>
+									Open Timetable
+								</div>
+								<Symbol
+									name="chevron.right"
+									className={styles.navLinkIcon}
+									style={{
+										opacity: isMenuOpen ? 0.5 : 1,
+										rotate: isMenuOpen ? "90deg" : "0deg",
+										transition: "all 0.2s ease-in-out",
+									}}
+								/>
+							</div>
+
+							<div className={styles.navRowThing}>
+								<div>
+									<div>Get the app</div>
+									<div className={styles.navSubtitle}>iOS, watchOS, macOS</div>
+								</div>
+								<Symbol name="chevron.right" className={styles.navLinkIcon} />
+							</div>
+
+							<div className={styles.navRowThing}>
+								<div>
+									<div>For Web</div>
+								</div>
+								<Symbol name="chevron.right" className={styles.navLinkIcon} />
+							</div>
 						</Link>
 					</div>
 				</nav>
