@@ -51,20 +51,25 @@ export default function LandingPage() {
 								/>
 							</div>
 
-							<div className={styles.navRowThing2}>
+							<Link
+								className={styles.navRowThing2}
+								href="https://testflight.apple.com/join/DDUXPSq3"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<div>
 									<div>Get the app</div>
 									<div className={styles.navSubtitle}>iOS, watchOS, macOS</div>
 								</div>
 								<Symbol name="chevron.right" className={styles.navLinkIcon} />
-							</div>
+							</Link>
 
-							<div className={styles.navRowThing2}>
+							<Link className={styles.navRowThing2} href="/login">
 								<div>
 									<div>For Web</div>
 								</div>
 								<Symbol name="chevron.right" className={styles.navLinkIcon} />
-							</div>
+							</Link>
 						</div>
 					</div>
 				</nav>

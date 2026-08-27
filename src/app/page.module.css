@@ -76,14 +76,6 @@
 	transition: all 0.1s ease-in-out;
 }
 
-.navRowThing2 .navLinkIcon {
-	transform-origin: right center;
-}
-
-.navRowThing2 .navLinkIcon:hover {
-	transform: scaleX(1.2);
-}
-
 .navRowThing2:hover {
 	font-weight: 1000;
 	-webkit-text-stroke: 0.1px currentColor;
