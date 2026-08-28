@@ -257,8 +257,8 @@
 }
 
 .gradientBorder {
-	--border-width: 2px;
 	--border-radius: 100px;
+	--border-softness: 12px;
 
 	--highlight-opacity: 0.5;
 	--side-opacity: 0.7;
@@ -266,59 +266,62 @@
 	border-radius: var(--border-radius);
 }
 
-.gradientBorder::before {
+.gradientBorder::before,
+.gradientBorder::after {
 	content: "";
 	position: absolute;
 	inset: 0;
 	z-index: 10;
 
 	border-radius: inherit;
-	padding: var(--border-width);
-	filter: blur(1.5px);
+	pointer-events: none;
+}
 
+.gradientBorder::before {
 	background:
 		linear-gradient(
-				to right,
-				rgba(255, 255, 255, 0) 0%,
-				rgba(255, 255, 255, var(--highlight-opacity)) 5%,
-				rgba(255, 255, 255, var(--highlight-opacity)) 95%,
-				rgba(255, 255, 255, 0) 100%
-			)
-			top / 100% 50% no-repeat,
-		linear-gradient(
-				to right,
-				rgba(255, 255, 255, 0) 0%,
-				rgba(255, 255, 255, var(--highlight-opacity)) 5%,
-				rgba(255, 255, 255, var(--highlight-opacity)) 95%,
-				rgba(255, 255, 255, 0) 100%
-			)
-			bottom / 100% 50% no-repeat,
-		linear-gradient(
 				to bottom,
-				rgba(0, 0, 0, var(--side-opacity)),
-				rgba(0, 0, 0, var(--side-opacity))
+				rgba(255, 255, 255, var(--highlight-opacity)),
+				rgba(255, 255, 255, 0)
 			)
-			right / 50% 100% no-repeat,
+			top / 100% var(--border-softness) no-repeat,
 		linear-gradient(
-				to bottom,
-				rgba(0, 0, 0, var(--side-opacity)),
-				rgba(0, 0, 0, var(--side-opacity))
+				to top,
+				rgba(255, 255, 255, var(--highlight-opacity)),
+				rgba(255, 255, 255, 0)
 			)
-			left / 50% 100% no-repeat;
+			bottom / 100% var(--border-softness) no-repeat;
 
-	-webkit-mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
+	-webkit-mask-image: linear-gradient(
+		to right,
+		transparent 0%,
+		#000 5%,
+		#000 95%,
+		transparent 100%
+	);
+	mask-image: linear-gradient(
+		to right,
+		transparent 0%,
+		#000 5%,
+		#000 95%,
+		transparent 100%
+	);
+}
 
-	-webkit-mask-composite: xor;
-
-	mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
-
-	mask-composite: exclude;
-
-	pointer-events: none;
+.gradientBorder::after {
+	background:
+		linear-gradient(
+				to left,
+				rgba(0, 0, 0, var(--side-opacity)),
+				rgba(0, 0, 0, 0)
+			)
+			right / var(--border-softness) 100% no-repeat,
+		linear-gradient(
+				to right,
+				rgba(0, 0, 0, var(--side-opacity)),
+				rgba(0, 0, 0, 0)
+			)
+			left / var(--border-softness) 100% no-repeat;
 }
 
 /* Footer */
