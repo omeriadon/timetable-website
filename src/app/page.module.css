@@ -212,12 +212,15 @@
 	top: 17%;
 	bottom: 17%;
 	left: 15%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	--circle-size: 70px;
 	--r: calc(var(--circle-size) / 2);
 
-	--top-opacity: 0.8;
-	--bottom-opacity: 0.2;
+	--top-opacity: 0.7;
+	--bottom-opacity: 0.03;
 
 	--circle-mask:
 		radial-gradient(circle var(--r) at 50% 35px, #000 99%, transparent 100%),
@@ -250,18 +253,22 @@
 }
 
 .circle {
+	--gradient-border-radius: 50%;
+	--gradient-border-softness: 6px;
+	--gradient-highlight-opacity: 0.6;
+	--gradient-side-opacity: 0.6;
+
+	position: relative;
 	width: 70px;
 	aspect-ratio: 1;
-	border-radius: 50%;
 	overflow: hidden;
 }
 
 .gradientBorder {
-	--border-radius: 100px;
-	--border-softness: 9px;
-
-	--highlight-opacity: 0.6;
-	--side-opacity: 0.8;
+	--border-radius: var(--gradient-border-radius, 100px);
+	--border-softness: var(--gradient-border-softness, 9px);
+	--highlight-opacity: var(--gradient-highlight-opacity, 0.6);
+	--side-opacity: var(--gradient-side-opacity, 0.8);
 
 	border-radius: var(--border-radius);
 }

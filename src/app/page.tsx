@@ -125,7 +125,7 @@ export default function LandingPage() {
 							{[0, 1, 2, 3, 4].map((i) => (
 								<div
 									key={i}
-									className={styles.circle}
+									className={`${styles.circle} ${styles.gradientBorder}`}
 									style={{
 										opacity: i === 2 ? 0 : 1,
 									}}
