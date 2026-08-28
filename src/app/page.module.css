@@ -37,7 +37,7 @@
 }
 
 .navLink {
-	background: rgba(255, 255, 255, 0.5);
+	background: rgba(255, 255, 255, 1);
 	color: black;
 	border-radius: calc(0.5rem + 14px);
 
@@ -104,10 +104,18 @@
 	font-weight: 1000;
 	-webkit-text-stroke: 0.1px currentColor;
 
-	background: rgba(255, 255, 255, 0.2);
+	background: rgba(0, 0, 0, 0.1);
 }
 
 .navRowThing2:active {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.navLink[data-scrolled="true"] .navRowThing2:hover {
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.navLink[data-scrolled="true"] .navRowThing2:active {
 	background: rgba(255, 255, 255, 0.1);
 }
 
