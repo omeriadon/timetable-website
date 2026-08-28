@@ -91,7 +91,7 @@ export default function LandingPage() {
 
 				<main>
 					<div className={styles.titleContent}>
-						<div className={styles.rect3}>
+						<div className={`${styles.rect3} ${styles.gradientBorder}`}>
 							<Noise
 								patternSize={250}
 								patternScaleX={2}
@@ -101,7 +101,7 @@ export default function LandingPage() {
 							/>
 						</div>
 
-						<div className={styles.rect1}>
+						<div className={`${styles.rect1} ${styles.gradientBorder}`}>
 							<Noise
 								patternSize={250}
 								patternScaleX={2}
@@ -111,7 +111,7 @@ export default function LandingPage() {
 							/>
 						</div>
 
-						<div className={styles.rect2}>
+						<div className={`${styles.rect2} ${styles.gradientBorder}`}>
 							<Noise
 								patternSize={250}
 								patternScaleX={2}
@@ -125,6 +125,7 @@ export default function LandingPage() {
 							{[0, 1, 2, 3, 4].map((i) => (
 								<div
 									key={i}
+									className={styles.circle}
 									style={{
 										opacity: i === 2 ? 0 : 1,
 									}}
