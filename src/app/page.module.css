@@ -37,13 +37,14 @@
 }
 
 .navLink {
-	background: rgba(0, 0, 0, 0.5);
+	background: white;
+	color: black;
 	border-radius: calc(0.5rem + 14px);
 
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 
-	border: 1px solid rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(0, 0, 0, 0.1);
 
 	overflow: hidden;
 
@@ -55,6 +56,23 @@
 	padding: 10px;
 
 	user-select: none;
+
+	transition:
+		background-color 150ms ease-in-out,
+		color 150ms ease-in-out,
+		border-color 150ms ease-in-out;
+}
+
+.navLink[data-scrolled="true"] {
+	background: black;
+	color: white;
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.navLink {
+		transition: none;
+	}
 }
 
 .navRowThing {

@@ -3,12 +3,24 @@
 import Link from "next/link";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [hasScrolled, setHasScrolled] = useState(false);
+
+	useEffect(() => {
+		const updateScrollState = () => {
+			setHasScrolled(window.scrollY >= 20);
+		};
+
+		updateScrollState();
+		window.addEventListener("scroll", updateScrollState, { passive: true });
+
+		return () => window.removeEventListener("scroll", updateScrollState);
+	}, []);
 
 	const numbers = [...Array(100)].map((_, i) => i + 1);
 
@@ -23,6 +35,7 @@ export default function LandingPage() {
 					<div className={styles.navLinkWrapper}>
 						<div
 							className={styles.navLink}
+							data-scrolled={hasScrolled}
 							onMouseEnter={() => setIsMenuOpen(true)}
 							onMouseLeave={() => setIsMenuOpen(false)}
 
