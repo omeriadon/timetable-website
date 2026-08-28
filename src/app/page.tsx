@@ -121,6 +121,16 @@ export default function LandingPage() {
 							/>
 						</div>
 
+						<div className={styles.detailPanels} aria-hidden="true">
+							<span
+								className={`${styles.detailPanel} ${styles.detailPanelTop}`}
+							/>
+							<span
+								className={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
+							/>
+							<span className={styles.detailPanelOutline} />
+						</div>
+
 						<div className={styles.circles}>
 							{[0, 1, 2, 3, 4].map((i) => (
 								<div
@@ -132,6 +142,8 @@ export default function LandingPage() {
 								/>
 							))}
 						</div>
+
+						<div className={styles.activeIndicator} aria-hidden="true" />
 					</div>
 
 					<ul>
