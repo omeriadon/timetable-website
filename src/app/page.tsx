@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
+import Noise from "@/components/Noise";
 
 export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,16 +91,46 @@ export default function LandingPage() {
 
 				<main>
 					<div className={styles.titleContent}>
-						<h1 className={styles.first}>Timetable</h1>
+						<div className={styles.rect3}>
+							<Noise
+								patternSize={250}
+								patternScaleX={2}
+								patternScaleY={2}
+								patternRefreshInterval={9999999999999999999999999999}
+								patternAlpha={15}
+							/>
+						</div>
 
-						<Image
-							src="/icon.png"
-							width={400}
-							height={250}
-							className={`${styles.brandIcon} ${styles.second}`}
-							alt=""
-							aria-hidden="true"
-						/>
+						<div className={styles.rect1}>
+							<Noise
+								patternSize={250}
+								patternScaleX={2}
+								patternScaleY={2}
+								patternRefreshInterval={9999999999999999999999999999}
+								patternAlpha={15}
+							/>
+						</div>
+
+						<div className={styles.rect2}>
+							<Noise
+								patternSize={250}
+								patternScaleX={2}
+								patternScaleY={2}
+								patternRefreshInterval={9999999999999999999999999999}
+								patternAlpha={15}
+							/>
+						</div>
+
+						<div className={styles.circles}>
+							{[0, 1, 2, 3, 4].map((i) => (
+								<div
+									key={i}
+									style={{
+										opacity: i === 2 ? 0 : 1,
+									}}
+								/>
+							))}
+						</div>
 					</div>
 
 					<ul>

@@ -136,45 +136,125 @@
 /* Main */
 
 .titleContent {
-	display: flex;
-	justify-content: space-between;
-	margin: 0rem 2rem;
 	position: relative;
+
+	width: 100%;
+	max-width: 900px;
+	aspect-ratio: 4 / 3;
+
+	margin-inline: auto;
 }
 
-.first {
+.titleContent > * {
 	position: absolute;
-	margin-top: 2rem;
-	font-size: 5rem;
-
-	z-index: 2;
-	isolation: isolate;
+	grid-area: 1 / 1;
 }
 
-.first::before {
-	content: "";
-	position: absolute;
-	inset: -05px -155px;
-	z-index: -1;
+.anyRect {
+	border-radius: 100px;
 
-	background: rgba(0, 0, 0, 0);
+	overflow: hidden;
 
-	-webkit-backdrop-filter: blur(5px);
-	backdrop-filter: blur(5px);
-
-	mask-image: radial-gradient(ellipse, black 40%, transparent 70%);
+	-webkit-backdrop-filter: blur(2px);
+	backdrop-filter: blur(2px);
 }
 
-.second {
-	position: relative;
-	align-self: flex-start;
+.rect1 {
+	composes: anyRect;
 
-	margin-left: auto;
+	left: 10%;
+	right: 10%;
+	top: 10%;
+	bottom: 10%;
+
+	rotate: 12deg;
+
+	background: linear-gradient(
+		to bottom,
+		rgba(124.46, 103.24, 80.05, 0.9) 0%,
+		rgba(124.46, 103.24, 80.05, 0.2) 100%
+	);
 }
 
-.brandIcon {
-	width: 70vw;
-	height: auto;
+.rect2 {
+	composes: anyRect;
+
+	left: 10%;
+	right: 10%;
+	top: 10%;
+	bottom: 10%;
+
+	background: linear-gradient(
+		to bottom,
+		rgba(202.78, 168.29, 125.19, 0.9) 0%,
+		rgba(202.78, 168.29, 125.19, 0.2) 100%
+	);
+}
+
+.rect3 {
+	composes: anyRect;
+
+	left: 10%;
+	right: 10%;
+	top: 10%;
+	bottom: 10%;
+
+	background: linear-gradient(
+		to bottom,
+		rgba(124.46, 103.24, 80.05, 0.6) 0%,
+		rgba(124.46, 103.24, 80.05, 0.2) 100%
+	);
+
+	rotate: -6deg;
+}
+
+.circles {
+	top: 17%;
+	bottom: 17%;
+	left: 15%;
+
+	--circle-size: 70px;
+	--r: calc(var(--circle-size) / 2);
+
+	--top-opacity: 0.8;
+	--bottom-opacity: 0.2;
+
+	--circle-mask:
+		radial-gradient(circle var(--r) at 50% 35px, #000 99%, transparent 100%),
+		radial-gradient(
+			circle var(--r) at 50% calc(25% + 17.5px),
+			#000 99%,
+			transparent 100%
+		),
+		radial-gradient(
+			circle var(--r) at 50% calc(75% - 17.5px),
+			#000 99%,
+			transparent 100%
+		),
+		radial-gradient(
+			circle var(--r) at 50% calc(100% - 35px),
+			#000 99%,
+			transparent 100%
+		);
+
+	width: var(--circle-size);
+
+	background: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, var(--top-opacity)),
+		rgba(255, 255, 255, var(--bottom-opacity))
+	);
+
+	-webkit-mask-image: var(--circle-mask);
+	mask-image: var(--circle-mask);
+}
+
+.circles > * {
+	width: 70px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+
+	overflow: hidden;
 }
 
 /* Footer */
