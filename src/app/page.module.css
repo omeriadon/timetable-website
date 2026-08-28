@@ -37,7 +37,7 @@
 }
 
 .navLink {
-	background: white;
+	background: rgba(255, 255, 255, 0.5);
 	color: black;
 	border-radius: calc(0.5rem + 14px);
 
@@ -64,7 +64,7 @@
 }
 
 .navLink[data-scrolled="true"] {
-	background: black;
+	background: rgba(0, 0, 0, 0.5);
 	color: white;
 	border-color: rgba(255, 255, 255, 0.2);
 }
