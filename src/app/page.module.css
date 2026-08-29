@@ -152,6 +152,7 @@
 .titleContent {
 	position: relative;
 	z-index: 2;
+	container-type: inline-size;
 
 	width: 100%;
 	max-width: 900px;
@@ -236,26 +237,30 @@
 	flex-direction: column;
 	justify-content: space-between;
 
-	--circle-size: 70px;
+	--circle-size: 7.7778cqi;
 	--r: calc(var(--circle-size) / 2);
 
 	--top-opacity: 0.7;
 	--bottom-opacity: 0.03;
 
 	--circle-mask:
-		radial-gradient(circle var(--r) at 50% 35px, #000 99%, transparent 100%),
 		radial-gradient(
-			circle var(--r) at 50% calc(25% + 17.5px),
+			circle var(--r) at 50% var(--r),
 			#000 99%,
 			transparent 100%
 		),
 		radial-gradient(
-			circle var(--r) at 50% calc(75% - 17.5px),
+			circle var(--r) at 50% calc(25% + var(--r) / 2),
 			#000 99%,
 			transparent 100%
 		),
 		radial-gradient(
-			circle var(--r) at 50% calc(100% - 35px),
+			circle var(--r) at 50% calc(75% - var(--r) / 2),
+			#000 99%,
+			transparent 100%
+		),
+		radial-gradient(
+			circle var(--r) at 50% calc(100% - var(--r)),
 			#000 99%,
 			transparent 100%
 		);
@@ -279,7 +284,7 @@
 	--gradient-side-opacity: 0.6;
 
 	position: relative;
-	width: 70px;
+	width: var(--circle-size);
 	aspect-ratio: 1;
 	overflow: hidden;
 
@@ -394,8 +399,8 @@
 }
 
 .activeIndicator {
-	--indicator-size: 70px;
-	--indicator-stem-height: 24px;
+	--indicator-size: 7.7778cqi;
+	--indicator-stem-height: 2.6667cqi;
 	--indicator-red-light: rgba(255, 111, 103, 0.3);
 	--indicator-red: rgba(218, 65, 60, 0.2);
 	--indicator-red-dark: rgba(164, 38, 35, 0.26);
