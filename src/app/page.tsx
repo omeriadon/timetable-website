@@ -23,56 +23,6 @@ export default function LandingPage() {
 		return () => window.removeEventListener("scroll", updateScrollState);
 	}, []);
 
-	useEffect(() => {
-		const shape = document.querySelector<HTMLElement>("[data-rotate-shape]");
-
-		const clearRotation = () => {
-			if (shape) {
-				shape.dataset.rotated = "false";
-			}
-		};
-
-		const updateRotation = (event: PointerEvent) => {
-			if (!shape) {
-				return;
-			}
-
-			if (event.pointerType !== "mouse") {
-				clearRotation();
-				return;
-			}
-
-			const bounds = shape.getBoundingClientRect();
-			const isInside =
-				event.clientX >= bounds.left &&
-				event.clientX <= bounds.right &&
-				event.clientY >= bounds.top &&
-				event.clientY <= bounds.bottom;
-			const wasInside = shape.dataset.rotated === "true";
-
-			if (isInside && !wasInside) {
-				const direction = Math.random() < 0.5 ? -1 : 1;
-				const rotation = direction * (3 + Math.random() * 4);
-				shape.style.setProperty("--shape-hover-rotation", `${rotation}deg`);
-			}
-
-			shape.dataset.rotated = String(isInside);
-		};
-
-		window.addEventListener("pointermove", updateRotation, { passive: true });
-		window.addEventListener("blur", clearRotation);
-		document.documentElement.addEventListener("pointerleave", clearRotation);
-
-		return () => {
-			window.removeEventListener("pointermove", updateRotation);
-			window.removeEventListener("blur", clearRotation);
-			document.documentElement.removeEventListener(
-				"pointerleave",
-				clearRotation,
-			);
-		};
-	}, []);
-
 	const numbers = [...Array(100)].map((_, i) => i + 1);
 
 	return (
@@ -165,8 +115,6 @@ export default function LandingPage() {
 
 						<div
 							className={`${styles.rect2} ${styles.gradientBorder} ${styles.rotatingShape}`}
-							data-rotate-shape
-							data-rotated="false"
 						>
 							<Noise
 								patternSize={250}

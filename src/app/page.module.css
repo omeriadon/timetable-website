@@ -139,11 +139,10 @@
 	--shape-rotate-ease: cubic-bezier(0.34, 1.24, 0.64, 1);
 
 	transition: rotate 140ms var(--shape-rotate-ease);
-	will-change: rotate;
 }
 
-.rotatingShape[data-rotated="true"] {
-	rotate: var(--shape-hover-rotation, 0deg);
+.titleContent:hover .rotatingShape {
+	rotate: 5deg;
 }
 
 .titleContent {
@@ -458,7 +457,7 @@
 		transition: none;
 	}
 
-	.rotatingShape[data-rotated="true"] {
+	.titleContent:hover .rotatingShape {
 		rotate: var(--shape-resting-rotation, 0deg);
 	}
 }
