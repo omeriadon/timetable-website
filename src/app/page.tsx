@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 export default function LandingPage() {
@@ -171,7 +170,10 @@ export default function LandingPage() {
 				<main>
 					<div className={styles.hero}>
 						<div className={styles.titleFrame}>
-							<h1 ref={titleRef} className={styles.title}>
+							<h1
+								ref={titleRef}
+								className={`${styles.title} ${styles.titleWithHDR}`}
+							>
 								Timetable
 							</h1>
 						</div>

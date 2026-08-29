@@ -583,6 +583,51 @@
 	line-height: 1;
 	font-weight: 1000;
 	white-space: nowrap;
+	background-image:
+		url("/grain.png"),
+		linear-gradient(
+			to bottom,
+			rgb(255, 255, 255) 0%,
+			rgb(255, 255, 255) 58%,
+			rgb(166, 116, 72) 100%
+		);
+	background-size:
+		128px 128px,
+		100% 100%;
+	background-blend-mode: soft-light, normal;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.titleWithHDR {
+	position: relative;
+	dynamic-range-limit: no-limit;
+	background-image: url("/hdr-white.avif");
+	background-size: 100% 100%;
+	background-blend-mode: normal;
+}
+
+.titleWithHDR::after {
+	content: "Timetable";
+	position: absolute;
+	inset: 0;
+	background-image:
+		url("/grain.png"),
+		linear-gradient(
+			to bottom,
+			transparent 0%,
+			transparent 55%,
+			rgb(166, 116, 72) 100%
+		);
+	background-size:
+		128px 128px,
+		100% 100%;
+	background-blend-mode: soft-light, normal;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	pointer-events: none;
 }
 
 .titleFrame {
