@@ -136,83 +136,20 @@ export default function LandingPage() {
 								/>
 							</div>
 
-							<div
-								className={`${styles.rect2} ${styles.gradientBorder} ${styles.rotatingShape}`}
-							>
-								<Noise
-									patternSize={250}
-									patternScaleX={2}
-									patternScaleY={2}
-									patternRefreshInterval={9999999999999999999999999999}
-									patternAlpha={15}
-								/>
-							</div>
+							<div className={`${styles.frontLayer} ${styles.rotatingShape}`}>
+								<div className={`${styles.rect2} ${styles.gradientBorder}`}>
+									<Noise
+										patternSize={250}
+										patternScaleX={2}
+										patternScaleY={2}
+										patternRefreshInterval={9999999999999999999999999999}
+										patternAlpha={15}
+									/>
+								</div>
 
-							<div className={styles.detailPanels} aria-hidden="true">
-								<span
-									className={`${styles.detailPanel} ${styles.detailPanelTop}`}
-								>
-									<Noise
-										patternSize={250}
-										patternScaleX={2}
-										patternScaleY={2}
-										patternRefreshInterval={9999999999999999999999999999}
-										patternAlpha={15}
-									/>
-									<span className={styles.lessonPreview}>
-										<Symbol
-											name="function"
-											className={styles.lessonPreviewIcon}
-										/>
-										<span>
-											<strong>Methods</strong>
-											<span>Mr Uphill</span>
-											<span>BL4</span>
-										</span>
-									</span>
-								</span>
-								<span
-									className={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
-								>
-									<Noise
-										patternSize={250}
-										patternScaleX={2}
-										patternScaleY={2}
-										patternRefreshInterval={9999999999999999999999999999}
-										patternAlpha={15}
-									/>
-									<span className={styles.lessonPreview}>
-										<Symbol
-											fallback="🐸"
-											className={styles.lessonPreviewIcon}
-											alt="Frog"
-										/>
-										<span>
-											<strong>Geography</strong>
-											<span>Mr McMahon</span>
-											<span>TMSC</span>
-										</span>
-									</span>
-								</span>
-								<span className={styles.detailPanelOutline}>
-									<Noise
-										patternSize={250}
-										patternScaleX={2}
-										patternScaleY={2}
-										patternRefreshInterval={9999999999999999999999999999}
-										patternAlpha={15}
-									/>
-								</span>
-							</div>
-
-							<div className={styles.circles}>
-								{[0, 1, 2, 3, 4].map((i) => (
-									<div
-										key={i}
-										className={`${styles.circle} ${styles.gradientBorder}`}
-										style={{
-											opacity: i === 2 ? 0 : 1,
-										}}
+								<div className={styles.detailPanels} aria-hidden="true">
+									<span
+										className={`${styles.detailPanel} ${styles.detailPanelTop}`}
 									>
 										<Noise
 											patternSize={250}
@@ -221,18 +158,81 @@ export default function LandingPage() {
 											patternRefreshInterval={9999999999999999999999999999}
 											patternAlpha={15}
 										/>
-									</div>
-								))}
-							</div>
+										<span className={styles.lessonPreview}>
+											<Symbol
+												name="function"
+												className={styles.lessonPreviewIcon}
+											/>
+											<span>
+												<strong>Methods</strong>
+												<span>Mr Uphill</span>
+												<span>BL4</span>
+											</span>
+										</span>
+									</span>
+									<span
+										className={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
+									>
+										<Noise
+											patternSize={250}
+											patternScaleX={2}
+											patternScaleY={2}
+											patternRefreshInterval={9999999999999999999999999999}
+											patternAlpha={15}
+										/>
+										<span className={styles.lessonPreview}>
+											<Symbol
+												fallback="🐸"
+												className={styles.lessonPreviewIcon}
+												alt="Frog"
+											/>
+											<span>
+												<strong>Geography</strong>
+												<span>Mr McMahon</span>
+												<span>TMSC</span>
+											</span>
+										</span>
+									</span>
+									<span className={styles.detailPanelOutline}>
+										<Noise
+											patternSize={250}
+											patternScaleX={2}
+											patternScaleY={2}
+											patternRefreshInterval={9999999999999999999999999999}
+											patternAlpha={15}
+										/>
+									</span>
+								</div>
 
-							<div className={styles.activeIndicator} aria-hidden="true">
-								<Noise
-									patternSize={250}
-									patternScaleX={2}
-									patternScaleY={2}
-									patternRefreshInterval={9999999999999999999999999999}
-									patternAlpha={15}
-								/>
+								<div className={styles.circles}>
+									{[0, 1, 2, 3, 4].map((i) => (
+										<div
+											key={i}
+											className={`${styles.circle} ${styles.gradientBorder}`}
+											style={{
+												opacity: i === 2 ? 0 : 1,
+											}}
+										>
+											<Noise
+												patternSize={250}
+												patternScaleX={2}
+												patternScaleY={2}
+												patternRefreshInterval={9999999999999999999999999999}
+												patternAlpha={15}
+											/>
+										</div>
+									))}
+								</div>
+
+								<div className={styles.activeIndicator} aria-hidden="true">
+									<Noise
+										patternSize={250}
+										patternScaleX={2}
+										patternScaleY={2}
+										patternRefreshInterval={9999999999999999999999999999}
+										patternAlpha={15}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>

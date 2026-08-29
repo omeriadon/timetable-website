@@ -141,12 +141,21 @@
 
 .rotatingShape {
 	--shape-rotate-ease: cubic-bezier(0.34, 1.24, 0.64, 1);
+	--shape-resting-rotation: 0deg;
 
-	transition: rotate 140ms var(--shape-rotate-ease);
+	transition: rotate 100ms var(--shape-rotate-ease);
 }
 
-.titleContent:hover .rotatingShape {
-	rotate: 5deg;
+.titleContent:hover .rect3 {
+	rotate: -13deg;
+}
+
+.titleContent:hover .rect1 {
+	rotate: 19deg;
+}
+
+.titleContent:hover .frontLayer {
+	rotate: 4deg;
 }
 
 .titleContent {
@@ -164,6 +173,16 @@
 .titleContent > * {
 	position: absolute;
 	grid-area: 1 / 1;
+}
+
+.frontLayer {
+	inset: 0;
+	z-index: 15;
+	transform-origin: center;
+}
+
+.frontLayer > * {
+	position: absolute;
 }
 
 .anyRect {
@@ -187,6 +206,7 @@
 	bottom: 10%;
 
 	rotate: 12deg;
+	transition: rotate 150ms cubic-bezier(0.34, 1.24, 0.64, 1);
 
 	background: linear-gradient(
 		to bottom,
@@ -227,6 +247,7 @@
 	);
 
 	rotate: -6deg;
+	transition: rotate 200ms cubic-bezier(0.34, 1.24, 0.64, 1);
 }
 
 .circles {
@@ -465,10 +486,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.rect1,
+	.rect3,
 	.rotatingShape {
 		transition: none;
 	}
 
+	.titleContent:hover .rect1,
+	.titleContent:hover .rect3,
 	.titleContent:hover .rotatingShape {
 		rotate: var(--shape-resting-rotation, 0deg);
 	}
