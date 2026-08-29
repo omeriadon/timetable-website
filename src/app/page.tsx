@@ -178,18 +178,18 @@ export default function LandingPage() {
 
 						<div ref={iconPinRef} className={styles.iconPin}>
 							<div ref={titleContentRef} className={styles.titleContent}>
-								<div
-									className={`${styles.rect3} ${styles.gradientBorder}`}
-								></div>
+								<div className={`${styles.rect3} ${styles.gradientBorder}`}>
+									<span className={styles.grainOverlay} aria-hidden="true" />
+								</div>
 
-								<div
-									className={`${styles.rect1} ${styles.gradientBorder}`}
-								></div>
+								<div className={`${styles.rect1} ${styles.gradientBorder}`}>
+									<span className={styles.grainOverlay} aria-hidden="true" />
+								</div>
 
 								<div className={`${styles.frontLayer} ${styles.rotatingShape}`}>
-									<div
-										className={`${styles.rect2} ${styles.gradientBorder}`}
-									></div>
+									<div className={`${styles.rect2} ${styles.gradientBorder}`}>
+										<span className={styles.grainOverlay} aria-hidden="true" />
+									</div>
 
 									<div className={styles.detailPanels} aria-hidden="true">
 										<span
