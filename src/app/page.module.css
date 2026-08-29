@@ -222,7 +222,7 @@
 	background: linear-gradient(
 		to bottom,
 		rgba(124.46, 103.24, 80.05, 0.5) 0%,
-		rgba(124.46, 103.24, 80.05, 0.2) 100%
+		rgba(124.46, 103.24, 80.05, 0.6) 100%
 	);
 }
 
@@ -254,7 +254,7 @@
 	background: linear-gradient(
 		to bottom,
 		rgba(124.46, 103.24, 80.05, 0.4) 0%,
-		rgba(124.46, 103.24, 80.05, 0.2) 100%
+		rgba(124.46, 103.24, 80.05, 0.5) 100%
 	);
 
 	rotate: -6deg;

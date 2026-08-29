@@ -9,7 +9,6 @@ import styles from "./page.module.css";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
-import Noise from "@/components/Noise";
 
 export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -179,48 +178,23 @@ export default function LandingPage() {
 
 						<div ref={iconPinRef} className={styles.iconPin}>
 							<div ref={titleContentRef} className={styles.titleContent}>
-								<div className={`${styles.rect3} ${styles.gradientBorder}`}>
-									<Noise
-										patternSize={250}
-										patternScaleX={2}
-										patternScaleY={2}
-										patternRefreshInterval={9999999999999999999999999999}
-										patternAlpha={15}
-									/>
-								</div>
+								<div
+									className={`${styles.rect3} ${styles.gradientBorder}`}
+								></div>
 
-								<div className={`${styles.rect1} ${styles.gradientBorder}`}>
-									<Noise
-										patternSize={250}
-										patternScaleX={2}
-										patternScaleY={2}
-										patternRefreshInterval={9999999999999999999999999999}
-										patternAlpha={15}
-									/>
-								</div>
+								<div
+									className={`${styles.rect1} ${styles.gradientBorder}`}
+								></div>
 
 								<div className={`${styles.frontLayer} ${styles.rotatingShape}`}>
-									<div className={`${styles.rect2} ${styles.gradientBorder}`}>
-										<Noise
-											patternSize={250}
-											patternScaleX={2}
-											patternScaleY={2}
-											patternRefreshInterval={9999999999999999999999999999}
-											patternAlpha={15}
-										/>
-									</div>
+									<div
+										className={`${styles.rect2} ${styles.gradientBorder}`}
+									></div>
 
 									<div className={styles.detailPanels} aria-hidden="true">
 										<span
 											className={`${styles.detailPanel} ${styles.detailPanelTop}`}
 										>
-											<Noise
-												patternSize={250}
-												patternScaleX={2}
-												patternScaleY={2}
-												patternRefreshInterval={9999999999999999999999999999}
-												patternAlpha={15}
-											/>
 											<span className={styles.lessonPreview}>
 												<Symbol
 													name="function"
@@ -236,13 +210,6 @@ export default function LandingPage() {
 										<span
 											className={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
 										>
-											<Noise
-												patternSize={250}
-												patternScaleX={2}
-												patternScaleY={2}
-												patternRefreshInterval={9999999999999999999999999999}
-												patternAlpha={15}
-											/>
 											<span className={styles.lessonPreview}>
 												<Symbol
 													fallback="🐸"
@@ -256,15 +223,7 @@ export default function LandingPage() {
 												</span>
 											</span>
 										</span>
-										<span className={styles.detailPanelOutline}>
-											<Noise
-												patternSize={250}
-												patternScaleX={2}
-												patternScaleY={2}
-												patternRefreshInterval={9999999999999999999999999999}
-												patternAlpha={15}
-											/>
-										</span>
+										<span className={styles.detailPanelOutline}></span>
 									</div>
 
 									<div className={styles.circles}>
@@ -275,27 +234,14 @@ export default function LandingPage() {
 												style={{
 													opacity: i === 2 ? 0 : 1,
 												}}
-											>
-												<Noise
-													patternSize={250}
-													patternScaleX={2}
-													patternScaleY={2}
-													patternRefreshInterval={9999999999999999999999999999}
-													patternAlpha={15}
-												/>
-											</div>
+											></div>
 										))}
 									</div>
 
-									<div className={styles.activeIndicator} aria-hidden="true">
-										<Noise
-											patternSize={250}
-											patternScaleX={2}
-											patternScaleY={2}
-											patternRefreshInterval={9999999999999999999999999999}
-											patternAlpha={15}
-										/>
-									</div>
+									<div
+										className={styles.activeIndicator}
+										aria-hidden="true"
+									></div>
 								</div>
 							</div>
 						</div>
