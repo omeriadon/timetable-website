@@ -662,10 +662,12 @@
 
 .summary ul {
 	list-style-type: none;
+	margin: 0;
+	padding: 0;
 
 	display: flex;
 	flex-direction: column;
-	gap: 12px; /* Automatically adds space ONLY between items */
+	gap: 12px;
 }
 
 .leftSummary {
@@ -677,23 +679,64 @@
 }
 
 .card {
+	display: grid;
+	grid-template-columns: minmax(0, 70%) minmax(0, 30%);
+	align-items: start;
+	min-height: 12rem;
 	padding: 1rem;
-	padding-bottom: 0.7rem;
-	padding-top: 0.5rem;
 
 	border-radius: 10px;
 	background: rgba(255, 255, 255, 0.05);
 
 	border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-	gap: 1rem;
-	display: flex;
-	flex-direction: column;
+.cardTitle {
+	grid-column: 2;
+	grid-row: 1;
+	align-self: start;
+	padding-left: 1rem;
 }
 
 .card h2 {
+	margin: 0;
 	font-size: 1.7rem;
 	opacity: 0.8;
+}
+
+.cardContent {
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0;
+}
+
+.summary li:nth-child(even) .cardTitle {
+	grid-column: 1;
+	padding-right: 1rem;
+	padding-left: 0;
+	text-align: right;
+}
+
+.summary li:nth-child(even) .card {
+	grid-template-columns: minmax(0, 30%) minmax(0, 70%);
+}
+
+.summary li:nth-child(even) .cardContent {
+	grid-column: 2;
+}
+
+@media (max-width: 600px) {
+	.summary {
+		padding: 0 1rem;
+	}
+
+	.summaryTitle {
+		margin-inline: 1rem;
+	}
+
+	.card {
+		grid-template-columns: minmax(0, 70%) minmax(0, 30%);
+	}
 }
 
 /* Footer */

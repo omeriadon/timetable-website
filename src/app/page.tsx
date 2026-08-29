@@ -18,11 +18,11 @@ function Card({ title, children }: CardProps) {
 	return (
 		<div className={styles.card}>
 			{title && (
-				<header>
+				<header className={styles.cardTitle}>
 					<h2>{title}</h2>
 				</header>
 			)}
-			<main>{children}</main>
+			<div className={styles.cardContent}>{children}</div>
 		</div>
 	);
 }
