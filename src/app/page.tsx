@@ -6,8 +6,26 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
+
+type CardProps = {
+	title?: string;
+	children: ReactNode;
+};
+
+function Card({ title, children }: CardProps) {
+	return (
+		<div className={styles.card}>
+			{title && (
+				<header>
+					<h2>{title}</h2>
+				</header>
+			)}
+			<main>{children}</main>
+		</div>
+	);
+}
 
 export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -249,12 +267,69 @@ export default function LandingPage() {
 						</div>
 					</div>
 
-					
+					<h4 className={styles.summaryTitle}>
+						Timetable has everything you need to thrive at Perth Mod:
+					</h4>
+					<div className={styles.summary}>
+						<div className={styles.rightSummary}>
+							<ul>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+								<li>
+									<Card title="Subjects">
+										<p>
+											This is arbitrary ReactNode content passed as children.
+										</p>
+									</Card>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</main>
 
 				<footer className={styles.footer}>
 					<span>Timetable</span>
-					<span>©{new Date().getFullYear()} JDQC.dev</span>
+					<span>©{new Date().getFullYear()} JDQC</span>
 				</footer>
 			</div>
 		</div>

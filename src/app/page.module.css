@@ -645,6 +645,57 @@
 	}
 }
 
+/* Second Summary */
+
+.summary {
+	display: flex;
+	width: 100%;
+	padding: 0 2rem;
+
+	gap: 4rem;
+}
+
+.summaryTitle {
+	margin-left: 2rem;
+	font-size: 1.5rem;
+}
+
+.summary ul {
+	list-style-type: none;
+
+	display: flex;
+	flex-direction: column;
+	gap: 12px; /* Automatically adds space ONLY between items */
+}
+
+.leftSummary {
+	flex: 0 0 40%;
+}
+
+.rightSummary {
+	flex: 1;
+}
+
+.card {
+	padding: 1rem;
+	padding-bottom: 0.7rem;
+	padding-top: 0.5rem;
+
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.05);
+
+	border: 1px solid rgba(255, 255, 255, 0.1);
+
+	gap: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.card h2 {
+	font-size: 1.7rem;
+	opacity: 0.8;
+}
+
 /* Footer */
 
 .footer {
@@ -654,4 +705,6 @@
 	justify-content: space-between;
 	align-items: center;
 	margin: 0rem 4rem;
+
+	height: 20vh;
 }
