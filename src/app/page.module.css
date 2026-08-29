@@ -136,7 +136,7 @@
 /* Main */
 
 .hero {
-	position: relative;
+	display: contents;
 }
 
 .rotatingShape {
@@ -158,16 +158,27 @@
 	rotate: 4deg;
 }
 
-.titleContent {
-	position: relative;
-	z-index: 2;
-	container-type: inline-size;
+.iconPin {
+	--icon-top-margin: 1rem;
 
+	position: relative;
+	z-index: 600;
 	width: 100%;
 	max-width: 900px;
 	aspect-ratio: 4 / 3;
-
 	margin: clamp(-7rem, -7vw, -0.75rem) auto 0;
+}
+
+.titleContent {
+	--icon-final-scale: 0.18;
+
+	position: relative;
+	z-index: 2;
+	container-type: inline-size;
+	width: 100%;
+	height: 100%;
+	transform-origin: top center;
+	will-change: transform;
 }
 
 .titleContent > * {
