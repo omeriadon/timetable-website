@@ -249,16 +249,12 @@ export default function LandingPage() {
 						</div>
 					</div>
 
-					<ul>
-						{numbers.map((num) => (
-							<li key={num}>Component {num}</li>
-						))}
-					</ul>
+					
 				</main>
 
 				<footer className={styles.footer}>
 					<span>Timetable</span>
-					<span>© {new Date().getFullYear()} JDCQ</span>
+					<span>©{new Date().getFullYear()} JDQC.dev</span>
 				</footer>
 			</div>
 		</div>
