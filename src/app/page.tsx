@@ -140,6 +140,8 @@ export default function LandingPage() {
 				</nav>
 
 				<main>
+					<h1 className={styles.title}>Timetable</h1>
+
 					<div className={styles.titleContent}>
 						<div className={`${styles.rect3} ${styles.gradientBorder}`}>
 							<Noise

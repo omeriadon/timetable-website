@@ -97,7 +97,7 @@
 
 	cursor: pointer;
 
-	transition: all 0.1s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
 .navRowThing2:hover {
@@ -514,6 +514,13 @@
 			calc(var(--border-softness) * -1) rgba(0, 0, 0, var(--side-opacity)),
 		inset calc(var(--border-softness) * -1) 0 var(--border-softness)
 			calc(var(--border-softness) * -1) rgba(0, 0, 0, var(--side-opacity));
+}
+
+.title {
+	font-size: 4rem;
+	text-align: center;
+	align-self: center;
+	font-weight: 1000;
 }
 
 /* Footer */
