@@ -166,7 +166,9 @@
 }
 
 .anyRect {
-	border-radius: 100px;
+	--gradient-border-radius: 12.5% / 16.6667%;
+
+	border-radius: var(--gradient-border-radius);
 
 	overflow: hidden;
 
