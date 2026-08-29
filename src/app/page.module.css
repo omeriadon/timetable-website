@@ -37,7 +37,7 @@
 }
 
 .navLink {
-	background: rgba(255, 255, 255, 1);
+	background: rgb(203, 169, 126);
 	color: black;
 	border-radius: calc(0.5rem + 14px);
 
