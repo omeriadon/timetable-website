@@ -8,7 +8,7 @@
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 5;
+	z-index: 500;
 }
 
 .page {
@@ -24,7 +24,7 @@
 	inset: 1rem 1rem auto;
 	display: flex;
 	justify-content: flex-end;
-	z-index: 10;
+	z-index: 1000000;
 }
 
 .navSubtitle {
@@ -135,6 +135,17 @@
 
 /* Main */
 
+.rotatingShape {
+	--shape-rotate-ease: cubic-bezier(0.34, 1.24, 0.64, 1);
+
+	transition: rotate 140ms var(--shape-rotate-ease);
+	will-change: rotate;
+}
+
+.rotatingShape[data-rotated="true"] {
+	rotate: var(--shape-hover-rotation, 0deg);
+}
+
 .titleContent {
 	position: relative;
 
@@ -155,12 +166,13 @@
 
 	overflow: hidden;
 
-	-webkit-backdrop-filter: blur(4px);
-	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
 }
 
 .rect1 {
 	composes: anyRect;
+	--shape-resting-rotation: 12deg;
 
 	left: 10%;
 	right: 10%;
@@ -178,6 +190,7 @@
 
 .rect2 {
 	composes: anyRect;
+	--shape-resting-rotation: 0deg;
 
 	left: 10%;
 	right: 10%;
@@ -193,6 +206,7 @@
 
 .rect3 {
 	composes: anyRect;
+	--shape-resting-rotation: -6deg;
 
 	left: 10%;
 	right: 10%;
@@ -262,13 +276,16 @@
 	width: 70px;
 	aspect-ratio: 1;
 	overflow: hidden;
+
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
 }
 
 .detailPanels {
 	left: 30%;
-	right: 17%;
-	top: 14%;
-	bottom: 17%;
+	right: 16%;
+	top: 18%;
+	bottom: 18%;
 	z-index: 15;
 
 	pointer-events: none;
@@ -281,10 +298,15 @@
 	right: 0;
 
 	border-radius: 24px;
+	overflow: hidden;
+
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
 }
 
 .detailPanel {
 	height: 29%;
+	pointer-events: auto;
 
 	background: linear-gradient(
 		to bottom,
@@ -295,9 +317,54 @@
 	box-shadow:
 		inset 0 2px 3px rgba(255, 255, 255, 0.8),
 		0 8px 18px rgba(45, 31, 20, 0.16);
+}
 
-	-webkit-backdrop-filter: blur(4px);
-	backdrop-filter: blur(4px);
+.lessonPreview {
+	position: relative;
+	z-index: 20;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 22px 28px;
+	color: rgba(34, 28, 22, 0.92);
+	opacity: 0;
+	transition: opacity 120ms ease-out;
+}
+
+.detailPanel:hover .lessonPreview {
+	opacity: 1;
+}
+
+.lessonPreviewIcon {
+	order: 2;
+	width: 46px;
+	height: 46px;
+	flex: 0 0 auto;
+	font-size: 40px;
+}
+
+.lessonPreview > span:last-child {
+	order: 1;
+	display: grid;
+	gap: 4px;
+}
+
+.lessonPreview strong,
+.lessonPreview > span:last-child > span {
+	display: block;
+}
+
+.lessonPreview strong {
+	font-size: 1.4rem;
+}
+
+.lessonPreview > span:last-child > span {
+	font-size: 0.95rem;
+	opacity: 0.62;
 }
 
 .detailPanelTop {
@@ -314,17 +381,19 @@
 
 	border: 7px solid rgba(255, 255, 255, 0.92);
 	box-shadow:
-		inset 0 0 8px rgba(255, 255, 255, 0.38),
-		0 0 8px rgba(255, 255, 255, 0.22);
+		inset 0 0 14px rgba(255, 255, 255, 0.7),
+		inset 0 0 28px rgba(255, 255, 255, 0.3),
+		0 0 14px rgba(255, 255, 255, 0.55),
+		0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 .activeIndicator {
 	--indicator-size: 70px;
 	--indicator-stem-height: 24px;
-	--indicator-red-light: rgba(255, 111, 103, 0.82);
-	--indicator-red: rgba(218, 65, 60, 0.76);
-	--indicator-red-dark: rgba(164, 38, 35, 0.8);
-	--indicator-shadow: rgba(234, 38, 34, 0.88);
+	--indicator-red-light: rgba(255, 111, 103, 0.3);
+	--indicator-red: rgba(218, 65, 60, 0.2);
+	--indicator-red-dark: rgba(164, 38, 35, 0.26);
+	--indicator-shadow: rgba(234, 38, 34, 0.28);
 
 	left: 15%;
 	top: 50%;
@@ -339,10 +408,13 @@
 		var(--indicator-red) 55%,
 		var(--indicator-red-dark)
 	);
-	filter: drop-shadow(0 0 1px rgba(255, 220, 216, 0.95))
+	filter: drop-shadow(0 0 1px rgba(255, 220, 216, 0.42))
 		drop-shadow(0 8px 10px var(--indicator-shadow))
-		drop-shadow(0 18px 24px rgba(214, 23, 20, 0.78))
-		drop-shadow(0 0 16px rgba(255, 45, 40, 0.64));
+		drop-shadow(0 18px 24px rgba(214, 23, 20, 0.22))
+		drop-shadow(0 0 16px rgba(255, 45, 40, 0.18));
+
+	-webkit-backdrop-filter: blur(3px);
+	backdrop-filter: blur(3px);
 
 	-webkit-mask:
 		radial-gradient(
@@ -379,6 +451,16 @@
 
 	transform: translateY(-50%);
 	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rotatingShape {
+		transition: none;
+	}
+
+	.rotatingShape[data-rotated="true"] {
+		rotate: var(--shape-resting-rotation, 0deg);
+	}
 }
 
 .gradientBorder {
