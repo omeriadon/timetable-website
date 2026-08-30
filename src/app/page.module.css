@@ -683,7 +683,7 @@
 
 .card {
 	display: grid;
-	grid-template-columns: minmax(0, 5fr) minmax(0, 5fr);
+	grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
 	gap: 1rem;
 }
 
@@ -695,16 +695,43 @@
 	font-size: 2rem;
 }
 
+.cardTitle h2 {
+	margin: 0;
+	background-position: center;
+	background-size: cover;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
 .cardContent {
+	position: relative;
 	grid-column: 1;
 	grid-row: 1;
 	min-width: 0;
-	min-height: 15rem;
+	height: 80svh;
 	padding: 1rem;
+	overflow: hidden;
 
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	border-radius: 10px;
 	background: rgba(255, 255, 255, 0.05);
+}
+
+.cardScreenshot {
+	object-fit: contain;
+	object-position: left bottom;
+}
+
+.cardCopy {
+	position: relative;
+	z-index: 1;
+	width: min(45%, 28rem);
+	margin-left: auto;
+}
+
+.cardCopy > :first-child {
+	margin-top: 0;
 }
 
 .summary li:nth-child(even) .cardTitle {
@@ -713,11 +740,20 @@
 }
 
 .summary li:nth-child(even) .card {
-	grid-template-columns: minmax(0, 5fr) minmax(0, 5fr);
+	grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
 }
 
 .summary li:nth-child(even) .cardContent {
 	grid-column: 2;
+}
+
+.summary li:nth-child(even) .cardScreenshot {
+	object-position: right bottom;
+}
+
+.summary li:nth-child(even) .cardCopy {
+	margin-right: auto;
+	margin-left: 0;
 }
 
 @media (max-width: 600px) {

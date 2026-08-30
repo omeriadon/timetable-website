@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import fitty from "fitty";
 import { gsap } from "gsap";
@@ -11,18 +12,82 @@ import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 type CardProps = {
 	title?: string;
+	screenshot: string;
+	screenshotAlt: string;
 	children: ReactNode;
 };
 
-function Card({ title, children }: CardProps) {
+const LANDING_MASK_COUNT = 2;
+
+const landingCards = [
+	{
+		title: "Today",
+		screenshot: "/landing/timetable-today.png",
+		screenshotAlt: "Timetable Today view",
+		description:
+			"Check your current period, see your next lesson, and view the rest of your day at a glance.",
+	},
+	{
+		title: "Week",
+		screenshot: "/landing/timetable-week.png",
+		screenshotAlt: "Timetable Week view",
+		description:
+			"See every class across the week in one clear view, including your friends' shared lessons.",
+	},
+	{
+		title: "Planner",
+		screenshot: "/landing/timetable-planner.png",
+		screenshotAlt: "Timetable Planner view",
+		description:
+			"Keep upcoming events and term dates together without manually rebuilding your school calendar.",
+	},
+	{
+		title: "Grades",
+		screenshot: "/landing/grades.png",
+		screenshotAlt: "Timetable Grades view",
+		description:
+			"Track subject results, your average, and your predicted ATAR as new assessments arrive.",
+	},
+	{
+		title: "Friends",
+		screenshot: "/landing/friends.png",
+		screenshotAlt: "Timetable Friends view",
+		description:
+			"Find your friends, compare schedules, and see where everyone is throughout the school day.",
+	},
+] as const;
+
+function Card({ title, screenshot, screenshotAlt, children }: CardProps) {
+	const [maskNumber, setMaskNumber] = useState(1);
+
+	useEffect(() => {
+		setMaskNumber(Math.floor(Math.random() * LANDING_MASK_COUNT) + 1);
+	}, []);
+
 	return (
 		<div className={styles.card}>
 			{title && (
 				<header className={styles.cardTitle}>
-					<h2>{title}</h2>
+					<h2
+						style={{
+							backgroundImage: `url(/landing/mask/${maskNumber}.png)`,
+						}}
+					>
+						{title}
+					</h2>
 				</header>
 			)}
-			<div className={styles.cardContent}>{children}</div>
+			<div className={styles.cardContent}>
+				<Image
+					src={screenshot}
+					alt={screenshotAlt}
+					className={styles.cardScreenshot}
+					fill
+					sizes="(max-width: 600px) 70vw, 50vw"
+					unoptimized
+				/>
+				<div className={styles.cardCopy}>{children}</div>
+			</div>
 		</div>
 	);
 }
@@ -273,60 +338,17 @@ export default function LandingPage() {
 					<div className={styles.summary}>
 						<div className={styles.rightSummary}>
 							<ul>
-								<li>
-									<Card title="Subjects">
-										<p>
-											Check your current period, see your next lesson, and view
-											your full timetable with ease.
-										</p>
-										<p>
-											Your timetable is intuitively imported, so you don't have
-											to manually type out anything.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
-								<li>
-									<Card title="Subjects">
-										<p>
-											This is arbitrary ReactNode content passed as children.
-										</p>
-									</Card>
-								</li>
+								{landingCards.map((card) => (
+									<li key={card.title}>
+										<Card
+											title={card.title}
+											screenshot={card.screenshot}
+											screenshotAlt={card.screenshotAlt}
+										>
+											<p>{card.description}</p>
+										</Card>
+									</li>
+								))}
 							</ul>
 						</div>
 					</div>
