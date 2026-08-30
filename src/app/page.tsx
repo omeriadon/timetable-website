@@ -276,7 +276,12 @@ export default function LandingPage() {
 								<li>
 									<Card title="Subjects">
 										<p>
-											This is arbitrary ReactNode content passed as children.
+											Check your current period, see your next lesson, and view
+											your full timetable with ease.
+										</p>
+										<p>
+											Your timetable is intuitively imported, so you don't have
+											to manually type out anything.
 										</p>
 									</Card>
 								</li>
