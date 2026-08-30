@@ -761,7 +761,8 @@
 	position: relative;
 	z-index: 1;
 	width: min(45%, 28rem);
-	margin-right: clamp(1.5rem, 3vw, 3rem);
+	margin-right: 2rem;
+	margin-top: 1rem;
 	margin-left: auto;
 	text-align: right;
 }
