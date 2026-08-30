@@ -12,16 +12,16 @@ import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 type CardProps = {
 	title?: string;
+	maskNumber: number;
 	screenshot: string;
 	screenshotAlt: string;
 	children: ReactNode;
 };
 
-const LANDING_MASK_COUNT = 2;
-
 const landingCards = [
 	{
 		title: "Today",
+		maskNumber: 1,
 		screenshot: "/landing/timetable-today.png",
 		screenshotAlt: "Timetable Today view",
 		description:
@@ -29,6 +29,7 @@ const landingCards = [
 	},
 	{
 		title: "Week",
+		maskNumber: 2,
 		screenshot: "/landing/timetable-week.png",
 		screenshotAlt: "Timetable Week view",
 		description:
@@ -36,6 +37,7 @@ const landingCards = [
 	},
 	{
 		title: "Planner",
+		maskNumber: 3,
 		screenshot: "/landing/timetable-planner.png",
 		screenshotAlt: "Timetable Planner view",
 		description:
@@ -43,6 +45,7 @@ const landingCards = [
 	},
 	{
 		title: "Grades",
+		maskNumber: 4,
 		screenshot: "/landing/grades.png",
 		screenshotAlt: "Timetable Grades view",
 		description:
@@ -50,6 +53,7 @@ const landingCards = [
 	},
 	{
 		title: "Friends",
+		maskNumber: 5,
 		screenshot: "/landing/friends.png",
 		screenshotAlt: "Timetable Friends view",
 		description:
@@ -57,13 +61,13 @@ const landingCards = [
 	},
 ] as const;
 
-function Card({ title, screenshot, screenshotAlt, children }: CardProps) {
-	const [maskNumber, setMaskNumber] = useState(1);
-
-	useEffect(() => {
-		setMaskNumber(Math.floor(Math.random() * LANDING_MASK_COUNT) + 1);
-	}, []);
-
+function Card({
+	title,
+	maskNumber,
+	screenshot,
+	screenshotAlt,
+	children,
+}: CardProps) {
 	return (
 		<div className={styles.card}>
 			{title && (
@@ -342,6 +346,7 @@ export default function LandingPage() {
 									<li key={card.title}>
 										<Card
 											title={card.title}
+											maskNumber={card.maskNumber}
 											screenshot={card.screenshot}
 											screenshotAlt={card.screenshotAlt}
 										>
