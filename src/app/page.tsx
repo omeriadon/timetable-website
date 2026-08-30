@@ -15,8 +15,19 @@ type CardProps = {
 	maskNumber: number;
 	screenshot: string;
 	screenshotAlt: string;
+	screenshotCrop: ScreenshotCrop;
 	children: ReactNode;
 };
+
+type ScreenshotCrop = {
+	sourceWidth: number;
+	sourceHeight: number;
+	left: number;
+	top: number;
+};
+
+const SCREENSHOT_VISIBLE_WIDTH = 776;
+const SCREENSHOT_VISIBLE_HEIGHT = 1686;
 
 const landingCards = [
 	{
@@ -24,6 +35,12 @@ const landingCards = [
 		maskNumber: 1,
 		screenshot: "/landing/timetable-today.png",
 		screenshotAlt: "Timetable Today view",
+		screenshotCrop: {
+			sourceWidth: 832,
+			sourceHeight: 1734,
+			left: 34,
+			top: 20,
+		},
 		description:
 			"Check your current period, see your next lesson, and view the rest of your day at a glance.",
 	},
@@ -32,6 +49,12 @@ const landingCards = [
 		maskNumber: 2,
 		screenshot: "/landing/timetable-week.png",
 		screenshotAlt: "Timetable Week view",
+		screenshotCrop: {
+			sourceWidth: 852,
+			sourceHeight: 1750,
+			left: 40,
+			top: 42,
+		},
 		description:
 			"See every class across the week in one clear view, including your friends' shared lessons.",
 	},
@@ -40,6 +63,12 @@ const landingCards = [
 		maskNumber: 7,
 		screenshot: "/landing/timetable-planner.png",
 		screenshotAlt: "Timetable Planner view",
+		screenshotCrop: {
+			sourceWidth: 868,
+			sourceHeight: 1742,
+			left: 64,
+			top: 28,
+		},
 		description:
 			"Keep upcoming events and term dates together without manually rebuilding your school calendar.",
 	},
@@ -48,6 +77,12 @@ const landingCards = [
 		maskNumber: 4,
 		screenshot: "/landing/grades.png",
 		screenshotAlt: "Timetable Grades view",
+		screenshotCrop: {
+			sourceWidth: 878,
+			sourceHeight: 1764,
+			left: 66,
+			top: 42,
+		},
 		description:
 			"Track subject results, your average, and your predicted ATAR as new assessments arrive.",
 	},
@@ -56,6 +91,12 @@ const landingCards = [
 		maskNumber: 5,
 		screenshot: "/landing/friends.png",
 		screenshotAlt: "Timetable Friends view",
+		screenshotCrop: {
+			sourceWidth: 852,
+			sourceHeight: 1756,
+			left: 46,
+			top: 36,
+		},
 		description:
 			"Find your friends, compare schedules, and see where everyone is throughout the school day.",
 	},
@@ -66,6 +107,7 @@ function Card({
 	maskNumber,
 	screenshot,
 	screenshotAlt,
+	screenshotCrop,
 	children,
 }: CardProps) {
 	return (
@@ -82,14 +124,29 @@ function Card({
 				</header>
 			)}
 			<div className={styles.cardContent}>
-				<Image
-					src={screenshot}
-					alt={screenshotAlt}
-					className={styles.cardScreenshot}
-					fill
-					sizes="(max-width: 600px) 70vw, 50vw"
-					unoptimized
-				/>
+				<div
+					className={styles.cardScreenshotFrame}
+					style={{
+						aspectRatio: SCREENSHOT_VISIBLE_WIDTH / SCREENSHOT_VISIBLE_HEIGHT,
+					}}
+				>
+					<div className={styles.cardScreenshotBody}>
+						<Image
+							src={screenshot}
+							alt={screenshotAlt}
+							className={styles.cardScreenshot}
+							width={screenshotCrop.sourceWidth}
+							height={screenshotCrop.sourceHeight}
+							style={{
+								width: `${(screenshotCrop.sourceWidth / SCREENSHOT_VISIBLE_WIDTH) * 100}%`,
+								height: `${(screenshotCrop.sourceHeight / SCREENSHOT_VISIBLE_HEIGHT) * 100}%`,
+								left: `${(-screenshotCrop.left / SCREENSHOT_VISIBLE_WIDTH) * 100}%`,
+								top: `${(-screenshotCrop.top / SCREENSHOT_VISIBLE_HEIGHT) * 100}%`,
+							}}
+							unoptimized
+						/>
+					</div>
+				</div>
 				<div className={styles.cardCopy}>{children}</div>
 			</div>
 		</div>
@@ -349,6 +406,7 @@ export default function LandingPage() {
 											maskNumber={card.maskNumber}
 											screenshot={card.screenshot}
 											screenshotAlt={card.screenshotAlt}
+											screenshotCrop={card.screenshotCrop}
 										>
 											<p>{card.description}</p>
 										</Card>

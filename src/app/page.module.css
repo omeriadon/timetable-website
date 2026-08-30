@@ -6,7 +6,7 @@
 .blur {
 	position: fixed;
 	top: 0;
-	left: 0;
+	left: var(--screenshot-card-margin);
 	right: 0;
 	z-index: 500;
 }
@@ -597,7 +597,6 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	filter: brightness(170%);
 }
 
 .titleWithHDR {
@@ -697,14 +696,14 @@
 
 .cardTitle h2 {
 	margin: 0;
-	font-size: clamp(3rem, 5vw, 6rem);
+	font-size: clamp(2rem, 5vw, 7rem);
 	font-weight: 1000;
 	background-position: center;
 	background-size: cover;
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	filter: brightness(170%);
+	filter: brightness(200%);
 }
 
 .cardContent {
@@ -712,25 +711,59 @@
 	grid-column: 1;
 	grid-row: 1;
 	min-width: 0;
-	height: 80svh;
+	height: 70svh;
 	padding: 1rem;
 	overflow: hidden;
 
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 10px;
+	border-radius: calc(1rem + 2.7rem);
 	background: rgba(255, 255, 255, 0.05);
 }
 
+.cardScreenshotFrame {
+	--screenshot-border-radius: 2.7rem;
+	--screenshot-border-width: 1px;
+	--screenshot-border-color: rgba(255, 255, 255, 0.2);
+	--screenshot-card-margin: 1rem;
+
+	position: absolute;
+	top: var(--screenshot-card-margin);
+	bottom: var(--screenshot-card-margin);
+	left: var(--screenshot-card-margin);
+	box-sizing: border-box;
+	width: auto;
+	height: auto;
+	max-width: 50%;
+	overflow: hidden;
+
+	border: var(--screenshot-border-width) solid var(--screenshot-border-color);
+	border-radius: var(--screenshot-border-radius);
+}
+
+.cardScreenshotBody {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #000;
+	border-radius: max(
+		0px,
+		calc(var(--screenshot-border-radius) - var(--screenshot-border-width))
+	);
+}
+
 .cardScreenshot {
-	object-fit: contain;
-	object-position: left bottom;
+	position: absolute;
+	max-width: none;
 }
 
 .cardCopy {
 	position: relative;
 	z-index: 1;
 	width: min(45%, 28rem);
+	margin-right: clamp(1.5rem, 3vw, 3rem);
 	margin-left: auto;
+	text-align: right;
 }
 
 .cardCopy > :first-child {
@@ -750,13 +783,15 @@
 	grid-column: 2;
 }
 
-.summary li:nth-child(even) .cardScreenshot {
-	object-position: right bottom;
+.summary li:nth-child(even) .cardScreenshotFrame {
+	right: var(--screenshot-card-margin);
+	left: auto;
 }
 
 .summary li:nth-child(even) .cardCopy {
 	margin-right: auto;
-	margin-left: 0;
+	margin-left: clamp(1.5rem, 3vw, 3rem);
+	text-align: left;
 }
 
 @media (max-width: 600px) {
