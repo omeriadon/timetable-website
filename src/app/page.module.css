@@ -790,10 +790,10 @@
 }
 
 .summary li:nth-child(even) .cardCopy {
-	margin-right: auto;
-	margin-left: 2rem;
+	margin-right: calc(50% + 2rem);
+	margin-left: auto;
 	margin-top: 1rem;
-	text-align: left;
+	text-align: right;
 }
 
 @media (max-width: 600px) {
