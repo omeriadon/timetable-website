@@ -37,7 +37,7 @@ const landingCards = [
 	},
 	{
 		title: "Planner",
-		maskNumber: 3,
+		maskNumber: 7,
 		screenshot: "/landing/timetable-planner.png",
 		screenshotAlt: "Timetable Planner view",
 		description:

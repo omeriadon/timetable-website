@@ -12,7 +12,6 @@
 }
 
 .page {
-	min-height: 100svh;
 	margin-top: 130px;
 	font-family: "SF Mono", monospace;
 }
@@ -580,7 +579,7 @@
 .title {
 	display: inline-block;
 	margin: 0;
-	line-height: 1;
+	line-height: 1.4;
 	font-weight: 1000;
 	white-space: nowrap;
 	background-image:
@@ -598,6 +597,7 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
+	filter: brightness(170%);
 }
 
 .titleWithHDR {
@@ -697,11 +697,14 @@
 
 .cardTitle h2 {
 	margin: 0;
+	font-size: clamp(3rem, 5vw, 6rem);
+	font-weight: 1000;
 	background-position: center;
 	background-size: cover;
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
+	filter: brightness(170%);
 }
 
 .cardContent {
