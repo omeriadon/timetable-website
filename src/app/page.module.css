@@ -761,10 +761,10 @@
 	position: relative;
 	z-index: 1;
 	width: min(45%, 28rem);
-	margin-right: 2rem;
+	margin-right: auto;
 	margin-top: 1rem;
-	margin-left: auto;
-	text-align: right;
+	margin-left: calc(50% + 2rem);
+	text-align: left;
 }
 
 .cardCopy > :first-child {
@@ -791,7 +791,8 @@
 
 .summary li:nth-child(even) .cardCopy {
 	margin-right: auto;
-	margin-left: clamp(1.5rem, 3vw, 3rem);
+	margin-left: 2rem;
+	margin-top: 1rem;
 	text-align: left;
 }
 
