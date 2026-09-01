@@ -18,6 +18,7 @@ server {
 	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
 	client_max_body_size 5m;
+	add_header Strict-Transport-Security "max-age=31536000" always;
 
 	gzip on;
 	gzip_comp_level 6;
