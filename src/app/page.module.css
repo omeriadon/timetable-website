@@ -40,7 +40,7 @@
 	color: black;
 	border-radius: calc(0.5rem + 14px);
 
-	-webkit-backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(5px);
 	backdrop-filter: blur(10px);
 
 	border: 1px solid rgba(0, 0, 0, 0.1);
@@ -158,26 +158,20 @@
 }
 
 .iconPin {
-	--icon-top-margin: 1rem;
-
 	position: relative;
 	z-index: 600;
 	width: 100%;
 	max-width: 900px;
 	aspect-ratio: 4 / 3;
-	margin: clamp(-7rem, -7vw, -0.75rem) auto 0;
+	margin: clamp(-10rem, -10vw, -2rem) auto 0;
 }
 
 .titleContent {
-	--icon-final-scale: 0.18;
-
 	position: relative;
 	z-index: 2;
 	container-type: inline-size;
 	width: 100%;
 	height: 100%;
-	transform-origin: top center;
-	will-change: transform;
 }
 
 .titleContent > * {
@@ -202,8 +196,7 @@
 
 	overflow: hidden;
 
-	-webkit-backdrop-filter: blur(8px);
-	backdrop-filter: blur(8px);
+	/* Full-panel backdrop blur disabled: overlapping instances caused high GPU usage. */
 }
 
 .grainOverlay {
@@ -229,6 +222,9 @@
 	rotate: 12deg;
 	transition: rotate 150ms cubic-bezier(0.34, 1.24, 0.64, 1);
 
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+
 	background: linear-gradient(
 		to bottom,
 		rgba(124.46, 103.24, 80.05, 0.5) 0%,
@@ -244,6 +240,9 @@
 	right: 10%;
 	top: 10%;
 	bottom: 10%;
+
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
 
 	background: linear-gradient(
 		to bottom,
@@ -707,16 +706,22 @@
 }
 
 .cardContent {
+	--card-height: 44rem;
+	--card-inset: 2rem;
+	--card-copy-gap: 2rem;
+	--card-screenshot-width: 18.41rem;
+
 	position: relative;
 	grid-column: 1;
 	grid-row: 1;
 	min-width: 0;
-	height: 70svh;
-	padding: 1rem;
+	height: var(--card-height);
+	box-sizing: border-box;
+	padding: var(--card-inset);
 	overflow: hidden;
 
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: calc(1rem + 2.7rem);
+	border-radius: calc(var(--card-inset) + 2.7rem);
 	background: rgba(255, 255, 255, 0.05);
 }
 
@@ -724,7 +729,7 @@
 	--screenshot-border-radius: 2.7rem;
 	--screenshot-border-width: 1px;
 	--screenshot-border-color: rgba(255, 255, 255, 0.2);
-	--screenshot-card-margin: 1rem;
+	--screenshot-card-margin: var(--card-inset);
 
 	position: absolute;
 	top: var(--screenshot-card-margin);
@@ -762,13 +767,13 @@
 	z-index: 1;
 	width: min(45%, 28rem);
 	margin-right: auto;
-	margin-top: 1rem;
-	margin-left: calc(50% + 2rem);
+	margin-top: 0rem;
+	margin-left: calc(var(--card-screenshot-width) + var(--card-copy-gap));
 	text-align: left;
 }
 
 .cardCopy > :first-child {
-	margin-top: 0;
+	margin-top: 0rem;
 }
 
 .summary li:nth-child(even) .cardTitle {
@@ -790,9 +795,9 @@
 }
 
 .summary li:nth-child(even) .cardCopy {
-	margin-right: calc(50% + 2rem);
+	margin-right: calc(var(--card-screenshot-width) + var(--card-copy-gap));
 	margin-left: auto;
-	margin-top: 1rem;
+	margin-top: 0;
 	text-align: right;
 }
 

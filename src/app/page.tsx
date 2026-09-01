@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import fitty from "fitty";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
 import { useEffect, useRef, useState, ReactNode } from "react";
@@ -157,8 +155,6 @@ export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [hasScrolled, setHasScrolled] = useState(false);
 	const titleRef = useRef<HTMLHeadingElement>(null);
-	const iconPinRef = useRef<HTMLDivElement>(null);
-	const titleContentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const updateScrollState = () => {
@@ -169,64 +165,6 @@ export default function LandingPage() {
 		window.addEventListener("scroll", updateScrollState, { passive: true });
 
 		return () => window.removeEventListener("scroll", updateScrollState);
-	}, []);
-
-	useEffect(() => {
-		const iconPin = iconPinRef.current;
-		const titleContent = titleContentRef.current;
-
-		if (!iconPin || !titleContent) {
-			return;
-		}
-
-		gsap.registerPlugin(ScrollTrigger);
-
-		const finalScale = Number.parseFloat(
-			getComputedStyle(titleContent).getPropertyValue("--icon-final-scale"),
-		);
-		const topMarginValue = getComputedStyle(iconPin)
-			.getPropertyValue("--icon-top-margin")
-			.trim();
-		const topMargin = topMarginValue.endsWith("rem")
-			? Number.parseFloat(topMarginValue) *
-				Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-			: Number.parseFloat(topMarginValue);
-		const scaleDistance = () => Math.max(iconPin.offsetHeight * 0.65, 1);
-		const start = () => `top top+=${topMargin}`;
-		const motion = gsap.matchMedia();
-
-		motion.add("(prefers-reduced-motion: no-preference)", () => {
-			const pin = ScrollTrigger.create({
-				trigger: iconPin,
-				start,
-				end: "max",
-				pin: iconPin,
-				pinSpacing: false,
-				anticipatePin: 1,
-				invalidateOnRefresh: true,
-			});
-
-			const scale = gsap.to(titleContent, {
-				scale: finalScale,
-				ease: "none",
-				scrollTrigger: {
-					trigger: iconPin,
-					start,
-					end: () => `+=${scaleDistance()}`,
-					scrub: 0.35,
-					invalidateOnRefresh: true,
-				},
-			});
-
-			return () => {
-				pin.kill();
-				scale.kill();
-			};
-		});
-
-		return () => {
-			motion.revert();
-		};
 	}, []);
 
 	useEffect(() => {
@@ -250,7 +188,7 @@ export default function LandingPage() {
 	return (
 		<div className={styles.shell}>
 			<div className={styles.blur}>
-				<ProgressiveBlur position="top" backgroundColor="#000000" />
+				{/* <ProgressiveBlur position="top" backgroundColor="#000000" /> */}
 			</div>
 
 			<div className={styles.page}>
@@ -322,8 +260,8 @@ export default function LandingPage() {
 							</h1>
 						</div>
 
-						<div ref={iconPinRef} className={styles.iconPin}>
-							<div ref={titleContentRef} className={styles.titleContent}>
+						<div className={styles.iconPin}>
+							<div className={styles.titleContent}>
 								<div className={`${styles.rect3} ${styles.gradientBorder}`}>
 									<span className={styles.grainOverlay} aria-hidden="true" />
 								</div>
