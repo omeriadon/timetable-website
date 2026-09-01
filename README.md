@@ -2,7 +2,7 @@
 
 # Timetable website
 
-Timetable website built with Next.js, React, and Bun.
+Timetable website built with TanStack Start, Vite, React, Nitro, and Bun.
 
 This is effectively a web port of the existing SwiftUI app.
 
@@ -15,9 +15,13 @@ bun install
 bun run dev
 ```
 
+Type-check and test with `bun run typecheck` and `bun test`.
+
 ## Production
 
 ```bash
 bun run build
-bun run start,
+bun run start
 ```
+
+The production build is emitted to `.output/server/index.mjs` by Nitro's Bun preset.
