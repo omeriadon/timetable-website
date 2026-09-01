@@ -1,4 +1,9 @@
-import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import {
+	createRootRoute,
+	HeadContent,
+	Outlet,
+	Scripts,
+} from "@tanstack/react-router";
 import "../app/globals.css";
 
 export const Route = createRootRoute({
@@ -16,8 +21,13 @@ export const Route = createRootRoute({
 function RootDocument() {
 	return (
 		<html lang="en">
-			<head><HeadContent /></head>
-			<body><Outlet /><Scripts /></body>
+			<head>
+				<HeadContent />
+			</head>
+			<body>
+				<Outlet />
+				<Scripts />
+			</body>
 		</html>
 	);
 }

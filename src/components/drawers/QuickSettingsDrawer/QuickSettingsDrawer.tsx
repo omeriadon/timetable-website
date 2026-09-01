@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@/components/RouterLink";
+import { Link } from "@tanstack/react-router";
 import { useDrawer } from "../Drawer/Drawer";
 import { List } from "@/components/ui/list";
 import styles from "../Drawer/Drawer.module.css";
@@ -21,7 +21,7 @@ export default function QuickSettingsDrawer() {
 					<Link
 						key={link.href}
 						className={styles.drawerLink}
-						href={link.href}
+						to={link.href}
 						onClick={closeDrawer}
 					>
 						{link.label}

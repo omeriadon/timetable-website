@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@/components/RouterLink";
+import { Link } from "@tanstack/react-router";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
@@ -31,7 +31,7 @@ export default function NavigationDrawer({
 					<p>{description}</p>
 				</div>
 			</header>
-			<Link className={styles.drawerLink} href={href} onClick={closeDrawer}>
+			<Link className={styles.drawerLink} to={href} onClick={closeDrawer}>
 				Open {title}
 			</Link>
 		</div>

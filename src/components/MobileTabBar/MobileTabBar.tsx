@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "@/components/RouterLink";
-import { usePathname } from "@/lib/routerCompat";
+import { Link } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
@@ -26,7 +26,7 @@ const tabs: TabItem[] = [
 
 export default function MobileTabBar() {
 	const isCompact = useCompactLayout();
-	const pathname = usePathname();
+	const pathname = useLocation({ select: (location) => location.pathname });
 	const [isAdministrator, setIsAdministrator] = useState(false);
 	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
 		useState(0);
@@ -62,7 +62,7 @@ export default function MobileTabBar() {
 					return (
 						<Link
 							key={tab.href}
-							href={tab.href}
+							to={tab.href}
 							aria-current={active ? "page" : undefined}
 						>
 							<Symbol name={tab.icon} />

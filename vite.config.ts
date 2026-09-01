@@ -9,6 +9,11 @@ export default defineConfig({
 	resolve: {
 		alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
 	},
-	plugins: [tanstackStart(), nitro({ preset: "bun" }), tailwindcss(), viteReact()],
+	plugins: [
+		tanstackStart(),
+		nitro({ preset: "bun" }),
+		tailwindcss(),
+		viteReact(),
+	],
 	server: { port: 3000 },
 });

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "@/components/RouterLink";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
-import { usePathname } from "@/lib/routerCompat";
+import { useLocation } from "@tanstack/react-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
@@ -43,7 +43,7 @@ const modes: Array<{
 ];
 
 export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
-	const pathname = usePathname();
+	const pathname = useLocation({ select: (location) => location.pathname });
 	const setToolbar = useToolbar();
 	const { data, error, isLoading } = useDashboard();
 	const now = useTimetableNow();
@@ -57,11 +57,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 			return [];
 		}
 
-		const start = new Date(
-			now.getFullYear(),
-			now.getMonth(),
-			now.getDate(),
-		);
+		const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 		const end = futureEventEndDate(data.settings.futureEventRange, start);
 
 		return [...data.events.globalEvents, ...data.events.privateEvents]
@@ -82,7 +78,7 @@ export default function TimetableRoute({ mode }: { mode: TimetableMode }) {
 				{modes.map((item) => (
 					<Link
 						key={item.id}
-						href={item.href}
+						to={item.href}
 						className={pathname === item.href ? styles.activeMode : undefined}
 						aria-current={pathname === item.href ? "page" : undefined}
 					>

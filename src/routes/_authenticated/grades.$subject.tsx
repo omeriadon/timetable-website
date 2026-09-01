@@ -1,3 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/app/grades/[subject]/page";
-export const Route = createFileRoute("/_authenticated/grades/$subject")({ component: Page });
+export const Route = createFileRoute("/_authenticated/grades/$subject")({
+	component: Page,
+});

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormEvent, useState } from "react";
-import { useRouter } from "@/lib/routerCompat";
+import { useNavigate } from "@tanstack/react-router";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";
@@ -13,7 +13,7 @@ import styles from "./page.module.css";
 type Mode = "sign-in" | "sign-up" | "verify";
 
 export default function LoginPage() {
-	const router = useRouter();
+	const navigate = useNavigate();
 	const [mode, setMode] = useState<Mode>("sign-in");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -33,8 +33,8 @@ export default function LoginPage() {
 					method: "POST",
 					body: JSON.stringify({ email, password, installationID }),
 				});
-				router.replace(returnDestination());
-				router.refresh();
+				navigate({ to: returnDestination() });
+				void navigate({ to: window.location.pathname, replace: true });
 				return;
 			}
 
@@ -51,8 +51,8 @@ export default function LoginPage() {
 				method: "POST",
 				body: JSON.stringify({ email, password, code, installationID }),
 			});
-			router.replace(returnDestination());
-			router.refresh();
+			navigate({ to: returnDestination() });
+			void navigate({ to: window.location.pathname, replace: true });
 		} catch (requestError) {
 			setError(
 				requestError instanceof PMSTTAPIError

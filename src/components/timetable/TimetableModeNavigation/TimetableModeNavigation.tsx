@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "@/components/RouterLink";
-import { usePathname } from "@/lib/routerCompat";
+import { Link } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import styles from "@/components/timetable/timetable.module.css";
@@ -14,7 +14,7 @@ const modes = [
 
 export default function TimetableModeNavigation() {
 	const isCompact = useCompactLayout();
-	const pathname = usePathname();
+	const pathname = useLocation({ select: (location) => location.pathname });
 
 	if (!isCompact) {
 		return null;
@@ -25,7 +25,7 @@ export default function TimetableModeNavigation() {
 			{modes.map((mode) => (
 				<Link
 					key={mode.href}
-					href={mode.href}
+					to={mode.href}
 					className={pathname === mode.href ? styles.activeMode : undefined}
 					aria-current={pathname === mode.href ? "page" : undefined}
 				>

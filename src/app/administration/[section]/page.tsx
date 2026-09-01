@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "@/lib/routerCompat";
+import { useParams } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -109,7 +109,8 @@ const sectionConfig: Record<
 };
 
 export default function AdministrationSectionPage() {
-	const { section } = useParams<{ section: string }>();
+	const { section: routeSection } = useParams({ strict: false });
+	const section = routeSection ?? "";
 	const setToolbar = useToolbar();
 	const [data, setData] = useState<unknown>(null);
 	const [error, setError] = useState<string | null>(null);

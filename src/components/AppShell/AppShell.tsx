@@ -17,43 +17,43 @@ export default function AppShell({ children }: { children: ReactNode }) {
 	const isAboutPage = pathname === "/settings/about";
 
 	return (
-			<StatusBadgeProvider>
-				<ThemeSettingsSync />
-				<DrawerProvider>
-					<ToolbarProvider>
-						<div
-							className={`${styles.appShell} ${
+		<StatusBadgeProvider>
+			<ThemeSettingsSync />
+			<DrawerProvider>
+				<ToolbarProvider>
+					<div
+						className={`${styles.appShell} ${
 							isAboutPage ? styles.aboutAppShell : ""
-							}`}
-						>
-							{isAboutPage ? (
-								<div className={styles.aboutBackground} aria-hidden="true">
-									<GradientBlinds
-										gradientColors={["#997554", "#d1b38c"]}
-										angle={0}
-										noise={0}
-										blindCount={20}
-										blindMinWidth={60}
-										spotlightRadius={1}
-										spotlightSoftness={1}
-										spotlightOpacity={1}
-										mouseDampening={1}
-										distortAmount={4}
-										shineDirection="left"
-										mixBlendMode="lighten"
-										pointerTarget="window"
-									/>
-								</div>
-							) : null}
-							<Sidebar />
-							<div className={styles.outerAppShell}>
-								<ReflectedPageContent>{children}</ReflectedPageContent>
-								<Toolbar />
+						}`}
+					>
+						{isAboutPage ? (
+							<div className={styles.aboutBackground} aria-hidden="true">
+								<GradientBlinds
+									gradientColors={["#997554", "#d1b38c"]}
+									angle={0}
+									noise={0}
+									blindCount={20}
+									blindMinWidth={60}
+									spotlightRadius={1}
+									spotlightSoftness={1}
+									spotlightOpacity={1}
+									mouseDampening={1}
+									distortAmount={4}
+									shineDirection="left"
+									mixBlendMode="lighten"
+									pointerTarget="window"
+								/>
 							</div>
-							<MobileTabBar />
+						) : null}
+						<Sidebar />
+						<div className={styles.outerAppShell}>
+							<ReflectedPageContent>{children}</ReflectedPageContent>
+							<Toolbar />
 						</div>
-					</ToolbarProvider>
-				</DrawerProvider>
-			</StatusBadgeProvider>
+						<MobileTabBar />
+					</div>
+				</ToolbarProvider>
+			</DrawerProvider>
+		</StatusBadgeProvider>
 	);
 }

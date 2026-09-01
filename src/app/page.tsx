@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "@/components/NextImage";
-import Link from "@/components/RouterLink";
+import { Link } from "@tanstack/react-router";
 import fitty from "fitty";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
@@ -129,7 +128,7 @@ function Card({
 					}}
 				>
 					<div className={styles.cardScreenshotBody}>
-						<Image
+						<img
 							src={screenshot}
 							alt={screenshotAlt}
 							className={styles.cardScreenshot}
@@ -141,7 +140,6 @@ function Card({
 								left: `${(-screenshotCrop.left / SCREENSHOT_VISIBLE_WIDTH) * 100}%`,
 								top: `${(-screenshotCrop.top / SCREENSHOT_VISIBLE_HEIGHT) * 100}%`,
 							}}
-							unoptimized
 						/>
 					</div>
 				</div>
@@ -226,7 +224,7 @@ export default function LandingPage() {
 								/>
 							</div>
 
-							<Link
+							<a
 								className={styles.navRowThing2}
 								href="https://testflight.apple.com/join/DDUXPSq3"
 								target="_blank"
@@ -237,9 +235,9 @@ export default function LandingPage() {
 									<div className={styles.navSubtitle}>iOS, watchOS, macOS</div>
 								</div>
 								<Symbol name="chevron.right" className={styles.navLinkIcon} />
-							</Link>
+							</a>
 
-							<Link className={styles.navRowThing2} href="/login">
+							<Link className={styles.navRowThing2} to="/login">
 								<div>
 									<div>For Web</div>
 								</div>

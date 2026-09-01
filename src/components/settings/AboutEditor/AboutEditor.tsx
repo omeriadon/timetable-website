@@ -5,7 +5,6 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
-import Image from "@/components/NextImage";
 
 export default function AboutEditor() {
 	const [contributors, setContributors] = useState<AboutContributor[]>([]);
@@ -17,8 +16,12 @@ export default function AboutEditor() {
 		const hostname = window.location.hostname;
 		setIsLocalhost(
 			hostname === "localhost" ||
-			hostname === "[::1]" ||
-			Boolean(hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)),
+				hostname === "[::1]" ||
+				Boolean(
+					hostname.match(
+						/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+					),
+				),
 		);
 	}, []);
 
@@ -32,7 +35,7 @@ export default function AboutEditor() {
 		<section className={styles.page}>
 			<div className={styles.content}>
 				<div className={styles.icon}>
-					<Image
+					<img
 						src="/icon.png"
 						width={300}
 						height={300}

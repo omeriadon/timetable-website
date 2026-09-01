@@ -1,9 +1,9 @@
 "use client";
 
 import styles from "./Sidebar.module.css";
-import Link from "@/components/RouterLink";
-import Image from "@/components/NextImage";
-import { usePathname } from "@/lib/routerCompat";
+import { Link } from "@tanstack/react-router";
+
+import { useLocation } from "@tanstack/react-router";
 import { useEffect, useState, CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";
@@ -38,7 +38,7 @@ const bottomItems: SidebarItem[] = [
 
 export default function Sidebar() {
 	const isCompact = useCompactLayout();
-	const pathname = usePathname();
+	const pathname = useLocation({ select: (location) => location.pathname });
 	const [isAdministrator, setIsAdministrator] = useState(false);
 	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
 		useState(0);
@@ -94,7 +94,7 @@ export default function Sidebar() {
 		return (
 			<Link
 				key={item.href}
-				href={item.href}
+				to={item.href}
 				className={
 					isActive(item.href)
 						? `${styles.sidebarLink} ${styles.active}`
@@ -122,13 +122,13 @@ export default function Sidebar() {
 
 			<div className={styles.sidebarHeader}>
 				<Link
-					href="/"
+					to="/"
 					className={styles.brandLink}
 					aria-label="Home"
 					onMouseEnter={handleIconHover}
 					onMouseLeave={handleIconLeave}
 				>
-					<Image
+					<img
 						src="/icon.png"
 						width={80}
 						height={44}

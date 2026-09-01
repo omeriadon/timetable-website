@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "@/lib/routerCompat";
+import { useParams, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -27,9 +27,10 @@ const labels: Record<string, string> = {
 };
 
 export default function SettingsSectionPage() {
-	const { section } = useParams<{ section: string }>();
+	const { section: routeSection } = useParams({ strict: false });
+	const section = routeSection ?? "";
 	const setToolbar = useToolbar();
-	const router = useRouter();
+	const navigate = useNavigate();
 	const [settings, setSettings] = useState<Settings | null>(null);
 	const [profile, setProfile] = useState<ProfileResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -72,7 +73,7 @@ export default function SettingsSectionPage() {
 			{section === "account" && settings ? (
 				<AccountSyncEditor
 					initial={settings}
-					onSignOut={() => router.replace("/login")}
+					onSignOut={() => navigate({ to: "/login" })}
 				/>
 			) : null}
 			{section === "notifications" && settings ? (

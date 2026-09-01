@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
-import Link from "@/components/RouterLink";
+import { Link } from "@tanstack/react-router";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent, GradeTracker } from "@/features/timetable/types";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
@@ -157,7 +157,8 @@ export default function PlannerView({
 					{upcomingAssessments.map((assessment) => (
 						<Link
 							key={assessment.id}
-							href={`/grades/${encodeURIComponent(assessment.subjectID)}`}
+							to="/grades/$subject"
+							params={{ subject: encodeURIComponent(assessment.subjectID) }}
 							className={cn(styles.cardRow, styles.plannerEvent)}
 							aria-label={`Open ${assessment.name}`}
 						>
