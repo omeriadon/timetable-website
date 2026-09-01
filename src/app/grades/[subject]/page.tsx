@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import Link from "@/components/RouterLink";
+import { useParams } from "@/lib/routerCompat";
 import { useEffect, useMemo, useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";

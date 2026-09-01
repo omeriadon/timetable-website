@@ -5,7 +5,7 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
-import Image from "next/image";
+import Image from "@/components/NextImage";
 
 export default function AboutEditor() {
 	const [contributors, setContributors] = useState<AboutContributor[]>([]);

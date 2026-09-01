@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from "@/components/NextImage";
+import Link from "@/components/RouterLink";
 import fitty from "fitty";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";

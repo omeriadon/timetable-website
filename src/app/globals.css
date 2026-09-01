@@ -198,8 +198,7 @@ body {
 	overscroll-behavior: none;
 }
 
-body,
-#__next {
+body {
 	background-color: var(--ds-color-background) !important;
 }
 

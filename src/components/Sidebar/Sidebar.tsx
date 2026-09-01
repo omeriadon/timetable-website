@@ -1,9 +1,9 @@
 "use client";
 
 import styles from "./Sidebar.module.css";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+import Link from "@/components/RouterLink";
+import Image from "@/components/NextImage";
+import { usePathname } from "@/lib/routerCompat";
 import { useEffect, useState, CSSProperties } from "react";
 import { apiRequest } from "@/lib/api/client";
 import type { Account } from "@/lib/api/contracts";

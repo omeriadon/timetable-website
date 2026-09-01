@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "@/lib/routerCompat";
 import { useEffect, useState, type ReactNode } from "react";
 import { apiRequest } from "@/lib/api/client";
 import { resetDashboardCache } from "@/features/timetable/useDashboard";

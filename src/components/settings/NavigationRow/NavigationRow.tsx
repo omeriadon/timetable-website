@@ -1,7 +1,7 @@
 import Symbol from "@/components/controls/Symbol/Symbol";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import { ListRow } from "@/components/ui/list";
-import Link from "next/link";
+import Link from "@/components/RouterLink";
 import type { ReactNode } from "react";
 import styles from "@/components/settings/Settings.module.css";
 

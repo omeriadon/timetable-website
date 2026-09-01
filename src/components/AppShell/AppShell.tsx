@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/lib/routerCompat";
 import type { ReactNode } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Toolbar, { ToolbarProvider } from "@/components/Toolbar/Toolbar";

@@ -9,7 +9,10 @@ lerna-debug.log*
 
 node_modules
 .next
-next-env.d.ts
+.output
+dist
+.tanstack
+routeTree.gen.ts
 dist
 dist-ssr
 *.local

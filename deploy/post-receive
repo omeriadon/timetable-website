@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export HOME="/root"
-export PATH="$HOME/.bun/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+export PATH="/root/.bun/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
 APP_DIR="/var/www/timetable-website"
-BARE_REPO="$HOME/repos/timetable-website.git"
+BARE_REPO="/root/repos/timetable-website.git"
 BRANCH="main"
 
 echo "Deploying Timetable website..."
@@ -25,11 +24,6 @@ bun install --frozen-lockfile
 
 echo "Building production application..."
 bun run build
-
-echo "Preparing standalone application..."
-cp -R public .next/standalone/
-mkdir -p .next/standalone/.next
-cp -R .next/static .next/standalone/.next/
 
 echo "Restarting PM2..."
 pm2 startOrRestart ecosystem.config.cjs --env production

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/RouterLink";
 import { useDrawer } from "../Drawer/Drawer";
 import { List } from "@/components/ui/list";
 import styles from "../Drawer/Drawer.module.css";

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/RouterLink";
 import { useEffect, useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/lib/routerCompat";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";

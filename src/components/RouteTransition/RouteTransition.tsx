@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/lib/routerCompat";
 import type { ReactNode } from "react";
 
 export default function RouteTransition({ children }: { children: ReactNode }) {

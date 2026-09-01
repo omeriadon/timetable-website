@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/lib/routerCompat";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";

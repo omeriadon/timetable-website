@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
-import Link from "next/link";
+import Link from "@/components/RouterLink";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type { CalendarEvent, GradeTracker } from "@/features/timetable/types";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
