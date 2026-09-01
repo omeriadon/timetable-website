@@ -1,12 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import {
-	authenticatedPMSTTRequest,
-	clearSession,
-	writeSession,
-} from "@/lib/server/pmstt.server";
-
 export const checkSession = createServerFn({ method: "GET" }).handler(
 	async () => {
+		const {
+			authenticatedPMSTTRequest,
+			clearSession,
+			writeSession,
+		} = await import("@/lib/server/pmstt.server");
 		const { response, tokens } = await authenticatedPMSTTRequest("v1/account");
 		if (tokens) {
 			writeSession(tokens);

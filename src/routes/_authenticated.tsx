@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import AppShell from "@/components/AppShell/AppShell";
-import { checkSession } from "@/lib/server/session.server";
+import { checkSession } from "@/lib/server/session.functions";
 
 export const Route = createFileRoute("/_authenticated")({
 	beforeLoad: async ({ location }) => {
