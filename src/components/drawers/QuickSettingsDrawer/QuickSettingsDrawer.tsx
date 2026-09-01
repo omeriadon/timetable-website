@@ -1,5 +1,3 @@
-"use client";
-
 import { Link } from "@tanstack/react-router";
 import { useDrawer } from "../Drawer/Drawer";
 import { List } from "@/components/ui/list";

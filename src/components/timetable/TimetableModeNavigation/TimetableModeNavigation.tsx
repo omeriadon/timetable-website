@@ -1,5 +1,3 @@
-"use client";
-
 import { Link } from "@tanstack/react-router";
 import { useLocation } from "@tanstack/react-router";
 import Symbol from "@/components/controls/Symbol/Symbol";

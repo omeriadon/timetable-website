@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";

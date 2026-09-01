@@ -1,5 +1,3 @@
-"use client";
-
 import { ListRow } from "@/components/ui/list";
 import { Toggle } from "@/components/ui/toggle";
 import styles from "@/components/controls/controls.module.css";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Select } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { useDrawer } from "../Drawer/Drawer";

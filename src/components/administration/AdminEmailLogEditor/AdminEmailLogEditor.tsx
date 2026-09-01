@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
 import Symbol from "@/components/controls/Symbol/Symbol";

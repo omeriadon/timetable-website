@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useMemo, useState } from "react";
 
 import AdminSpecialBadgeDrawer from "@/components/administration/AdminSpecialBadgeDrawer/AdminSpecialBadgeDrawer";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";

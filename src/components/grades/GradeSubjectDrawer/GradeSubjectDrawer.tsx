@@ -1,5 +1,3 @@
-"use client";
-
 import type { GradeAssessment } from "@/features/timetable/types";
 import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";

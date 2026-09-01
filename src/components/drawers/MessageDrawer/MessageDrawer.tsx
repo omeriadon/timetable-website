@@ -1,5 +1,3 @@
-"use client";
-
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Drawer/Drawer.module.css";
 

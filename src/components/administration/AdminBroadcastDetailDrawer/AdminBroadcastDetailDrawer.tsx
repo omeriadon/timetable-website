@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import type { BroadcastNotificationRecord } from "../AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
 import Symbol from "@/components/controls/Symbol/Symbol";
