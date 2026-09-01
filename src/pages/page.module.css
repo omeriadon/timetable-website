@@ -205,7 +205,7 @@
 
 	position: absolute;
 	inset: 0;
-	background: url("/grain.png") repeat;
+	background: url("/grain.webp") repeat;
 	opacity: var(--grain-opacity);
 	mix-blend-mode: soft-light;
 	pointer-events: none;
@@ -585,7 +585,7 @@
 	font-weight: 1000;
 	white-space: nowrap;
 	background-image:
-		url("/grain.png"),
+		url("/grain.webp"),
 		linear-gradient(
 			to bottom,
 			rgb(255, 255, 255) 0%,
@@ -614,7 +614,7 @@
 	position: absolute;
 	inset: 0;
 	background-image:
-		url("/grain.png"),
+		url("/grain.webp"),
 		linear-gradient(
 			to bottom,
 			transparent 0%,
