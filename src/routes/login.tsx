@@ -1,3 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import LoginPage from "@/app/login/page";
-export const Route = createFileRoute("/login")({ component: LoginPage });
+import LoginPage from "@/pages/login/page";
+
+export const Route = createFileRoute("/login")({
+	component: LoginPage,
+	head: () => ({ meta: [{ title: "Log in · Timetable" }] }),
+});

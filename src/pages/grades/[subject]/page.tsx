@@ -1,6 +1,4 @@
-"use client";
-
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -8,6 +6,7 @@ import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import GradeAssessmentDrawer from "@/components/drawers/GradeAssessmentDrawer/GradeAssessmentDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type { GradeSubjectData } from "@/lib/server/page-data.functions";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
 import type {
@@ -19,30 +18,26 @@ import type {
 
 import styles from "./page.module.css";
 
-export default function GradeSubjectPage({ subject }: { subject: string }) {
+export default function GradeSubjectPage({
+	subject,
+	data,
+}: {
+	subject: string;
+	data: GradeSubjectData;
+}) {
 	const subjectID = subject;
 
 	const setToolbar = useToolbar();
+	const router = useRouter();
 	const { openDrawer } = useDrawer();
 
-	const [tracker, setTracker] = useState<GradeTracker | null>(null);
-	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
+	const initial = data;
+	const [tracker, setTracker] = useState<GradeTracker>(initial.grades);
+	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		setToolbar({ title: subjectID });
-
-		Promise.all([
-			apiRequest<GradeTracker>("v1/grades"),
-			apiRequest<OwnerTimetable>("v1/timetables/owner"),
-		])
-			.then(([nextTracker, nextTimetable]) => {
-				setTracker(nextTracker);
-				setTimetable(nextTimetable);
-			})
-			.catch((requestError: Error) => setError(requestError.message));
-	}, [setToolbar, subjectID]);
+	useEffect(() => setToolbar({ title: subjectID }), [setToolbar, subjectID]);
 
 	const assessments = useMemo(
 		() =>
@@ -93,6 +88,7 @@ export default function GradeSubjectPage({ subject }: { subject: string }) {
 					}),
 				}),
 			);
+			await router.invalidate();
 		} catch (requestError) {
 			setError((requestError as Error).message);
 			throw requestError;
@@ -122,6 +118,7 @@ export default function GradeSubjectPage({ subject }: { subject: string }) {
 					}),
 				}),
 			);
+			await router.invalidate();
 		} catch (requestError) {
 			setError((requestError as Error).message);
 			throw requestError;

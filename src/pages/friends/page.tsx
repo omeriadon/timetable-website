@@ -1,9 +1,9 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type { FriendsData } from "@/lib/server/page-data.functions";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
 import type {
@@ -26,13 +26,18 @@ import { cn } from "@/lib/utils";
 import { DrawerFooter } from "@/components/ui/drawer";
 import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 
-export default function FriendsPage() {
+export default function FriendsPage({ data }: { data: FriendsData }) {
+	const initial = data;
 	const setToolbar = useToolbar();
-	const [friends, setFriends] = useState<Friend[]>([]);
-	const [account, setAccount] = useState<Account | null>(null);
-	const [locationStatus, setLocationStatus] =
-		useState<CurrentLocationStatus["item"]>(null);
-	const [incomingRequestCount, setIncomingRequestCount] = useState(0);
+	const router = useRouter();
+	const [friends, setFriends] = useState<Friend[]>(initial.friends);
+	const [account, setAccount] = useState<Account>(initial.account);
+	const [locationStatus, setLocationStatus] = useState<
+		CurrentLocationStatus["item"]
+	>(initial.locationStatus);
+	const [incomingRequestCount, setIncomingRequestCount] = useState(
+		initial.incomingRequestCount,
+	);
 	const [searchText, setSearchText] = useState("");
 	const [draggedFriendID, setDraggedFriendID] = useState<string | null>(null);
 	const [dragOverFriendID, setDragOverFriendID] = useState<string | null>(null);
@@ -76,6 +81,7 @@ export default function FriendsPage() {
 				}),
 			});
 			setFriends(saved);
+			await router.invalidate();
 		} catch (requestError) {
 			setFriends(friends);
 			setError((requestError as Error).message);
@@ -83,23 +89,6 @@ export default function FriendsPage() {
 			setDraggedFriendID(null);
 		}
 	};
-
-	useEffect(() => {
-		Promise.all([
-			apiRequest<Friend[]>("v1/friends"),
-			apiRequest<Account>("v1/account"),
-			apiRequest<CurrentLocationStatus>("v1/account/status"),
-		])
-			.then(([friendList, currentAccount, currentLocationStatus]) => {
-				setFriends(friendList);
-				setAccount(currentAccount);
-				setLocationStatus(currentLocationStatus.item);
-			})
-			.catch((requestError: Error) => setError(requestError.message));
-		apiRequest<Friend[]>("v1/friends/requests")
-			.then((requests) => setIncomingRequestCount(requests.length))
-			.catch(() => setIncomingRequestCount(0));
-	}, []);
 
 	useEffect(() => {
 		setToolbar({
@@ -246,6 +235,7 @@ function PersonalArrivalDrawer({
 	const [statistics, setStatistics] = useState<ArrivalStatistics | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [updatingLocation, setUpdatingLocation] = useState(false);
+	const router = useRouter();
 
 	useEffect(() => {
 		apiRequest<ArrivalStatistics>("v1/account/status/statistics")
@@ -277,7 +267,10 @@ function PersonalArrivalDrawer({
 					method: "POST",
 					body: JSON.stringify(item),
 				})
-					.then(() => onStatusUpdated(item))
+					.then(async () => {
+						onStatusUpdated(item);
+						await router.invalidate();
+					})
 					.catch((requestError: Error) => setError(requestError.message))
 					.finally(() => setUpdatingLocation(false));
 			},

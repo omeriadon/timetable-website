@@ -1,5 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Page from "@/app/grades/page";
+import Page from "@/pages/grades/page";
+import { loadGrades } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/grades")({
-	component: Page,
+	loader: () => loadGrades(),
+	head: () => ({ meta: [{ title: "Grades · Timetable" }] }),
+	component: () => <Page data={Route.useLoaderData()} />,
+	pendingComponent: () => <p role="status">Loading grades…</p>,
+	errorComponent: ({ error }) => (
+		<p role="alert">Unable to load grades: {error.message}</p>
+	),
 });

@@ -4,7 +4,7 @@ import {
 	Outlet,
 	Scripts,
 } from "@tanstack/react-router";
-import "../app/globals.css";
+import "../styles/globals.css";
 
 export const Route = createRootRoute({
 	head: () => ({

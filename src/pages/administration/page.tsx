@@ -1,7 +1,6 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type { AdministrationData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
@@ -77,16 +76,16 @@ const sections = [
 	],
 ];
 
-export default function AdministrationPage() {
+export default function AdministrationPage({
+	data,
+}: {
+	data: AdministrationData;
+}) {
+	const initial = data;
 	const setToolbar = useToolbar();
-	const [dashboard, setDashboard] = useState<Dashboard | null>(null);
+	const [dashboard] = useState<Dashboard>(initial);
 	const [error, setError] = useState<string | null>(null);
-	useEffect(() => {
-		setToolbar({ title: "Administration" });
-		apiRequest<Dashboard>("v1/administration")
-			.then(setDashboard)
-			.catch((requestError: Error) => setError(requestError.message));
-	}, [setToolbar]);
+	useEffect(() => setToolbar({ title: "Administration" }), [setToolbar]);
 	return (
 		<main className={styles.page}>
 			{error ? (

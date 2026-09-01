@@ -1,10 +1,7 @@
-"use client";
-
 import { Link } from "@tanstack/react-router";
-import { useLocation } from "@tanstack/react-router";
+import { useLocation, useRouteContext } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
-import type { Account } from "@/lib/api/contracts";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -27,19 +24,17 @@ const tabs: TabItem[] = [
 export default function MobileTabBar() {
 	const isCompact = useCompactLayout();
 	const pathname = useLocation({ select: (location) => location.pathname });
-	const [isAdministrator, setIsAdministrator] = useState(false);
+	const account = useRouteContext({
+		from: "/_authenticated",
+		select: (context) => context.account,
+	});
+	const isAdministrator =
+		account.authority.toLowerCase().includes("admin") ||
+		account.authority.toLowerCase().includes("owner");
 	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
 		useState(0);
 
 	useEffect(() => {
-		apiRequest<Account>("v1/account")
-			.then((account) =>
-				setIsAdministrator(
-					account.authority.toLowerCase().includes("admin") ||
-						account.authority.toLowerCase().includes("owner"),
-				),
-			)
-			.catch(() => setIsAdministrator(false));
 		apiRequest<Friend[]>("v1/friends/requests")
 			.then((incomingRequests) =>
 				setIncomingFriendRequestCount(incomingRequests.length),

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
 	Select,
@@ -9,7 +7,9 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type { SettingsData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import CalendarImportDrawer from "@/components/drawers/CalendarImportDrawer/CalendarImportDrawer";
@@ -29,30 +29,20 @@ import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/Arc
 import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
 import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
 
-export default function SettingsPage() {
+export default function SettingsPage({ data }: { data: SettingsData }) {
+	const initial = data;
 	const setToolbar = useToolbar();
-	const [account, setAccount] = useState<Account | null>(null);
-	const [settings, setSettings] = useState<Settings | null>(null);
-	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
+	const router = useRouter();
+	const [account, setAccount] = useState<Account>(initial.account);
+	const [settings, setSettings] = useState<Settings>(
+		initial.settings as Settings,
+	);
+	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => {
-		setToolbar({ title: "Settings" });
-		Promise.all([
-			apiRequest<Account>("v1/account"),
-			apiRequest<Settings>("v1/settings"),
-		])
-			.then(([user, values]) => {
-				setAccount(user);
-				setSettings(values);
-			})
-			.catch((requestError: Error) => setError(requestError.message));
-		apiRequest<OwnerTimetable>("v1/timetables/owner")
-			.then(setTimetable)
-			.catch(() => setTimetable(null));
-	}, [setToolbar]);
+	useEffect(() => setToolbar({ title: "Settings" }), [setToolbar]);
 
 	const updateFutureEventRange = async (futureEventRange: string) => {
 		if (!settings || saving || settings.futureEventRange === futureEventRange) {
@@ -75,6 +65,7 @@ export default function SettingsPage() {
 				}),
 			});
 			setSettings(updated);
+			await router.invalidate();
 		} catch (requestError) {
 			setSettings(current);
 			setError((requestError as Error).message);
@@ -110,6 +101,7 @@ export default function SettingsPage() {
 					}
 				: current,
 		);
+		await router.invalidate();
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import styles from "@/app/layout.module.css";
+import styles from "@/styles/layout.module.css";
 import RouteTransition from "@/components/RouteTransition/RouteTransition";
 
 type ReflectedPageContentProps = {

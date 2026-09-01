@@ -1,7 +1,6 @@
-"use client";
-
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type { AdministrationSectionData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../page.module.css";
 import { apiRequest } from "@/lib/api/client";
@@ -109,42 +108,27 @@ const sectionConfig: Record<
 
 export default function AdministrationSectionPage({
 	section,
+	data,
 }: {
 	section: string;
+	data: AdministrationSectionData;
 }) {
 	const setToolbar = useToolbar();
-	const [data, setData] = useState<unknown>(null);
+	const [loadedData, setLoadedData] = useState<unknown>(data);
 	const [error, setError] = useState<string | null>(null);
 	const config = sectionConfig[section] ?? {
 		title: "Administration",
 		icon: "calendar.badge.lock",
 	};
 
-	useEffect(() => {
-		setToolbar({ title: config.title });
-		setData(null);
-		setError(null);
-		if (
-			[
-				"statistics",
-				"email-log",
-				"badges",
-				"event-tags",
-				"app-version",
-				"profile-storage-quota",
-				"broadcast-notifications",
-			].includes(section)
-		)
-			return;
-		if (!config.endpoint) return;
-		apiRequest<unknown>(config.endpoint)
-			.then(setData)
-			.catch((requestError: Error) => setError(requestError.message));
-	}, [config.endpoint, config.title, section, setToolbar]);
+	useEffect(
+		() => setToolbar({ title: config.title }),
+		[config.title, setToolbar],
+	);
 
 	const filteredData = useMemo(
-		() => filterData(data, config.kind),
-		[config.kind, data],
+		() => filterData(loadedData, config.kind),
+		[config.kind, loadedData],
 	);
 	const records = useMemo(() => normalizeRecords(filteredData), [filteredData]);
 	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
@@ -211,7 +195,7 @@ export default function AdministrationSectionPage({
 					))}
 				</section>
 			) : null}
-			{data && records.length ? (
+			{loadedData && records.length ? (
 				<section className={styles.card}>
 					{records.map((record, index) => (
 						<AdminRecord
@@ -223,7 +207,7 @@ export default function AdministrationSectionPage({
 					))}
 				</section>
 			) : null}
-			{config.endpoint && !data && !error ? (
+			{config.endpoint && !loadedData && !error ? (
 				<p className={styles.loading}>Loading {config.title.toLowerCase()}…</p>
 			) : null}
 		</main>

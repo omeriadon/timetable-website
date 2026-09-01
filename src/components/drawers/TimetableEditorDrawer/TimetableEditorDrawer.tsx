@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
@@ -11,6 +9,7 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
+import { useRouter } from "@tanstack/react-router";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,
@@ -32,6 +31,7 @@ export default function TimetableEditorDrawer({
 	onSaved: (timetable: OwnerTimetable) => void;
 }) {
 	const { closeDrawer, openDrawer } = useDrawer();
+	const router = useRouter();
 	const [subjects, setSubjects] = useState<TimetableSubject[]>(
 		timetable.subjects,
 	);
@@ -144,6 +144,7 @@ export default function TimetableEditorDrawer({
 				}),
 			});
 			onSaved(updated);
+			await router.invalidate();
 			closeDrawer();
 		} catch (requestError) {
 			setError((requestError as Error).message);

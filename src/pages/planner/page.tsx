@@ -1,22 +1,25 @@
-"use client";
-
 import { useEffect, useMemo } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { useTimetableNow } from "@/features/timetable/clock";
-import TodayView from "@/components/timetable/TodayView/TodayView";
+import PlannerView from "@/components/timetable/PlannerView/PlannerView";
 import TimetableModeNavigation from "@/components/timetable/TimetableModeNavigation/TimetableModeNavigation";
 import styles from "@/components/timetable/timetable.module.css";
+import type { DashboardData } from "@/lib/server/dashboard.functions";
 
-export default function TodayPage() {
+export default function PlannerPage({
+	dashboard,
+}: {
+	dashboard: DashboardData;
+}) {
 	const setToolbar = useToolbar();
-	const { data, error, isLoading } = useDashboard();
+	const { data, error, isLoading } = useDashboard(dashboard);
 	const now = useTimetableNow();
 
 	useEffect(() => {
-		setToolbar({ title: "Today" });
+		setToolbar({ title: "Planner" });
 	}, [setToolbar]);
 
 	const events = useMemo(
@@ -36,13 +39,12 @@ export default function TodayPage() {
 				</p>
 			) : null}
 			{data ? (
-				<TodayView
+				<PlannerView
 					events={events}
-					subjects={data.timetable.subjects}
-					grades={data.grades}
 					schoolCalendar={data.schoolCalendar}
-					schoolWeather={data.schoolWeather}
+					grades={data.grades}
 					canManageGlobalEvents={data.events.canManageGlobalEvents}
+					futureEventRange={data.settings.futureEventRange}
 				/>
 			) : null}
 		</main>
@@ -54,7 +56,7 @@ function visibleEvents(
 		| {
 				globalEvents: CalendarEvent[];
 				privateEvents: CalendarEvent[];
-			}
+		  }
 		| undefined,
 	range: string | undefined,
 	now: Date,
@@ -63,11 +65,7 @@ function visibleEvents(
 		return [];
 	}
 
-	const start = new Date(
-		now.getFullYear(),
-		now.getMonth(),
-		now.getDate(),
-	);
+	const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 	const end = futureEventEndDate(range, start);
 
 	return [...events.globalEvents, ...events.privateEvents]

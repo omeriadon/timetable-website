@@ -1,8 +1,10 @@
-"use client";
-
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import type {
+	SettingsSectionData,
+	ProfileSettingsSectionData,
+} from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
 import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
@@ -26,24 +28,29 @@ const labels: Record<string, string> = {
 	"profile-appearance": "Profile Appearance",
 };
 
-export default function SettingsSectionPage({ section }: { section: string }) {
+export default function SettingsSectionPage({
+	section,
+	data,
+}: {
+	section: string;
+	data: SettingsSectionData | ProfileSettingsSectionData;
+}) {
+	const initial = data;
 	const setToolbar = useToolbar();
 	const navigate = useNavigate();
-	const [settings, setSettings] = useState<Settings | null>(null);
-	const [profile, setProfile] = useState<ProfileResponse | null>(null);
+	const router = useRouter();
+	const [settings, setSettings] = useState<Settings>(
+		initial.settings as Settings,
+	);
+	const [profile, setProfile] = useState<ProfileResponse | null>(
+		"profile" in initial ? (initial.profile as ProfileResponse) : null,
+	);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		setToolbar({ title: labels[section] ?? "Settings" });
-		apiRequest<Settings>("v1/settings")
-			.then(setSettings)
-			.catch((requestError: Error) => setError(requestError.message));
-		if (section === "profile-appearance") {
-			apiRequest<ProfileResponse>("v1/friends/profile")
-				.then(setProfile)
-				.catch((requestError: Error) => setError(requestError.message));
-		}
-	}, [section, setToolbar]);
+	useEffect(
+		() => setToolbar({ title: labels[section] ?? "Settings" }),
+		[section, setToolbar],
+	);
 
 	const saveProfile = async (appearance: ProfileAppearance) => {
 		if (!profile) return;
@@ -53,6 +60,7 @@ export default function SettingsSectionPage({ section }: { section: string }) {
 				body: JSON.stringify({ appearance, baseRevision: profile.revision }),
 			});
 			setProfile(updated);
+			await router.invalidate();
 		} catch (requestError) {
 			setError((requestError as Error).message);
 		}

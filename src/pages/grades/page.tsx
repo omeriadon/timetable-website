@@ -1,9 +1,9 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
+import { useRouter } from "@tanstack/react-router";
+import type { GradesData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
 import type {
@@ -165,36 +165,24 @@ function ATARSettingsDrawer({
 	);
 }
 
-export default function GradesPage() {
+export default function GradesPage({ data }: { data: GradesData }) {
+	const initial = data;
 	const setToolbar = useToolbar();
-	const [grades, setGrades] = useState<GradeTracker | null>(null);
-	const [timetable, setTimetable] = useState<OwnerTimetable | null>(null);
-	const [isSenior, setIsSenior] = useState(false);
+	const router = useRouter();
+	const [grades, setGrades] = useState<GradeTracker>(initial.grades);
+	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
+	const [isSenior] = useState(() => {
+		const yearGroups = initial.yearGroups.sections
+			.filter((section) => section.category === "yearGroup")
+			.flatMap((section) => section.tags);
+		return yearGroups
+			.filter((tag) => initial.subscriptions.tagIDs.includes(tag.id))
+			.some((tag) => /11|12/.test(tag.displayName));
+	});
 	const [error, setError] = useState<string | null>(null);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => {
-		setToolbar({ title: "Grades" });
-		Promise.all([
-			apiRequest<GradeTracker>("v1/grades"),
-			apiRequest<OwnerTimetable>("v1/timetables/owner"),
-			apiRequest<YearGroupCatalogue>("v1/tags"),
-			apiRequest<YearGroupSubscriptions>("v1/tags/subscriptions"),
-		])
-			.then(([gradeDocument, ownerTimetable, catalogue, subscriptions]) => {
-				setGrades(gradeDocument);
-				setTimetable(ownerTimetable);
-				const yearGroups = catalogue.sections
-					.filter((section) => section.category === "yearGroup")
-					.flatMap((section) => section.tags);
-				setIsSenior(
-					yearGroups
-						.filter((tag) => subscriptions.tagIDs.includes(tag.id))
-						.some((tag) => /11|12/.test(tag.displayName)),
-				);
-			})
-			.catch((requestError: Error) => setError(requestError.message));
-	}, [setToolbar]);
+	useEffect(() => setToolbar({ title: "Grades" }), [setToolbar]);
 
 	const scored = useMemo(() => grades?.document.assessments ?? [], [grades]);
 	const gradeSubjects = timetable
@@ -276,7 +264,13 @@ export default function GradesPage() {
 							aria-label="Edit ATAR settings"
 							onClick={() =>
 								openDrawer(
-									<ATARSettingsDrawer grades={grades} onSaved={setGrades} />,
+									<ATARSettingsDrawer
+										grades={grades}
+										onSaved={(updated) => {
+											setGrades(updated);
+											void router.invalidate();
+										}}
+									/>,
 								)
 							}
 						>

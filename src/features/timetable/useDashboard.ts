@@ -1,7 +1,6 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api/client";
+import type { DashboardData as ServerDashboardData } from "@/lib/server/dashboard.functions";
 import type { Account } from "@/lib/api/contracts";
 import type { Settings } from "@/features/settings/types";
 import type {
@@ -13,16 +12,7 @@ import type {
 	SchoolWeather,
 } from "./types";
 
-export type DashboardData = {
-	account: Account;
-	timetable: OwnerTimetable;
-	events: CalendarEvents;
-	friends: Friend[];
-	grades: GradeTracker;
-	schoolCalendar: SchoolCalendar;
-	schoolWeather: SchoolWeather | null;
-	settings: Settings;
-};
+export type DashboardData = ServerDashboardData;
 
 let cachedDashboardData: DashboardData | null = null;
 let dashboardRequest: Promise<DashboardData> | null = null;
@@ -78,11 +68,17 @@ function requestDashboard() {
 	return dashboardRequest;
 }
 
-export function useDashboard() {
-	const [data, setData] = useState<DashboardData | null>(cachedDashboardData);
+export function useDashboard(initialData?: DashboardData) {
+	const [data, setData] = useState<DashboardData | null>(
+		initialData ?? cachedDashboardData,
+	);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (initialData) {
+			cachedDashboardData = initialData;
+			return;
+		}
 		let isCurrent = true;
 
 		requestDashboard()
@@ -101,7 +97,7 @@ export function useDashboard() {
 		return () => {
 			isCurrent = false;
 		};
-	}, []);
+	}, [initialData]);
 
 	return { data, error, isLoading: !data && !error };
 }

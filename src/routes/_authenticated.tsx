@@ -5,14 +5,15 @@ import { safeReturnTo } from "@/lib/returnTo";
 
 export const Route = createFileRoute("/_authenticated")({
 	beforeLoad: async ({ location }) => {
-		const authenticated = await checkSession();
-		if (!authenticated) {
+		const account = await checkSession();
+		if (!account) {
 			const returnTo = `${location.pathname}${location.searchStr}`;
 			throw redirect({
 				to: "/login",
 				search: { returnTo: safeReturnTo(returnTo) },
 			});
 		}
+		return { account };
 	},
 	component: () => (
 		<AppShell>

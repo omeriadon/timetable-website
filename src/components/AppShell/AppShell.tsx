@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -9,7 +7,7 @@ import MobileTabBar from "@/components/MobileTabBar/MobileTabBar";
 import { DrawerProvider } from "@/components/drawers/Drawer/Drawer";
 import ThemeSettingsSync from "@/components/ThemeSettingsSync/ThemeSettingsSync";
 import { StatusBadgeProvider } from "@/components/StatusBadge/StatusBadge";
-import styles from "@/app/layout.module.css";
+import styles from "@/styles/layout.module.css";
 import GradientBlinds from "@/components/GradientBlinds";
 
 export default function AppShell({ children }: { children: ReactNode }) {

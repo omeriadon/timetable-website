@@ -1,5 +1,3 @@
-"use client";
-
 import { Link } from "@tanstack/react-router";
 import fitty from "fitty";
 import Symbol from "@/components/controls/Symbol/Symbol";

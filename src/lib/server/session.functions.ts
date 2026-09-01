@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import type { Account } from "@/lib/api/contracts";
 export const checkSession = createServerFn({ method: "GET" }).handler(
 	async () => {
 		const { authenticatedPMSTTRequest, clearSession, writeSession } =
@@ -10,6 +11,7 @@ export const checkSession = createServerFn({ method: "GET" }).handler(
 		if (response.status === 401) {
 			clearSession();
 		}
-		return response.ok;
+		if (!response.ok) return null;
+		return (await response.json()) as Account;
 	},
 );
