@@ -1,9 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import fitty from "fitty";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
-import { useEffect, useRef, useState, ReactNode } from "react";
-import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
+import { useEffect, useState, type ReactNode } from "react";
 
 type CardProps = {
 	title?: string;
@@ -28,7 +26,7 @@ const landingCards = [
 	{
 		title: "Today",
 		maskNumber: 1,
-		screenshot: "/landing/timetable-today.png",
+		screenshot: "/landing/timetable-today.webp",
 		screenshotAlt: "Timetable Today view",
 		screenshotCrop: {
 			sourceWidth: 832,
@@ -42,7 +40,7 @@ const landingCards = [
 	{
 		title: "Week",
 		maskNumber: 2,
-		screenshot: "/landing/timetable-week.png",
+		screenshot: "/landing/timetable-week.webp",
 		screenshotAlt: "Timetable Week view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -56,7 +54,7 @@ const landingCards = [
 	{
 		title: "Planner",
 		maskNumber: 7,
-		screenshot: "/landing/timetable-planner.png",
+		screenshot: "/landing/timetable-planner.webp",
 		screenshotAlt: "Timetable Planner view",
 		screenshotCrop: {
 			sourceWidth: 868,
@@ -70,7 +68,7 @@ const landingCards = [
 	{
 		title: "Grades",
 		maskNumber: 4,
-		screenshot: "/landing/grades.png",
+		screenshot: "/landing/grades.webp",
 		screenshotAlt: "Timetable Grades view",
 		screenshotCrop: {
 			sourceWidth: 878,
@@ -84,7 +82,7 @@ const landingCards = [
 	{
 		title: "Friends",
 		maskNumber: 5,
-		screenshot: "/landing/friends.png",
+		screenshot: "/landing/friends.webp",
 		screenshotAlt: "Timetable Friends view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -111,7 +109,7 @@ function Card({
 				<header className={styles.cardTitle}>
 					<h2
 						style={{
-							backgroundImage: `url(/landing/mask/${maskNumber}.png)`,
+							backgroundImage: `url(/landing/mask/${maskNumber}.webp)`,
 						}}
 					>
 						{title}
@@ -132,6 +130,8 @@ function Card({
 							className={styles.cardScreenshot}
 							width={screenshotCrop.sourceWidth}
 							height={screenshotCrop.sourceHeight}
+							loading="lazy"
+							decoding="async"
 							style={{
 								width: `${(screenshotCrop.sourceWidth / SCREENSHOT_VISIBLE_WIDTH) * 100}%`,
 								height: `${(screenshotCrop.sourceHeight / SCREENSHOT_VISIBLE_HEIGHT) * 100}%`,
@@ -150,7 +150,6 @@ function Card({
 export default function LandingPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [hasScrolled, setHasScrolled] = useState(false);
-	const titleRef = useRef<HTMLHeadingElement>(null);
 
 	useEffect(() => {
 		const updateScrollState = () => {
@@ -162,24 +161,6 @@ export default function LandingPage() {
 
 		return () => window.removeEventListener("scroll", updateScrollState);
 	}, []);
-
-	useEffect(() => {
-		if (!titleRef.current) {
-			return;
-		}
-
-		const title = fitty(titleRef.current, {
-			minSize: 16,
-			maxSize: 1000,
-			multiLine: false,
-		});
-
-		document.fonts.ready.then(() => title.fit());
-
-		return () => title.unsubscribe();
-	}, []);
-
-	const numbers = [...Array(100)].map((_, i) => i + 1);
 
 	return (
 		<div className={styles.shell}>
@@ -198,7 +179,6 @@ export default function LandingPage() {
 
 							style={{
 								maxHeight: isMenuOpen ? "264.2px" : "calc(1rem + 14px * 2)",
-								transition: "all 0.2s ease-in-out",
 							}}
 						>
 							<div className={`${styles.navRowThing} ${styles.navTop}`}>
@@ -248,10 +228,7 @@ export default function LandingPage() {
 				<main>
 					<div className={styles.hero}>
 						<div className={styles.titleFrame}>
-							<h1
-								ref={titleRef}
-								className={`${styles.title} ${styles.titleWithHDR}`}
-							>
+							<h1 className={`${styles.title} ${styles.titleWithHDR}`}>
 								Timetable
 							</h1>
 						</div>
