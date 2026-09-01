@@ -12,6 +12,13 @@ export const Route = createFileRoute("/")({
 				as: "image",
 				type: "image/avif",
 			},
+			{
+				rel: "preload",
+				href: "/fonts/SF-Mono-Regular.otf",
+				as: "font",
+				type: "font/otf",
+				crossOrigin: "anonymous",
+			},
 		],
 	}),
 });
