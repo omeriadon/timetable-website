@@ -304,9 +304,9 @@ export default function LandingPage() {
 						</div>
 					</div>
 
-					<h4 className={styles.summaryTitle}>
+					<h2 className={styles.summaryTitle}>
 						Timetable has everything you need to thrive at Perth Mod:
-					</h4>
+					</h2>
 					<div className={styles.summary}>
 						<div className={styles.rightSummary}>
 							<ul>
