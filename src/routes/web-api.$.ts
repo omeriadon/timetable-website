@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { TokenResponse } from "@/lib/api/contracts";
-import { authenticatedPMSTTRequest, clearSession, pmsttRequest, writeSession } from "@/lib/server/pmstt";
+import { authenticatedPMSTTRequest, clearSession, pmsttRequest, writeSession } from "@/lib/server/pmstt.server";
 
 async function jsonResponse(upstream: Response) {
 	const payload = await upstream.json().catch(() => ({}));
@@ -16,9 +16,17 @@ async function handler({ request, params }: { request: Request; params: { _splat
 		if (upstream.status === 401) clearSession();
 		return response;
 	}
-	if (path === "auth/logout" && request.method === "POST") {
+	if (path === "auth/logout" && request.method === "DELETE") {
+		const upstream = await pmsttRequest("v1/auth/logout", { method: "DELETE" }, undefined);
+		const response = new Response(upstream.body, {
+			status: upstream.status,
+			headers: {
+				"Content-Type": upstream.headers.get("Content-Type") ?? "application/json",
+				"Cache-Control": "no-store",
+			},
+		});
 		clearSession();
-		return Response.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
+		return response;
 	}
 	if (path.startsWith("auth/") && request.method === "POST") {
 		const action = path.slice("auth/".length);
@@ -30,9 +38,17 @@ async function handler({ request, params }: { request: Request; params: { _splat
 		if (upstream.ok && ["verify-code-register", "login"].includes(action)) writeSession(payload);
 		return response;
 	}
-	const upstreamPath = `v1/${path}${new URL(request.url).search}`;
-	const body = ["GET", "HEAD"].includes(request.method) ? undefined : await request.arrayBuffer();
-	const { response: upstream, tokens } = await authenticatedPMSTTRequest(upstreamPath, { method: request.method, body: body?.byteLength ? body : undefined });
+	const upstreamPath = `${path}${new URL(request.url).search}`;
+	const body = ["GET", "HEAD"].includes(request.method)
+		? undefined
+		: await request.arrayBuffer();
+	const { response: upstream, tokens } = await authenticatedPMSTTRequest(upstreamPath, {
+		method: request.method,
+		body: body?.byteLength ? body : undefined,
+		headers: request.headers.get("Content-Type")
+			? { "Content-Type": request.headers.get("Content-Type")! }
+			: undefined,
+	});
 	const response = new Response(upstream.body, { status: upstream.status, headers: { "Content-Type": upstream.headers.get("Content-Type") ?? "application/json", "Cache-Control": "no-store" } });
 	if (tokens) writeSession(tokens);
 	if (upstream.status === 401) clearSession();

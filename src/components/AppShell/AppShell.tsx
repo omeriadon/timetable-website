@@ -1,12 +1,11 @@
 "use client";
 
-import { usePathname } from "@/lib/routerCompat";
 import type { ReactNode } from "react";
+import { useLocation } from "@tanstack/react-router";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Toolbar, { ToolbarProvider } from "@/components/Toolbar/Toolbar";
 import ReflectedPageContent from "@/components/ReflectedPageContent/ReflectedPageContent";
 import MobileTabBar from "@/components/MobileTabBar/MobileTabBar";
-import SessionGate from "@/components/SessionGate/SessionGate";
 import { DrawerProvider } from "@/components/drawers/Drawer/Drawer";
 import ThemeSettingsSync from "@/components/ThemeSettingsSync/ThemeSettingsSync";
 import { StatusBadgeProvider } from "@/components/StatusBadge/StatusBadge";
@@ -14,23 +13,17 @@ import styles from "@/app/layout.module.css";
 import GradientBlinds from "@/components/GradientBlinds";
 
 export default function AppShell({ children }: { children: ReactNode }) {
-	const pathname = usePathname();
-
-	if (pathname === "/" || pathname === "/login") {
-		return children;
-	}
-
+	const pathname = useLocation({ select: (location) => location.pathname });
 	const isAboutPage = pathname === "/settings/about";
 
 	return (
-		<SessionGate>
 			<StatusBadgeProvider>
 				<ThemeSettingsSync />
 				<DrawerProvider>
 					<ToolbarProvider>
 						<div
 							className={`${styles.appShell} ${
-								isAboutPage ? styles.aboutAppShell : ""
+							isAboutPage ? styles.aboutAppShell : ""
 							}`}
 						>
 							{isAboutPage ? (
@@ -62,6 +55,5 @@ export default function AppShell({ children }: { children: ReactNode }) {
 					</ToolbarProvider>
 				</DrawerProvider>
 			</StatusBadgeProvider>
-		</SessionGate>
 	);
 }
