@@ -827,7 +827,7 @@
 /* Footer */
 
 .footer {
-	color: rgba(100, 100, 100, 0.5);
+	color: var(--ds-color-text-muted);
 
 	display: flex;
 	justify-content: space-between;
@@ -835,4 +835,8 @@
 	margin: 0rem 4rem;
 
 	height: 20vh;
+}
+
+:global(.light) .footer {
+	color: #595959;
 }
