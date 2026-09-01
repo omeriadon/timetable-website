@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -26,9 +26,7 @@ const labels: Record<string, string> = {
 	"profile-appearance": "Profile Appearance",
 };
 
-export default function SettingsSectionPage() {
-	const { section: routeSection } = useParams({ strict: false });
-	const section = routeSection ?? "";
+export default function SettingsSectionPage({ section }: { section: string }) {
 	const setToolbar = useToolbar();
 	const navigate = useNavigate();
 	const [settings, setSettings] = useState<Settings | null>(null);

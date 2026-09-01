@@ -10,4 +10,8 @@ describe("safe returnTo", () => {
 		expect(safeReturnTo("https://evil.example")).toBe("/");
 		expect(safeReturnTo("//evil.example")).toBe("/");
 	});
+
+	test("uses the supplied fallback", () => {
+		expect(safeReturnTo(undefined, "/today")).toBe("/today");
+	});
 });

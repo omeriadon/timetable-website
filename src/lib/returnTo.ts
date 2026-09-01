@@ -1,6 +1,6 @@
-export function safeReturnTo(value: string | undefined) {
+export function safeReturnTo(value: string | null | undefined, fallback = "/") {
 	if (!value || !value.startsWith("/") || value.startsWith("//")) {
-		return "/";
+		return fallback;
 	}
 	return value;
 }

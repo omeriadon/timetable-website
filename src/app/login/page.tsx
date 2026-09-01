@@ -9,6 +9,7 @@ import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "./page.module.css";
+import { safeReturnTo } from "@/lib/returnTo";
 
 type Mode = "sign-in" | "sign-up" | "verify";
 
@@ -33,8 +34,7 @@ export default function LoginPage() {
 					method: "POST",
 					body: JSON.stringify({ email, password, installationID }),
 				});
-				navigate({ to: returnDestination() });
-				void navigate({ to: window.location.pathname, replace: true });
+				await navigate({ to: returnDestination(), replace: true });
 				return;
 			}
 
@@ -51,8 +51,7 @@ export default function LoginPage() {
 				method: "POST",
 				body: JSON.stringify({ email, password, code, installationID }),
 			});
-			navigate({ to: returnDestination() });
-			void navigate({ to: window.location.pathname, replace: true });
+			await navigate({ to: returnDestination(), replace: true });
 		} catch (requestError) {
 			setError(
 				requestError instanceof PMSTTAPIError
@@ -183,9 +182,5 @@ function returnDestination() {
 			? null
 			: new URLSearchParams(window.location.search).get("returnTo");
 
-	if (!value || !value.startsWith("/") || value.startsWith("//")) {
-		return "/today";
-	}
-
-	return value;
+	return safeReturnTo(value, "/today");
 }

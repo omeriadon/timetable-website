@@ -34,11 +34,12 @@ async function handler({
 	}
 	if (path === "auth/logout") {
 		const logout = logoutDispatch(request.method);
-		if (!logout) return new Response(null, { status: 405 });
-		const upstream = await pmsttRequest(
+		if (!logout) {
+			return new Response(null, { status: 405 });
+		}
+		const { response: upstream } = await authenticatedPMSTTRequest(
 			logout.path,
 			{ method: logout.method },
-			undefined,
 		);
 		const response = new Response(upstream.body, {
 			status: upstream.status,

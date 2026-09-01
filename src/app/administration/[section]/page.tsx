@@ -1,6 +1,5 @@
 "use client";
 
-import { useParams } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -108,9 +107,11 @@ const sectionConfig: Record<
 	"about-contributors": { title: "About Contributors", icon: "person.3" },
 };
 
-export default function AdministrationSectionPage() {
-	const { section: routeSection } = useParams({ strict: false });
-	const section = routeSection ?? "";
+export default function AdministrationSectionPage({
+	section,
+}: {
+	section: string;
+}) {
 	const setToolbar = useToolbar();
 	const [data, setData] = useState<unknown>(null);
 	const [error, setError] = useState<string | null>(null);

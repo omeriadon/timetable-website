@@ -158,7 +158,7 @@ export default function PlannerView({
 						<Link
 							key={assessment.id}
 							to="/grades/$subject"
-							params={{ subject: encodeURIComponent(assessment.subjectID) }}
+							params={{ subject: assessment.subjectID }}
 							className={cn(styles.cardRow, styles.plannerEvent)}
 							aria-label={`Open ${assessment.name}`}
 						>

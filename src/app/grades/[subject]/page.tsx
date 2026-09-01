@@ -1,7 +1,6 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import { useParams } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -20,10 +19,8 @@ import type {
 
 import styles from "./page.module.css";
 
-export default function GradeSubjectPage() {
-	const { subject: routeSubject } = useParams({ strict: false });
-	const subject = routeSubject ?? "";
-	const subjectID = decodeURIComponent(subject);
+export default function GradeSubjectPage({ subject }: { subject: string }) {
+	const subjectID = subject;
 
 	const setToolbar = useToolbar();
 	const { openDrawer } = useDrawer();
