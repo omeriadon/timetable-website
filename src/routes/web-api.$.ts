@@ -6,7 +6,7 @@ import {
 	pmsttRequest,
 	writeSession,
 } from "@/lib/server/pmstt.server";
-import { buildUpstreamPath, logoutDispatch } from "@/lib/server/webApi";
+import { buildUpstreamPath, dispatchLogout } from "@/lib/server/webApi";
 
 async function jsonResponse(upstream: Response) {
 	const payload = await upstream.json().catch(() => ({}));
@@ -33,14 +33,15 @@ async function handler({
 		return response;
 	}
 	if (path === "auth/logout") {
-		const logout = logoutDispatch(request.method);
+		const logout = await dispatchLogout(
+			request.method,
+			authenticatedPMSTTRequest,
+		);
 		if (!logout) {
 			return new Response(null, { status: 405 });
 		}
-		const { response: upstream } = await authenticatedPMSTTRequest(
-			logout.path,
-			{ method: logout.method },
-		);
+
+		const { response: upstream } = logout;
 		const response = new Response(upstream.body, {
 			status: upstream.status,
 			headers: {

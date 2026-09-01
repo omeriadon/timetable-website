@@ -10,12 +10,15 @@ export function logoutDispatch(method: string) {
 
 export async function dispatchLogout(
 	method: string,
-	authenticatedRequest: (path: string, init: RequestInit) => Promise<unknown>,
+	authenticatedRequest: (
+		path: string,
+		init: RequestInit,
+	) => Promise<{ response: Response }>,
 ) {
 	const dispatch = logoutDispatch(method);
 	if (!dispatch) {
 		return null;
 	}
-	await authenticatedRequest(dispatch.path, { method: dispatch.method });
-	return dispatch;
+
+	return authenticatedRequest(dispatch.path, { method: dispatch.method });
 }

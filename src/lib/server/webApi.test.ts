@@ -18,9 +18,12 @@ describe("web API forwarding", () => {
 
 	test("logout gateway uses the authenticated request", async () => {
 		let call: { path: string; method: string } | undefined;
-		await dispatchLogout("DELETE", async (path, init) => {
+		const result = await dispatchLogout("DELETE", async (path, init) => {
 			call = { path, method: init.method ?? "" };
+			return { response: new Response(null, { status: 204 }) };
 		});
+
 		expect(call).toEqual({ path: "v1/auth/logout", method: "DELETE" });
+		expect(result?.response.status).toBe(204);
 	});
 });
