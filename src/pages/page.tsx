@@ -7,6 +7,7 @@ type CardProps = {
 	title?: string;
 	maskNumber: number;
 	screenshot: string;
+	screenshotSrcSet: string;
 	screenshotAlt: string;
 	screenshotCrop: ScreenshotCrop;
 	children: ReactNode;
@@ -26,7 +27,9 @@ const landingCards = [
 	{
 		title: "Today",
 		maskNumber: 1,
-		screenshot: "/landing/timetable-today.webp",
+		screenshot: "/landing/timetable-today-416.webp",
+		screenshotSrcSet:
+			"/landing/timetable-today-416.webp 416w, /landing/timetable-today-640.webp 640w, /landing/timetable-today.webp 832w",
 		screenshotAlt: "Timetable Today view",
 		screenshotCrop: {
 			sourceWidth: 832,
@@ -40,7 +43,9 @@ const landingCards = [
 	{
 		title: "Week",
 		maskNumber: 2,
-		screenshot: "/landing/timetable-week.webp",
+		screenshot: "/landing/timetable-week-416.webp",
+		screenshotSrcSet:
+			"/landing/timetable-week-416.webp 416w, /landing/timetable-week-640.webp 640w, /landing/timetable-week.webp 852w",
 		screenshotAlt: "Timetable Week view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -54,7 +59,9 @@ const landingCards = [
 	{
 		title: "Planner",
 		maskNumber: 7,
-		screenshot: "/landing/timetable-planner.webp",
+		screenshot: "/landing/timetable-planner-416.webp",
+		screenshotSrcSet:
+			"/landing/timetable-planner-416.webp 416w, /landing/timetable-planner-640.webp 640w, /landing/timetable-planner.webp 868w",
 		screenshotAlt: "Timetable Planner view",
 		screenshotCrop: {
 			sourceWidth: 868,
@@ -68,7 +75,9 @@ const landingCards = [
 	{
 		title: "Grades",
 		maskNumber: 4,
-		screenshot: "/landing/grades.webp",
+		screenshot: "/landing/grades-416.webp",
+		screenshotSrcSet:
+			"/landing/grades-416.webp 416w, /landing/grades-640.webp 640w, /landing/grades.webp 878w",
 		screenshotAlt: "Timetable Grades view",
 		screenshotCrop: {
 			sourceWidth: 878,
@@ -82,7 +91,9 @@ const landingCards = [
 	{
 		title: "Friends",
 		maskNumber: 5,
-		screenshot: "/landing/friends.webp",
+		screenshot: "/landing/friends-416.webp",
+		screenshotSrcSet:
+			"/landing/friends-416.webp 416w, /landing/friends-640.webp 640w, /landing/friends.webp 852w",
 		screenshotAlt: "Timetable Friends view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -99,6 +110,7 @@ function Card({
 	title,
 	maskNumber,
 	screenshot,
+	screenshotSrcSet,
 	screenshotAlt,
 	screenshotCrop,
 	children,
@@ -126,6 +138,8 @@ function Card({
 					<div className={styles.cardScreenshotBody}>
 						<img
 							src={screenshot}
+							srcSet={screenshotSrcSet}
+							sizes="(max-width: 600px) 45vw, 35vw"
 							alt={screenshotAlt}
 							className={styles.cardScreenshot}
 							width={screenshotCrop.sourceWidth}
@@ -316,6 +330,7 @@ export default function LandingPage() {
 											title={card.title}
 											maskNumber={card.maskNumber}
 											screenshot={card.screenshot}
+											screenshotSrcSet={card.screenshotSrcSet}
 											screenshotAlt={card.screenshotAlt}
 											screenshotCrop={card.screenshotCrop}
 										>
