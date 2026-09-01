@@ -4,7 +4,14 @@ import LandingPage from "@/pages/page";
 export const Route = createFileRoute("/")({
 	component: LandingPage,
 	head: () => ({
-		meta: [{ title: "Timetable" }],
+		meta: [
+			{ title: "Timetable" },
+			{
+				name: "description",
+				content:
+					"Timetable for Perth Mod students: view your day, week, planner, grades, and friends in one place.",
+			},
+		],
 		links: [
 			{
 				rel: "preload",
