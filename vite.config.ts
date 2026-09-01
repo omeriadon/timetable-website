@@ -11,7 +11,46 @@ export default defineConfig({
 	},
 	plugins: [
 		tanstackStart(),
-		nitro({ preset: "bun" }),
+		nitro({
+			preset: "bun",
+			routeRules: {
+				"/landing/**": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/fonts/**": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/icons/**": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/grain.webp": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/hdr-white.avif": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/favicon.svg": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+				"/icon.png": {
+					headers: {
+						"cache-control": "public, max-age=604800",
+					},
+				},
+			},
+		}),
 		tailwindcss(),
 		viteReact(),
 	],
