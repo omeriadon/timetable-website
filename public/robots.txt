@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /administration
+Disallow: /settings
+Disallow: /testing
+
+Sitemap: https://timetable.adonis.pt/sitemap.xml
