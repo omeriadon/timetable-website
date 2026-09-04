@@ -11,11 +11,7 @@ import { Button } from "@/components/ui/button";
 import styles from "./StatusBadge.module.css";
 
 export type StatusBadgeKind =
-	| "progress"
-	| "success"
-	| "info"
-	| "warning"
-	| "error";
+	"progress" | "success" | "info" | "warning" | "error";
 
 type StatusBadge = {
 	id: number;

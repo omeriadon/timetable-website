@@ -18,10 +18,6 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		".output/**/*.ts"
-	],
+	"include": ["**/*.ts", "**/*.tsx", ".output/**/*.ts"],
 	"exclude": ["node_modules"]
 }

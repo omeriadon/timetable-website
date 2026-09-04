@@ -21,8 +21,7 @@ export function friendScheduleTitle(subjects: TimetableSubject[], now: Date) {
 
 	const currentMinutes = now.getHours() * 60 + now.getMinutes();
 	const currentPeriod = friendPeriods.find(
-		(period) =>
-			currentMinutes >= period.start && currentMinutes < period.end,
+		(period) => currentMinutes >= period.start && currentMinutes < period.end,
 	);
 
 	if (currentPeriod) {
