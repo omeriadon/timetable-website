@@ -123,7 +123,7 @@ export default function Sidebar() {
 					onMouseLeave={handleIconLeave}
 				>
 					<img
-						src="/icon.png"
+						src="/icon-512.webp"
 						width={80}
 						height={44}
 						className={styles.brandIcon}

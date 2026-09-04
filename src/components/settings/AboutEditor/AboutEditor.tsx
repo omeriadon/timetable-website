@@ -34,7 +34,7 @@ export default function AboutEditor() {
 			<div className={styles.content}>
 				<div className={styles.icon}>
 					<img
-						src="/icon.png"
+						src="/icon-512.webp"
 						width={300}
 						height={300}
 						alt=""

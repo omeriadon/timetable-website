@@ -4,6 +4,9 @@ import { checkSession } from "@/lib/server/session.functions";
 import { safeReturnTo } from "@/lib/returnTo";
 
 export const Route = createFileRoute("/_authenticated")({
+	head: () => ({
+		meta: [{ name: "robots", content: "noindex, nofollow" }],
+	}),
 	beforeLoad: async ({ location }) => {
 		const account = await checkSession();
 		if (!account) {

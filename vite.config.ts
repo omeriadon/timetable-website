@@ -44,7 +44,7 @@ export default defineConfig({
 						"cache-control": "public, max-age=604800",
 					},
 				},
-				"/icon.png": {
+				"/icon-512.webp": {
 					headers: {
 						"cache-control": "public, max-age=604800",
 					},

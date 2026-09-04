@@ -1,4 +1,4 @@
-<img src="public/icon.png" width="30%">
+<img src="public/icon-512.png" width="30%">
 
 # Timetable website
 
