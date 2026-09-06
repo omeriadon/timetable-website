@@ -1,5 +1,5 @@
-import { useNavigate, useRouter } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useNavigate, useRouter } from "@tanstack/solid-router";
+import { createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type {
 	SettingsSectionData,
@@ -39,25 +39,22 @@ export default function SettingsSectionPage({
 	const setToolbar = useToolbar();
 	const navigate = useNavigate();
 	const router = useRouter();
-	const [settings, setSettings] = useState<Settings>(
+	const [settings, setSettings] = createSignal<Settings>(
 		initial.settings as Settings,
 	);
-	const [profile, setProfile] = useState<ProfileResponse | null>(
+	const [profile, setProfile] = createSignal<ProfileResponse | null>(
 		"profile" in initial ? (initial.profile as ProfileResponse) : null,
 	);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(
-		() => setToolbar({ title: labels[section] ?? "Settings" }),
-		[section, setToolbar],
-	);
+	onMount(() => setToolbar({ title: labels[section] ?? "Settings" }));
 
 	const saveProfile = async (appearance: ProfileAppearance) => {
-		if (!profile) return;
+		if (!profile()) return;
 		try {
 			const updated = await apiRequest<ProfileResponse>("v1/friends/profile", {
 				method: "PUT",
-				body: JSON.stringify({ appearance, baseRevision: profile.revision }),
+				body: JSON.stringify({ appearance, baseRevision: profile()!.revision }),
 			});
 			setProfile(updated);
 			await router.invalidate();
@@ -68,32 +65,32 @@ export default function SettingsSectionPage({
 
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
-			{section === "appearance" && settings ? (
-				<AppearanceSettingsEditor initial={settings} />
+			{section === "appearance" && settings() ? (
+				<AppearanceSettingsEditor initial={settings()} />
 			) : null}
-			{section === "account" && settings ? (
+			{section === "account" && settings() ? (
 				<AccountSyncEditor
-					initial={settings}
+					initial={settings()}
 					onSignOut={() => navigate({ to: "/login" })}
 				/>
 			) : null}
-			{section === "notifications" && settings ? (
-				<NotificationSettingsEditor initial={settings} />
+			{section === "notifications" && settings() ? (
+				<NotificationSettingsEditor initial={settings()} />
 			) : null}
 			{section === "archived-events" ? <ArchivedEventsEditor /> : null}
 			{section === "profile-appearance" ? (
 				profile ? (
-					<ProfileAppearanceEditor profile={profile} save={saveProfile} />
+					<ProfileAppearanceEditor profile={profile()!} save={saveProfile} />
 				) : null
 			) : null}
 			{section === "feedback" ? <FeedbackEditor /> : null}
 			{section === "about" ? <AboutEditor /> : null}
-			{!settings && !error ? (
+			{!settings() && !error() ? (
 				<p className={styles.loading}>Loading settings…</p>
 			) : null}
 		</main>
