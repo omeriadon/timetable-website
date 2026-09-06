@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type {
 	AdminEventTag,
 	AdminEventTagSection,
@@ -22,16 +22,16 @@ export default function AdminEventTagDrawer({
 	onSaved: () => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [displayName, setDisplayName] = useState(tag?.displayName ?? "");
-	const [slug, setSlug] = useState(tag?.slug ?? "");
-	const [symbol, setSymbol] = useState(tag?.symbol ?? "tag");
-	const [colorHex, setColorHex] = useState(tag?.colorHex ?? "#BD3547");
-	const [isArchived, setIsArchived] = useState(tag?.isArchived ?? false);
-	const [associatedNames, setAssociatedNames] = useState(
+	const [displayName, setDisplayName] = createSignal(tag?.displayName ?? "");
+	const [slug, setSlug] = createSignal(tag?.slug ?? "");
+	const [symbol, setSymbol] = createSignal(tag?.symbol ?? "tag");
+	const [colorHex, setColorHex] = createSignal(tag?.colorHex ?? "#BD3547");
+	const [isArchived, setIsArchived] = createSignal(tag?.isArchived ?? false);
+	const [associatedNames, setAssociatedNames] = createSignal(
 		tag?.associatedNames.join("\n") ?? "",
 	);
-	const [error, setError] = useState<string | null>(null);
-	const [saving, setSaving] = useState(false);
+	const [error, setError] = createSignal<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
 	const save = async () => {
 		setSaving(true);
 		setError(null);
@@ -42,13 +42,13 @@ export default function AdminEventTagDrawer({
 					method: tag ? "PUT" : "POST",
 					body: JSON.stringify({
 						sectionID: section.id,
-						slug: slug.trim(),
-						displayName: displayName.trim(),
-						symbol: symbol.trim() || null,
-						colorHex,
+						slug: slug().trim(),
+						displayName: displayName().trim(),
+						symbol: symbol().trim() || null,
+						colorHex: colorHex(),
 						sortOrder: tag?.sortOrder ?? section.tags.length,
-						isArchived,
-						associatedNames: associatedNames
+						isArchived: isArchived(),
+						associatedNames: associatedNames()
 							.split(/\r?\n/)
 							.map((value) => value.trim())
 							.filter(Boolean),
@@ -89,21 +89,21 @@ export default function AdminEventTagDrawer({
 				<label>
 					Display Name
 					<Input
-						value={displayName}
+						value={displayName()}
 						onChange={(event) => setDisplayName(event.target.value)}
 					/>
 				</label>
 				<label>
 					Slug
 					<Input
-						value={slug}
+						value={slug()}
 						onChange={(event) => setSlug(event.target.value)}
 					/>
 				</label>
 				<label>
 					Symbol
 					<Input
-						value={symbol}
+						value={symbol()}
 						onChange={(event) => setSymbol(event.target.value)}
 					/>
 				</label>
@@ -111,7 +111,7 @@ export default function AdminEventTagDrawer({
 					Colour
 					<Input
 						type="color"
-						value={colorHex}
+						value={colorHex()}
 						onChange={(event) => setColorHex(event.target.value)}
 					/>
 				</label>
@@ -119,7 +119,7 @@ export default function AdminEventTagDrawer({
 					Associated Names
 					<Textarea
 						rows={3}
-						value={associatedNames}
+						value={associatedNames()}
 						onChange={(event) => setAssociatedNames(event.target.value)}
 					/>
 				</label>
@@ -132,9 +132,9 @@ export default function AdminEventTagDrawer({
 					Archive tag
 				</label>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
@@ -144,7 +144,7 @@ export default function AdminEventTagDrawer({
 						flexible
 						aria-label="Delete event tag"
 						onClick={() => void remove()}
-						disabled={saving}
+						disabled={saving()}
 					>
 						Delete
 					</Button>
@@ -153,9 +153,9 @@ export default function AdminEventTagDrawer({
 					flexible
 					aria-label="Save event tag"
 					onClick={() => void save()}
-					disabled={saving || !displayName.trim() || !slug.trim()}
+					disabled={saving() || !displayName().trim() || !slug().trim()}
 				>
-					{saving ? "Saving…" : "Save"}
+					{saving() ? "Saving…" : "Save"}
 				</Button>
 			</DrawerFooter>
 		</div>
