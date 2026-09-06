@@ -7,11 +7,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import { apiRequest } from "@/lib/api/client";
-import { useEffect } from "react";
+
 import type { Account } from "@/lib/api/contracts";
 import type { Settings } from "@/features/settings/types";
 import styles from "@/components/settings/Settings.module.css";
@@ -31,18 +31,18 @@ export default function AccountSyncEditor({
 	initial: Settings;
 	onSignOut: () => void;
 }) {
-	const [draft, setDraft] = useState(initial);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [account, setAccount] = useState<Account | null>(null);
-	const [displayName, setDisplayName] = useState("");
-	const [yearGroups, setYearGroups] = useState<YearGroupTag[]>([]);
-	const [selectedYearGroupID, setSelectedYearGroupID] = useState("");
-	const [savingYearGroup, setSavingYearGroup] = useState(false);
-	const [savingAccount, setSavingAccount] = useState(false);
+	const [draft, setDraft] = createSignal(initial);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
+	const [account, setAccount] = createSignal<Account | null>(null);
+	const [displayName, setDisplayName] = createSignal("");
+	const [yearGroups, setYearGroups] = createSignal<YearGroupTag[]>([]);
+	const [selectedYearGroupID, setSelectedYearGroupID] = createSignal("");
+	const [savingYearGroup, setSavingYearGroup] = createSignal(false);
+	const [savingAccount, setSavingAccount] = createSignal(false);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => {
+	onMount(() => {
 		Promise.all([
 			apiRequest<Account>("v1/account"),
 			apiRequest<{
@@ -60,18 +60,18 @@ export default function AccountSyncEditor({
 				setSelectedYearGroupID(subscriptions.tagIDs[0] ?? tags[0]?.id ?? "");
 			})
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
 	const saveAccount = async () => {
-		if (!account || !displayName.trim() || savingAccount) return;
+		if (!account() || !displayName().trim() || savingAccount()) return;
 		setSavingAccount(true);
 		setError(null);
 		try {
 			const updated = await apiRequest<Account>("v1/account", {
 				method: "PUT",
 				body: JSON.stringify({
-					displayName: displayName.trim(),
-					baseRevision: account.revision,
+					displayName: displayName().trim(),
+					baseRevision: account()!.revision,
 				}),
 			});
 			setAccount(updated);
@@ -121,8 +121,8 @@ export default function AccountSyncEditor({
 	};
 
 	const save = async (changes: Partial<Settings>) => {
-		const previous = draft;
-		const next = { ...draft, ...changes };
+		const previous = draft();
+		const next = { ...draft(), ...changes };
 		setDraft(next);
 		setSaving(true);
 		setError(null);
@@ -153,14 +153,14 @@ export default function AccountSyncEditor({
 					</label>
 					<Input
 						id="account-display-name"
-						value={displayName}
-						disabled={!account || savingAccount}
+						value={displayName()}
+						disabled={!account() || savingAccount()}
 						onChange={(event) => setDisplayName(event.target.value)}
 					/>
 					<Button
 						type="button"
 						onClick={() => void saveAccount()}
-						disabled={!account || savingAccount || !displayName.trim()}
+						disabled={!account() || savingAccount() || !displayName().trim()}
 						aria-label="Save account name"
 					>
 						<Symbol name="checkmark" />
@@ -171,10 +171,10 @@ export default function AccountSyncEditor({
 					<div className={styles.row}>
 						<Symbol name="envelope" />
 						<span className={styles.label}>Email</span>
-						<span>{account.email}</span>
+						<span>{account()!.email}</span>
 					</div>
 				) : null}
-				{yearGroups.length ? (
+				{yearGroups().length ? (
 					<div className={styles.row}>
 						<Symbol name="person.3" />
 						<label className={styles.label} htmlFor="account-year-group">
@@ -182,11 +182,11 @@ export default function AccountSyncEditor({
 						</label>
 						<select
 							id="account-year-group"
-							value={selectedYearGroupID}
-							disabled={savingYearGroup}
+							value={selectedYearGroupID()}
+							disabled={savingYearGroup()}
 							onChange={(event) => void saveYearGroup(event.target.value)}
 						>
-							{yearGroups.map((tag) => (
+							{yearGroups().map((tag) => (
 								<option key={tag.id} value={tag.id}>
 									{tag.displayName}
 								</option>
@@ -198,29 +198,29 @@ export default function AccountSyncEditor({
 			<section className={styles.card}>
 				<SettingToggle
 					label="Class Notifications"
-					enabled={draft.notificationsEnabled}
+					enabled={draft().notificationsEnabled}
 					onClick={() =>
-						void save({ notificationsEnabled: !draft.notificationsEnabled })
+						void save({ notificationsEnabled: !draft().notificationsEnabled })
 					}
-					disabled={saving}
+					disabled={saving()}
 				/>
 				<SettingToggle
 					label="Special Event Notifications"
-					enabled={draft.broadcastNotificationsEnabled}
+					enabled={draft().broadcastNotificationsEnabled}
 					onClick={() =>
 						void save({
 							broadcastNotificationsEnabled:
-								!draft.broadcastNotificationsEnabled,
+								!draft().broadcastNotificationsEnabled,
 						})
 					}
-					disabled={saving}
+					disabled={saving()}
 				/>
 				<div className={styles.row}>
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
-						value={String(draft.calendarEventAutoDeleteDays)}
-						disabled={saving}
+						value={String(draft().calendarEventAutoDeleteDays)}
+						disabled={saving()}
 						onValueChange={(value) => {
 							if (value !== null) {
 								void save({
@@ -266,9 +266,9 @@ export default function AccountSyncEditor({
 					</div>
 				</Button>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 		</>
