@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import type { CalendarEvent } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "../Drawer/Drawer";
@@ -28,19 +28,19 @@ export default function CalendarEventDrawer({
 }) {
 	const { closeDrawer } = useDrawer();
 	const dismiss = onClose ?? closeDrawer;
-	const [title, setTitle] = useState(event.title);
-	const [notes, setNotes] = useState(event.notes ?? "");
-	const [symbol, setSymbol] = useState(event.symbol);
-	const [date, setDate] = useState(() => dateValue(event));
-	const [showsWeather, setShowsWeather] = useState(event.showsWeather);
-	const [tagSections, setTagSections] = useState<EventTagSection[]>([]);
-	const [selectedTagIDs, setSelectedTagIDs] = useState<string[]>(
+	const [title, setTitle] = createSignal(event.title);
+	const [notes, setNotes] = createSignal(event.notes ?? "");
+	const [symbol, setSymbol] = createSignal(event.symbol);
+	const [date, setDate] = createSignal(dateValue(event));
+	const [showsWeather, setShowsWeather] = createSignal(event.showsWeather);
+	const [tagSections, setTagSections] = createSignal<EventTagSection[]>([]);
+	const [selectedTagIDs, setSelectedTagIDs] = createSignal<string[]>(
 		event.tagIDs ?? [],
 	);
-	const [saving, setSaving] = useState(false);
-	const [status, setStatus] = useState<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
+	const [status, setStatus] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		if (!event.isGlobal) {
 			return;
 		}
@@ -48,10 +48,10 @@ export default function CalendarEventDrawer({
 		apiRequest<{ sections: EventTagSection[] }>("v1/tags")
 			.then((response) => setTagSections(response.sections))
 			.catch(() => setTagSections([]));
-	}, [event.isGlobal]);
+	});
 
 	const save = async () => {
-		const [year, month, day] = date.split("-").map(Number);
+		const [year, month, day] = date().split("-").map(Number);
 		if (!year || !month || !day) {
 			setStatus("Choose a valid event date.");
 			return;
@@ -67,13 +67,13 @@ export default function CalendarEventDrawer({
 				method: "PUT",
 				body: JSON.stringify({
 					id: event.id,
-					title: title.trim(),
-					notes: notes.trim() || null,
-					symbol: symbol.trim() || "calendar",
+					title: title().trim(),
+					notes: notes().trim() || null,
+					symbol: symbol().trim() || "calendar",
 					date: { year, month, day },
-					tagIDs: selectedTagIDs,
+					tagIDs: selectedTagIDs(),
 					baseRevision: event.revision,
-					showsWeather: event.isGlobal && showsWeather,
+					showsWeather: event.isGlobal && showsWeather(),
 				}),
 			});
 			const replacement = [
@@ -81,12 +81,12 @@ export default function CalendarEventDrawer({
 				...(updated.privateEvents ?? []),
 			].find((candidate) => candidate.id === event.id) ?? {
 				...event,
-				title: title.trim(),
-				notes: notes.trim() || undefined,
-				symbol: symbol.trim() || "calendar",
+				title: title().trim(),
+				notes: notes().trim() || undefined,
+				symbol: symbol().trim() || "calendar",
 				date: { year, month, day },
-				tagIDs: selectedTagIDs,
-				showsWeather: event.isGlobal && showsWeather,
+				tagIDs: selectedTagIDs(),
+				showsWeather: event.isGlobal && showsWeather(),
 			};
 			onChanged(replacement);
 			dismiss();
@@ -132,38 +132,38 @@ export default function CalendarEventDrawer({
 				<label>
 					Title
 					<Input
-						value={title}
+						value={title()}
 						onChange={(input) => setTitle(input.target.value)}
 						maxLength={120}
-						disabled={readOnly || saving}
+						disabled={readOnly || saving()}
 					/>
 				</label>
 				<label>
 					Notes
 					<Textarea
-						value={notes}
+						value={notes()}
 						onChange={(input) => setNotes(input.target.value)}
 						rows={3}
 						maxLength={2000}
-						disabled={readOnly || saving}
+						disabled={readOnly || saving()}
 					/>
 				</label>
 				<label>
 					Symbol
 					<Input
-						value={symbol}
+						value={symbol()}
 						onChange={(input) => setSymbol(input.target.value)}
 						maxLength={120}
-						disabled={readOnly || saving}
+						disabled={readOnly || saving()}
 					/>
 				</label>
 				<label>
 					Date
 					<Input
 						type="date"
-						value={date}
+						value={date()}
 						onChange={(input) => setDate(input.target.value)}
-						disabled={readOnly || saving}
+						disabled={readOnly || saving()}
 					/>
 				</label>
 				{event.isGlobal ? (
@@ -172,18 +172,18 @@ export default function CalendarEventDrawer({
 						aria-labelledby="event-tags-title"
 					>
 						<h3 id="event-tags-title">Tags</h3>
-						{tagSections.length ? (
-							tagSections
+						{tagSections().length ? (
+							tagSections()
 								.flatMap((section) => section.tags)
 								.map((tag) => {
-									const selected = selectedTagIDs.includes(tag.id);
+									const selected = selectedTagIDs().includes(tag.id);
 									return (
 										<Button
 											key={tag.id}
 											type="button"
 											aria-pressed={selected}
 											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
-											disabled={readOnly || saving || !allowsTagEditing}
+											disabled={readOnly || saving() || !allowsTagEditing}
 											onClick={() =>
 												setSelectedTagIDs(selected ? [] : [tag.id])
 											}
@@ -205,15 +205,15 @@ export default function CalendarEventDrawer({
 						<Toggle
 							checked={showsWeather}
 							onCheckedChange={setShowsWeather}
-							disabled={readOnly || saving}
+							disabled={readOnly || saving()}
 							aria-label="Show Weather"
 						/>
 					</ListRow>
 				) : null}
 			</section>
-			{status ? (
+			{status() ? (
 				<p className={styles.detailMuted} role="alert">
-					{status}
+					{status()}
 				</p>
 			) : null}
 			{!readOnly ? (
@@ -223,7 +223,7 @@ export default function CalendarEventDrawer({
 						flexible
 						aria-label="Delete event"
 						onClick={() => void remove()}
-						disabled={saving}
+						disabled={saving()}
 					>
 						<Symbol name="trash" />
 						Delete
@@ -232,10 +232,10 @@ export default function CalendarEventDrawer({
 						flexible
 						aria-label="Save event"
 						onClick={() => void save()}
-						disabled={saving || !title.trim()}
+						disabled={saving() || !title().trim()}
 					>
 						<Symbol name="checkmark" />
-						{saving ? "Saving…" : "Save"}
+						{saving() ? "Saving…" : "Save"}
 					</Button>
 				</DrawerFooter>
 			) : null}
