@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
@@ -21,31 +21,32 @@ type StorageQuota = {
 };
 
 export default function AdminProfileStorageEditor() {
-	const [quota, setQuota] = useState<StorageQuota | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [quota, setQuota] = createSignal<StorageQuota | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<StorageQuota>("v1/administration/profile-storage-quota")
 			.then(setQuota)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
-	if (error) {
+	if (error()) {
 		return (
 			<p className={styles.error} role="alert">
-				{error}
+				{error()}
 			</p>
 		);
 	}
-	if (!quota) {
+	if (!quota()) {
 		return <p className={styles.loading}>Loading profile storage…</p>;
 	}
 
-	const usedBytes = quota.storedBytes + quota.reservedBytes;
-	const usedStorage = percentage(usedBytes, quota.storageLimitBytes);
+	const currentQuota = quota()!;
+	const usedBytes = currentQuota.storedBytes + currentQuota.reservedBytes;
+	const usedStorage = percentage(usedBytes, currentQuota.storageLimitBytes);
 	const usedOperations = percentage(
-		quota.monthlyOperations,
-		quota.monthlyOperationLimit,
+		currentQuota.monthlyOperations,
+		currentQuota.monthlyOperationLimit,
 	);
 
 	return (
@@ -57,15 +58,15 @@ export default function AdminProfileStorageEditor() {
 			>
 				<AdminStorageMetric
 					label="Stored"
-					value={formatBytes(quota.storedBytes)}
+					value={formatBytes(currentQuota.storedBytes)}
 				/>
 				<AdminStorageMetric
 					label="Reserved"
-					value={formatBytes(quota.reservedBytes)}
+					value={formatBytes(currentQuota.reservedBytes)}
 				/>
 				<AdminStorageMetric
 					label="Limit"
-					value={formatBytes(quota.storageLimitBytes)}
+					value={formatBytes(currentQuota.storageLimitBytes)}
 				/>
 			</AdminStorageQuotaCard>
 			<AdminStorageQuotaCard
@@ -75,52 +76,54 @@ export default function AdminProfileStorageEditor() {
 			>
 				<AdminStorageMetric
 					label="Used"
-					value={quota.monthlyOperations.toLocaleString("en-AU")}
+					value={currentQuota.monthlyOperations.toLocaleString("en-AU")}
 				/>
 				<AdminStorageMetric
 					label="Limit"
-					value={quota.monthlyOperationLimit.toLocaleString("en-AU")}
+					value={currentQuota.monthlyOperationLimit.toLocaleString("en-AU")}
 				/>
 				<AdminStorageMetric
 					label="Write Cutoff"
-					value={quota.monthlyWriteCutoff.toLocaleString("en-AU")}
+					value={currentQuota.monthlyWriteCutoff.toLocaleString("en-AU")}
 				/>
 			</AdminStorageQuotaCard>
 			<section className={styles.card}>
 				<div className={styles.row}>
 					<Symbol
 						name={
-							quota.writesDisabled
+							currentQuota.writesDisabled
 								? "exclamationmark.bubble"
 								: "checkmark.icloud"
 						}
-						fallback={quota.writesDisabled ? "!" : "✓"}
+						fallback={currentQuota.writesDisabled ? "!" : "✓"}
 					/>
 					<span className={styles.label}>Profile Photo Changes</span>
 					<span className={styles.detail}>
-						{quota.writesDisabled ? "Disabled" : "Available"}
+						{currentQuota.writesDisabled ? "Disabled" : "Available"}
 					</span>
 				</div>
 				<div className={styles.row}>
 					<Symbol name="arrow.clockwise.icloud" fallback="↻" />
 					<span className={styles.label}>Cloudflare Reconciliation</span>
 					<span className={styles.detail}>
-						{quota.reconciliationWarning ? "Accounting mismatch" : "Current"}
+						{currentQuota.reconciliationWarning
+							? "Accounting mismatch"
+							: "Current"}
 					</span>
 				</div>
-				{quota.reconciledStoredBytes != null ? (
+				{currentQuota.reconciledStoredBytes != null ? (
 					<div className={styles.row}>
 						<span className={styles.label}>Reported Storage</span>
 						<span className={styles.detail}>
-							{formatBytes(quota.reconciledStoredBytes)}
+							{formatBytes(currentQuota.reconciledStoredBytes)}
 						</span>
 					</div>
 				) : null}
-				{quota.reconciledAt ? (
+				{currentQuota.reconciledAt ? (
 					<div className={styles.row}>
 						<span className={styles.label}>Last Checked</span>
 						<span className={styles.detail}>
-							{new Date(quota.reconciledAt).toLocaleString("en-AU")}
+							{new Date(currentQuota.reconciledAt).toLocaleString("en-AU")}
 						</span>
 					</div>
 				) : null}
