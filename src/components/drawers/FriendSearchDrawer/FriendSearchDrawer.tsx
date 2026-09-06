@@ -1,30 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { createEffect, createSignal } from "solid-js";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";
 import type { FriendSearchResult } from "@/features/timetable/types";
 import styles from "../Drawer/Drawer.module.css";
 
 export default function FriendSearchDrawer() {
-	const [query, setQuery] = useState("");
-	const [results, setResults] = useState<FriendSearchResult[]>([]);
-	const [status, setStatus] = useState<string | null>(null);
+	const [query, setQuery] = createSignal("");
+	const [results, setResults] = createSignal<FriendSearchResult[]>([]);
+	const [status, setStatus] = createSignal<string | null>(null);
 
-	useEffect(() => {
-		if (query.trim().length < 2) {
+	createEffect(() => {
+		if (query().trim().length < 2) {
 			setResults([]);
 			return;
 		}
 		const timer = window.setTimeout(() => {
 			apiRequest<FriendSearchResult[]>(
-				`v1/friends/search?q=${encodeURIComponent(query.trim())}`,
+				`v1/friends/search?q=${encodeURIComponent(query().trim())}`,
 			)
 				.then(setResults)
 				.catch((error: Error) => setStatus(error.message));
 		}, 180);
 		return () => window.clearTimeout(timer);
-	}, [query]);
+	});
 
 	const requestFriend = async (userID: string) => {
 		setStatus(null);
@@ -56,14 +56,14 @@ export default function FriendSearchDrawer() {
 			</header>
 			<Input
 				className={styles.drawerInput}
-				value={query}
+				value={query()}
 				placeholder="Search friends"
 				aria-label="Search friends"
 				onChange={(event) => setQuery(event.target.value)}
 			/>
 			<section className={styles.detailCard}>
-				{results.length ? (
-					results.map((result) => (
+				{results().length ? (
+					results().map((result) => (
 						<div key={result.profile.userID} className={styles.searchResult}>
 							<ProfilePicture profile={result.profile} size={42} />
 							<div>
@@ -89,9 +89,9 @@ export default function FriendSearchDrawer() {
 					</p>
 				)}
 			</section>
-			{status ? (
+			{status() ? (
 				<p className={styles.detailMuted} role="status">
-					{status}
+					{status()}
 				</p>
 			) : null}
 		</div>
