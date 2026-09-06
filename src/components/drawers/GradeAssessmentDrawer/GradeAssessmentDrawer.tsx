@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type {
 	GradeAssessment,
 	TimetableSubject,
@@ -33,8 +33,8 @@ export default function GradeAssessmentDrawer({
 }: GradeAssessmentDrawerProps) {
 	const { closeDrawer } = useDrawer();
 	const now = useTimetableNow();
-	const [draft, setDraft] = useState(assessment);
-	const [status, setStatus] = useState<string | null>(null);
+	const [draft, setDraft] = createSignal(assessment);
+	const [status, setStatus] = createSignal<string | null>(null);
 	const initialDraft = assessment ?? {
 		id: crypto.randomUUID(),
 		subjectID,
@@ -45,7 +45,7 @@ export default function GradeAssessmentDrawer({
 		weighting: 1,
 		location: "exam" as const,
 	};
-	const current = draft ?? initialDraft;
+	const current = draft() ?? initialDraft;
 	const locationOptions = availableLocations(current.date, subject, subjects);
 	const update = (changes: Partial<GradeAssessment>) =>
 		setDraft((value) => ({ ...(value ?? initialDraft), ...changes }));
@@ -147,9 +147,9 @@ export default function GradeAssessmentDrawer({
 						}
 					/>
 				</label>
-				{status ? (
+				{status() ? (
 					<p className={styles.detailMuted} role="status">
-						{status}
+						{status()}
 					</p>
 				) : null}
 				<DrawerFooter className={styles.actionFooter}>
