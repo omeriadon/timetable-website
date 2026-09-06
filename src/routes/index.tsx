@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import LandingPage from "@/pages/page";
+import LandingPage from "@/app/page";
 
 export const Route = createFileRoute("/")({
 	component: LandingPage,

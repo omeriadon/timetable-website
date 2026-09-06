@@ -1,20 +1,6 @@
-/** @jsxImportSource react */
-
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
+import { createSignal, onCleanup, onMount, type JSX } from "solid-js";
 import fitty from "fitty";
-
 import styles from "./page.module.css";
-import {
-	useEffect,
-	useRef,
-	useState,
-	type CSSProperties,
-	type ReactNode,
-} from "react";
-import { ProgressiveBlur } from "@/components/ui/skiper-ui/skiper41";
 
 type CardProps = {
 	title?: string;
@@ -22,7 +8,7 @@ type CardProps = {
 	screenshot: string;
 	screenshotAlt: string;
 	screenshotCrop: ScreenshotCrop;
-	children: ReactNode;
+	children: JSX.Element;
 };
 
 type ScreenshotCrop = {
@@ -34,10 +20,10 @@ type ScreenshotCrop = {
 
 type LandingSymbolProps = {
 	name?: string;
-	fallback?: ReactNode;
+	fallback?: JSX.Element;
 	className?: string;
 	alt?: string;
-	style?: CSSProperties;
+	style?: JSX.CSSProperties;
 };
 
 function LandingSymbol({
@@ -179,7 +165,7 @@ function Card({
 					}}
 				>
 					<div className={styles.cardScreenshotBody}>
-						<Image
+						<img
 							src={screenshot}
 							alt={screenshotAlt}
 							className={styles.cardScreenshot}
@@ -191,7 +177,6 @@ function Card({
 								left: `${(-screenshotCrop.left / SCREENSHOT_VISIBLE_WIDTH) * 100}%`,
 								top: `${(-screenshotCrop.top / SCREENSHOT_VISIBLE_HEIGHT) * 100}%`,
 							}}
-							unoptimized
 						/>
 					</div>
 				</div>
@@ -202,38 +187,26 @@ function Card({
 }
 
 export default function LandingPage() {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [hasScrolled, setHasScrolled] = useState(false);
-	const titleRef = useRef<HTMLHeadingElement>(null);
+	const [isMenuOpen, setIsMenuOpen] = createSignal(false);
+	const [hasScrolled, setHasScrolled] = createSignal(false);
+	let titleRef: HTMLHeadingElement | undefined;
 
-	useEffect(() => {
-		const updateScrollState = () => {
-			setHasScrolled(window.scrollY >= 20);
-		};
-
+	onMount(() => {
+		const updateScrollState = () => setHasScrolled(window.scrollY >= 20);
 		updateScrollState();
 		window.addEventListener("scroll", updateScrollState, { passive: true });
+		onCleanup(() => window.removeEventListener("scroll", updateScrollState));
 
-		return () => window.removeEventListener("scroll", updateScrollState);
-	}, []);
-
-	useEffect(() => {
-		if (!titleRef.current) {
-			return;
+		if (titleRef) {
+			const title = fitty(titleRef, {
+				minSize: 16,
+				maxSize: 1000,
+				multiLine: false,
+			});
+			document.fonts.ready.then(() => title.fit());
+			onCleanup(() => title.unsubscribe());
 		}
-
-		const title = fitty(titleRef.current, {
-			minSize: 16,
-			maxSize: 1000,
-			multiLine: false,
-		});
-
-		document.fonts.ready.then(() => title.fit());
-
-		return () => title.unsubscribe();
-	}, []);
-
-	const numbers = [...Array(100)].map((_, i) => i + 1);
+	});
 
 	return (
 		<div className={styles.shell}>
@@ -246,19 +219,19 @@ export default function LandingPage() {
 					<div className={styles.navLinkWrapper}>
 						<div
 							className={styles.navLink}
-							data-scrolled={hasScrolled}
+							data-scrolled={hasScrolled()}
 							onMouseEnter={() => setIsMenuOpen(true)}
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								maxHeight: isMenuOpen ? "264.2px" : "calc(1rem + 14px * 2)",
+								maxHeight: isMenuOpen() ? "264.2px" : "calc(1rem + 14px * 2)",
 								transition: "all 0.2s ease-in-out",
 							}}
 						>
 							<div className={`${styles.navRowThing} ${styles.navTop}`}>
 								<div
 									style={{
-										opacity: isMenuOpen ? 0.5 : 1,
+										opacity: isMenuOpen() ? 0.5 : 1,
 										transition: "opacity 0.2s ease-out",
 										paddingLeft: "5px",
 									}}
@@ -269,14 +242,14 @@ export default function LandingPage() {
 									name="chevron.right"
 									className={styles.navLinkIcon}
 									style={{
-										opacity: isMenuOpen ? 0.5 : 1,
-										rotate: isMenuOpen ? "90deg" : "0deg",
+										opacity: isMenuOpen() ? 0.5 : 1,
+										rotate: isMenuOpen() ? "90deg" : "0deg",
 										transition: "all 0.2s ease-in-out",
 									}}
 								/>
 							</div>
 
-							<Link
+							<a
 								className={styles.navRowThing2}
 								href="https://testflight.apple.com/join/DDUXPSq3"
 								target="_blank"
@@ -290,9 +263,9 @@ export default function LandingPage() {
 									name="chevron.right"
 									className={styles.navLinkIcon}
 								/>
-							</Link>
+							</a>
 
-							<Link className={styles.navRowThing2} href="/login">
+							<a className={styles.navRowThing2} href="/login">
 								<div>
 									<div>For Web</div>
 								</div>
@@ -300,7 +273,7 @@ export default function LandingPage() {
 									name="chevron.right"
 									className={styles.navLinkIcon}
 								/>
-							</Link>
+							</a>
 						</div>
 					</div>
 				</nav>
@@ -309,7 +282,7 @@ export default function LandingPage() {
 					<div className={styles.hero}>
 						<div className={styles.titleFrame}>
 							<h1
-								ref={titleRef}
+								ref={(element) => (titleRef = element)}
 								className={`${styles.title} ${styles.titleWithHDR}`}
 							>
 								Timetable
