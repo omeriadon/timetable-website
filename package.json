@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"fixture": "bun scripts/solid-migration-fixture.ts",
 		"start": "bun .output/server/index.mjs",
 		"typecheck": "tsc --noEmit --incremental false",
 		"test": "bun test",
