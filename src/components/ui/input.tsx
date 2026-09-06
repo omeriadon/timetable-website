@@ -3,9 +3,25 @@ import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./input.module.css";
 
-function Input(props: JSX.InputHTMLAttributes<HTMLInputElement> & { className?: string }) {
-	const [local, rest] = splitProps(props, ["class", "className"]);
-	return <input {...rest} data-slot="input" class={cn(styles.input, local.class ?? local.className)} />;
+function Input(
+	props: JSX.InputHTMLAttributes<HTMLInputElement> & {
+		className?: string;
+		autoComplete?: string;
+	},
+) {
+	const [local, rest] = splitProps(props, [
+		"class",
+		"className",
+		"autoComplete",
+	]);
+	return (
+		<input
+			{...rest}
+			autocomplete={local.autoComplete}
+			data-slot="input"
+			class={cn(styles.input, local.class ?? local.className)}
+		/>
+	);
 }
 
 export { Input };

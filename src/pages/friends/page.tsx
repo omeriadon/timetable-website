@@ -157,22 +157,24 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 								)}
 								draggable
 								onDragStart={(event) => {
-									event.dataTransfer.effectAllowed = "move";
-									event.dataTransfer.setData(
-										"text/plain",
-										friend.friend.userID,
-									);
+									const transfer = event.dataTransfer;
+									if (!transfer) return;
+									transfer.effectAllowed = "move";
+									transfer.setData("text/plain", friend.friend.userID);
 									setDraggedFriendID(friend.friend.userID);
 								}}
 								onDragOver={(event) => {
 									event.preventDefault();
-									event.dataTransfer.dropEffect = "move";
+									const transfer = event.dataTransfer;
+									if (!transfer) return;
+									transfer.dropEffect = "move";
 									setDragOverFriendID(friend.friend.userID);
 								}}
 								onDragLeave={() => setDragOverFriendID(null)}
 								onDrop={(event) => {
 									event.preventDefault();
-									const sourceID = event.dataTransfer.getData("text/plain");
+									const sourceID = event.dataTransfer?.getData("text/plain");
+									if (!sourceID) return;
 									void reorderFriends(sourceID, friend.friend.userID);
 									setDragOverFriendID(null);
 								}}
@@ -199,7 +201,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 											<span>
 												{friendScheduleTitle(
 													friend.timetable?.subjects ?? [],
-													now,
+													now(),
 												)}
 											</span>
 										</div>

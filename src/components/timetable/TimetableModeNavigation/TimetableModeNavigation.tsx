@@ -24,8 +24,8 @@ export default function TimetableModeNavigation() {
 				<Link
 					key={mode.href}
 					to={mode.href}
-					className={pathname === mode.href ? styles.activeMode : undefined}
-					aria-current={pathname === mode.href ? "page" : undefined}
+					className={pathname() === mode.href ? styles.activeMode : undefined}
+					aria-current={pathname() === mode.href ? "page" : undefined}
 				>
 					<Symbol name={mode.icon} className={styles.modeIcon} />
 					{mode.label}

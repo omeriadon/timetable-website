@@ -8,6 +8,7 @@ export default function AdminRecord({
 	formatValue,
 }: {
 	record: AdminRecordValue;
+	key?: string | number;
 	humanize: (key: string) => string;
 	formatValue: (value: unknown) => string;
 }) {

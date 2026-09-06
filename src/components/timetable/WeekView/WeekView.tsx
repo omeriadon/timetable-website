@@ -32,7 +32,7 @@ export default function WeekView({
 		day: number;
 		session: number;
 	} | null>(null);
-	const currentDayIndex = currentTimetableDayIndex(useTimetableNow());
+	const currentDayIndex = currentTimetableDayIndex(useTimetableNow()());
 	const selectedSubject = selectedSlot
 		? subjects.find((subject) =>
 				subject.slots.some(

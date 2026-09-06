@@ -14,6 +14,7 @@ export default function EventRow({
 	readOnly = false,
 }: {
 	event: CalendarEvent;
+	key?: string | number;
 	prominent?: boolean;
 	showDate?: boolean;
 	onChanged?: (event: CalendarEvent | null) => void;
@@ -42,13 +43,13 @@ export default function EventRow({
 				prominent ? styles.plannerEvent : styles.eventRow,
 			)}
 			onClick={() =>
-				openDrawer(() =>
+				openDrawer(() => (
 					<CalendarEventDrawer
 						event={event}
 						onChanged={onChanged ?? (() => undefined)}
 						readOnly={readOnly}
-					/>,
-				)
+					/>
+				))
 			}
 			aria-label={`Open ${event.title}`}
 		>

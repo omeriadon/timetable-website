@@ -8,7 +8,7 @@ import {
 import styles from "@/components/ui/drawer.module.css";
 
 type DrawerControls = {
-	openDrawer: (content: () => JSX.Element) => void;
+	openDrawer: (content: JSX.Element | (() => JSX.Element)) => void;
 	closeDrawer: () => void;
 };
 
@@ -24,13 +24,15 @@ export function DrawerProvider(props: { children: JSX.Element }) {
 	const [stack, setStack] = createSignal<DrawerEntry[]>([]);
 	let nextDrawerID = 0;
 
-	const openDrawer = (nextContent: () => JSX.Element) => {
+	const openDrawer = (nextContent: JSX.Element | (() => JSX.Element)) => {
 		nextDrawerID += 1;
+		const content =
+			typeof nextContent === "function" ? nextContent : () => nextContent;
 		setStack((current) => [
 			...current,
 			{
 				id: nextDrawerID,
-				content: nextContent,
+				content,
 				open: true,
 			},
 		]);
@@ -106,7 +108,7 @@ function DrawerLayer({
 		>
 			<DrawerContent>
 				<DrawerHeader>
-						<DrawerTitle class={styles.visuallyHidden}>Drawer</DrawerTitle>
+					<DrawerTitle class={styles.visuallyHidden}>Drawer</DrawerTitle>
 				</DrawerHeader>
 				<div class={styles.body}>{entry.content()}</div>
 				{stack[index + 1] ? (

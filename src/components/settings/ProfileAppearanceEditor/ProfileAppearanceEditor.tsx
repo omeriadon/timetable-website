@@ -231,7 +231,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 								max={5}
 								step={0.05}
 								value={draft.speed ?? 0.2}
-								onValueChange={(value) => update({ speed: value })}
+								onValueChange={(value: number) => update({ speed: value })}
 							/>
 						</label>
 						<label>
@@ -242,7 +242,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 								max={100}
 								step={1}
 								value={draft.noise ?? 64}
-								onValueChange={(value) => update({ noise: value })}
+								onValueChange={(value: number) => update({ noise: value })}
 							/>
 						</label>
 					</div>

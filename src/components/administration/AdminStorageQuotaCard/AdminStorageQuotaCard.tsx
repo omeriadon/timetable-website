@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { JSX } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/administration/Administration.module.css";
 import adminStyles from "@/components/administration/Administration.module.css";
@@ -7,7 +7,7 @@ type AdminStorageQuotaCardProps = {
 	title: string;
 	icon: string;
 	value: number;
-	children: ReactNode;
+	children: JSX.Element | JSX.Element[];
 };
 
 export default function AdminStorageQuotaCard({

@@ -5,6 +5,7 @@ declare module "solid-js" {
 		interface HTMLAttributes<T> {
 			className?: string;
 			key?: string | number;
+			htmlFor?: string;
 		}
 
 		interface CSSProperties {

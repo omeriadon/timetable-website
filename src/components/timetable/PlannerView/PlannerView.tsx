@@ -35,7 +35,7 @@ export default function PlannerView({
 	const now = useTimetableNow();
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
-	const today = startOfToday(now);
+	const today = startOfToday(now());
 	const todayTimestamp = today.getTime();
 	const futureEventEndTimestamp = futureEventEndDate(
 		futureEventRange,

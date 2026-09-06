@@ -1,8 +1,8 @@
 import Symbol from "@/components/controls/Symbol/Symbol";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import { ListRow } from "@/components/ui/list";
-import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { Link } from "@tanstack/solid-router";
+import type { JSX } from "solid-js";
 import styles from "@/components/settings/Settings.module.css";
 
 export default function NavigationRow({
@@ -18,7 +18,7 @@ export default function NavigationRow({
 	href: string;
 	icon: string;
 	direct?: boolean;
-	drawerContent?: ReactNode;
+	drawerContent?: JSX.Element;
 }) {
 	const row = (
 		<ListRow>

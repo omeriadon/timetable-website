@@ -22,7 +22,7 @@ export default function ArchivedEventsEditor() {
 	}, []);
 
 	const archived = useMemo(() => {
-		const today = new Date(now);
+		const today = new Date(now());
 		const todayStart = new Date(
 			today.getFullYear(),
 			today.getMonth(),

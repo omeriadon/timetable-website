@@ -40,7 +40,7 @@ export default function GradeAssessmentDrawer({
 		subjectID,
 		semester,
 		name: "",
-		date: nextWeekday(now),
+		date: nextWeekday(now()),
 		score: 0,
 		weighting: 1,
 		location: "exam" as const,

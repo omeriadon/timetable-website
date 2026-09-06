@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
@@ -20,7 +20,9 @@ export default function LoginPage() {
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	async function submit(event: FormEvent<HTMLFormElement>) {
+	async function submit(
+		event: SubmitEvent & { currentTarget: HTMLFormElement },
+	) {
 		event.preventDefault();
 		setError("");
 		setIsSubmitting(true);

@@ -1,4 +1,6 @@
-import { Tabs } from "@base-ui/react/tabs";
+import { Tabs as ReactTabs } from "@base-ui/react/tabs";
+
+const Tabs: any = ReactTabs;
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type {
@@ -154,7 +156,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 		<Tabs.Root
 			className={styles.detailDrawer}
 			value={tab}
-			onValueChange={(value) => {
+			onValueChange={(value: string) => {
 				if (value === "main" || value === "week" || value === "info") {
 					setTab(value);
 				}
@@ -201,7 +203,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							<Symbol name="building.2" />
 							School status
 						</span>
-						<strong>{friendScheduleTitle(subjects, now)}</strong>
+						<strong>{friendScheduleTitle(subjects, now())}</strong>
 					</div>
 				</section>
 				<section className={styles.detailSection}>
@@ -256,7 +258,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							</strong>
 						))}
 						{TIMETABLE_SESSIONS.map((session) => (
-							<Fragment key={session.value}>
+							<>
 								<strong className={styles.friendWeekSession}>
 									{session.label}
 								</strong>
@@ -276,7 +278,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 										</span>
 									);
 								})}
-							</Fragment>
+							</>
 						))}
 					</div>
 				</section>

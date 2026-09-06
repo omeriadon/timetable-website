@@ -9,7 +9,7 @@ import {
 	SaveIcon,
 	Settings2Icon,
 	TrashIcon,
-} from "lucide-react";
+} from "lucide-solid";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
@@ -431,7 +431,7 @@ export default function TestingPage() {
 								<DropdownMenuSeparator />
 								<DropdownMenuRadioGroup
 									value={menuTheme}
-									onValueChange={(value) => {
+									onValueChange={(value: string) => {
 										if (value) {
 											setMenuTheme(value);
 										}
