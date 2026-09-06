@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminAuthorityChangeDrawer from "@/components/administration/AdminAuthorityChangeDrawer/AdminAuthorityChangeDrawer";
@@ -13,26 +13,26 @@ import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminAdministratorsEditor() {
 	const { openDrawer } = useDrawer();
-	const [users, setUsers] = useState<AdministrationUser[]>([]);
-	const [query, setQuery] = useState("");
-	const [error, setError] = useState<string | null>(null);
+	const [users, setUsers] = createSignal<AdministrationUser[]>([]);
+	const [query, setQuery] = createSignal("");
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<AdministrationUser[]>("v1/administration/users")
 			.then(setUsers)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
-	const filtered = useMemo(() => {
-		const normalized = query.trim().toLowerCase();
+	const filtered = createMemo(() => {
+		const normalized = query().trim().toLowerCase();
 		return normalized
-			? users.filter((user) =>
+			? users().filter((user) =>
 					`${user.displayName} ${user.email}`
 						.toLowerCase()
 						.includes(normalized),
 				)
-			: users;
-	}, [query, users]);
+			: users();
+	});
 
 	const saveUser = (updated: AdministrationUser) => {
 		setUsers((current) =>
@@ -46,19 +46,19 @@ export default function AdminAdministratorsEditor() {
 				<label className={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
-						value={query}
+						value={query()}
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder="Search users"
 					/>
 				</label>
 			</div>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{filtered.map((user) => {
+				{filtered().map((user) => {
 					const isSystemOwner = user.authority === "systemOwner";
 					const isAdministrator = user.authority === "administrator";
 					return (
@@ -96,9 +96,9 @@ export default function AdminAdministratorsEditor() {
 						</Button>
 					);
 				})}
-				{!filtered.length ? (
+				{!filtered().length ? (
 					<p className={styles.loading}>
-						{users.length ? "No matching users." : "Loading administrators…"}
+						{users().length ? "No matching users." : "Loading administrators…"}
 					</p>
 				) : null}
 			</List>
