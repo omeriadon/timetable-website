@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createMemo, createSignal } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
@@ -43,23 +43,24 @@ export default function AdminUserEditorSheet({
 	onDeleted,
 	onClose,
 }: AdminUserEditorSheetProps) {
-	const [displayName, setDisplayName] = useState(user?.displayName ?? "");
-	const [email, setEmail] = useState(user?.email ?? "");
-	const [password, setPassword] = useState("");
-	const [authority, setAuthority] = useState(user?.authority ?? "user");
+	const [displayName, setDisplayName] = createSignal(user?.displayName ?? "");
+	const [email, setEmail] = createSignal(user?.email ?? "");
+	const [password, setPassword] = createSignal("");
+	const [authority, setAuthority] = createSignal(user?.authority ?? "user");
 
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [deleteOpen, setDeleteOpen] = useState(false);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
+	const [deleteOpen, setDeleteOpen] = createSignal(false);
 
-	const canSave =
-		!saving &&
-		displayName.trim().length > 0 &&
-		email.trim().length > 0 &&
-		(user !== undefined || password.length >= 8);
+	const canSave = createMemo(() =>
+		!saving() &&
+		displayName().trim().length > 0 &&
+		email().trim().length > 0 &&
+		(user !== undefined || password().length >= 8),
+	);
 
 	const save = async () => {
-		if (!canSave) return;
+		if (!canSave()) return;
 
 		setSaving(true);
 		setError(null);
@@ -74,13 +75,13 @@ export default function AdminUserEditorSheet({
 				body: JSON.stringify(
 					user
 						? {
-								displayName: displayName.trim(),
-								email: email.trim(),
-								password: password || null,
+								displayName: displayName().trim(),
+								email: email().trim(),
+								password: password() || null,
 							}
 						: {
-								displayName: displayName.trim(),
-								email: email.trim(),
+								displayName: displayName().trim(),
+								email: email().trim(),
 								password,
 							},
 				),
@@ -89,8 +90,8 @@ export default function AdminUserEditorSheet({
 			if (
 				user &&
 				isSystemOwner &&
-				authority !== user.authority &&
-				authority !== "systemOwner"
+				authority() !== user.authority &&
+				authority() !== "systemOwner"
 			) {
 				updated = await apiRequest<AdministrationUser>(
 					`v1/administration/users/${user.id}/authority`,
@@ -115,7 +116,7 @@ export default function AdminUserEditorSheet({
 	};
 
 	const remove = async () => {
-		if (!user || saving) return;
+		if (!user || saving()) return;
 
 		setSaving(true);
 		setError(null);
@@ -155,10 +156,10 @@ export default function AdminUserEditorSheet({
 					<label>
 						Display name
 						<Input
-							value={displayName}
+							value={displayName()}
 							onChange={(event) => setDisplayName(event.target.value)}
 							autoComplete="name"
-							disabled={saving}
+							disabled={saving()}
 						/>
 					</label>
 
@@ -166,10 +167,10 @@ export default function AdminUserEditorSheet({
 						Email
 						<Input
 							type="email"
-							value={email}
+							value={email()}
 							onChange={(event) => setEmail(event.target.value)}
 							autoComplete="email"
-							disabled={saving}
+							disabled={saving()}
 						/>
 					</label>
 
@@ -177,11 +178,11 @@ export default function AdminUserEditorSheet({
 						{user ? "New password (optional)" : "Password"}
 						<Input
 							type="password"
-							value={password}
+							value={password()}
 							onChange={(event) => setPassword(event.target.value)}
 							autoComplete="new-password"
 							minLength={8}
-							disabled={saving}
+							disabled={saving()}
 						/>
 					</label>
 
@@ -216,7 +217,7 @@ export default function AdminUserEditorSheet({
 
 				{error && (
 					<p className={styles.detailMuted} role="alert">
-						{error}
+						{error()}
 					</p>
 				)}
 
@@ -226,22 +227,22 @@ export default function AdminUserEditorSheet({
 							type="button"
 							variant="destructive"
 							onClick={() => setDeleteOpen(true)}
-							disabled={saving}
+							disabled={saving()}
 						>
 							<Symbol name="trash" fallback="×" />
 							Delete
 						</Button>
 					)}
 
-					<Button type="button" onClick={() => void save()} disabled={!canSave}>
+					<Button type="button" onClick={() => void save()} disabled={!canSave()}>
 						<Symbol name="checkmark" fallback="✓" />
-						{saving ? "Saving…" : user ? "Save" : "Create"}
+						{saving() ? "Saving…" : user ? "Save" : "Create"}
 					</Button>
 				</div>
 			</div>
 
 			{user && (
-				<Drawer open={deleteOpen} onOpenChange={setDeleteOpen}>
+				<Drawer open={deleteOpen()} onOpenChange={setDeleteOpen}>
 					<DrawerContent>
 						<DrawerHeader>
 							<DrawerTitle>Delete account</DrawerTitle>
@@ -251,7 +252,7 @@ export default function AdminUserEditorSheet({
 						</DrawerHeader>
 
 						<DrawerFooter>
-							<DrawerClose variant="outline" disabled={saving}>
+							<DrawerClose variant="outline" disabled={saving()}>
 								Cancel
 							</DrawerClose>
 
@@ -259,10 +260,10 @@ export default function AdminUserEditorSheet({
 								type="button"
 								variant="destructive"
 								onClick={() => void remove()}
-								disabled={saving}
+								disabled={saving()}
 							>
 								<Symbol name="trash" fallback="×" />
-								{saving ? "Deleting…" : "Delete account"}
+								{saving() ? "Deleting…" : "Delete account"}
 							</Button>
 						</DrawerFooter>
 					</DrawerContent>
