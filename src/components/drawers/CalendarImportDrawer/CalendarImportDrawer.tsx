@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { OwnerTimetable } from "@/features/timetable/types";
 import {
 	buildImportedSubjects,
@@ -24,10 +24,10 @@ export default function CalendarImportDrawer({
 	onImported,
 }: CalendarImportDrawerProps) {
 	const { closeDrawer, openDrawer } = useDrawer();
-	const [fileName, setFileName] = useState<string | null>(null);
-	const [events, setEvents] = useState<ParsedCalendarEvent[]>([]);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [fileName, setFileName] = createSignal<string | null>(null);
+	const [events, setEvents] = createSignal<ParsedCalendarEvent[]>([]);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const readFile = async (file: File) => {
 		setFileName(file.name);
@@ -42,11 +42,11 @@ export default function CalendarImportDrawer({
 	};
 
 	const performImport = async (throwOnError = false) => {
-		if (!events.length || saving) return;
+		if (!events().length || saving()) return;
 		setSaving(true);
 		setError(null);
 		try {
-			const subjects = buildImportedSubjects(events);
+			const subjects = buildImportedSubjects(events());
 			const updated = await apiRequest<OwnerTimetable>("v1/timetables/owner", {
 				method: "PUT",
 				body: JSON.stringify({
@@ -66,7 +66,7 @@ export default function CalendarImportDrawer({
 	};
 
 	const importCalendar = () => {
-		if (!events.length || saving) return;
+		if (!events().length || saving()) return;
 		if (timetable?.subjects.length) {
 			openDrawer(
 				<ConfirmationDrawer
@@ -99,7 +99,7 @@ export default function CalendarImportDrawer({
 					</p>
 					<label className={styles.filePicker}>
 						<Symbol name="doc" fallback="＋" />
-						<span>{fileName ?? "Choose calendar file"}</span>
+						<span>{fileName() ?? "Choose calendar file"}</span>
 						<Input
 							type="file"
 							accept=".ics,text/calendar"
@@ -109,26 +109,26 @@ export default function CalendarImportDrawer({
 							}}
 						/>
 					</label>
-					{events.length ? (
+					{events().length ? (
 						<p className={styles.detailMuted}>
-							{events.length} events from the next six weeks ready to import.
+							{events().length} events from the next six weeks ready to import.
 						</p>
 					) : null}
 				</div>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter>
 				<Button
 					aria-label="Import timetable"
 					onClick={() => void importCalendar()}
-					disabled={!events.length || saving}
+					disabled={!events().length || saving()}
 				>
 					<Symbol name="arrow.down.app" fallback="↓" />
-					{saving ? "Importing…" : "Import timetable"}
+					{saving() ? "Importing…" : "Import timetable"}
 				</Button>
 			</DrawerFooter>
 		</div>
