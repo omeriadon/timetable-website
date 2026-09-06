@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import EventNotificationScheduleDrawer, {
@@ -29,13 +29,13 @@ export default function NotificationSettingsEditor({
 }: {
 	initial: Settings;
 }) {
-	const [draft, setDraft] = useState(initial);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [draft, setDraft] = createSignal(initial);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
 	const saveGeneral = async (next: Settings) => {
-		const previous = draft;
+		const previous = draft();
 		setDraft(next);
 		setSaving(true);
 		setError(null);
@@ -57,7 +57,7 @@ export default function NotificationSettingsEditor({
 	};
 
 	const saveNotifications = async (next: Settings) => {
-		const previous = draft;
+		const previous = draft();
 		setDraft(next);
 		setSaving(true);
 		setError(null);
@@ -84,9 +84,9 @@ export default function NotificationSettingsEditor({
 	};
 
 	const updateGeneral = (changes: Partial<Settings>) =>
-		void saveGeneral({ ...draft, ...changes });
+		void saveGeneral({ ...draft(), ...changes });
 	const updateNotifications = (changes: Partial<Settings>) =>
-		void saveNotifications({ ...draft, ...changes });
+		void saveNotifications({ ...draft(), ...changes });
 	const formatLeadTimes = (values: number[]) =>
 		values.length ? values.map((value) => `${value}m`).join(", ") : "None";
 	const openLeadTimes = (
@@ -98,14 +98,14 @@ export default function NotificationSettingsEditor({
 			<NotificationLeadTimesDrawer
 				title={title}
 				description={description}
-				selection={draft[key]}
+				selection={draft()[key]}
 				onSave={async (selection) => updateNotifications({ [key]: selection })}
 			/>,
 		);
 	};
 	const addSchedule = (schedule: EventNotificationSchedule) => {
 		if (
-			draft.eventNotificationSchedules.some(
+			draft().eventNotificationSchedules.some(
 				(item) =>
 					item.hour === schedule.hour &&
 					item.minute === schedule.minute &&
@@ -116,14 +116,14 @@ export default function NotificationSettingsEditor({
 		}
 		updateNotifications({
 			eventNotificationSchedules: [
-				...draft.eventNotificationSchedules,
+				...draft().eventNotificationSchedules,
 				schedule,
 			],
 		});
 	};
 	const removeSchedule = (schedule: EventNotificationSchedule) => {
 		updateNotifications({
-			eventNotificationSchedules: draft.eventNotificationSchedules.filter(
+			eventNotificationSchedules: draft().eventNotificationSchedules.filter(
 				(item) =>
 					item.hour !== schedule.hour ||
 					item.minute !== schedule.minute ||
@@ -150,8 +150,8 @@ export default function NotificationSettingsEditor({
 					<Symbol name="calendar.badge.clock" />
 					<span className={styles.label}>Delete Past Calendar Events</span>
 					<Select
-						value={draft.calendarEventAutoDeleteDays}
-						disabled={saving}
+						value={draft().calendarEventAutoDeleteDays}
+						disabled={saving()}
 						onValueChange={(value) => {
 							if (value !== null) {
 								updateGeneral({
@@ -162,7 +162,7 @@ export default function NotificationSettingsEditor({
 					>
 						<SelectTrigger aria-label="Delete Past Calendar Events">
 							<SelectValue>
-								{deleteEventLabel(draft.calendarEventAutoDeleteDays)}
+								{deleteEventLabel(draft().calendarEventAutoDeleteDays)}
 							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>
@@ -175,24 +175,24 @@ export default function NotificationSettingsEditor({
 				</ListRow>
 				<SettingToggle
 					label="Allow Class Notifications"
-					enabled={draft.notificationsEnabled}
+					enabled={draft().notificationsEnabled}
 					onClick={() =>
 						updateNotifications({
-							notificationsEnabled: !draft.notificationsEnabled,
+							notificationsEnabled: !draft().notificationsEnabled,
 						})
 					}
-					disabled={saving}
+					disabled={saving()}
 				/>
 				<SettingToggle
 					label="Special Event Notifications"
-					enabled={draft.broadcastNotificationsEnabled}
+					enabled={draft().broadcastNotificationsEnabled}
 					onClick={() =>
 						updateNotifications({
 							broadcastNotificationsEnabled:
-								!draft.broadcastNotificationsEnabled,
+								!draft().broadcastNotificationsEnabled,
 						})
 					}
-					disabled={saving}
+					disabled={saving()}
 				/>
 				<Button
 					type="button"
@@ -204,13 +204,13 @@ export default function NotificationSettingsEditor({
 							"Send notifications early by these intervals.",
 						)
 					}
-					disabled={saving}
+					disabled={saving()}
 				>
 					<ListRow>
 						<Symbol name="bell.badge" />
 						<span className={styles.label}>Send Notifications Early By</span>
 						<span className={styles.detail}>
-							{formatLeadTimes(draft.notificationLeadTimes)}
+							{formatLeadTimes(draft().notificationLeadTimes)}
 						</span>
 						<Symbol name="chevron.right" />
 					</ListRow>
@@ -225,13 +225,13 @@ export default function NotificationSettingsEditor({
 							"Applies before first period and after recess or lunch.",
 						)
 					}
-					disabled={saving}
+					disabled={saving()}
 				>
 					<ListRow>
 						<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
 						<span className={styles.label}>Before Class or From a Break</span>
 						<span className={styles.detail}>
-							{formatLeadTimes(draft.breakToPeriodNotificationLeadTimes)}
+							{formatLeadTimes(draft().breakToPeriodNotificationLeadTimes)}
 						</span>
 						<Symbol name="chevron.right" />
 					</ListRow>
@@ -245,7 +245,7 @@ export default function NotificationSettingsEditor({
 							Event Notifications
 						</span>
 					</ListSectionHeader>
-					{draft.eventNotificationSchedules
+					{draft().eventNotificationSchedules
 						.slice()
 						.sort(
 							(left, right) =>
@@ -263,7 +263,7 @@ export default function NotificationSettingsEditor({
 								<Button
 									type="button"
 									onClick={() => removeSchedule(schedule)}
-									disabled={saving}
+									disabled={saving()}
 									aria-label={`Remove ${formatTime(schedule)} event notification`}
 								>
 									<Symbol name="minus" />
@@ -286,9 +286,9 @@ export default function NotificationSettingsEditor({
 					</Button>
 				</ListSection>
 			</List>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 		</>
