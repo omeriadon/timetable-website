@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { BroadcastNotificationRecord } from "../AdminBroadcastHistoryEditor/AdminBroadcastHistoryEditor";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
@@ -14,11 +14,11 @@ export default function AdminBroadcastDetailDrawer({
 	record: BroadcastNotificationRecord;
 	onChanged: (record: BroadcastNotificationRecord) => void;
 }) {
-	const [status, setStatus] = useState<string | null>(null);
-	const [deleting, setDeleting] = useState(false);
+	const [status, setStatus] = createSignal<string | null>(null);
+	const [deleting, setDeleting] = createSignal(false);
 
 	const remove = async () => {
-		if (deleting || record.isDeleted) return;
+		if (deleting() || record.isDeleted) return;
 		setDeleting(true);
 		setStatus(null);
 		try {
@@ -84,9 +84,9 @@ export default function AdminBroadcastDetailDrawer({
 					/>
 				) : null}
 			</section>
-			{status ? (
+			{status() ? (
 				<p className={styles.detailMuted} role="status">
-					{status}
+					{status()}
 				</p>
 			) : null}
 			{!record.isDeleted ? (
@@ -96,10 +96,10 @@ export default function AdminBroadcastDetailDrawer({
 						variant="destructive"
 						aria-label="Delete notification"
 						onClick={() => void remove()}
-						disabled={deleting}
+						disabled={deleting()}
 					>
 						<Symbol name="trash" fallback="−" />
-						{deleting ? "Deleting…" : "Delete Notification"}
+						{deleting() ? "Deleting…" : "Delete Notification"}
 					</Button>
 				</DrawerFooter>
 			) : null}
