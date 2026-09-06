@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import CalendarEventDrawer from "@/components/drawers/CalendarEventDrawer/CalendarEventDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -11,29 +11,29 @@ import styles from "@/components/settings/Settings.module.css";
 
 export default function ArchivedEventsEditor() {
 	const { openDrawer } = useDrawer();
-	const [events, setEvents] = useState<CalendarEvents | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [events, setEvents] = createSignal<CalendarEvents | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const now = useTimetableNow();
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<CalendarEvents>("v1/events")
 			.then(setEvents)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
-	const archived = useMemo(() => {
+	const archived = createMemo(() => {
 		const today = new Date(now());
 		const todayStart = new Date(
 			today.getFullYear(),
 			today.getMonth(),
 			today.getDate(),
 		);
-		return [...(events?.globalEvents ?? []), ...(events?.privateEvents ?? [])]
+		return [...(events()?.globalEvents ?? []), ...(events()?.privateEvents ?? [])]
 			.filter((event) => eventDate(event) < todayStart)
 			.sort(
 				(left, right) => eventDate(right).getTime() - eventDate(left).getTime(),
 			);
-	}, [events, now]);
+	});
 
 	const update = (event: CalendarEvent | null, removedID?: string) => {
 		setEvents((current) => {
@@ -58,14 +58,14 @@ export default function ArchivedEventsEditor() {
 
 	return (
 		<>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{archived.length ? (
-					archived.map((event) => (
+				{archived().length ? (
+					archived().map((event) => (
 						<Button
 							key={event.id}
 							type="button"
@@ -75,7 +75,7 @@ export default function ArchivedEventsEditor() {
 									<CalendarEventDrawer
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
-										readOnly={event.isGlobal && !events?.canManageGlobalEvents}
+										readOnly={event.isGlobal && !events()?.canManageGlobalEvents}
 										allowsTagEditing={false}
 									/>,
 								)
@@ -97,7 +97,7 @@ export default function ArchivedEventsEditor() {
 					))
 				) : (
 					<p className={styles.loading}>
-						{events ? "No archived events." : "Loading archived events…"}
+						{events() ? "No archived events." : "Loading archived events…"}
 					</p>
 				)}
 			</List>

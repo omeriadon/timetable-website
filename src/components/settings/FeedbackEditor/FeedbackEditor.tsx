@@ -9,25 +9,25 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "./FeedbackEditor.module.css";
 
 export default function FeedbackEditor() {
-	const [category, setCategory] = useState("Feedback");
-	const [message, setMessage] = useState("");
-	const [status, setStatus] = useState<string | null>(null);
-	const [sending, setSending] = useState(false);
+	const [category, setCategory] = createSignal("Feedback");
+	const [message, setMessage] = createSignal("");
+	const [status, setStatus] = createSignal<string | null>(null);
+	const [sending, setSending] = createSignal(false);
 
 	const submit = async () => {
-		if (!message.trim() || sending) return;
+		if (!message().trim() || sending()) return;
 		setSending(true);
 		setStatus(null);
 		try {
 			await apiRequest("v1/report/feedback", {
 				method: "POST",
-				body: JSON.stringify({ category, message: message.trim() }),
+				body: JSON.stringify({ category: category(), message: message().trim() }),
 			});
 			setMessage("");
 			setStatus("Feedback sent.");
@@ -53,7 +53,7 @@ export default function FeedbackEditor() {
 						}}
 					>
 						<SelectTrigger id="feedback-category">
-							<SelectValue>{category}</SelectValue>
+							<SelectValue>{category()}</SelectValue>
 						</SelectTrigger>
 
 						<SelectContent>
@@ -64,19 +64,19 @@ export default function FeedbackEditor() {
 				</ListRow>
 				<div className={styles.messageField}>
 					<label htmlFor="feedback-message">
-						Describe the {category.toLowerCase()}
+						Describe the {category().toLowerCase()}
 					</label>
 					<Textarea
 						id="feedback-message"
-						value={message}
+						value={message()}
 						maxLength={4000}
 						rows={8}
 						onChange={(event) => setMessage(event.target.value)}
 					/>
 				</div>
-				{status ? (
+				{status() ? (
 					<p className={styles.status} role="status">
-						{status}
+						{status()}
 					</p>
 				) : null}
 			</List>
@@ -86,10 +86,10 @@ export default function FeedbackEditor() {
 					fullWidth
 					aria-label="Send feedback"
 					onClick={() => void submit()}
-					disabled={sending || !message.trim()}
+					disabled={sending() || !message().trim()}
 				>
 					<Symbol name="checkmark" fallback="✓" />
-					{sending ? "Sending…" : "Send Feedback"}
+					{sending() ? "Sending…" : "Send Feedback"}
 				</Button>
 			</DrawerFooter>
 		</>

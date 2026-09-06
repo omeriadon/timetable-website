@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { AboutContributor } from "@/lib/api/contracts";
 import styles from "./AboutEditor.module.css";
 
 export default function AboutEditor() {
-	const [contributors, setContributors] = useState<AboutContributor[]>([]);
-	const [error, setError] = useState<string | null>(null);
+	const [contributors, setContributors] = createSignal<AboutContributor[]>([]);
+	const [error, setError] = createSignal<string | null>(null);
 
-	const [isLocalhost, setIsLocalhost] = useState(false);
+	const [isLocalhost, setIsLocalhost] = createSignal(false);
 
-	useEffect(() => {
+	onMount(() => {
 		const hostname = window.location.hostname;
 		setIsLocalhost(
 			hostname === "localhost" ||
@@ -21,13 +21,13 @@ export default function AboutEditor() {
 					),
 				),
 		);
-	}, []);
+	});
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<AboutContributor[]>("v1/about")
 			.then(setContributors)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
 	return (
 		<section className={styles.page}>
@@ -41,7 +41,7 @@ export default function AboutEditor() {
 						aria-hidden="true"
 					/>
 
-					{isLocalhost && (
+					{isLocalhost() && (
 						<div className={styles.overlay}>
 							<Symbol name="ant" fallback="⚠" />
 							<span>DEBUG</span>
@@ -55,21 +55,21 @@ export default function AboutEditor() {
 					className={styles.card}
 					aria-labelledby="about-development-heading"
 				>
-					{contributors.map((contributor) => (
+					{contributors().map((contributor) => (
 						<div className={styles.contributor} key={contributor.id}>
 							<span>{contributor.name}</span>
 							<span>{contributor.role}</span>
 						</div>
 					))}
 
-					{!contributors.length && !error && (
+					{!contributors().length && !error() && (
 						<p className={styles.status}>Loading contributors…</p>
 					)}
 				</section>
 
-				{error && (
+				{error() && (
 					<p className={styles.error} role="alert">
-						{error}
+						{error()}
 					</p>
 				)}
 
