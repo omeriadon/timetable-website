@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { createSignal } from "solid-js"
 import type {
 	OwnerTimetable,
 	TimetableSlot,
@@ -32,12 +32,12 @@ export default function TimetableEditorDrawer({
 }) {
 	const { closeDrawer, openDrawer } = useDrawer();
 	const router = useRouter();
-	const [subjects, setSubjects] = useState<TimetableSubject[]>(
+	const [subjects, setSubjects] = createSignal<TimetableSubject[]>(
 		timetable.subjects,
 	);
-	const [isSearchable, setIsSearchable] = useState(timetable.isSearchable);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [isSearchable, setIsSearchable] = createSignal(timetable.isSearchable);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const updateSubject = (id: string, changes: Partial<TimetableSubject>) =>
 		setSubjects((current) =>
@@ -95,7 +95,7 @@ export default function TimetableEditorDrawer({
 		);
 	};
 	const toggleSlot = (subjectID: string, slot: TimetableSlot) => {
-		const subject = subjects.find((item) => item.id === subjectID);
+		const subject = subjects().find((item) => item.id === subjectID);
 		if (
 			subject?.slots.some(
 				(candidate) =>
@@ -106,7 +106,7 @@ export default function TimetableEditorDrawer({
 			return;
 		}
 
-		const conflict = subjects.find(
+		const conflict = subjects().find(
 			(item) =>
 				item.id !== subjectID &&
 				item.slots.some(
@@ -138,9 +138,9 @@ export default function TimetableEditorDrawer({
 			const updated = await apiRequest<OwnerTimetable>("v1/timetables/owner", {
 				method: "PUT",
 				body: JSON.stringify({
-					subjects,
+					subjects: subjects(),
 					expectedRevision: timetable.revision,
-					isSearchable,
+					isSearchable: isSearchable(),
 				}),
 			});
 			onSaved(updated);
@@ -162,7 +162,7 @@ export default function TimetableEditorDrawer({
 				</div>
 			</header>
 			<section className={styles.detailCard}>
-				{subjects.map((subject) => (
+				{subjects().map((subject) => (
 					<div key={subject.id} className={styles.editorSubject}>
 						<div className={styles.editorFields}>
 							<Input
@@ -265,15 +265,15 @@ export default function TimetableEditorDrawer({
 				<label className={styles.editorCheck}>
 					<Toggle
 						aria-label="Allow friends to compare my timetable"
-						checked={isSearchable}
+						checked={isSearchable()}
 						onCheckedChange={setIsSearchable}
 					/>{" "}
 					Allow friends to compare my timetable
 				</label>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter>
@@ -281,10 +281,10 @@ export default function TimetableEditorDrawer({
 					fullWidth
 					aria-label="Save timetable"
 					onClick={() => void save()}
-					disabled={saving}
+					disabled={saving()}
 				>
 					<Symbol name="checkmark" />
-					{saving ? "Saving…" : "Save Timetable"}
+					{saving() ? "Saving…" : "Save Timetable"}
 				</Button>
 			</DrawerFooter>
 		</div>
