@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { AdminCalendarEntry } from "../AdminCalendarEditor/AdminCalendarEditor";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -17,11 +17,11 @@ export default function AdminCalendarEntryDrawer({
 	onSaved: () => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [label, setLabel] = useState(entry?.label ?? "");
-	const [startDate, setStartDate] = useState(toInput(entry?.startDate));
-	const [endDate, setEndDate] = useState(toInput(entry?.endDate));
-	const [error, setError] = useState<string | null>(null);
-	const [saving, setSaving] = useState(false);
+	const [label, setLabel] = createSignal(entry?.label ?? "");
+	const [startDate, setStartDate] = createSignal(toInput(entry?.startDate));
+	const [endDate, setEndDate] = createSignal(toInput(entry?.endDate));
+	const [error, setError] = createSignal<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
 	const save = async () => {
 		setSaving(true);
 		setError(null);
@@ -32,9 +32,9 @@ export default function AdminCalendarEntryDrawer({
 					method: entry ? "PUT" : "POST",
 					body: JSON.stringify({
 						kind,
-						label: label.trim(),
-						startDate: fromInput(startDate),
-						endDate: endDate ? fromInput(endDate) : null,
+						label: label().trim(),
+						startDate: fromInput(startDate()),
+						endDate: endDate() ? fromInput(endDate()) : null,
 					}),
 				},
 			);
@@ -72,7 +72,7 @@ export default function AdminCalendarEntryDrawer({
 				<label>
 					Label
 					<Input
-						value={label}
+						value={label()}
 						onChange={(event) => setLabel(event.target.value)}
 					/>
 				</label>
@@ -80,7 +80,7 @@ export default function AdminCalendarEntryDrawer({
 					Start date
 					<Input
 						type="date"
-						value={startDate}
+						value={startDate()}
 						onChange={(event) => setStartDate(event.target.value)}
 					/>
 				</label>
@@ -88,14 +88,14 @@ export default function AdminCalendarEntryDrawer({
 					End date
 					<Input
 						type="date"
-						value={endDate}
+						value={endDate()}
 						onChange={(event) => setEndDate(event.target.value)}
 					/>
 				</label>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
@@ -105,7 +105,7 @@ export default function AdminCalendarEntryDrawer({
 						flexible
 						aria-label="Delete calendar entry"
 						onClick={() => void remove()}
-						disabled={saving}
+						disabled={saving()}
 					>
 						Delete
 					</Button>
@@ -114,9 +114,9 @@ export default function AdminCalendarEntryDrawer({
 					flexible
 					aria-label="Save calendar entry"
 					onClick={() => void save()}
-					disabled={saving || !label.trim() || !startDate}
+					disabled={saving() || !label().trim() || !startDate}
 				>
-					{saving ? "Saving…" : "Save"}
+					{saving() ? "Saving…" : "Save"}
 				</Button>
 			</DrawerFooter>
 		</div>
