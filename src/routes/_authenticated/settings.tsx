@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/settings/page";
 import { loadSettings } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/settings")({
@@ -7,7 +7,10 @@ export const Route = createFileRoute("/_authenticated/settings")({
 		account: context.account,
 	}),
 	head: () => ({ meta: [{ title: "Settings · Timetable" }] }),
-	component: () => <Page data={Route.useLoaderData()} />,
+	component: () => {
+		const data = Route.useLoaderData();
+		return <Page data={data()} />;
+	},
 	pendingComponent: () => <p role="status">Loading settings…</p>,
 	errorComponent: ({ error }) => (
 		<p role="alert">Unable to load settings: {error.message}</p>

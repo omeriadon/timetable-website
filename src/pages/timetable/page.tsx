@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
-import { useEffect, useState } from "react";
+import { createEffect, createSignal } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import TimetableEditorDrawer from "@/components/drawers/TimetableEditorDrawer/TimetableEditorDrawer";
@@ -10,33 +10,33 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import type { DashboardData } from "@/lib/server/dashboard.functions";
 
 export default function Timetable({ dashboard }: { dashboard: DashboardData }) {
-	const [timetable, setTimetable] = useState<OwnerTimetable | null>(
+	const [timetable, setTimetable] = createSignal<OwnerTimetable | null>(
 		dashboard.timetable,
 	);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const setToolbar = useToolbar();
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => {
+	createEffect(() => {
 		setToolbar({ title: "Timetable" });
-	}, [setToolbar]);
+	});
 
 	return (
 		<main>
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
+			{error() ? (
+				<p class={styles.error} role="alert">
+					{error()}
 				</p>
 			) : null}
-			{timetable ? (
+			{timetable() ? (
 				<>
-					<div className={styles.actions}>
+					<div class={styles.actions}>
 						<Button
 							type="button"
 							onClick={() =>
-								openDrawer(
+								openDrawer(() =>
 									<TimetableEditorDrawer
-										timetable={timetable}
+										timetable={timetable()!}
 										onSaved={setTimetable}
 									/>,
 								)
@@ -46,10 +46,10 @@ export default function Timetable({ dashboard }: { dashboard: DashboardData }) {
 							Edit Timetable
 						</Button>
 					</div>
-					<WeekTimetable subjects={timetable.subjects} />
+					<WeekTimetable subjects={timetable()!.subjects} />
 				</>
 			) : (
-				<p className={styles.message}>Loading timetable…</p>
+				<p class={styles.message}>Loading timetable…</p>
 			)}
 		</main>
 	);

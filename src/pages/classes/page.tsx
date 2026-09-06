@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { createEffect, For } from "solid-js";
 import type { ClassesData } from "@/lib/server/page-data.functions";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import styles from "./page.module.css";
@@ -10,36 +10,36 @@ export default function ClassesPage({ data }: { data: ClassesData }) {
 	const { timetable, friends } = data;
 	const setToolbar = useToolbar();
 
-	useEffect(() => setToolbar({ title: "Classes" }), [setToolbar]);
+	createEffect(() => setToolbar({ title: "Classes" }));
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{
-				<section className={styles.card}>
-					{timetable.subjects.map((subject) => (
+				<section class={styles.card}>
+					<For each={timetable.subjects}>{(subject) => (
 						<DrawerTrigger
 							key={subject.id}
-							className={styles.rowButton}
+							class={styles.rowButton}
 							ariaLabel={`Open ${subject.id}`}
-							content={
+							content={() => (
 								<SubjectDetailDrawer subject={subject} friends={friends} />
-							}
+							)}
 						>
-							<article className={styles.row}>
-								<span className={styles.symbol}>
-									<Symbol name={subject.symbol} className={styles.symbolIcon} />
+							<article class={styles.row}>
+								<span class={styles.symbol}>
+									<Symbol name={subject.symbol} class={styles.symbolIcon} />
 								</span>
 								<span>
-									<b className={styles.label}>{subject.id}</b>
+									<b class={styles.label}>{subject.id}</b>
 									<small>
 										{subject.slots.length} class
 										{subject.slots.length === 1 ? "" : "es"} each week
 									</small>
 								</span>
-								<Symbol name="chevron.right" className={styles.chevronIcon} />
+								<Symbol name="chevron.right" class={styles.chevronIcon} />
 							</article>
 						</DrawerTrigger>
-					))}
+					)}</For>
 				</section>
 			}
 		</main>

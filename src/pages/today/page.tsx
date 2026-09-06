@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { createEffect, createMemo } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
@@ -14,34 +14,33 @@ export default function TodayPage({ dashboard }: { dashboard: DashboardData }) {
 	const { data, error, isLoading } = useDashboard(dashboard);
 	const now = useTimetableNow();
 
-	useEffect(() => {
+	createEffect(() => {
 		setToolbar({ title: "Today" });
-	}, [setToolbar]);
+	});
 
-	const events = useMemo(
-		() => visibleEvents(data?.events, data?.settings.futureEventRange, now),
-		[data, now],
+	const events = createMemo(() =>
+		visibleEvents(data()?.events, data()?.settings.futureEventRange, now()),
 	);
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<TimetableModeNavigation />
-			{isLoading ? (
-				<p className={styles.message}>Loading your timetable…</p>
+			{isLoading() ? (
+				<p class={styles.message}>Loading your timetable…</p>
 			) : null}
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
+			{error() ? (
+				<p class={styles.error} role="alert">
+					{error()}
 				</p>
 			) : null}
-			{data ? (
+			{data() ? (
 				<TodayView
-					events={events}
-					subjects={data.timetable.subjects}
-					grades={data.grades}
-					schoolCalendar={data.schoolCalendar}
-					schoolWeather={data.schoolWeather}
-					canManageGlobalEvents={data.events.canManageGlobalEvents}
+					events={events()}
+					subjects={data()!.timetable.subjects}
+					grades={data()!.grades}
+					schoolCalendar={data()!.schoolCalendar}
+					schoolWeather={data()!.schoolWeather}
+					canManageGlobalEvents={data()!.events.canManageGlobalEvents}
 				/>
 			) : null}
 		</main>

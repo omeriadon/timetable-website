@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/administration/[section]/page";
 import { loadAdministrationSection } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/administration/$section")(
@@ -17,8 +17,9 @@ export const Route = createFileRoute("/_authenticated/administration/$section")(
 				},
 			}),
 		component: () => {
-			const { section } = Route.useParams();
-			return <Page section={section} data={Route.useLoaderData()} />;
+			const params = Route.useParams();
+			const data = Route.useLoaderData();
+			return <Page section={params().section} data={data()} />;
 		},
 		pendingComponent: () => (
 			<p role="status">Loading administration section…</p>

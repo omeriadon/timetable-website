@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/solid-router";
 import type { GradesData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
@@ -126,7 +126,7 @@ function ATARSettingsDrawer({
 
 	return (
 		<section
-			className={drawerStyles.detailDrawer}
+			class={drawerStyles.detailDrawer}
 			aria-labelledby="atar-settings-title"
 		>
 			<h2 id="atar-settings-title">ATAR</h2>
@@ -202,35 +202,35 @@ export default function GradesPage({ data }: { data: GradesData }) {
 	);
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error}
 				</p>
 			) : null}
 			{!grades || !timetable ? (
-				<p className={styles.loading}>Loading grades…</p>
+				<p class={styles.loading}>Loading grades…</p>
 			) : (
 				<>
-					<section className={styles.summary} aria-label="Grade summary">
-						<div className={styles.summaryTop}>
+					<section class={styles.summary} aria-label="Grade summary">
+						<div class={styles.summaryTop}>
 							<div>
-								<strong className={styles.summaryLabel}>Average</strong>
-								<div className={styles.summaryValue}>
+								<strong class={styles.summaryLabel}>Average</strong>
+								<div class={styles.summaryValue}>
 									{formatPercent(average)}
 								</div>
 							</div>
 							{isSenior ? (
 								<div>
-									<strong className={styles.summaryLabel}>Top 4</strong>
-									<div className={styles.summaryValue}>
+									<strong class={styles.summaryLabel}>Top 4</strong>
+									<div class={styles.summaryValue}>
 										{formatPercent(topFour)}
 									</div>
 								</div>
 							) : null}
 						</div>
 						{isSenior ? (
-							<div className={styles.summaryStats}>
+							<div class={styles.summaryStats}>
 								<span>
 									Predicted ATAR
 									<br />
@@ -260,7 +260,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 					{isSenior ? (
 						<Button
 							type="button"
-							className={styles.editAtar}
+							class={styles.editAtar}
 							aria-label="Edit ATAR settings"
 							onClick={() =>
 								openDrawer(
@@ -305,7 +305,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 											render={
 												<Button
 													type="button"
-													className={styles.subjectButton}
+													class={styles.subjectButton}
 													aria-label={`Open ${subject.id} grades`}
 												/>
 											}
@@ -317,14 +317,14 @@ export default function GradesPage({ data }: { data: GradesData }) {
 													symbol={subject.symbol}
 												/>
 												<span>
-													<b className={styles.subjectName}>{subject.id}</b>
-													<small className={styles.subjectDetail}>
+													<b class={styles.subjectName}>{subject.id}</b>
+													<small class={styles.subjectDetail}>
 														{subjectAverage === null
 															? "No assessments yet"
 															: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
 													</small>
 												</span>
-												<strong className={styles.subjectScore}>
+												<strong class={styles.subjectScore}>
 													{subjectAverage === null
 														? "—"
 														: formatPercent(subjectAverage)}
@@ -353,7 +353,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							})}
 						</List>
 					) : (
-						<section className={styles.emptyState}>
+						<section class={styles.emptyState}>
 							<Symbol name="book.closed" />
 							<strong>No Subjects Yet</strong>
 							<span>

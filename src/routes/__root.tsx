@@ -1,9 +1,9 @@
 import {
 	createRootRoute,
 	HeadContent,
-	Outlet,
 	Scripts,
-} from "@tanstack/react-router";
+} from "@tanstack/solid-router";
+import { HydrationScript, Suspense } from "solid-js/web";
 import "../styles/globals.css";
 
 export const Route = createRootRoute({
@@ -27,17 +27,20 @@ export const Route = createRootRoute({
 			{ rel: "manifest", href: "/site.webmanifest" },
 		],
 	}),
-	component: RootDocument,
+	shellComponent: RootDocument,
 });
 
-function RootDocument() {
+function RootDocument(props: { children: any }) {
 	return (
 		<html lang="en">
 			<head>
-				<HeadContent />
+				<HydrationScript />
 			</head>
 			<body>
-				<Outlet />
+				<HeadContent />
+				<Suspense>
+					{props.children}
+				</Suspense>
 				<Scripts />
 			</body>
 		</html>

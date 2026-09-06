@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/solid-router";
 import AppShell from "@/components/AppShell/AppShell";
 import { checkSession } from "@/lib/server/session.functions";
 import { safeReturnTo } from "@/lib/returnTo";

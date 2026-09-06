@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { createEffect, createMemo } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import { futureEventEndDate } from "@/features/timetable/eventRange";
@@ -18,33 +18,32 @@ export default function PlannerPage({
 	const { data, error, isLoading } = useDashboard(dashboard);
 	const now = useTimetableNow();
 
-	useEffect(() => {
+	createEffect(() => {
 		setToolbar({ title: "Planner" });
-	}, [setToolbar]);
+	});
 
-	const events = useMemo(
-		() => visibleEvents(data?.events, data?.settings.futureEventRange, now),
-		[data, now],
+	const events = createMemo(() =>
+		visibleEvents(data()?.events, data()?.settings.futureEventRange, now()),
 	);
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<TimetableModeNavigation />
-			{isLoading ? (
-				<p className={styles.message}>Loading your timetable…</p>
+			{isLoading() ? (
+				<p class={styles.message}>Loading your timetable…</p>
 			) : null}
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
+			{error() ? (
+				<p class={styles.error} role="alert">
+					{error()}
 				</p>
 			) : null}
-			{data ? (
+			{data() ? (
 				<PlannerView
-					events={events}
-					schoolCalendar={data.schoolCalendar}
-					grades={data.grades}
-					canManageGlobalEvents={data.events.canManageGlobalEvents}
-					futureEventRange={data.settings.futureEventRange}
+					events={events()}
+					schoolCalendar={data()!.schoolCalendar}
+					grades={data()!.grades}
+					canManageGlobalEvents={data()!.events.canManageGlobalEvents}
+					futureEventRange={data()!.settings.futureEventRange}
 				/>
 			) : null}
 		</main>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { createEffect } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import WeekView from "@/components/timetable/WeekView/WeekView";
@@ -10,23 +10,23 @@ export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {
 	const setToolbar = useToolbar();
 	const { data, error, isLoading } = useDashboard(dashboard);
 
-	useEffect(() => {
+	createEffect(() => {
 		setToolbar({ title: "Week" });
-	}, [setToolbar]);
+	});
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<TimetableModeNavigation />
-			{isLoading ? (
-				<p className={styles.message}>Loading your timetable…</p>
+			{isLoading() ? (
+				<p class={styles.message}>Loading your timetable…</p>
 			) : null}
-			{error ? (
-				<p className={styles.error} role="alert">
-					{error}
+			{error() ? (
+				<p class={styles.error} role="alert">
+					{error()}
 				</p>
 			) : null}
-			{data ? (
-				<WeekView subjects={data.timetable.subjects} friends={data.friends} />
+			{data() ? (
+				<WeekView subjects={data()!.timetable.subjects} friends={data()!.friends} />
 			) : null}
 		</main>
 	);

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/week/page";
 import { fetchDashboard } from "@/lib/server/dashboard.functions";
 export const Route = createFileRoute("/_authenticated/week")({
@@ -6,7 +6,10 @@ export const Route = createFileRoute("/_authenticated/week")({
 		...(await fetchDashboard()),
 		account: context.account,
 	}),
-	component: () => <Page dashboard={Route.useLoaderData()} />,
+	component: () => {
+		const dashboard = Route.useLoaderData();
+		return <Page dashboard={dashboard()} />;
+	},
 	pendingComponent: () => <p>Loading your timetable…</p>,
 	errorComponent: ({ error }) => (
 		<p role="alert">

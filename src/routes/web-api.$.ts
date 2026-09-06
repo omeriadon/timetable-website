@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import type { TokenResponse } from "@/lib/api/contracts";
 import {
 	authenticatedPMSTTRequest,

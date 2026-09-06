@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/testing/page";
 export const Route = createFileRoute("/_authenticated/testing")({
 	component: Page,

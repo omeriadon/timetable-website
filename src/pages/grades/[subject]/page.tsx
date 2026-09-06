@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/solid-router";
 import { useEffect, useMemo, useState } from "react";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -128,13 +128,13 @@ export default function GradeSubjectPage({
 	};
 
 	return (
-		<main className={styles.page}>
-			<Link to="/grades" className={styles.backLink}>
+		<main class={styles.page}>
+			<Link to="/grades" class={styles.backLink}>
 				‹ Grades
 			</Link>
 
 			{error && (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error}
 				</p>
 			)}
@@ -146,14 +146,14 @@ export default function GradeSubjectPage({
 
 				return (
 					<div key={semester}>
-						<h2 className={styles.section}>Semester {semester}</h2>
+						<h2 class={styles.section}>Semester {semester}</h2>
 
-						<section className={styles.card}>
+						<section class={styles.card}>
 							{semesterAssessments.length ? (
 								semesterAssessments.map((assessment) => (
 									<DrawerTrigger
 										key={assessment.id}
-										className={styles.rowButton}
+										class={styles.rowButton}
 										ariaLabel={`Edit ${assessment.name}`}
 										content={
 											<GradeAssessmentDrawer
@@ -167,16 +167,16 @@ export default function GradeSubjectPage({
 											/>
 										}
 									>
-										<article className={styles.row}>
+										<article class={styles.row}>
 											<Symbol
 												name="list.bullet.rectangle"
-												className={styles.symbolIcon}
+												class={styles.symbolIcon}
 											/>
 
 											<span>
-												<b className={styles.label}>{assessment.name}</b>
+												<b class={styles.label}>{assessment.name}</b>
 
-												<small className={styles.rowMeta}>
+												<small class={styles.rowMeta}>
 													{new Date(
 														assessment.date.year,
 														assessment.date.month - 1,
@@ -189,25 +189,25 @@ export default function GradeSubjectPage({
 												</small>
 											</span>
 
-											<strong className={styles.scoreEmphasis}>
+											<strong class={styles.scoreEmphasis}>
 												{(assessment.score * 100).toFixed(1)}%
 											</strong>
 										</article>
 									</DrawerTrigger>
 								))
 							) : (
-								<p className={styles.emptyRow}>No assessments yet.</p>
+								<p class={styles.emptyRow}>No assessments yet.</p>
 							)}
 
 							<Button
 								type="button"
 								variant="ghost"
-								className={styles.row}
+								class={styles.row}
 								disabled={saving}
 								onClick={() => createAssessment(semester)}
 							>
-								<Symbol name="plus" className={styles.symbolIcon} />
-								<span className={styles.label}>
+								<Symbol name="plus" class={styles.symbolIcon} />
+								<span class={styles.label}>
 									{saving ? "Saving…" : "New Assessment"}
 								</span>
 							</Button>

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/settings/[section]/page";
 import {
 	loadProfileSettingsSection,
@@ -10,8 +10,9 @@ export const Route = createFileRoute("/_authenticated/settings/$section")({
 			? loadProfileSettingsSection()
 			: loadSettingsSection(),
 	component: () => {
-		const { section } = Route.useParams();
-		return <Page section={section} data={Route.useLoaderData()} />;
+		const params = Route.useParams();
+		const data = Route.useLoaderData();
+		return <Page section={params().section} data={data()} />;
 	},
 	pendingComponent: () => <p role="status">Loading settings section…</p>,
 	errorComponent: ({ error }) => (

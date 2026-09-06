@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { FriendsData } from "@/lib/server/page-data.functions";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -111,14 +111,14 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	}, [incomingRequestCount, openDrawer, setToolbar]);
 
 	return (
-		<main className={cn(styles.page, draggedFriendID && styles.pageDragging)}>
-			{error ? <p className={styles.error}>{error}</p> : null}
-			<label className={styles.searchLabel} htmlFor="friends-search">
+		<main class={cn(styles.page, draggedFriendID && styles.pageDragging)}>
+			{error ? <p class={styles.error}>{error}</p> : null}
+			<label class={styles.searchLabel} htmlFor="friends-search">
 				Search friends
 			</label>
 			<Input
 				id="friends-search"
-				className={styles.searchInput}
+				class={styles.searchInput}
 				value={searchText}
 				placeholder="Search by name or school email"
 				onChange={(event) => setSearchText(event.target.value)}
@@ -126,7 +126,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 			{account ? (
 				<Button
 					type="button"
-					className={styles.selfCard}
+					class={styles.selfCard}
 					aria-label="Open your arrival statistics"
 					onClick={() =>
 						openDrawer(
@@ -148,7 +148,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 						return (
 							<div
 								key={friend.relationshipID}
-								className={cn(
+								class={cn(
 									styles.friendRow,
 									draggedFriendID === friend.friend.userID &&
 										styles.friendRowDragging,
@@ -183,11 +183,11 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 								aria-label={`Reorder ${friend.friend.displayName}`}
 							>
 								<DrawerTrigger
-									className={styles.friendButton}
+									class={styles.friendButton}
 									ariaLabel={`Open ${friend.friend.displayName}`}
 									content={<FriendDetailDrawer friend={friend} />}
 								>
-									<article className={styles.friend}>
+									<article class={styles.friend}>
 										<ProfilePicture
 											profile={friend.friend}
 											size={64}
@@ -203,7 +203,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 												)}
 											</span>
 										</div>
-										<strong className={styles.status}>
+										<strong class={styles.status}>
 											{friend.state === "friends" ? "Friends" : "Pending"}
 										</strong>
 									</article>
@@ -212,7 +212,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 						);
 					})
 				) : (
-					<p className={styles.emptyState}>
+					<p class={styles.emptyState}>
 						{friends.length
 							? "No friends match your search."
 							: "No friends yet."}
@@ -284,7 +284,7 @@ function PersonalArrivalDrawer({
 
 	return (
 		<section
-			className={drawerStyles.detailDrawer}
+			class={drawerStyles.detailDrawer}
 			aria-labelledby="arrival-statistics-title"
 		>
 			<h2 id="arrival-statistics-title">Average arrival</h2>
