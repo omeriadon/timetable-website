@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import { Link } from "@tanstack/solid-router";
 import type { DashboardData } from "@/features/timetable/useDashboard";
@@ -33,18 +33,18 @@ export default function PlannerView({
 }) {
 	const { openDrawer } = useDrawer();
 	const now = useTimetableNow();
-	const [localEvents, setLocalEvents] = useState(events);
-	useEffect(() => setLocalEvents(events), [events]);
+	const [localEvents, setLocalEvents] = createSignal(events);
+	onMount(() => setLocalEvents(events));
 	const today = startOfToday(now());
 	const todayTimestamp = today.getTime();
 	const futureEventEndTimestamp = futureEventEndDate(
 		futureEventRange,
 		today,
 	).getTime();
-	const todayEvents = localEvents.filter(
+	const todayEvents = localEvents().filter(
 		(event) => eventDate(event) === todayTimestamp,
 	);
-	const upcomingEvents = localEvents.filter(
+	const upcomingEvents = localEvents().filter(
 		(event) => eventDate(event) > todayTimestamp,
 	);
 	const upcomingAssessments = grades.document.assessments.filter(
@@ -225,17 +225,17 @@ function CreatePrivateEventDrawer({
 	globally?: boolean;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [title, setTitle] = useState("");
-	const [notes, setNotes] = useState("");
-	const [symbol, setSymbol] = useState("calendar");
-	const [date, setDate] = useState(() => dateValue(new Date()));
-	const [showsWeather, setShowsWeather] = useState(false);
-	const [tagSections, setTagSections] = useState<EventTagSection[]>([]);
-	const [selectedTagIDs, setSelectedTagIDs] = useState<string[]>([]);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [title, setTitle] = createSignal("");
+	const [notes, setNotes] = createSignal("");
+	const [symbol, setSymbol] = createSignal("calendar");
+	const [date, setDate] = createSignal(dateValue(new Date()));
+	const [showsWeather, setShowsWeather] = createSignal(false);
+	const [tagSections, setTagSections] = createSignal<EventTagSection[]>([]);
+	const [selectedTagIDs, setSelectedTagIDs] = createSignal<string[]>([]);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		if (!globally) {
 			return;
 		}
@@ -243,13 +243,13 @@ function CreatePrivateEventDrawer({
 		apiRequest<{ sections: EventTagSection[] }>("v1/tags")
 			.then((response) => setTagSections(response.sections))
 			.catch(() => setTagSections([]));
-	}, [globally]);
+	});
 
 	const save = async () => {
-		if (!title.trim() || saving) return;
+		if (!title().trim() || saving()) return;
 		setSaving(true);
 		setError(null);
-		const [year, month, day] = date.split("-").map(Number);
+		const [year, month, day] = date().split("-").map(Number);
 		try {
 			const response = await apiRequest<{
 				privateEvents?: CalendarEvent[];
@@ -257,12 +257,12 @@ function CreatePrivateEventDrawer({
 			}>(`v1/events/${globally ? "global" : "private"}`, {
 				method: "POST",
 				body: JSON.stringify({
-					title: title.trim(),
-					notes: notes.trim() || null,
-					symbol: symbol.trim() || "calendar",
+					title: title().trim(),
+					notes: notes().trim() || null,
+					symbol: symbol().trim() || "calendar",
 					date: { year, month, day },
-					tagIDs: selectedTagIDs,
-					showsWeather: globally && showsWeather,
+					tagIDs: selectedTagIDs(),
+					showsWeather: globally && showsWeather(),
 				}),
 			});
 			const created = [
@@ -270,7 +270,7 @@ function CreatePrivateEventDrawer({
 				...(response.globalEvents ?? []),
 			].find(
 				(candidate) =>
-					candidate.title === title.trim() &&
+					candidate.title === title().trim() &&
 					candidate.date.year === year &&
 					candidate.date.month === month &&
 					candidate.date.day === day,
@@ -297,25 +297,25 @@ function CreatePrivateEventDrawer({
 			<label>
 				Title
 				<Input
-					value={title}
+					value={title()}
 					onChange={(event) => setTitle(event.target.value)}
 				/>
 			</label>
 			{globally ? (
 				<SettingToggle
 					label="Show Weather"
-					enabled={showsWeather}
+					enabled={showsWeather()}
 					onClick={() => setShowsWeather((current) => !current)}
-					disabled={saving}
+					disabled={saving()}
 				/>
 			) : null}
 			<label>
 				Symbol
 				<Input
-					value={symbol}
+					value={symbol()}
 					onChange={(event) => setSymbol(event.target.value)}
 					maxLength={120}
-					disabled={saving}
+					disabled={saving()}
 				/>
 			</label>
 			{globally ? (
@@ -324,11 +324,11 @@ function CreatePrivateEventDrawer({
 					aria-labelledby="new-event-tags-title"
 				>
 					<h3 id="new-event-tags-title">Tags</h3>
-					{tagSections.length ? (
-						tagSections
+					{tagSections().length ? (
+						tagSections()
 							.flatMap((section) => section.tags)
 							.map((tag) => {
-								const selected = selectedTagIDs.includes(tag.id);
+								const selected = selectedTagIDs().includes(tag.id);
 								return (
 									<Button
 										key={tag.id}
@@ -352,29 +352,29 @@ function CreatePrivateEventDrawer({
 				Date
 				<Input
 					type="date"
-					value={date}
+					value={date()}
 					onChange={(event) => setDate(event.target.value)}
 				/>
 			</label>
 			<label>
 				Notes
 				<Textarea
-					value={notes}
+					value={notes()}
 					onChange={(event) => setNotes(event.target.value)}
 					rows={3}
 				/>
 			</label>
-			{error ? <p role="alert">{error}</p> : null}
+			{error() ? <p role="alert">{error()}</p> : null}
 			<DrawerFooter>
 				<Button
 					fullWidth
 					type="button"
-					disabled={saving || !title.trim()}
+					disabled={saving() || !title().trim()}
 					onClick={() => void save()}
 					aria-label="Save personal event"
 				>
 					<Symbol name="checkmark" />
-					{saving ? "Saving…" : "Save Event"}
+					{saving() ? "Saving…" : "Save Event"}
 				</Button>
 			</DrawerFooter>
 		</section>
