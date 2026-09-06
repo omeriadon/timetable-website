@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import type { ProfileAppearance, ProfilePhoto } from "@/lib/api/contracts";
@@ -32,12 +32,12 @@ const emojiOptions = ["👤", "⭐️", "⚡️", "📚", "🏃", "🎵", "🎮"
 
 export default function ProfileAppearanceEditor({ profile, save }: Props) {
 	const { openDrawer } = useDrawer();
-	const [draft, setDraft] = useState<ProfileAppearance>(
+	const [draft, setDraft] = createSignal<ProfileAppearance>(
 		withDefaults(profile.appearance),
 	);
-	const [photo, setPhoto] = useState(profile.photo);
-	const [uploading, setUploading] = useState(false);
-	const [removingPhoto, setRemovingPhoto] = useState(false);
+	const [photo, setPhoto] = createSignal(profile.photo);
+	const [uploading, setUploading] = createSignal(false);
+	const [removingPhoto, setRemovingPhoto] = createSignal(false);
 	const update = (changes: Partial<ProfileAppearance>) =>
 		setDraft((current) => withDefaults({ ...current, ...changes }));
 
@@ -89,8 +89,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				<ProfilePicture
 					profile={{
 						displayName: profile.displayName,
-						appearance: draft,
-						photo,
+						appearance: draft(),
+						photo: photo(),
 					}}
 					size={82}
 				/>
@@ -105,10 +105,10 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						key={kind}
 						type="button"
 						className={
-							draft.contentKind === kind ? styles.segmentActive : styles.segment
+							draft().contentKind === kind ? styles.segmentActive : styles.segment
 						}
 						onClick={() => update({ contentKind: kind })}
-						aria-pressed={draft.contentKind === kind}
+						aria-pressed={draft().contentKind === kind}
 					>
 						<Symbol
 							name={
@@ -126,25 +126,25 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</Button>
 				))}
 			</div>
-			{draft.contentKind === "photo" ? (
+			{draft().contentKind === "photo" ? (
 				<div className={styles.row}>
 					<Symbol name="photo" fallback="◉" />
 					<span className={styles.label}>Photo</span>
 					<Input
 						type="file"
 						accept="image/jpeg,image/png"
-						disabled={uploading || removingPhoto}
+						disabled={uploading() || removingPhoto()}
 						onChange={(event) => {
 							const file = event.target.files?.[0];
 							if (file) void uploadPhoto(file);
 						}}
 					/>
-					{photo ? (
+					{photo() ? (
 						<Button
 							type="button"
 							className={styles.removePhoto}
 							onClick={() => void removePhoto()}
-							disabled={uploading || removingPhoto}
+							disabled={uploading() || removingPhoto()}
 						>
 							<Symbol name="trash" fallback="−" />
 							Remove
@@ -152,7 +152,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					) : null}
 				</div>
 			) : null}
-			{draft.contentKind === "emoji" ? (
+			{draft().contentKind === "emoji" ? (
 				<div className={styles.emojiPicker}>
 					<div className={styles.row}>
 						<Symbol name="face.smiling" fallback="☺" />
@@ -162,7 +162,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 						<Input
 							id="profile-emoji"
 							className={styles.inlineInput}
-							value={draft.emoji}
+							value={draft().emoji}
 							maxLength={4}
 							onChange={(event) =>
 								update({ emoji: event.target.value.slice(0, 4) })
@@ -183,14 +183,14 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					</div>
 				</div>
 			) : null}
-			{draft.contentKind !== "photo" ? (
+			{draft().contentKind !== "photo" ? (
 				<>
 					<div className={styles.subheading}>Foreground</div>
 					<ProfileForegroundColourGrid
-						selection={draft.foregroundColour}
+						selection={draft().foregroundColour}
 						onChange={(foregroundColour) => update({ foregroundColour })}
 					/>
-					{draft.contentKind === "monogram" ? (
+					{draft().contentKind === "monogram" ? (
 						<div className={styles.monogram}>
 							<div className={styles.row}>
 								<Symbol name="character" fallback="A" />
@@ -200,7 +200,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 								<Input
 									id="profile-monogram"
 									className={styles.inlineInput}
-									value={draft.monogram}
+									value={draft().monogram}
 									maxLength={3}
 									onChange={(event) =>
 										update({
@@ -210,8 +210,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 								/>
 							</div>
 							<ProfileFontPicker
-								design={draft.fontDesign ?? "rounded"}
-								weight={draft.fontWeight ?? "semibold"}
+								design={draft().fontDesign ?? "rounded"}
+								weight={draft().fontWeight ?? "semibold"}
 								onDesignChange={(fontDesign) => update({ fontDesign })}
 								onWeightChange={(fontWeight) => update({ fontWeight })}
 							/>
@@ -219,29 +219,29 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					) : null}
 					<div className={styles.subheading}>Background</div>
 					<ProfileColourGrid
-						selection={draft.colours}
+						selection={draft().colours}
 						onChange={(colours) => update({ colours })}
 					/>
 					<div className={styles.sliderList}>
 						<label>
-							Animation Speed <output>{(draft.speed ?? 0.2).toFixed(2)}</output>
+							Animation Speed <output>{(draft().speed ?? 0.2).toFixed(2)}</output>
 							<Slider
 								ariaLabel="Animation Speed"
 								min={0}
 								max={5}
 								step={0.05}
-								value={draft.speed ?? 0.2}
+								value={draft().speed ?? 0.2}
 								onValueChange={(value: number) => update({ speed: value })}
 							/>
 						</label>
 						<label>
-							Texture Noise <output>{Math.round(draft.noise ?? 64)}</output>
+							Texture Noise <output>{Math.round(draft().noise ?? 64)}</output>
 							<Slider
 								ariaLabel="Texture Noise"
 								min={0}
 								max={100}
 								step={1}
-								value={draft.noise ?? 64}
+								value={draft().noise ?? 64}
 								onValueChange={(value: number) => update({ noise: value })}
 							/>
 						</label>
@@ -249,7 +249,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				</>
 			) : null}
 			<DrawerFooter>
-				<Button type="button" fullWidth onClick={() => save(draft)}>
+				<Button type="button" fullWidth onClick={() => save(draft())}>
 					<Symbol name="checkmark" fallback="✓" />
 					Save Profile Appearance
 				</Button>
