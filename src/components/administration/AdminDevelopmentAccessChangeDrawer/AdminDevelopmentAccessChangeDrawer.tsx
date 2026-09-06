@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import { Button } from "@/components/ui/button";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -14,8 +14,8 @@ export default function AdminDevelopmentAccessChangeDrawer({
 	onSaved: (enabled: boolean) => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 	const nextValue = !enabled;
 
 	const save = async () => {
@@ -56,16 +56,16 @@ export default function AdminDevelopmentAccessChangeDrawer({
 						: "All accounts will be able to use the server again."}
 				</p>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible
-					disabled={saving}
+					disabled={saving()}
 					aria-label="Cancel server access change"
 				>
 					Cancel
@@ -74,9 +74,9 @@ export default function AdminDevelopmentAccessChangeDrawer({
 					flexible
 					aria-label={nextValue ? "Restrict access" : "Restore access"}
 					onClick={() => void save()}
-					disabled={saving}
+					disabled={saving()}
 				>
-					{saving
+					{saving()
 						? "Saving…"
 						: nextValue
 							? "Restrict Access"

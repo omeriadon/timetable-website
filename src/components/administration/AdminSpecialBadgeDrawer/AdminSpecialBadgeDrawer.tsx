@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { Select } from "@/components/ui/select";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import type {
 	ProfileColor,
@@ -41,26 +41,26 @@ export default function AdminSpecialBadgeDrawer({
 	onSaved,
 }: AdminSpecialBadgeDrawerProps) {
 	const { closeDrawer } = useDrawer();
-	const [symbol, setSymbol] = useState(badge?.symbol ?? "star.fill");
-	const [accessibilityLabel, setAccessibilityLabel] = useState(
+	const [symbol, setSymbol] = createSignal(badge?.symbol ?? "star.fill");
+	const [accessibilityLabel, setAccessibilityLabel] = createSignal(
 		badge?.accessibilityLabel ?? "Badge",
 	);
-	const [backgroundColor, setBackgroundColor] = useState(
+	const [backgroundColor, setBackgroundColor] = createSignal(
 		toHex(badge?.backgroundColor) ?? "#2d7ff9",
 	);
-	const [symbolColor, setSymbolColor] = useState(
+	const [symbolColor, setSymbolColor] = createSignal(
 		toHex(badge?.symbolColor) ?? "#ffffff",
 	);
-	const [priority, setPriority] = useState(String(badge?.priority ?? 0));
-	const [selectedUserIDs, setSelectedUserIDs] = useState<string[]>(
+	const [priority, setPriority] = createSignal(String(badge?.priority ?? 0));
+	const [selectedUserIDs, setSelectedUserIDs] = createSignal<string[]>(
 		badge?.assignedUserIDs ?? [],
 	);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 	const isBuiltIn = badge ? builtInBadgeIDs.has(badge.id) : false;
 
 	const toggleUser = (userID: string) => {
-		setSelectedUserIDs((current) =>
+		setSelectedUserIDs((current: string[]) =>
 			current.includes(userID)
 				? current.filter((value) => value !== userID)
 				: [...current, userID],
@@ -68,7 +68,7 @@ export default function AdminSpecialBadgeDrawer({
 	};
 
 	const save = async () => {
-		if (saving || !symbol.trim() || !accessibilityLabel.trim()) {
+		if (saving() || !symbol().trim() || !accessibilityLabel().trim()) {
 			return;
 		}
 
@@ -77,10 +77,10 @@ export default function AdminSpecialBadgeDrawer({
 
 		try {
 			const request = {
-				symbol: symbol.trim(),
-				accessibilityLabel: accessibilityLabel.trim(),
-				backgroundColor: fromHex(backgroundColor),
-				symbolColor: fromHex(symbolColor),
+				symbol: symbol().trim(),
+				accessibilityLabel: accessibilityLabel().trim(),
+				backgroundColor: fromHex(backgroundColor()),
+				symbolColor: fromHex(symbolColor()),
 				priority: Number(priority) || 0,
 			};
 			if (isBuiltIn && badge) {
@@ -105,7 +105,7 @@ export default function AdminSpecialBadgeDrawer({
 			);
 			await apiRequest(`v1/administration/badges/${saved.id}/users`, {
 				method: "PUT",
-				body: JSON.stringify({ userIDs: selectedUserIDs }),
+				body: JSON.stringify({ userIDs: selectedUserIDs() }),
 			});
 			onSaved();
 			closeDrawer();
@@ -117,7 +117,7 @@ export default function AdminSpecialBadgeDrawer({
 	};
 
 	const remove = async () => {
-		if (!badge || isBuiltIn || saving) {
+		if (!badge || isBuiltIn || saving()) {
 			return;
 		}
 
@@ -141,11 +141,11 @@ export default function AdminSpecialBadgeDrawer({
 		<div className={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
 				<div className={styles.detailAvatar}>
-					<Symbol name={symbol} fallback="★" />
+					<Symbol name={symbol()} fallback="★" />
 				</div>
 				<div>
 					<h2>{badge ? "Edit Badge" : "New Badge"}</h2>
-					<p>{selectedUserIDs.length} users assigned</p>
+					<p>{selectedUserIDs().length} users assigned</p>
 				</div>
 			</header>
 			<section className={styles.formCard}>
@@ -169,7 +169,7 @@ export default function AdminSpecialBadgeDrawer({
 				<label>
 					Accessibility Label
 					<Input
-						value={accessibilityLabel}
+						value={accessibilityLabel()}
 						onChange={(event) => setAccessibilityLabel(event.target.value)}
 					/>
 				</label>
@@ -177,7 +177,7 @@ export default function AdminSpecialBadgeDrawer({
 					Priority
 					<Input
 						type="number"
-						value={priority}
+						value={priority()}
 						onChange={(event) => setPriority(event.target.value)}
 					/>
 				</label>
@@ -185,7 +185,7 @@ export default function AdminSpecialBadgeDrawer({
 					Background
 					<Input
 						type="color"
-						value={backgroundColor}
+						value={backgroundColor()}
 						onChange={(event) => setBackgroundColor(event.target.value)}
 					/>
 				</label>
@@ -193,7 +193,7 @@ export default function AdminSpecialBadgeDrawer({
 					Symbol
 					<Input
 						type="color"
-						value={symbolColor}
+						value={symbolColor()}
 						onChange={(event) => setSymbolColor(event.target.value)}
 					/>
 				</label>
@@ -205,7 +205,7 @@ export default function AdminSpecialBadgeDrawer({
 						<label key={user.id} className={styles.editorCheck}>
 							<Toggle
 								aria-label={user.displayName}
-								checked={selectedUserIDs.includes(user.id)}
+								checked={selectedUserIDs().includes(user.id)}
 								onCheckedChange={() => toggleUser(user.id)}
 							/>
 							{user.displayName}
@@ -213,9 +213,9 @@ export default function AdminSpecialBadgeDrawer({
 					))}
 				</section>
 			) : null}
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
@@ -225,7 +225,7 @@ export default function AdminSpecialBadgeDrawer({
 						flexible
 						aria-label="Delete badge"
 						onClick={() => void remove()}
-						disabled={saving}
+						disabled={saving()}
 					>
 						Delete
 					</Button>
@@ -234,9 +234,9 @@ export default function AdminSpecialBadgeDrawer({
 					flexible
 					aria-label={badge ? "Save badge" : "Create badge"}
 					onClick={() => void save()}
-					disabled={saving || !symbol.trim() || !accessibilityLabel.trim()}
+					disabled={saving() || !symbol().trim() || !accessibilityLabel().trim()}
 				>
-					{saving ? "Saving…" : badge ? "Save" : "Create"}
+					{saving() ? "Saving…" : badge ? "Save" : "Create"}
 				</Button>
 			</DrawerFooter>
 		</div>

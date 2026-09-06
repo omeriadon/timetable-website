@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import { Button } from "@/components/ui/button";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
@@ -17,8 +17,8 @@ export default function AdminAuthorityChangeDrawer({
 	onSaved: (user: AdministrationUser) => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const save = async () => {
 		setSaving(true);
@@ -66,16 +66,16 @@ export default function AdminAuthorityChangeDrawer({
 					Change administrator access for {user.displayName}.
 				</p>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible
-					disabled={saving}
+					disabled={saving()}
 					aria-label="Cancel authority change"
 				>
 					Cancel
@@ -86,9 +86,9 @@ export default function AdminAuthorityChangeDrawer({
 						makeAdministrator ? "Make administrator" : "Remove administrator"
 					}
 					onClick={() => void save()}
-					disabled={saving}
+					disabled={saving()}
 				>
-					{saving
+					{saving()
 						? "Saving…"
 						: makeAdministrator
 							? "Make Administrator"
