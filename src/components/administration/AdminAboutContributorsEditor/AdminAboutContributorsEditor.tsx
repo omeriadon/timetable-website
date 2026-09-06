@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -16,17 +16,17 @@ type Draft = {
 const emptyDraft: Draft = { name: "", role: "" };
 
 export default function AdminAboutContributorsEditor() {
-	const [contributors, setContributors] = useState<AboutContributor[]>([]);
-	const [draft, setDraft] = useState<Draft>(emptyDraft);
-	const [editingID, setEditingID] = useState<string | null>(null);
-	const [status, setStatus] = useState<string | null>(null);
-	const [saving, setSaving] = useState(false);
+	const [contributors, setContributors] = createSignal<AboutContributor[]>([]);
+	const [draft, setDraft] = createSignal<Draft>(emptyDraft);
+	const [editingID, setEditingID] = createSignal<string | null>(null);
+	const [status, setStatus] = createSignal<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<AboutContributor[]>("v1/administration/about-contributors")
 			.then(setContributors)
 			.catch((error: Error) => setStatus(error.message));
-	}, []);
+	});
 
 	const reset = () => {
 		setDraft(emptyDraft);
@@ -34,21 +34,21 @@ export default function AdminAboutContributorsEditor() {
 	};
 
 	const save = async () => {
-		if (!draft.name.trim() || !draft.role.trim() || saving) {
+		if (!draft().name.trim() || !draft().role.trim() || saving()) {
 			return;
 		}
 		setSaving(true);
 		setStatus(null);
 		try {
-			const endpoint = editingID
-				? `v1/administration/about-contributors/${editingID}`
+			const endpoint = editingID()
+				? `v1/administration/about-contributors/${editingID()}`
 				: "v1/administration/about-contributors";
 			const saved = await apiRequest<AboutContributor[]>(endpoint, {
-				method: editingID ? "PUT" : "POST",
-				body: JSON.stringify(draft),
+				method: editingID() ? "PUT" : "POST",
+				body: JSON.stringify(draft()),
 			});
 			setContributors(saved);
-			setStatus(editingID ? "Contributor updated." : "Contributor added.");
+			setStatus(editingID() ? "Contributor updated." : "Contributor added.");
 			reset();
 		} catch (error) {
 			setStatus((error as Error).message);
@@ -58,7 +58,7 @@ export default function AdminAboutContributorsEditor() {
 	};
 
 	const remove = async (id: string) => {
-		if (saving) {
+		if (saving()) {
 			return;
 		}
 		setSaving(true);
@@ -80,11 +80,11 @@ export default function AdminAboutContributorsEditor() {
 
 	const move = async (index: number, direction: -1 | 1) => {
 		const nextIndex = index + direction;
-		if (nextIndex < 0 || nextIndex >= contributors.length || saving) {
+		if (nextIndex < 0 || nextIndex >= contributors().length || saving()) {
 			return;
 		}
-		const previous = contributors;
-		const next = [...contributors];
+		const previous = contributors();
+		const next = [...contributors()];
 		[next[index], next[nextIndex]] = [next[nextIndex], next[index]];
 		setContributors(next);
 		setSaving(true);
@@ -117,7 +117,7 @@ export default function AdminAboutContributorsEditor() {
 					<Symbol name="person.3" />
 				</div>
 				<List>
-					{contributors.map((contributor, index) => (
+					{contributors().map((contributor, index) => (
 						<ListRow className={styles.contributor} key={contributor.id}>
 							<div className={styles.contributorCopy}>
 								<strong>{contributor.name}</strong>
@@ -129,7 +129,7 @@ export default function AdminAboutContributorsEditor() {
 									variant="ghost"
 									size="icon-sm"
 									aria-label={`Move ${contributor.name} up`}
-									disabled={index === 0 || saving}
+									disabled={index === 0 || saving()}
 									onClick={() => void move(index, -1)}
 								>
 									<Symbol name="chevron.up" />
@@ -139,7 +139,7 @@ export default function AdminAboutContributorsEditor() {
 									variant="ghost"
 									size="icon-sm"
 									aria-label={`Move ${contributor.name} down`}
-									disabled={index === contributors.length - 1 || saving}
+									disabled={index === contributors().length - 1 || saving()}
 									onClick={() => void move(index, 1)}
 								>
 									<Symbol name="chevron.down" />
@@ -164,7 +164,7 @@ export default function AdminAboutContributorsEditor() {
 									variant="ghost"
 									size="icon-sm"
 									aria-label={`Remove ${contributor.name}`}
-									disabled={saving}
+									disabled={saving()}
 									onClick={() => void remove(contributor.id)}
 								>
 									<Symbol name="trash" />
@@ -179,14 +179,14 @@ export default function AdminAboutContributorsEditor() {
 				aria-labelledby="contributor-editor-heading"
 			>
 				<h2 id="contributor-editor-heading">
-					{editingID ? "Edit contributor" : "Add contributor"}
+					{editingID() ? "Edit contributor" : "Add contributor"}
 				</h2>
 				<label className={styles.field}>
 					<span>Name</span>
 					<Input
-						value={draft.name}
+						value={draft().name}
 						onChange={(event) =>
-							setDraft({ ...draft, name: event.target.value })
+							setDraft({ ...draft(), name: event.target.value })
 						}
 						placeholder="Contributor name"
 					/>
@@ -194,31 +194,31 @@ export default function AdminAboutContributorsEditor() {
 				<label className={styles.field}>
 					<span>Role</span>
 					<Input
-						value={draft.role}
+						value={draft().role}
 						onChange={(event) =>
-							setDraft({ ...draft, role: event.target.value })
+							setDraft({ ...draft(), role: event.target.value })
 						}
 						placeholder="Contribution or role"
 					/>
 				</label>
 			</section>
-			{status ? (
+			{status() ? (
 				<p className={styles.status} role="status">
-					{status}
+					{status()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.formActions}>
-				{editingID ? (
+				{editingID() ? (
 					<Button type="button" variant="ghost" onClick={reset}>
 						<Symbol name="xmark" />
 						Cancel
 					</Button>
 				) : null}
-				<Button type="button" onClick={() => void save()} disabled={saving}>
-					<Symbol name={editingID ? "checkmark" : "plus"} />
-					{saving
+				<Button type="button" onClick={() => void save()} disabled={saving()}>
+					<Symbol name={editingID() ? "checkmark" : "plus"} />
+					{saving()
 						? "Saving…"
-						: editingID
+						: editingID()
 							? "Save contributor"
 							: "Add contributor"}
 				</Button>

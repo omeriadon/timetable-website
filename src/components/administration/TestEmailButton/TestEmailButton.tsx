@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { apiRequest } from "@/lib/api/client";
 import { DrawerFooter } from "@/components/ui/drawer";
 
 export default function TestEmailButton() {
-	const [state, setState] = useState<"idle" | "sending" | "sent" | "error">(
+	const [state, setState] = createSignal<"idle" | "sending" | "sent" | "error">(
 		"idle",
 	);
 
@@ -28,7 +28,7 @@ export default function TestEmailButton() {
 		sending: "Sending…",
 		sent: "Test email sent",
 		error: "Unable to send test email",
-	}[state];
+	}[state()];
 
 	return (
 		<DrawerFooter>
@@ -36,7 +36,7 @@ export default function TestEmailButton() {
 				fullWidth
 				type="button"
 				onClick={() => void send()}
-				disabled={state === "sending"}
+				disabled={state() === "sending"}
 			>
 				<Symbol name="envelope.badge" />
 				{label}

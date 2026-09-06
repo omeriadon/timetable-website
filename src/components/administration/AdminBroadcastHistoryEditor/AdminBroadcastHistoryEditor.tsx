@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { apiRequest } from "@/lib/api/client";
@@ -25,34 +25,34 @@ export type BroadcastNotificationRecord = {
 };
 
 export default function AdminBroadcastHistoryEditor() {
-	const [records, setRecords] = useState<BroadcastNotificationRecord[] | null>(
+	const [records, setRecords] = createSignal<BroadcastNotificationRecord[] | null>(
 		null,
 	);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<BroadcastNotificationRecord[]>(
 			"v1/administration/broadcast-notifications",
 		)
 			.then(setRecords)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
-	if (error)
+	if (error())
 		return (
 			<p className={styles.error} role="alert">
-				{error}
+				{error()}
 			</p>
 		);
-	if (!records)
+	if (!records())
 		return <p className={styles.loading}>Loading broadcast history…</p>;
 
 	return (
 		<main className={styles.page}>
 			<List rowHover>
-				{records.length ? (
-					records.map((record) => (
+				{records()!.length ? (
+					records()!.map((record) => (
 						<Button
 							key={record.id}
 							type="button"
