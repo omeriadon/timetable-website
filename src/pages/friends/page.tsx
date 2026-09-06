@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { FriendsData } from "@/lib/server/page-data.functions";
@@ -30,27 +30,27 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
 	const router = useRouter();
-	const [friends, setFriends] = useState<Friend[]>(initial.friends);
-	const [account, setAccount] = useState<Account>(initial.account);
-	const [locationStatus, setLocationStatus] = useState<
+	const [friends, setFriends] = createSignal<Friend[]>(initial.friends);
+	const [account, setAccount] = createSignal<Account>(initial.account);
+	const [locationStatus, setLocationStatus] = createSignal<
 		CurrentLocationStatus["item"]
 	>(initial.locationStatus);
-	const [incomingRequestCount, setIncomingRequestCount] = useState(
+	const [incomingRequestCount, setIncomingRequestCount] = createSignal(
 		initial.incomingRequestCount,
 	);
-	const [searchText, setSearchText] = useState("");
-	const [draggedFriendID, setDraggedFriendID] = useState<string | null>(null);
-	const [dragOverFriendID, setDragOverFriendID] = useState<string | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [searchText, setSearchText] = createSignal("");
+	const [draggedFriendID, setDraggedFriendID] = createSignal<string | null>(null);
+	const [dragOverFriendID, setDragOverFriendID] = createSignal<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 	const now = useTimetableNow();
-	const filteredFriends = useMemo(() => {
-		const query = searchText.trim().toLocaleLowerCase();
+	const filteredFriends = createMemo(() => {
+		const query = searchText().trim().toLocaleLowerCase();
 		if (!query) {
-			return friends;
+			return friends();
 		}
 
-		return friends.filter((friend) =>
+		return friends().filter((friend) =>
 			[friend.friend.displayName, friend.friend.email].some((value) =>
 				value.toLocaleLowerCase().includes(query),
 			),
@@ -58,17 +58,17 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	}, [friends, searchText]);
 
 	const reorderFriends = async (sourceID: string, targetID: string) => {
-		const sourceIndex = friends.findIndex(
+		const sourceIndex = friends().findIndex(
 			(friend) => friend.friend.userID === sourceID,
 		);
-		const targetIndex = friends.findIndex(
+		const targetIndex = friends().findIndex(
 			(friend) => friend.friend.userID === targetID,
 		);
 		if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) {
 			return;
 		}
 
-		const next = [...friends];
+		const next = [...friends()];
 		const [moved] = next.splice(sourceIndex, 1);
 		next.splice(targetIndex, 0, moved);
 		setFriends(next);
@@ -90,7 +90,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 		}
 	};
 
-	useEffect(() => {
+	onMount(() => {
 		setToolbar({
 			title: "Friends",
 			actions: [
@@ -98,7 +98,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					label: incomingRequestCount
 						? `${incomingRequestCount} pending friend requests`
 						: "Friend requests, no pending requests",
-					icon: incomingRequestCount ? "bell.badge" : "bell",
+					icon: incomingRequestCount() ? "bell.badge" : "bell",
 					onPress: () => openDrawer(<FriendRequestsDrawer />),
 				},
 				{
@@ -108,22 +108,22 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 				},
 			],
 		});
-	}, [incomingRequestCount, openDrawer, setToolbar]);
+	});
 
 	return (
-		<main class={cn(styles.page, draggedFriendID && styles.pageDragging)}>
-			{error ? <p class={styles.error}>{error}</p> : null}
+		<main class={cn(styles.page, draggedFriendID() && styles.pageDragging)}>
+			{error() ? <p class={styles.error}>{error()}</p> : null}
 			<label class={styles.searchLabel} htmlFor="friends-search">
 				Search friends
 			</label>
 			<Input
 				id="friends-search"
 				class={styles.searchInput}
-				value={searchText}
+				value={searchText()}
 				placeholder="Search by name or school email"
 				onChange={(event) => setSearchText(event.target.value)}
 			/>
-			{account ? (
+			{account() ? (
 				<Button
 					type="button"
 					class={styles.selfCard}
@@ -134,25 +134,25 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 						)
 					}
 				>
-					<ProfilePicture profile={account} size={68} />
+					<ProfilePicture profile={account()} size={68} />
 					<div>
-						<strong>{account.displayName}</strong>
-						<span>{locationStatusTitle(locationStatus?.state)}</span>
+						<strong>{account().displayName}</strong>
+						<span>{locationStatusTitle(locationStatus()?.state)}</span>
 					</div>
-					<em>{locationStatusTime(locationStatus)}</em>
+					<em>{locationStatusTime(locationStatus())}</em>
 				</Button>
 			) : null}
 			<List>
-				{filteredFriends.length ? (
-					filteredFriends.map((friend) => {
+				{filteredFriends().length ? (
+					filteredFriends().map((friend) => {
 						return (
 							<div
 								key={friend.relationshipID}
 								class={cn(
 									styles.friendRow,
-									draggedFriendID === friend.friend.userID &&
+									draggedFriendID() === friend.friend.userID &&
 										styles.friendRowDragging,
-									dragOverFriendID === friend.friend.userID &&
+									dragOverFriendID() === friend.friend.userID &&
 										styles.friendRowDropTarget,
 								)}
 								draggable
@@ -215,7 +215,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					})
 				) : (
 					<p class={styles.emptyState}>
-						{friends.length
+						{friends().length
 							? "No friends match your search."
 							: "No friends yet."}
 					</p>
@@ -234,16 +234,16 @@ function PersonalArrivalDrawer({
 		averageArrivalSecondsSinceMidnight: number | null;
 		weekdayAverageArrivalSecondsSinceMidnight: Array<number | null>;
 	};
-	const [statistics, setStatistics] = useState<ArrivalStatistics | null>(null);
-	const [error, setError] = useState<string | null>(null);
-	const [updatingLocation, setUpdatingLocation] = useState(false);
+	const [statistics, setStatistics] = createSignal<ArrivalStatistics | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
+	const [updatingLocation, setUpdatingLocation] = createSignal(false);
 	const router = useRouter();
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<ArrivalStatistics>("v1/account/status/statistics")
 			.then(setStatistics)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
 	const updateLocation = () => {
 		if (!navigator.geolocation) {
@@ -293,7 +293,7 @@ function PersonalArrivalDrawer({
 			<div>
 				<strong>Overall</strong>
 				<span>
-					{formatArrival(statistics?.averageArrivalSecondsSinceMidnight)}
+					{formatArrival(statistics()?.averageArrivalSecondsSinceMidnight)}
 				</span>
 			</div>
 			{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
@@ -302,23 +302,23 @@ function PersonalArrivalDrawer({
 						<strong>{day}</strong>
 						<span>
 							{formatArrival(
-								statistics?.weekdayAverageArrivalSecondsSinceMidnight[index],
+								statistics()?.weekdayAverageArrivalSecondsSinceMidnight[index],
 							)}
 						</span>
 					</div>
 				),
 			)}
-			{error ? <p role="alert">{error}</p> : null}
+			{error() ? <p role="alert">{error()}</p> : null}
 			<DrawerFooter>
 				<Button
 					fullWidth
 					type="button"
 					onClick={updateLocation}
-					disabled={updatingLocation}
+					disabled={updatingLocation()}
 					aria-label="Update your location status"
 				>
 					<Symbol name="location.fill" />
-					{updatingLocation ? "Updating location…" : "Update location status"}
+					{updatingLocation() ? "Updating location…" : "Update location status"}
 				</Button>
 			</DrawerFooter>
 		</section>
