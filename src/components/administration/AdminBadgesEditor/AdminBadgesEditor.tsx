@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 
 import AdminSpecialBadgeDrawer from "@/components/administration/AdminSpecialBadgeDrawer/AdminSpecialBadgeDrawer";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
@@ -53,11 +53,11 @@ const builtInBadgeIDs = new Set(builtInBadges.map((badge) => badge.id));
 export default function AdminBadgesEditor() {
 	const { openDrawer } = useDrawer();
 
-	const [badges, setBadges] = useState<SpecialBadge[] | null>(null);
-	const [users, setUsers] = useState<AdministrationUser[]>([]);
-	const [error, setError] = useState<string | null>(null);
-	const [isReordering, setIsReordering] = useState(false);
-	const [saving, setSaving] = useState(false);
+	const [badges, setBadges] = createSignal<SpecialBadge[] | null>(null);
+	const [users, setUsers] = createSignal<AdministrationUser[]>([]);
+	const [error, setError] = createSignal<string | null>(null);
+	const [isReordering, setIsReordering] = createSignal(false);
+	const [saving, setSaving] = createSignal(false);
 
 	const load = () => {
 		setError(null);
@@ -91,18 +91,14 @@ export default function AdminBadgesEditor() {
 			});
 	};
 
-	useEffect(load, []);
+	onMount(load);
 
-	const displayedBadges = useMemo(
-		() =>
-			[...(badges ?? [])].sort((left, right) => right.priority - left.priority),
-		[badges],
-	);
+	const displayedBadges = createMemo(() => [...(badges() ?? [])].sort((left, right) => right.priority - left.priority));
 
 	const moveBadge = async (badgeID: string, direction: -1 | 1) => {
-		if (saving || !badges) return;
+		if (saving() || !badges()) return;
 
-		const ordered = [...displayedBadges];
+		const ordered = [...displayedBadges()];
 		const currentIndex = ordered.findIndex((badge) => badge.id === badgeID);
 		const nextIndex = currentIndex + direction;
 
@@ -154,7 +150,7 @@ export default function AdminBadgesEditor() {
 						openDrawer(
 							<AdminSpecialBadgeDrawer
 								badge={null}
-								users={users}
+								users={users()}
 								onSaved={load}
 							/>,
 						)
@@ -168,26 +164,26 @@ export default function AdminBadgesEditor() {
 					type="button"
 					variant="outline"
 					onClick={() => setIsReordering((value) => !value)}
-					aria-pressed={isReordering}
+					aria-pressed={isReordering()}
 				>
 					<Symbol name="line.3.horizontal" fallback="=" />
-					{isReordering ? "Done" : "Reorder"}
+					{isReordering() ? "Done" : "Reorder"}
 				</Button>
 			</div>
 
-			{error && (
+			{error() && (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			)}
 
 			{badges === null ? (
 				<p className={styles.loading}>Loading badges...</p>
-			) : displayedBadges.length === 0 ? (
+			) : displayedBadges().length === 0 ? (
 				<p className={styles.emptyRow}>No badges have been created.</p>
 			) : (
 				<List rowHover>
-					{displayedBadges.map((badge, index) => (
+					{displayedBadges().map((badge, index) => (
 						<ListRow className={styles.rowWithAction} key={badge.id}>
 							<Button
 								type="button"
@@ -197,7 +193,7 @@ export default function AdminBadgesEditor() {
 									openDrawer(
 										<AdminSpecialBadgeDrawer
 											badge={badge}
-											users={users}
+											users={users()}
 											onSaved={load}
 										/>,
 									)
@@ -222,14 +218,14 @@ export default function AdminBadgesEditor() {
 								</ListRow>
 							</Button>
 
-							{isReordering && (
+							{isReordering() && (
 								<div className={styles.reorderButtons}>
 									<Button
 										type="button"
 										variant="ghost"
 										size="icon"
 										onClick={() => void moveBadge(badge.id, -1)}
-										disabled={saving || index === 0}
+										disabled={saving() || index === 0}
 										aria-label={`Move ${badge.accessibilityLabel} up`}
 									>
 										<Symbol name="chevron.up" fallback="^" />
@@ -240,7 +236,7 @@ export default function AdminBadgesEditor() {
 										variant="ghost"
 										size="icon"
 										onClick={() => void moveBadge(badge.id, 1)}
-										disabled={saving || index === displayedBadges.length - 1}
+										disabled={saving() || index === displayedBadges().length - 1}
 										aria-label={`Move ${badge.accessibilityLabel} down`}
 									>
 										<Symbol name="chevron.down" fallback="v" />
