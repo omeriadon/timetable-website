@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -14,12 +14,12 @@ import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminUsersEditor() {
 	const { openDrawer } = useDrawer();
-	const [users, setUsers] = useState<AdministrationUser[]>([]);
-	const [query, setQuery] = useState("");
-	const [error, setError] = useState<string | null>(null);
-	const [isSystemOwner, setIsSystemOwner] = useState(false);
+	const [users, setUsers] = createSignal<AdministrationUser[]>([]);
+	const [query, setQuery] = createSignal("");
+	const [error, setError] = createSignal<string | null>(null);
+	const [isSystemOwner, setIsSystemOwner] = createSignal(false);
 
-	useEffect(() => {
+	onMount(() => {
 		Promise.all([
 			apiRequest<AdministrationUser[]>("v1/administration/users"),
 			apiRequest<{ authority: string }>("v1/account"),
@@ -29,22 +29,22 @@ export default function AdminUsersEditor() {
 				setIsSystemOwner(account.authority === "systemOwner");
 			})
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
-	const filtered = useMemo(() => {
-		const value = query.trim().toLowerCase();
+	const filtered = createMemo(() => {
+		const value = query().trim().toLowerCase();
 		return value
-			? users.filter((user) =>
+			? users().filter((user) =>
 					`${user.displayName} ${user.email}`.toLowerCase().includes(value),
 				)
-			: users;
-	}, [query, users]);
+			: users();
+	});
 
 	const edit = (user?: AdministrationUser) =>
 		openDrawer(
 			<AdminUserEditorDrawer
 				user={user}
-				isSystemOwner={isSystemOwner}
+				isSystemOwner={isSystemOwner()}
 				onSaved={(saved) =>
 					setUsers((current) =>
 						[...current.filter((item) => item.id !== saved.id), saved].sort(
@@ -65,7 +65,7 @@ export default function AdminUsersEditor() {
 				<label className={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
-						value={query}
+						value={query()}
 						onChange={(event) => setQuery(event.target.value)}
 						placeholder="Search users"
 					/>
@@ -80,13 +80,13 @@ export default function AdminUsersEditor() {
 					<Symbol name="plus" fallback="＋" />
 				</Button>
 			</div>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{filtered.map((user) => (
+				{filtered().map((user) => (
 					<Button
 						key={user.id}
 						type="button"
@@ -109,9 +109,9 @@ export default function AdminUsersEditor() {
 						</ListRow>
 					</Button>
 				))}
-				{!filtered.length ? (
+				{!filtered().length ? (
 					<p className={styles.loading}>
-						{users.length ? "No matching users." : "Loading users…"}
+						{users().length ? "No matching users." : "Loading users…"}
 					</p>
 				) : null}
 			</List>
