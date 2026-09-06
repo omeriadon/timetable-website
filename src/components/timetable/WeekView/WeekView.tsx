@@ -6,7 +6,7 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import { useTimetableNow } from "@/features/timetable/clock";
@@ -28,7 +28,7 @@ export default function WeekView({
 	subjects: TimetableSubject[];
 	friends: DashboardData["friends"];
 }) {
-	const [selectedSlot, setSelectedSlot] = useState<{
+	const [selectedSlot, setSelectedSlot] = createSignal<{
 		day: number;
 		session: number;
 	} | null>(null);
@@ -37,8 +37,8 @@ export default function WeekView({
 		? subjects.find((subject) =>
 				subject.slots.some(
 					(slot) =>
-						slot.day === selectedSlot.day &&
-						slot.session === selectedSlot.session,
+						slot.day === selectedSlot()!.day &&
+						slot.session === selectedSlot()!.session,
 				),
 			)
 		: null;
@@ -80,8 +80,8 @@ export default function WeekView({
 									return <div key={day} className={currentDayClass} />;
 								}
 								const isSelected =
-									selectedSlot?.day === dayIndex &&
-									selectedSlot.session === session.value;
+									selectedSlot()?.day === dayIndex &&
+									selectedSlot()!.session === session.value;
 								return (
 									<Popover key={day}>
 										<PopoverTrigger
@@ -131,7 +131,7 @@ export default function WeekView({
 					))}
 				</div>
 			</div>
-			{selectedSlot && selectedSubject ? (
+			{selectedSlot() && selectedSubject ? (
 				<section className={styles.selectedLesson}>
 					<div>
 						<span className={styles.selectedEyebrow}>YOU</span>
@@ -144,12 +144,12 @@ export default function WeekView({
 						</strong>
 					</div>
 					<span>
-						{TIMETABLE_DAYS[selectedSlot.day]} · period{" "}
-						{periodLabel(selectedSlot.session)}
+						{TIMETABLE_DAYS[selectedSlot()!.day]} · period{" "}
+						{periodLabel(selectedSlot()!.session)}
 					</span>
 				</section>
 			) : null}
-			<TimetableComparison selectedSlot={selectedSlot} friends={friends} />
+			<TimetableComparison selectedSlot={selectedSlot()!} friends={friends} />
 		</section>
 	);
 }
