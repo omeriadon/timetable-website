@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import type { Account } from "@/lib/api/contracts";
 import { apiRequest } from "@/lib/api/client";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -32,16 +32,16 @@ export default function AdminUserEditorDrawer({
 	onDeleted,
 }: AdminUserEditorDrawerProps) {
 	const { closeDrawer, openDrawer } = useDrawer();
-	const [displayName, setDisplayName] = useState(user?.displayName ?? "");
-	const [email, setEmail] = useState(user?.email ?? "");
-	const [password, setPassword] = useState("");
-	const [authority, setAuthority] = useState(user?.authority ?? "user");
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [rawData, setRawData] = useState("");
-	const [dataError, setDataError] = useState<string | null>(null);
+	const [displayName, setDisplayName] = createSignal(user?.displayName ?? "");
+	const [email, setEmail] = createSignal(user?.email ?? "");
+	const [password, setPassword] = createSignal("");
+	const [authority, setAuthority] = createSignal(user?.authority ?? "user");
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
+	const [rawData, setRawData] = createSignal("");
+	const [dataError, setDataError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		if (!user) {
 			return;
 		}
@@ -49,10 +49,10 @@ export default function AdminUserEditorDrawer({
 		apiRequest<{ rawData: string }>(`v1/administration/users/${user.id}`)
 			.then((response) => setRawData(response.rawData))
 			.catch((requestError: Error) => setDataError(requestError.message));
-	}, [user]);
+	});
 
 	const save = async () => {
-		if (saving || !displayName.trim() || !email.trim()) return;
+		if (saving() || !displayName().trim() || !email().trim()) return;
 		setSaving(true);
 		setError(null);
 		try {
@@ -64,13 +64,13 @@ export default function AdminUserEditorDrawer({
 				body: JSON.stringify(
 					user
 						? {
-								displayName: displayName.trim(),
-								email: email.trim(),
-								password: password || null,
+								displayName: displayName().trim(),
+								email: email().trim(),
+								password: password() || null,
 							}
 						: {
-								displayName: displayName.trim(),
-								email: email.trim(),
+								displayName: displayName().trim(),
+								email: email().trim(),
 								password,
 							},
 				),
@@ -79,8 +79,8 @@ export default function AdminUserEditorDrawer({
 			if (
 				user &&
 				isSystemOwner &&
-				authority !== user.authority &&
-				authority !== "systemOwner"
+				authority() !== user.authority &&
+				authority() !== "systemOwner"
 			) {
 				finalUser = await apiRequest<AdministrationUser>(
 					`v1/administration/users/${user.id}/authority`,
@@ -97,7 +97,7 @@ export default function AdminUserEditorDrawer({
 	};
 
 	const remove = async () => {
-		if (!user || saving) return;
+		if (!user || saving()) return;
 		setSaving(true);
 		setError(null);
 		try {
@@ -126,7 +126,7 @@ export default function AdminUserEditorDrawer({
 				<label>
 					Display name
 					<Input
-						value={displayName}
+						value={displayName()}
 						onChange={(event) => setDisplayName(event.target.value)}
 						autoComplete="name"
 					/>
@@ -135,7 +135,7 @@ export default function AdminUserEditorDrawer({
 					Email
 					<Input
 						type="email"
-						value={email}
+						value={email()}
 						onChange={(event) => setEmail(event.target.value)}
 						autoComplete="email"
 					/>
@@ -144,7 +144,7 @@ export default function AdminUserEditorDrawer({
 					{user ? "New password (optional)" : "Password"}
 					<Input
 						type="password"
-						value={password}
+						value={password()}
 						onChange={(event) => setPassword(event.target.value)}
 						autoComplete={user ? "new-password" : "new-password"}
 					/>
@@ -181,20 +181,20 @@ export default function AdminUserEditorDrawer({
 					aria-labelledby="account-data-title"
 				>
 					<h3 id="account-data-title">Account Data</h3>
-					{dataError ? (
+					{dataError() ? (
 						<p className={styles.detailMuted} role="alert">
-							{dataError}
+							{dataError()}
 						</p>
-					) : rawData ? (
-						<pre className={styles.jsonData}>{formatJSON(rawData)}</pre>
+					) : rawData() ? (
+						<pre className={styles.jsonData}>{formatJSON(rawData())}</pre>
 					) : (
 						<p className={styles.detailMuted}>Loading account data…</p>
 					)}
 				</section>
 			) : null}
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
@@ -213,7 +213,7 @@ export default function AdminUserEditorDrawer({
 								/>,
 							)
 						}
-						disabled={saving}
+						disabled={saving()}
 					>
 						<Symbol name="trash" fallback="×" /> Delete
 					</Button>
@@ -223,14 +223,14 @@ export default function AdminUserEditorDrawer({
 					aria-label={user ? "Save user" : "Create user"}
 					onClick={() => void save()}
 					disabled={
-						saving ||
-						!displayName.trim() ||
-						!email.trim() ||
+						saving() ||
+						!displayName().trim() ||
+						!email().trim() ||
 						(!user && password.length < 8)
 					}
 				>
 					<Symbol name="checkmark" fallback="✓" />
-					{saving ? "Saving…" : user ? "Save" : "Create"}
+					{saving() ? "Saving…" : user ? "Save" : "Create"}
 				</Button>
 			</DrawerFooter>
 		</div>
