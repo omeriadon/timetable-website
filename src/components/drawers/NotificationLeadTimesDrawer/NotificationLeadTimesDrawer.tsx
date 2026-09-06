@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import styles from "@/components/drawers/Drawer/Drawer.module.css";
@@ -22,9 +22,9 @@ export default function NotificationLeadTimesDrawer({
 	onSave,
 }: NotificationLeadTimesDrawerProps) {
 	const { closeDrawer } = useDrawer();
-	const [draft, setDraft] = useState(() => new Set(selection));
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [draft, setDraft] = createSignal(new Set(selection));
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const toggle = (value: number) => {
 		setDraft((current) => {
@@ -39,13 +39,13 @@ export default function NotificationLeadTimesDrawer({
 	};
 
 	const save = async () => {
-		if (saving) {
+		if (saving()) {
 			return;
 		}
 		setSaving(true);
 		setError(null);
 		try {
-			await onSave([...draft].sort((left, right) => left - right));
+			await onSave([...draft()].sort((left, right) => left - right));
 			closeDrawer();
 		} catch (requestError) {
 			setError((requestError as Error).message);
@@ -64,7 +64,7 @@ export default function NotificationLeadTimesDrawer({
 			</header>
 			<List>
 				{leadTimes.map((value) => {
-					const selected = draft.has(value);
+					const selected = draft().has(value);
 					return (
 						<Button
 							key={value}
@@ -91,19 +91,19 @@ export default function NotificationLeadTimesDrawer({
 					);
 				})}
 			</List>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter>
 				<Button
 					aria-label="Save notification lead times"
 					onClick={() => void save()}
-					disabled={saving}
+					disabled={saving()}
 				>
 					<Symbol name="checkmark" fallback="✓" />
-					{saving ? "Saving…" : "Save"}
+					{saving() ? "Saving…" : "Save"}
 				</Button>
 			</DrawerFooter>
 		</div>

@@ -1,5 +1,5 @@
 import { Select } from "@/components/ui/select";
-import { useMemo, useState } from "react";
+import { createMemo, createSignal } from "solid-js";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
 import { Button } from "@/components/ui/button";
@@ -34,22 +34,21 @@ export default function EventNotificationScheduleDrawer({
 	onSave: (schedule: EventNotificationSchedule) => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [timeMinutes, setTimeMinutes] = useState(8 * 60);
-	const [dayOffset, setDayOffset] = useState(0);
-	const times = useMemo(
+	const [timeMinutes, setTimeMinutes] = createSignal(8 * 60);
+	const [dayOffset, setDayOffset] = createSignal(0);
+	const times = createMemo(
 		() =>
 			Array.from(
 				{ length: ((22 - 5) * 60) / 15 + 1 },
 				(_, index) => 5 * 60 + index * 15,
 			),
-		[],
 	);
 
 	const add = () => {
 		onSave({
-			hour: Math.floor(timeMinutes / 60),
-			minute: timeMinutes % 60,
-			dayOffset,
+			hour: Math.floor(timeMinutes() / 60),
+			minute: timeMinutes() % 60,
+			dayOffset: dayOffset(),
 		});
 		closeDrawer();
 	};
@@ -66,7 +65,7 @@ export default function EventNotificationScheduleDrawer({
 				<label>
 					Send notification
 					<Select
-						value={dayOffset}
+						value={dayOffset()}
 						onValueChange={(value) => {
 							if (value !== null) {
 								setDayOffset(Number(value));
@@ -83,14 +82,14 @@ export default function EventNotificationScheduleDrawer({
 				<label>
 					Time
 					<Select
-						value={timeMinutes}
+						value={timeMinutes()}
 						onValueChange={(value) => {
 							if (value !== null) {
 								setTimeMinutes(Number(value));
 							}
 						}}
 					>
-						{times.map((minutes) => (
+						{times().map((minutes) => (
 							<option key={minutes} value={minutes}>
 								{formatTime(minutes)}
 							</option>

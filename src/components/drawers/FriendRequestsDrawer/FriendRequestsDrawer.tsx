@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
 import styles from "../Drawer/Drawer.module.css";
 
 export default function FriendRequestsDrawer() {
-	const [incoming, setIncoming] = useState<Friend[]>([]);
-	const [outgoing, setOutgoing] = useState<Friend[]>([]);
-	const [status, setStatus] = useState<string | null>(null);
+	const [incoming, setIncoming] = createSignal<Friend[]>([]);
+	const [outgoing, setOutgoing] = createSignal<Friend[]>([]);
+	const [status, setStatus] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		Promise.all([
 			apiRequest<Friend[]>("v1/friends/requests"),
 			apiRequest<Friend[]>("v1/friends/requests/outgoing"),
@@ -20,7 +20,7 @@ export default function FriendRequestsDrawer() {
 				setOutgoing(sent);
 			})
 			.catch((error: Error) => setStatus(error.message));
-	}, []);
+	});
 
 	const accept = async (relationshipID: string) => {
 		try {
@@ -64,8 +64,8 @@ export default function FriendRequestsDrawer() {
 			</header>
 			<section className={styles.detailCard}>
 				<h3>Incoming</h3>
-				{incoming.length ? (
-					incoming.map((friend) => (
+				{incoming().length ? (
+					incoming().map((friend) => (
 						<div key={friend.relationshipID} className={styles.searchResult}>
 							<ProfilePicture profile={friend.friend} size={40} />
 							<div>
@@ -92,8 +92,8 @@ export default function FriendRequestsDrawer() {
 			</section>
 			<section className={styles.detailCard}>
 				<h3>Outgoing</h3>
-				{outgoing.length ? (
-					outgoing.map((friend) => (
+				{outgoing().length ? (
+					outgoing().map((friend) => (
 						<div key={friend.relationshipID} className={styles.searchResult}>
 							<ProfilePicture profile={friend.friend} size={40} />
 							<div>
@@ -112,9 +112,9 @@ export default function FriendRequestsDrawer() {
 					<p className={styles.detailMuted}>No outgoing requests.</p>
 				)}
 			</section>
-			{status ? (
+			{status() ? (
 				<p className={styles.detailMuted} role="alert">
-					{status}
+					{status()}
 				</p>
 			) : null}
 		</div>
