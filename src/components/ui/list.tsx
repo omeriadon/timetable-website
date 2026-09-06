@@ -7,11 +7,20 @@ import styles from "./list.module.css";
 type CommonProps = {
 	className?: string;
 	class?: string;
-	children?: JSX.Element;
+	key?: string | number;
+	children?: JSX.Element | JSX.Element[];
 };
 
-export function List(props: CommonProps & { rowHover?: boolean; sections?: boolean }) {
-	const [local] = splitProps(props, ["children", "className", "class", "rowHover", "sections"]);
+export function List(
+	props: CommonProps & { rowHover?: boolean; sections?: boolean },
+) {
+	const [local] = splitProps(props, [
+		"children",
+		"className",
+		"class",
+		"rowHover",
+		"sections",
+	]);
 	const className = cn(
 		local.rowHover && styles.rowHover,
 		local.class ?? local.className,
@@ -34,18 +43,30 @@ export function List(props: CommonProps & { rowHover?: boolean; sections?: boole
 
 export function ListSection(props: CommonProps) {
 	const [local] = splitProps(props, ["children", "className", "class"]);
-	return <div class={cn(styles.section, local.class ?? local.className)}>{local.children}</div>;
+	return (
+		<div class={cn(styles.section, local.class ?? local.className)}>
+			{local.children}
+		</div>
+	);
 }
 
 export function ListSectionHeader(props: CommonProps) {
 	const [local] = splitProps(props, ["children", "className", "class"]);
-	return <div class={cn(styles.sectionHeader, local.class ?? local.className)}>{local.children}</div>;
+	return (
+		<div class={cn(styles.sectionHeader, local.class ?? local.className)}>
+			{local.children}
+		</div>
+	);
 }
 
 export function ListRow(props: CommonProps) {
 	const [local] = splitProps(props, ["children", "className", "class"]);
 	return (
-		<div role="listitem" data-slot="list-row" class={cn(styles.row, local.class ?? local.className)}>
+		<div
+			role="listitem"
+			data-slot="list-row"
+			class={cn(styles.row, local.class ?? local.className)}
+		>
 			{local.children}
 		</div>
 	);
