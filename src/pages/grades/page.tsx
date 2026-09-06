@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useRouter } from "@tanstack/solid-router";
 import type { GradesData } from "@/lib/server/page-data.functions";
@@ -91,14 +91,14 @@ function ATARSettingsDrawer({
 	onSaved: (grades: GradeTracker) => void;
 }) {
 	const { closeDrawer } = useDrawer();
-	const [predictedATAR, setPredictedATAR] = useState(
+	const [predictedATAR, setPredictedATAR] = createSignal(
 		grades.document.predictedATAR?.toString() ?? "",
 	);
-	const [goalATAR, setGoalATAR] = useState(
+	const [goalATAR, setGoalATAR] = createSignal(
 		grades.document.goalATAR?.toString() ?? "",
 	);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const save = async () => {
 		setSaving(true);
@@ -109,8 +109,8 @@ function ATARSettingsDrawer({
 				body: JSON.stringify({
 					document: {
 						...grades.document,
-						predictedATAR: predictedATAR ? Number(predictedATAR) : null,
-						goalATAR: goalATAR ? Number(goalATAR) : null,
+						predictedATAR: predictedATAR() ? Number(predictedATAR()) : null,
+						goalATAR: goalATAR() ? Number(goalATAR()) : null,
 					},
 					serverRevision: grades.document.serverRevision,
 				}),
@@ -135,7 +135,7 @@ function ATARSettingsDrawer({
 				<Input
 					type="number"
 					step="0.01"
-					value={predictedATAR}
+					value={predictedATAR()}
 					onChange={(event) => setPredictedATAR(event.target.value)}
 				/>
 			</label>
@@ -144,17 +144,17 @@ function ATARSettingsDrawer({
 				<Input
 					type="number"
 					step="0.01"
-					value={goalATAR}
+					value={goalATAR()}
 					onChange={(event) => setGoalATAR(event.target.value)}
 				/>
 			</label>
-			{error ? <p role="alert">{error}</p> : null}
+			{error() ? <p role="alert">{error()}</p> : null}
 			<DrawerFooter>
 				<Button
 					type="button"
 					fullWidth
 					onClick={() => void save()}
-					disabled={saving}
+					disabled={saving()}
 					aria-label="Save ATAR settings"
 				>
 					<Symbol name="checkmark" />
@@ -169,9 +169,9 @@ export default function GradesPage({ data }: { data: GradesData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
 	const router = useRouter();
-	const [grades, setGrades] = useState<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
-	const [isSenior] = useState(() => {
+	const [grades, setGrades] = createSignal<GradeTracker>(initial.grades);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [isSenior] = createSignal(() => {
 		const yearGroups = initial.yearGroups.sections
 			.filter((section) => section.category === "yearGroup")
 			.flatMap((section) => section.tags);
@@ -179,18 +179,18 @@ export default function GradesPage({ data }: { data: GradesData }) {
 			.filter((tag) => initial.subscriptions.tagIDs.includes(tag.id))
 			.some((tag) => /11|12/.test(tag.displayName));
 	});
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => setToolbar({ title: "Grades" }), [setToolbar]);
+	onMount(() => setToolbar({ title: "Grades" }));
 
-	const scored = useMemo(() => grades?.document.assessments ?? [], [grades]);
-	const gradeSubjects = timetable
-		? timetable.subjects.filter(supportsGradeTracking)
+	const scored = createMemo(() => grades()?.document.assessments ?? []);
+	const gradeSubjects = timetable()
+		? timetable()!.subjects.filter(supportsGradeTracking)
 		: [];
-	const subjectAverages = timetable
+	const subjectAverages = timetable()
 		? gradeSubjects
-				.map((subject) => subjectAverage(subject.id, scored))
+				.map((subject) => subjectAverage(subject.id, scored()))
 				.filter((value): value is number => value !== null)
 		: [];
 	const average = mean(subjectAverages);
@@ -203,12 +203,12 @@ export default function GradesPage({ data }: { data: GradesData }) {
 
 	return (
 		<main class={styles.page}>
-			{error ? (
+			{error() ? (
 				<p class={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
-			{!grades || !timetable ? (
+			{!grades() || !timetable() ? (
 				<p class={styles.loading}>Loading grades…</p>
 			) : (
 				<>
@@ -220,7 +220,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 									{formatPercent(average)}
 								</div>
 							</div>
-							{isSenior ? (
+							{isSenior() ? (
 								<div>
 									<strong class={styles.summaryLabel}>Top 4</strong>
 									<div class={styles.summaryValue}>
@@ -229,27 +229,27 @@ export default function GradesPage({ data }: { data: GradesData }) {
 								</div>
 							) : null}
 						</div>
-						{isSenior ? (
+						{isSenior() ? (
 							<div class={styles.summaryStats}>
 								<span>
 									Predicted ATAR
 									<br />
-									<b>{grades.document.predictedATAR?.toFixed(2) ?? "—"}</b>
+									<b>{grades()!.document.predictedATAR?.toFixed(2) ?? "—"}</b>
 								</span>
 								<span>
 									Goal ATAR
 									<br />
-									<b>{grades.document.goalATAR?.toFixed(2) ?? "—"}</b>
+									<b>{grades()!.document.goalATAR?.toFixed(2) ?? "—"}</b>
 								</span>
 								<span>
 									Gap
 									<br />
 									<b>
-										{grades.document.goalATAR !== null &&
-										grades.document.predictedATAR !== null
+										{grades()!.document.goalATAR !== null &&
+										grades()!.document.predictedATAR !== null
 											? (
-													grades.document.goalATAR -
-													grades.document.predictedATAR
+													(grades()!.document.goalATAR ?? 0) -
+													(grades()!.document.predictedATAR ?? 0)
 												).toFixed(2)
 											: "—"}
 									</b>
@@ -257,7 +257,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							</div>
 						) : null}
 					</section>
-					{isSenior ? (
+					{isSenior() ? (
 						<Button
 							type="button"
 							class={styles.editAtar}
@@ -265,7 +265,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							onClick={() =>
 								openDrawer(
 									<ATARSettingsDrawer
-										grades={grades}
+										grades={grades()}
 										onSaved={(updated) => {
 											setGrades(updated);
 											void router.invalidate();
@@ -281,7 +281,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 					{gradeSubjects.length ? (
 						<List rowHover>
 							{gradeSubjects.map((subject) => {
-								const subjectAssessments = scored.filter(
+								const subjectAssessments = scored().filter(
 									(assessment) => assessment.subjectID === subject.id,
 								);
 								const subjectAverage = subjectAssessments.length
