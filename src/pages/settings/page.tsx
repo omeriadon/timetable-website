@@ -6,8 +6,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { createSignal, onMount } from "solid-js";
+import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { SettingsData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -33,22 +33,22 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
 	const router = useRouter();
-	const [account, setAccount] = useState<Account>(initial.account);
-	const [settings, setSettings] = useState<Settings>(
+	const [account, setAccount] = createSignal<Account>(initial.account);
+	const [settings, setSettings] = createSignal<Settings>(
 		initial.settings as Settings,
 	);
-	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
-	const [error, setError] = useState<string | null>(null);
-	const [saving, setSaving] = useState(false);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [error, setError] = createSignal<string | null>(null);
+	const [saving, setSaving] = createSignal(false);
 	const { openDrawer } = useDrawer();
 
-	useEffect(() => setToolbar({ title: "Settings" }), [setToolbar]);
+	onMount(() => setToolbar({ title: "Settings" }));
 
 	const updateFutureEventRange = async (futureEventRange: string) => {
-		if (!settings || saving || settings.futureEventRange === futureEventRange) {
+		if (!settings() || saving() || settings().futureEventRange === futureEventRange) {
 			return;
 		}
-		await saveSettings(settings, { ...settings, futureEventRange });
+		await saveSettings(settings(), { ...settings(), futureEventRange });
 	};
 
 	const saveSettings = async (current: Settings, next: Settings) => {
@@ -75,7 +75,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	};
 
 	const saveProfileAppearance = async (appearance: ProfileAppearance) => {
-		if (!account) {
+		if (!account()) {
 			return;
 		}
 
@@ -88,7 +88,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 			method: "PUT",
 			body: JSON.stringify({
 				appearance,
-				baseRevision: account.revision,
+				baseRevision: account().revision,
 			}),
 		});
 		setAccount((current) =>
@@ -106,18 +106,18 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 
 	return (
 		<main className={styles.page}>
-			{account ? (
+			{account() ? (
 				<DrawerTrigger
 					className={`${styles.rowButton} ${styles.profileButton}`}
 					ariaLabel="Open profile appearance"
 					content={
-						account.appearance ? (
+						account().appearance ? (
 							<ProfileAppearanceEditor
 								profile={{
-									displayName: account.displayName,
-									appearance: account.appearance,
-									photo: account.photo,
-									revision: account.revision,
+									displayName: account().displayName,
+									appearance: account().appearance!,
+									photo: account().photo,
+									revision: account().revision,
 								}}
 								save={saveProfileAppearance}
 							/>
@@ -125,18 +125,18 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 					}
 				>
 					<section className={`${styles.paper} ${styles.profileRow}`}>
-						<ProfilePicture profile={account} size={52} />
+						<ProfilePicture profile={account()} size={52} />
 						<span>
-							<b className={styles.profileName}>{account.displayName}</b>
-							<small className={styles.profileEmail}>{account.email}</small>
+							<b className={styles.profileName}>{account().displayName}</b>
+							<small className={styles.profileEmail}>{account().email}</small>
 						</span>
 						<Symbol name="chevron.right" />
 					</section>
 				</DrawerTrigger>
 			) : null}
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<h2 className={styles.section}>My Timetable</h2>
@@ -147,7 +147,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 					onClick={() =>
 						openDrawer(
 							<CalendarImportDrawer
-								timetable={timetable}
+								timetable={timetable()}
 								onImported={setTimetable}
 							/>,
 						)
@@ -174,22 +174,22 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 			</List>
 			<h2 className={styles.section}>Preferences</h2>
 			<List rowHover>
-				{settings ? (
+				{settings() ? (
 					<>
-						<AppearanceSettingsEditor initial={settings} inline />
+						<AppearanceSettingsEditor initial={settings()} inline />
 						<NavigationRow
 							title="Updates & Notifications"
 							description="Control Live Activities, class notifications, event notifications, and sync."
 							href="/settings/notifications"
 							icon="switch.2"
-							drawerContent={<NotificationSettingsEditor initial={settings} />}
+							drawerContent={<NotificationSettingsEditor initial={settings()} />}
 						/>
 						<ListRow>
 							<Symbol name="calendar.badge.clock" />
 							<span className={styles.label}>Show Future Events</span>
 							<Select
-								value={settings.futureEventRange}
-								disabled={saving}
+								value={settings().futureEventRange}
+								disabled={saving()}
 								onValueChange={(value) => {
 									if (value !== null) {
 										void updateFutureEventRange(value);
@@ -201,7 +201,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 									aria-label="Show Future Events range"
 								>
 									<SelectValue>
-										{futureEventRangeLabel(settings.futureEventRange)}
+										{futureEventRangeLabel(settings().futureEventRange)}
 									</SelectValue>
 								</SelectTrigger>
 
