@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import {
 	BellIcon,
 	CalendarIcon,
@@ -128,14 +128,14 @@ const fontSizes = [12, 18, 28, 40] as const;
 
 export default function TestingPage() {
 	const setToolbar = useToolbar();
-	const [switched, setSwitched] = useState(false);
-	const [menuChecked, setMenuChecked] = useState(true);
-	const [menuTheme, setMenuTheme] = useState("system");
-	const [settingEnabled, setSettingEnabled] = useState(true);
+	const [switched, setSwitched] = createSignal(false);
+	const [menuChecked, setMenuChecked] = createSignal(true);
+	const [menuTheme, setMenuTheme] = createSignal("system");
+	const [settingEnabled, setSettingEnabled] = createSignal(true);
 
-	useEffect(() => {
+	onMount(() => {
 		setToolbar({ title: "Testing" });
-	}, [setToolbar]);
+	});
 
 	return (
 		<main className={styles.page}>
@@ -285,7 +285,7 @@ export default function TestingPage() {
 								<Field orientation="horizontal">
 									<Toggle
 										id="testing-switch"
-										checked={switched}
+										checked={switched()}
 										onCheckedChange={setSwitched}
 									/>
 									<FieldLabel htmlFor="testing-switch">Switch</FieldLabel>
@@ -422,7 +422,7 @@ export default function TestingPage() {
 										<DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
 									</DropdownMenuItem>
 									<DropdownMenuCheckboxItem
-										checked={menuChecked}
+										checked={menuChecked()}
 										onCheckedChange={setMenuChecked}
 									>
 										Show reminders
@@ -430,7 +430,7 @@ export default function TestingPage() {
 								</DropdownMenuGroup>
 								<DropdownMenuSeparator />
 								<DropdownMenuRadioGroup
-									value={menuTheme}
+									value={menuTheme()}
 									onValueChange={(value: string) => {
 										if (value) {
 											setMenuTheme(value);
