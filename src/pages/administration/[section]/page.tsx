@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { AdministrationSectionData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -114,24 +114,18 @@ export default function AdministrationSectionPage({
 	data: AdministrationSectionData;
 }) {
 	const setToolbar = useToolbar();
-	const [loadedData, setLoadedData] = useState<unknown>(data);
-	const [error, setError] = useState<string | null>(null);
+	const [loadedData, setLoadedData] = createSignal<unknown>(data);
+	const [error, setError] = createSignal<string | null>(null);
 	const config = sectionConfig[section] ?? {
 		title: "Administration",
 		icon: "calendar.badge.lock",
 	};
 
-	useEffect(
-		() => setToolbar({ title: config.title }),
-		[config.title, setToolbar],
-	);
+	onMount(() => setToolbar({ title: config.title }));
 
-	const filteredData = useMemo(
-		() => filterData(loadedData, config.kind),
-		[config.kind, loadedData],
-	);
-	const records = useMemo(() => normalizeRecords(filteredData), [filteredData]);
-	const summary = useMemo(() => scalarEntries(filteredData), [filteredData]);
+	const filteredData = createMemo(() => filterData(loadedData(), config.kind));
+	const records = createMemo(() => normalizeRecords(filteredData()));
+	const summary = createMemo(() => scalarEntries(filteredData()));
 
 	return section === "statistics" ? (
 		<AdminStatisticsEditor />
@@ -171,9 +165,9 @@ export default function AdministrationSectionPage({
 					<span className={styles.label}>{config.title}</span>
 				</div>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			{section === "broadcast-notification" ? (
@@ -187,7 +181,7 @@ export default function AdministrationSectionPage({
 			) : null}
 			{summary.length ? (
 				<section className={styles.card}>
-					{summary.map(([key, value]) => (
+					{summary().map(([key, value]) => (
 						<div key={key} className={styles.row}>
 							<span className={styles.label}>{humanize(key)}</span>
 							<span className={styles.detail}>{formatValue(value)}</span>
@@ -195,9 +189,9 @@ export default function AdministrationSectionPage({
 					))}
 				</section>
 			) : null}
-			{loadedData && records.length ? (
+			{loadedData() && records().length ? (
 				<section className={styles.card}>
-					{records.map((record, index) => (
+					{records().map((record, index) => (
 						<AdminRecord
 							key={String(record.id ?? index)}
 							record={record}
