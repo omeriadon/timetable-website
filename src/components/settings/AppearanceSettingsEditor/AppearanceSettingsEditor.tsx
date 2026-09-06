@@ -5,7 +5,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import type { Settings } from "@/features/settings/types";
@@ -19,13 +19,13 @@ export default function AppearanceSettingsEditor({
 	initial: Settings;
 	inline?: boolean;
 }) {
-	const [draft, setDraft] = useState(initial);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [draft, setDraft] = createSignal(initial);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const save = async (changes: Partial<Settings>) => {
-		const previous = draft;
-		const next = { ...draft, ...changes };
+		const previous = draft();
+		const next = { ...draft(), ...changes };
 		setDraft(next);
 		setSaving(true);
 		setError(null);
@@ -54,15 +54,15 @@ export default function AppearanceSettingsEditor({
 			<Symbol name="textformat.size" />
 			<label className={styles.label} htmlFor="app-font-design">
 				App Font
-				{error ? (
+				{error() ? (
 					<small className={styles.error} role="alert">
-						{error}
+						{error()}
 					</small>
 				) : null}
 			</label>
 			<Select
-				value={draft.appFontDesign}
-				disabled={saving}
+				value={draft().appFontDesign}
+				disabled={saving()}
 				onValueChange={(value) => {
 					if (value !== null) {
 						void save({ appFontDesign: value });
@@ -70,7 +70,7 @@ export default function AppearanceSettingsEditor({
 				}}
 			>
 				<SelectTrigger id="app-font-design" aria-label="App Font">
-					<SelectValue>{appFontDesignLabel(draft.appFontDesign)}</SelectValue>
+					<SelectValue>{appFontDesignLabel(draft().appFontDesign)}</SelectValue>
 				</SelectTrigger>
 				<SelectContent>
 					<SelectItem value="monospaced">Monospaced</SelectItem>
