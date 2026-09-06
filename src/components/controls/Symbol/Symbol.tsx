@@ -1,79 +1,61 @@
-import {
-	forwardRef,
-	type CSSProperties,
-	type HTMLAttributes,
-	type ReactNode,
-} from "react";
-
+import type { JSX } from "solid-js";
+import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
-
 import styles from "./Symbol.module.css";
 
-export type SymbolProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
-	/** The exact SwiftUI system-name spelling, for example `calendar.badge.clock`. */
+export type SymbolProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> & {
 	name?: string;
-
-	/** An explicit image source. */
 	src?: string;
-
-	/** Optional text fallback. */
-	fallback?: ReactNode;
-
-	/** Set when the symbol conveys meaning instead of decorating nearby text. */
+	fallback?: JSX.Element;
 	alt?: string;
+	className?: string;
 };
 
 function normalizeSymbolName(name: string) {
 	return name.trim().replace(/\.svg$/i, "");
 }
 
-const Symbol = forwardRef<HTMLSpanElement, SymbolProps>(function Symbol(
-	{ name, src, fallback, alt, className, style, ...props },
-	ref,
-) {
-	const normalizedName = name ? normalizeSymbolName(name) : null;
-
+function Symbol(props: SymbolProps) {
+	const [local, rest] = splitProps(props, [
+		"name",
+		"src",
+		"fallback",
+		"alt",
+		"class",
+		"className",
+	]);
+	const normalizedName = local.name ? normalizeSymbolName(local.name) : null;
 	const imageSource =
-		src ??
+		local.src ??
 		(normalizedName
 			? `/icons/${encodeURIComponent(normalizedName)}.svg`
 			: null);
-
-	const decorative = !alt;
+	const decorative = !local.alt;
 
 	if (!imageSource) {
-		return fallback !== undefined ? (
+		return local.fallback !== undefined ? (
 			<span
-				{...props}
-				ref={ref}
-				className={cn(styles.fallback, className)}
+				{...rest}
+				class={cn(styles.fallback, local.class ?? local.className)}
 				aria-hidden={decorative || undefined}
-				aria-label={decorative ? undefined : alt}
+				aria-label={decorative ? undefined : local.alt}
 				role={decorative ? undefined : "img"}
 			>
-				{fallback}
+				{local.fallback}
 			</span>
 		) : null;
 	}
 
 	return (
 		<span
-			{...props}
-			ref={ref}
-			className={cn(styles.symbol, className)}
+			{...rest}
+			class={cn(styles.symbol, local.class ?? local.className)}
 			aria-hidden={decorative || undefined}
-			aria-label={decorative ? undefined : alt}
+			aria-label={decorative ? undefined : local.alt}
 			role={decorative ? undefined : "img"}
-			style={
-				{
-					"--symbol-image": `url("${imageSource}")`,
-					...style,
-				} as CSSProperties
-			}
+			style={{ "--symbol-image": `url("${imageSource}")` }}
 		/>
 	);
-});
-
-Symbol.displayName = "Symbol";
+}
 
 export default Symbol;

@@ -1,13 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { createContext, useContext, type JSX } from "solid-js";
+import { createSignal, For } from "solid-js";
 import { Input } from "@/components/ui/input";
-import {
-	createContext,
-	useCallback,
-	useContext,
-	useState,
-	type ReactNode,
-} from "react";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import { Button } from "@/components/ui/button";
 import styles from "./Toolbar.module.css";
 
 export type ToolbarAction = {
@@ -24,68 +19,50 @@ export type ToolbarConfig = {
 	actions?: ToolbarAction[];
 };
 
-const defaultToolbar: ToolbarConfig = {
-	title: "Timetable",
-};
-
+const defaultToolbar: ToolbarConfig = { title: "Timetable" };
 const ToolbarContext = createContext<{
-	config: ToolbarConfig;
+	config: () => ToolbarConfig;
 	setConfig: (config: ToolbarConfig) => void;
-}>({
-	config: defaultToolbar,
-	setConfig: () => undefined,
-});
+}>();
 
-export function ToolbarProvider({ children }: { children: ReactNode }) {
-	const [config, setConfig] = useState(defaultToolbar);
-
+export function ToolbarProvider(props: { children: JSX.Element }) {
+	const [config, setConfig] = createSignal(defaultToolbar);
 	return (
 		<ToolbarContext.Provider value={{ config, setConfig }}>
-			{children}
+			{props.children}
 		</ToolbarContext.Provider>
 	);
 }
 
 export function useToolbar() {
-	const { setConfig } = useContext(ToolbarContext);
-
-	return useCallback((config: ToolbarConfig) => setConfig(config), [setConfig]);
+	const context = useContext(ToolbarContext);
+	if (!context) throw new Error("useToolbar must be used inside ToolbarProvider");
+	return context.setConfig;
 }
 
 export default function Toolbar() {
-	const { config } = useContext(ToolbarContext);
-
-	const {
-		title,
-		searchPlaceholder,
-		searchValue = "",
-		onSearchChange,
-		actions = [],
-	} = config;
-
+	const context = useContext(ToolbarContext);
+	if (!context) throw new Error("Toolbar must be used inside ToolbarProvider");
+	const config = () => context.config();
 	return (
-		<header className={styles.toolbar}>
-			{searchPlaceholder ? (
-				<label className={styles.search}>
-					<span>Search {title}</span>
+		<header class={styles.toolbar}>
+			{config().searchPlaceholder ? (
+				<label class={styles.search}>
+					<span>Search {config().title}</span>
 					<Input
-						value={searchValue}
-						placeholder={searchPlaceholder}
-						onChange={(event) => onSearchChange?.(event.target.value)}
+						value={config().searchValue ?? ""}
+						placeholder={config().searchPlaceholder}
+						onInput={(event) => config().onSearchChange?.(event.currentTarget.value)}
 					/>
 				</label>
 			) : null}
-
-			{actions.map((action) => (
-				<Button
-					type="button"
-					key={`${action.icon}-${action.label}`}
-					aria-label={action.label}
-					onClick={action.onPress}
-				>
-					<Symbol name={action.icon} />
-				</Button>
-			))}
+			<For each={config().actions ?? []}>
+				{(action) => (
+					<Button type="button" aria-label={action.label} onClick={action.onPress}>
+						<Symbol name={action.icon} />
+					</Button>
+				)}
+			</For>
 		</header>
 	);
 }

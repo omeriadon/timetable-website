@@ -1,11 +1,4 @@
-import {
-	createContext,
-	useCallback,
-	useContext,
-	useRef,
-	useState,
-	type ReactNode,
-} from "react";
+import { createContext, createSignal, useContext, type JSX } from "solid-js";
 import {
 	Drawer,
 	DrawerContent,
@@ -15,51 +8,51 @@ import {
 import styles from "@/components/ui/drawer.module.css";
 
 type DrawerControls = {
-	openDrawer: (content: ReactNode) => void;
+	openDrawer: (content: () => JSX.Element) => void;
 	closeDrawer: () => void;
 };
 
 type DrawerEntry = {
 	id: number;
-	content: ReactNode;
+	content: () => JSX.Element;
 	open: boolean;
 };
 
 const DrawerContext = createContext<DrawerControls | null>(null);
 
-export function DrawerProvider({ children }: { children: ReactNode }) {
-	const [stack, setStack] = useState<DrawerEntry[]>([]);
-	const nextDrawerID = useRef(0);
+export function DrawerProvider(props: { children: JSX.Element }) {
+	const [stack, setStack] = createSignal<DrawerEntry[]>([]);
+	let nextDrawerID = 0;
 
-	const openDrawer = useCallback((nextContent: ReactNode) => {
-		nextDrawerID.current += 1;
+	const openDrawer = (nextContent: () => JSX.Element) => {
+		nextDrawerID += 1;
 		setStack((current) => [
 			...current,
 			{
-				id: nextDrawerID.current,
+				id: nextDrawerID,
 				content: nextContent,
 				open: true,
 			},
 		]);
-	}, []);
+	};
 
-	const closeDrawer = useCallback(() => {
+	const closeDrawer = () => {
 		setStack((current) =>
 			current.map((entry, index) =>
 				index === current.length - 1 ? { ...entry, open: false } : entry,
 			),
 		);
-	}, []);
+	};
 
-	const dismissFrom = useCallback((index: number) => {
+	const dismissFrom = (index: number) => {
 		setStack((current) =>
 			current.map((entry, entryIndex) =>
 				entryIndex >= index ? { ...entry, open: false } : entry,
 			),
 		);
-	}, []);
+	};
 
-	const removeClosedLayer = useCallback((id: number) => {
+	const removeClosedLayer = (id: number) => {
 		setStack((current) => {
 			const index = current.findIndex((entry) => entry.id === id);
 			if (index < 0 || current[index]?.open) {
@@ -67,14 +60,14 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
 			}
 			return current.slice(0, index);
 		});
-	}, []);
+	};
 
 	return (
 		<DrawerContext.Provider value={{ openDrawer, closeDrawer }}>
-			{children}
-			{stack.length ? (
+			{props.children}
+			{stack().length ? (
 				<DrawerLayer
-					stack={stack}
+					stack={stack()}
 					index={0}
 					dismissFrom={dismissFrom}
 					removeClosedLayer={removeClosedLayer}
@@ -110,17 +103,12 @@ function DrawerLayer({
 					dismissFrom(index);
 				}
 			}}
-			onOpenChangeComplete={(open) => {
-				if (!open) {
-					removeClosedLayer(entry.id);
-				}
-			}}
 		>
 			<DrawerContent>
 				<DrawerHeader>
-					<DrawerTitle className={styles.visuallyHidden}>Drawer</DrawerTitle>
+						<DrawerTitle class={styles.visuallyHidden}>Drawer</DrawerTitle>
 				</DrawerHeader>
-				<div className={styles.body}>{entry.content}</div>
+				<div class={styles.body}>{entry.content()}</div>
 				{stack[index + 1] ? (
 					<DrawerLayer
 						stack={stack}

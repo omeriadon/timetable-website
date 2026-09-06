@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn } from "@tanstack/solid-start";
 import type { Account } from "@/lib/api/contracts";
 export const checkSession = createServerFn({ method: "GET" }).handler(
 	async () => {

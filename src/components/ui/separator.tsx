@@ -1,4 +1,4 @@
-import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
+import { Separator as SeparatorPrimitive } from "@kobalte/core/separator";
 
 import { cn } from "@/lib/utils";
 
@@ -8,12 +8,12 @@ function Separator({
 	className,
 	orientation = "horizontal",
 	...props
-}: SeparatorPrimitive.Props) {
+}: any) {
 	return (
 		<SeparatorPrimitive
 			data-slot="separator"
 			orientation={orientation}
-			className={cn(styles.separator, className)}
+			class={cn(styles.separator, className)}
 			{...props}
 		/>
 	);

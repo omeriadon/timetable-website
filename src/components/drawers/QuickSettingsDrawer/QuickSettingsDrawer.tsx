@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "@tanstack/solid-router";
 import { useDrawer } from "../Drawer/Drawer";
 import { List } from "@/components/ui/list";
 import styles from "../Drawer/Drawer.module.css";

@@ -1,72 +1,28 @@
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-
+import { Accordion as Primitive } from "@kobalte/core/accordion";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-solid";
 import { cn } from "@/lib/utils";
-
 import styles from "./according.module.css";
 
-function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
-	return (
-		<AccordionPrimitive.Root
-			data-slot="accordion"
-			className={cn(styles.accordion, className)}
-			{...props}
-		/>
-	);
+export function Accordion(props: any) {
+	return <Primitive {...props} data-slot="accordion" class={cn(styles.accordion, props.class ?? props.className)} />;
 }
 
-function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
-	return (
-		<AccordionPrimitive.Item
-			data-slot="accordion-item"
-			className={cn(styles.item, className)}
-			{...props}
-		/>
-	);
+export function AccordionItem(props: any) {
+	return <Primitive.Item {...props} data-slot="accordion-item" class={cn(styles.item, props.class ?? props.className)} />;
 }
 
-function AccordionTrigger({
-	className,
-	children,
-	...props
-}: AccordionPrimitive.Trigger.Props) {
-	return (
-		<AccordionPrimitive.Header className={styles.header}>
-			<AccordionPrimitive.Trigger
-				data-slot="accordion-trigger"
-				className={cn(styles.trigger, className)}
-				{...props}
-			>
-				{children}
-
-				<ChevronDownIcon
-					data-slot="accordion-trigger-icon"
-					className={cn(styles.triggerIcon, styles.downIcon)}
-				/>
-
-				<ChevronUpIcon
-					data-slot="accordion-trigger-icon"
-					className={cn(styles.triggerIcon, styles.upIcon)}
-				/>
-			</AccordionPrimitive.Trigger>
-		</AccordionPrimitive.Header>
-	);
+export function AccordionTrigger(props: any) {
+	return <Primitive.Header class={styles.header}>
+		<Primitive.Trigger {...props} data-slot="accordion-trigger" class={cn(styles.trigger, props.class ?? props.className)}>
+			{props.children}
+			<ChevronDownIcon data-slot="accordion-trigger-icon" class={cn(styles.triggerIcon, styles.downIcon)} />
+			<ChevronUpIcon data-slot="accordion-trigger-icon" class={cn(styles.triggerIcon, styles.upIcon)} />
+		</Primitive.Trigger>
+	</Primitive.Header>;
 }
 
-function AccordionContent({
-	className,
-	children,
-	...props
-}: AccordionPrimitive.Panel.Props) {
-	return (
-		<AccordionPrimitive.Panel
-			data-slot="accordion-content"
-			className={styles.panel}
-			{...props}
-		>
-			<div className={cn(styles.content, className)}>{children}</div>
-		</AccordionPrimitive.Panel>
-	);
+export function AccordionContent(props: any) {
+	return <Primitive.Content {...props} data-slot="accordion-content" class={styles.panel}>
+		<div class={cn(styles.content, props.class ?? props.className)}>{props.children}</div>
+	</Primitive.Content>;
 }
-
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

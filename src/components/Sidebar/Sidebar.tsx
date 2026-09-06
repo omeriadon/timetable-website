@@ -1,8 +1,7 @@
 import styles from "./Sidebar.module.css";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useRouteContext } from "@tanstack/solid-router";
 
-import { useLocation, useRouteContext } from "@tanstack/react-router";
-import { useEffect, useState, CSSProperties } from "react";
+import { createSignal, onMount, type JSX } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
@@ -41,23 +40,20 @@ export default function Sidebar() {
 		select: (context) => context.account,
 	});
 	const isAdministrator =
-		account.authority.toLowerCase().includes("admin") ||
-		account.authority.toLowerCase().includes("owner");
-	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
-		useState(0);
+		account().authority.toLowerCase().includes("admin") ||
+		account().authority.toLowerCase().includes("owner");
+	const [incomingFriendRequestCount, setIncomingFriendRequestCount] = createSignal(0);
 
 	// State or ref to hold dynamic hover values for the brand icon
-	const [iconTransformProps, setIconTransformProps] = useState<CSSProperties>(
-		{},
-	);
+	const [iconTransformProps, setIconTransformProps] = createSignal<JSX.CSSProperties>({});
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<Friend[]>("v1/friends/requests")
 			.then((incomingRequests) =>
 				setIncomingFriendRequestCount(incomingRequests.length),
 			)
 			.catch(() => setIncomingFriendRequestCount(0));
-	}, []);
+	});
 
 	const handleIconHover = () => {
 		const randomDeg = Math.random() * 20 - 10; // -10 to 10
@@ -66,44 +62,43 @@ export default function Sidebar() {
 		setIconTransformProps({
 			["--random-deg" as string]: `${randomDeg}deg`,
 			["--random-scale" as string]: `${randomScale}`,
-		} as CSSProperties);
+		});
 	};
 
 	const handleIconLeave = () => {
 		setIconTransformProps({
 			["--random-deg" as string]: `0deg`,
 			["--random-scale" as string]: `1`,
-		} as CSSProperties);
+		});
 	};
 
-	if (isCompact) {
+	if (isCompact()) {
 		return null;
 	}
 
 	function isActive(href: string) {
-		return pathname === href || pathname.startsWith(`${href}/`);
+		return pathname() === href || pathname().startsWith(`${href}/`);
 	}
 
 	function renderItem(item: SidebarItem) {
 		return (
 			<Link
-				key={item.href}
-				to={item.href}
-				className={
+				to={item.href as any}
+				class={
 					isActive(item.href)
 						? `${styles.sidebarLink} ${styles.active}`
 						: styles.sidebarLink
 				}
 				aria-current={isActive(item.href) ? "page" : undefined}
 			>
-				<Symbol name={item.icon} className={styles.navIcon} />
+				<Symbol name={item.icon} class={styles.navIcon} />
 				<span>{item.label}</span>
-				{item.badge && incomingFriendRequestCount > 0 ? (
+				{item.badge && incomingFriendRequestCount() > 0 ? (
 					<span
-						className={styles.navBadge}
-						aria-label={`${incomingFriendRequestCount} pending`}
+						class={styles.navBadge}
+						aria-label={`${incomingFriendRequestCount()} pending`}
 					>
-						{incomingFriendRequestCount}
+						{incomingFriendRequestCount()}
 					</span>
 				) : null}
 			</Link>
@@ -111,13 +106,13 @@ export default function Sidebar() {
 	}
 
 	return (
-		<aside className={styles.sidebar} aria-label="Sidebar navigation">
-			<div className={styles.saturationOutline} aria-hidden="true" />
+		<aside class={styles.sidebar} aria-label="Sidebar navigation">
+			<div class={styles.saturationOutline} aria-hidden="true" />
 
-			<div className={styles.sidebarHeader}>
+			<div class={styles.sidebarHeader}>
 				<Link
 					to="/"
-					className={styles.brandLink}
+					class={styles.brandLink}
 					aria-label="Home"
 					onMouseEnter={handleIconHover}
 					onMouseLeave={handleIconLeave}
@@ -126,10 +121,10 @@ export default function Sidebar() {
 						src="/icon-512.webp"
 						width={80}
 						height={44}
-						className={styles.brandIcon}
+						class={styles.brandIcon}
 						style={{
-							...iconTransformProps,
-							marginRight: "auto",
+							...iconTransformProps(),
+							"margin-right": "auto",
 						}}
 						alt=""
 						aria-hidden="true"
@@ -137,10 +132,10 @@ export default function Sidebar() {
 				</Link>
 			</div>
 
-			<nav className={styles.sidebarNav} aria-label="Main navigation">
+			<nav class={styles.sidebarNav} aria-label="Main navigation">
 				{topGroups.map((item) => renderItem(item))}
 			</nav>
-			<nav className={styles.sidebarBottom} aria-label="Account navigation">
+			<nav class={styles.sidebarBottom} aria-label="Account navigation">
 				{bottomItems
 					.filter((item) => item.label !== "Administration" || isAdministrator)
 					.map(renderItem)}

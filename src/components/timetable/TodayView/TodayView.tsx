@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
@@ -57,13 +59,14 @@ export default function TodayView({
 	const [localEvents, setLocalEvents] = useState(events);
 	useEffect(() => setLocalEvents(events), [events]);
 	const today = useTimetableNow();
-	const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+	const currentDate = today();
+	const todayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
 	const todayTimestamp = new Date(
-		today.getFullYear(),
-		today.getMonth(),
-		today.getDate(),
+		currentDate.getFullYear(),
+		currentDate.getMonth(),
+		currentDate.getDate(),
 	).getTime();
-	const dayIndex = todayDayIndex(today);
+	const dayIndex = todayDayIndex(currentDate);
 	const entries = [
 		...localEvents.map<TodayEntry>((event) => ({
 			kind: "event",
@@ -96,7 +99,11 @@ export default function TodayView({
 		return `${date.year}-${date.month}-${date.day}` === todayKey;
 	});
 	const isSchoolDay = dayIndex >= 0 && dayIndex < 5 && !noSchool;
-	const nextSubject = nextScheduledSubject(subjects, schoolCalendar, today);
+	const nextSubject = nextScheduledSubject(
+		subjects,
+		schoolCalendar,
+		currentDate,
+	);
 	const updateEvent = (updated: CalendarEvent | null, originalID: string) => {
 		setLocalEvents((current) =>
 			updated
@@ -118,10 +125,10 @@ export default function TodayView({
 						weekday: "long",
 						day: "numeric",
 						month: "long",
-					}).format(today)}
+					}).format(currentDate)}
 				</h1>
 				<span>
-					{termWeekLabel(schoolCalendar, today) ?? "Outside school term"}
+					{termWeekLabel(schoolCalendar, currentDate) ?? "Outside school term"}
 				</span>
 			</header>
 			{entries.length ? (
@@ -183,7 +190,11 @@ export default function TodayView({
 										slot.day === dayIndex && slot.session === period.session,
 								),
 							);
-							const current = isCurrentPeriod(period.start, period.end, today);
+							const current = isCurrentPeriod(
+								period.start,
+								period.end,
+								currentDate,
+							);
 							return (
 								<div
 									key={period.session}
@@ -268,15 +279,15 @@ function AssessmentEntryRow({
 				if (!entry.subject) {
 					return;
 				}
-				openDrawer(
+				openDrawer(() => (
 					<GradeSubjectDrawer
 						subjectID={entry.subject.id}
 						symbol={entry.subject.symbol}
 						colour={colour(entry.subject)}
 						average={entry.assessment.score}
 						assessments={[entry.assessment]}
-					/>,
-				);
+					/>
+				));
 			}}
 			aria-label={`Open ${entry.assessment.name}`}
 		>

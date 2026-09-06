@@ -1,17 +1,11 @@
-import * as React from "react";
-
+import type { JSX } from "solid-js";
+import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
-
 import styles from "./textarea.module.css";
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-	return (
-		<textarea
-			data-slot="textarea"
-			className={cn(styles.textarea, className)}
-			{...props}
-		/>
-	);
+function Textarea(props: JSX.TextareaHTMLAttributes<HTMLTextAreaElement> & { className?: string }) {
+	const [local, rest] = splitProps(props, ["class", "className"]);
+	return <textarea {...rest} data-slot="textarea" class={cn(styles.textarea, local.class ?? local.className)} />;
 }
 
 export { Textarea };

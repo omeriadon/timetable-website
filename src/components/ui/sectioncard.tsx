@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { JSX } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { cn } from "@/lib/utils";
 import styles from "./sectioncard.module.css";
@@ -7,7 +7,7 @@ type SectionCardProps = {
 	background: "paper" | "surface";
 	title: string;
 	symbolName: string;
-	children: ReactNode;
+	children: JSX.Element;
 	className?: string;
 };
 
@@ -19,14 +19,14 @@ export function SectionCard({
 	className,
 }: SectionCardProps) {
 	return (
-		<section className={cn(styles.card, styles[background], className)}>
-			<header className={styles.header}>
-				<div className={styles.heading}>
-					<Symbol name={symbolName} className={styles.icon} />
+		<section class={cn(styles.card, styles[background], className)}>
+			<header class={styles.header}>
+				<div class={styles.heading}>
+					<Symbol name={symbolName} class={styles.icon} />
 					<div>{title}</div>
 				</div>
 			</header>
-			<div className={styles.content}>{children}</div>
+			<div class={styles.content}>{children}</div>
 		</section>
 	);
 }

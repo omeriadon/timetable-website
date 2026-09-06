@@ -42,7 +42,7 @@ export default function EventRow({
 				prominent ? styles.plannerEvent : styles.eventRow,
 			)}
 			onClick={() =>
-				openDrawer(
+				openDrawer(() =>
 					<CalendarEventDrawer
 						event={event}
 						onChanged={onChanged ?? (() => undefined)}

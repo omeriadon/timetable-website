@@ -1,6 +1,12 @@
-import { useEffect, useRef } from "react";
+import { onCleanup, onMount } from "solid-js";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import "./GradientBlinds.css";
+
+const useRef = (current) => ({ current });
+const useEffect = (effect) => onMount(() => {
+	const cleanup = effect();
+	if (cleanup) onCleanup(cleanup);
+});
 
 const MAX_COLORS = 8;
 const hexToRGB = (hex) => {

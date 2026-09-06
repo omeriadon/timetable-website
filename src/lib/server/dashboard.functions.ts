@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn } from "@tanstack/solid-start";
 import type { Account } from "@/lib/api/contracts";
 import type { EventNotificationSchedule } from "@/components/drawers/EventNotificationScheduleDrawer/EventNotificationScheduleDrawer";
 import type {

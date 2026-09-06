@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { onMount, onCleanup } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 
 type ThemeSettings = {
@@ -6,7 +6,7 @@ type ThemeSettings = {
 };
 
 export default function ThemeSettingsSync() {
-	useEffect(() => {
+	onMount(() => {
 		const apply = (settings: ThemeSettings) => {
 			document.documentElement.dataset.appFont = settings.appFontDesign;
 		};
@@ -16,7 +16,7 @@ export default function ThemeSettingsSync() {
 		const handleUpdate = (event: Event) =>
 			apply((event as CustomEvent<ThemeSettings>).detail);
 		window.addEventListener("timetable:theme", handleUpdate);
-		return () => window.removeEventListener("timetable:theme", handleUpdate);
-	}, []);
+		onCleanup(() => window.removeEventListener("timetable:theme", handleUpdate));
+	});
 	return null;
 }

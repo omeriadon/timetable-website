@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal, Show } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
@@ -23,11 +23,11 @@ export default function ConfirmationDrawer({
 	onConfirm,
 }: ConfirmationDrawerProps) {
 	const { closeDrawer } = useDrawer();
-	const [isWorking, setIsWorking] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [isWorking, setIsWorking] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const confirm = async () => {
-		if (isWorking) return;
+		if (isWorking()) return;
 		setIsWorking(true);
 		setError(null);
 		try {
@@ -52,13 +52,11 @@ export default function ConfirmationDrawer({
 					<p>{message}</p>
 				</div>
 			</header>
-			{error ? (
-				<p className={styles.detailMuted} role="alert">
-					{error}
-				</p>
-			) : null}
+			<Show when={error()}>
+				<p className={styles.detailMuted} role="alert">{error()}</p>
+			</Show>
 			<DrawerFooter className={styles.actionFooter}>
-				<DrawerClose variant="outline" flexible disabled={isWorking}>
+				<DrawerClose variant="outline" flexible disabled={isWorking()}>
 					<Symbol name="xmark" fallback="×" />
 					Cancel
 				</DrawerClose>
@@ -67,13 +65,13 @@ export default function ConfirmationDrawer({
 					flexible
 					aria-label={confirmLabel}
 					onClick={() => void confirm()}
-					disabled={isWorking}
+					disabled={isWorking()}
 				>
 					<Symbol
 						name={tone === "destructive" ? "trash" : "checkmark"}
 						fallback={tone === "destructive" ? "×" : "✓"}
 					/>
-					{isWorking ? "Working…" : confirmLabel}
+					{isWorking() ? "Working…" : confirmLabel}
 				</Button>
 			</DrawerFooter>
 		</div>

@@ -16,7 +16,7 @@ export default function SettingToggle({
 	disabled = false,
 }: SettingToggleProps) {
 	return (
-		<ListRow className={styles.settingToggle}>
+		<ListRow class={styles.settingToggle}>
 			<span>{label}</span>
 			<Toggle
 				checked={enabled}

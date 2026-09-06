@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createEffect, createSignal, onCleanup } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import type { DashboardData as ServerDashboardData } from "@/lib/server/dashboard.functions";
 import type { Account } from "@/lib/api/contracts";
@@ -69,12 +69,12 @@ function requestDashboard() {
 }
 
 export function useDashboard(initialData?: DashboardData) {
-	const [data, setData] = useState<DashboardData | null>(
+	const [data, setData] = createSignal<DashboardData | null>(
 		initialData ?? cachedDashboardData,
 	);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	createEffect(() => {
 		if (initialData) {
 			cachedDashboardData = initialData;
 			return;
@@ -94,10 +94,10 @@ export function useDashboard(initialData?: DashboardData) {
 				}
 			});
 
-		return () => {
+		onCleanup(() => {
 			isCurrent = false;
-		};
-	}, [initialData]);
+		});
+	});
 
-	return { data, error, isLoading: !data && !error };
+	return { data, error, isLoading: () => !data() && !error() };
 }

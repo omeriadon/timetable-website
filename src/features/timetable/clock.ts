@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onCleanup } from "solid-js";
 
 const debugOffsetKey = "timetable.debug-offset";
 const debugOffsetEvent = "timetable:debug-offset";
@@ -17,20 +17,20 @@ export function timetableNow() {
 }
 
 export function useTimetableNow() {
-	const [now, setNow] = useState(() => new Date());
+	const [now, setNow] = createSignal(new Date());
 
-	useEffect(() => {
-		const update = () => setNow(timetableNow());
+	const update = () => setNow(timetableNow());
+	if (typeof window !== "undefined") {
 		const interval = window.setInterval(update, 60_000);
 
 		update();
 		window.addEventListener(debugOffsetEvent, update);
 
-		return () => {
+		onCleanup(() => {
 			window.clearInterval(interval);
 			window.removeEventListener(debugOffsetEvent, update);
-		};
-	}, []);
+		});
+	}
 
 	return now;
 }

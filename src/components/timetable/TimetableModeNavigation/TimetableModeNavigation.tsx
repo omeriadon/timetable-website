@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { useLocation } from "@tanstack/react-router";
+import { Link } from "@tanstack/solid-router";
+import { useLocation } from "@tanstack/solid-router";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import styles from "@/components/timetable/timetable.module.css";

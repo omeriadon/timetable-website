@@ -1,7 +1,7 @@
-import { useLocation } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useLocation } from "@tanstack/solid-router";
+import type { JSX } from "solid-js";
 
-export default function RouteTransition({ children }: { children: ReactNode }) {
-	const pathname = useLocation({ select: (location) => location.pathname });
-	return <div key={pathname}>{children}</div>;
+export default function RouteTransition({ children }: { children: JSX.Element }) {
+	useLocation({ select: (location) => location.pathname });
+	return <div>{children}</div>;
 }

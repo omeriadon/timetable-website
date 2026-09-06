@@ -1,86 +1,12 @@
-import * as React from "react";
-import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
-
+import { Popover as Primitive } from "@kobalte/core/popover";
 import { cn } from "@/lib/utils";
 import styles from "./popover.module.css";
 
-function Popover(props: PopoverPrimitive.Root.Props) {
-	return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+export function Popover(props: any) { return <Primitive {...props} />; }
+export function PopoverTrigger(props: any) { return <Primitive.Trigger {...props} data-slot="popover-trigger" />; }
+export function PopoverContent(props: any) {
+	return <Primitive.Portal><Primitive.Content {...props} data-slot="popover-content" class={cn(styles.content, props.class ?? props.className)} /></Primitive.Portal>;
 }
-
-function PopoverTrigger(props: PopoverPrimitive.Trigger.Props) {
-	return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
-}
-
-function PopoverContent({
-	className,
-	align = "center",
-	alignOffset = 0,
-	side = "bottom",
-	sideOffset = 4,
-	...props
-}: PopoverPrimitive.Popup.Props &
-	Pick<
-		PopoverPrimitive.Positioner.Props,
-		"align" | "alignOffset" | "side" | "sideOffset"
-	>) {
-	return (
-		<PopoverPrimitive.Portal>
-			<PopoverPrimitive.Positioner
-				align={align}
-				alignOffset={alignOffset}
-				side={side}
-				sideOffset={sideOffset}
-				className={styles.positioner}
-			>
-				<PopoverPrimitive.Popup
-					data-slot="popover-content"
-					className={cn(styles.content, className)}
-					{...props}
-				/>
-			</PopoverPrimitive.Positioner>
-		</PopoverPrimitive.Portal>
-	);
-}
-
-function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="popover-header"
-			className={cn(styles.header, className)}
-			{...props}
-		/>
-	);
-}
-
-function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
-	return (
-		<PopoverPrimitive.Title
-			data-slot="popover-title"
-			className={cn(styles.title, className)}
-			{...props}
-		/>
-	);
-}
-
-function PopoverDescription({
-	className,
-	...props
-}: PopoverPrimitive.Description.Props) {
-	return (
-		<PopoverPrimitive.Description
-			data-slot="popover-description"
-			className={cn(styles.description, className)}
-			{...props}
-		/>
-	);
-}
-
-export {
-	Popover,
-	PopoverContent,
-	PopoverDescription,
-	PopoverHeader,
-	PopoverTitle,
-	PopoverTrigger,
-};
+export function PopoverHeader(props: any) { return <div {...props} data-slot="popover-header" class={cn(styles.header, props.class ?? props.className)} />; }
+export function PopoverTitle(props: any) { return <Primitive.Title {...props} data-slot="popover-title" class={cn(styles.title, props.class ?? props.className)} />; }
+export function PopoverDescription(props: any) { return <Primitive.Description {...props} data-slot="popover-description" class={cn(styles.description, props.class ?? props.className)} />; }

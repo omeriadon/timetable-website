@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { JSX } from "solid-js";
 import type { Account } from "@/lib/api/contracts";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../controls.module.css";
@@ -41,7 +41,7 @@ export default function ProfilePicture({
 		appearance?.contentKind === "photo" && profile?.photo?.url ? (
 			<Symbol
 				src={proxiedPhotoURL(profile.photo.url)}
-				className={styles.profilePictureImage}
+				class={styles.profilePictureImage}
 				alt=""
 			/>
 		) : appearance?.contentKind === "emoji" ? (
@@ -50,7 +50,7 @@ export default function ProfilePicture({
 			) : (
 				<Symbol
 					name="person.fill"
-					className={styles.profilePictureFallbackIcon}
+					class={styles.profilePictureFallbackIcon}
 				/>
 			)
 		) : (
@@ -59,7 +59,7 @@ export default function ProfilePicture({
 
 	return (
 		<span
-			className={styles.profilePicture}
+		class={styles.profilePicture}
 			aria-label={
 				label ?? `${profile?.displayName ?? "Profile"} profile picture`
 			}
@@ -71,7 +71,7 @@ export default function ProfilePicture({
 					background: `linear-gradient(135deg, ${colour(colours[0])}, ${colour(colours[1] ?? colours[0])})`,
 					fontFamily: fontFamily(appearance?.fontDesign),
 					fontWeight: fontWeight(appearance?.fontWeight),
-				} as CSSProperties
+				} as JSX.CSSProperties
 			}
 		>
 			{content}

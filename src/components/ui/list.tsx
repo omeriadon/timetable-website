@@ -1,117 +1,52 @@
-import {
-	Children,
-	isValidElement,
-	type ReactElement,
-	type ReactNode,
-} from "react";
-
+import type { JSX } from "solid-js";
+import { splitProps } from "solid-js";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
 import styles from "./list.module.css";
 
-export function List({
-	children,
-	className,
-	rowHover = false,
-}: {
-	children: ReactNode;
+type CommonProps = {
 	className?: string;
-	rowHover?: boolean;
-}) {
-	const items = Children.toArray(children);
+	class?: string;
+	children?: JSX.Element;
+};
 
-	const hasSections = items.some(
-		(item) => isValidElement(item) && item.type === ListSection,
+export function List(props: CommonProps & { rowHover?: boolean; sections?: boolean }) {
+	const [local] = splitProps(props, ["children", "className", "class", "rowHover", "sections"]);
+	const className = cn(
+		local.rowHover && styles.rowHover,
+		local.class ?? local.className,
 	);
 
-	if (!hasSections) {
+	if (local.sections) {
 		return (
-			<Card
-				role="list"
-				className={cn(styles.card, rowHover && styles.rowHover, className)}
-			>
-				{children}
-			</Card>
+			<div role="list" class={cn(styles.sectionList, className)}>
+				{local.children}
+			</div>
 		);
 	}
 
 	return (
-		<div
-			role="list"
-			className={cn(styles.sectionList, rowHover && styles.rowHover, className)}
-		>
-			{items.map((item, index) => {
-				if (!isValidElement(item) || item.type !== ListSection) {
-					return item;
-				}
-
-				const section = item as ReactElement<{
-					children: ReactNode;
-					className?: string;
-				}>;
-
-				const sectionChildren = Children.toArray(section.props.children);
-
-				const header = sectionChildren.find(
-					(child) => isValidElement(child) && child.type === ListSectionHeader,
-				);
-
-				const content = sectionChildren.filter(
-					(child) =>
-						!(isValidElement(child) && child.type === ListSectionHeader),
-				);
-
-				return (
-					<div
-						key={section.key ?? index}
-						className={cn(styles.section, section.props.className)}
-					>
-						{header}
-
-						<Card role="group" className={styles.card}>
-							{content}
-						</Card>
-					</div>
-				);
-			})}
-		</div>
+		<Card role="list" class={className}>
+			{local.children}
+		</Card>
 	);
 }
 
-export function ListSection({
-	children,
-}: {
-	children: ReactNode;
-	className?: string;
-}) {
-	return children;
+export function ListSection(props: CommonProps) {
+	const [local] = splitProps(props, ["children", "className", "class"]);
+	return <div class={cn(styles.section, local.class ?? local.className)}>{local.children}</div>;
 }
 
-export function ListSectionHeader({
-	children,
-	className,
-}: {
-	children: ReactNode;
-	className?: string;
-}) {
-	return <div className={cn(styles.sectionHeader, className)}>{children}</div>;
+export function ListSectionHeader(props: CommonProps) {
+	const [local] = splitProps(props, ["children", "className", "class"]);
+	return <div class={cn(styles.sectionHeader, local.class ?? local.className)}>{local.children}</div>;
 }
 
-export function ListRow({
-	children,
-	className,
-}: {
-	children: ReactNode;
-	className?: string;
-}) {
+export function ListRow(props: CommonProps) {
+	const [local] = splitProps(props, ["children", "className", "class"]);
 	return (
-		<div
-			role="listitem"
-			data-slot="list-row"
-			className={cn(styles.row, className)}
-		>
-			{children}
+		<div role="listitem" data-slot="list-row" class={cn(styles.row, local.class ?? local.className)}>
+			{local.children}
 		</div>
 	);
 }

@@ -2,7 +2,7 @@ import {
 	deleteCookie,
 	getCookie,
 	setCookie,
-} from "@tanstack/react-start/server";
+} from "@tanstack/solid-start/server";
 import type { TokenResponse } from "@/lib/api/contracts";
 
 const apiBaseURL =

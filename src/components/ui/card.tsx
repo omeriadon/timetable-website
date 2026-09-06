@@ -1,90 +1,33 @@
-import * as React from "react";
-
+import type { JSX } from "solid-js";
+import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
-
 import styles from "./card.module.css";
 
-function Card({
-	className,
-	size = "default",
-	...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+type DivProps = JSX.HTMLAttributes<HTMLDivElement> & { className?: string };
+
+function part(className: string, props: DivProps) {
+	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
-		<div
-			data-slot="card"
-			data-size={size}
-			className={cn(styles.card, className)}
-			{...props}
-		/>
+		<div {...rest} class={cn(className, local.class ?? local.className)}>
+			{local.children}
+		</div>
 	);
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+function Card(props: DivProps & { size?: "default" | "sm" }) {
+	const [local, rest] = splitProps(props, ["class", "className", "children", "size"]);
 	return (
-		<div
-			data-slot="card-header"
-			className={cn(styles.header, className)}
-			{...props}
-		/>
+		<div {...rest} data-slot="card" data-size={local.size ?? "default"} class={cn(styles.card, local.class ?? local.className)}>
+			{local.children}
+		</div>
 	);
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="card-title"
-			className={cn(styles.title, className)}
-			{...props}
-		/>
-	);
-}
+const CardHeader = (props: DivProps) => part(styles.header, props);
+const CardTitle = (props: DivProps) => part(styles.title, props);
+const CardDescription = (props: DivProps) => part(styles.description, props);
+const CardAction = (props: DivProps) => part(styles.action, props);
+const CardContent = (props: DivProps) => part(styles.content, props);
+const CardFooter = (props: DivProps) => part(styles.footer, props);
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="card-description"
-			className={cn(styles.description, className)}
-			{...props}
-		/>
-	);
-}
-
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="card-action"
-			className={cn(styles.action, className)}
-			{...props}
-		/>
-	);
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="card-content"
-			className={cn(styles.content, className)}
-			{...props}
-		/>
-	);
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="card-footer"
-			className={cn(styles.footer, className)}
-			{...props}
-		/>
-	);
-}
-
-export {
-	Card,
-	CardHeader,
-	CardFooter,
-	CardTitle,
-	CardAction,
-	CardDescription,
-	CardContent,
-};
+export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter };

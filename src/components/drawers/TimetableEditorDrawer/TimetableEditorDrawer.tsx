@@ -9,7 +9,7 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/solid-router";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,

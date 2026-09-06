@@ -1,5 +1,3 @@
-import React from "react";
-
 type ProgressiveBlurProps = {
 	className?: string;
 	backgroundColor?: string;
@@ -19,20 +17,20 @@ const ProgressiveBlur = ({
 
 	return (
 		<div
-			className={`pointer-events-none absolute left-0 w-full select-none ${className}`}
+			class={`pointer-events-none absolute left-0 w-full select-none ${className}`}
 			style={{
 				[isTop ? "top" : "bottom"]: 0,
 				height,
 				background: isTop
 					? `linear-gradient(to top, transparent, ${backgroundColor})`
 					: `linear-gradient(to bottom, transparent, ${backgroundColor})`,
-				maskImage: isTop
+				"mask-image": isTop
 					? `linear-gradient(to bottom, ${backgroundColor} 50%, transparent)`
 					: `linear-gradient(to top, ${backgroundColor} 50%, transparent)`,
-				WebkitBackdropFilter: `blur(${blurAmount})`,
-				backdropFilter: `blur(${blurAmount})`,
-				WebkitUserSelect: "none",
-				userSelect: "none",
+				"-webkit-backdrop-filter": `blur(${blurAmount})`,
+				"backdrop-filter": `blur(${blurAmount})`,
+				"-webkit-user-select": "none",
+				"user-select": "none",
 			}}
 		/>
 	);
@@ -40,20 +38,20 @@ const ProgressiveBlur = ({
 
 const Skiper41 = () => {
 	return (
-		<div className="relative flex h-full w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40">
+		<div class="relative flex h-full w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40">
 			<ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
 			<ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
 
-			<div className="flex h-[calc(100vh-1rem)] w-full flex-col items-center overflow-scroll">
-				<div className="mt-42 grid content-start justify-items-center gap-6 text-center text-black">
-					<span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-linear-to-b after:from-white after:to-black after:content-['']">
+			<div class="flex h-[calc(100vh-1rem)] w-full flex-col items-center overflow-scroll">
+				<div class="mt-42 grid content-start justify-items-center gap-6 text-center text-black">
+					<span class="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-linear-to-b after:from-white after:to-black after:content-['']">
 						Scroll down to see the effect
 					</span>
 				</div>
 
-				<div className="mt-24 w-full max-w-lg space-y-20 px-5 text-justify">
+				<div class="mt-24 w-full max-w-lg space-y-20 px-5 text-justify">
 					{Array.from({ length: 10 }).map((_, index) => (
-						<div key={index}>
+						<div>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit.
 							Obcaecati, reiciendis eum vitae nostrum, temporibus repudiandae
 							voluptatibus, natus iure ipsa velit odit quibusdam illum. Quaerat

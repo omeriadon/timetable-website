@@ -1,19 +1,11 @@
-import * as React from "react";
-import { Input as InputPrimitive } from "@base-ui/react/input";
-
+import type { JSX } from "solid-js";
+import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
-
 import styles from "./input.module.css";
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
-	return (
-		<InputPrimitive
-			type={type}
-			data-slot="input"
-			className={cn(styles.input, className)}
-			{...props}
-		/>
-	);
+function Input(props: JSX.InputHTMLAttributes<HTMLInputElement> & { className?: string }) {
+	const [local, rest] = splitProps(props, ["class", "className"]);
+	return <input {...rest} data-slot="input" class={cn(styles.input, local.class ?? local.className)} />;
 }
 
 export { Input };

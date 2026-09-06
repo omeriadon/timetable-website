@@ -1,6 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { useLocation, useRouteContext } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Link, useLocation, useRouteContext } from "@tanstack/solid-router";
+import { createSignal, onMount } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import type { Friend } from "@/features/timetable/types";
 import { useCompactLayout } from "@/lib/ui/useCompactLayout";
@@ -29,20 +28,19 @@ export default function MobileTabBar() {
 		select: (context) => context.account,
 	});
 	const isAdministrator =
-		account.authority.toLowerCase().includes("admin") ||
-		account.authority.toLowerCase().includes("owner");
-	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
-		useState(0);
+		account().authority.toLowerCase().includes("admin") ||
+		account().authority.toLowerCase().includes("owner");
+	const [incomingFriendRequestCount, setIncomingFriendRequestCount] = createSignal(0);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<Friend[]>("v1/friends/requests")
 			.then((incomingRequests) =>
 				setIncomingFriendRequestCount(incomingRequests.length),
 			)
 			.catch(() => setIncomingFriendRequestCount(0));
-	}, []);
+	});
 
-	if (!isCompact) {
+	if (!isCompact()) {
 		return null;
 	}
 
@@ -51,19 +49,18 @@ export default function MobileTabBar() {
 			{tabs
 				.filter((tab) => tab.label !== "Admin" || isAdministrator)
 				.map((tab) => {
-					const active =
-						tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
+						const active =
+							tab.href === "/" ? pathname() === "/" : pathname().startsWith(tab.href);
 
 					return (
 						<Link
-							key={tab.href}
-							to={tab.href}
+							to={tab.href as any}
 							aria-current={active ? "page" : undefined}
 						>
 							<Symbol name={tab.icon} />
 							<span>{tab.label}</span>
-							{tab.badge && incomingFriendRequestCount > 0 ? (
-								<span aria-hidden="true">{incomingFriendRequestCount}</span>
+							{tab.badge && incomingFriendRequestCount() > 0 ? (
+								<span aria-hidden="true">{incomingFriendRequestCount()}</span>
 							) : null}
 						</Link>
 					);
