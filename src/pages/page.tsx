@@ -1,6 +1,27 @@
+/** @jsxImportSource react */
+
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import Symbol from "@/components/controls/Symbol/Symbol";
+function LandingSymbol({
+	name,
+	className,
+}: {
+	name: string;
+	className?: string;
+}) {
+	return (
+		<span
+			className={className}
+			aria-hidden="true"
+			style={{
+				backgroundImage: `url("/icons/${encodeURIComponent(name)}.svg")`,
+				backgroundPosition: "center",
+				backgroundRepeat: "no-repeat",
+				backgroundSize: "contain",
+			}}
+		/>
+	);
+}
 import styles from "./page.module.css";
 
 type Friend = {
@@ -86,9 +107,7 @@ const featureCards = [
 ];
 
 function Arrow() {
-	return (
-		<Symbol name="arrow.up.right" className={styles.arrow} aria-hidden="true" />
-	);
+	return <LandingSymbol name="arrow.up.right" className={styles.arrow} />;
 }
 
 export default function LandingPage() {
@@ -131,7 +150,7 @@ export default function LandingPage() {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<Symbol name="apple.logo" aria-hidden="true" />
+								<LandingSymbol name="apple.logo" />
 								<span>Try the iOS app</span>
 							</a>
 							<Link className={styles.textButton} to="/login">
@@ -361,7 +380,7 @@ export default function LandingPage() {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<Symbol name="apple.logo" aria-hidden="true" />
+							<LandingSymbol name="apple.logo" />
 							<span>Join the TestFlight</span>
 						</a>
 						<Link className={styles.textButton} to="/login">

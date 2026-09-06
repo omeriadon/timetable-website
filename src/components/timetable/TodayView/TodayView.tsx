@@ -1,6 +1,4 @@
-/** @jsxImportSource react */
-
-import { useEffect, useState } from "react";
+import { createEffect, createSignal } from "solid-js";
 import { Button } from "@/components/ui/button";
 import type { DashboardData } from "@/features/timetable/useDashboard";
 import type {
@@ -56,8 +54,8 @@ export default function TodayView({
 	schoolWeather: DashboardData["schoolWeather"];
 	canManageGlobalEvents: boolean;
 }) {
-	const [localEvents, setLocalEvents] = useState(events);
-	useEffect(() => setLocalEvents(events), [events]);
+	const [localEvents, setLocalEvents] = createSignal(events);
+	createEffect(() => setLocalEvents(events));
 	const today = useTimetableNow();
 	const currentDate = today();
 	const todayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
@@ -68,7 +66,7 @@ export default function TodayView({
 	).getTime();
 	const dayIndex = todayDayIndex(currentDate);
 	const entries = [
-		...localEvents.map<TodayEntry>((event) => ({
+		...localEvents().map<TodayEntry>((event) => ({
 			kind: "event",
 			id: `event-${event.id}`,
 			date: event.date,
@@ -142,7 +140,6 @@ export default function TodayView({
 							<h3>Today</h3>
 							{todayEntries.map((entry) => (
 								<TodayEntryRow
-									key={entry.id}
 									entry={entry}
 									showDate={false}
 									onEventChanged={updateEvent}
@@ -156,7 +153,6 @@ export default function TodayView({
 							<h3>Upcoming</h3>
 							{upcomingEntries.map((entry) => (
 								<TodayEntryRow
-									key={entry.id}
 									entry={entry}
 									showDate
 									onEventChanged={updateEvent}
@@ -276,14 +272,15 @@ function AssessmentEntryRow({
 			type="button"
 			className={cn(styles.cardRow, styles.eventRow)}
 			onClick={() => {
-				if (!entry.subject) {
+				const subject = entry.subject;
+				if (!subject) {
 					return;
 				}
 				openDrawer(() => (
 					<GradeSubjectDrawer
-						subjectID={entry.subject.id}
-						symbol={entry.subject.symbol}
-						colour={colour(entry.subject)}
+						subjectID={subject.id}
+						symbol={subject.symbol}
+						colour={colour(subject)}
 						average={entry.assessment.score}
 						assessments={[entry.assessment]}
 					/>
