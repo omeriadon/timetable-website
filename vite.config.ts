@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 import { nitro } from "nitro/vite";
-import viteReact from "@vitejs/plugin-react";
+import viteSolid from "vite-plugin-solid";
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "node:url";
 
@@ -52,7 +52,7 @@ export default defineConfig({
 			},
 		}),
 		tailwindcss(),
-		viteReact(),
+		viteSolid({ ssr: true }),
 	],
 	server: { port: 3000 },
 });
