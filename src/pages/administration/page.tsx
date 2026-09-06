@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { AdministrationData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
@@ -83,17 +83,17 @@ export default function AdministrationPage({
 }) {
 	const initial = data;
 	const setToolbar = useToolbar();
-	const [dashboard] = useState<Dashboard>(initial);
-	const [error, setError] = useState<string | null>(null);
-	useEffect(() => setToolbar({ title: "Administration" }), [setToolbar]);
+	const [dashboard] = createSignal<Dashboard>(initial);
+	const [error, setError] = createSignal<string | null>(null);
+	onMount(() => setToolbar({ title: "Administration" }));
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
-			{dashboard && !dashboard.isAdmin ? (
+			{dashboard() && !dashboard()!.isAdmin ? (
 				<List>
 					<ListRow>
 						<Symbol name="exclamationmark.bubble" />
@@ -101,21 +101,21 @@ export default function AdministrationPage({
 					</ListRow>
 				</List>
 			) : null}
-			{dashboard?.isAdmin ? (
+			{dashboard()?.isAdmin ? (
 				<List>
 					{sections
 						.filter(
 							([heading]) =>
 								heading !== "System Administration" ||
-								dashboard.authority === "systemOwner",
+								dashboard()!.authority === "systemOwner",
 						)
 						.map(([heading, rows]) => (
 							<ListSection key={heading as string}>
 								<ListSectionHeader className={styles.section}>
 									{heading as string}
 									{heading === "Moderation" &&
-									dashboard.pendingModerationCount > 0
-										? ` (${dashboard.pendingModerationCount})`
+									dashboard()!.pendingModerationCount > 0
+										? ` (${dashboard()!.pendingModerationCount})`
 										: ""}
 								</ListSectionHeader>
 								{(rows as string[][]).map(([symbol, label, destination]) => (
@@ -136,7 +136,7 @@ export default function AdministrationPage({
 						))}
 				</List>
 			) : null}
-			{!dashboard && !error ? (
+			{!dashboard() && !error ? (
 				<p className={styles.loading}>Checking administrator access…</p>
 			) : null}
 		</main>
