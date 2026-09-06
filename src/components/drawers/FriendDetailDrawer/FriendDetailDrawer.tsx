@@ -1,7 +1,4 @@
-import { Tabs as ReactTabs } from "@base-ui/react/tabs";
-
-const Tabs: any = ReactTabs;
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import { Button } from "@/components/ui/button";
 import type {
 	Friend,
@@ -33,31 +30,29 @@ const tabs = [
 ] as const;
 
 export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
-	const [detail, setDetail] = useState<FriendDetail | null>(null);
-	const [ownerTimetable, setOwnerTimetable] = useState<OwnerTimetable | null>(
-		null,
-	);
-	const [tab, setTab] = useState<"main" | "week" | "info">("main");
-	const [error, setError] = useState<string | null>(null);
-	const [friendsSinceDate, setFriendsSinceDate] = useState("");
-	const [isSavingFriendsSince, setIsSavingFriendsSince] = useState(false);
+	const [detail, setDetail] = createSignal<FriendDetail | null>(null);
+	const [ownerTimetable, setOwnerTimetable] =
+		createSignal<OwnerTimetable | null>(null);
+	const [tab, setTab] = createSignal<"main" | "week" | "info">("main");
+	const [error, setError] = createSignal<string | null>(null);
+	const [friendsSinceDate, setFriendsSinceDate] = createSignal("");
+	const [isSavingFriendsSince, setIsSavingFriendsSince] = createSignal(false);
 	const { openDrawer, closeDrawer } = useDrawer();
 	const now = useTimetableNow();
 	const status = locationStatusTitle(friend.locationStatus?.state);
-	const subjects =
-		detail?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
-	const sharedSubjects = useMemo(() => {
+	const subjects = () =>
+		detail()?.timetable?.subjects ?? friend.timetable?.subjects ?? [];
+	const sharedSubjects = createMemo(() => {
 		const ownerSubjectIDs = new Set(
-			ownerTimetable?.subjects.map((subject) => subject.id) ?? [],
+			ownerTimetable()?.subjects.map((subject) => subject.id) ?? [],
 		);
-		return subjects.filter((subject) => ownerSubjectIDs.has(subject.id));
-	}, [ownerTimetable?.subjects, subjects]);
-	const sharedClasses = useMemo(
-		() => sharedClassRows(sharedSubjects, ownerTimetable?.subjects ?? []),
-		[ownerTimetable?.subjects, sharedSubjects],
+		return subjects().filter((subject) => ownerSubjectIDs.has(subject.id));
+	});
+	const sharedClasses = createMemo(() =>
+		sharedClassRows(sharedSubjects(), ownerTimetable()?.subjects ?? []),
 	);
 
-	useEffect(() => {
+	createEffect(() => {
 		Promise.all([
 			apiRequest<FriendDetail>(`v1/friends/${friend.friend.userID}`),
 			apiRequest<OwnerTimetable>("v1/timetables/owner"),
@@ -68,17 +63,18 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 				setOwnerTimetable(nextOwnerTimetable);
 			})
 			.catch((requestError: Error) => setError(requestError.message));
-	}, [friend.friend.userID]);
+	});
 
 	const updatePreference = async (
 		preference: "withinTenMinutes" | "withinFiveMinutes" | "arrived",
 	) => {
-		if (!detail) return;
-		const previous = detail.locationNotificationPreferences;
+		const currentDetail = detail();
+		if (!currentDetail) return;
+		const previous = currentDetail.locationNotificationPreferences;
 		const next = previous.includes(preference)
 			? previous.filter((item) => item !== preference)
 			: [...previous, preference];
-		setDetail({ ...detail, locationNotificationPreferences: next });
+		setDetail({ ...currentDetail, locationNotificationPreferences: next });
 		try {
 			await apiRequest(
 				`v1/friends/${friend.friend.userID}/location-notifications`,
@@ -88,13 +84,16 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 				},
 			);
 		} catch (requestError) {
-			setDetail({ ...detail, locationNotificationPreferences: previous });
+			setDetail({
+				...currentDetail,
+				locationNotificationPreferences: previous,
+			});
 			setError((requestError as Error).message);
 		}
 	};
 
 	const saveFriendsSince = async () => {
-		if (!friendsSinceDate || isSavingFriendsSince) return;
+		if (!friendsSinceDate() || isSavingFriendsSince()) return;
 		setIsSavingFriendsSince(true);
 		setError(null);
 		try {
@@ -102,13 +101,13 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 				method: "PUT",
 				body: JSON.stringify({
 					requestedDate: new Date(
-						`${friendsSinceDate}T00:00:00.000Z`,
+						`${friendsSinceDate()}T00:00:00.000Z`,
 					).toISOString(),
 				}),
 			});
 			setDetail((current) =>
 				current
-					? { ...current, acceptedAt: `${friendsSinceDate}T00:00:00.000Z` }
+					? { ...current, acceptedAt: `${friendsSinceDate()}T00:00:00.000Z` }
 					: current,
 			);
 		} catch (requestError) {
@@ -153,15 +152,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	};
 
 	return (
-		<Tabs.Root
-			className={styles.detailDrawer}
-			value={tab}
-			onValueChange={(value: string) => {
-				if (value === "main" || value === "week" || value === "info") {
-					setTab(value);
-				}
-			}}
-		>
+		<div class={styles.detailDrawer}>
 			<header className={styles.detailHeader}>
 				<ProfilePicture
 					profile={friend.friend}
@@ -173,215 +164,231 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					<p>{friend.friend.email}</p>
 				</div>
 			</header>
-			<Tabs.List className={styles.detailTabs} aria-label="Friend details">
+			<div class={styles.detailTabs} aria-label="Friend details">
 				{tabs.map(({ value, label, symbol }) => (
-					<Tabs.Tab
-						key={value}
-						value={value}
-						className={
-							tab === value
+					<button
+						type="button"
+						class={
+							tab() === value
 								? `${styles.detailTab} ${styles.detailTabActive}`
 								: styles.detailTab
 						}
+						onClick={() => setTab(value)}
 					>
 						<Symbol name={symbol} />
 						{label}
-					</Tabs.Tab>
+					</button>
 				))}
-			</Tabs.List>
-			<Tabs.Panel value="main" className={styles.detailPanel}>
-				<section className={styles.detailCard}>
-					<div className={styles.detailRow}>
-						<span className={styles.detailRowLabel}>
-							<Symbol name="location" />
-							Location
-						</span>
-						<strong>{status}</strong>
-					</div>
-					<div className={styles.detailRow}>
-						<span className={styles.detailRowLabel}>
-							<Symbol name="building.2" />
-							School status
-						</span>
-						<strong>{friendScheduleTitle(subjects, now())}</strong>
-					</div>
-				</section>
-				<section className={styles.detailSection}>
-					<h3>Shared Classes</h3>
-					<List>
-						{sharedClasses.length ? (
-							sharedClasses.map((sharedClass) => (
-								<ListRow
-									key={`${sharedClass.id}-class`}
-									className={styles.detailSubject}
-								>
-									<Symbol
-										name={sharedClass.symbol}
-										className={styles.detailSubjectSymbolIcon}
-									/>
-									<strong>{sharedClass.id}</strong>
-									<span>{sharedClass.slotCount} shared classes</span>
-								</ListRow>
-							))
-						) : (
-							<p className={styles.detailMuted}>No shared classes.</p>
-						)}
-					</List>
-				</section>
-				<section className={styles.detailSection}>
-					<h3>Shared Subjects</h3>
-					<List>
-						{sharedSubjects.length ? (
-							sharedSubjects.slice(0, 6).map((subject) => (
-								<ListRow key={subject.id} className={styles.detailSubject}>
-									<Symbol
-										name={subject.symbol}
-										className={styles.detailSubjectSymbolIcon}
-									/>
-									<strong>{subject.id}</strong>
-								</ListRow>
-							))
-						) : (
-							<p className={styles.detailMuted}>No shared classes.</p>
-						)}
-					</List>
-				</section>
-			</Tabs.Panel>
-			<Tabs.Panel value="week" className={styles.detailPanel}>
-				<section className={styles.detailCard}>
-					<h3>Week</h3>
-					<div className={styles.friendWeekGrid}>
-						<span aria-hidden="true" />
-						{TIMETABLE_DAYS.map((day) => (
-							<strong key={day} className={styles.friendWeekDay}>
-								{day}
+			</div>
+			<Show when={tab() === "main"}>
+				<div class={styles.detailPanel}>
+					<section className={styles.detailCard}>
+						<div className={styles.detailRow}>
+							<span className={styles.detailRowLabel}>
+								<Symbol name="location" />
+								Location
+							</span>
+							<strong>{status}</strong>
+						</div>
+						<div className={styles.detailRow}>
+							<span className={styles.detailRowLabel}>
+								<Symbol name="building.2" />
+								School status
+							</span>
+							<strong>{friendScheduleTitle(subjects(), now())}</strong>
+						</div>
+					</section>
+					<section className={styles.detailSection}>
+						<h3>Shared Classes</h3>
+						<List>
+							{sharedClasses.length ? (
+								sharedClasses().map((sharedClass) => (
+									<ListRow
+										key={`${sharedClass.id}-class`}
+										className={styles.detailSubject}
+									>
+										<Symbol
+											name={sharedClass.symbol}
+											className={styles.detailSubjectSymbolIcon}
+										/>
+										<strong>{sharedClass.id}</strong>
+										<span>{sharedClass.slotCount} shared classes</span>
+									</ListRow>
+								))
+							) : (
+								<p className={styles.detailMuted}>No shared classes.</p>
+							)}
+						</List>
+					</section>
+					<section className={styles.detailSection}>
+						<h3>Shared Subjects</h3>
+						<List>
+							{sharedSubjects.length ? (
+								sharedSubjects()
+									.slice(0, 6)
+									.map((subject) => (
+										<ListRow key={subject.id} className={styles.detailSubject}>
+											<Symbol
+												name={subject.symbol}
+												className={styles.detailSubjectSymbolIcon}
+											/>
+											<strong>{subject.id}</strong>
+										</ListRow>
+									))
+							) : (
+								<p className={styles.detailMuted}>No shared classes.</p>
+							)}
+						</List>
+					</section>
+				</div>
+			</Show>
+			<Show when={tab() === "week"}>
+				<div class={styles.detailPanel}>
+					<section className={styles.detailCard}>
+						<h3>Week</h3>
+						<div className={styles.friendWeekGrid}>
+							<span aria-hidden="true" />
+							{TIMETABLE_DAYS.map((day) => (
+								<strong key={day} className={styles.friendWeekDay}>
+									{day}
+								</strong>
+							))}
+							{TIMETABLE_SESSIONS.map((session) => (
+								<>
+									<strong className={styles.friendWeekSession}>
+										{session.label}
+									</strong>
+									{TIMETABLE_DAYS.map((day, dayIndex) => {
+										const subject = subjects().find((item) =>
+											item.slots.some(
+												(slot) =>
+													slot.day === dayIndex &&
+													slot.session === session.value,
+											),
+										);
+										return (
+											<span
+												key={`${day}-${session.value}`}
+												className={styles.friendWeekCell}
+											>
+												{subject?.id ?? ""}
+											</span>
+										);
+									})}
+								</>
+							))}
+						</div>
+					</section>
+				</div>
+			</Show>
+			<Show when={tab() === "info"}>
+				<div class={styles.detailPanel}>
+					<section className={styles.detailCard}>
+						<h3>Location notifications</h3>
+						<ListRow className={styles.toggleRow}>
+							<span>Within 10 mins</span>
+							<Toggle
+								checked={
+									detail()?.locationNotificationPreferences.includes(
+										"withinTenMinutes",
+									) ?? false
+								}
+								onCheckedChange={() =>
+									void updatePreference("withinTenMinutes")
+								}
+								aria-label="Within 10 mins"
+							/>
+						</ListRow>
+						<ListRow className={styles.toggleRow}>
+							<span>Within 5 mins</span>
+							<Toggle
+								checked={
+									detail()?.locationNotificationPreferences.includes(
+										"withinFiveMinutes",
+									) ?? false
+								}
+								onCheckedChange={() =>
+									void updatePreference("withinFiveMinutes")
+								}
+								aria-label="Within 5 mins"
+							/>
+						</ListRow>
+						<ListRow className={styles.toggleRow}>
+							<span>Arrived</span>
+							<Toggle
+								checked={
+									detail()?.locationNotificationPreferences.includes(
+										"arrived",
+									) ?? false
+								}
+								onCheckedChange={() => void updatePreference("arrived")}
+								aria-label="Arrived"
+							/>
+						</ListRow>
+						<div className={styles.detailRow}>
+							<span className={styles.detailRowLabel}>
+								<Symbol name="person.2" />
+								Friends since
+							</span>
+							<strong>
+								{detail()?.acceptedAt
+									? new Date(detail()!.acceptedAt).toLocaleDateString("en-AU", {
+											day: "numeric",
+											month: "short",
+											year: "numeric",
+										})
+									: "—"}
 							</strong>
-						))}
-						{TIMETABLE_SESSIONS.map((session) => (
-							<>
-								<strong className={styles.friendWeekSession}>
-									{session.label}
-								</strong>
-								{TIMETABLE_DAYS.map((day, dayIndex) => {
-									const subject = subjects.find((item) =>
-										item.slots.some(
-											(slot) =>
-												slot.day === dayIndex && slot.session === session.value,
-										),
-									);
-									return (
-										<span
-											key={`${day}-${session.value}`}
-											className={styles.friendWeekCell}
-										>
-											{subject?.id ?? ""}
-										</span>
-									);
-								})}
-							</>
-						))}
-					</div>
-				</section>
-			</Tabs.Panel>
-			<Tabs.Panel value="info" className={styles.detailPanel}>
-				<section className={styles.detailCard}>
-					<h3>Location notifications</h3>
-					<ListRow className={styles.toggleRow}>
-						<span>Within 10 mins</span>
-						<Toggle
-							checked={
-								detail?.locationNotificationPreferences.includes(
-									"withinTenMinutes",
-								) ?? false
-							}
-							onCheckedChange={() => void updatePreference("withinTenMinutes")}
-							aria-label="Within 10 mins"
+						</div>
+						<h3>Average arrival</h3>
+						<div className={styles.detailRow}>
+							<span>Overall</span>
+							<strong>
+								{formatArrival(detail()?.averageArrivalSecondsSinceMidnight)}
+							</strong>
+						</div>
+						{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
+							(day, index) => (
+								<div className={styles.detailRow} key={day}>
+									<span>{day}</span>
+									<strong>
+										{formatArrival(
+											detail()?.weekdayAverageArrivalSecondsSinceMidnight[
+												index
+											],
+										)}
+									</strong>
+								</div>
+							),
+						)}
+						<h3>Friends since</h3>
+						<input
+							type="date"
+							value={friendsSinceDate()}
+							max={new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)}
+							min="2010-01-01"
+							aria-label="Friends since date"
+							onChange={(event) => setFriendsSinceDate(event.target.value)}
 						/>
-					</ListRow>
-					<ListRow className={styles.toggleRow}>
-						<span>Within 5 mins</span>
-						<Toggle
-							checked={
-								detail?.locationNotificationPreferences.includes(
-									"withinFiveMinutes",
-								) ?? false
-							}
-							onCheckedChange={() => void updatePreference("withinFiveMinutes")}
-							aria-label="Within 5 mins"
-						/>
-					</ListRow>
-					<ListRow className={styles.toggleRow}>
-						<span>Arrived</span>
-						<Toggle
-							checked={
-								detail?.locationNotificationPreferences.includes("arrived") ??
-								false
-							}
-							onCheckedChange={() => void updatePreference("arrived")}
-							aria-label="Arrived"
-						/>
-					</ListRow>
-					<div className={styles.detailRow}>
-						<span className={styles.detailRowLabel}>
-							<Symbol name="person.2" />
-							Friends since
-						</span>
-						<strong>
-							{detail?.acceptedAt
-								? new Date(detail.acceptedAt).toLocaleDateString("en-AU", {
-										day: "numeric",
-										month: "short",
-										year: "numeric",
-									})
-								: "—"}
-						</strong>
-					</div>
-					<h3>Average arrival</h3>
-					<div className={styles.detailRow}>
-						<span>Overall</span>
-						<strong>
-							{formatArrival(detail?.averageArrivalSecondsSinceMidnight)}
-						</strong>
-					</div>
-					{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
-						(day, index) => (
-							<div className={styles.detailRow} key={day}>
-								<span>{day}</span>
-								<strong>
-									{formatArrival(
-										detail?.weekdayAverageArrivalSecondsSinceMidnight[index],
-									)}
-								</strong>
-							</div>
-						),
-					)}
-					<h3>Friends since</h3>
-					<input
-						type="date"
-						value={friendsSinceDate}
-						max={new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)}
-						min="2010-01-01"
-						aria-label="Friends since date"
-						onChange={(event) => setFriendsSinceDate(event.target.value)}
-					/>
-				</section>
-			</Tabs.Panel>
-			{error ? (
+					</section>
+				</div>
+			</Show>
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter>
-				{tab === "info" ? (
+				{tab() === "info" ? (
 					<Button
 						type="button"
 						fullWidth
 						onClick={() => void saveFriendsSince()}
-						disabled={isSavingFriendsSince || !friendsSinceDate}
+						disabled={isSavingFriendsSince() || !friendsSinceDate()}
 						aria-label="Save friends since date"
 					>
 						<Symbol name="checkmark" />
-						{isSavingFriendsSince ? "Saving…" : "Save date"}
+						{isSavingFriendsSince() ? "Saving…" : "Save date"}
 					</Button>
 				) : null}
 				<Button
@@ -402,7 +409,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					Report
 				</Button>
 			</DrawerFooter>
-		</Tabs.Root>
+		</div>
 	);
 }
 
