@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import AdminDevelopmentAccessChangeDrawer from "@/components/administration/AdminDevelopmentAccessChangeDrawer/AdminDevelopmentAccessChangeDrawer";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -9,26 +9,26 @@ import { List, ListRow } from "@/components/ui/list";
 
 export default function AdminDevelopmentAccessEditor() {
 	const { openDrawer } = useDrawer();
-	const [enabled, setEnabled] = useState<boolean | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [enabled, setEnabled] = createSignal<boolean | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<{ developmentAccessOnly: boolean }>(
 			"_operations/server-access-mode",
 		)
 			.then((response) => setEnabled(response.developmentAccessOnly))
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{enabled === null ? (
+				{enabled() === null ? (
 					<p className={styles.loading}>Loading server access…</p>
 				) : (
 					<Button
@@ -37,7 +37,7 @@ export default function AdminDevelopmentAccessEditor() {
 						onClick={() =>
 							openDrawer(
 								<AdminDevelopmentAccessChangeDrawer
-									enabled={enabled}
+									enabled={enabled()!}
 									onSaved={setEnabled}
 								/>,
 							)
@@ -48,7 +48,7 @@ export default function AdminDevelopmentAccessEditor() {
 							<span className={styles.label}>
 								Restrict Server to System Administrators
 							</span>
-							<span className={styles.detail}>{enabled ? "On" : "Off"}</span>
+							<span className={styles.detail}>{enabled() ? "On" : "Off"}</span>
 						</ListRow>
 					</Button>
 				)}

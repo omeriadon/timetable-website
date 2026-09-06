@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
@@ -22,12 +22,12 @@ const initialValue: AppVersionRequirement = {
 };
 
 export default function AdminAppVersionEditor() {
-	const [draft, setDraft] = useState<AppVersionRequirement>(initialValue);
-	const [loading, setLoading] = useState(true);
-	const [saving, setSaving] = useState(false);
-	const [status, setStatus] = useState<string | null>(null);
+	const [draft, setDraft] = createSignal<AppVersionRequirement>(initialValue);
+	const [loading, setLoading] = createSignal(true);
+	const [saving, setSaving] = createSignal(false);
+	const [status, setStatus] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		let active = true;
 		apiRequest<AppVersionRequirement>("v1/administration/app-version")
 			.then((value) => {
@@ -40,15 +40,15 @@ export default function AdminAppVersionEditor() {
 		return () => {
 			active = false;
 		};
-	}, []);
+	});
 
-	const valid = useMemo(() => {
+	const valid = createMemo(() => {
 		const version = (value: string) => /^\d+\.\d+\.\d+$/.test(value);
 		return (
-			version(draft.appVersion) &&
-			version(draft.macVersion) &&
-			draft.appBuild >= 0 &&
-			draft.macBuild >= 0
+			version(draft().appVersion) &&
+			version(draft().macVersion) &&
+			draft().appBuild >= 0 &&
+			draft().macBuild >= 0
 		);
 	}, [draft]);
 
@@ -60,7 +60,7 @@ export default function AdminAppVersionEditor() {
 	};
 
 	const save = async () => {
-		if (!valid || saving) {
+		if (!valid() || saving()) {
 			return;
 		}
 		setSaving(true);
@@ -70,7 +70,7 @@ export default function AdminAppVersionEditor() {
 				"v1/administration/app-version",
 				{
 					method: "PUT",
-					body: JSON.stringify(draft),
+					body: JSON.stringify(draft()),
 				},
 			);
 			setDraft(saved);
@@ -82,7 +82,7 @@ export default function AdminAppVersionEditor() {
 		}
 	};
 
-	if (loading) {
+	if (loading()) {
 		return <p className={styles.loading}>Loading app versions…</p>;
 	}
 
@@ -97,12 +97,12 @@ export default function AdminAppVersionEditor() {
 				</div>
 				<AdminVersionField
 					label="Version"
-					value={draft.appVersion}
+					value={draft().appVersion}
 					onChange={(value) => update("appVersion", value)}
 				/>
 				<AdminVersionField
 					label="Build"
-					value={String(draft.appBuild)}
+					value={String(draft().appBuild)}
 					inputMode="numeric"
 					onChange={(value) =>
 						update("appBuild", Math.max(0, Number(value) || 0))
@@ -118,24 +118,24 @@ export default function AdminAppVersionEditor() {
 				</div>
 				<AdminVersionField
 					label="Version"
-					value={draft.macVersion}
+					value={draft().macVersion}
 					onChange={(value) => update("macVersion", value)}
 				/>
 				<AdminVersionField
 					label="Build"
-					value={String(draft.macBuild)}
+					value={String(draft().macBuild)}
 					inputMode="numeric"
 					onChange={(value) =>
 						update("macBuild", Math.max(0, Number(value) || 0))
 					}
 				/>
 			</section>
-			{status ? (
+			{status() ? (
 				<p
-					className={status.endsWith("saved.") ? styles.loading : styles.error}
+					className={status()!.endsWith("saved.") ? styles.loading : styles.error}
 					role="status"
 				>
-					{status}
+					{status()}
 				</p>
 			) : null}
 			<DrawerFooter>
@@ -144,10 +144,10 @@ export default function AdminAppVersionEditor() {
 					type="button"
 					className={adminStyles.profileSave}
 					onClick={() => void save()}
-					disabled={!valid || saving}
+					disabled={!valid() || saving()}
 				>
 					<Symbol name="checkmark" fallback="✓" />
-					{saving ? "Saving…" : "Save App Versions"}
+					{saving() ? "Saving…" : "Save App Versions"}
 				</Button>
 			</DrawerFooter>
 		</main>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "@/components/administration/Administration.module.css";
@@ -17,33 +17,33 @@ type EmailLogEntry = {
 };
 
 export default function AdminEmailLogEditor() {
-	const [entries, setEntries] = useState<EmailLogEntry[] | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [entries, setEntries] = createSignal<EmailLogEntry[] | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => {
+	onMount(() => {
 		apiRequest<EmailLogEntry[]>("v1/administration/email-log")
 			.then(setEntries)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
+	});
 
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
-			{entries === null && !error ? (
+			{entries() === null && !error() ? (
 				<p className={styles.loading}>Loading email log…</p>
 			) : null}
-			{entries?.length === 0 ? (
+			{entries()?.length === 0 ? (
 				<p className={styles.emptyRow}>
 					No email deliveries have been recorded.
 				</p>
 			) : null}
-			{entries?.length ? (
+			{entries()?.length ? (
 				<List>
-					{entries.map((entry) => (
+					{entries()!.map((entry) => (
 						<ListRow className={adminStyles.adminRecord} key={entry.id}>
 							<div className={styles.profileRow}>
 								<Symbol name="envelope.badge" />
