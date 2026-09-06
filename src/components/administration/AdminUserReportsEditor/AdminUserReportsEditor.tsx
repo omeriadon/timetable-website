@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
@@ -21,25 +21,25 @@ type UserReport = {
 
 export default function AdminUserReportsEditor() {
 	const { openDrawer } = useDrawer();
-	const [reports, setReports] = useState<UserReport[]>([]);
-	const [query, setQuery] = useState("");
-	const [error, setError] = useState<string | null>(null);
-	const [busy, setBusy] = useState<string | null>(null);
-	useEffect(() => {
+	const [reports, setReports] = createSignal<UserReport[]>([]);
+	const [query, setQuery] = createSignal("");
+	const [error, setError] = createSignal<string | null>(null);
+	const [busy, setBusy] = createSignal<string | null>(null);
+	onMount(() => {
 		apiRequest<UserReport[]>("v1/administration/user-reports")
 			.then(setReports)
 			.catch((requestError: Error) => setError(requestError.message));
-	}, []);
-	const filtered = useMemo(() => {
-		const value = query.trim().toLowerCase();
+	});
+	const filtered = createMemo(() => {
+		const value = query().trim().toLowerCase();
 		return value
-			? reports.filter((report) =>
+			? reports().filter((report) =>
 					`${report.reporterDisplayName ?? ""} ${report.reportedUserDisplayName ?? ""} ${report.action}`
 						.toLowerCase()
 						.includes(value),
 				)
-			: reports;
-	}, [query, reports]);
+			: reports();
+	});
 	const resolve = async (
 		report: UserReport,
 		action: "noAction" | "accountDeleted",
@@ -83,18 +83,18 @@ export default function AdminUserReportsEditor() {
 			<label className={adminStyles.adminSearch}>
 				<Symbol name="magnifyingglass" fallback="⌕" />
 				<Input
-					value={query}
+					value={query()}
 					onChange={(event) => setQuery(event.target.value)}
 					placeholder="Search reports"
 				/>
 			</label>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{filtered.map((report) => (
+				{filtered().map((report) => (
 					<ListRow key={report.id} className={adminStyles.reportCard}>
 						<div className={adminStyles.reportHeader}>
 							<Symbol name="exclamationmark.bubble" />
@@ -116,14 +116,14 @@ export default function AdminUserReportsEditor() {
 								<Button
 									aria-label="Leave account unchanged"
 									onClick={() => resolveReport(report, "noAction")}
-									disabled={busy === report.id}
+									disabled={busy() === report.id}
 								>
 									<Symbol name="checkmark" fallback="✓" /> Do Nothing
 								</Button>
 								<Button
 									aria-label="Delete reported account"
 									onClick={() => resolveReport(report, "accountDeleted")}
-									disabled={busy === report.id}
+									disabled={busy() === report.id}
 								>
 									<Symbol name="trash" fallback="×" /> Delete Account
 								</Button>
@@ -131,9 +131,9 @@ export default function AdminUserReportsEditor() {
 						) : null}
 					</ListRow>
 				))}
-				{!filtered.length ? (
+				{!filtered().length ? (
 					<p className={styles.loading}>
-						{reports.length ? "No matching reports." : "Loading reports…"}
+						{reports().length ? "No matching reports." : "Loading reports…"}
 					</p>
 				) : null}
 			</List>
