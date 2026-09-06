@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { useState } from "react";
+import { createSignal } from "solid-js";
 import type {
 	AdminEventTagSection,
 	Catalogue,
@@ -22,14 +22,14 @@ export default function AdminEventTagSectionDrawer({
 	onSaved,
 }: AdminEventTagSectionDrawerProps) {
 	const { closeDrawer } = useDrawer();
-	const [displayName, setDisplayName] = useState(section.displayName);
-	const [sortOrder, setSortOrder] = useState(String(section.sortOrder));
-	const [isArchived, setIsArchived] = useState(section.isArchived);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [displayName, setDisplayName] = createSignal(section.displayName);
+	const [sortOrder, setSortOrder] = createSignal(String(section.sortOrder));
+	const [isArchived, setIsArchived] = createSignal(section.isArchived);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
 	const save = async () => {
-		if (!displayName.trim() || saving) {
+		if (!displayName().trim() || saving()) {
 			return;
 		}
 
@@ -42,9 +42,9 @@ export default function AdminEventTagSectionDrawer({
 				{
 					method: "PUT",
 					body: JSON.stringify({
-						displayName: displayName.trim(),
-						sortOrder: Number(sortOrder) || 0,
-						isArchived,
+						displayName: displayName().trim(),
+						sortOrder: Number(sortOrder()) || 0,
+						isArchived: isArchived(),
 					}),
 				},
 			);
@@ -70,7 +70,7 @@ export default function AdminEventTagSectionDrawer({
 				<label>
 					Display Name
 					<Input
-						value={displayName}
+						value={displayName()}
 						onChange={(event) => setDisplayName(event.target.value)}
 					/>
 				</label>
@@ -79,29 +79,29 @@ export default function AdminEventTagSectionDrawer({
 					<Input
 						type="number"
 						min="0"
-						value={sortOrder}
+						value={sortOrder()}
 						onChange={(event) => setSortOrder(event.target.value)}
 					/>
 				</label>
 				<label className={styles.editorCheck}>
 					<Toggle
 						aria-label="Archive section"
-						checked={isArchived}
+						checked={isArchived()}
 						onCheckedChange={setIsArchived}
 					/>
 					Archive section
 				</label>
 			</section>
-			{error ? (
+			{error() ? (
 				<p className={styles.detailMuted} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<DrawerFooter className={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible
-					disabled={saving}
+					disabled={saving()}
 					aria-label="Cancel section edit"
 				>
 					Cancel
@@ -110,9 +110,9 @@ export default function AdminEventTagSectionDrawer({
 					flexible
 					aria-label="Save event tag section"
 					onClick={() => void save()}
-					disabled={saving || !displayName.trim()}
+					disabled={saving() || !displayName().trim()}
 				>
-					{saving ? "Saving…" : "Save"}
+					{saving() ? "Saving…" : "Save"}
 				</Button>
 			</DrawerFooter>
 		</div>

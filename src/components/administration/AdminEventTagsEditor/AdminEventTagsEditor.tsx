@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createSignal, onMount } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -42,10 +42,10 @@ export type Catalogue = {
 export default function AdminEventTagsEditor() {
 	const { openDrawer } = useDrawer();
 
-	const [catalogue, setCatalogue] = useState<Catalogue | null>(null);
-	const [error, setError] = useState<string | null>(null);
-	const [isReordering, setIsReordering] = useState(false);
-	const [saving, setSaving] = useState(false);
+	const [catalogue, setCatalogue] = createSignal<Catalogue | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
+	const [isReordering, setIsReordering] = createSignal(false);
+	const [saving, setSaving] = createSignal(false);
 
 	const load = async () => {
 		setError(null);
@@ -57,9 +57,9 @@ export default function AdminEventTagsEditor() {
 		}
 	};
 
-	useEffect(() => {
+	onMount(() => {
 		void load();
-	}, []);
+	});
 
 	const editTag = (
 		tag: AdminEventTag | null,
@@ -81,9 +81,9 @@ export default function AdminEventTagsEditor() {
 	};
 
 	const moveTag = async (tagID: string, offset: -1 | 1) => {
-		if (!catalogue || saving) return;
+		if (!catalogue() || saving()) return;
 
-		const tags = catalogue.sections
+		const tags = catalogue()!.sections
 			.flatMap((section) => section.tags)
 			.toSorted((left, right) => left.sortOrder - right.sortOrder);
 
@@ -123,9 +123,9 @@ export default function AdminEventTagsEditor() {
 
 	return (
 		<main className={styles.page}>
-			{error && (
+			{error() && (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			)}
 
@@ -134,14 +134,14 @@ export default function AdminEventTagsEditor() {
 					type="button"
 					variant="outline"
 					onClick={() => setIsReordering((value) => !value)}
-					aria-pressed={isReordering}
+					aria-pressed={isReordering()}
 				>
-					<Symbol name={isReordering ? "checkmark" : "arrow.up.arrow.down"} />
-					{isReordering ? "Done" : "Reorder"}
+					<Symbol name={isReordering() ? "checkmark" : "arrow.up.arrow.down"} />
+					{isReordering() ? "Done" : "Reorder"}
 				</Button>
 			</div>
 
-			{catalogue?.sections.map((section) => (
+			{catalogue()?.sections.map((section) => (
 				<section key={section.id}>
 					<Button
 						type="button"
@@ -178,14 +178,14 @@ export default function AdminEventTagsEditor() {
 									</ListRow>
 								</Button>
 
-								{isReordering && (
+								{isReordering() && (
 									<div className={styles.reorderButtons}>
 										<Button
 											type="button"
 											variant="ghost"
 											size="icon"
 											onClick={() => void moveTag(tag.id, -1)}
-											disabled={saving}
+											disabled={saving()}
 											aria-label={`Move ${tag.displayName} up`}
 										>
 											<Symbol name="chevron.up" fallback="↑" />
@@ -196,7 +196,7 @@ export default function AdminEventTagsEditor() {
 											variant="ghost"
 											size="icon"
 											onClick={() => void moveTag(tag.id, 1)}
-											disabled={saving}
+											disabled={saving()}
 											aria-label={`Move ${tag.displayName} down`}
 										>
 											<Symbol name="chevron.down" fallback="↓" />
@@ -221,7 +221,7 @@ export default function AdminEventTagsEditor() {
 				</section>
 			))}
 
-			{!catalogue && !error && (
+			{!catalogue() && !error() && (
 				<p className={styles.loading}>Loading event tags…</p>
 			)}
 		</main>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { createSignal, createEffect } from "solid-js";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { apiRequest } from "@/lib/api/client";
@@ -23,26 +23,26 @@ export default function AdminCalendarEditor({
 	title: string;
 }) {
 	const { openDrawer } = useDrawer();
-	const [entries, setEntries] = useState<AdminCalendarEntry[] | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [entries, setEntries] = createSignal<AdminCalendarEntry[] | null>(null);
+	const [error, setError] = createSignal<string | null>(null);
 	const load = () =>
 		apiRequest<AdminCalendarEntry[]>("v1/administration/calendar")
 			.then((values) =>
 				setEntries(values.filter((entry) => entry.kind === kind)),
 			)
 			.catch((requestError: Error) => setError(requestError.message));
-	useEffect(() => {
+	createEffect(() => {
 		void load();
-	}, [kind]);
+	});
 	return (
 		<main className={styles.page}>
-			{error ? (
+			{error() ? (
 				<p className={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			) : null}
 			<List rowHover>
-				{entries?.map((entry) => (
+				{entries()?.map((entry) => (
 					<Button
 						key={entry.id}
 						type="button"
@@ -93,7 +93,7 @@ export default function AdminCalendarEditor({
 					</ListRow>
 				</Button>
 			</List>
-			{!entries && !error ? (
+			{!entries() && !error() ? (
 				<p className={styles.loading}>Loading {title.toLowerCase()}…</p>
 			) : null}
 		</main>
