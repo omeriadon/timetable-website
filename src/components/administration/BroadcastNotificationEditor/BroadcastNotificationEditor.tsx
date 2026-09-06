@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createSignal } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,10 @@ import { DrawerFooter } from "@/components/ui/drawer";
 import styles from "@/components/administration/Administration.module.css";
 
 export default function BroadcastNotificationEditor() {
-	const [title, setTitle] = useState("");
-	const [subtitle, setSubtitle] = useState("");
-	const [body, setBody] = useState("");
-	const [status, setStatus] = useState<string | null>(null);
+	const [title, setTitle] = createSignal("");
+	const [subtitle, setSubtitle] = createSignal("");
+	const [body, setBody] = createSignal("");
+	const [status, setStatus] = createSignal<string | null>(null);
 
 	const send = async () => {
 		setStatus(null);
@@ -24,9 +24,9 @@ export default function BroadcastNotificationEditor() {
 				{
 					method: "POST",
 					body: JSON.stringify({
-						title,
-						subtitle: subtitle || null,
-						body: body || null,
+						title: title(),
+						subtitle: subtitle() || null,
+						body: body() || null,
 						respectsUserPreference: true,
 					}),
 				},
@@ -47,7 +47,7 @@ export default function BroadcastNotificationEditor() {
 			<label>
 				Title
 				<Input
-					value={title}
+					value={title()}
 					onChange={(event) => setTitle(event.target.value)}
 					maxLength={200}
 				/>
@@ -56,7 +56,7 @@ export default function BroadcastNotificationEditor() {
 			<label>
 				Subtitle
 				<Input
-					value={subtitle}
+					value={subtitle()}
 					onChange={(event) => setSubtitle(event.target.value)}
 					maxLength={200}
 				/>
@@ -65,20 +65,20 @@ export default function BroadcastNotificationEditor() {
 			<label>
 				Message
 				<Textarea
-					value={body}
+					value={body()}
 					onChange={(event) => setBody(event.target.value)}
 					maxLength={2000}
 					rows={4}
 				/>
 			</label>
 
-			{status && (
+			{status() && (
 				<p className={styles.detail} role="status">
-					{status}
+					{status()}
 				</p>
 			)}
 			<DrawerFooter>
-				<Button fullWidth type="button" onClick={send} disabled={!title.trim()}>
+				<Button fullWidth type="button" onClick={send} disabled={!title().trim()}>
 					<Symbol name="megaphone" />
 					Broadcast notification
 				</Button>
