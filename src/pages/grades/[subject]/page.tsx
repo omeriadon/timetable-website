@@ -1,5 +1,5 @@
 import { Link, useRouter } from "@tanstack/solid-router";
-import { useEffect, useMemo, useState } from "react";
+import { createMemo, createSignal, onMount } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
@@ -32,24 +32,18 @@ export default function GradeSubjectPage({
 	const { openDrawer } = useDrawer();
 
 	const initial = data;
-	const [tracker, setTracker] = useState<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = useState<OwnerTimetable>(initial.timetable);
-	const [saving, setSaving] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [tracker, setTracker] = createSignal<GradeTracker>(initial.grades);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [saving, setSaving] = createSignal(false);
+	const [error, setError] = createSignal<string | null>(null);
 
-	useEffect(() => setToolbar({ title: subjectID }), [setToolbar, subjectID]);
+	onMount(() => setToolbar({ title: subjectID }));
 
-	const assessments = useMemo(
-		() =>
-			tracker?.document.assessments.filter(
-				(item) => item.subjectID === subjectID,
-			) ?? [],
-		[tracker, subjectID],
-	);
-	const timetableSubject = timetable?.subjects.find(
+	const assessments = createMemo(() => tracker()?.document.assessments.filter((item) => item.subjectID === subjectID) ?? []);
+	const timetableSubject = timetable()?.subjects.find(
 		(item) => item.id === subjectID,
 	);
-	const subjects = timetable?.subjects ?? [];
+	const subjects = timetable()?.subjects ?? [];
 
 	const createAssessment = (semester: number) => {
 		openDrawer(
@@ -65,7 +59,7 @@ export default function GradeSubjectPage({
 	};
 
 	const saveAssessment = async (assessment: GradeAssessment) => {
-		if (!tracker) return;
+		if (!tracker()) return;
 
 		setSaving(true);
 		setError(null);
@@ -76,15 +70,15 @@ export default function GradeSubjectPage({
 					method: "PUT",
 					body: JSON.stringify({
 						document: {
-							...tracker.document,
+							...tracker()!.document,
 							assessments: [
-								...tracker.document.assessments.filter(
+								...tracker()!.document.assessments.filter(
 									(item) => item.id !== assessment.id,
 								),
 								assessment,
 							],
 						},
-						serverRevision: tracker.document.serverRevision,
+						serverRevision: tracker()!.document.serverRevision,
 					}),
 				}),
 			);
@@ -98,7 +92,7 @@ export default function GradeSubjectPage({
 	};
 
 	const deleteAssessment = async (assessment: GradeAssessment) => {
-		if (!tracker) return;
+		if (!tracker()) return;
 
 		setSaving(true);
 		setError(null);
@@ -109,12 +103,12 @@ export default function GradeSubjectPage({
 					method: "PUT",
 					body: JSON.stringify({
 						document: {
-							...tracker.document,
-							assessments: tracker.document.assessments.filter(
+							...tracker()!.document,
+							assessments: tracker()!.document.assessments.filter(
 								(item) => item.id !== assessment.id,
 							),
 						},
-						serverRevision: tracker.document.serverRevision,
+						serverRevision: tracker()!.document.serverRevision,
 					}),
 				}),
 			);
@@ -133,14 +127,14 @@ export default function GradeSubjectPage({
 				‹ Grades
 			</Link>
 
-			{error && (
+			{error() && (
 				<p class={styles.error} role="alert">
-					{error}
+					{error()}
 				</p>
 			)}
 
 			{[1, 2].map((semester) => {
-				const semesterAssessments = assessments.filter(
+				const semesterAssessments = assessments().filter(
 					(assessment) => assessment.semester === semester,
 				);
 
@@ -203,12 +197,12 @@ export default function GradeSubjectPage({
 								type="button"
 								variant="ghost"
 								class={styles.row}
-								disabled={saving}
+								disabled={saving()}
 								onClick={() => createAssessment(semester)}
 							>
 								<Symbol name="plus" class={styles.symbolIcon} />
 								<span class={styles.label}>
-									{saving ? "Saving…" : "New Assessment"}
+									{saving() ? "Saving…" : "New Assessment"}
 								</span>
 							</Button>
 						</section>
