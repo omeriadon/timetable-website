@@ -42,7 +42,7 @@ export default function AdminUsersEditor() {
 
 	const edit = (user?: AdministrationUser) =>
 		openDrawer(
-			<AdminUserEditorDrawer
+			() => (<AdminUserEditorDrawer
 				user={user}
 				isSystemOwner={isSystemOwner()}
 				onSaved={(saved) =>
@@ -56,13 +56,13 @@ export default function AdminUsersEditor() {
 				onDeleted={(id) =>
 					setUsers((current) => current.filter((item) => item.id !== id))
 				}
-			/>,
+			/>),
 		);
 
 	return (
-		<main className={styles.page}>
-			<div className={adminStyles.adminToolbar}>
-				<label className={adminStyles.adminSearch}>
+		<main class={styles.page}>
+			<div class={adminStyles.adminToolbar}>
+				<label class={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query()}
@@ -73,7 +73,7 @@ export default function AdminUsersEditor() {
 				<Button
 					type="button"
 					size="icon"
-					className={styles.addButton}
+					class={styles.addButton}
 					aria-label="Add user"
 					onClick={() => edit()}
 				>
@@ -81,27 +81,27 @@ export default function AdminUsersEditor() {
 				</Button>
 			</div>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			<List rowHover>
 				{filtered().map((user) => (
 					<Button
-						key={user.id}
+
 						type="button"
-						className={styles.listButton}
+						class={styles.listButton}
 						onClick={() => edit(user)}
 					>
-						<ListRow className={adminStyles.userRow}>
+						<ListRow class={adminStyles.userRow}>
 							<ProfilePicture
 								profile={user}
 								size={38}
 								label={`${user.displayName} profile picture`}
 							/>
 							<span>
-								<b className={styles.label}>{user.displayName}</b>
-								<small className={adminStyles.userMeta}>
+								<b class={styles.label}>{user.displayName}</b>
+								<small class={adminStyles.userMeta}>
 									{user.authority} · {user.email}
 								</small>
 							</span>
@@ -110,7 +110,7 @@ export default function AdminUsersEditor() {
 					</Button>
 				))}
 				{!filtered().length ? (
-					<p className={styles.loading}>
+					<p class={styles.loading}>
 						{users().length ? "No matching users." : "Loading users…"}
 					</p>
 				) : null}

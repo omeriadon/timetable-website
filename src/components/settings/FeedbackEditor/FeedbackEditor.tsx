@@ -41,9 +41,9 @@ export default function FeedbackEditor() {
 	return (
 		<>
 			<List>
-				<ListRow className={styles.categoryRow}>
+				<ListRow class={styles.categoryRow}>
 					<Symbol name="exclamationmark.bubble" />
-					<label htmlFor="feedback-category">Type</label>
+					<label for="feedback-category">Type</label>
 					<Select
 						value={category}
 						onValueChange={(value) => {
@@ -62,8 +62,8 @@ export default function FeedbackEditor() {
 						</SelectContent>
 					</Select>
 				</ListRow>
-				<div className={styles.messageField}>
-					<label htmlFor="feedback-message">
+				<div class={styles.messageField}>
+					<label for="feedback-message">
 						Describe the {category().toLowerCase()}
 					</label>
 					<Textarea
@@ -75,7 +75,7 @@ export default function FeedbackEditor() {
 					/>
 				</div>
 				{status() ? (
-					<p className={styles.status} role="status">
+					<p class={styles.status} role="status">
 						{status()}
 					</p>
 				) : null}

@@ -37,14 +37,16 @@
 	transition-duration: 100ms;
 }
 
-.content[data-open] {
+.content[data-open],
+.content[data-expanded] {
 	animation:
 		dropdown-fade-in 100ms ease-out,
 		dropdown-zoom-in 100ms ease-out,
 		dropdown-slide-in 100ms ease-out;
 }
 
-.content[data-closed] {
+.content[data-closed],
+.content[data-collapsed] {
 	overflow: hidden;
 
 	animation:

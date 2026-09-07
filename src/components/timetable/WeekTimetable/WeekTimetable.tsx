@@ -15,14 +15,14 @@ export default function WeekTimetable({
 	const currentDayIndex = currentTimetableDayIndex();
 
 	return (
-		<section className={weekStyles.week} aria-label="Weekly timetable">
-			<div className={weekStyles.weekSurface}>
-				<div className={weekStyles.weekHeader}>
+		<section class={weekStyles.week} aria-label="Weekly timetable">
+			<div class={weekStyles.weekSurface}>
+				<div class={weekStyles.weekHeader}>
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
-							key={day}
-							className={
+
+							class={
 								currentDayIndex === dayIndex
 									? weekStyles.currentDayHeader
 									: undefined
@@ -32,9 +32,9 @@ export default function WeekTimetable({
 						</span>
 					))}
 				</div>
-				<div className={weekStyles.weekGrid}>
+				<div class={weekStyles.weekGrid}>
 					{TIMETABLE_SESSIONS.map((session) => (
-						<div key={session.value} className={weekStyles.weekRow}>
+						<div class={weekStyles.weekRow}>
 							<small>{session.label}</small>
 							{TIMETABLE_DAYS.map((day, dayIndex) => {
 								const subject = subjects.find((item) =>
@@ -49,17 +49,17 @@ export default function WeekTimetable({
 										: undefined;
 								return subject ? (
 									<article
-										key={day}
-										className={`${weekStyles.lesson} ${currentDayClass ?? ""}`}
+
+										class={`${weekStyles.lesson} ${currentDayClass ?? ""}`}
 									>
 										<Symbol
 											name={subject.symbol}
-											className={weekStyles.lessonSymbol}
+											class={weekStyles.lessonSymbol}
 										/>
 										<strong>{subject.id}</strong>
 									</article>
 								) : (
-									<div key={day} className={currentDayClass} />
+									<div class={currentDayClass} />
 								);
 							})}
 						</div>

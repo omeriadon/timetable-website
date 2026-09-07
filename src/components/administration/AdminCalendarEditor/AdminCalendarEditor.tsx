@@ -35,35 +35,35 @@ export default function AdminCalendarEditor({
 		void load();
 	});
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			<List rowHover>
 				{entries()?.map((entry) => (
 					<Button
-						key={entry.id}
+
 						type="button"
-						className={styles.listButton}
+						class={styles.listButton}
 						onClick={() =>
 							openDrawer(
-								<AdminCalendarEntryDrawer
+								() => (<AdminCalendarEntryDrawer
 									entry={entry}
 									kind={kind}
 									onSaved={() => {
 										void load();
 									}}
-								/>,
+								/>),
 							)
 						}
 					>
 						<ListRow>
 							<Symbol name="calendar.badge.clock" />
 							<span>
-								<b className={styles.label}>{entry.label}</b>
-								<small className={styles.detail}>
+								<b class={styles.label}>{entry.label}</b>
+								<small class={styles.detail}>
 									{formatDate(entry.startDate)}
 									{entry.endDate ? ` – ${formatDate(entry.endDate)}` : ""}
 								</small>
@@ -74,27 +74,27 @@ export default function AdminCalendarEditor({
 				))}
 				<Button
 					type="button"
-					className={styles.listButton}
+					class={styles.listButton}
 					onClick={() =>
 						openDrawer(
-							<AdminCalendarEntryDrawer
+							() => (<AdminCalendarEntryDrawer
 								entry={null}
 								kind={kind}
 								onSaved={() => {
 									void load();
 								}}
-							/>,
+							/>),
 						)
 					}
 				>
 					<ListRow>
 						<Symbol name="plus" />
-						<span className={styles.label}>Add {title.replace(/s$/, "")}</span>
+						<span class={styles.label}>Add {title.replace(/s$/, "")}</span>
 					</ListRow>
 				</Button>
 			</List>
 			{!entries() && !error() ? (
-				<p className={styles.loading}>Loading {title.toLowerCase()}…</p>
+				<p class={styles.loading}>Loading {title.toLowerCase()}…</p>
 			) : null}
 		</main>
 	);

@@ -44,14 +44,14 @@ export default function WeekView({
 		: null;
 
 	return (
-		<section className={styles.week} aria-label="Weekly timetable">
-			<div className={styles.weekSurface}>
-				<div className={styles.weekHeader}>
+		<section class={styles.week} aria-label="Weekly timetable">
+			<div class={styles.weekSurface}>
+				<div class={styles.weekHeader}>
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
-							key={day}
-							className={
+
+							class={
 								currentDayIndex === dayIndex
 									? styles.currentDayHeader
 									: undefined
@@ -61,9 +61,9 @@ export default function WeekView({
 						</span>
 					))}
 				</div>
-				<div className={styles.weekGrid}>
+				<div class={styles.weekGrid}>
 					{TIMETABLE_SESSIONS.map((session) => (
-						<div key={session.value} className={styles.weekRow}>
+						<div class={styles.weekRow}>
 							<small>{session.label}</small>
 							{TIMETABLE_DAYS.map((day, dayIndex) => {
 								const subject = subjects.find((item) =>
@@ -77,30 +77,27 @@ export default function WeekView({
 										? styles.currentDayCell
 										: undefined;
 								if (!subject) {
-									return <div key={day} className={currentDayClass} />;
+									return <div class={currentDayClass} />;
 								}
 								const isSelected =
 									selectedSlot()?.day === dayIndex &&
 									selectedSlot()!.session === session.value;
 								return (
-									<Popover key={day}>
+									<Popover>
 										<PopoverTrigger
-											render={
-												<Button
-													type="button"
-													className={`${styles.lessonButton} ${currentDayClass ?? ""}`}
-													aria-label={`Open ${subject.id} on ${day}`}
-													onClick={() =>
-														setSelectedSlot({
-															day: dayIndex,
-															session: session.value,
-														})
-													}
-												/>
+											as={Button}
+											type="button"
+											class={`${styles.lessonButton} ${currentDayClass ?? ""}`}
+											aria-label={`Open ${subject.id} on ${day}`}
+											onClick={() =>
+												setSelectedSlot({
+													day: dayIndex,
+													session: session.value,
+												})
 											}
 										>
 											<article
-												className={
+												class={
 													isSelected
 														? `${styles.lesson} ${styles.lessonSelected}`
 														: styles.lesson
@@ -108,7 +105,7 @@ export default function WeekView({
 											>
 												<Symbol
 													name={subject.symbol}
-													className={styles.lessonSymbol}
+													class={styles.lessonSymbol}
 												/>
 												<strong>{subject.id}</strong>
 											</article>
@@ -132,13 +129,13 @@ export default function WeekView({
 				</div>
 			</div>
 			{selectedSlot() && selectedSubject ? (
-				<section className={styles.selectedLesson}>
+				<section class={styles.selectedLesson}>
 					<div>
-						<span className={styles.selectedEyebrow}>YOU</span>
+						<span class={styles.selectedEyebrow}>YOU</span>
 						<strong>
 							<Symbol
 								name={selectedSubject.symbol}
-								className={styles.selectedLessonSymbol}
+								class={styles.selectedLessonSymbol}
 							/>{" "}
 							{selectedSubject.id}
 						</strong>

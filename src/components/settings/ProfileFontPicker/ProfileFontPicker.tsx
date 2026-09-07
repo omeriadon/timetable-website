@@ -36,7 +36,7 @@ export default function ProfileFontPicker({
 	onWeightChange,
 }: Props) {
 	return (
-		<div className={styles.picker}>
+		<div class={styles.picker}>
 			<ListRow>
 				<span>Design</span>
 				<Select
@@ -52,7 +52,7 @@ export default function ProfileFontPicker({
 					</SelectTrigger>
 					<SelectContent>
 						{designs.map((item) => (
-							<SelectItem key={item} value={item}>
+							<SelectItem value={item}>
 								{fontLabel(item)}
 							</SelectItem>
 						))}
@@ -74,7 +74,7 @@ export default function ProfileFontPicker({
 					</SelectTrigger>
 					<SelectContent>
 						{weights.map((item) => (
-							<SelectItem key={item} value={item}>
+							<SelectItem value={item}>
 								{fontLabel(item)}
 							</SelectItem>
 						))}

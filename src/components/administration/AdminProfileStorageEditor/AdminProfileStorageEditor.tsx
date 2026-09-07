@@ -32,13 +32,13 @@ export default function AdminProfileStorageEditor() {
 
 	if (error()) {
 		return (
-			<p className={styles.error} role="alert">
+			<p class={styles.error} role="alert">
 				{error()}
 			</p>
 		);
 	}
 	if (!quota()) {
-		return <p className={styles.loading}>Loading profile storage…</p>;
+		return <p class={styles.loading}>Loading profile storage…</p>;
 	}
 
 	const currentQuota = quota()!;
@@ -50,7 +50,7 @@ export default function AdminProfileStorageEditor() {
 	);
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<AdminStorageQuotaCard
 				title="Storage"
 				icon="externaldrive.fill"
@@ -87,8 +87,8 @@ export default function AdminProfileStorageEditor() {
 					value={currentQuota.monthlyWriteCutoff.toLocaleString("en-AU")}
 				/>
 			</AdminStorageQuotaCard>
-			<section className={styles.card}>
-				<div className={styles.row}>
+			<section class={styles.card}>
+				<div class={styles.row}>
 					<Symbol
 						name={
 							currentQuota.writesDisabled
@@ -97,32 +97,32 @@ export default function AdminProfileStorageEditor() {
 						}
 						fallback={currentQuota.writesDisabled ? "!" : "✓"}
 					/>
-					<span className={styles.label}>Profile Photo Changes</span>
-					<span className={styles.detail}>
+					<span class={styles.label}>Profile Photo Changes</span>
+					<span class={styles.detail}>
 						{currentQuota.writesDisabled ? "Disabled" : "Available"}
 					</span>
 				</div>
-				<div className={styles.row}>
+				<div class={styles.row}>
 					<Symbol name="arrow.clockwise.icloud" fallback="↻" />
-					<span className={styles.label}>Cloudflare Reconciliation</span>
-					<span className={styles.detail}>
+					<span class={styles.label}>Cloudflare Reconciliation</span>
+					<span class={styles.detail}>
 						{currentQuota.reconciliationWarning
 							? "Accounting mismatch"
 							: "Current"}
 					</span>
 				</div>
 				{currentQuota.reconciledStoredBytes != null ? (
-					<div className={styles.row}>
-						<span className={styles.label}>Reported Storage</span>
-						<span className={styles.detail}>
+					<div class={styles.row}>
+						<span class={styles.label}>Reported Storage</span>
+						<span class={styles.detail}>
 							{formatBytes(currentQuota.reconciledStoredBytes)}
 						</span>
 					</div>
 				) : null}
 				{currentQuota.reconciledAt ? (
-					<div className={styles.row}>
-						<span className={styles.label}>Last Checked</span>
-						<span className={styles.detail}>
+					<div class={styles.row}>
+						<span class={styles.label}>Last Checked</span>
+						<span class={styles.detail}>
 							{new Date(currentQuota.reconciledAt).toLocaleString("en-AU")}
 						</span>
 					</div>

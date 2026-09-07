@@ -23,8 +23,8 @@ export default function EventRow({
 	const { openDrawer } = useDrawer();
 	const eventRowContent = (
 		<>
-			<span className={styles.eventSymbol} aria-hidden="true">
-				<Symbol name={event.symbol} className={styles.eventSymbolIcon} />
+			<span class={styles.eventSymbol} aria-hidden="true">
+				<Symbol name={event.symbol} class={styles.eventSymbolIcon} />
 			</span>
 			<div>
 				<strong>{event.title}</strong>
@@ -38,7 +38,7 @@ export default function EventRow({
 	return (
 		<Button
 			type="button"
-			className={cn(
+			class={cn(
 				styles.cardRow,
 				prominent ? styles.plannerEvent : styles.eventRow,
 			)}

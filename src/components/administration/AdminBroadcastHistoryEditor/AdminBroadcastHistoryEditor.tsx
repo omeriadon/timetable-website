@@ -41,25 +41,25 @@ export default function AdminBroadcastHistoryEditor() {
 
 	if (error())
 		return (
-			<p className={styles.error} role="alert">
+			<p class={styles.error} role="alert">
 				{error()}
 			</p>
 		);
 	if (!records())
-		return <p className={styles.loading}>Loading broadcast history…</p>;
+		return <p class={styles.loading}>Loading broadcast history…</p>;
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<List rowHover>
 				{records()!.length ? (
 					records()!.map((record) => (
 						<Button
-							key={record.id}
+
 							type="button"
-							className={styles.listButton}
+							class={styles.listButton}
 							onClick={() =>
 								openDrawer(
-									<AdminBroadcastDetailDrawer
+									() => (<AdminBroadcastDetailDrawer
 										record={record}
 										onChanged={(updated) =>
 											setRecords(
@@ -69,7 +69,7 @@ export default function AdminBroadcastHistoryEditor() {
 													) ?? current,
 											)
 										}
-									/>,
+									/>),
 								)
 							}
 						>
@@ -85,8 +85,8 @@ export default function AdminBroadcastHistoryEditor() {
 									fallback="•"
 								/>
 								<span>
-									<strong className={styles.label}>{record.title}</strong>
-									<small className={styles.detail}>
+									<strong class={styles.label}>{record.title}</strong>
+									<small class={styles.detail}>
 										{record.createdAt
 											? new Date(record.createdAt).toLocaleString("en-AU")
 											: "Unknown date"}
@@ -97,7 +97,7 @@ export default function AdminBroadcastHistoryEditor() {
 						</Button>
 					))
 				) : (
-					<p className={styles.loading}>No broadcast notifications.</p>
+					<p class={styles.loading}>No broadcast notifications.</p>
 				)}
 			</List>
 		</main>

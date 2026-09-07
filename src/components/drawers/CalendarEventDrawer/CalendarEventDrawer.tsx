@@ -113,9 +113,9 @@ export default function CalendarEventDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
+		<div class={styles.detailDrawer}>
 			{showHeader ? (
-				<header className={styles.detailHeader}>
+				<header class={styles.detailHeader}>
 					<div>
 						<h2>{event.title}</h2>
 						<p>
@@ -128,7 +128,7 @@ export default function CalendarEventDrawer({
 					</div>
 				</header>
 			) : null}
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Title
 					<Input
@@ -168,7 +168,7 @@ export default function CalendarEventDrawer({
 				</label>
 				{event.isGlobal ? (
 					<section
-						className={styles.formCard}
+						class={styles.formCard}
 						aria-labelledby="event-tags-title"
 					>
 						<h3 id="event-tags-title">Tags</h3>
@@ -179,7 +179,7 @@ export default function CalendarEventDrawer({
 									const selected = selectedTagIDs().includes(tag.id);
 									return (
 										<Button
-											key={tag.id}
+
 											type="button"
 											aria-pressed={selected}
 											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
@@ -195,12 +195,12 @@ export default function CalendarEventDrawer({
 									);
 								})
 						) : (
-							<p className={styles.detailMuted}>Loading event tags…</p>
+							<p class={styles.detailMuted}>Loading event tags…</p>
 						)}
 					</section>
 				) : null}
 				{event.isGlobal ? (
-					<ListRow className={styles.toggleRow}>
+					<ListRow class={styles.toggleRow}>
 						<span>Show Weather</span>
 						<Toggle
 							checked={showsWeather}
@@ -212,12 +212,12 @@ export default function CalendarEventDrawer({
 				) : null}
 			</section>
 			{status() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{status()}
 				</p>
 			) : null}
 			{!readOnly ? (
-				<DrawerFooter className={styles.actionFooter}>
+				<DrawerFooter class={styles.actionFooter}>
 					<Button
 						variant="destructive"
 						flexible

@@ -61,14 +61,14 @@ export default function AdminCalendarEntryDrawer({
 		}
 	};
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>{entry ? "Edit Entry" : "Add Entry"}</h2>
 					<p>{kind}</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Label
 					<Input
@@ -94,11 +94,11 @@ export default function AdminCalendarEntryDrawer({
 				</label>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				{entry ? (
 					<Button
 						variant="destructive"

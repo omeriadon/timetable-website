@@ -119,7 +119,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 
 	const confirmRemove = () => {
 		openDrawer(
-			<ConfirmationDrawer
+			() => (<ConfirmationDrawer
 				title={`Remove ${friend.friend.displayName}?`}
 				message="This removes the friend and their timetable from your account."
 				confirmLabel="Remove friend"
@@ -130,13 +130,13 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					});
 					closeDrawer();
 				}}
-			/>,
+			/>),
 		);
 	};
 
 	const confirmReport = () => {
 		openDrawer(
-			<ConfirmationDrawer
+			() => (<ConfirmationDrawer
 				title={`Report ${friend.friend.displayName}?`}
 				message="This sends a report for review. The friend remains visible in your account."
 				confirmLabel="Report friend"
@@ -147,13 +147,13 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						body: JSON.stringify({ reportedAccountID: friend.friend.userID }),
 					})
 				}
-			/>,
+			/>),
 		);
 	};
 
 	return (
 		<div class={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+			<header class={styles.detailHeader}>
 				<ProfilePicture
 					profile={friend.friend}
 					size={58}
@@ -182,61 +182,61 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			</div>
 			<Show when={tab() === "main"}>
 				<div class={styles.detailPanel}>
-					<section className={styles.detailCard}>
-						<div className={styles.detailRow}>
-							<span className={styles.detailRowLabel}>
+					<section class={styles.detailCard}>
+						<div class={styles.detailRow}>
+							<span class={styles.detailRowLabel}>
 								<Symbol name="location" />
 								Location
 							</span>
 							<strong>{status}</strong>
 						</div>
-						<div className={styles.detailRow}>
-							<span className={styles.detailRowLabel}>
+						<div class={styles.detailRow}>
+							<span class={styles.detailRowLabel}>
 								<Symbol name="building.2" />
 								School status
 							</span>
 							<strong>{friendScheduleTitle(subjects(), now())}</strong>
 						</div>
 					</section>
-					<section className={styles.detailSection}>
+					<section class={styles.detailSection}>
 						<h3>Shared Classes</h3>
 						<List>
 							{sharedClasses.length ? (
 								sharedClasses().map((sharedClass) => (
 									<ListRow
-										key={`${sharedClass.id}-class`}
-										className={styles.detailSubject}
+
+										class={styles.detailSubject}
 									>
 										<Symbol
 											name={sharedClass.symbol}
-											className={styles.detailSubjectSymbolIcon}
+											class={styles.detailSubjectSymbolIcon}
 										/>
 										<strong>{sharedClass.id}</strong>
 										<span>{sharedClass.slotCount} shared classes</span>
 									</ListRow>
 								))
 							) : (
-								<p className={styles.detailMuted}>No shared classes.</p>
+								<p class={styles.detailMuted}>No shared classes.</p>
 							)}
 						</List>
 					</section>
-					<section className={styles.detailSection}>
+					<section class={styles.detailSection}>
 						<h3>Shared Subjects</h3>
 						<List>
 							{sharedSubjects.length ? (
 								sharedSubjects()
 									.slice(0, 6)
 									.map((subject) => (
-										<ListRow key={subject.id} className={styles.detailSubject}>
+										<ListRow class={styles.detailSubject}>
 											<Symbol
 												name={subject.symbol}
-												className={styles.detailSubjectSymbolIcon}
+												class={styles.detailSubjectSymbolIcon}
 											/>
 											<strong>{subject.id}</strong>
 										</ListRow>
 									))
 							) : (
-								<p className={styles.detailMuted}>No shared classes.</p>
+								<p class={styles.detailMuted}>No shared classes.</p>
 							)}
 						</List>
 					</section>
@@ -244,18 +244,18 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			</Show>
 			<Show when={tab() === "week"}>
 				<div class={styles.detailPanel}>
-					<section className={styles.detailCard}>
+					<section class={styles.detailCard}>
 						<h3>Week</h3>
-						<div className={styles.friendWeekGrid}>
+						<div class={styles.friendWeekGrid}>
 							<span aria-hidden="true" />
 							{TIMETABLE_DAYS.map((day) => (
-								<strong key={day} className={styles.friendWeekDay}>
+								<strong class={styles.friendWeekDay}>
 									{day}
 								</strong>
 							))}
 							{TIMETABLE_SESSIONS.map((session) => (
 								<>
-									<strong className={styles.friendWeekSession}>
+									<strong class={styles.friendWeekSession}>
 										{session.label}
 									</strong>
 									{TIMETABLE_DAYS.map((day, dayIndex) => {
@@ -268,8 +268,8 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 										);
 										return (
 											<span
-												key={`${day}-${session.value}`}
-												className={styles.friendWeekCell}
+
+												class={styles.friendWeekCell}
 											>
 												{subject?.id ?? ""}
 											</span>
@@ -283,9 +283,9 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 			</Show>
 			<Show when={tab() === "info"}>
 				<div class={styles.detailPanel}>
-					<section className={styles.detailCard}>
+					<section class={styles.detailCard}>
 						<h3>Location notifications</h3>
-						<ListRow className={styles.toggleRow}>
+						<ListRow class={styles.toggleRow}>
 							<span>Within 10 mins</span>
 							<Toggle
 								checked={
@@ -299,7 +299,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 								aria-label="Within 10 mins"
 							/>
 						</ListRow>
-						<ListRow className={styles.toggleRow}>
+						<ListRow class={styles.toggleRow}>
 							<span>Within 5 mins</span>
 							<Toggle
 								checked={
@@ -313,7 +313,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 								aria-label="Within 5 mins"
 							/>
 						</ListRow>
-						<ListRow className={styles.toggleRow}>
+						<ListRow class={styles.toggleRow}>
 							<span>Arrived</span>
 							<Toggle
 								checked={
@@ -325,8 +325,8 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 								aria-label="Arrived"
 							/>
 						</ListRow>
-						<div className={styles.detailRow}>
-							<span className={styles.detailRowLabel}>
+						<div class={styles.detailRow}>
+							<span class={styles.detailRowLabel}>
 								<Symbol name="person.2" />
 								Friends since
 							</span>
@@ -341,7 +341,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 							</strong>
 						</div>
 						<h3>Average arrival</h3>
-						<div className={styles.detailRow}>
+						<div class={styles.detailRow}>
 							<span>Overall</span>
 							<strong>
 								{formatArrival(detail()?.averageArrivalSecondsSinceMidnight)}
@@ -349,7 +349,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						</div>
 						{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
 							(day, index) => (
-								<div className={styles.detailRow} key={day}>
+								<div class={styles.detailRow}>
 									<span>{day}</span>
 									<strong>
 										{formatArrival(
@@ -374,7 +374,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 				</div>
 			</Show>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}

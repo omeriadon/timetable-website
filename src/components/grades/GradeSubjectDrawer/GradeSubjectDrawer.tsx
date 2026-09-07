@@ -18,8 +18,8 @@ export default function GradeSubjectDrawer({
 	assessments,
 }: GradeSubjectDrawerProps) {
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<GradeGauge value={average} color={colour} symbol={symbol} />
 				<div>
 					<h2>{subjectID}</h2>
@@ -31,17 +31,17 @@ export default function GradeSubjectDrawer({
 				</div>
 			</header>
 			<section
-				className={styles.detailCard}
+				class={styles.detailCard}
 				aria-label={`${subjectID} assessments`}
 			>
 				{assessments.length === 0 ? (
-					<p className={styles.detailMuted}>No assessments yet.</p>
+					<p class={styles.detailMuted}>No assessments yet.</p>
 				) : (
 					assessments.slice(0, 5).map((assessment) => (
-						<div className={styles.detailRow} key={assessment.id}>
+						<div class={styles.detailRow}>
 							<span>
 								<strong>{assessment.name}</strong>
-								<small className={styles.detailMuted}>
+								<small class={styles.detailMuted}>
 									{formatDate(assessment)} · {formatPercent(assessment.score)}
 								</small>
 							</span>

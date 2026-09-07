@@ -19,14 +19,14 @@ export default function AdminStorageQuotaCard({
 	const percentage = Math.round(value * 100);
 
 	return (
-		<section className={styles.card}>
-			<div className={styles.row}>
+		<section class={styles.card}>
+			<div class={styles.row}>
 				<Symbol name={icon} />
-				<strong className={styles.label}>{title}</strong>
-				<strong className={styles.detail}>{percentage}% used</strong>
+				<strong class={styles.label}>{title}</strong>
+				<strong class={styles.detail}>{percentage}% used</strong>
 			</div>
 			<div
-				className={adminStyles.quotaTrack}
+				class={adminStyles.quotaTrack}
 				aria-label={`${title}: ${percentage} percent used`}
 			/>
 			{children}

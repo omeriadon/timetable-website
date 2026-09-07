@@ -58,15 +58,15 @@ export default function AdminEventTagSectionDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol name="tag" />
 				<div>
 					<h2>Edit Section</h2>
 					<p>{section.category}</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Display Name
 					<Input
@@ -83,7 +83,7 @@ export default function AdminEventTagSectionDrawer({
 						onChange={(event) => setSortOrder(event.target.value)}
 					/>
 				</label>
-				<label className={styles.editorCheck}>
+				<label class={styles.editorCheck}>
 					<Toggle
 						aria-label="Archive section"
 						checked={isArchived()}
@@ -93,11 +93,11 @@ export default function AdminEventTagSectionDrawer({
 				</label>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible

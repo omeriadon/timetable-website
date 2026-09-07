@@ -52,10 +52,10 @@ export default function AppearanceSettingsEditor({
 	const row = (
 		<ListRow>
 			<Symbol name="textformat.size" />
-			<label className={styles.label} htmlFor="app-font-design">
+			<label class={styles.label} for="app-font-design">
 				App Font
 				{error() ? (
-					<small className={styles.error} role="alert">
+					<small class={styles.error} role="alert">
 						{error()}
 					</small>
 				) : null}

@@ -13,9 +13,9 @@ export default function TermDateDrawer({
 	end,
 }: TermDateDrawerProps) {
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
+				<div class={styles.detailSubjectSymbol}>
 					<Symbol name="calendar.badge.clock" fallback="[]" />
 				</div>
 				<div>
@@ -23,12 +23,12 @@ export default function TermDateDrawer({
 					<p>School term dates</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<div className={styles.detailRow}>
+			<section class={styles.detailCard}>
+				<div class={styles.detailRow}>
 					<span>Starts</span>
 					<strong>{formatDate(start)}</strong>
 				</div>
-				<div className={styles.detailRow}>
+				<div class={styles.detailRow}>
 					<span>Ends</span>
 					<strong>{formatDate(end)}</strong>
 				</div>

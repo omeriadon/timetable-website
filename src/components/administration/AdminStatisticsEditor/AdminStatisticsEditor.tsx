@@ -64,18 +64,18 @@ export default function AdminStatisticsEditor() {
 
 	if (error()) {
 		return (
-			<p className={styles.error} role="alert">
+			<p class={styles.error} role="alert">
 				{error()}
 			</p>
 		);
 	}
 
 	if (!statistics()) {
-		return <p className={styles.loading}>Loading statistics…</p>;
+		return <p class={styles.loading}>Loading statistics…</p>;
 	}
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<AdminStatisticsGroup
 				title="Overview"
 				icon="chart.bar"

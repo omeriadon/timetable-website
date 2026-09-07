@@ -15,12 +15,12 @@ export default function SubjectDetailDrawer({
 	const selectedSlot: TimetableSlot | null = subject.slots[0] ?? null;
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
+				<div class={styles.detailSubjectSymbol}>
 					<Symbol
 						name={subject.symbol}
-						className={styles.detailSubjectSymbolIcon}
+						class={styles.detailSubjectSymbolIcon}
 					/>
 				</div>
 				<div>
@@ -28,16 +28,16 @@ export default function SubjectDetailDrawer({
 					<p>{subject.slots.length} classes each week</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<div className={styles.detailRow}>
-					<span className={styles.detailRowLabel}>
+			<section class={styles.detailCard}>
+				<div class={styles.detailRow}>
+					<span class={styles.detailRowLabel}>
 						<Symbol name="door.left.hand.open" />
 						Classroom
 					</span>
 					<strong>{classroomName(subject.classroom)}</strong>
 				</div>
-				<div className={styles.detailRow}>
-					<span className={styles.detailRowLabel}>
+				<div class={styles.detailRow}>
+					<span class={styles.detailRowLabel}>
 						<Symbol name="person.fill" />
 						Teacher
 					</span>
@@ -46,10 +46,10 @@ export default function SubjectDetailDrawer({
 				{subject.slots.length ? (
 					subject.slots.map((slot) => (
 						<div
-							key={`${slot.day}-${slot.session}`}
-							className={styles.detailRow}
+
+							class={styles.detailRow}
 						>
-							<span className={styles.detailRowLabel}>
+							<span class={styles.detailRowLabel}>
 								<Symbol name="calendar" />
 								{dayName(slot.day)}
 							</span>
@@ -57,7 +57,7 @@ export default function SubjectDetailDrawer({
 						</div>
 					))
 				) : (
-					<p className={styles.detailMuted}>No scheduled classes.</p>
+					<p class={styles.detailMuted}>No scheduled classes.</p>
 				)}
 			</section>
 			{selectedSlot ? (

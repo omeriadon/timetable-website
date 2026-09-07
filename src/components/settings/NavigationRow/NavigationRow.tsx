@@ -18,19 +18,19 @@ export default function NavigationRow({
 	href: string;
 	icon: string;
 	direct?: boolean;
-	drawerContent?: JSX.Element;
+	drawerContent?: JSX.Element | (() => JSX.Element);
 }) {
 	const row = (
 		<ListRow>
 			<Symbol name={icon} />
-			<span className={styles.label}>{title}</span>
+			<span class={styles.label}>{title}</span>
 			<Symbol name="chevron.right" />
 		</ListRow>
 	);
 
 	if (direct) {
 		return (
-			<Link className={styles.linkRow} to={href} aria-label={`Open ${title}`}>
+			<Link class={styles.linkRow} to={href} aria-label={`Open ${title}`}>
 				{row}
 			</Link>
 		);
@@ -38,7 +38,7 @@ export default function NavigationRow({
 
 	return (
 		<DrawerTrigger
-			className={styles.linkRow}
+			class={styles.linkRow}
 			ariaLabel={`Open ${title}`}
 			content={drawerContent}
 		>

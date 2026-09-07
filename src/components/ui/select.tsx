@@ -1,18 +1,84 @@
-import { Select as Primitive } from "@kobalte/core/select";
+import { Select as Primitive, type SelectRootProps } from "@kobalte/core/select";
+import {
+	createContext,
+	createSignal,
+	splitProps,
+	useContext,
+	type Accessor,
+	type JSX,
+} from "solid-js";
 import { CheckIcon, ChevronDownIcon } from "lucide-solid";
 import { cn } from "@/lib/utils";
 import styles from "./select.module.css";
 
-type SelectProps = {
+type SelectValue = string | number | null;
+type SelectOption = {
+	value: string;
+	label: JSX.Element;
+};
+const SelectOptionsContext = createContext<{
+	register: (option: SelectOption) => void;
+}>();
+type SelectProps = Omit<
+	SelectRootProps<SelectOption>,
+	"onChange" | "multiple" | "value" | "defaultValue" | "options" | "disabled"
+> & {
 	onValueChange?: (value: string | null) => void;
-	[key: string]: unknown;
+	multiple?: false;
+	value?: SelectValue | Accessor<SelectValue>;
+	defaultValue?: Exclude<SelectValue, null> | Accessor<Exclude<SelectValue, null>>;
+	children?: JSX.Element;
+	disabled?: boolean | Accessor<boolean>;
 };
 
-const SelectRoot: any = Primitive;
-
 export function Select(props: SelectProps) {
-	const { onValueChange, ...rest } = props;
-	return <SelectRoot {...rest} onChange={onValueChange} />;
+	const [options, setOptions] = createSignal<SelectOption[]>([]);
+	const [local, rest] = splitProps(props, [
+		"onValueChange",
+		"value",
+		"defaultValue",
+		"disabled",
+	]);
+	const value = () => {
+		const current = typeof local.value === "function" ? local.value() : local.value;
+		return current === null || current === undefined ? current : String(current);
+	};
+	const defaultValue = () => {
+		const current = typeof local.defaultValue === "function"
+			? local.defaultValue()
+			: local.defaultValue;
+		return current === undefined ? undefined : String(current);
+	};
+	const selectedValue = () =>
+		options().find((option) => option.value === value()) ?? null;
+	const selectedDefaultValue = () =>
+		options().find((option) => option.value === defaultValue());
+	return (
+		<SelectOptionsContext.Provider value={{ register: (option) => setOptions((current) => current.some((item) => item.value === option.value) ? current : [...current, option]) }}>
+			<Primitive<SelectOption>
+				{...rest}
+				options={options()}
+				optionValue="value"
+				optionTextValue={(option) => String(option.value)}
+				itemComponent={(item) => (
+					<Primitive.Item item={item.item}>
+						<Primitive.ItemLabel>{item.item.rawValue.label}</Primitive.ItemLabel>
+						<Primitive.ItemIndicator>
+							<CheckIcon class={styles.itemIndicatorIcon} />
+						</Primitive.ItemIndicator>
+					</Primitive.Item>
+				)}
+				value={selectedValue()}
+				defaultValue={selectedDefaultValue()}
+				disabled={typeof props.disabled === "function" ? props.disabled() : props.disabled}
+				onChange={(option) =>
+					local.onValueChange?.(Array.isArray(option) ? null : option?.value ?? null)
+				}
+			>
+				{props.children}
+			</Primitive>
+		</SelectOptionsContext.Provider>
+	);
 }
 export function SelectGroup(props: any) {
 	return (
@@ -64,19 +130,14 @@ export function SelectLabel(props: any) {
 		/>
 	);
 }
-export function SelectItem(props: any) {
-	return (
-		<Primitive.Item
-			{...props}
-			data-slot="select-item"
-			class={cn(styles.item, props.class ?? props.className)}
-		>
-			<Primitive.ItemLabel>{props.children}</Primitive.ItemLabel>
-			<Primitive.ItemIndicator>
-				<CheckIcon class={styles.itemIndicatorIcon} />
-			</Primitive.ItemIndicator>
-		</Primitive.Item>
-	);
+export function SelectItem(props: {
+	value: string;
+	children?: JSX.Element;
+	key?: string;
+}) {
+	const context = useContext(SelectOptionsContext);
+	context?.register({ value: String(props.value), label: props.children });
+	return null;
 }
 export function SelectSeparator(props: any) {
 	return (

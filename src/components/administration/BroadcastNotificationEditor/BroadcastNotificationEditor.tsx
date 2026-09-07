@@ -43,7 +43,7 @@ export default function BroadcastNotificationEditor() {
 	};
 
 	return (
-		<section className={styles.formCard}>
+		<section class={styles.formCard}>
 			<label>
 				Title
 				<Input
@@ -73,7 +73,7 @@ export default function BroadcastNotificationEditor() {
 			</label>
 
 			{status() && (
-				<p className={styles.detail} role="status">
+				<p class={styles.detail} role="status">
 					{status()}
 				</p>
 			)}

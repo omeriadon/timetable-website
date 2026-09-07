@@ -30,9 +30,9 @@ export default function AboutEditor() {
 	});
 
 	return (
-		<section className={styles.page}>
-			<div className={styles.content}>
-				<div className={styles.icon}>
+		<section class={styles.page}>
+			<div class={styles.content}>
+				<div class={styles.icon}>
 					<img
 						src="/icon-512.webp"
 						width={300}
@@ -42,7 +42,7 @@ export default function AboutEditor() {
 					/>
 
 					{isLocalhost() && (
-						<div className={styles.overlay}>
+						<div class={styles.overlay}>
 							<Symbol name="ant" fallback="⚠" />
 							<span>DEBUG</span>
 						</div>
@@ -52,28 +52,28 @@ export default function AboutEditor() {
 				<h2>Timetable</h2>
 
 				<section
-					className={styles.card}
+					class={styles.card}
 					aria-labelledby="about-development-heading"
 				>
 					{contributors().map((contributor) => (
-						<div className={styles.contributor} key={contributor.id}>
+						<div class={styles.contributor}>
 							<span>{contributor.name}</span>
 							<span>{contributor.role}</span>
 						</div>
 					))}
 
 					{!contributors().length && !error() && (
-						<p className={styles.status}>Loading contributors…</p>
+						<p class={styles.status}>Loading contributors…</p>
 					)}
 				</section>
 
 				{error() && (
-					<p className={styles.error} role="alert">
+					<p class={styles.error} role="alert">
 						{error()}
 					</p>
 				)}
 
-				<p className={styles.copyright}>
+				<p class={styles.copyright}>
 					© {new Date().getFullYear()}, JDCQ. All rights reserved.
 				</p>
 			</div>

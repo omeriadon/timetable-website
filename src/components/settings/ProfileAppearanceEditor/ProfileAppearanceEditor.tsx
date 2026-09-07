@@ -55,10 +55,10 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			setPhoto(updated.photo);
 		} catch (requestError) {
 			openDrawer(
-				<MessageDrawer
+				() => (<MessageDrawer
 					title="Photo upload failed"
 					message={(requestError as Error).message}
-				/>,
+				/>),
 			);
 		} finally {
 			setUploading(false);
@@ -73,10 +73,10 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			update({ contentKind: "emoji" });
 		} catch (requestError) {
 			openDrawer(
-				<MessageDrawer
+				() => (<MessageDrawer
 					title="Photo removal failed"
 					message={(requestError as Error).message}
-				/>,
+				/>),
 			);
 		} finally {
 			setRemovingPhoto(false);
@@ -84,8 +84,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 	};
 
 	return (
-		<section className={styles.card}>
-			<div className={styles.preview}>
+		<section class={styles.card}>
+			<div class={styles.preview}>
 				<ProfilePicture
 					profile={{
 						displayName: profile.displayName,
@@ -99,12 +99,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					<span>Profile appearance</span>
 				</div>
 			</div>
-			<div className={styles.segmented} aria-label="Profile content">
+			<div class={styles.segmented} aria-label="Profile content">
 				{(["photo", "monogram", "emoji"] as const).map((kind) => (
 					<Button
-						key={kind}
+
 						type="button"
-						className={
+						class={
 							draft().contentKind === kind ? styles.segmentActive : styles.segment
 						}
 						onClick={() => update({ contentKind: kind })}
@@ -127,9 +127,9 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				))}
 			</div>
 			{draft().contentKind === "photo" ? (
-				<div className={styles.row}>
+				<div class={styles.row}>
 					<Symbol name="photo" fallback="◉" />
-					<span className={styles.label}>Photo</span>
+					<span class={styles.label}>Photo</span>
 					<Input
 						type="file"
 						accept="image/jpeg,image/png"
@@ -142,7 +142,7 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					{photo() ? (
 						<Button
 							type="button"
-							className={styles.removePhoto}
+							class={styles.removePhoto}
 							onClick={() => void removePhoto()}
 							disabled={uploading() || removingPhoto()}
 						>
@@ -153,15 +153,15 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 				</div>
 			) : null}
 			{draft().contentKind === "emoji" ? (
-				<div className={styles.emojiPicker}>
-					<div className={styles.row}>
+				<div class={styles.emojiPicker}>
+					<div class={styles.row}>
 						<Symbol name="face.smiling" fallback="☺" />
-						<label className={styles.label} htmlFor="profile-emoji">
+						<label class={styles.label} for="profile-emoji">
 							Emoji
 						</label>
 						<Input
 							id="profile-emoji"
-							className={styles.inlineInput}
+							class={styles.inlineInput}
 							value={draft().emoji}
 							maxLength={4}
 							onChange={(event) =>
@@ -169,11 +169,11 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 							}
 						/>
 					</div>
-					<div className={styles.emojiOptions}>
+					<div class={styles.emojiOptions}>
 						{emojiOptions.map((emoji) => (
 							<Button
 								type="button"
-								key={emoji}
+
 								onClick={() => update({ emoji })}
 								aria-label={`Use ${emoji}`}
 							>
@@ -185,21 +185,21 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			) : null}
 			{draft().contentKind !== "photo" ? (
 				<>
-					<div className={styles.subheading}>Foreground</div>
+					<div class={styles.subheading}>Foreground</div>
 					<ProfileForegroundColourGrid
 						selection={draft().foregroundColour}
 						onChange={(foregroundColour) => update({ foregroundColour })}
 					/>
 					{draft().contentKind === "monogram" ? (
-						<div className={styles.monogram}>
-							<div className={styles.row}>
+						<div class={styles.monogram}>
+							<div class={styles.row}>
 								<Symbol name="character" fallback="A" />
-								<label className={styles.label} htmlFor="profile-monogram">
+								<label class={styles.label} for="profile-monogram">
 									Monogram
 								</label>
 								<Input
 									id="profile-monogram"
-									className={styles.inlineInput}
+									class={styles.inlineInput}
 									value={draft().monogram}
 									maxLength={3}
 									onChange={(event) =>
@@ -217,12 +217,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 							/>
 						</div>
 					) : null}
-					<div className={styles.subheading}>Background</div>
+					<div class={styles.subheading}>Background</div>
 					<ProfileColourGrid
 						selection={draft().colours}
 						onChange={(colours) => update({ colours })}
 					/>
-					<div className={styles.sliderList}>
+					<div class={styles.sliderList}>
 						<label>
 							Animation Speed <output>{(draft().speed ?? 0.2).toFixed(2)}</output>
 							<Slider

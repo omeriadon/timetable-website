@@ -2,7 +2,7 @@
 
 # Timetable website
 
-Timetable website built with TanStack Start, Vite, React, Nitro, and Bun.
+Timetable website built with TanStack Start, Solid, Vite, Nitro, and Bun.
 
 This is effectively a web port of the existing SwiftUI app.
 

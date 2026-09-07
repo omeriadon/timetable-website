@@ -16,6 +16,7 @@ import {
 	ListSection,
 	ListSectionHeader,
 } from "@/components/ui/list";
+import { Card } from "@/components/ui/card";
 import {
 	SelectContent,
 	SelectItem,
@@ -95,12 +96,12 @@ export default function NotificationSettingsEditor({
 		description: string,
 	) => {
 		openDrawer(
-			<NotificationLeadTimesDrawer
+			() => (<NotificationLeadTimesDrawer
 				title={title}
 				description={description}
 				selection={draft()[key]}
 				onSave={async (selection) => updateNotifications({ [key]: selection })}
-			/>,
+			/>),
 		);
 	};
 	const addSchedule = (schedule: EventNotificationSchedule) => {
@@ -148,7 +149,7 @@ export default function NotificationSettingsEditor({
 			<List rowHover>
 				<ListRow>
 					<Symbol name="calendar.badge.clock" />
-					<span className={styles.label}>Delete Past Calendar Events</span>
+					<span class={styles.label}>Delete Past Calendar Events</span>
 					<Select
 						value={draft().calendarEventAutoDeleteDays}
 						disabled={saving()}
@@ -196,7 +197,7 @@ export default function NotificationSettingsEditor({
 				/>
 				<Button
 					type="button"
-					className={styles.listButton}
+					class={styles.listButton}
 					onClick={() =>
 						openLeadTimes(
 							"notificationLeadTimes",
@@ -208,8 +209,8 @@ export default function NotificationSettingsEditor({
 				>
 					<ListRow>
 						<Symbol name="bell.badge" />
-						<span className={styles.label}>Send Notifications Early By</span>
-						<span className={styles.detail}>
+						<span class={styles.label}>Send Notifications Early By</span>
+						<span class={styles.detail}>
 							{formatLeadTimes(draft().notificationLeadTimes)}
 						</span>
 						<Symbol name="chevron.right" />
@@ -217,7 +218,7 @@ export default function NotificationSettingsEditor({
 				</Button>
 				<Button
 					type="button"
-					className={styles.listButton}
+					class={styles.listButton}
 					onClick={() =>
 						openLeadTimes(
 							"breakToPeriodNotificationLeadTimes",
@@ -229,22 +230,23 @@ export default function NotificationSettingsEditor({
 				>
 					<ListRow>
 						<Symbol name="clock.arrow.trianglehead.counterclockwise.rotate.90" />
-						<span className={styles.label}>Before Class or From a Break</span>
-						<span className={styles.detail}>
+						<span class={styles.label}>Before Class or From a Break</span>
+						<span class={styles.detail}>
 							{formatLeadTimes(draft().breakToPeriodNotificationLeadTimes)}
 						</span>
 						<Symbol name="chevron.right" />
 					</ListRow>
 				</Button>
 			</List>
-			<List>
+			<List sections>
 				<ListSection>
 					<ListSectionHeader>
-						<span className={styles.sectionHeader}>
+						<span class={styles.sectionHeader}>
 							<Symbol name="calendar.badge.clock" />
 							Event Notifications
 						</span>
 					</ListSectionHeader>
+					<Card role="group">
 					{draft().eventNotificationSchedules
 						.slice()
 						.sort(
@@ -255,8 +257,8 @@ export default function NotificationSettingsEditor({
 						)
 						.map((schedule) => (
 							<ListRow
-								key={`${schedule.dayOffset}-${schedule.hour}-${schedule.minute}`}
-								className={styles.scheduleRow}
+
+								class={styles.scheduleRow}
 							>
 								<span>{formatTime(schedule)}</span>
 								<small>{formatOffset(schedule.dayOffset)}</small>
@@ -272,22 +274,23 @@ export default function NotificationSettingsEditor({
 						))}
 					<Button
 						type="button"
-						className={styles.listButton}
+						class={styles.listButton}
 						onClick={() =>
 							openDrawer(
-								<EventNotificationScheduleDrawer onSave={addSchedule} />,
+								() => (<EventNotificationScheduleDrawer onSave={addSchedule} />),
 							)
 						}
 					>
 						<ListRow>
 							<Symbol name="plus" />
-							<span className={styles.label}>Add Event Notification</span>
+							<span class={styles.label}>Add Event Notification</span>
 						</ListRow>
 					</Button>
+					</Card>
 				</ListSection>
 			</List>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}

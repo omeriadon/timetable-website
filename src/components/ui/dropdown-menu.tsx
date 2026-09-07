@@ -47,9 +47,11 @@ export function DropdownMenuSubTrigger(props: any) {
 }
 export const DropdownMenuSubContent = Primitive.SubContent;
 export function DropdownMenuCheckboxItem(props: any) {
+	const { onCheckedChange, ...rest } = props;
 	return (
 		<Primitive.CheckboxItem
-			{...props}
+			{...rest}
+			onChange={onCheckedChange}
 			class={cn(styles.checkboxItem, props.class ?? props.className)}
 		>
 			<Primitive.ItemIndicator>
@@ -59,7 +61,10 @@ export function DropdownMenuCheckboxItem(props: any) {
 		</Primitive.CheckboxItem>
 	);
 }
-export const DropdownMenuRadioGroup: any = Primitive.RadioGroup;
+export function DropdownMenuRadioGroup(props: any) {
+	const { onValueChange, ...rest } = props;
+	return <Primitive.RadioGroup {...rest} onChange={onValueChange} />;
+}
 export function DropdownMenuRadioItem(props: any) {
 	return (
 		<Primitive.RadioItem

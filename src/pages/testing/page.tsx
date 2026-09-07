@@ -77,6 +77,7 @@ import {
 	ListSection,
 	ListSectionHeader,
 } from "@/components/ui/list";
+import { Card } from "@/components/ui/card";
 import {
 	Popover,
 	PopoverContent,
@@ -138,23 +139,23 @@ export default function TestingPage() {
 	});
 
 	return (
-		<main className={styles.page}>
-			<Accordion className={styles.testingAccordion} multiple>
+		<main class={styles.page}>
+			<Accordion class={styles.testingAccordion} multiple>
 				<AccordionItem value="fonts">
 					<AccordionTrigger>Fonts</AccordionTrigger>
 					<AccordionContent>
-						<div className={styles.fontList}>
+						<div class={styles.fontList}>
 							{declaredFonts.map(({ family, className }) => (
-								<div className={styles.fontExample} key={family}>
-									<div className={styles.fontLabel}>{family}</div>
-									<div className={styles.fontSamples}>
+								<div class={styles.fontExample}>
+									<div class={styles.fontLabel}>{family}</div>
+									<div class={styles.fontSamples}>
 										{fontSizes.map((size) => (
 											<p
-												className={className}
-												key={size}
-												style={{ fontSize: `${size}px` }}
+												class={className}
+
+											style={{ "font-size": `${size}px` }}
 											>
-												<span className={styles.fontSizeLabel}>{size}px</span>
+												<span class={styles.fontSizeLabel}>{size}px</span>
 												The quick brown fox jumps over the lazy dog. 0123456789
 											</p>
 										))}
@@ -168,7 +169,7 @@ export default function TestingPage() {
 				<AccordionItem value="buttons">
 					<AccordionTrigger>Buttons</AccordionTrigger>
 					<AccordionContent>
-						<div className={styles.exampleRow}>
+						<div class={styles.exampleRow}>
 							<Button>
 								<SaveIcon />
 								Save
@@ -195,7 +196,7 @@ export default function TestingPage() {
 							</Button>
 						</div>
 
-						<div className={styles.exampleRow}>
+						<div class={styles.exampleRow}>
 							<Button size="xs">
 								<CheckIcon />
 								Extra small
@@ -210,7 +211,7 @@ export default function TestingPage() {
 							</Button>
 						</div>
 
-						<div className={styles.exampleRow}>
+						<div class={styles.exampleRow}>
 							<Button size="icon-xs" aria-label="Small calendar button">
 								<CalendarIcon />
 							</Button>
@@ -225,7 +226,7 @@ export default function TestingPage() {
 							</Button>
 						</div>
 
-						<div className={styles.exampleRow}>
+						<div class={styles.exampleRow}>
 							<Button disabled>
 								<SaveIcon />
 								Disabled
@@ -249,14 +250,14 @@ export default function TestingPage() {
 							<FieldLegend>Field primitives</FieldLegend>
 							<FieldGroup>
 								<Field>
-									<FieldLabel htmlFor="testing-text">Text input</FieldLabel>
+									<FieldLabel for="testing-text">Text input</FieldLabel>
 									<Input id="testing-text" placeholder="Enter text" />
 									<FieldDescription>
 										Field descriptions sit below the control.
 									</FieldDescription>
 								</Field>
 								<Field>
-									<FieldLabel htmlFor="testing-textarea">Textarea</FieldLabel>
+									<FieldLabel for="testing-textarea">Textarea</FieldLabel>
 									<Textarea
 										id="testing-textarea"
 										placeholder="Enter a longer value"
@@ -288,7 +289,7 @@ export default function TestingPage() {
 										checked={switched()}
 										onCheckedChange={setSwitched}
 									/>
-									<FieldLabel htmlFor="testing-switch">Switch</FieldLabel>
+									<FieldLabel for="testing-switch">Switch</FieldLabel>
 								</Field>
 								<Field orientation="responsive">
 									<FieldContent>
@@ -313,9 +314,10 @@ export default function TestingPage() {
 				<AccordionItem value="lists">
 					<AccordionTrigger>Lists</AccordionTrigger>
 					<AccordionContent>
-						<List>
+						<List sections>
 							<ListSection>
 								<ListSectionHeader>Notifications</ListSectionHeader>
+								<Card role="group">
 								<ListRow>
 									<BellIcon />
 									<span>Timetable reminders</span>
@@ -323,10 +325,12 @@ export default function TestingPage() {
 								<ListRow>
 									<span>Friend activity</span>
 								</ListRow>
+								</Card>
 							</ListSection>
 
 							<ListSection>
 								<ListSectionHeader>Account</ListSectionHeader>
+								<Card role="group">
 
 								<ListRow>
 									<span>Profile visibility</span>
@@ -334,6 +338,7 @@ export default function TestingPage() {
 								<ListRow>
 									<span>Sign-in security</span>
 								</ListRow>
+								</Card>
 							</ListSection>
 						</List>
 					</AccordionContent>
@@ -365,12 +370,12 @@ export default function TestingPage() {
 				<AccordionItem value="separators">
 					<AccordionTrigger>Separators</AccordionTrigger>
 					<AccordionContent>
-						<div className={styles.separatorExample}>
+						<div class={styles.separatorExample}>
 							<span>Top content</span>
 							<Separator />
 							<span>bottom content</span>
 						</div>
-						<div className={styles.verticalSeparatorExample}>
+						<div class={styles.verticalSeparatorExample}>
 							<span>Left</span>
 							<Separator orientation="vertical" />
 							<span>Right</span>
@@ -382,7 +387,7 @@ export default function TestingPage() {
 					<AccordionTrigger>Overlays</AccordionTrigger>
 					<AccordionContent>
 						<Drawer>
-							<DrawerTrigger render={<Button variant="outline" />}>
+							<DrawerTrigger as={Button} variant="outline">
 								<PanelRightIcon />
 								Open drawer
 							</DrawerTrigger>
@@ -396,7 +401,7 @@ export default function TestingPage() {
 						</Drawer>
 
 						<Popover>
-							<PopoverTrigger render={<Button variant="outline" />}>
+							<PopoverTrigger as={Button} variant="outline">
 								<MenuIcon />
 								Open popover
 							</PopoverTrigger>
@@ -409,7 +414,7 @@ export default function TestingPage() {
 						</Popover>
 
 						<DropdownMenu>
-							<DropdownMenuTrigger render={<Button variant="outline" />}>
+							<DropdownMenuTrigger as={Button} variant="outline">
 								<MenuIcon />
 								Open menu
 							</DropdownMenuTrigger>
@@ -462,7 +467,7 @@ export default function TestingPage() {
 					<AccordionTrigger>Alert dialog</AccordionTrigger>
 					<AccordionContent>
 						<AlertDialog>
-							<AlertDialogTrigger render={<Button variant="destructive" />}>
+							<AlertDialogTrigger as={Button} variant="destructive">
 								<TrashIcon />
 								Open alert dialog
 							</AlertDialogTrigger>
@@ -491,7 +496,7 @@ export default function TestingPage() {
 				<AccordionItem value="accordion">
 					<AccordionTrigger>Accordion</AccordionTrigger>
 					<AccordionContent>
-						<Accordion className={styles.nestedAccordion} multiple>
+						<Accordion class={styles.nestedAccordion} multiple>
 							<AccordionItem value="first">
 								<AccordionTrigger>First item</AccordionTrigger>
 								<AccordionContent>

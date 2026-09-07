@@ -120,14 +120,14 @@ export default function TimetableEditorDrawer({
 		}
 
 		openDrawer(
-			<ConfirmationDrawer
+			() => (<ConfirmationDrawer
 				title="Slot conflict"
 				message={`${conflict.id} already uses ${slotLabel(slot)}. Move this slot to ${subjectID}?`}
 				confirmLabel="Move slot"
 				icon="arrow.triangle.2.circlepath"
 				tone="prominent"
 				onConfirm={() => assignSlot(subjectID, slot)}
-			/>,
+			/>),
 		);
 	};
 
@@ -154,17 +154,17 @@ export default function TimetableEditorDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>Edit Timetable</h2>
 					<p>Subjects and weekly periods</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				{subjects().map((subject) => (
-					<div key={subject.id} className={styles.editorSubject}>
-						<div className={styles.editorFields}>
+					<div class={styles.editorSubject}>
+						<div class={styles.editorFields}>
 							<Input
 								value={subject.id}
 								aria-label="Subject name"
@@ -197,7 +197,7 @@ export default function TimetableEditorDrawer({
 								<Symbol name="xmark" />
 							</Button>
 						</div>
-						<div className={styles.editorMetadata}>
+						<div class={styles.editorMetadata}>
 							<label>
 								Teacher
 								<Input
@@ -223,9 +223,9 @@ export default function TimetableEditorDrawer({
 								/>
 							</label>
 						</div>
-						<div className={styles.slotGrid}>
+						<div class={styles.slotGrid}>
 							{TIMETABLE_DAYS.map((day, dayIndex) => (
-								<div key={day}>
+								<div>
 									<strong>{day}</strong>
 									{editableSessions.map((session) => {
 										const active = subject.slots.some(
@@ -234,9 +234,9 @@ export default function TimetableEditorDrawer({
 										);
 										return (
 											<Button
-												key={session.value}
+
 												type="button"
-												className={active ? styles.slotActive : styles.slot}
+												class={active ? styles.slotActive : styles.slot}
 												onClick={() =>
 													toggleSlot(subject.id, {
 														day: dayIndex,
@@ -254,15 +254,15 @@ export default function TimetableEditorDrawer({
 						</div>
 					</div>
 				))}
-				<Button type="button" className={styles.rowButton} onClick={addSubject}>
-					<div className={styles.row}>
+				<Button type="button" class={styles.rowButton} onClick={addSubject}>
+					<div class={styles.row}>
 						<Symbol name="plus" />
-						<span className={styles.label}>Add Subject</span>
+						<span class={styles.label}>Add Subject</span>
 					</div>
 				</Button>
 			</section>
-			<section className={styles.detailCard}>
-				<label className={styles.editorCheck}>
+			<section class={styles.detailCard}>
+				<label class={styles.editorCheck}>
 					<Toggle
 						aria-label="Allow friends to compare my timetable"
 						checked={isSearchable()}
@@ -272,7 +272,7 @@ export default function TimetableEditorDrawer({
 				</label>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}

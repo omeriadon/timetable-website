@@ -14,19 +14,13 @@ import type {
 
 export type DashboardData = ServerDashboardData;
 
-let cachedDashboardData: DashboardData | null = null;
 let dashboardRequest: Promise<DashboardData> | null = null;
 
 export function resetDashboardCache() {
-	cachedDashboardData = null;
 	dashboardRequest = null;
 }
 
 function requestDashboard() {
-	if (cachedDashboardData) {
-		return Promise.resolve(cachedDashboardData);
-	}
-
 	if (!dashboardRequest) {
 		dashboardRequest = Promise.all([
 			apiRequest<Account>("v1/account"),
@@ -59,7 +53,6 @@ function requestDashboard() {
 					settings,
 				};
 
-				cachedDashboardData = data;
 				return data;
 			},
 		);
@@ -70,13 +63,12 @@ function requestDashboard() {
 
 export function useDashboard(initialData?: DashboardData) {
 	const [data, setData] = createSignal<DashboardData | null>(
-		initialData ?? cachedDashboardData,
+		initialData ?? null,
 	);
 	const [error, setError] = createSignal<string | null>(null);
 
 	createEffect(() => {
 		if (initialData) {
-			cachedDashboardData = initialData;
 			return;
 		}
 		let isCurrent = true;

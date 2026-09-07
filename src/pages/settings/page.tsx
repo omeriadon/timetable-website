@@ -105,12 +105,12 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	};
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{account() ? (
 				<DrawerTrigger
-					className={`${styles.rowButton} ${styles.profileButton}`}
+					class={`${styles.rowButton} ${styles.profileButton}`}
 					ariaLabel="Open profile appearance"
-					content={
+					content={() =>
 						account().appearance ? (
 							<ProfileAppearanceEditor
 								profile={{
@@ -124,40 +124,40 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 						) : null
 					}
 				>
-					<section className={`${styles.paper} ${styles.profileRow}`}>
+					<section class={`${styles.paper} ${styles.profileRow}`}>
 						<ProfilePicture profile={account()} size={52} />
 						<span>
-							<b className={styles.profileName}>{account().displayName}</b>
-							<small className={styles.profileEmail}>{account().email}</small>
+							<b class={styles.profileName}>{account().displayName}</b>
+							<small class={styles.profileEmail}>{account().email}</small>
 						</span>
 						<Symbol name="chevron.right" />
 					</section>
 				</DrawerTrigger>
 			) : null}
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<h2 className={styles.section}>My Timetable</h2>
+			<h2 class={styles.section}>My Timetable</h2>
 			<List rowHover>
 				<Button
 					type="button"
-					className={styles.listButton}
+					class={styles.listButton}
 					onClick={() =>
 						openDrawer(
-							<CalendarImportDrawer
+							() => (<CalendarImportDrawer
 								timetable={timetable()}
 								onImported={setTimetable}
-							/>,
+							/>),
 						)
 					}
 				>
 					<ListRow>
 						<Symbol name="calendar" fallback="▦" />
-						<span className={styles.label}>
+						<span class={styles.label}>
 							Re-import from Calendar
-							<small className={styles.detail}>
+							<small class={styles.detail}>
 								Subscribe to Compass Schedule in Calendar first.
 							</small>
 						</span>
@@ -172,7 +172,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 					direct
 				/>
 			</List>
-			<h2 className={styles.section}>Preferences</h2>
+			<h2 class={styles.section}>Preferences</h2>
 			<List rowHover>
 				{settings() ? (
 					<>
@@ -182,11 +182,13 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 							description="Control Live Activities, class notifications, event notifications, and sync."
 							href="/settings/notifications"
 							icon="switch.2"
-							drawerContent={<NotificationSettingsEditor initial={settings()} />}
+							drawerContent={() => (
+								<NotificationSettingsEditor initial={settings()} />
+							)}
 						/>
 						<ListRow>
 							<Symbol name="calendar.badge.clock" />
-							<span className={styles.label}>Show Future Events</span>
+							<span class={styles.label}>Show Future Events</span>
 							<Select
 								value={settings().futureEventRange}
 								disabled={saving()}
@@ -197,7 +199,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 								}}
 							>
 								<SelectTrigger
-									className={styles.inlineSelect}
+									class={styles.inlineSelect}
 									aria-label="Show Future Events range"
 								>
 									<SelectValue>
@@ -220,21 +222,21 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 							description="Review and edit past calendar events."
 							href="/settings/archived-events"
 							icon="archivebox"
-							drawerContent={<ArchivedEventsEditor />}
+							drawerContent={() => <ArchivedEventsEditor />}
 						/>
 					</>
 				) : (
-					<p className={styles.loading}>Loading preferences…</p>
+					<p class={styles.loading}>Loading preferences…</p>
 				)}
 			</List>
-			<h2 className={styles.section}>Support</h2>
+			<h2 class={styles.section}>Support</h2>
 			<List rowHover>
 				<NavigationRow
 					title="Report Feedback or Bug"
 					description="Send feedback through the authenticated server."
 					href="/settings/feedback"
 					icon="exclamationmark.bubble"
-					drawerContent={<FeedbackEditor />}
+					drawerContent={() => <FeedbackEditor />}
 				/>
 				<NavigationRow
 					title="About Timetable"

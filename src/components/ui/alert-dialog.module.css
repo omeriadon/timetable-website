@@ -16,11 +16,13 @@
 	}
 }
 
-.overlay[data-open] {
+.overlay[data-open],
+.overlay[data-expanded] {
 	animation: alert-dialog-fade-in 100ms ease-out;
 }
 
-.overlay[data-closed] {
+.overlay[data-closed],
+.overlay[data-collapsed] {
 	animation: alert-dialog-fade-out 100ms ease-in;
 }
 
@@ -54,13 +56,15 @@
 	transition-duration: 100ms;
 }
 
-.content[data-open] {
+.content[data-open],
+.content[data-expanded] {
 	animation:
 		alert-dialog-content-fade-in 100ms ease-out,
 		alert-dialog-zoom-in 100ms ease-out;
 }
 
-.content[data-closed] {
+.content[data-closed],
+.content[data-collapsed] {
 	animation:
 		alert-dialog-content-fade-out 100ms ease-in,
 		alert-dialog-zoom-out 100ms ease-in;

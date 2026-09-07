@@ -21,7 +21,7 @@ export default function TimetableComparison({
 	const comparableFriends = friends.filter((friend) => friend.timetable);
 	if (!comparableFriends.length) {
 		return (
-			<section className={styles.empty}>
+			<section class={styles.empty}>
 				<strong>No Friend Timetables</strong>
 				<span>Add a friend to compare their timetable with yours here.</span>
 			</section>
@@ -30,7 +30,7 @@ export default function TimetableComparison({
 
 	return (
 		<section
-			className={styles.comparison}
+			class={styles.comparison}
 			aria-label="Friend timetable comparison"
 		>
 			{comparableFriends.map((friend) => {
@@ -39,7 +39,7 @@ export default function TimetableComparison({
 					selectedSlot,
 				);
 				return subject ? (
-					<article key={friend.relationshipID} className={styles.friendSubject}>
+					<article class={styles.friendSubject}>
 						<ProfilePicture
 							profile={friend.friend}
 							size={28}
@@ -47,12 +47,12 @@ export default function TimetableComparison({
 						/>
 						<span>{friend.friend.displayName}</span>
 						<strong>
-							<Symbol name={subject.symbol} className={styles.subjectSymbol} />{" "}
+							<Symbol name={subject.symbol} class={styles.subjectSymbol} />{" "}
 							{subject.id}
 						</strong>
 					</article>
 				) : (
-					<div key={friend.relationshipID} className={styles.freePeriod}>
+					<div class={styles.freePeriod}>
 						<span>{friend.friend.displayName}</span>
 						<strong>Free period</strong>
 					</div>

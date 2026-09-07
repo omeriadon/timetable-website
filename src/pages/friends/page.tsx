@@ -99,12 +99,12 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 						? `${incomingRequestCount} pending friend requests`
 						: "Friend requests, no pending requests",
 					icon: incomingRequestCount() ? "bell.badge" : "bell",
-					onPress: () => openDrawer(<FriendRequestsDrawer />),
+				onPress: () => openDrawer(() => <FriendRequestsDrawer />),
 				},
 				{
 					label: "Add friend",
 					icon: "plus",
-					onPress: () => openDrawer(<FriendSearchDrawer />),
+				onPress: () => openDrawer(() => <FriendSearchDrawer />),
 				},
 			],
 		});
@@ -113,7 +113,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	return (
 		<main class={cn(styles.page, draggedFriendID() && styles.pageDragging)}>
 			{error() ? <p class={styles.error}>{error()}</p> : null}
-			<label class={styles.searchLabel} htmlFor="friends-search">
+			<label class={styles.searchLabel} for="friends-search">
 				Search friends
 			</label>
 			<Input
@@ -130,7 +130,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					aria-label="Open your arrival statistics"
 					onClick={() =>
 						openDrawer(
-							<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />,
+							() => (<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />),
 						)
 					}
 				>
@@ -147,7 +147,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					filteredFriends().map((friend) => {
 						return (
 							<div
-								key={friend.relationshipID}
+
 								class={cn(
 									styles.friendRow,
 									draggedFriendID() === friend.friend.userID &&
@@ -187,7 +187,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 								<DrawerTrigger
 									class={styles.friendButton}
 									ariaLabel={`Open ${friend.friend.displayName}`}
-									content={<FriendDetailDrawer friend={friend} />}
+					content={() => <FriendDetailDrawer friend={friend} />}
 								>
 									<article class={styles.friend}>
 										<ProfilePicture
@@ -298,7 +298,7 @@ function PersonalArrivalDrawer({
 			</div>
 			{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
 				(day, index) => (
-					<div key={day}>
+					<div>
 						<strong>{day}</strong>
 						<span>
 							{formatArrival(

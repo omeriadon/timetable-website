@@ -17,17 +17,17 @@ export default function SubjectContextDrawer({
 	session,
 }: SubjectContextDrawerProps) {
 	return (
-		<div className={styles.detailDrawer}>
-			<section className={styles.detailCard}>
-				<div className={styles.detailRow}>
-					<span className={styles.detailRowLabel}>
+		<div class={styles.detailDrawer}>
+			<section class={styles.detailCard}>
+				<div class={styles.detailRow}>
+					<span class={styles.detailRowLabel}>
 						<Symbol name="door.left.hand.open" />
 						Classroom
 					</span>
 					<strong>{classroomName(subject.classroom)}</strong>
 				</div>
-				<div className={styles.detailRow}>
-					<span className={styles.detailRowLabel}>
+				<div class={styles.detailRow}>
+					<span class={styles.detailRowLabel}>
 						<Symbol name="person.fill" />
 						Teacher
 					</span>
@@ -36,10 +36,10 @@ export default function SubjectContextDrawer({
 				{!day && subject.slots.length
 					? subject.slots.map((slot) => (
 							<div
-								key={`${slot.day}-${slot.session}`}
-								className={styles.detailRow}
+
+								class={styles.detailRow}
 							>
-								<span className={styles.detailRowLabel}>
+								<span class={styles.detailRowLabel}>
 									<Symbol name="calendar" />
 									{dayName(slot.day)}
 								</span>

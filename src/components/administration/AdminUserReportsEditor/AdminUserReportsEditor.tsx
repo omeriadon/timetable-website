@@ -67,20 +67,20 @@ export default function AdminUserReportsEditor() {
 	) => {
 		if (action === "accountDeleted") {
 			openDrawer(
-				<ConfirmationDrawer
+				() => (<ConfirmationDrawer
 					title="Delete reported account"
 					message={`Delete ${report.reportedUserDisplayName ?? "this account"}? This cannot be undone.`}
 					confirmLabel="Delete account"
 					onConfirm={() => resolve(report, action)}
-				/>,
+				/>),
 			);
 			return;
 		}
 		void resolve(report, action);
 	};
 	return (
-		<main className={styles.page}>
-			<label className={adminStyles.adminSearch}>
+		<main class={styles.page}>
+			<label class={adminStyles.adminSearch}>
 				<Symbol name="magnifyingglass" fallback="⌕" />
 				<Input
 					value={query()}
@@ -89,30 +89,30 @@ export default function AdminUserReportsEditor() {
 				/>
 			</label>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			<List rowHover>
 				{filtered().map((report) => (
-					<ListRow key={report.id} className={adminStyles.reportCard}>
-						<div className={adminStyles.reportHeader}>
+					<ListRow class={adminStyles.reportCard}>
+						<div class={adminStyles.reportHeader}>
 							<Symbol name="exclamationmark.bubble" />
 							<strong>
 								{report.reportedUserDisplayName ?? report.reportedUserID}
 							</strong>
-							<span className={styles.detail}>
+							<span class={styles.detail}>
 								{statusLabel(report.action)}
 							</span>
 						</div>
-						<div className={adminStyles.reportMeta}>
+						<div class={adminStyles.reportMeta}>
 							Reported by {report.reporterDisplayName ?? report.reporterID}
 							{report.createdAt
 								? ` · ${new Date(report.createdAt).toLocaleDateString("en-AU")}`
 								: ""}
 						</div>
 						{report.action === "pending" ? (
-							<div className={adminStyles.reportActions}>
+							<div class={adminStyles.reportActions}>
 								<Button
 									aria-label="Leave account unchanged"
 									onClick={() => resolveReport(report, "noAction")}
@@ -132,7 +132,7 @@ export default function AdminUserReportsEditor() {
 					</ListRow>
 				))}
 				{!filtered().length ? (
-					<p className={styles.loading}>
+					<p class={styles.loading}>
 						{reports().length ? "No matching reports." : "Loading reports…"}
 					</p>
 				) : null}

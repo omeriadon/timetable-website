@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/solid-router";
+import { createFileRoute, redirect } from "@tanstack/solid-router";
 import AppShell from "@/components/AppShell/AppShell";
 import { checkSession } from "@/lib/server/session.functions";
 import { safeReturnTo } from "@/lib/returnTo";
@@ -18,9 +18,5 @@ export const Route = createFileRoute("/_authenticated")({
 		}
 		return { account };
 	},
-	component: () => (
-		<AppShell>
-			<Outlet />
-		</AppShell>
-	),
+	component: () => <AppShell />,
 });

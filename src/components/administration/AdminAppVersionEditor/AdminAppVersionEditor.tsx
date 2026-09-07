@@ -83,15 +83,15 @@ export default function AdminAppVersionEditor() {
 	};
 
 	if (loading()) {
-		return <p className={styles.loading}>Loading app versions…</p>;
+		return <p class={styles.loading}>Loading app versions…</p>;
 	}
 
 	return (
-		<main className={styles.page}>
-			<section className={styles.card} aria-labelledby="ios-version-heading">
-				<div className={styles.row}>
+		<main class={styles.page}>
+			<section class={styles.card} aria-labelledby="ios-version-heading">
+				<div class={styles.row}>
 					<Symbol name="app.badge" />
-					<strong className={styles.label} id="ios-version-heading">
+					<strong class={styles.label} id="ios-version-heading">
 						iOS and iPadOS
 					</strong>
 				</div>
@@ -109,10 +109,10 @@ export default function AdminAppVersionEditor() {
 					}
 				/>
 			</section>
-			<section className={styles.card} aria-labelledby="mac-version-heading">
-				<div className={styles.row}>
+			<section class={styles.card} aria-labelledby="mac-version-heading">
+				<div class={styles.row}>
 					<Symbol name="desktopcomputer" fallback="▣" />
-					<strong className={styles.label} id="mac-version-heading">
+					<strong class={styles.label} id="mac-version-heading">
 						macOS
 					</strong>
 				</div>
@@ -132,7 +132,7 @@ export default function AdminAppVersionEditor() {
 			</section>
 			{status() ? (
 				<p
-					className={status()!.endsWith("saved.") ? styles.loading : styles.error}
+					class={status()!.endsWith("saved.") ? styles.loading : styles.error}
 					role="status"
 				>
 					{status()}
@@ -142,7 +142,7 @@ export default function AdminAppVersionEditor() {
 				<Button
 					fullWidth
 					type="button"
-					className={adminStyles.profileSave}
+					class={adminStyles.profileSave}
 					onClick={() => void save()}
 					disabled={!valid() || saving()}
 				>

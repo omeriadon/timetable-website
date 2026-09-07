@@ -138,9 +138,9 @@ export default function AdminBadgesEditor() {
 	};
 
 	return (
-		<main className={styles.page}>
-			<div className={styles.adminToolbar}>
-				<p className={styles.detail}>
+		<main class={styles.page}>
+			<div class={styles.adminToolbar}>
+				<p class={styles.detail}>
 					Built-in authority badges and custom badges
 				</p>
 
@@ -148,11 +148,11 @@ export default function AdminBadgesEditor() {
 					type="button"
 					onClick={() =>
 						openDrawer(
-							<AdminSpecialBadgeDrawer
+							() => (<AdminSpecialBadgeDrawer
 								badge={null}
 								users={users()}
 								onSaved={load}
-							/>,
+							/>),
 						)
 					}
 				>
@@ -172,44 +172,44 @@ export default function AdminBadgesEditor() {
 			</div>
 
 			{error() && (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			)}
 
 			{badges === null ? (
-				<p className={styles.loading}>Loading badges...</p>
+				<p class={styles.loading}>Loading badges...</p>
 			) : displayedBadges().length === 0 ? (
-				<p className={styles.emptyRow}>No badges have been created.</p>
+				<p class={styles.emptyRow}>No badges have been created.</p>
 			) : (
 				<List rowHover>
 					{displayedBadges().map((badge, index) => (
-						<ListRow className={styles.rowWithAction} key={badge.id}>
+						<ListRow class={styles.rowWithAction}>
 							<Button
 								type="button"
 								variant="ghost"
-								className={styles.listButton}
+								class={styles.listButton}
 								onClick={() =>
 									openDrawer(
-										<AdminSpecialBadgeDrawer
+										() => (<AdminSpecialBadgeDrawer
 											badge={badge}
 											users={users()}
 											onSaved={load}
-										/>,
+										/>),
 									)
 								}
 								aria-label={`Edit ${badge.accessibilityLabel}`}
 							>
 								<ListRow>
-									<span className={styles.badgePreview}>
+									<span class={styles.badgePreview}>
 										<Symbol name={badge.symbol} fallback="*" />
 									</span>
 
 									<span>
-										<strong className={styles.label}>
+										<strong class={styles.label}>
 											{badge.accessibilityLabel}
 										</strong>
-										<small className={styles.detail}>
+										<small class={styles.detail}>
 											{badge.assignedUserIDs.length} users
 										</small>
 									</span>
@@ -219,7 +219,7 @@ export default function AdminBadgesEditor() {
 							</Button>
 
 							{isReordering() && (
-								<div className={styles.reorderButtons}>
+								<div class={styles.reorderButtons}>
 									<Button
 										type="button"
 										variant="ghost"

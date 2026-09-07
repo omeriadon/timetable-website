@@ -13,12 +13,12 @@ export default function QuickSettingsDrawer() {
 	const { closeDrawer } = useDrawer();
 
 	return (
-		<nav className={styles.drawerLinkList} aria-label="Quick settings">
+		<nav class={styles.drawerLinkList} aria-label="Quick settings">
 			<List>
 				{links.map((link) => (
 					<Link
-						key={link.href}
-						className={styles.drawerLink}
+
+						class={styles.drawerLink}
 						to={link.href}
 						onClick={closeDrawer}
 					>

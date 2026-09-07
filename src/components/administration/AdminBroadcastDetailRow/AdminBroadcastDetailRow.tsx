@@ -10,7 +10,7 @@ export default function AdminBroadcastDetailRow({
 	value,
 }: AdminBroadcastDetailRowProps) {
 	return (
-		<div className={styles.detailRow}>
+		<div class={styles.detailRow}>
 			<span>{label}</span>
 			<strong>{value}</strong>
 		</div>

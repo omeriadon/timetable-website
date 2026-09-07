@@ -69,12 +69,12 @@ export default function CalendarImportDrawer({
 		if (!events().length || saving()) return;
 		if (timetable?.subjects.length) {
 			openDrawer(
-				<ConfirmationDrawer
+				() => (<ConfirmationDrawer
 					title="Import timetable again"
 					message="This replaces your current timetable with the classes in the calendar file."
 					confirmLabel="Replace timetable"
 					onConfirm={() => performImport(true)}
-				/>,
+				/>),
 			);
 			return;
 		}
@@ -82,22 +82,22 @@ export default function CalendarImportDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol name="calendar" fallback="▦" />
 				<div>
 					<h2>Re-import from Calendar</h2>
 					<p>Choose an exported Compass Schedule .ics file.</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<div className={styles.importInstructions}>
+			<section class={styles.detailCard}>
+				<div class={styles.importInstructions}>
 					<p>
 						Export the subscribed Compass calendar from Apple Calendar or
 						another calendar app, then choose it here. Class times are matched
 						to the six school periods from the SwiftUI client.
 					</p>
-					<label className={styles.filePicker}>
+					<label class={styles.filePicker}>
 						<Symbol name="doc" fallback="＋" />
 						<span>{fileName() ?? "Choose calendar file"}</span>
 						<Input
@@ -110,14 +110,14 @@ export default function CalendarImportDrawer({
 						/>
 					</label>
 					{events().length ? (
-						<p className={styles.detailMuted}>
+						<p class={styles.detailMuted}>
 							{events().length} events from the next six weeks ready to import.
 						</p>
 					) : null}
 				</div>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}

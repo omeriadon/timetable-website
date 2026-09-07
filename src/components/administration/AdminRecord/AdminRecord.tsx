@@ -16,9 +16,9 @@ export default function AdminRecord({
 		([, value]) => value !== null && value !== "",
 	);
 	return (
-		<div className={styles.adminRecord}>
+		<div class={styles.adminRecord}>
 			{entries.slice(0, 8).map(([key, value]) => (
-				<div key={key} className={styles.adminField}>
+				<div class={styles.adminField}>
 					<span>{humanize(key)}</span>
 					<strong>{formatValue(value)}</strong>
 				</div>

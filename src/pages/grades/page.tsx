@@ -262,16 +262,16 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							type="button"
 							class={styles.editAtar}
 							aria-label="Edit ATAR settings"
-							onClick={() =>
-								openDrawer(
+								onClick={() =>
+									openDrawer(() => (
 									<ATARSettingsDrawer
 										grades={grades()}
 										onSaved={(updated) => {
 											setGrades(updated);
 											void router.invalidate();
 										}}
-									/>,
-								)
+									/>
+								))
 							}
 						>
 							<Symbol name="chart.line.uptrend.xyaxis" />
@@ -297,19 +297,16 @@ export default function GradesPage({ data }: { data: GradesData }) {
 									: null;
 								return (
 									<Drawer
-										key={subject.id}
+
 										swipeDirection="right"
 										snapPoints={SNAP_POINTS}
 									>
-										<DrawerTrigger
-											render={
-												<Button
-													type="button"
-													class={styles.subjectButton}
-													aria-label={`Open ${subject.id} grades`}
-												/>
-											}
-										>
+						<DrawerTrigger
+							as={Button}
+							type="button"
+							class={styles.subjectButton}
+							aria-label={`Open ${subject.id} grades`}
+						>
 											<ListRow>
 												<GradeGauge
 													value={subjectAverage}

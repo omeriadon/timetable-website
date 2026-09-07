@@ -36,8 +36,8 @@ export default function AdminBroadcastDetailDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>{record.isDeleted ? "Deleted Broadcast" : "Broadcast"}</h2>
 					<p>
@@ -47,7 +47,7 @@ export default function AdminBroadcastDetailDrawer({
 					</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				<AdminBroadcastDetailRow label="Title" value={record.title} />
 				<AdminBroadcastDetailRow
 					label="Subtitle"
@@ -55,7 +55,7 @@ export default function AdminBroadcastDetailDrawer({
 				/>
 				<AdminBroadcastDetailRow label="Body" value={record.body ?? "—"} />
 			</section>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				<AdminBroadcastDetailRow label="Sender" value={record.senderEmail} />
 				<AdminBroadcastDetailRow
 					label="Delivery"
@@ -85,7 +85,7 @@ export default function AdminBroadcastDetailDrawer({
 				) : null}
 			</section>
 			{status() ? (
-				<p className={styles.detailMuted} role="status">
+				<p class={styles.detailMuted} role="status">
 					{status()}
 				</p>
 			) : null}

@@ -10,9 +10,9 @@ export default function AdminStorageMetric({
 	value,
 }: AdminStorageMetricProps) {
 	return (
-		<div className={styles.row}>
-			<span className={styles.label}>{label}</span>
-			<span className={styles.detail}>{value}</span>
+		<div class={styles.row}>
+			<span class={styles.label}>{label}</span>
+			<span class={styles.detail}>{value}</span>
 		</div>
 	);
 }

@@ -1,4 +1,4 @@
-import { createMemo } from "solid-js";
+import { createMemo, Show } from "solid-js";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -132,8 +132,9 @@ function FieldError({
 	errors,
 	...props
 }: any) {
+	const hasChildren = () => Boolean(children);
 	const content = createMemo(() => {
-		if (children) {
+		if (hasChildren()) {
 			return children;
 		}
 
@@ -160,19 +161,19 @@ function FieldError({
 		);
 	});
 
-	if (!content()) {
-		return null;
-	}
-
 	return (
-		<div
-			role="alert"
-			data-slot="field-error"
-			class={cn(styles.error, className)}
-			{...props}
-		>
-			{content()}
-		</div>
+		<Show when={content()}>
+			{(value) => (
+				<div
+					role="alert"
+					data-slot="field-error"
+					class={cn(styles.error, className)}
+					{...props}
+				>
+					{value()}
+				</div>
+			)}
+		</Show>
 	);
 }
 

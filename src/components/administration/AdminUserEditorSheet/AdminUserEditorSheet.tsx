@@ -142,8 +142,8 @@ export default function AdminUserEditorSheet({
 
 	return (
 		<>
-			<div className={styles.detailSheet}>
-				<header className={styles.detailHeader}>
+			<div class={styles.detailSheet}>
+				<header class={styles.detailHeader}>
 					<Symbol name="person" fallback="●" />
 
 					<div>
@@ -152,7 +152,7 @@ export default function AdminUserEditorSheet({
 					</div>
 				</header>
 
-				<section className={styles.formCard}>
+				<section class={styles.formCard}>
 					<label>
 						Display name
 						<Input
@@ -216,12 +216,12 @@ export default function AdminUserEditorSheet({
 				</section>
 
 				{error && (
-					<p className={styles.detailMuted} role="alert">
+					<p class={styles.detailMuted} role="alert">
 						{error()}
 					</p>
 				)}
 
-				<div className={styles.sheetActions}>
+				<div class={styles.sheetActions}>
 					{user && (
 						<Button
 							type="button"

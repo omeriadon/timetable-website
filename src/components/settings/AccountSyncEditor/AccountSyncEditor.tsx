@@ -107,7 +107,7 @@ export default function AccountSyncEditor({
 
 	const confirmDeleteAccount = () => {
 		openDrawer(
-			<ConfirmationDrawer
+			() => (<ConfirmationDrawer
 				title="Delete account?"
 				message="This permanently deletes your account and server data."
 				confirmLabel="Delete account"
@@ -116,7 +116,7 @@ export default function AccountSyncEditor({
 					await apiRequest("v1/account", { method: "DELETE" });
 					onSignOut();
 				}}
-			/>,
+			/>),
 		);
 	};
 
@@ -145,10 +145,10 @@ export default function AccountSyncEditor({
 
 	return (
 		<>
-			<section className={styles.card}>
-				<div className={styles.row}>
+			<section class={styles.card}>
+				<div class={styles.row}>
 					<Symbol name="person" />
-					<label className={styles.label} htmlFor="account-display-name">
+					<label class={styles.label} for="account-display-name">
 						Name
 					</label>
 					<Input
@@ -168,16 +168,16 @@ export default function AccountSyncEditor({
 					</Button>
 				</div>
 				{account ? (
-					<div className={styles.row}>
+					<div class={styles.row}>
 						<Symbol name="envelope" />
-						<span className={styles.label}>Email</span>
+						<span class={styles.label}>Email</span>
 						<span>{account()!.email}</span>
 					</div>
 				) : null}
 				{yearGroups().length ? (
-					<div className={styles.row}>
+					<div class={styles.row}>
 						<Symbol name="person.3" />
-						<label className={styles.label} htmlFor="account-year-group">
+						<label class={styles.label} for="account-year-group">
 							Year Group
 						</label>
 						<select
@@ -187,7 +187,7 @@ export default function AccountSyncEditor({
 							onChange={(event) => void saveYearGroup(event.target.value)}
 						>
 							{yearGroups().map((tag) => (
-								<option key={tag.id} value={tag.id}>
+								<option value={tag.id}>
 									{tag.displayName}
 								</option>
 							))}
@@ -195,7 +195,7 @@ export default function AccountSyncEditor({
 					</div>
 				) : null}
 			</section>
-			<section className={styles.card}>
+			<section class={styles.card}>
 				<SettingToggle
 					label="Class Notifications"
 					enabled={draft().notificationsEnabled}
@@ -215,9 +215,9 @@ export default function AccountSyncEditor({
 					}
 					disabled={saving()}
 				/>
-				<div className={styles.row}>
+				<div class={styles.row}>
 					<Symbol name="calendar.badge.clock" />
-					<span className={styles.label}>Delete Past Calendar Events</span>
+					<span class={styles.label}>Delete Past Calendar Events</span>
 					<Select
 						value={String(draft().calendarEventAutoDeleteDays)}
 						disabled={saving()}
@@ -243,31 +243,31 @@ export default function AccountSyncEditor({
 				</div>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					class={styles.rowButton}
 					onClick={async () => {
 						await apiRequest("auth/logout", { method: "DELETE" });
 						onSignOut();
 					}}
 				>
-					<div className={styles.row}>
+					<div class={styles.row}>
 						<Symbol name="person.2.slash" />
-						<span className={styles.label}>Sign Out</span>
+						<span class={styles.label}>Sign Out</span>
 					</div>
 				</Button>
 				<Button
 					type="button"
-					className={styles.rowButton}
+					class={styles.rowButton}
 					onClick={confirmDeleteAccount}
 					aria-label="Delete account"
 				>
-					<div className={styles.row}>
+					<div class={styles.row}>
 						<Symbol name="trash" />
-						<span className={styles.label}>Delete Account</span>
+						<span class={styles.label}>Delete Account</span>
 					</div>
 				</Button>
 			</section>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}

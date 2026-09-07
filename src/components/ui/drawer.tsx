@@ -1,6 +1,7 @@
-import { createContext, createSignal, useContext, type JSX } from "solid-js";
+import { createContext, createSignal, splitProps, useContext, type JSX } from "solid-js";
 import { Portal } from "solid-js/web";
 import CorvuDrawer from "@corvu/drawer";
+import type { Size } from "@corvu/drawer";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { XIcon } from "lucide-solid";
@@ -43,8 +44,9 @@ export function Drawer(
 			<CorvuDrawer
 				open={props.open}
 				onOpenChange={props.onOpenChange}
-				side={side as any}
-				snapPoints={props.snapPoints as any}
+				side={side}
+				snapPoints={props.snapPoints as Size[] | undefined}
+				modal={props.modal ?? true}
 			>
 				{props.children}
 			</CorvuDrawer>
@@ -90,6 +92,7 @@ export function DrawerSwipeHandle(props: JSX.HTMLAttributes<HTMLDivElement>) {
 }
 
 export function DrawerContent(props: JSX.HTMLAttributes<HTMLDivElement>) {
+	const [local, rest] = splitProps(props, ["class", "onTransitionEnd"]);
 	const context = useContext(Context);
 	const [footerHost, setFooterHost] = createSignal<HTMLDivElement>();
 	const axis =
@@ -109,12 +112,15 @@ export function DrawerContent(props: JSX.HTMLAttributes<HTMLDivElement>) {
 				data-slot="drawer-viewport"
 				data-modal={context?.modal}
 				class={styles.viewport}
+				onTransitionEnd={local.onTransitionEnd}
 			>
 				<CorvuDrawer.Content
+					{...rest}
 					data-slot="drawer-popup"
 					data-swipe-axis={axis}
+					data-swipe-direction={context?.swipeDirection}
 					data-snap-points={context?.hasSnapPoints ? "" : undefined}
-					class={cn(styles.popup, props.class)}
+					class={cn(styles.popup, local.class)}
 				>
 					{context?.showSwipeHandle ? <DrawerSwipeHandle /> : null}
 					<div data-slot="drawer-content" class={styles.content}>

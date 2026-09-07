@@ -131,14 +131,16 @@
 	transition-duration: 100ms;
 }
 
-.content[data-open]:not([data-align-trigger="true"]) {
+.content[data-open]:not([data-align-trigger="true"]),
+.content[data-expanded]:not([data-align-trigger="true"]) {
 	animation:
 		select-fade-in 100ms ease-out,
 		select-zoom-in 100ms ease-out,
 		select-slide-in 100ms ease-out;
 }
 
-.content[data-closed]:not([data-align-trigger="true"]) {
+.content[data-closed]:not([data-align-trigger="true"]),
+.content[data-collapsed]:not([data-align-trigger="true"]) {
 	animation:
 		select-fade-out 100ms ease-in,
 		select-zoom-out 100ms ease-in;

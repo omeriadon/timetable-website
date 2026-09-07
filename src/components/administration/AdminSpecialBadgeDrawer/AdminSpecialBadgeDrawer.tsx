@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import { createSignal } from "solid-js";
 import type { AdministrationUser } from "@/components/administration/AdminUserEditorDrawer/AdminUserEditorDrawer";
 import type {
@@ -138,9 +138,9 @@ export default function AdminSpecialBadgeDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailAvatar}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
+				<div class={styles.detailAvatar}>
 					<Symbol name={symbol()} fallback="★" />
 				</div>
 				<div>
@@ -148,7 +148,7 @@ export default function AdminSpecialBadgeDrawer({
 					<p>{selectedUserIDs().length} users assigned</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					SF Symbol
 					<Select
@@ -160,9 +160,7 @@ export default function AdminSpecialBadgeDrawer({
 						}}
 					>
 						{symbolOptions.map((option) => (
-							<option key={option} value={option}>
-								{option}
-							</option>
+							<SelectItem value={option}>{option}</SelectItem>
 						))}
 					</Select>
 				</label>
@@ -199,10 +197,10 @@ export default function AdminSpecialBadgeDrawer({
 				</label>
 			</section>
 			{!isBuiltIn ? (
-				<section className={styles.detailCard}>
+				<section class={styles.detailCard}>
 					<h3>Users</h3>
 					{users.map((user) => (
-						<label key={user.id} className={styles.editorCheck}>
+						<label class={styles.editorCheck}>
 							<Toggle
 								aria-label={user.displayName}
 								checked={selectedUserIDs().includes(user.id)}
@@ -214,11 +212,11 @@ export default function AdminSpecialBadgeDrawer({
 				</section>
 			) : null}
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				{badge && !isBuiltIn ? (
 					<Button
 						variant="destructive"

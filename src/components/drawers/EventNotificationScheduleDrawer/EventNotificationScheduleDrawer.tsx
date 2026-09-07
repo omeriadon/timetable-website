@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import { createMemo, createSignal } from "solid-js";
 import { useDrawer } from "../Drawer/Drawer";
 import styles from "../Drawer/Drawer.module.css";
@@ -54,14 +54,14 @@ export default function EventNotificationScheduleDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>Event Notification</h2>
 					<p>Choose when school events should be announced.</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Send notification
 					<Select
@@ -73,9 +73,7 @@ export default function EventNotificationScheduleDrawer({
 						}}
 					>
 						{offsets.map((offset) => (
-							<option key={offset.value} value={offset.value}>
-								{offset.label}
-							</option>
+							<SelectItem value={String(offset.value)}>{offset.label}</SelectItem>
 						))}
 					</Select>
 				</label>
@@ -90,9 +88,7 @@ export default function EventNotificationScheduleDrawer({
 						}}
 					>
 						{times().map((minutes) => (
-							<option key={minutes} value={minutes}>
-								{formatTime(minutes)}
-							</option>
+							<SelectItem value={String(minutes)}>{formatTime(minutes)}</SelectItem>
 						))}
 					</Select>
 				</label>

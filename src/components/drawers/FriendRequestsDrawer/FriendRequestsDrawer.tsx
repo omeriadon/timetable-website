@@ -55,18 +55,18 @@ export default function FriendRequestsDrawer() {
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>Friend Requests</h2>
 					<p>Review incoming requests and pending invitations.</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				<h3>Incoming</h3>
 				{incoming().length ? (
 					incoming().map((friend) => (
-						<div key={friend.relationshipID} className={styles.searchResult}>
+						<div class={styles.searchResult}>
 							<ProfilePicture profile={friend.friend} size={40} />
 							<div>
 								<strong>{friend.friend.displayName}</strong>
@@ -87,14 +87,14 @@ export default function FriendRequestsDrawer() {
 						</div>
 					))
 				) : (
-					<p className={styles.detailMuted}>No incoming requests.</p>
+					<p class={styles.detailMuted}>No incoming requests.</p>
 				)}
 			</section>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				<h3>Outgoing</h3>
 				{outgoing().length ? (
 					outgoing().map((friend) => (
-						<div key={friend.relationshipID} className={styles.searchResult}>
+						<div class={styles.searchResult}>
 							<ProfilePicture profile={friend.friend} size={40} />
 							<div>
 								<strong>{friend.friend.displayName}</strong>
@@ -109,11 +109,11 @@ export default function FriendRequestsDrawer() {
 						</div>
 					))
 				) : (
-					<p className={styles.detailMuted}>No outgoing requests.</p>
+					<p class={styles.detailMuted}>No outgoing requests.</p>
 				)}
 			</section>
 			{status() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{status()}
 				</p>
 			) : null}

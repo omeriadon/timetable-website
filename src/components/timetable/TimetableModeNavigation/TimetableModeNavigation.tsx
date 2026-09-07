@@ -19,15 +19,15 @@ export default function TimetableModeNavigation() {
 	}
 
 	return (
-		<nav className={styles.modePicker} aria-label="Timetable section">
+		<nav class={styles.modePicker} aria-label="Timetable section">
 			{modes.map((mode) => (
 				<Link
-					key={mode.href}
+
 					to={mode.href}
-					className={pathname() === mode.href ? styles.activeMode : undefined}
+					class={pathname() === mode.href ? styles.activeMode : undefined}
 					aria-current={pathname() === mode.href ? "page" : undefined}
 				>
-					<Symbol name={mode.icon} className={styles.modeIcon} />
+					<Symbol name={mode.icon} class={styles.modeIcon} />
 					{mode.label}
 				</Link>
 			))}

@@ -17,11 +17,13 @@
 	transition: background-color 200ms ease;
 }
 
-.item[data-open] {
+.item[data-open],
+.item[data-expanded] {
 	background: color-mix(in srgb, var(--muted) 50%, transparent);
 }
 
-.item[data-closed] {
+.item[data-closed],
+.item[data-collapsed] {
 	background: transparent;
 }
 
@@ -111,11 +113,13 @@
 	line-height: 1.25rem;
 }
 
-.panel[data-open] {
+.panel[data-open],
+.panel[data-expanded] {
 	animation: accordion-down 200ms ease-out;
 }
 
-.panel[data-closed] {
+.panel[data-closed],
+.panel[data-collapsed] {
 	animation: accordion-up 200ms ease-out;
 }
 

@@ -114,15 +114,15 @@ export default function AdminUserEditorDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol name="person" fallback="●" />
 				<div>
 					<h2>{user ? "Edit User" : "Add User"}</h2>
 					<p>{user?.email ?? "Create an account"}</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Display name
 					<Input
@@ -177,27 +177,27 @@ export default function AdminUserEditorDrawer({
 			</section>
 			{user ? (
 				<section
-					className={styles.formCard}
+					class={styles.formCard}
 					aria-labelledby="account-data-title"
 				>
 					<h3 id="account-data-title">Account Data</h3>
 					{dataError() ? (
-						<p className={styles.detailMuted} role="alert">
+						<p class={styles.detailMuted} role="alert">
 							{dataError()}
 						</p>
 					) : rawData() ? (
-						<pre className={styles.jsonData}>{formatJSON(rawData())}</pre>
+						<pre class={styles.jsonData}>{formatJSON(rawData())}</pre>
 					) : (
-						<p className={styles.detailMuted}>Loading account data…</p>
+						<p class={styles.detailMuted}>Loading account data…</p>
 					)}
 				</section>
 			) : null}
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				{user ? (
 					<Button
 						variant="destructive"
@@ -205,12 +205,12 @@ export default function AdminUserEditorDrawer({
 						aria-label="Delete user"
 						onClick={() =>
 							openDrawer(
-								<ConfirmationDrawer
+								() => (<ConfirmationDrawer
 									title="Delete account"
 									message={`Delete ${user.displayName}'s account? This cannot be undone.`}
 									confirmLabel="Delete account"
 									onConfirm={remove}
-								/>,
+								/>),
 							)
 						}
 						disabled={saving()}

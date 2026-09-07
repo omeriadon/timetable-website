@@ -15,10 +15,10 @@ export default function AdminVersionField({
 	onChange,
 }: AdminVersionFieldProps) {
 	return (
-		<label className={styles.row}>
-			<span className={styles.label}>{label}</span>
+		<label class={styles.row}>
+			<span class={styles.label}>{label}</span>
 			<Input
-				className={styles.inlineInput}
+				class={styles.inlineInput}
 				value={value}
 				inputMode={inputMode}
 				onChange={(event) => onChange(event.target.value)}

@@ -41,9 +41,9 @@ export default function AdminAdministratorsEditor() {
 	};
 
 	return (
-		<main className={styles.page}>
-			<div className={adminStyles.adminToolbar}>
-				<label className={adminStyles.adminSearch}>
+		<main class={styles.page}>
+			<div class={adminStyles.adminToolbar}>
+				<label class={adminStyles.adminSearch}>
 					<Symbol name="magnifyingglass" fallback="⌕" />
 					<Input
 						value={query()}
@@ -53,7 +53,7 @@ export default function AdminAdministratorsEditor() {
 				</label>
 			</div>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
@@ -63,33 +63,33 @@ export default function AdminAdministratorsEditor() {
 					const isAdministrator = user.authority === "administrator";
 					return (
 						<Button
-							key={user.id}
+
 							type="button"
-							className={styles.listButton}
+							class={styles.listButton}
 							disabled={isSystemOwner}
 							onClick={() =>
 								openDrawer(
-									<AdminAuthorityChangeDrawer
+									() => (<AdminAuthorityChangeDrawer
 										user={user}
 										makeAdministrator={!isAdministrator}
 										onSaved={saveUser}
-									/>,
+									/>),
 								)
 							}
 						>
-							<ListRow className={adminStyles.userRow}>
+							<ListRow class={adminStyles.userRow}>
 								<ProfilePicture
 									profile={user}
 									size={38}
 									label={`${user.displayName} profile picture`}
 								/>
 								<span>
-									<b className={styles.label}>{user.displayName}</b>
-									<small className={adminStyles.userMeta}>
+									<b class={styles.label}>{user.displayName}</b>
+									<small class={adminStyles.userMeta}>
 										{isSystemOwner ? "System Administrator" : user.email}
 									</small>
 								</span>
-								<span className={styles.detail}>
+								<span class={styles.detail}>
 									{isSystemOwner ? "Owner" : isAdministrator ? "On" : "Off"}
 								</span>
 							</ListRow>
@@ -97,12 +97,12 @@ export default function AdminAdministratorsEditor() {
 					);
 				})}
 				{!filtered().length ? (
-					<p className={styles.loading}>
+					<p class={styles.loading}>
 						{users().length ? "No matching users." : "Loading administrators…"}
 					</p>
 				) : null}
 			</List>
-			<p className={styles.detailNote}>
+			<p class={styles.detailNote}>
 				Only system administrators can change administrator access. System
 				administrators cannot be changed here.
 			</p>

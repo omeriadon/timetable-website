@@ -44,8 +44,8 @@ export default function ConfirmationDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol name={icon} fallback="!" />
 				<div>
 					<h2>{title}</h2>
@@ -53,9 +53,9 @@ export default function ConfirmationDrawer({
 				</div>
 			</header>
 			<Show when={error()}>
-				<p className={styles.detailMuted} role="alert">{error()}</p>
+				<p class={styles.detailMuted} role="alert">{error()}</p>
 			</Show>
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				<DrawerClose variant="outline" flexible disabled={isWorking()}>
 					<Symbol name="xmark" fallback="×" />
 					Cancel

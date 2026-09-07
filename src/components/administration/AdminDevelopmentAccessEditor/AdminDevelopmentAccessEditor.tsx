@@ -21,39 +21,39 @@ export default function AdminDevelopmentAccessEditor() {
 	});
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			<List rowHover>
 				{enabled() === null ? (
-					<p className={styles.loading}>Loading server access…</p>
+					<p class={styles.loading}>Loading server access…</p>
 				) : (
 					<Button
 						type="button"
-						className={styles.listButton}
+						class={styles.listButton}
 						onClick={() =>
 							openDrawer(
-								<AdminDevelopmentAccessChangeDrawer
+								() => (<AdminDevelopmentAccessChangeDrawer
 									enabled={enabled()!}
 									onSaved={setEnabled}
-								/>,
+								/>),
 							)
 						}
 					>
 						<ListRow>
 							<Symbol name="testtube.2" />
-							<span className={styles.label}>
+							<span class={styles.label}>
 								Restrict Server to System Administrators
 							</span>
-							<span className={styles.detail}>{enabled() ? "On" : "Off"}</span>
+							<span class={styles.detail}>{enabled() ? "On" : "Off"}</span>
 						</ListRow>
 					</Button>
 				)}
 			</List>
-			<p className={styles.detailNote}>
+			<p class={styles.detailNote}>
 				When enabled, only the two system administrator accounts can use the
 				server. Existing sessions remain intact but receive an access error.
 			</p>

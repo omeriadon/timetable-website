@@ -158,42 +158,42 @@ export default function AdministrationSectionPage({
 	) : section === "about-contributors" ? (
 		<AdminAboutContributorsEditor />
 	) : (
-		<main className={styles.page}>
-			<section className={styles.card}>
-				<div className={styles.row}>
+		<main class={styles.page}>
+			<section class={styles.card}>
+				<div class={styles.row}>
 					<Symbol name={config.icon} fallback="•" />
-					<span className={styles.label}>{config.title}</span>
+					<span class={styles.label}>{config.title}</span>
 				</div>
 			</section>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			{section === "broadcast-notification" ? (
 				<BroadcastNotificationEditor />
 			) : section === "test-email" ? (
-				<section className={styles.card}>
-					<div className={styles.row}>
+				<section class={styles.card}>
+					<div class={styles.row}>
 						<TestEmailButton />
 					</div>
 				</section>
 			) : null}
 			{summary.length ? (
-				<section className={styles.card}>
+				<section class={styles.card}>
 					{summary().map(([key, value]) => (
-						<div key={key} className={styles.row}>
-							<span className={styles.label}>{humanize(key)}</span>
-							<span className={styles.detail}>{formatValue(value)}</span>
+						<div class={styles.row}>
+							<span class={styles.label}>{humanize(key)}</span>
+							<span class={styles.detail}>{formatValue(value)}</span>
 						</div>
 					))}
 				</section>
 			) : null}
 			{loadedData() && records().length ? (
-				<section className={styles.card}>
+				<section class={styles.card}>
 					{records().map((record, index) => (
 						<AdminRecord
-							key={String(record.id ?? index)}
+
 							record={record}
 							humanize={humanize}
 							formatValue={formatValue}
@@ -202,7 +202,7 @@ export default function AdministrationSectionPage({
 				</section>
 			) : null}
 			{config.endpoint && !loadedData && !error ? (
-				<p className={styles.loading}>Loading {config.title.toLowerCase()}…</p>
+				<p class={styles.loading}>Loading {config.title.toLowerCase()}…</p>
 			) : null}
 		</main>
 	);

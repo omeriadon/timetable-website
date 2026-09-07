@@ -59,7 +59,7 @@ export default function ArchivedEventsEditor() {
 	return (
 		<>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
@@ -67,25 +67,25 @@ export default function ArchivedEventsEditor() {
 				{archived().length ? (
 					archived().map((event) => (
 						<Button
-							key={event.id}
+
 							type="button"
-							className={styles.listButton}
+							class={styles.listButton}
 							onClick={() =>
 								openDrawer(
-									<CalendarEventDrawer
+									() => (<CalendarEventDrawer
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
 										readOnly={event.isGlobal && !events()?.canManageGlobalEvents}
 										allowsTagEditing={false}
-									/>,
+									/>),
 								)
 							}
 						>
 							<ListRow>
 								<Symbol name="archivebox" />
-								<span className={styles.label}>
+								<span class={styles.label}>
 									<strong>{event.title}</strong>
-									<small className={styles.detail}>
+									<small class={styles.detail}>
 										{eventDate(event).toLocaleDateString("en-AU", {
 											dateStyle: "long",
 										})}
@@ -96,7 +96,7 @@ export default function ArchivedEventsEditor() {
 						</Button>
 					))
 				) : (
-					<p className={styles.loading}>
+					<p class={styles.loading}>
 						{events() ? "No archived events." : "Loading archived events…"}
 					</p>
 				)}

@@ -47,24 +47,24 @@ export default function FriendSearchDrawer() {
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>Add Friend</h2>
 					<p>Search by name or school email.</p>
 				</div>
 			</header>
 			<Input
-				className={styles.drawerInput}
+				class={styles.drawerInput}
 				value={query()}
 				placeholder="Search friends"
 				aria-label="Search friends"
 				onChange={(event) => setQuery(event.target.value)}
 			/>
-			<section className={styles.detailCard}>
+			<section class={styles.detailCard}>
 				{results().length ? (
 					results().map((result) => (
-						<div key={result.profile.userID} className={styles.searchResult}>
+						<div class={styles.searchResult}>
 							<ProfilePicture profile={result.profile} size={42} />
 							<div>
 								<strong>{result.profile.displayName}</strong>
@@ -84,13 +84,13 @@ export default function FriendSearchDrawer() {
 						</div>
 					))
 				) : (
-					<p className={styles.detailMuted}>
+					<p class={styles.detailMuted}>
 						Enter at least two characters to search.
 					</p>
 				)}
 			</section>
 			{status() ? (
-				<p className={styles.detailMuted} role="status">
+				<p class={styles.detailMuted} role="status">
 					{status()}
 				</p>
 			) : null}

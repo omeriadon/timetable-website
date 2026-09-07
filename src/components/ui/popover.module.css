@@ -33,13 +33,15 @@
 
 /* Open / close */
 
-.content[data-open] {
+.content[data-open],
+.content[data-expanded] {
 	animation:
 		popover-fade-in 100ms ease-out,
 		popover-zoom-in 100ms ease-out;
 }
 
-.content[data-closed] {
+.content[data-closed],
+.content[data-collapsed] {
 	animation:
 		popover-fade-out 100ms ease-in,
 		popover-zoom-out 100ms ease-in;
@@ -47,32 +49,38 @@
 
 /* Side movement */
 
-.content[data-open][data-side="bottom"] {
+.content[data-open][data-side="bottom"],
+.content[data-expanded][data-side="bottom"] {
 	--popover-translate-x: 0;
 	--popover-translate-y: -0.5rem;
 }
 
-.content[data-open][data-side="top"] {
+.content[data-open][data-side="top"],
+.content[data-expanded][data-side="top"] {
 	--popover-translate-x: 0;
 	--popover-translate-y: 0.5rem;
 }
 
-.content[data-open][data-side="left"] {
+.content[data-open][data-side="left"],
+.content[data-expanded][data-side="left"] {
 	--popover-translate-x: 0.5rem;
 	--popover-translate-y: 0;
 }
 
-.content[data-open][data-side="right"] {
+.content[data-open][data-side="right"],
+.content[data-expanded][data-side="right"] {
 	--popover-translate-x: -0.5rem;
 	--popover-translate-y: 0;
 }
 
-.content[data-open][data-side="inline-start"] {
+.content[data-open][data-side="inline-start"],
+.content[data-expanded][data-side="inline-start"] {
 	--popover-translate-x: 0.5rem;
 	--popover-translate-y: 0;
 }
 
-.content[data-open][data-side="inline-end"] {
+.content[data-open][data-side="inline-end"],
+.content[data-expanded][data-side="inline-end"] {
 	--popover-translate-x: -0.5rem;
 	--popover-translate-y: 0;
 }

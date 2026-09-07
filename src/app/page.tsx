@@ -22,6 +22,7 @@ type LandingSymbolProps = {
 	name?: string;
 	fallback?: JSX.Element;
 	className?: string;
+	class?: string;
 	alt?: string;
 	style?: JSX.CSSProperties;
 };
@@ -30,6 +31,7 @@ function LandingSymbol({
 	name,
 	fallback,
 	className,
+	class: classValue,
 	alt,
 	style,
 }: LandingSymbolProps) {
@@ -39,7 +41,7 @@ function LandingSymbol({
 
 	return (
 		<span
-			className={className}
+			class={classValue ?? className}
 			aria-hidden={alt ? undefined : true}
 			aria-label={alt}
 			role={alt ? "img" : undefined}
@@ -47,10 +49,10 @@ function LandingSymbol({
 				source
 					? {
 							...style,
-							backgroundImage: `url("${source}")`,
-							backgroundPosition: "center",
-							backgroundRepeat: "no-repeat",
-							backgroundSize: "contain",
+							"background-image": `url("${source}")`,
+							"background-position": "center",
+							"background-repeat": "no-repeat",
+							"background-size": "contain",
 						}
 					: style
 			}
@@ -145,30 +147,30 @@ function Card({
 	children,
 }: CardProps) {
 	return (
-		<div className={styles.card}>
+		<div class={styles.card}>
 			{title && (
-				<header className={styles.cardTitle}>
+				<header class={styles.cardTitle}>
 					<h2
 						style={{
-							backgroundImage: `url(/landing/mask/${maskNumber}.png)`,
+							"background-image": `url(/landing/mask/${maskNumber}.png)`,
 						}}
 					>
 						{title}
 					</h2>
 				</header>
 			)}
-			<div className={styles.cardContent}>
+			<div class={styles.cardContent}>
 				<div
-					className={styles.cardScreenshotFrame}
+					class={styles.cardScreenshotFrame}
 					style={{
-						aspectRatio: SCREENSHOT_VISIBLE_WIDTH / SCREENSHOT_VISIBLE_HEIGHT,
+						"aspect-ratio": SCREENSHOT_VISIBLE_WIDTH / SCREENSHOT_VISIBLE_HEIGHT,
 					}}
 				>
-					<div className={styles.cardScreenshotBody}>
+					<div class={styles.cardScreenshotBody}>
 						<img
 							src={screenshot}
 							alt={screenshotAlt}
-							className={styles.cardScreenshot}
+							class={styles.cardScreenshot}
 							width={screenshotCrop.sourceWidth}
 							height={screenshotCrop.sourceHeight}
 							style={{
@@ -180,7 +182,7 @@ function Card({
 						/>
 					</div>
 				</div>
-				<div className={styles.cardCopy}>{children}</div>
+				<div class={styles.cardCopy}>{children}</div>
 			</div>
 		</div>
 	);
@@ -209,38 +211,38 @@ export default function LandingPage() {
 	});
 
 	return (
-		<div className={styles.shell}>
-			<div className={styles.blur}>
+		<div class={styles.shell}>
+			<div class={styles.blur}>
 				{/* <ProgressiveBlur position="top" backgroundColor="#000000" /> */}
 			</div>
 
-			<div className={styles.page}>
-				<nav className={styles.nav}>
-					<div className={styles.navLinkWrapper}>
+			<div class={styles.page}>
+				<nav class={styles.nav}>
+					<div class={styles.navLinkWrapper}>
 						<div
-							className={styles.navLink}
+							class={styles.navLink}
 							data-scrolled={hasScrolled()}
 							onMouseEnter={() => setIsMenuOpen(true)}
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								maxHeight: isMenuOpen() ? "264.2px" : "calc(1rem + 14px * 2)",
+								"max-height": isMenuOpen() ? "264.2px" : "calc(1rem + 14px * 2)",
 								transition: "all 0.2s ease-in-out",
 							}}
 						>
-							<div className={`${styles.navRowThing} ${styles.navTop}`}>
+							<div class={`${styles.navRowThing} ${styles.navTop}`}>
 								<div
 									style={{
 										opacity: isMenuOpen() ? 0.5 : 1,
 										transition: "opacity 0.2s ease-out",
-										paddingLeft: "5px",
+										"padding-left": "5px",
 									}}
 								>
 									Open Timetable
 								</div>
 								<LandingSymbol
 									name="chevron.right"
-									className={styles.navLinkIcon}
+									class={styles.navLinkIcon}
 									style={{
 										opacity: isMenuOpen() ? 0.5 : 1,
 										rotate: isMenuOpen() ? "90deg" : "0deg",
@@ -250,28 +252,28 @@ export default function LandingPage() {
 							</div>
 
 							<a
-								className={styles.navRowThing2}
+								class={styles.navRowThing2}
 								href="https://testflight.apple.com/join/DDUXPSq3"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								<div>
 									<div>Get the app</div>
-									<div className={styles.navSubtitle}>iOS, watchOS, macOS</div>
+									<div class={styles.navSubtitle}>iOS, watchOS, macOS</div>
 								</div>
 								<LandingSymbol
 									name="chevron.right"
-									className={styles.navLinkIcon}
+									class={styles.navLinkIcon}
 								/>
 							</a>
 
-							<a className={styles.navRowThing2} href="/login">
+							<a class={styles.navRowThing2} href="/login">
 								<div>
 									<div>For Web</div>
 								</div>
 								<LandingSymbol
 									name="chevron.right"
-									className={styles.navLinkIcon}
+									class={styles.navLinkIcon}
 								/>
 							</a>
 						</div>
@@ -279,37 +281,37 @@ export default function LandingPage() {
 				</nav>
 
 				<main>
-					<div className={styles.hero}>
-						<div className={styles.titleFrame}>
+					<div class={styles.hero}>
+						<div class={styles.titleFrame}>
 							<h1
 								ref={(element) => (titleRef = element)}
-								className={`${styles.title} ${styles.titleWithHDR}`}
+								class={`${styles.title} ${styles.titleWithHDR}`}
 							>
 								Timetable
 							</h1>
 						</div>
 
-						<div className={styles.iconPin}>
-							<div className={styles.titleContent}>
-								<div className={`${styles.rect3} ${styles.gradientBorder}`}>
-									<span className={styles.grainOverlay} aria-hidden="true" />
+						<div class={styles.iconPin}>
+							<div class={styles.titleContent}>
+								<div class={`${styles.rect3} ${styles.gradientBorder}`}>
+									<span class={styles.grainOverlay} aria-hidden="true" />
 								</div>
-								<div className={`${styles.rect1} ${styles.gradientBorder}`}>
-									<span className={styles.grainOverlay} aria-hidden="true" />
+								<div class={`${styles.rect1} ${styles.gradientBorder}`}>
+									<span class={styles.grainOverlay} aria-hidden="true" />
 								</div>
-								<div className={`${styles.frontLayer} ${styles.rotatingShape}`}>
-									<div className={`${styles.rect2} ${styles.gradientBorder}`}>
-										<span className={styles.grainOverlay} aria-hidden="true" />
+								<div class={`${styles.frontLayer} ${styles.rotatingShape}`}>
+									<div class={`${styles.rect2} ${styles.gradientBorder}`}>
+										<span class={styles.grainOverlay} aria-hidden="true" />
 									</div>
 
-									<div className={styles.detailPanels} aria-hidden="true">
+									<div class={styles.detailPanels} aria-hidden="true">
 										<span
-											className={`${styles.detailPanel} ${styles.detailPanelTop}`}
+											class={`${styles.detailPanel} ${styles.detailPanelTop}`}
 										>
-											<span className={styles.lessonPreview}>
+											<span class={styles.lessonPreview}>
 												<LandingSymbol
 													name="function"
-													className={styles.lessonPreviewIcon}
+													class={styles.lessonPreviewIcon}
 												/>
 												<span>
 													<strong>Methods</strong>
@@ -319,12 +321,12 @@ export default function LandingPage() {
 											</span>
 										</span>
 										<span
-											className={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
+											class={`${styles.detailPanel} ${styles.detailPanelMiddle}`}
 										>
-											<span className={styles.lessonPreview}>
+											<span class={styles.lessonPreview}>
 												<LandingSymbol
 													fallback="🐸"
-													className={styles.lessonPreviewIcon}
+													class={styles.lessonPreviewIcon}
 													alt="Frog"
 												/>
 												<span>
@@ -334,14 +336,14 @@ export default function LandingPage() {
 												</span>
 											</span>
 										</span>
-										<span className={styles.detailPanelOutline}></span>
+										<span class={styles.detailPanelOutline}></span>
 									</div>
 
-									<div className={styles.circles}>
+									<div class={styles.circles}>
 										{[0, 1, 2, 3, 4].map((i) => (
 											<div
-												key={i}
-												className={`${styles.circle} ${styles.gradientBorder}`}
+
+												class={`${styles.circle} ${styles.gradientBorder}`}
 												style={{
 													opacity: i === 2 ? 0 : 1,
 												}}
@@ -350,7 +352,7 @@ export default function LandingPage() {
 									</div>
 
 									<div
-										className={styles.activeIndicator}
+										class={styles.activeIndicator}
 										aria-hidden="true"
 									></div>
 								</div>
@@ -358,14 +360,14 @@ export default function LandingPage() {
 						</div>
 					</div>
 
-					<h4 className={styles.summaryTitle}>
+					<h4 class={styles.summaryTitle}>
 						Timetable has everything you need to thrive at Perth Mod:
 					</h4>
-					<div className={styles.summary}>
-						<div className={styles.rightSummary}>
+					<div class={styles.summary}>
+						<div class={styles.rightSummary}>
 							<ul>
 								{landingCards.map((card) => (
-									<li key={card.title}>
+									<li>
 										<Card
 											title={card.title}
 											maskNumber={card.maskNumber}
@@ -382,7 +384,7 @@ export default function LandingPage() {
 					</div>
 				</main>
 
-				<footer className={styles.footer}>
+				<footer class={styles.footer}>
 					<span>Timetable</span>
 					<span>©{new Date().getFullYear()} JDQC</span>
 				</footer>

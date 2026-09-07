@@ -107,23 +107,23 @@ export default function AdminAboutContributorsEditor() {
 	};
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			<section aria-labelledby="contributors-heading">
-				<div className={styles.heading}>
+				<div class={styles.heading}>
 					<div>
-						<p className={styles.eyebrow}>About Timetable</p>
+						<p class={styles.eyebrow}>About Timetable</p>
 						<h2 id="contributors-heading">Contributors</h2>
 					</div>
 					<Symbol name="person.3" />
 				</div>
 				<List>
 					{contributors().map((contributor, index) => (
-						<ListRow className={styles.contributor} key={contributor.id}>
-							<div className={styles.contributorCopy}>
+						<ListRow class={styles.contributor}>
+							<div class={styles.contributorCopy}>
 								<strong>{contributor.name}</strong>
 								<span>{contributor.role}</span>
 							</div>
-							<div className={styles.actions}>
+							<div class={styles.actions}>
 								<Button
 									type="button"
 									variant="ghost"
@@ -175,13 +175,13 @@ export default function AdminAboutContributorsEditor() {
 				</List>
 			</section>
 			<section
-				className={styles.card}
+				class={styles.card}
 				aria-labelledby="contributor-editor-heading"
 			>
 				<h2 id="contributor-editor-heading">
 					{editingID() ? "Edit contributor" : "Add contributor"}
 				</h2>
-				<label className={styles.field}>
+				<label class={styles.field}>
 					<span>Name</span>
 					<Input
 						value={draft().name}
@@ -191,7 +191,7 @@ export default function AdminAboutContributorsEditor() {
 						placeholder="Contributor name"
 					/>
 				</label>
-				<label className={styles.field}>
+				<label class={styles.field}>
 					<span>Role</span>
 					<Input
 						value={draft().role}
@@ -203,11 +203,11 @@ export default function AdminAboutContributorsEditor() {
 				</label>
 			</section>
 			{status() ? (
-				<p className={styles.status} role="status">
+				<p class={styles.status} role="status">
 					{status()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.formActions}>
+			<DrawerFooter class={styles.formActions}>
 				{editingID() ? (
 					<Button type="button" variant="ghost" onClick={reset}>
 						<Symbol name="xmark" />

@@ -34,7 +34,7 @@ export default function SubjectContextSheet({
 
 				{!day &&
 					subject.slots.map((slot) => (
-						<div key={`${slot.day}-${slot.session}`}>
+						<div>
 							<span>
 								<Symbol name="calendar" />
 								{dayName(slot.day)}

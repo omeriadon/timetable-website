@@ -112,7 +112,7 @@ export default function TodayView({
 
 	return (
 		<>
-			<header className={styles.todayHeader}>
+			<header class={styles.todayHeader}>
 				<p>
 					{schoolWeather
 						? `${Math.round(schoolWeather.temperatureCelsius)}°C　${weatherLabel(schoolWeather.conditionCode)}　${Math.round(schoolWeather.precipitationChance * 100)}%　UV ${schoolWeather.uvIndex}`
@@ -178,7 +178,7 @@ export default function TodayView({
 					title="Classes"
 					symbolName="books.vertical"
 				>
-					<div className={styles.subjectList}>
+					<div class={styles.subjectList}>
 						{schoolPeriods.map((period) => {
 							const subject = subjects.find((candidate) =>
 								candidate.slots.some(
@@ -193,17 +193,17 @@ export default function TodayView({
 							);
 							return (
 								<div
-									key={period.session}
-									className={cn(
+
+									class={cn(
 										styles.cardRow,
 										styles.subjectRow,
 										current && styles.subjectRowExpanded,
 									)}
 								>
-									<span className={styles.subjectNumber}>{period.label}</span>
-									<div className={styles.subjectDetails}>
+									<span class={styles.subjectNumber}>{period.label}</span>
+									<div class={styles.subjectDetails}>
 										<strong>{subject?.id ?? "Free Period"}</strong>
-										<span className={styles.subjectMetaContent}>
+										<span class={styles.subjectMetaContent}>
 											{period.start} – {period.end}
 										</span>
 									</div>
@@ -213,7 +213,7 @@ export default function TodayView({
 									<em>
 										<Symbol
 											name={subject?.symbol ?? "clock"}
-											className={styles.eventSymbolIcon}
+											class={styles.eventSymbolIcon}
 										/>
 									</em>
 								</div>
@@ -222,7 +222,7 @@ export default function TodayView({
 					</div>
 				</SectionCard>
 			) : !noSchool ? (
-				<div className={styles.emptyState} role="status">
+				<div class={styles.emptyState} role="status">
 					<strong>Nothing Scheduled Today</strong>
 					<span>
 						{nextSubject ? `Next: ${nextSubject}` : "No upcoming subjects"}
@@ -270,7 +270,7 @@ function AssessmentEntryRow({
 	return (
 		<Button
 			type="button"
-			className={cn(styles.cardRow, styles.eventRow)}
+			class={cn(styles.cardRow, styles.eventRow)}
 			onClick={() => {
 				const subject = entry.subject;
 				if (!subject) {
@@ -288,10 +288,10 @@ function AssessmentEntryRow({
 			}}
 			aria-label={`Open ${entry.assessment.name}`}
 		>
-			<span className={styles.eventSymbol} aria-hidden="true">
+			<span class={styles.eventSymbol} aria-hidden="true">
 				<Symbol
 					name={entry.subject?.symbol ?? "doc.text"}
-					className={styles.eventSymbolIcon}
+					class={styles.eventSymbolIcon}
 				/>
 			</span>
 			<div>

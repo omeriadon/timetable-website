@@ -27,39 +27,39 @@ export default function AdminEmailLogEditor() {
 	});
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			{entries() === null && !error() ? (
-				<p className={styles.loading}>Loading email log…</p>
+				<p class={styles.loading}>Loading email log…</p>
 			) : null}
 			{entries()?.length === 0 ? (
-				<p className={styles.emptyRow}>
+				<p class={styles.emptyRow}>
 					No email deliveries have been recorded.
 				</p>
 			) : null}
 			{entries()?.length ? (
 				<List>
 					{entries()!.map((entry) => (
-						<ListRow className={adminStyles.adminRecord} key={entry.id}>
-							<div className={styles.profileRow}>
+						<ListRow class={adminStyles.adminRecord}>
+							<div class={styles.profileRow}>
 								<Symbol name="envelope.badge" />
-								<span className={styles.label}>{entry.subject}</span>
-								<strong className={styles.detail}>{entry.status}</strong>
+								<span class={styles.label}>{entry.subject}</span>
+								<strong class={styles.detail}>{entry.status}</strong>
 							</div>
-							<div className={adminStyles.adminField}>
+							<div class={adminStyles.adminField}>
 								<span>Recipient</span>
 								<strong>{entry.recipient}</strong>
 							</div>
-							<div className={adminStyles.adminField}>
+							<div class={adminStyles.adminField}>
 								<span>Created</span>
 								<strong>{formatDate(entry.createdAt)}</strong>
 							</div>
 							{entry.failureReason ? (
-								<div className={adminStyles.adminField}>
+								<div class={adminStyles.adminField}>
 									<span>Failure</span>
 									<strong>{entry.failureReason}</strong>
 								</div>

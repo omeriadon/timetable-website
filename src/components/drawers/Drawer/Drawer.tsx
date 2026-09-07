@@ -98,7 +98,7 @@ function DrawerLayer({
 
 	return (
 		<Drawer
-			key={entry.id}
+
 			open={entry.open}
 			onOpenChange={(open) => {
 				if (!open) {
@@ -106,7 +106,17 @@ function DrawerLayer({
 				}
 			}}
 		>
-			<DrawerContent>
+			<DrawerContent
+				onTransitionEnd={(event) => {
+					const target = event.target as HTMLElement;
+					if (
+						target.dataset.closing !== undefined ||
+						target.dataset.closed !== undefined
+					) {
+						removeClosedLayer(entry.id);
+					}
+				}}
+			>
 				<DrawerHeader>
 					<DrawerTitle class={styles.visuallyHidden}>Drawer</DrawerTitle>
 				</DrawerHeader>

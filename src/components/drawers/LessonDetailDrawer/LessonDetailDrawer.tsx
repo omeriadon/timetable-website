@@ -13,12 +13,12 @@ export default function LessonDetailDrawer({
 	session: number;
 }) {
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
+				<div class={styles.detailSubjectSymbol}>
 					<Symbol
 						name={subject.symbol}
-						className={styles.detailSubjectSymbolIcon}
+						class={styles.detailSubjectSymbolIcon}
 					/>
 				</div>
 				<div>
@@ -28,12 +28,12 @@ export default function LessonDetailDrawer({
 					</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<div className={styles.detailRow}>
+			<section class={styles.detailCard}>
+				<div class={styles.detailRow}>
 					<span>Classroom</span>
 					<strong>Not provided</strong>
 				</div>
-				<div className={styles.detailRow}>
+				<div class={styles.detailRow}>
 					<span>Teacher</span>
 					<strong>Not provided</strong>
 				</div>

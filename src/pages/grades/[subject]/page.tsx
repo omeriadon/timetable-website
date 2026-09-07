@@ -47,14 +47,14 @@ export default function GradeSubjectPage({
 
 	const createAssessment = (semester: number) => {
 		openDrawer(
-			<GradeAssessmentDrawer
+			() => (<GradeAssessmentDrawer
 				subject={timetableSubject}
 				subjects={subjects}
 				subjectID={subjectID}
 				semester={semester}
 				onSave={saveAssessment}
 				onDelete={deleteAssessment}
-			/>,
+			/>),
 		);
 	};
 
@@ -139,18 +139,18 @@ export default function GradeSubjectPage({
 				);
 
 				return (
-					<div key={semester}>
+					<div>
 						<h2 class={styles.section}>Semester {semester}</h2>
 
 						<section class={styles.card}>
 							{semesterAssessments.length ? (
 								semesterAssessments.map((assessment) => (
 									<DrawerTrigger
-										key={assessment.id}
+
 										class={styles.rowButton}
 										ariaLabel={`Edit ${assessment.name}`}
-										content={
-											<GradeAssessmentDrawer
+						content={() => (
+							<GradeAssessmentDrawer
 												subject={timetableSubject}
 												subjects={subjects}
 												assessment={assessment}
@@ -158,8 +158,8 @@ export default function GradeSubjectPage({
 												semester={semester}
 												onSave={saveAssessment}
 												onDelete={deleteAssessment}
-											/>
-										}
+							/>
+						)}
 									>
 										<article class={styles.row}>
 											<Symbol

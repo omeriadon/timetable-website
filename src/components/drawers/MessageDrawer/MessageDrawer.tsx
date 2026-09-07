@@ -13,8 +13,8 @@ export default function MessageDrawer({
 	tone = "error",
 }: MessageDrawerProps) {
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol
 					name={tone === "error" ? "exclamationmark.triangle" : "info.circle"}
 					fallback={tone === "error" ? "!" : "i"}

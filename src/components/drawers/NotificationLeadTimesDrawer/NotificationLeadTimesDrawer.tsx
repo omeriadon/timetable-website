@@ -55,11 +55,11 @@ export default function NotificationLeadTimesDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
+		<div class={styles.detailDrawer}>
 			<header>
 				<h2>{title}</h2>
 				{description ? (
-					<p className={styles.detailMuted}>{description}</p>
+					<p class={styles.detailMuted}>{description}</p>
 				) : null}
 			</header>
 			<List>
@@ -67,23 +67,23 @@ export default function NotificationLeadTimesDrawer({
 					const selected = draft().has(value);
 					return (
 						<Button
-							key={value}
+
 							type="button"
-							className={
+							class={
 								selected ? styles.leadTimeOptionActive : styles.leadTimeOption
 							}
 							onClick={() => toggle(value)}
 							aria-pressed={selected}
 						>
 							<ListRow>
-								<span className={styles.leadTimeLabel}>
+								<span class={styles.leadTimeLabel}>
 									{value} {value === 1 ? "minute" : "minutes"} early
 								</span>
 								{selected ? (
 									<Symbol
 										name="checkmark"
 										fallback="✓"
-										className={styles.selectionCheck}
+										class={styles.selectionCheck}
 									/>
 								) : null}
 							</ListRow>
@@ -92,7 +92,7 @@ export default function NotificationLeadTimesDrawer({
 				})}
 			</List>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}

@@ -19,9 +19,9 @@ export default function NavigationDrawer({
 	const { closeDrawer } = useDrawer();
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
-				<div className={styles.detailSubjectSymbol}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
+				<div class={styles.detailSubjectSymbol}>
 					<Symbol name={icon} />
 				</div>
 				<div>
@@ -29,7 +29,7 @@ export default function NavigationDrawer({
 					<p>{description}</p>
 				</div>
 			</header>
-			<Link className={styles.drawerLink} to={href} onClick={closeDrawer}>
+			<Link class={styles.drawerLink} to={href} onClick={closeDrawer}>
 				Open {title}
 			</Link>
 		</div>

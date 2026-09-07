@@ -20,13 +20,13 @@ export function AdminStatisticsGroup({
 }: AdminStatisticsGroupProps) {
 	return (
 		<section>
-			<h2 className={styles.section}>{title}</h2>
+			<h2 class={styles.section}>{title}</h2>
 			<List>
 				{rows.map(([label, value]) => (
-					<ListRow key={label}>
+					<ListRow>
 						<Symbol name={icon} />
-						<span className={styles.label}>{label}</span>
-						<strong className={styles.detail}>{value}</strong>
+						<span class={styles.label}>{label}</span>
+						<strong class={styles.detail}>{value}</strong>
 					</ListRow>
 				))}
 			</List>
@@ -49,12 +49,12 @@ export function AdminStatisticsCountGroup({
 
 	return (
 		<section>
-			<h2 className={styles.section}>{title}</h2>
+			<h2 class={styles.section}>{title}</h2>
 			<List>
 				{rows.map((row) => (
-					<ListRow key={row.label}>
-						<span className={styles.label}>{row.label}</span>
-						<strong className={styles.detail}>{row.count}</strong>
+					<ListRow>
+						<span class={styles.label}>{row.label}</span>
+						<strong class={styles.detail}>{row.count}</strong>
 					</ListRow>
 				))}
 			</List>

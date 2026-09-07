@@ -43,8 +43,8 @@ export default function AdminAuthorityChangeDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol
 					name={
 						makeAdministrator
@@ -61,17 +61,17 @@ export default function AdminAuthorityChangeDrawer({
 					<p>{user.displayName}</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<p className={styles.detailMuted}>
+			<section class={styles.detailCard}>
+				<p class={styles.detailMuted}>
 					Change administrator access for {user.displayName}.
 				</p>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible

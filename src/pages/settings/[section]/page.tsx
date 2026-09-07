@@ -64,9 +64,9 @@ export default function SettingsSectionPage({
 	};
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
@@ -91,7 +91,7 @@ export default function SettingsSectionPage({
 			{section === "feedback" ? <FeedbackEditor /> : null}
 			{section === "about" ? <AboutEditor /> : null}
 			{!settings() && !error() ? (
-				<p className={styles.loading}>Loading settings…</p>
+				<p class={styles.loading}>Loading settings…</p>
 			) : null}
 		</main>
 	);

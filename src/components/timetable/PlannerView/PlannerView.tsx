@@ -71,18 +71,18 @@ export default function PlannerView({
 	};
 
 	return (
-		<section className={styles.planner}>
-			<div className={styles.plannerActions}>
+		<section class={styles.planner}>
+			<div class={styles.plannerActions}>
 				<Button
 					type="button"
 					aria-label="Add personal event"
 					onClick={() =>
 						openDrawer(
-							<CreatePrivateEventDrawer
+							() => (<CreatePrivateEventDrawer
 								onCreated={(event) =>
 									setLocalEvents((current) => [...current, event])
 								}
-							/>,
+							/>),
 						)
 					}
 				>
@@ -95,12 +95,12 @@ export default function PlannerView({
 						aria-label="Add global event"
 						onClick={() =>
 							openDrawer(
-								<CreatePrivateEventDrawer
+								() => (<CreatePrivateEventDrawer
 									globally
 									onCreated={(event) =>
 										setLocalEvents((current) => [...current, event])
 									}
-								/>,
+								/>),
 							)
 						}
 					>
@@ -117,7 +117,7 @@ export default function PlannerView({
 				>
 					{todayEvents.map((event) => (
 						<EventRow
-							key={event.id}
+
 							event={event}
 							prominent
 							showDate={false}
@@ -135,7 +135,7 @@ export default function PlannerView({
 				{upcomingEvents.length ? (
 					upcomingEvents.map((event) => (
 						<EventRow
-							key={event.id}
+
 							event={event}
 							prominent
 							onChanged={(updated) => updateEvent(updated, event.id)}
@@ -143,7 +143,7 @@ export default function PlannerView({
 						/>
 					))
 				) : (
-					<p className={styles.empty}>No upcoming events.</p>
+					<p class={styles.empty}>No upcoming events.</p>
 				)}
 			</SectionCard>
 			{upcomingAssessments.length ? (
@@ -154,14 +154,14 @@ export default function PlannerView({
 				>
 					{upcomingAssessments.map((assessment) => (
 						<Link
-							key={assessment.id}
+
 							to="/grades/$subject"
 							params={{ subject: assessment.subjectID }}
-							className={cn(styles.cardRow, styles.plannerEvent)}
+							class={cn(styles.cardRow, styles.plannerEvent)}
 							aria-label={`Open ${assessment.name}`}
 						>
-							<span className={styles.eventSymbol} aria-hidden="true">
-								<Symbol name="doc.text" className={styles.eventSymbolIcon} />
+							<span class={styles.eventSymbol} aria-hidden="true">
+								<Symbol name="doc.text" class={styles.eventSymbolIcon} />
 							</span>
 							<div>
 								<strong>{assessment.name}</strong>
@@ -180,11 +180,11 @@ export default function PlannerView({
 				>
 					{upcomingNoSchoolDays.map((item) => (
 						<div
-							key={`${item.date.year}-${item.date.month}-${item.date.day}`}
-							className={styles.cardRow}
+
+							class={styles.cardRow}
 						>
-							<span className={styles.eventSymbol} aria-hidden="true">
-								<Symbol name="figure.wave" className={styles.eventSymbolIcon} />
+							<span class={styles.eventSymbol} aria-hidden="true">
+								<Symbol name="figure.wave" class={styles.eventSymbolIcon} />
 							</span>
 							<div>
 								<strong>{item.label}</strong>
@@ -197,11 +197,11 @@ export default function PlannerView({
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{visibleTermRanges.map((term) => (
 					<div
-						key={term.label}
-						className={cn(styles.cardRow, styles.plannerEvent)}
+
+						class={cn(styles.cardRow, styles.plannerEvent)}
 					>
-						<span className={styles.eventSymbol} aria-hidden="true">
-							<Symbol name="calendar" className={styles.eventSymbolIcon} />
+						<span class={styles.eventSymbol} aria-hidden="true">
+							<Symbol name="calendar" class={styles.eventSymbolIcon} />
 						</span>
 						<div>
 							<strong>{term.label}</strong>
@@ -288,7 +288,7 @@ function CreatePrivateEventDrawer({
 
 	return (
 		<section
-			className={drawerStyles.detailDrawer}
+			class={drawerStyles.detailDrawer}
 			aria-labelledby="create-event-title"
 		>
 			<h2 id="create-event-title">
@@ -320,7 +320,7 @@ function CreatePrivateEventDrawer({
 			</label>
 			{globally ? (
 				<section
-					className={styles.formCard}
+					class={styles.formCard}
 					aria-labelledby="new-event-tags-title"
 				>
 					<h3 id="new-event-tags-title">Tags</h3>
@@ -331,7 +331,7 @@ function CreatePrivateEventDrawer({
 								const selected = selectedTagIDs().includes(tag.id);
 								return (
 									<Button
-										key={tag.id}
+
 										type="button"
 										aria-pressed={selected}
 										aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
@@ -344,7 +344,7 @@ function CreatePrivateEventDrawer({
 								);
 							})
 					) : (
-						<p className={styles.empty}>Loading event tags…</p>
+						<p class={styles.empty}>Loading event tags…</p>
 					)}
 				</section>
 			) : null}

@@ -11,6 +11,7 @@ import {
 	ListSection,
 	ListSectionHeader,
 } from "@/components/ui/list";
+import { Card } from "@/components/ui/card";
 import AdminStatisticsEditor from "@/components/administration/AdminStatisticsEditor/AdminStatisticsEditor";
 import AdminUsersEditor from "@/components/administration/AdminUsersEditor/AdminUsersEditor";
 import AdminUserReportsEditor from "@/components/administration/AdminUserReportsEditor/AdminUserReportsEditor";
@@ -87,17 +88,17 @@ export default function AdministrationPage({
 	const [error, setError] = createSignal<string | null>(null);
 	onMount(() => setToolbar({ title: "Administration" }));
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() ? (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			{dashboard() && !dashboard()!.isAdmin ? (
-				<List>
+				<List sections>
 					<ListRow>
 						<Symbol name="exclamationmark.bubble" />
-						<span className={styles.label}>Administrator access required.</span>
+						<span class={styles.label}>Administrator access required.</span>
 					</ListRow>
 				</List>
 			) : null}
@@ -110,34 +111,36 @@ export default function AdministrationPage({
 								dashboard()!.authority === "systemOwner",
 						)
 						.map(([heading, rows]) => (
-							<ListSection key={heading as string}>
-								<ListSectionHeader className={styles.section}>
+							<ListSection>
+								<ListSectionHeader class={styles.section}>
 									{heading as string}
 									{heading === "Moderation" &&
 									dashboard()!.pendingModerationCount > 0
 										? ` (${dashboard()!.pendingModerationCount})`
 										: ""}
 								</ListSectionHeader>
-								{(rows as string[][]).map(([symbol, label, destination]) => (
+				<Card role="group">
+				{(rows as string[][]).map(([symbol, label, destination]) => (
 									<DrawerTrigger
-										key={label}
-										className={styles.rowButton}
+
+										class={styles.rowButton}
 										ariaLabel={`Open ${label}`}
-										content={administrationDrawerContent(destination)}
+									content={() => administrationDrawerContent(destination)}
 									>
 										<ListRow>
 											<Symbol name={symbol} />
-											<span className={styles.label}>{label}</span>
+											<span class={styles.label}>{label}</span>
 											<Symbol name="chevron.right" />
 										</ListRow>
-									</DrawerTrigger>
-								))}
+								</DrawerTrigger>
+							))}
+				</Card>
 							</ListSection>
 						))}
 				</List>
 			) : null}
 			{!dashboard() && !error ? (
-				<p className={styles.loading}>Checking administrator access…</p>
+				<p class={styles.loading}>Checking administrator access…</p>
 			) : null}
 		</main>
 	);

@@ -2,12 +2,6 @@ import { onCleanup, onMount } from "solid-js";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import "./GradientBlinds.css";
 
-const useRef = (current) => ({ current });
-const useEffect = (effect) => onMount(() => {
-	const cleanup = effect();
-	if (cleanup) onCleanup(cleanup);
-});
-
 const MAX_COLORS = 8;
 const hexToRGB = (hex) => {
 	const c = hex.replace("#", "").padEnd(6, "0");
@@ -48,18 +42,18 @@ const GradientBlinds = ({
 	mixBlendMode = "lighten",
 	pointerTarget = "canvas",
 }) => {
-	const containerRef = useRef(null);
-	const rafRef = useRef(null);
-	const programRef = useRef(null);
-	const meshRef = useRef(null);
-	const geometryRef = useRef(null);
-	const rendererRef = useRef(null);
-	const mouseTargetRef = useRef([0, 0]);
-	const lastTimeRef = useRef(0);
-	const firstResizeRef = useRef(true);
+	let containerRef;
+	const rafRef = { current: null };
+	const programRef = { current: null };
+	const meshRef = { current: null };
+	const geometryRef = { current: null };
+	const rendererRef = { current: null };
+	const mouseTargetRef = { current: [0, 0] };
+	const lastTimeRef = { current: 0 };
+	const firstResizeRef = { current: true };
 
-	useEffect(() => {
-		const container = containerRef.current;
+	onMount(() => {
+		const container = containerRef;
 		if (!container) return;
 
 		const renderer = new Renderer({
@@ -337,31 +331,17 @@ void main() {
 			meshRef.current = null;
 			rendererRef.current = null;
 		};
-	}, [
-		dpr,
-		paused,
-		gradientColors,
-		angle,
-		noise,
-		blindCount,
-		blindMinWidth,
-		mouseDampening,
-		mirrorGradient,
-		spotlightRadius,
-		spotlightSoftness,
-		spotlightOpacity,
-		distortAmount,
-		shineDirection,
-		pointerTarget,
-	]);
+	});
 
 	return (
 		<div
-			ref={containerRef}
-			className={`gradient-blinds-container ${className}`}
+			ref={(element) => {
+				containerRef = element;
+			}}
+			class={`gradient-blinds-container ${className}`}
 			style={{
 				...(mixBlendMode && {
-					mixBlendMode: mixBlendMode,
+						"mix-blend-mode": mixBlendMode,
 				}),
 			}}
 		/>

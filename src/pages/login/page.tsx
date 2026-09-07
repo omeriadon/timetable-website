@@ -73,12 +73,12 @@ export default function LoginPage() {
 	}
 
 	return (
-		<main className={styles.page}>
-			<section className={styles.card} aria-labelledby="login-title">
-				<div className={styles.brandMark} aria-hidden="true">
+		<main class={styles.page}>
+			<section class={styles.card} aria-labelledby="login-title">
+				<div class={styles.brandMark} aria-hidden="true">
 					T
 				</div>
-				<p className={styles.eyebrow}>Timetable</p>
+				<p class={styles.eyebrow}>Timetable</p>
 				<h1 id="login-title">
 					{mode() === "sign-in"
 						? "Welcome back"
@@ -86,13 +86,13 @@ export default function LoginPage() {
 							? "Create your account"
 							: "Verify your email"}
 				</h1>
-				<p className={styles.intro}>
+				<p class={styles.intro}>
 					{mode() === "verify"
 						? `Enter the six-digit code sent to ${email()}.`
 						: "Your school week, in one place."}
 				</p>
 
-				<form className={styles.form} onSubmit={submit}>
+				<form class={styles.form} onSubmit={submit}>
 					<label>
 						<span>Email address</span>
 						<Input
@@ -134,12 +134,12 @@ export default function LoginPage() {
 						</label>
 					) : null}
 					{error() ? (
-						<p className={styles.error} role="alert">
+						<p class={styles.error} role="alert">
 							{error()}
 						</p>
 					) : null}
 					<Button
-						className={styles.submit}
+						class={styles.submit}
 						type="submit"
 						disabled={isSubmitting()}
 					>
@@ -153,7 +153,7 @@ export default function LoginPage() {
 											? "paperplane"
 											: "checkmark.circle"
 							}
-							className={styles.actionIcon}
+							class={styles.actionIcon}
 						/>
 						{isSubmitting()
 							? "Please wait"
@@ -167,7 +167,7 @@ export default function LoginPage() {
 
 				{mode() !== "verify" ? (
 					<Button
-						className={styles.switchMode}
+						class={styles.switchMode}
 						type="button"
 						onClick={() =>
 							setMode(mode() === "sign-in" ? "sign-up" : "sign-in")
@@ -175,7 +175,7 @@ export default function LoginPage() {
 					>
 						<Symbol
 							name={mode() === "sign-in" ? "person.badge.plus" : "arrow.left"}
-							className={styles.actionIcon}
+							class={styles.actionIcon}
 						/>
 						{mode() === "sign-in"
 							? "Create an account"

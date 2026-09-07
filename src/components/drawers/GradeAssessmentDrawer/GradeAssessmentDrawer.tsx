@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import { createSignal } from "solid-js";
 import type {
 	GradeAssessment,
@@ -72,14 +72,14 @@ export default function GradeAssessmentDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>{assessment ? "Edit Assessment" : "New Assessment"}</h2>
 					<p>Semester {current.semester}</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Assessment
 					<Input
@@ -115,9 +115,7 @@ export default function GradeAssessmentDrawer({
 						}}
 					>
 						{locationOptions.map((option) => (
-							<option key={option} value={option}>
-								{locationLabel(option, subjectID)}
-							</option>
+							<SelectItem value={option}>{locationLabel(option, subjectID)}</SelectItem>
 						))}
 					</Select>
 				</label>
@@ -148,11 +146,11 @@ export default function GradeAssessmentDrawer({
 					/>
 				</label>
 				{status() ? (
-					<p className={styles.detailMuted} role="status">
+					<p class={styles.detailMuted} role="status">
 						{status()}
 					</p>
 				) : null}
-				<DrawerFooter className={styles.actionFooter}>
+				<DrawerFooter class={styles.actionFooter}>
 					{assessment && onDelete ? (
 						<Button
 							type="button"

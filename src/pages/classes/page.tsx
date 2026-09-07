@@ -18,7 +18,7 @@ export default function ClassesPage({ data }: { data: ClassesData }) {
 				<section class={styles.card}>
 					<For each={timetable.subjects}>{(subject) => (
 						<DrawerTrigger
-							key={subject.id}
+
 							class={styles.rowButton}
 							ariaLabel={`Open ${subject.id}`}
 							content={() => (

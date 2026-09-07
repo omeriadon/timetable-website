@@ -78,14 +78,14 @@ export default function AdminEventTagDrawer({
 		}
 	};
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<div>
 					<h2>{tag ? "Edit Tag" : "Add Tag"}</h2>
 					<p>{section.displayName}</p>
 				</div>
 			</header>
-			<section className={styles.formCard}>
+			<section class={styles.formCard}>
 				<label>
 					Display Name
 					<Input
@@ -123,7 +123,7 @@ export default function AdminEventTagDrawer({
 						onChange={(event) => setAssociatedNames(event.target.value)}
 					/>
 				</label>
-				<label className={styles.editorCheck}>
+				<label class={styles.editorCheck}>
 					<Toggle
 						aria-label="Archive tag"
 						checked={isArchived}
@@ -133,11 +133,11 @@ export default function AdminEventTagDrawer({
 				</label>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				{tag ? (
 					<Button
 						variant="destructive"

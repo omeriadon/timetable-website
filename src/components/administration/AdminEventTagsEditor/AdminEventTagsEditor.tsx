@@ -66,17 +66,17 @@ export default function AdminEventTagsEditor() {
 		section: AdminEventTagSection,
 	) => {
 		openDrawer(
-			<AdminEventTagDrawer
+			() => (<AdminEventTagDrawer
 				tag={tag}
 				section={section}
 				onSaved={() => void load()}
-			/>,
+			/>),
 		);
 	};
 
 	const editSection = (section: AdminEventTagSection) => {
 		openDrawer(
-			<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />,
+			() => (<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />),
 		);
 	};
 
@@ -122,14 +122,14 @@ export default function AdminEventTagsEditor() {
 	};
 
 	return (
-		<main className={styles.page}>
+		<main class={styles.page}>
 			{error() && (
-				<p className={styles.error} role="alert">
+				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			)}
 
-			<div className={styles.adminToolbar}>
+			<div class={styles.adminToolbar}>
 				<Button
 					type="button"
 					variant="outline"
@@ -142,24 +142,24 @@ export default function AdminEventTagsEditor() {
 			</div>
 
 			{catalogue()?.sections.map((section) => (
-				<section key={section.id}>
+				<section>
 					<Button
 						type="button"
 						variant="ghost"
-						className={styles.sectionButton}
+						class={styles.sectionButton}
 						onClick={() => editSection(section)}
 						aria-label={`Edit ${section.displayName} section`}
 					>
-						<h2 className={styles.section}>{section.displayName}</h2>
+						<h2 class={styles.section}>{section.displayName}</h2>
 					</Button>
 
 					<List rowHover>
 						{section.tags.map((tag) => (
-							<ListRow key={tag.id} className={styles.rowWithAction}>
+							<ListRow class={styles.rowWithAction}>
 								<Button
 									type="button"
 									variant="ghost"
-									className={styles.listButton}
+									class={styles.listButton}
 									onClick={() => editTag(tag, section)}
 									aria-label={`Edit ${tag.displayName}`}
 								>
@@ -167,8 +167,8 @@ export default function AdminEventTagsEditor() {
 										<Symbol name={tag.symbol ?? "tag"} fallback="#" />
 
 										<span>
-											<b className={styles.label}>{tag.displayName}</b>
-											<small className={styles.detail}>
+											<b class={styles.label}>{tag.displayName}</b>
+											<small class={styles.detail}>
 												{tag.slug}
 												{tag.isArchived ? " · Archived" : ""}
 											</small>
@@ -179,7 +179,7 @@ export default function AdminEventTagsEditor() {
 								</Button>
 
 								{isReordering() && (
-									<div className={styles.reorderButtons}>
+									<div class={styles.reorderButtons}>
 										<Button
 											type="button"
 											variant="ghost"
@@ -209,12 +209,12 @@ export default function AdminEventTagsEditor() {
 						<Button
 							type="button"
 							variant="ghost"
-							className={styles.listButton}
+							class={styles.listButton}
 							onClick={() => editTag(null, section)}
 						>
 							<ListRow>
 								<Symbol name="plus" fallback="＋" />
-								<span className={styles.label}>Add Tag</span>
+								<span class={styles.label}>Add Tag</span>
 							</ListRow>
 						</Button>
 					</List>
@@ -222,7 +222,7 @@ export default function AdminEventTagsEditor() {
 			))}
 
 			{!catalogue() && !error() && (
-				<p className={styles.loading}>Loading event tags…</p>
+				<p class={styles.loading}>Loading event tags…</p>
 			)}
 		</main>
 	);

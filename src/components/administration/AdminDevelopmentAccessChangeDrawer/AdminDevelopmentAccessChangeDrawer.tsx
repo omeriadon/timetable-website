@@ -39,8 +39,8 @@ export default function AdminDevelopmentAccessChangeDrawer({
 	};
 
 	return (
-		<div className={styles.detailDrawer}>
-			<header className={styles.detailHeader}>
+		<div class={styles.detailDrawer}>
+			<header class={styles.detailHeader}>
 				<Symbol name={nextValue ? "lock.fill" : "lock.open"} fallback="▣" />
 				<div>
 					<h2>
@@ -49,19 +49,19 @@ export default function AdminDevelopmentAccessChangeDrawer({
 					<p>Development Access</p>
 				</div>
 			</header>
-			<section className={styles.detailCard}>
-				<p className={styles.detailMuted}>
+			<section class={styles.detailCard}>
+				<p class={styles.detailMuted}>
 					{nextValue
 						? "Only system administrators will be able to use the server. Existing sessions remain intact."
 						: "All accounts will be able to use the server again."}
 				</p>
 			</section>
 			{error() ? (
-				<p className={styles.detailMuted} role="alert">
+				<p class={styles.detailMuted} role="alert">
 					{error()}
 				</p>
 			) : null}
-			<DrawerFooter className={styles.actionFooter}>
+			<DrawerFooter class={styles.actionFooter}>
 				<DrawerClose
 					variant="outline"
 					flexible

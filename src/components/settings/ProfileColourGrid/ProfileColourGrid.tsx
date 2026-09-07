@@ -23,12 +23,12 @@ export function ProfileColourGrid({
 	const palette = makePalette(6, columnCount, true, 0.92, 0.08);
 
 	return (
-		<div className={styles.grid}>
+		<div class={styles.grid}>
 			{palette.map((colour, index) => {
 				const selected = selection.some((item) => sameColour(item, colour));
 				return (
 					<Button
-						key={`background-${index}`}
+
 						type="button"
 						onClick={() => {
 							if (selected) {
@@ -43,8 +43,8 @@ export function ProfileColourGrid({
 						}}
 						aria-label={`Background colour ${index + 1}`}
 						aria-pressed={selected}
-						className={`${styles.swatch} ${selected ? styles.selected : ""}`}
-						style={{ backgroundColor: colourValue(colour) }}
+						class={`${styles.swatch} ${selected ? styles.selected : ""}`}
+						style={{ "background-color": colourValue(colour) }}
 					/>
 				);
 			})}
@@ -64,18 +64,18 @@ export function ProfileForegroundColourGrid({
 	const colours = [...palette, ...monochrome];
 
 	return (
-		<div className={styles.grid}>
+		<div class={styles.grid}>
 			{colours.map((colour, index) => {
 				const selected = sameColour(selection, colour);
 				return (
 					<Button
-						key={`foreground-${index}`}
+
 						type="button"
 						onClick={() => onChange(colour)}
 						aria-label={`Foreground colour ${index + 1}`}
 						aria-pressed={selected}
-						className={`${styles.swatch} ${selected ? styles.selected : ""}`}
-						style={{ backgroundColor: colourValue(colour) }}
+						class={`${styles.swatch} ${selected ? styles.selected : ""}`}
+						style={{ "background-color": colourValue(colour) }}
 					/>
 				);
 			})}
