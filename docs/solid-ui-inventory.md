@@ -87,4 +87,4 @@ For each rendered row record computed typography/font, dimensions, spacing, bord
 
 ## Coverage status
 
-Source coverage is complete for the files listed above. Browser coverage is **blocked** for all routes and all four viewport widths until the local fixture-backed React server can be opened through approved browser control. No visual parity or performance claim is made. Authentication, administration, mutations, delayed/error responses, location permission outcomes, and real drawer interactions remain explicit unfinished coverage items.
+Source coverage is complete for the files listed above. The fixture-backed migrated Solid server now renders every listed direct route, and `/testing` is visible in the browser accessibility tree. Browser interaction coverage remains blocked after the browser debugger failed to attach to the local tab. No visual parity or interaction-performance claim is made. The four viewport matrix, visual diffs, drawer gestures, keyboard/focus flows, mutations, delayed/error responses, location permission outcomes, and repeated-navigation resource checks remain explicit unfinished coverage items.
