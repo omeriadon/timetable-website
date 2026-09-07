@@ -170,7 +170,9 @@ export default function GradesPage({ data }: { data: GradesData }) {
 	const setToolbar = useToolbar();
 	const router = useRouter();
 	const [grades, setGrades] = createSignal<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
+		initial.timetable,
+	);
 	const [isSenior] = createSignal(() => {
 		const yearGroups = initial.yearGroups.sections
 			.filter((section) => section.category === "yearGroup")
@@ -216,9 +218,7 @@ export default function GradesPage({ data }: { data: GradesData }) {
 						<div class={styles.summaryTop}>
 							<div>
 								<strong class={styles.summaryLabel}>Average</strong>
-								<div class={styles.summaryValue}>
-									{formatPercent(average)}
-								</div>
+								<div class={styles.summaryValue}>{formatPercent(average)}</div>
 							</div>
 							{isSenior() ? (
 								<div>
@@ -262,8 +262,8 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							type="button"
 							class={styles.editAtar}
 							aria-label="Edit ATAR settings"
-								onClick={() =>
-									openDrawer(() => (
+							onClick={() =>
+								openDrawer(() => (
 									<ATARSettingsDrawer
 										grades={grades()}
 										onSaved={(updated) => {
@@ -296,17 +296,13 @@ export default function GradesPage({ data }: { data: GradesData }) {
 										)
 									: null;
 								return (
-									<Drawer
-
-										swipeDirection="right"
-										snapPoints={SNAP_POINTS}
-									>
-						<DrawerTrigger
-							as={Button}
-							type="button"
-							class={styles.subjectButton}
-							aria-label={`Open ${subject.id} grades`}
-						>
+									<Drawer swipeDirection="right" snapPoints={SNAP_POINTS}>
+										<DrawerTrigger
+											as={Button}
+											type="button"
+											class={styles.subjectButton}
+											aria-label={`Open ${subject.id} grades`}
+										>
 											<ListRow>
 												<GradeGauge
 													value={subjectAverage}

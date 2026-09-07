@@ -3,7 +3,10 @@ import { splitProps, type ComponentProps } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./slider.module.css";
 
-type SliderProps = Omit<ComponentProps<typeof SliderPrimitive>, "value" | "defaultValue" | "onChange"> & {
+type SliderProps = Omit<
+	ComponentProps<typeof SliderPrimitive>,
+	"value" | "defaultValue" | "onChange"
+> & {
 	ariaLabel: string;
 	value?: number;
 	defaultValue?: number;
@@ -25,7 +28,9 @@ function Slider(props: SliderProps) {
 			{...rest}
 			class={cn(styles.root, local.class ?? local.className)}
 			value={local.value === undefined ? undefined : [local.value]}
-			defaultValue={local.defaultValue === undefined ? undefined : [local.defaultValue]}
+			defaultValue={
+				local.defaultValue === undefined ? undefined : [local.defaultValue]
+			}
 			onChange={(value) => local.onValueChange?.(value[0] ?? 0)}
 			aria-label={local.ariaLabel}
 		>

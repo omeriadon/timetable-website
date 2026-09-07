@@ -26,7 +26,10 @@ export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {
 				</p>
 			) : null}
 			{data() ? (
-				<WeekView subjects={data()!.timetable.subjects} friends={data()!.friends} />
+				<WeekView
+					subjects={data()!.timetable.subjects}
+					friends={data()!.friends}
+				/>
 			) : null}
 		</main>
 	);

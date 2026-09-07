@@ -25,9 +25,9 @@ export type BroadcastNotificationRecord = {
 };
 
 export default function AdminBroadcastHistoryEditor() {
-	const [records, setRecords] = createSignal<BroadcastNotificationRecord[] | null>(
-		null,
-	);
+	const [records, setRecords] = createSignal<
+		BroadcastNotificationRecord[] | null
+	>(null);
 	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
@@ -54,12 +54,11 @@ export default function AdminBroadcastHistoryEditor() {
 				{records()!.length ? (
 					records()!.map((record) => (
 						<Button
-
 							type="button"
 							class={styles.listButton}
 							onClick={() =>
-								openDrawer(
-									() => (<AdminBroadcastDetailDrawer
+								openDrawer(() => (
+									<AdminBroadcastDetailDrawer
 										record={record}
 										onChanged={(updated) =>
 											setRecords(
@@ -69,8 +68,8 @@ export default function AdminBroadcastHistoryEditor() {
 													) ?? current,
 											)
 										}
-									/>),
-								)
+									/>
+								))
 							}
 						>
 							<ListRow>

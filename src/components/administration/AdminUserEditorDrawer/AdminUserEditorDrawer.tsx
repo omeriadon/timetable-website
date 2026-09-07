@@ -176,10 +176,7 @@ export default function AdminUserEditorDrawer({
 				</label>
 			</section>
 			{user ? (
-				<section
-					class={styles.formCard}
-					aria-labelledby="account-data-title"
-				>
+				<section class={styles.formCard} aria-labelledby="account-data-title">
 					<h3 id="account-data-title">Account Data</h3>
 					{dataError() ? (
 						<p class={styles.detailMuted} role="alert">
@@ -204,14 +201,14 @@ export default function AdminUserEditorDrawer({
 						flexible
 						aria-label="Delete user"
 						onClick={() =>
-							openDrawer(
-								() => (<ConfirmationDrawer
+							openDrawer(() => (
+								<ConfirmationDrawer
 									title="Delete account"
 									message={`Delete ${user.displayName}'s account? This cannot be undone.`}
 									confirmLabel="Delete account"
 									onConfirm={remove}
-								/>),
-							)
+								/>
+							))
 						}
 						disabled={saving()}
 					>

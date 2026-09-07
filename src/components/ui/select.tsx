@@ -1,4 +1,7 @@
-import { Select as Primitive, type SelectRootProps } from "@kobalte/core/select";
+import {
+	Select as Primitive,
+	type SelectRootProps,
+} from "@kobalte/core/select";
 import {
 	createContext,
 	createSignal,
@@ -26,7 +29,8 @@ type SelectProps = Omit<
 	onValueChange?: (value: string | null) => void;
 	multiple?: false;
 	value?: SelectValue | Accessor<SelectValue>;
-	defaultValue?: Exclude<SelectValue, null> | Accessor<Exclude<SelectValue, null>>;
+	defaultValue?:
+		Exclude<SelectValue, null> | Accessor<Exclude<SelectValue, null>>;
 	children?: JSX.Element;
 	disabled?: boolean | Accessor<boolean>;
 };
@@ -40,13 +44,17 @@ export function Select(props: SelectProps) {
 		"disabled",
 	]);
 	const value = () => {
-		const current = typeof local.value === "function" ? local.value() : local.value;
-		return current === null || current === undefined ? current : String(current);
+		const current =
+			typeof local.value === "function" ? local.value() : local.value;
+		return current === null || current === undefined
+			? current
+			: String(current);
 	};
 	const defaultValue = () => {
-		const current = typeof local.defaultValue === "function"
-			? local.defaultValue()
-			: local.defaultValue;
+		const current =
+			typeof local.defaultValue === "function"
+				? local.defaultValue()
+				: local.defaultValue;
 		return current === undefined ? undefined : String(current);
 	};
 	const selectedValue = () =>
@@ -54,7 +62,16 @@ export function Select(props: SelectProps) {
 	const selectedDefaultValue = () =>
 		options().find((option) => option.value === defaultValue());
 	return (
-		<SelectOptionsContext.Provider value={{ register: (option) => setOptions((current) => current.some((item) => item.value === option.value) ? current : [...current, option]) }}>
+		<SelectOptionsContext.Provider
+			value={{
+				register: (option) =>
+					setOptions((current) =>
+						current.some((item) => item.value === option.value)
+							? current
+							: [...current, option],
+					),
+			}}
+		>
 			<Primitive<SelectOption>
 				{...rest}
 				options={options()}
@@ -62,7 +79,9 @@ export function Select(props: SelectProps) {
 				optionTextValue={(option) => String(option.value)}
 				itemComponent={(item) => (
 					<Primitive.Item item={item.item}>
-						<Primitive.ItemLabel>{item.item.rawValue.label}</Primitive.ItemLabel>
+						<Primitive.ItemLabel>
+							{item.item.rawValue.label}
+						</Primitive.ItemLabel>
 						<Primitive.ItemIndicator>
 							<CheckIcon class={styles.itemIndicatorIcon} />
 						</Primitive.ItemIndicator>
@@ -70,9 +89,15 @@ export function Select(props: SelectProps) {
 				)}
 				value={selectedValue()}
 				defaultValue={selectedDefaultValue()}
-				disabled={typeof props.disabled === "function" ? props.disabled() : props.disabled}
+				disabled={
+					typeof props.disabled === "function"
+						? props.disabled()
+						: props.disabled
+				}
 				onChange={(option) =>
-					local.onValueChange?.(Array.isArray(option) ? null : option?.value ?? null)
+					local.onValueChange?.(
+						Array.isArray(option) ? null : (option?.value ?? null),
+					)
 				}
 			>
 				{props.children}

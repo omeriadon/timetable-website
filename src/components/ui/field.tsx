@@ -16,11 +16,7 @@ function FieldSet({ className, ...props }: any) {
 	);
 }
 
-function FieldLegend({
-	className,
-	variant = "legend",
-	...props
-}: any) {
+function FieldLegend({ className, variant = "legend", ...props }: any) {
 	return (
 		<legend
 			data-slot="field-legend"
@@ -41,11 +37,7 @@ function FieldGroup({ className, ...props }: any) {
 	);
 }
 
-function Field({
-	className,
-	orientation = "vertical",
-	...props
-}: any) {
+function Field({ className, orientation = "vertical", ...props }: any) {
 	return (
 		<div
 			role="group"
@@ -67,10 +59,7 @@ function FieldContent({ className, ...props }: any) {
 	);
 }
 
-function FieldLabel({
-	className,
-	...props
-}: any) {
+function FieldLabel({ className, ...props }: any) {
 	return (
 		<Label
 			data-slot="field-label"
@@ -100,11 +89,7 @@ function FieldDescription({ className, ...props }: any) {
 	);
 }
 
-function FieldSeparator({
-	children,
-	className,
-	...props
-}: any) {
+function FieldSeparator({ children, className, ...props }: any) {
 	return (
 		<div
 			data-slot="field-separator"
@@ -126,12 +111,7 @@ function FieldSeparator({
 	);
 }
 
-function FieldError({
-	className,
-	children,
-	errors,
-	...props
-}: any) {
+function FieldError({ className, children, errors, ...props }: any) {
 	const hasChildren = () => Boolean(children);
 	const content = createMemo(() => {
 		if (hasChildren()) {
@@ -144,7 +124,12 @@ function FieldError({
 
 		const typedErrors = errors as Array<{ message?: string } | undefined>;
 		const uniqueErrors: Array<{ message?: string } | undefined> = [
-			...new Map(typedErrors.map((error: { message?: string } | undefined) => [error?.message, error])).values(),
+			...new Map(
+				typedErrors.map((error: { message?: string } | undefined) => [
+					error?.message,
+					error,
+				]),
+			).values(),
 		];
 
 		if (uniqueErrors.length === 1) {
@@ -154,8 +139,7 @@ function FieldError({
 		return (
 			<ul class={styles.errorList}>
 				{uniqueErrors.map(
-					(error) =>
-						error?.message && <li>{error.message}</li>,
+					(error) => error?.message && <li>{error.message}</li>,
 				)}
 			</ul>
 		);

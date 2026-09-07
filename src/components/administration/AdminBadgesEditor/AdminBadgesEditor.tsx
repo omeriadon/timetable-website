@@ -93,7 +93,9 @@ export default function AdminBadgesEditor() {
 
 	onMount(load);
 
-	const displayedBadges = createMemo(() => [...(badges() ?? [])].sort((left, right) => right.priority - left.priority));
+	const displayedBadges = createMemo(() =>
+		[...(badges() ?? [])].sort((left, right) => right.priority - left.priority),
+	);
 
 	const moveBadge = async (badgeID: string, direction: -1 | 1) => {
 		if (saving() || !badges()) return;
@@ -140,20 +142,18 @@ export default function AdminBadgesEditor() {
 	return (
 		<main class={styles.page}>
 			<div class={styles.adminToolbar}>
-				<p class={styles.detail}>
-					Built-in authority badges and custom badges
-				</p>
+				<p class={styles.detail}>Built-in authority badges and custom badges</p>
 
 				<Button
 					type="button"
 					onClick={() =>
-						openDrawer(
-							() => (<AdminSpecialBadgeDrawer
+						openDrawer(() => (
+							<AdminSpecialBadgeDrawer
 								badge={null}
 								users={users()}
 								onSaved={load}
-							/>),
-						)
+							/>
+						))
 					}
 				>
 					<Symbol name="plus" fallback="+" />
@@ -190,13 +190,13 @@ export default function AdminBadgesEditor() {
 								variant="ghost"
 								class={styles.listButton}
 								onClick={() =>
-									openDrawer(
-										() => (<AdminSpecialBadgeDrawer
+									openDrawer(() => (
+										<AdminSpecialBadgeDrawer
 											badge={badge}
 											users={users()}
 											onSaved={load}
-										/>),
-									)
+										/>
+									))
 								}
 								aria-label={`Edit ${badge.accessibilityLabel}`}
 							>
@@ -236,7 +236,9 @@ export default function AdminBadgesEditor() {
 										variant="ghost"
 										size="icon"
 										onClick={() => void moveBadge(badge.id, 1)}
-										disabled={saving() || index === displayedBadges().length - 1}
+										disabled={
+											saving() || index === displayedBadges().length - 1
+										}
 										aria-label={`Move ${badge.accessibilityLabel} down`}
 									>
 										<Symbol name="chevron.down" fallback="v" />

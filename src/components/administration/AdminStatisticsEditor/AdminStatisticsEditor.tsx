@@ -112,7 +112,10 @@ export default function AdminStatisticsEditor() {
 					["Calendar events", statistics()!.totalCalendarEvents],
 					["Global events", statistics()!.globalCalendarEvents],
 					["Personal events", statistics()!.personalCalendarEvents],
-					["Active tag subscriptions", statistics()!.activeEventTagSubscriptions],
+					[
+						"Active tag subscriptions",
+						statistics()!.activeEventTagSubscriptions,
+					],
 				]}
 			/>
 			<AdminStatisticsGroup

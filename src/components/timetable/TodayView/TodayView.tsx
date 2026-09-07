@@ -193,7 +193,6 @@ export default function TodayView({
 							);
 							return (
 								<div
-
 									class={cn(
 										styles.cardRow,
 										styles.subjectRow,

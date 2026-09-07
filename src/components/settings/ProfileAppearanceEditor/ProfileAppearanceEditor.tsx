@@ -54,12 +54,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			);
 			setPhoto(updated.photo);
 		} catch (requestError) {
-			openDrawer(
-				() => (<MessageDrawer
+			openDrawer(() => (
+				<MessageDrawer
 					title="Photo upload failed"
 					message={(requestError as Error).message}
-				/>),
-			);
+				/>
+			));
 		} finally {
 			setUploading(false);
 		}
@@ -72,12 +72,12 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			setPhoto(null);
 			update({ contentKind: "emoji" });
 		} catch (requestError) {
-			openDrawer(
-				() => (<MessageDrawer
+			openDrawer(() => (
+				<MessageDrawer
 					title="Photo removal failed"
 					message={(requestError as Error).message}
-				/>),
-			);
+				/>
+			));
 		} finally {
 			setRemovingPhoto(false);
 		}
@@ -102,10 +102,11 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 			<div class={styles.segmented} aria-label="Profile content">
 				{(["photo", "monogram", "emoji"] as const).map((kind) => (
 					<Button
-
 						type="button"
 						class={
-							draft().contentKind === kind ? styles.segmentActive : styles.segment
+							draft().contentKind === kind
+								? styles.segmentActive
+								: styles.segment
 						}
 						onClick={() => update({ contentKind: kind })}
 						aria-pressed={draft().contentKind === kind}
@@ -224,7 +225,8 @@ export default function ProfileAppearanceEditor({ profile, save }: Props) {
 					/>
 					<div class={styles.sliderList}>
 						<label>
-							Animation Speed <output>{(draft().speed ?? 0.2).toFixed(2)}</output>
+							Animation Speed{" "}
+							<output>{(draft().speed ?? 0.2).toFixed(2)}</output>
 							<Slider
 								ariaLabel="Animation Speed"
 								min={0}

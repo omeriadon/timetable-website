@@ -39,8 +39,12 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 		initial.incomingRequestCount,
 	);
 	const [searchText, setSearchText] = createSignal("");
-	const [draggedFriendID, setDraggedFriendID] = createSignal<string | null>(null);
-	const [dragOverFriendID, setDragOverFriendID] = createSignal<string | null>(null);
+	const [draggedFriendID, setDraggedFriendID] = createSignal<string | null>(
+		null,
+	);
+	const [dragOverFriendID, setDragOverFriendID] = createSignal<string | null>(
+		null,
+	);
 	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 	const now = useTimetableNow();
@@ -99,12 +103,12 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 						? `${incomingRequestCount} pending friend requests`
 						: "Friend requests, no pending requests",
 					icon: incomingRequestCount() ? "bell.badge" : "bell",
-				onPress: () => openDrawer(() => <FriendRequestsDrawer />),
+					onPress: () => openDrawer(() => <FriendRequestsDrawer />),
 				},
 				{
 					label: "Add friend",
 					icon: "plus",
-				onPress: () => openDrawer(() => <FriendSearchDrawer />),
+					onPress: () => openDrawer(() => <FriendSearchDrawer />),
 				},
 			],
 		});
@@ -129,9 +133,9 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					class={styles.selfCard}
 					aria-label="Open your arrival statistics"
 					onClick={() =>
-						openDrawer(
-							() => (<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />),
-						)
+						openDrawer(() => (
+							<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />
+						))
 					}
 				>
 					<ProfilePicture profile={account()} size={68} />
@@ -147,7 +151,6 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					filteredFriends().map((friend) => {
 						return (
 							<div
-
 								class={cn(
 									styles.friendRow,
 									draggedFriendID() === friend.friend.userID &&
@@ -187,7 +190,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 								<DrawerTrigger
 									class={styles.friendButton}
 									ariaLabel={`Open ${friend.friend.displayName}`}
-					content={() => <FriendDetailDrawer friend={friend} />}
+									content={() => <FriendDetailDrawer friend={friend} />}
 								>
 									<article class={styles.friend}>
 										<ProfilePicture
@@ -234,7 +237,9 @@ function PersonalArrivalDrawer({
 		averageArrivalSecondsSinceMidnight: number | null;
 		weekdayAverageArrivalSecondsSinceMidnight: Array<number | null>;
 	};
-	const [statistics, setStatistics] = createSignal<ArrivalStatistics | null>(null);
+	const [statistics, setStatistics] = createSignal<ArrivalStatistics | null>(
+		null,
+	);
 	const [error, setError] = createSignal<string | null>(null);
 	const [updatingLocation, setUpdatingLocation] = createSignal(false);
 	const router = useRouter();

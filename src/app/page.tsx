@@ -163,7 +163,8 @@ function Card({
 				<div
 					class={styles.cardScreenshotFrame}
 					style={{
-						"aspect-ratio": SCREENSHOT_VISIBLE_WIDTH / SCREENSHOT_VISIBLE_HEIGHT,
+						"aspect-ratio":
+							SCREENSHOT_VISIBLE_WIDTH / SCREENSHOT_VISIBLE_HEIGHT,
 					}}
 				>
 					<div class={styles.cardScreenshotBody}>
@@ -226,7 +227,9 @@ export default function LandingPage() {
 							onMouseLeave={() => setIsMenuOpen(false)}
 
 							style={{
-								"max-height": isMenuOpen() ? "264.2px" : "calc(1rem + 14px * 2)",
+								"max-height": isMenuOpen()
+									? "264.2px"
+									: "calc(1rem + 14px * 2)",
 								transition: "all 0.2s ease-in-out",
 							}}
 						>
@@ -342,7 +345,6 @@ export default function LandingPage() {
 									<div class={styles.circles}>
 										{[0, 1, 2, 3, 4].map((i) => (
 											<div
-
 												class={`${styles.circle} ${styles.gradientBorder}`}
 												style={{
 													opacity: i === 2 ? 0 : 1,
@@ -351,10 +353,7 @@ export default function LandingPage() {
 										))}
 									</div>
 
-									<div
-										class={styles.activeIndicator}
-										aria-hidden="true"
-									></div>
+									<div class={styles.activeIndicator} aria-hidden="true"></div>
 								</div>
 							</div>
 						</div>

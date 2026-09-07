@@ -30,7 +30,8 @@ export default function MobileTabBar() {
 	const isAdministrator =
 		account().authority.toLowerCase().includes("admin") ||
 		account().authority.toLowerCase().includes("owner");
-	const [incomingFriendRequestCount, setIncomingFriendRequestCount] = createSignal(0);
+	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
+		createSignal(0);
 
 	onMount(() => {
 		apiRequest<Friend[]>("v1/friends/requests")
@@ -49,8 +50,10 @@ export default function MobileTabBar() {
 			{tabs
 				.filter((tab) => tab.label !== "Admin" || isAdministrator)
 				.map((tab) => {
-						const active =
-							tab.href === "/" ? pathname() === "/" : pathname().startsWith(tab.href);
+					const active =
+						tab.href === "/"
+							? pathname() === "/"
+							: pathname().startsWith(tab.href);
 
 					return (
 						<Link

@@ -118,8 +118,8 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 	};
 
 	const confirmRemove = () => {
-		openDrawer(
-			() => (<ConfirmationDrawer
+		openDrawer(() => (
+			<ConfirmationDrawer
 				title={`Remove ${friend.friend.displayName}?`}
 				message="This removes the friend and their timetable from your account."
 				confirmLabel="Remove friend"
@@ -130,13 +130,13 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 					});
 					closeDrawer();
 				}}
-			/>),
-		);
+			/>
+		));
 	};
 
 	const confirmReport = () => {
-		openDrawer(
-			() => (<ConfirmationDrawer
+		openDrawer(() => (
+			<ConfirmationDrawer
 				title={`Report ${friend.friend.displayName}?`}
 				message="This sends a report for review. The friend remains visible in your account."
 				confirmLabel="Report friend"
@@ -147,8 +147,8 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						body: JSON.stringify({ reportedAccountID: friend.friend.userID }),
 					})
 				}
-			/>),
-		);
+			/>
+		));
 	};
 
 	return (
@@ -203,10 +203,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						<List>
 							{sharedClasses.length ? (
 								sharedClasses().map((sharedClass) => (
-									<ListRow
-
-										class={styles.detailSubject}
-									>
+									<ListRow class={styles.detailSubject}>
 										<Symbol
 											name={sharedClass.symbol}
 											class={styles.detailSubjectSymbolIcon}
@@ -249,9 +246,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 						<div class={styles.friendWeekGrid}>
 							<span aria-hidden="true" />
 							{TIMETABLE_DAYS.map((day) => (
-								<strong class={styles.friendWeekDay}>
-									{day}
-								</strong>
+								<strong class={styles.friendWeekDay}>{day}</strong>
 							))}
 							{TIMETABLE_SESSIONS.map((session) => (
 								<>
@@ -267,10 +262,7 @@ export default function FriendDetailDrawer({ friend }: { friend: Friend }) {
 											),
 										);
 										return (
-											<span
-
-												class={styles.friendWeekCell}
-											>
+											<span class={styles.friendWeekCell}>
 												{subject?.id ?? ""}
 											</span>
 										);

@@ -52,9 +52,7 @@ export default function ProfileFontPicker({
 					</SelectTrigger>
 					<SelectContent>
 						{designs.map((item) => (
-							<SelectItem value={item}>
-								{fontLabel(item)}
-							</SelectItem>
+							<SelectItem value={item}>{fontLabel(item)}</SelectItem>
 						))}
 					</SelectContent>
 				</Select>
@@ -74,9 +72,7 @@ export default function ProfileFontPicker({
 					</SelectTrigger>
 					<SelectContent>
 						{weights.map((item) => (
-							<SelectItem value={item}>
-								{fontLabel(item)}
-							</SelectItem>
+							<SelectItem value={item}>{fontLabel(item)}</SelectItem>
 						))}
 					</SelectContent>
 				</Select>

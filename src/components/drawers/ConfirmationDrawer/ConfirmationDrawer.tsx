@@ -53,7 +53,9 @@ export default function ConfirmationDrawer({
 				</div>
 			</header>
 			<Show when={error()}>
-				<p class={styles.detailMuted} role="alert">{error()}</p>
+				<p class={styles.detailMuted} role="alert">
+					{error()}
+				</p>
 			</Show>
 			<DrawerFooter class={styles.actionFooter}>
 				<DrawerClose variant="outline" flexible disabled={isWorking()}>

@@ -52,11 +52,12 @@ export default function AdminUserEditorSheet({
 	const [error, setError] = createSignal<string | null>(null);
 	const [deleteOpen, setDeleteOpen] = createSignal(false);
 
-	const canSave = createMemo(() =>
-		!saving() &&
-		displayName().trim().length > 0 &&
-		email().trim().length > 0 &&
-		(user !== undefined || password().length >= 8),
+	const canSave = createMemo(
+		() =>
+			!saving() &&
+			displayName().trim().length > 0 &&
+			email().trim().length > 0 &&
+			(user !== undefined || password().length >= 8),
 	);
 
 	const save = async () => {
@@ -234,7 +235,11 @@ export default function AdminUserEditorSheet({
 						</Button>
 					)}
 
-					<Button type="button" onClick={() => void save()} disabled={!canSave()}>
+					<Button
+						type="button"
+						onClick={() => void save()}
+						disabled={!canSave()}
+					>
 						<Symbol name="checkmark" fallback="✓" />
 						{saving() ? "Saving…" : user ? "Save" : "Create"}
 					</Button>

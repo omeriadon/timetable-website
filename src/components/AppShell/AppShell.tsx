@@ -36,9 +36,7 @@ function AppShellContent({
 }) {
 	return (
 		<div
-			class={`${styles.appShell} ${
-				isAboutPage() ? styles.aboutAppShell : ""
-			}`}
+			class={`${styles.appShell} ${isAboutPage() ? styles.aboutAppShell : ""}`}
 		>
 			{isAboutPage() ? (
 				<div class={styles.aboutBackground} aria-hidden="true">

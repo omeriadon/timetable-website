@@ -106,8 +106,8 @@ export default function AccountSyncEditor({
 	};
 
 	const confirmDeleteAccount = () => {
-		openDrawer(
-			() => (<ConfirmationDrawer
+		openDrawer(() => (
+			<ConfirmationDrawer
 				title="Delete account?"
 				message="This permanently deletes your account and server data."
 				confirmLabel="Delete account"
@@ -116,8 +116,8 @@ export default function AccountSyncEditor({
 					await apiRequest("v1/account", { method: "DELETE" });
 					onSignOut();
 				}}
-			/>),
-		);
+			/>
+		));
 	};
 
 	const save = async (changes: Partial<Settings>) => {
@@ -187,9 +187,7 @@ export default function AccountSyncEditor({
 							onChange={(event) => void saveYearGroup(event.target.value)}
 						>
 							{yearGroups().map((tag) => (
-								<option value={tag.id}>
-									{tag.displayName}
-								</option>
+								<option value={tag.id}>{tag.displayName}</option>
 							))}
 						</select>
 					</div>

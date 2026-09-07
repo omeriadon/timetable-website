@@ -16,12 +16,7 @@ export default function QuickSettingsDrawer() {
 		<nav class={styles.drawerLinkList} aria-label="Quick settings">
 			<List>
 				{links.map((link) => (
-					<Link
-
-						class={styles.drawerLink}
-						to={link.href}
-						onClick={closeDrawer}
-					>
+					<Link class={styles.drawerLink} to={link.href} onClick={closeDrawer}>
 						{link.label}
 					</Link>
 				))}

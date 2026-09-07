@@ -27,7 +27,10 @@ export default function FeedbackEditor() {
 		try {
 			await apiRequest("v1/report/feedback", {
 				method: "POST",
-				body: JSON.stringify({ category: category(), message: message().trim() }),
+				body: JSON.stringify({
+					category: category(),
+					message: message().trim(),
+				}),
 			});
 			setMessage("");
 			setStatus("Feedback sent.");

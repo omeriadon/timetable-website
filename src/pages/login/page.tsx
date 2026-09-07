@@ -138,11 +138,7 @@ export default function LoginPage() {
 							{error()}
 						</p>
 					) : null}
-					<Button
-						class={styles.submit}
-						type="submit"
-						disabled={isSubmitting()}
-					>
+					<Button class={styles.submit} type="submit" disabled={isSubmitting()}>
 						<Symbol
 							name={
 								isSubmitting()

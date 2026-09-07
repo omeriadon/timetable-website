@@ -48,10 +48,7 @@ export default function ProfilePicture({
 			appearance.emoji ? (
 				<span aria-hidden="true">{appearance.emoji}</span>
 			) : (
-				<Symbol
-					name="person.fill"
-					class={styles.profilePictureFallbackIcon}
-				/>
+				<Symbol name="person.fill" class={styles.profilePictureFallbackIcon} />
 			)
 		) : (
 			<span aria-hidden="true">{initials}</span>
@@ -59,7 +56,7 @@ export default function ProfilePicture({
 
 	return (
 		<span
-		class={styles.profilePicture}
+			class={styles.profilePicture}
 			aria-label={
 				label ?? `${profile?.displayName ?? "Profile"} profile picture`
 			}

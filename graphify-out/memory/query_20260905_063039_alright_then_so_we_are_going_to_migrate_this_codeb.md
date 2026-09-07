@@ -4,7 +4,13 @@ date: "2026-09-05T06:30:39.252015+00:00"
 question: "Alright then so we are going to migrate this codebase to use solid.js. this is for performance and optimisation etc. plan out the entirety of this, use graphify, and then once you finish, please tell me how graphify helped you work better, if it did, and yeah. use subagents as you want, atomic commits for everything, etc. the usual. go!"
 contributor: "graphify"
 outcome: "useful"
-source_nodes: ["components_drawers_drawer_drawer_usedrawer", "lib_api_client_apirequest", "components_controls_symbol_symbol_symbol", "components_toolbar_toolbar_usetoolbar"]
+source_nodes:
+  [
+    "components_drawers_drawer_drawer_usedrawer",
+    "lib_api_client_apirequest",
+    "components_controls_symbol_symbol_symbol",
+    "components_toolbar_toolbar_usetoolbar",
+  ]
 ---
 
 # Q: Alright then so we are going to migrate this codebase to use solid.js. this is for performance and optimisation etc. plan out the entirety of this, use graphify, and then once you finish, please tell me how graphify helped you work better, if it did, and yeah. use subagents as you want, atomic commits for everything, etc. the usual. go!

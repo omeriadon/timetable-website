@@ -153,7 +153,7 @@ export default function TestingPage() {
 											<p
 												class={className}
 
-											style={{ "font-size": `${size}px` }}
+												style={{ "font-size": `${size}px` }}
 											>
 												<span class={styles.fontSizeLabel}>{size}px</span>
 												The quick brown fox jumps over the lazy dog. 0123456789
@@ -318,26 +318,25 @@ export default function TestingPage() {
 							<ListSection>
 								<ListSectionHeader>Notifications</ListSectionHeader>
 								<Card role="group">
-								<ListRow>
-									<BellIcon />
-									<span>Timetable reminders</span>
-								</ListRow>
-								<ListRow>
-									<span>Friend activity</span>
-								</ListRow>
+									<ListRow>
+										<BellIcon />
+										<span>Timetable reminders</span>
+									</ListRow>
+									<ListRow>
+										<span>Friend activity</span>
+									</ListRow>
 								</Card>
 							</ListSection>
 
 							<ListSection>
 								<ListSectionHeader>Account</ListSectionHeader>
 								<Card role="group">
-
-								<ListRow>
-									<span>Profile visibility</span>
-								</ListRow>
-								<ListRow>
-									<span>Sign-in security</span>
-								</ListRow>
+									<ListRow>
+										<span>Profile visibility</span>
+									</ListRow>
+									<ListRow>
+										<span>Sign-in security</span>
+									</ListRow>
 								</Card>
 							</ListSection>
 						</List>

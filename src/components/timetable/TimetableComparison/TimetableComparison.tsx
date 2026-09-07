@@ -29,10 +29,7 @@ export default function TimetableComparison({
 	}
 
 	return (
-		<section
-			class={styles.comparison}
-			aria-label="Friend timetable comparison"
-		>
+		<section class={styles.comparison} aria-label="Friend timetable comparison">
 			{comparableFriends.map((friend) => {
 				const subject = subjectAtSlot(
 					friend.timetable?.subjects ?? [],

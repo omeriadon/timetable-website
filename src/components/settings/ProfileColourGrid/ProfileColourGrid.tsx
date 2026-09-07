@@ -28,7 +28,6 @@ export function ProfileColourGrid({
 				const selected = selection.some((item) => sameColour(item, colour));
 				return (
 					<Button
-
 						type="button"
 						onClick={() => {
 							if (selected) {
@@ -69,7 +68,6 @@ export function ProfileForegroundColourGrid({
 				const selected = sameColour(selection, colour);
 				return (
 					<Button
-
 						type="button"
 						onClick={() => onChange(colour)}
 						aria-label={`Foreground colour ${index + 1}`}

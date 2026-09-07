@@ -17,7 +17,9 @@ function Input(
 		"onInput",
 		"onChange",
 	]);
-	const handleInput = (event: InputEvent & { currentTarget: HTMLInputElement }) => {
+	const handleInput = (
+		event: InputEvent & { currentTarget: HTMLInputElement },
+	) => {
 		invokeHandler(local.onInput, event);
 		if (local.type !== "file") {
 			invokeHandler(local.onChange, event);
@@ -36,16 +38,13 @@ function Input(
 	);
 }
 
-function invokeHandler(
-	handler: unknown,
-	event: unknown,
-) {
+function invokeHandler(handler: unknown, event: unknown) {
 	if (!handler) return;
 	if (typeof handler === "function") {
 		handler(event);
 		return;
 	}
-	const bound = handler as [((data: unknown, event: unknown) => void), unknown];
+	const bound = handler as [(data: unknown, event: unknown) => void, unknown];
 	bound[0](bound[1], event);
 }
 

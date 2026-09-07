@@ -16,30 +16,31 @@ export default function ClassesPage({ data }: { data: ClassesData }) {
 		<main class={styles.page}>
 			{
 				<section class={styles.card}>
-					<For each={timetable.subjects}>{(subject) => (
-						<DrawerTrigger
-
-							class={styles.rowButton}
-							ariaLabel={`Open ${subject.id}`}
-							content={() => (
-								<SubjectDetailDrawer subject={subject} friends={friends} />
-							)}
-						>
-							<article class={styles.row}>
-								<span class={styles.symbol}>
-									<Symbol name={subject.symbol} class={styles.symbolIcon} />
-								</span>
-								<span>
-									<b class={styles.label}>{subject.id}</b>
-									<small>
-										{subject.slots.length} class
-										{subject.slots.length === 1 ? "" : "es"} each week
-									</small>
-								</span>
-								<Symbol name="chevron.right" class={styles.chevronIcon} />
-							</article>
-						</DrawerTrigger>
-					)}</For>
+					<For each={timetable.subjects}>
+						{(subject) => (
+							<DrawerTrigger
+								class={styles.rowButton}
+								ariaLabel={`Open ${subject.id}`}
+								content={() => (
+									<SubjectDetailDrawer subject={subject} friends={friends} />
+								)}
+							>
+								<article class={styles.row}>
+									<span class={styles.symbol}>
+										<Symbol name={subject.symbol} class={styles.symbolIcon} />
+									</span>
+									<span>
+										<b class={styles.label}>{subject.id}</b>
+										<small>
+											{subject.slots.length} class
+											{subject.slots.length === 1 ? "" : "es"} each week
+										</small>
+									</span>
+									<Symbol name="chevron.right" class={styles.chevronIcon} />
+								</article>
+							</DrawerTrigger>
+						)}
+					</For>
 				</section>
 			}
 		</main>

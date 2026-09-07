@@ -68,14 +68,14 @@ export default function CalendarImportDrawer({
 	const importCalendar = () => {
 		if (!events().length || saving()) return;
 		if (timetable?.subjects.length) {
-			openDrawer(
-				() => (<ConfirmationDrawer
+			openDrawer(() => (
+				<ConfirmationDrawer
 					title="Import timetable again"
 					message="This replaces your current timetable with the classes in the calendar file."
 					confirmLabel="Replace timetable"
 					onConfirm={() => performImport(true)}
-				/>),
-			);
+				/>
+			));
 			return;
 		}
 		void performImport();

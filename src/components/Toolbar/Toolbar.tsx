@@ -36,7 +36,8 @@ export function ToolbarProvider(props: { children: JSX.Element }) {
 
 export function useToolbar() {
 	const context = useContext(ToolbarContext);
-	if (!context) throw new Error("useToolbar must be used inside ToolbarProvider");
+	if (!context)
+		throw new Error("useToolbar must be used inside ToolbarProvider");
 	return context.setConfig;
 }
 
@@ -52,13 +53,19 @@ export default function Toolbar() {
 					<Input
 						value={config().searchValue ?? ""}
 						placeholder={config().searchPlaceholder}
-						onInput={(event) => config().onSearchChange?.(event.currentTarget.value)}
+						onInput={(event) =>
+							config().onSearchChange?.(event.currentTarget.value)
+						}
 					/>
 				</label>
 			) : null}
 			<For each={config().actions ?? []}>
 				{(action) => (
-					<Button type="button" aria-label={action.label} onClick={action.onPress}>
+					<Button
+						type="button"
+						aria-label={action.label}
+						onClick={action.onPress}
+					>
 						<Symbol name={action.icon} />
 					</Button>
 				)}

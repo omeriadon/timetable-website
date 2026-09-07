@@ -28,7 +28,10 @@ export default function ArchivedEventsEditor() {
 			today.getMonth(),
 			today.getDate(),
 		);
-		return [...(events()?.globalEvents ?? []), ...(events()?.privateEvents ?? [])]
+		return [
+			...(events()?.globalEvents ?? []),
+			...(events()?.privateEvents ?? []),
+		]
 			.filter((event) => eventDate(event) < todayStart)
 			.sort(
 				(left, right) => eventDate(right).getTime() - eventDate(left).getTime(),
@@ -67,18 +70,19 @@ export default function ArchivedEventsEditor() {
 				{archived().length ? (
 					archived().map((event) => (
 						<Button
-
 							type="button"
 							class={styles.listButton}
 							onClick={() =>
-								openDrawer(
-									() => (<CalendarEventDrawer
+								openDrawer(() => (
+									<CalendarEventDrawer
 										event={event}
 										onChanged={(updated) => update(updated, event.id)}
-										readOnly={event.isGlobal && !events()?.canManageGlobalEvents}
+										readOnly={
+											event.isGlobal && !events()?.canManageGlobalEvents
+										}
 										allowsTagEditing={false}
-									/>),
-								)
+									/>
+								))
 							}
 						>
 							<ListRow>

@@ -98,7 +98,6 @@ function DrawerLayer({
 
 	return (
 		<Drawer
-
 			open={entry.open}
 			onOpenChange={(open) => {
 				if (!open) {

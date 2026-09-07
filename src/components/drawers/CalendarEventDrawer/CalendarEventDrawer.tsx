@@ -167,10 +167,7 @@ export default function CalendarEventDrawer({
 					/>
 				</label>
 				{event.isGlobal ? (
-					<section
-						class={styles.formCard}
-						aria-labelledby="event-tags-title"
-					>
+					<section class={styles.formCard} aria-labelledby="event-tags-title">
 						<h3 id="event-tags-title">Tags</h3>
 						{tagSections().length ? (
 							tagSections()
@@ -179,7 +176,6 @@ export default function CalendarEventDrawer({
 									const selected = selectedTagIDs().includes(tag.id);
 									return (
 										<Button
-
 											type="button"
 											aria-pressed={selected}
 											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}

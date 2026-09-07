@@ -4,11 +4,7 @@ import { cn } from "@/lib/utils";
 
 import styles from "./separator.module.css";
 
-function Separator({
-	className,
-	orientation = "horizontal",
-	...props
-}: any) {
+function Separator({ className, orientation = "horizontal", ...props }: any) {
 	return (
 		<SeparatorPrimitive
 			data-slot="separator"

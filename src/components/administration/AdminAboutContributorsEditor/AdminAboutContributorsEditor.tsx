@@ -174,10 +174,7 @@ export default function AdminAboutContributorsEditor() {
 					))}
 				</List>
 			</section>
-			<section
-				class={styles.card}
-				aria-labelledby="contributor-editor-heading"
-			>
+			<section class={styles.card} aria-labelledby="contributor-editor-heading">
 				<h2 id="contributor-editor-heading">
 					{editingID() ? "Edit contributor" : "Add contributor"}
 				</h2>

@@ -16,7 +16,9 @@ export default function ThemeSettingsSync() {
 		const handleUpdate = (event: Event) =>
 			apply((event as CustomEvent<ThemeSettings>).detail);
 		window.addEventListener("timetable:theme", handleUpdate);
-		onCleanup(() => window.removeEventListener("timetable:theme", handleUpdate));
+		onCleanup(() =>
+			window.removeEventListener("timetable:theme", handleUpdate),
+		);
 	});
 	return null;
 }

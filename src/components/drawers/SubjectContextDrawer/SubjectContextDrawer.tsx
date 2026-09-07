@@ -35,10 +35,7 @@ export default function SubjectContextDrawer({
 				</div>
 				{!day && subject.slots.length
 					? subject.slots.map((slot) => (
-							<div
-
-								class={styles.detailRow}
-							>
+							<div class={styles.detailRow}>
 								<span class={styles.detailRowLabel}>
 									<Symbol name="calendar" />
 									{dayName(slot.day)}

@@ -66,14 +66,14 @@ export default function AdminUserReportsEditor() {
 		action: "noAction" | "accountDeleted",
 	) => {
 		if (action === "accountDeleted") {
-			openDrawer(
-				() => (<ConfirmationDrawer
+			openDrawer(() => (
+				<ConfirmationDrawer
 					title="Delete reported account"
 					message={`Delete ${report.reportedUserDisplayName ?? "this account"}? This cannot be undone.`}
 					confirmLabel="Delete account"
 					onConfirm={() => resolve(report, action)}
-				/>),
-			);
+				/>
+			));
 			return;
 		}
 		void resolve(report, action);
@@ -101,9 +101,7 @@ export default function AdminUserReportsEditor() {
 							<strong>
 								{report.reportedUserDisplayName ?? report.reportedUserID}
 							</strong>
-							<span class={styles.detail}>
-								{statusLabel(report.action)}
-							</span>
+							<span class={styles.detail}>{statusLabel(report.action)}</span>
 						</div>
 						<div class={adminStyles.reportMeta}>
 							Reported by {report.reporterDisplayName ?? report.reporterID}

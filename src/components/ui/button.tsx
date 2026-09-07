@@ -4,22 +4,10 @@ import { cn } from "@/lib/utils";
 import styles from "./button.module.css";
 
 type ButtonVariant =
-	| "default"
-	| "outline"
-	| "secondary"
-	| "ghost"
-	| "destructive"
-	| "link";
+	"default" | "outline" | "secondary" | "ghost" | "destructive" | "link";
 
 type ButtonSize =
-	| "default"
-	| "xs"
-	| "sm"
-	| "lg"
-	| "icon"
-	| "icon-xs"
-	| "icon-sm"
-	| "icon-lg";
+	"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
 
 type ButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	className?: string;

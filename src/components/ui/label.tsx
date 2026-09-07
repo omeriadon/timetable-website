@@ -2,7 +2,9 @@ import type { JSX } from "solid-js";
 import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
 
-function Label(props: JSX.LabelHTMLAttributes<HTMLLabelElement> & { className?: string }) {
+function Label(
+	props: JSX.LabelHTMLAttributes<HTMLLabelElement> & { className?: string },
+) {
 	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
 		<label

@@ -232,7 +232,9 @@ export default function AdminSpecialBadgeDrawer({
 					flexible
 					aria-label={badge ? "Save badge" : "Create badge"}
 					onClick={() => void save()}
-					disabled={saving() || !symbol().trim() || !accessibilityLabel().trim()}
+					disabled={
+						saving() || !symbol().trim() || !accessibilityLabel().trim()
+					}
 				>
 					{saving() ? "Saving…" : badge ? "Save" : "Create"}
 				</Button>

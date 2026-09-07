@@ -95,14 +95,14 @@ export default function NotificationSettingsEditor({
 		title: string,
 		description: string,
 	) => {
-		openDrawer(
-			() => (<NotificationLeadTimesDrawer
+		openDrawer(() => (
+			<NotificationLeadTimesDrawer
 				title={title}
 				description={description}
 				selection={draft()[key]}
 				onSave={async (selection) => updateNotifications({ [key]: selection })}
-			/>),
-		);
+			/>
+		));
 	};
 	const addSchedule = (schedule: EventNotificationSchedule) => {
 		if (
@@ -247,45 +247,42 @@ export default function NotificationSettingsEditor({
 						</span>
 					</ListSectionHeader>
 					<Card role="group">
-					{draft().eventNotificationSchedules
-						.slice()
-						.sort(
-							(left, right) =>
-								left.dayOffset - right.dayOffset ||
-								left.hour - right.hour ||
-								left.minute - right.minute,
-						)
-						.map((schedule) => (
-							<ListRow
-
-								class={styles.scheduleRow}
-							>
-								<span>{formatTime(schedule)}</span>
-								<small>{formatOffset(schedule.dayOffset)}</small>
-								<Button
-									type="button"
-									onClick={() => removeSchedule(schedule)}
-									disabled={saving()}
-									aria-label={`Remove ${formatTime(schedule)} event notification`}
-								>
-									<Symbol name="minus" />
-								</Button>
-							</ListRow>
-						))}
-					<Button
-						type="button"
-						class={styles.listButton}
-						onClick={() =>
-							openDrawer(
-								() => (<EventNotificationScheduleDrawer onSave={addSchedule} />),
+						{draft()
+							.eventNotificationSchedules.slice()
+							.sort(
+								(left, right) =>
+									left.dayOffset - right.dayOffset ||
+									left.hour - right.hour ||
+									left.minute - right.minute,
 							)
-						}
-					>
-						<ListRow>
-							<Symbol name="plus" />
-							<span class={styles.label}>Add Event Notification</span>
-						</ListRow>
-					</Button>
+							.map((schedule) => (
+								<ListRow class={styles.scheduleRow}>
+									<span>{formatTime(schedule)}</span>
+									<small>{formatOffset(schedule.dayOffset)}</small>
+									<Button
+										type="button"
+										onClick={() => removeSchedule(schedule)}
+										disabled={saving()}
+										aria-label={`Remove ${formatTime(schedule)} event notification`}
+									>
+										<Symbol name="minus" />
+									</Button>
+								</ListRow>
+							))}
+						<Button
+							type="button"
+							class={styles.listButton}
+							onClick={() =>
+								openDrawer(() => (
+									<EventNotificationScheduleDrawer onSave={addSchedule} />
+								))
+							}
+						>
+							<ListRow>
+								<Symbol name="plus" />
+								<span class={styles.label}>Add Event Notification</span>
+							</ListRow>
+						</Button>
 					</Card>
 				</ListSection>
 			</List>

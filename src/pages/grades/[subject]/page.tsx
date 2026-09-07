@@ -33,29 +33,36 @@ export default function GradeSubjectPage({
 
 	const initial = data;
 	const [tracker, setTracker] = createSignal<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
+		initial.timetable,
+	);
 	const [saving, setSaving] = createSignal(false);
 	const [error, setError] = createSignal<string | null>(null);
 
 	onMount(() => setToolbar({ title: subjectID }));
 
-	const assessments = createMemo(() => tracker()?.document.assessments.filter((item) => item.subjectID === subjectID) ?? []);
+	const assessments = createMemo(
+		() =>
+			tracker()?.document.assessments.filter(
+				(item) => item.subjectID === subjectID,
+			) ?? [],
+	);
 	const timetableSubject = timetable()?.subjects.find(
 		(item) => item.id === subjectID,
 	);
 	const subjects = timetable()?.subjects ?? [];
 
 	const createAssessment = (semester: number) => {
-		openDrawer(
-			() => (<GradeAssessmentDrawer
+		openDrawer(() => (
+			<GradeAssessmentDrawer
 				subject={timetableSubject}
 				subjects={subjects}
 				subjectID={subjectID}
 				semester={semester}
 				onSave={saveAssessment}
 				onDelete={deleteAssessment}
-			/>),
-		);
+			/>
+		));
 	};
 
 	const saveAssessment = async (assessment: GradeAssessment) => {
@@ -146,11 +153,10 @@ export default function GradeSubjectPage({
 							{semesterAssessments.length ? (
 								semesterAssessments.map((assessment) => (
 									<DrawerTrigger
-
 										class={styles.rowButton}
 										ariaLabel={`Edit ${assessment.name}`}
-						content={() => (
-							<GradeAssessmentDrawer
+										content={() => (
+											<GradeAssessmentDrawer
 												subject={timetableSubject}
 												subjects={subjects}
 												assessment={assessment}
@@ -158,8 +164,8 @@ export default function GradeSubjectPage({
 												semester={semester}
 												onSave={saveAssessment}
 												onDelete={deleteAssessment}
-							/>
-						)}
+											/>
+										)}
 									>
 										<article class={styles.row}>
 											<Symbol

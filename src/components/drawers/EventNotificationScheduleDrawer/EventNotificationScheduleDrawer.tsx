@@ -36,12 +36,11 @@ export default function EventNotificationScheduleDrawer({
 	const { closeDrawer } = useDrawer();
 	const [timeMinutes, setTimeMinutes] = createSignal(8 * 60);
 	const [dayOffset, setDayOffset] = createSignal(0);
-	const times = createMemo(
-		() =>
-			Array.from(
-				{ length: ((22 - 5) * 60) / 15 + 1 },
-				(_, index) => 5 * 60 + index * 15,
-			),
+	const times = createMemo(() =>
+		Array.from(
+			{ length: ((22 - 5) * 60) / 15 + 1 },
+			(_, index) => 5 * 60 + index * 15,
+		),
 	);
 
 	const add = () => {
@@ -73,7 +72,9 @@ export default function EventNotificationScheduleDrawer({
 						}}
 					>
 						{offsets.map((offset) => (
-							<SelectItem value={String(offset.value)}>{offset.label}</SelectItem>
+							<SelectItem value={String(offset.value)}>
+								{offset.label}
+							</SelectItem>
 						))}
 					</Select>
 				</label>
@@ -88,7 +89,9 @@ export default function EventNotificationScheduleDrawer({
 						}}
 					>
 						{times().map((minutes) => (
-							<SelectItem value={String(minutes)}>{formatTime(minutes)}</SelectItem>
+							<SelectItem value={String(minutes)}>
+								{formatTime(minutes)}
+							</SelectItem>
 						))}
 					</Select>
 				</label>

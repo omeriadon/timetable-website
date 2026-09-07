@@ -3,7 +3,10 @@ import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./Symbol.module.css";
 
-export type SymbolProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> & {
+export type SymbolProps = Omit<
+	JSX.HTMLAttributes<HTMLSpanElement>,
+	"children"
+> & {
 	name?: string;
 	src?: string;
 	fallback?: JSX.Element;

@@ -1,8 +1,4 @@
-import {
-	createRootRoute,
-	HeadContent,
-	Scripts,
-} from "@tanstack/solid-router";
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/solid-router";
 import { HydrationScript, Suspense } from "solid-js/web";
 import "../styles/globals.css";
 
@@ -38,9 +34,7 @@ function RootDocument(props: { children: any }) {
 			</head>
 			<body>
 				<HeadContent />
-				<Suspense>
-					{props.children}
-				</Suspense>
+				<Suspense>{props.children}</Suspense>
 				<Scripts />
 			</body>
 		</html>

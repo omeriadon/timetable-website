@@ -78,7 +78,12 @@ export default function BroadcastNotificationEditor() {
 				</p>
 			)}
 			<DrawerFooter>
-				<Button fullWidth type="button" onClick={send} disabled={!title().trim()}>
+				<Button
+					fullWidth
+					type="button"
+					onClick={send}
+					disabled={!title().trim()}
+				>
 					<Symbol name="megaphone" />
 					Broadcast notification
 				</Button>

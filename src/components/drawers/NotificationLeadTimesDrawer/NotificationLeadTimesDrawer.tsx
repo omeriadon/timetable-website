@@ -58,16 +58,13 @@ export default function NotificationLeadTimesDrawer({
 		<div class={styles.detailDrawer}>
 			<header>
 				<h2>{title}</h2>
-				{description ? (
-					<p class={styles.detailMuted}>{description}</p>
-				) : null}
+				{description ? <p class={styles.detailMuted}>{description}</p> : null}
 			</header>
 			<List>
 				{leadTimes.map((value) => {
 					const selected = draft().has(value);
 					return (
 						<Button
-
 							type="button"
 							class={
 								selected ? styles.leadTimeOptionActive : styles.leadTimeOption

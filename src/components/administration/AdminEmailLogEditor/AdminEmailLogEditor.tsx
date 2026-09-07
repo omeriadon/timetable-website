@@ -37,9 +37,7 @@ export default function AdminEmailLogEditor() {
 				<p class={styles.loading}>Loading email log…</p>
 			) : null}
 			{entries()?.length === 0 ? (
-				<p class={styles.emptyRow}>
-					No email deliveries have been recorded.
-				</p>
+				<p class={styles.emptyRow}>No email deliveries have been recorded.</p>
 			) : null}
 			{entries()?.length ? (
 				<List>

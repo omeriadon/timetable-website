@@ -50,7 +50,6 @@ export default function WeekView({
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
-
 							class={
 								currentDayIndex === dayIndex
 									? styles.currentDayHeader

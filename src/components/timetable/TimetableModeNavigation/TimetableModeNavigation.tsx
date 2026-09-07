@@ -22,7 +22,6 @@ export default function TimetableModeNavigation() {
 		<nav class={styles.modePicker} aria-label="Timetable section">
 			{modes.map((mode) => (
 				<Link
-
 					to={mode.href}
 					class={pathname() === mode.href ? styles.activeMode : undefined}
 					aria-current={pathname() === mode.href ? "page" : undefined}

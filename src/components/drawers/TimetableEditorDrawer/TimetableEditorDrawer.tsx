@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DrawerFooter } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
 import { Input } from "@/components/ui/input";
-import { createSignal } from "solid-js"
+import { createSignal } from "solid-js";
 import type {
 	OwnerTimetable,
 	TimetableSlot,
@@ -119,16 +119,16 @@ export default function TimetableEditorDrawer({
 			return;
 		}
 
-		openDrawer(
-			() => (<ConfirmationDrawer
+		openDrawer(() => (
+			<ConfirmationDrawer
 				title="Slot conflict"
 				message={`${conflict.id} already uses ${slotLabel(slot)}. Move this slot to ${subjectID}?`}
 				confirmLabel="Move slot"
 				icon="arrow.triangle.2.circlepath"
 				tone="prominent"
 				onConfirm={() => assignSlot(subjectID, slot)}
-			/>),
-		);
+			/>
+		));
 	};
 
 	const save = async () => {
@@ -234,7 +234,6 @@ export default function TimetableEditorDrawer({
 										);
 										return (
 											<Button
-
 												type="button"
 												class={active ? styles.slotActive : styles.slot}
 												onClick={() =>

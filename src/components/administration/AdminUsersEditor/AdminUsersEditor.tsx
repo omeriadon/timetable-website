@@ -41,8 +41,8 @@ export default function AdminUsersEditor() {
 	});
 
 	const edit = (user?: AdministrationUser) =>
-		openDrawer(
-			() => (<AdminUserEditorDrawer
+		openDrawer(() => (
+			<AdminUserEditorDrawer
 				user={user}
 				isSystemOwner={isSystemOwner()}
 				onSaved={(saved) =>
@@ -56,8 +56,8 @@ export default function AdminUsersEditor() {
 				onDeleted={(id) =>
 					setUsers((current) => current.filter((item) => item.id !== id))
 				}
-			/>),
-		);
+			/>
+		));
 
 	return (
 		<main class={styles.page}>
@@ -88,7 +88,6 @@ export default function AdminUsersEditor() {
 			<List rowHover>
 				{filtered().map((user) => (
 					<Button
-
 						type="button"
 						class={styles.listButton}
 						onClick={() => edit(user)}

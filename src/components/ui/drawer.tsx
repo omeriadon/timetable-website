@@ -1,4 +1,10 @@
-import { createContext, createSignal, splitProps, useContext, type JSX } from "solid-js";
+import {
+	createContext,
+	createSignal,
+	splitProps,
+	useContext,
+	type JSX,
+} from "solid-js";
 import { Portal } from "solid-js/web";
 import CorvuDrawer from "@corvu/drawer";
 import type { Size } from "@corvu/drawer";

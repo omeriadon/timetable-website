@@ -65,26 +65,26 @@ export default function AdminEventTagsEditor() {
 		tag: AdminEventTag | null,
 		section: AdminEventTagSection,
 	) => {
-		openDrawer(
-			() => (<AdminEventTagDrawer
+		openDrawer(() => (
+			<AdminEventTagDrawer
 				tag={tag}
 				section={section}
 				onSaved={() => void load()}
-			/>),
-		);
+			/>
+		));
 	};
 
 	const editSection = (section: AdminEventTagSection) => {
-		openDrawer(
-			() => (<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />),
-		);
+		openDrawer(() => (
+			<AdminEventTagSectionDrawer section={section} onSaved={setCatalogue} />
+		));
 	};
 
 	const moveTag = async (tagID: string, offset: -1 | 1) => {
 		if (!catalogue() || saving()) return;
 
-		const tags = catalogue()!.sections
-			.flatMap((section) => section.tags)
+		const tags = catalogue()!
+			.sections.flatMap((section) => section.tags)
 			.toSorted((left, right) => left.sortOrder - right.sortOrder);
 
 		const currentIndex = tags.findIndex((tag) => tag.id === tagID);

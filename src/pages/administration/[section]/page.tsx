@@ -193,7 +193,6 @@ export default function AdministrationSectionPage({
 				<section class={styles.card}>
 					{records().map((record, index) => (
 						<AdminRecord
-
 							record={record}
 							humanize={humanize}
 							formatValue={formatValue}

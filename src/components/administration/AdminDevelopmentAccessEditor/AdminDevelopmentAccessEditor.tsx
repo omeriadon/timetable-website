@@ -35,12 +35,12 @@ export default function AdminDevelopmentAccessEditor() {
 						type="button"
 						class={styles.listButton}
 						onClick={() =>
-							openDrawer(
-								() => (<AdminDevelopmentAccessChangeDrawer
+							openDrawer(() => (
+								<AdminDevelopmentAccessChangeDrawer
 									enabled={enabled()!}
 									onSaved={setEnabled}
-								/>),
-							)
+								/>
+							))
 						}
 					>
 						<ListRow>

@@ -37,7 +37,9 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	const [settings, setSettings] = createSignal<Settings>(
 		initial.settings as Settings,
 	);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(initial.timetable);
+	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
+		initial.timetable,
+	);
 	const [error, setError] = createSignal<string | null>(null);
 	const [saving, setSaving] = createSignal(false);
 	const { openDrawer } = useDrawer();
@@ -45,7 +47,11 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	onMount(() => setToolbar({ title: "Settings" }));
 
 	const updateFutureEventRange = async (futureEventRange: string) => {
-		if (!settings() || saving() || settings().futureEventRange === futureEventRange) {
+		if (
+			!settings() ||
+			saving() ||
+			settings().futureEventRange === futureEventRange
+		) {
 			return;
 		}
 		await saveSettings(settings(), { ...settings(), futureEventRange });
@@ -145,12 +151,12 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 					type="button"
 					class={styles.listButton}
 					onClick={() =>
-						openDrawer(
-							() => (<CalendarImportDrawer
+						openDrawer(() => (
+							<CalendarImportDrawer
 								timetable={timetable()}
 								onImported={setTimetable}
-							/>),
-						)
+							/>
+						))
 					}
 				>
 					<ListRow>

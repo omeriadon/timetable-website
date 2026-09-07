@@ -17,9 +17,9 @@
 		"types": ["bun-types"],
 		"incremental": false,
 		"paths": {
-			"@/*": ["./src/*"],
-		},
+			"@/*": ["./src/*"]
+		}
 	},
 	"include": ["**/*.ts", "**/*.tsx", ".output/**/*.ts"],
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules"]
 }

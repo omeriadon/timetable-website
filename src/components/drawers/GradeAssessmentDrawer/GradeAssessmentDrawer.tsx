@@ -115,7 +115,9 @@ export default function GradeAssessmentDrawer({
 						}}
 					>
 						{locationOptions.map((option) => (
-							<SelectItem value={option}>{locationLabel(option, subjectID)}</SelectItem>
+							<SelectItem value={option}>
+								{locationLabel(option, subjectID)}
+							</SelectItem>
 						))}
 					</Select>
 				</label>

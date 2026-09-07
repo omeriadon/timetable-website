@@ -341,7 +341,7 @@ void main() {
 			class={`gradient-blinds-container ${className}`}
 			style={{
 				...(mixBlendMode && {
-						"mix-blend-mode": mixBlendMode,
+					"mix-blend-mode": mixBlendMode,
 				}),
 			}}
 		/>

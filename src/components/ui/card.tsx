@@ -15,9 +15,19 @@ function part(className: string, props: DivProps) {
 }
 
 function Card(props: DivProps & { size?: "default" | "sm" }) {
-	const [local, rest] = splitProps(props, ["class", "className", "children", "size"]);
+	const [local, rest] = splitProps(props, [
+		"class",
+		"className",
+		"children",
+		"size",
+	]);
 	return (
-		<div {...rest} data-slot="card" data-size={local.size ?? "default"} class={cn(styles.card, local.class ?? local.className)}>
+		<div
+			{...rest}
+			data-slot="card"
+			data-size={local.size ?? "default"}
+			class={cn(styles.card, local.class ?? local.className)}
+		>
 			{local.children}
 		</div>
 	);
@@ -30,4 +40,12 @@ const CardAction = (props: DivProps) => part(styles.action, props);
 const CardContent = (props: DivProps) => part(styles.content, props);
 const CardFooter = (props: DivProps) => part(styles.footer, props);
 
-export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter };
+export {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+	CardAction,
+	CardContent,
+	CardFooter,
+};

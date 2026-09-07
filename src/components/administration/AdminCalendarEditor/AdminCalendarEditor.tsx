@@ -44,19 +44,18 @@ export default function AdminCalendarEditor({
 			<List rowHover>
 				{entries()?.map((entry) => (
 					<Button
-
 						type="button"
 						class={styles.listButton}
 						onClick={() =>
-							openDrawer(
-								() => (<AdminCalendarEntryDrawer
+							openDrawer(() => (
+								<AdminCalendarEntryDrawer
 									entry={entry}
 									kind={kind}
 									onSaved={() => {
 										void load();
 									}}
-								/>),
-							)
+								/>
+							))
 						}
 					>
 						<ListRow>
@@ -76,15 +75,15 @@ export default function AdminCalendarEditor({
 					type="button"
 					class={styles.listButton}
 					onClick={() =>
-						openDrawer(
-							() => (<AdminCalendarEntryDrawer
+						openDrawer(() => (
+							<AdminCalendarEntryDrawer
 								entry={null}
 								kind={kind}
 								onSaved={() => {
 									void load();
 								}}
-							/>),
-						)
+							/>
+						))
 					}
 				>
 					<ListRow>

@@ -119,22 +119,21 @@ export default function AdministrationPage({
 										? ` (${dashboard()!.pendingModerationCount})`
 										: ""}
 								</ListSectionHeader>
-				<Card role="group">
-				{(rows as string[][]).map(([symbol, label, destination]) => (
-									<DrawerTrigger
-
-										class={styles.rowButton}
-										ariaLabel={`Open ${label}`}
-									content={() => administrationDrawerContent(destination)}
-									>
-										<ListRow>
-											<Symbol name={symbol} />
-											<span class={styles.label}>{label}</span>
-											<Symbol name="chevron.right" />
-										</ListRow>
-								</DrawerTrigger>
-							))}
-				</Card>
+								<Card role="group">
+									{(rows as string[][]).map(([symbol, label, destination]) => (
+										<DrawerTrigger
+											class={styles.rowButton}
+											ariaLabel={`Open ${label}`}
+											content={() => administrationDrawerContent(destination)}
+										>
+											<ListRow>
+												<Symbol name={symbol} />
+												<span class={styles.label}>{label}</span>
+												<Symbol name="chevron.right" />
+											</ListRow>
+										</DrawerTrigger>
+									))}
+								</Card>
 							</ListSection>
 						))}
 				</List>

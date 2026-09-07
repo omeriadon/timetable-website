@@ -21,7 +21,6 @@ export default function WeekTimetable({
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
-
 							class={
 								currentDayIndex === dayIndex
 									? weekStyles.currentDayHeader
@@ -49,7 +48,6 @@ export default function WeekTimetable({
 										: undefined;
 								return subject ? (
 									<article
-
 										class={`${weekStyles.lesson} ${currentDayClass ?? ""}`}
 									>
 										<Symbol

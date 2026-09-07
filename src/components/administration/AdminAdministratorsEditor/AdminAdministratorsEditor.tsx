@@ -63,18 +63,17 @@ export default function AdminAdministratorsEditor() {
 					const isAdministrator = user.authority === "administrator";
 					return (
 						<Button
-
 							type="button"
 							class={styles.listButton}
 							disabled={isSystemOwner}
 							onClick={() =>
-								openDrawer(
-									() => (<AdminAuthorityChangeDrawer
+								openDrawer(() => (
+									<AdminAuthorityChangeDrawer
 										user={user}
 										makeAdministrator={!isAdministrator}
 										onSaved={saveUser}
-									/>),
-								)
+									/>
+								))
 							}
 						>
 							<ListRow class={adminStyles.userRow}>

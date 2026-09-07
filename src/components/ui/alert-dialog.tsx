@@ -21,12 +21,9 @@ function AlertDialogPortal(props: any) {
 	);
 }
 
-function AlertDialogOverlay({
-	className,
-	...props
-}: any) {
+function AlertDialogOverlay({ className, ...props }: any) {
 	return (
-			<AlertDialogPrimitive.Overlay
+		<AlertDialogPrimitive.Overlay
 			data-slot="alert-dialog-overlay"
 			class={cn(styles.overlay, className)}
 			{...props}
@@ -34,11 +31,7 @@ function AlertDialogOverlay({
 	);
 }
 
-function AlertDialogContent({
-	className,
-	size = "default",
-	...props
-}: any) {
+function AlertDialogContent({ className, size = "default", ...props }: any) {
 	return (
 		<AlertDialogPortal>
 			<AlertDialogOverlay />
@@ -52,10 +45,7 @@ function AlertDialogContent({
 	);
 }
 
-function AlertDialogHeader({
-	className,
-	...props
-}: any) {
+function AlertDialogHeader({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-header"
@@ -65,10 +55,7 @@ function AlertDialogHeader({
 	);
 }
 
-function AlertDialogFooter({
-	className,
-	...props
-}: any) {
+function AlertDialogFooter({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-footer"
@@ -78,10 +65,7 @@ function AlertDialogFooter({
 	);
 }
 
-function AlertDialogMedia({
-	className,
-	...props
-}: any) {
+function AlertDialogMedia({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-media"
@@ -91,10 +75,7 @@ function AlertDialogMedia({
 	);
 }
 
-function AlertDialogTitle({
-	className,
-	...props
-}: any) {
+function AlertDialogTitle({ className, ...props }: any) {
 	return (
 		<AlertDialogPrimitive.Title
 			data-slot="alert-dialog-title"
@@ -104,10 +85,7 @@ function AlertDialogTitle({
 	);
 }
 
-function AlertDialogDescription({
-	className,
-	...props
-}: any) {
+function AlertDialogDescription({ className, ...props }: any) {
 	return (
 		<AlertDialogPrimitive.Description
 			data-slot="alert-dialog-description"
@@ -117,10 +95,7 @@ function AlertDialogDescription({
 	);
 }
 
-function AlertDialogAction({
-	className,
-	...props
-}: any) {
+function AlertDialogAction({ className, ...props }: any) {
 	return (
 		<Button data-slot="alert-dialog-action" class={className} {...props} />
 	);

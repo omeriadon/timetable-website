@@ -34,12 +34,12 @@ export default function Timetable({ dashboard }: { dashboard: DashboardData }) {
 						<Button
 							type="button"
 							onClick={() =>
-								openDrawer(() =>
+								openDrawer(() => (
 									<TimetableEditorDrawer
 										timetable={timetable()!}
 										onSaved={setTimetable}
-									/>,
-								)
+									/>
+								))
 							}
 						>
 							<Symbol name="pencil.and.list.clipboard" />

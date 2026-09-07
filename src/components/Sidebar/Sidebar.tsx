@@ -42,10 +42,12 @@ export default function Sidebar() {
 	const isAdministrator =
 		account().authority.toLowerCase().includes("admin") ||
 		account().authority.toLowerCase().includes("owner");
-	const [incomingFriendRequestCount, setIncomingFriendRequestCount] = createSignal(0);
+	const [incomingFriendRequestCount, setIncomingFriendRequestCount] =
+		createSignal(0);
 
 	// State or ref to hold dynamic hover values for the brand icon
-	const [iconTransformProps, setIconTransformProps] = createSignal<JSX.CSSProperties>({});
+	const [iconTransformProps, setIconTransformProps] =
+		createSignal<JSX.CSSProperties>({});
 
 	onMount(() => {
 		apiRequest<Friend[]>("v1/friends/requests")
