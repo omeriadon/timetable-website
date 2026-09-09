@@ -176,7 +176,7 @@ export default function PlannerView({
 					symbolName="calendar.badge.exclamationmark"
 				>
 					{upcomingNoSchoolDays.map((item) => (
-						<div class={styles.cardRow}>
+						<div class={cn(styles.cardRow, styles.plannerEvent)}>
 							<span class={styles.eventSymbol} aria-hidden="true">
 								<Symbol name="figure.wave" class={styles.eventSymbolIcon} />
 							</span>
@@ -320,13 +320,16 @@ function CreatePrivateEventDrawer({
 								return (
 									<Button
 										type="button"
+										class={drawerStyles.tagOption}
 										aria-pressed={selected}
 										aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
 										onClick={() => setSelectedTagIDs(selected ? [] : [tag.id])}
 									>
-										<Symbol name={tag.symbol ?? "tag"} />
 										{tag.displayName}
-										{selected ? <Symbol name="checkmark" /> : null}
+										<span class={drawerStyles.tagSymbols} aria-hidden="true">
+											<Symbol name={tag.symbol ?? "tag"} />
+											{selected ? <Symbol name="checkmark" /> : null}
+										</span>
 									</Button>
 								);
 							})

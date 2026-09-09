@@ -541,3 +541,10 @@
 		text-align: left;
 	}
 }
+
+@media (prefers-reduced-motion: reduce) {
+	.overlay,
+	.popup {
+		transition-duration: 0ms;
+	}
+}

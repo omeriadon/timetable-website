@@ -6,7 +6,7 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { createSignal } from "solid-js";
+import { createMemo, createSignal } from "solid-js";
 import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import { useTimetableNow } from "@/features/timetable/clock";
@@ -33,15 +33,18 @@ export default function WeekView({
 		session: number;
 	} | null>(null);
 	const currentDayIndex = currentTimetableDayIndex(useTimetableNow()());
-	const selectedSubject = selectedSlot
-		? subjects.find((subject) =>
-				subject.slots.some(
-					(slot) =>
-						slot.day === selectedSlot()!.day &&
-						slot.session === selectedSlot()!.session,
-				),
-			)
-		: null;
+	const selectedSubject = createMemo(() => {
+		const selected = selectedSlot();
+		return selected
+			? subjects.find((subject) =>
+					subject.slots.some(
+						(candidate) =>
+							candidate.day === selected.day &&
+							candidate.session === selected.session,
+					),
+				)
+			: null;
+	});
 
 	return (
 		<section class={styles.week} aria-label="Weekly timetable">
@@ -127,16 +130,16 @@ export default function WeekView({
 					))}
 				</div>
 			</div>
-			{selectedSlot() && selectedSubject ? (
+			{selectedSlot() && selectedSubject() ? (
 				<section class={styles.selectedLesson}>
 					<div>
 						<span class={styles.selectedEyebrow}>YOU</span>
 						<strong>
 							<Symbol
-								name={selectedSubject.symbol}
+								name={selectedSubject()!.symbol}
 								class={styles.selectedLessonSymbol}
 							/>{" "}
-							{selectedSubject.id}
+							{selectedSubject()!.id}
 						</strong>
 					</div>
 					<span>

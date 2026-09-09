@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/solid-router";
 import { useLocation } from "@tanstack/solid-router";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import styles from "@/components/timetable/timetable.module.css";
 
 const modes = [
@@ -11,12 +10,7 @@ const modes = [
 ] as const;
 
 export default function TimetableModeNavigation() {
-	const isCompact = useCompactLayout();
 	const pathname = useLocation({ select: (location) => location.pathname });
-
-	if (!isCompact) {
-		return null;
-	}
 
 	return (
 		<nav class={styles.modePicker} aria-label="Timetable section">

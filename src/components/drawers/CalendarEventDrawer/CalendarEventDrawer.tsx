@@ -177,6 +177,7 @@ export default function CalendarEventDrawer({
 									return (
 										<Button
 											type="button"
+											class={styles.tagOption}
 											aria-pressed={selected}
 											aria-label={`${tag.displayName}${selected ? ", selected" : ""}`}
 											disabled={readOnly || saving() || !allowsTagEditing}
@@ -184,9 +185,11 @@ export default function CalendarEventDrawer({
 												setSelectedTagIDs(selected ? [] : [tag.id])
 											}
 										>
-											<Symbol name={tag.symbol ?? "tag"} />
 											{tag.displayName}
-											{selected ? <Symbol name="checkmark" /> : null}
+											<span class={styles.tagSymbols} aria-hidden="true">
+												<Symbol name={tag.symbol ?? "tag"} />
+												{selected ? <Symbol name="checkmark" /> : null}
+											</span>
 										</Button>
 									);
 								})

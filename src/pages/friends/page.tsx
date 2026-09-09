@@ -18,7 +18,13 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import FriendSearchDrawer from "@/components/drawers/FriendSearchDrawer/FriendSearchDrawer";
 import FriendRequestsDrawer from "@/components/drawers/FriendRequestsDrawer/FriendRequestsDrawer";
 import type { Account } from "@/lib/api/contracts";
-import { List } from "@/components/ui/list";
+import { Card } from "@/components/ui/card";
+import {
+	List,
+	ListRow,
+	ListSection,
+	ListSectionHeader,
+} from "@/components/ui/list";
 import styles from "./page.module.css";
 import { useTimetableNow } from "@/features/timetable/clock";
 import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
@@ -127,102 +133,119 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 				placeholder="Search by name or school email"
 				onChange={(event) => setSearchText(event.target.value)}
 			/>
-			{account() ? (
-				<Button
-					type="button"
-					class={styles.selfCard}
-					aria-label="Open your arrival statistics"
-					onClick={() =>
-						openDrawer(() => (
-							<PersonalArrivalDrawer onStatusUpdated={setLocationStatus} />
-						))
-					}
-				>
-					<ProfilePicture profile={account()} size={68} />
-					<div>
-						<strong>{account().displayName}</strong>
-						<span>{locationStatusTitle(locationStatus()?.state)}</span>
-					</div>
-					<em>{locationStatusTime(locationStatus())}</em>
-				</Button>
-			) : null}
-			<List>
-				{filteredFriends().length ? (
-					filteredFriends().map((friend) => {
-						return (
-							<div
-								class={cn(
-									styles.friendRow,
-									draggedFriendID() === friend.friend.userID &&
-										styles.friendRowDragging,
-									dragOverFriendID() === friend.friend.userID &&
-										styles.friendRowDropTarget,
-								)}
-								draggable
-								onDragStart={(event) => {
-									const transfer = event.dataTransfer;
-									if (!transfer) return;
-									transfer.effectAllowed = "move";
-									transfer.setData("text/plain", friend.friend.userID);
-									setDraggedFriendID(friend.friend.userID);
-								}}
-								onDragOver={(event) => {
-									event.preventDefault();
-									const transfer = event.dataTransfer;
-									if (!transfer) return;
-									transfer.dropEffect = "move";
-									setDragOverFriendID(friend.friend.userID);
-								}}
-								onDragLeave={() => setDragOverFriendID(null)}
-								onDrop={(event) => {
-									event.preventDefault();
-									const sourceID = event.dataTransfer?.getData("text/plain");
-									if (!sourceID) return;
-									void reorderFriends(sourceID, friend.friend.userID);
-									setDragOverFriendID(null);
-								}}
-								onDragEnd={() => {
-									setDraggedFriendID(null);
-									setDragOverFriendID(null);
-								}}
-								aria-label={`Reorder ${friend.friend.displayName}`}
-							>
-								<DrawerTrigger
-									class={styles.friendButton}
-									ariaLabel={`Open ${friend.friend.displayName}`}
-									content={() => <FriendDetailDrawer friend={friend} />}
-								>
-									<article class={styles.friend}>
-										<ProfilePicture
-											profile={friend.friend}
-											size={64}
-											label={`${friend.friend.displayName} profile picture`}
+			<List sections>
+				{account() ? (
+					<ListSection>
+						<ListSectionHeader>Your profile</ListSectionHeader>
+						<Card>
+							<Button
+								type="button"
+								class={styles.friendButton}
+								aria-label="Open your arrival statistics"
+								onClick={() =>
+									openDrawer(() => (
+										<PersonalArrivalDrawer
+											onStatusUpdated={setLocationStatus}
 										/>
-										<div>
-											<h2>{friend.friend.displayName}</h2>
-											<p>{locationStatusTitle(friend.locationStatus?.state)}</p>
-											<span>
-												{friendScheduleTitle(
-													friend.timetable?.subjects ?? [],
-													now(),
-												)}
-											</span>
-										</div>
-										<strong class={styles.status}>
-											{friend.state === "friends" ? "Friends" : "Pending"}
-										</strong>
-									</article>
-								</DrawerTrigger>
-							</div>
-						);
-					})
-				) : (
-					<p class={styles.emptyState}>
-						{friends().length
-							? "No friends match your search."
-							: "No friends yet."}
-					</p>
-				)}
+									))
+								}
+							>
+								<ListRow class={styles.selfRow}>
+									<ProfilePicture profile={account()} size={68} />
+									<div>
+										<strong>{account().displayName}</strong>
+										<span>{locationStatusTitle(locationStatus()?.state)}</span>
+									</div>
+									<em>{locationStatusTime(locationStatus())}</em>
+								</ListRow>
+							</Button>
+						</Card>
+					</ListSection>
+				) : null}
+				<ListSection>
+					<ListSectionHeader>Friends</ListSectionHeader>
+					<Card>
+						{filteredFriends().length ? (
+							filteredFriends().map((friend) => {
+								return (
+									<div
+										class={cn(
+											styles.friendRow,
+											draggedFriendID() === friend.friend.userID &&
+												styles.friendRowDragging,
+											dragOverFriendID() === friend.friend.userID &&
+												styles.friendRowDropTarget,
+										)}
+										draggable
+										onDragStart={(event) => {
+											const transfer = event.dataTransfer;
+											if (!transfer) return;
+											transfer.effectAllowed = "move";
+											transfer.setData("text/plain", friend.friend.userID);
+											setDraggedFriendID(friend.friend.userID);
+										}}
+										onDragOver={(event) => {
+											event.preventDefault();
+											const transfer = event.dataTransfer;
+											if (!transfer) return;
+											transfer.dropEffect = "move";
+											setDragOverFriendID(friend.friend.userID);
+										}}
+										onDragLeave={() => setDragOverFriendID(null)}
+										onDrop={(event) => {
+											event.preventDefault();
+											const sourceID =
+												event.dataTransfer?.getData("text/plain");
+											if (!sourceID) return;
+											void reorderFriends(sourceID, friend.friend.userID);
+											setDragOverFriendID(null);
+										}}
+										onDragEnd={() => {
+											setDraggedFriendID(null);
+											setDragOverFriendID(null);
+										}}
+										aria-label={`Reorder ${friend.friend.displayName}`}
+									>
+										<DrawerTrigger
+											class={styles.friendButton}
+											ariaLabel={`Open ${friend.friend.displayName}`}
+											content={() => <FriendDetailDrawer friend={friend} />}
+										>
+											<ListRow class={styles.friend}>
+												<ProfilePicture
+													profile={friend.friend}
+													size={64}
+													label={`${friend.friend.displayName} profile picture`}
+												/>
+												<div>
+													<h2>{friend.friend.displayName}</h2>
+													<p>
+														{locationStatusTitle(friend.locationStatus?.state)}
+													</p>
+													<span>
+														{friendScheduleTitle(
+															friend.timetable?.subjects ?? [],
+															now(),
+														)}
+													</span>
+												</div>
+												<strong class={styles.status}>
+													{friend.state === "friends" ? "Friends" : "Pending"}
+												</strong>
+											</ListRow>
+										</DrawerTrigger>
+									</div>
+								);
+							})
+						) : (
+							<p class={styles.emptyState}>
+								{friends().length
+									? "No friends match your search."
+									: "No friends yet."}
+							</p>
+						)}
+					</Card>
+				</ListSection>
 			</List>
 		</main>
 	);

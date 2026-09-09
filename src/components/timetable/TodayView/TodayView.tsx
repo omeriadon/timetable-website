@@ -207,7 +207,12 @@ export default function TodayView({
 										</span>
 									</div>
 									{current ? (
-										<strong aria-label="Current period">Now</strong>
+										<strong
+											class={styles.currentPeriod}
+											aria-label="Current period"
+										>
+											Now
+										</strong>
 									) : null}
 									<em>
 										<Symbol

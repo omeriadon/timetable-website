@@ -1,4 +1,10 @@
-import { createContext, createSignal, useContext, type JSX } from "solid-js";
+import {
+	createContext,
+	createMemo,
+	createSignal,
+	useContext,
+	type JSX,
+} from "solid-js";
 import {
 	Drawer,
 	DrawerContent,
@@ -69,7 +75,7 @@ export function DrawerProvider(props: { children: JSX.Element }) {
 			{props.children}
 			{stack().length ? (
 				<DrawerLayer
-					stack={stack()}
+					stack={stack}
 					index={0}
 					dismissFrom={dismissFrom}
 					removeClosedLayer={removeClosedLayer}
@@ -85,20 +91,20 @@ function DrawerLayer({
 	dismissFrom,
 	removeClosedLayer,
 }: {
-	stack: DrawerEntry[];
+	stack: () => DrawerEntry[];
 	index: number;
 	dismissFrom: (index: number) => void;
 	removeClosedLayer: (id: number) => void;
 }) {
-	const entry = stack[index];
+	const entry = createMemo(() => stack()[index]);
 
-	if (!entry) {
+	if (!entry()) {
 		return null;
 	}
 
 	return (
 		<Drawer
-			open={entry.open}
+			open={entry()!.open}
 			onOpenChange={(open) => {
 				if (!open) {
 					dismissFrom(index);
@@ -112,15 +118,15 @@ function DrawerLayer({
 						target.dataset.closing !== undefined ||
 						target.dataset.closed !== undefined
 					) {
-						removeClosedLayer(entry.id);
+						removeClosedLayer(entry()!.id);
 					}
 				}}
 			>
 				<DrawerHeader>
 					<DrawerTitle class={styles.visuallyHidden}>Drawer</DrawerTitle>
 				</DrawerHeader>
-				<div class={styles.body}>{entry.content()}</div>
-				{stack[index + 1] ? (
+				<div class={styles.body}>{entry()!.content()}</div>
+				{stack()[index + 1] ? (
 					<DrawerLayer
 						stack={stack}
 						index={index + 1}
