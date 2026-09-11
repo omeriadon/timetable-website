@@ -203,12 +203,14 @@
 	user-select: none;
 }
 
-.item:focus-visible {
+.item:focus-visible,
+.item[data-highlighted] {
 	outline: 1px solid color-mix(in srgb, var(--ring) 30%, transparent);
 	outline-offset: -2px;
 }
 
-.item:focus {
+.item:focus,
+.item[data-highlighted] {
 	background: var(--accent);
 	color: var(--accent-foreground);
 }

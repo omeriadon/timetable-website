@@ -39,7 +39,9 @@
 	/* Geometry and spacing. */
 	--ds-radius-control: 12px;
 	--ds-radius-card: 18px;
-	--ds-radius-content-card: 20px;
+	--ds-radius-content-card: calc(
+		var(--ds-radius-control) + var(--ds-content-card-padding)
+	);
 	--ds-radius-pill: 999px;
 	--ds-space-1: 4px;
 	--ds-space-2: 6px;

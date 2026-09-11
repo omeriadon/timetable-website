@@ -127,11 +127,16 @@
 }
 
 .item:focus,
+.item[data-highlighted],
 .checkboxItem:focus,
+.checkboxItem[data-highlighted],
 .radioItem:focus,
+.radioItem[data-highlighted],
 .subTrigger:focus,
+.subTrigger[data-highlighted],
 .subTrigger[data-popup-open],
-.subTrigger[data-open] {
+.subTrigger[data-open],
+.subTrigger[data-expanded] {
 	background: var(--accent);
 	color: var(--accent-foreground);
 }
@@ -154,7 +159,8 @@
 	color: var(--destructive);
 }
 
-.item[data-variant="destructive"]:focus {
+.item[data-variant="destructive"]:focus,
+.item[data-variant="destructive"][data-highlighted] {
 	background: color-mix(in srgb, var(--destructive) 10%, transparent);
 	color: var(--destructive);
 }
@@ -223,7 +229,8 @@
 	letter-spacing: 0.1em;
 }
 
-.item:focus .shortcut {
+.item:focus .shortcut,
+.item[data-highlighted] .shortcut {
 	color: var(--accent-foreground);
 }
 

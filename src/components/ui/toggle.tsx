@@ -146,6 +146,8 @@ export function Toggle(props: ToggleProps) {
 	return (
 		<Primitive
 			{...rest}
+			data-slot="toggle"
+			data-size={local.size ?? "default"}
 			ref={(element) => {
 				root = element;
 			}}
@@ -160,8 +162,9 @@ export function Toggle(props: ToggleProps) {
 			class={cn(styles.root, local.class ?? local.className)}
 		>
 			<Primitive.Input />
-			<Primitive.Control data-size={local.size ?? "default"}>
+			<Primitive.Control>
 				<Primitive.Thumb
+					data-slot="toggle-thumb"
 					ref={(element) => {
 						thumb = element;
 					}}

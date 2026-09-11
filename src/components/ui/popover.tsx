@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import styles from "./popover.module.css";
 
 export function Popover(props: any) {
-	return <Primitive {...props} />;
+	return <Primitive {...props} data-slot="popover" />;
 }
 export function PopoverTrigger(props: any) {
 	return <Primitive.Trigger {...props} data-slot="popover-trigger" />;

@@ -7,7 +7,7 @@
 
 	overflow: hidden;
 
-	border-radius: 2rem;
+	border-radius: var(--ds-radius-content-card);
 
 	background: var(--card);
 	color: var(--card-foreground);
@@ -30,11 +30,11 @@
 }
 
 .card > img:first-child {
-	border-radius: 2rem 2rem 0 0;
+	border-radius: var(--ds-radius-content-card) var(--ds-radius-content-card) 0 0;
 }
 
 .card > img:last-child {
-	border-radius: 0 0 2rem 2rem;
+	border-radius: 0 0 var(--ds-radius-content-card) var(--ds-radius-content-card);
 }
 
 .header {
@@ -45,7 +45,7 @@
 
 	padding-inline: var(--card-spacing);
 
-	border-radius: 2rem 2rem 0 0;
+	border-radius: var(--ds-radius-content-card) var(--ds-radius-content-card) 0 0;
 
 	container-type: inline-size;
 	container-name: card-header;
@@ -95,7 +95,7 @@
 
 	padding-inline: var(--card-spacing);
 
-	border-radius: 0 0 2rem 2rem;
+	border-radius: 0 0 var(--ds-radius-content-card) var(--ds-radius-content-card);
 }
 
 .footer.border-t {

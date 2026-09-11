@@ -34,10 +34,12 @@ function Slider(props: SliderProps) {
 			onChange={(value) => local.onValueChange?.(value[0] ?? 0)}
 			aria-label={local.ariaLabel}
 		>
-			<SliderPrimitive.Track class={styles.track}>
-				<SliderPrimitive.Fill class={styles.indicator} />
-				<SliderPrimitive.Thumb class={styles.thumb} />
-			</SliderPrimitive.Track>
+			<div class={styles.control}>
+				<SliderPrimitive.Track class={styles.track}>
+					<SliderPrimitive.Fill class={styles.indicator} />
+					<SliderPrimitive.Thumb class={styles.thumb} />
+				</SliderPrimitive.Track>
+			</div>
 		</SliderPrimitive>
 	);
 }

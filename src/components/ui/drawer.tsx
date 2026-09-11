@@ -48,6 +48,7 @@ export function Drawer(
 			}}
 		>
 			<CorvuDrawer
+				data-slot="drawer"
 				open={props.open}
 				onOpenChange={props.onOpenChange}
 				side={side}
@@ -60,9 +61,21 @@ export function Drawer(
 	);
 }
 
-export const DrawerTrigger: any = CorvuDrawer.Trigger;
-export const DrawerPortal = CorvuDrawer.Portal;
-export const DrawerOverlay = CorvuDrawer.Overlay;
+export const DrawerTrigger: any = (props: any) => (
+	<CorvuDrawer.Trigger data-slot="drawer-trigger" {...props} />
+);
+export const DrawerPortal: any = (props: any) => (
+	<CorvuDrawer.Portal data-slot="drawer-portal" {...props} />
+);
+export function DrawerOverlay(props: any) {
+	return (
+		<CorvuDrawer.Overlay
+			{...props}
+			data-slot="drawer-overlay"
+			class={cn(styles.overlay, props.class ?? props.className)}
+		/>
+	);
+}
 
 export function DrawerClose(
 	props: JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -75,13 +88,14 @@ export function DrawerClose(
 ) {
 	return (
 		<CorvuDrawer.Close
+			{...props}
 			as="button"
+			data-slot="drawer-close"
 			class={cn(
 				styles.closeButton,
 				props.flexible && styles.flexible,
 				props.class ?? props.className,
 			)}
-			{...props}
 		/>
 	);
 }
@@ -97,8 +111,14 @@ export function DrawerSwipeHandle(props: JSX.HTMLAttributes<HTMLDivElement>) {
 	);
 }
 
-export function DrawerContent(props: JSX.HTMLAttributes<HTMLDivElement>) {
-	const [local, rest] = splitProps(props, ["class", "onTransitionEnd"]);
+export function DrawerContent(
+	props: JSX.HTMLAttributes<HTMLDivElement> & { className?: string },
+) {
+	const [local, rest] = splitProps(props, [
+		"class",
+		"className",
+		"onTransitionEnd",
+	]);
 	const context = useContext(Context);
 	const [footerHost, setFooterHost] = createSignal<HTMLDivElement>();
 	const axis =
@@ -126,7 +146,7 @@ export function DrawerContent(props: JSX.HTMLAttributes<HTMLDivElement>) {
 					data-swipe-axis={axis}
 					data-swipe-direction={context?.swipeDirection}
 					data-snap-points={context?.hasSnapPoints ? "" : undefined}
-					class={cn(styles.popup, local.class)}
+					class={cn(styles.popup, local.class ?? local.className)}
 				>
 					{context?.showSwipeHandle ? <DrawerSwipeHandle /> : null}
 					<div data-slot="drawer-content" class={styles.content}>

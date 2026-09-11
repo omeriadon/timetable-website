@@ -78,11 +78,18 @@ export function Select(props: SelectProps) {
 				optionValue="value"
 				optionTextValue={(option) => String(option.value)}
 				itemComponent={(item) => (
-					<Primitive.Item item={item.item}>
-						<Primitive.ItemLabel>
+					<Primitive.Item
+						item={item.item}
+						data-slot="select-item"
+						class={styles.item}
+					>
+						<Primitive.ItemLabel class={styles.itemText}>
 							{item.item.rawValue.label}
 						</Primitive.ItemLabel>
-						<Primitive.ItemIndicator>
+						<Primitive.ItemIndicator
+							data-slot="select-item-indicator"
+							class={styles.itemIndicator}
+						>
 							<CheckIcon class={styles.itemIndicatorIcon} />
 						</Primitive.ItemIndicator>
 					</Primitive.Item>
@@ -117,6 +124,7 @@ export function SelectValue(props: any) {
 	return (
 		<Primitive.Value
 			{...props}
+			data-slot="select-value"
 			class={cn(styles.value, props.class ?? props.className)}
 		/>
 	);
@@ -126,6 +134,7 @@ export function SelectTrigger(props: any) {
 		<Primitive.Trigger
 			{...props}
 			data-slot="select-trigger"
+			data-size={props.size ?? "default"}
 			class={cn(styles.trigger, props.class ?? props.className)}
 		>
 			{props.children}
@@ -141,6 +150,7 @@ export function SelectContent(props: any) {
 			<Primitive.Content
 				{...props}
 				data-slot="select-content"
+				data-align-trigger={props.alignItemWithTrigger ?? true}
 				class={cn(styles.content, props.class ?? props.className)}
 			/>
 		</Primitive.Portal>

@@ -8,7 +8,8 @@
 	gap: 0;
 }
 
-.card {
+.card,
+.section > [data-slot="card"] {
 	--card-spacing: var(--ds-content-card-padding);
 
 	gap: 0;
@@ -22,12 +23,15 @@
 	box-shadow: none;
 }
 
-.card > * + * {
+.card > * + *,
+.section > [data-slot="card"] > * + * {
 	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .card > a,
-.card > button[data-slot="button"] {
+.card > button[data-slot="button"],
+.section > [data-slot="card"] > a,
+.section > [data-slot="card"] > button[data-slot="button"] {
 	display: block;
 	width: 100%;
 	height: auto;
@@ -40,13 +44,22 @@
 	text-align: left;
 }
 
-.card button[data-slot="button"][data-variant="default"] {
+.card button[data-slot="button"][data-variant="default"],
+.section
+	> [data-slot="card"]
+	button[data-slot="button"][data-variant="default"] {
 	background: transparent !important;
 	color: inherit;
 }
 
 .card button[data-slot="button"][data-variant="default"]:hover,
-.card button[data-slot="button"][data-variant="default"]:focus-visible {
+.card button[data-slot="button"][data-variant="default"]:focus-visible,
+.section
+	> [data-slot="card"]
+	button[data-slot="button"][data-variant="default"]:hover,
+.section
+	> [data-slot="card"]
+	button[data-slot="button"][data-variant="default"]:focus-visible {
 	background: rgb(255 255 255 / 0.06) !important;
 	color: var(--ds-color-text);
 }
@@ -56,7 +69,10 @@
 .rowHover > .row:hover,
 .rowHover .card > a:hover,
 .rowHover .card > button:hover,
-.rowHover .card > .row:hover {
+.rowHover .card > .row:hover,
+.rowHover .section > [data-slot="card"] > a:hover,
+.rowHover .section > [data-slot="card"] > button:hover,
+.rowHover .section > [data-slot="card"] > .row:hover {
 	background: rgb(255 255 255 / 0.06);
 	transition: background-color 80ms var(--ds-ease-standard);
 }
@@ -64,7 +80,9 @@
 .rowHover > a[data-size="default"]:hover,
 .rowHover > button[data-size="default"]:hover,
 .rowHover .card > a[data-size="default"]:hover,
-.rowHover .card > button[data-size="default"]:hover {
+.rowHover .card > button[data-size="default"]:hover,
+.rowHover .section > [data-slot="card"] > a[data-size="default"]:hover,
+.rowHover .section > [data-slot="card"] > button[data-size="default"]:hover {
 	background: rgb(255 255 255 / 0.06) !important;
 	color: var(--ds-color-text);
 }

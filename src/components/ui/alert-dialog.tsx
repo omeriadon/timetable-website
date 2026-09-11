@@ -25,8 +25,8 @@ function AlertDialogOverlay({ className, ...props }: any) {
 	return (
 		<AlertDialogPrimitive.Overlay
 			data-slot="alert-dialog-overlay"
-			class={cn(styles.overlay, className)}
 			{...props}
+			class={cn(styles.overlay, className ?? props.class)}
 		/>
 	);
 }
@@ -38,8 +38,8 @@ function AlertDialogContent({ className, size = "default", ...props }: any) {
 			<AlertDialogPrimitive.Content
 				data-slot="alert-dialog-content"
 				data-size={size}
-				class={cn(styles.content, className)}
 				{...props}
+				class={cn(styles.content, className ?? props.class)}
 			/>
 		</AlertDialogPortal>
 	);
@@ -49,8 +49,8 @@ function AlertDialogHeader({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-header"
-			class={cn(styles.header, className)}
 			{...props}
+			class={cn(styles.header, className ?? props.class)}
 		/>
 	);
 }
@@ -59,8 +59,8 @@ function AlertDialogFooter({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-footer"
-			class={cn(styles.footer, className)}
 			{...props}
+			class={cn(styles.footer, className ?? props.class)}
 		/>
 	);
 }
@@ -69,8 +69,8 @@ function AlertDialogMedia({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="alert-dialog-media"
-			class={cn(styles.media, className)}
 			{...props}
+			class={cn(styles.media, className ?? props.class)}
 		/>
 	);
 }
@@ -79,8 +79,8 @@ function AlertDialogTitle({ className, ...props }: any) {
 	return (
 		<AlertDialogPrimitive.Title
 			data-slot="alert-dialog-title"
-			class={cn(styles.title, className)}
 			{...props}
+			class={cn(styles.title, className ?? props.class)}
 		/>
 	);
 }
@@ -89,15 +89,19 @@ function AlertDialogDescription({ className, ...props }: any) {
 	return (
 		<AlertDialogPrimitive.Description
 			data-slot="alert-dialog-description"
-			class={cn(styles.description, className)}
 			{...props}
+			class={cn(styles.description, className ?? props.class)}
 		/>
 	);
 }
 
 function AlertDialogAction({ className, ...props }: any) {
 	return (
-		<Button data-slot="alert-dialog-action" class={className} {...props} />
+		<Button
+			data-slot="alert-dialog-action"
+			class={className ?? props.class}
+			{...props}
+		/>
 	);
 }
 
@@ -110,7 +114,7 @@ function AlertDialogCancel({
 	return (
 		<AlertDialogPrimitive.CloseButton
 			data-slot="alert-dialog-cancel"
-			class={className}
+			class={className ?? props.class}
 			as={Button}
 			variant={variant}
 			size={size}

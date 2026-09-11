@@ -10,8 +10,8 @@ function FieldSet({ className, ...props }: any) {
 	return (
 		<fieldset
 			data-slot="field-set"
-			class={cn(styles.fieldSet, className)}
 			{...props}
+			class={cn(styles.fieldSet, className ?? props.class)}
 		/>
 	);
 }
@@ -21,8 +21,8 @@ function FieldLegend({ className, variant = "legend", ...props }: any) {
 		<legend
 			data-slot="field-legend"
 			data-variant={variant}
-			class={cn(styles.legend, className)}
 			{...props}
+			class={cn(styles.legend, className ?? props.class)}
 		/>
 	);
 }
@@ -31,8 +31,8 @@ function FieldGroup({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="field-group"
-			class={cn(styles.group, className)}
 			{...props}
+			class={cn(styles.group, className ?? props.class)}
 		/>
 	);
 }
@@ -43,8 +43,8 @@ function Field({ className, orientation = "vertical", ...props }: any) {
 			role="group"
 			data-slot="field"
 			data-orientation={orientation}
-			class={cn(styles.field, className)}
 			{...props}
+			class={cn(styles.field, className ?? props.class)}
 		/>
 	);
 }
@@ -53,8 +53,8 @@ function FieldContent({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="field-content"
-			class={cn(styles.content, className)}
 			{...props}
+			class={cn(styles.content, className ?? props.class)}
 		/>
 	);
 }
@@ -63,8 +63,8 @@ function FieldLabel({ className, ...props }: any) {
 	return (
 		<Label
 			data-slot="field-label"
-			class={cn(styles.label, className)}
 			{...props}
+			class={cn(styles.label, className ?? props.class)}
 		/>
 	);
 }
@@ -73,8 +73,8 @@ function FieldTitle({ className, ...props }: any) {
 	return (
 		<div
 			data-slot="field-title"
-			class={cn(styles.title, className)}
 			{...props}
+			class={cn(styles.title, className ?? props.class)}
 		/>
 	);
 }
@@ -83,8 +83,8 @@ function FieldDescription({ className, ...props }: any) {
 	return (
 		<p
 			data-slot="field-description"
-			class={cn(styles.description, className)}
 			{...props}
+			class={cn(styles.description, className ?? props.class)}
 		/>
 	);
 }
@@ -94,8 +94,8 @@ function FieldSeparator({ children, className, ...props }: any) {
 		<div
 			data-slot="field-separator"
 			data-content={Boolean(children)}
-			class={cn(styles.separator, className)}
 			{...props}
+			class={cn(styles.separator, className ?? props.class)}
 		>
 			<Separator class={styles.separatorLine} />
 
@@ -151,8 +151,8 @@ function FieldError({ className, children, errors, ...props }: any) {
 				<div
 					role="alert"
 					data-slot="field-error"
-					class={cn(styles.error, className)}
 					{...props}
+					class={cn(styles.error, className ?? props.class)}
 				>
 					{value()}
 				</div>

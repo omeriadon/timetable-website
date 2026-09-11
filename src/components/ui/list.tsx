@@ -35,7 +35,7 @@ export function List(
 	}
 
 	return (
-		<Card role="list" class={className}>
+		<Card role="list" class={cn(styles.card, className)}>
 			{local.children}
 		</Card>
 	);

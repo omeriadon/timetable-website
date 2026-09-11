@@ -95,7 +95,7 @@ export default function AdministrationPage({
 				</p>
 			) : null}
 			{dashboard() && !dashboard()!.isAdmin ? (
-				<List sections>
+				<List>
 					<ListRow>
 						<Symbol name="exclamationmark.bubble" />
 						<span class={styles.label}>Administrator access required.</span>
@@ -103,7 +103,7 @@ export default function AdministrationPage({
 				</List>
 			) : null}
 			{dashboard()?.isAdmin ? (
-				<List>
+				<List sections>
 					{sections
 						.filter(
 							([heading]) =>
