@@ -377,6 +377,8 @@
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);
 	background: var(--ds-color-surface);
+
+	margin-left: calc(var(--ds-content-card-padding) - 3px);
 }
 
 .selectedLesson div {
