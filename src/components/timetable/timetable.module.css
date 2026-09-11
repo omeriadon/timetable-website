@@ -265,9 +265,13 @@
 }
 
 .week {
+	--ds-week-label-width: 10px;
+
 	width: 100%;
 	overflow-x: auto;
 	padding: var(--ds-content-card-padding);
+	padding-left: 10px;
+	padding-top: 10px;
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-content-card);
 	background: var(--ds-color-surface);
