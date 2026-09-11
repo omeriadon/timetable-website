@@ -115,7 +115,7 @@ export default function TodayView({
 			<header class={styles.todayHeader}>
 				<p>
 					{schoolWeather
-						? `${Math.round(schoolWeather.temperatureCelsius)}°C　${weatherLabel(schoolWeather.conditionCode)}　${Math.round(schoolWeather.precipitationChance * 100)}%　UV ${schoolWeather.uvIndex}`
+						? `${Math.round(schoolWeather.temperatureCelsius)}°C　　${weatherLabel(schoolWeather.conditionCode)}　　${Math.round(schoolWeather.precipitationChance * 100)}%　　UV ${schoolWeather.uvIndex}`
 						: "Weather unavailable"}
 				</p>
 				<h1>
@@ -150,7 +150,7 @@ export default function TodayView({
 					) : null}
 					{upcomingEntries.length ? (
 						<>
-							<h3>Upcoming</h3>
+							<h3 class={styles.upcomingHeader}>Upcoming</h3>
 							{upcomingEntries.map((entry) => (
 								<TodayEntryRow
 									entry={entry}

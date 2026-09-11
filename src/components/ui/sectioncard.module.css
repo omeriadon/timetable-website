@@ -32,6 +32,7 @@
 	align-items: center;
 	gap: var(--ds-list-row-gap);
 	min-width: 0;
+	user-select: none;
 }
 
 .heading h1,

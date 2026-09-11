@@ -205,6 +205,7 @@
 	font-size: var(--ds-font-small);
 	font-variant-numeric: tabular-nums;
 	text-align: center;
+	user-select: none;
 }
 
 .subjectDetails {
@@ -246,6 +247,7 @@
 	gap: var(--ds-space-1);
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
+	user-select: none;
 }
 
 .subjectMetaContent span {
@@ -338,6 +340,10 @@
 .lessonButton[data-variant="default"]:hover,
 .lessonButton[data-variant="default"]:focus-visible {
 	background: transparent;
+}
+
+.upcomingHeader {
+	user-select: none;
 }
 
 .lesson {
