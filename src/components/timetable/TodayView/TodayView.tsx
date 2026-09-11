@@ -13,7 +13,8 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import { useTimetableNow } from "@/features/timetable/clock";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./TodayView.module.css";
+import sharedStyles from "@/components/timetable/timetable.module.css";
 
 type TodayEntry =
 	| {
@@ -194,7 +195,7 @@ export default function TodayView({
 							return (
 								<div
 									class={cn(
-										styles.cardRow,
+										sharedStyles.cardRow,
 										styles.subjectRow,
 										current && styles.subjectRowExpanded,
 									)}
@@ -217,7 +218,7 @@ export default function TodayView({
 									<em>
 										<Symbol
 											name={subject?.symbol ?? "clock"}
-											class={styles.eventSymbolIcon}
+											class={sharedStyles.eventSymbolIcon}
 										/>
 									</em>
 								</div>
@@ -274,7 +275,7 @@ function AssessmentEntryRow({
 	return (
 		<Button
 			type="button"
-			class={cn(styles.cardRow, styles.eventRow)}
+			class={cn(sharedStyles.cardRow, sharedStyles.eventRow)}
 			onClick={() => {
 				const subject = entry.subject;
 				if (!subject) {
@@ -292,10 +293,10 @@ function AssessmentEntryRow({
 			}}
 			aria-label={`Open ${entry.assessment.name}`}
 		>
-			<span class={styles.eventSymbol} aria-hidden="true">
+			<span class={sharedStyles.eventSymbol} aria-hidden="true">
 				<Symbol
 					name={entry.subject?.symbol ?? "doc.text"}
-					class={styles.eventSymbolIcon}
+					class={sharedStyles.eventSymbolIcon}
 				/>
 			</span>
 			<div>

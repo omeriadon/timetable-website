@@ -4,54 +4,8 @@
 	padding: var(--ds-content-page-padding);
 }
 
-.modePicker {
-	display: none;
-	flex-wrap: wrap;
-	gap: var(--ds-space-2);
-	margin-bottom: var(--ds-content-section-gap);
-}
-
-@media (max-width: 700px) {
-	.modePicker {
-		display: flex;
-	}
-}
-
-.modePicker a,
-.modePickerTrigger {
-	display: inline-flex;
-	min-height: var(--ds-control-height-compact);
-	align-items: center;
-	gap: var(--ds-space-2);
-	padding: var(--ds-space-2) var(--ds-control-padding-inline);
-	border: var(--ds-border-width) solid var(--ds-color-border);
-	border-radius: var(--ds-radius-control);
-	color: var(--ds-color-text-secondary);
-	background: var(--ds-color-surface);
-	font: inherit;
-	text-decoration: none;
-}
-
-.modePicker a:hover,
-.modePicker a:focus-visible,
-.modePickerTrigger:hover,
-.modePickerTrigger:focus-visible,
-.activeMode {
-	color: var(--ds-color-text);
-	background: var(--ds-color-surface-elevated);
-}
-
-.modePicker a:focus-visible,
-.modePickerTrigger:focus-visible {
-	outline: var(--ds-control-focus-width) solid var(--ds-color-accent);
-	outline-offset: var(--ds-control-focus-offset);
-}
-
-.modeIcon,
 .lessonSymbol,
-.eventSymbolIcon,
-.rowDisclosureIcon,
-.selectedLessonSymbol {
+.eventSymbolIcon {
 	width: var(--ds-icon-size-row);
 	height: var(--ds-icon-size-row);
 	object-fit: contain;
@@ -65,29 +19,6 @@
 
 .error {
 	color: var(--ds-color-danger-text);
-}
-
-.todayHeader {
-	display: grid;
-	gap: var(--ds-space-2);
-	margin-bottom: var(--ds-content-section-gap);
-}
-
-.todayHeader h1 {
-	margin: 0;
-	font-size: var(--ds-font-display);
-}
-
-.todayHeader p,
-.todayHeader span {
-	margin: 0;
-	color: var(--ds-color-text-secondary);
-}
-
-.plannerActions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--ds-space-2);
 }
 
 .cardRow {
@@ -155,115 +86,6 @@
 	place-items: center;
 }
 
-.subjectList {
-	display: grid;
-	gap: var(--ds-content-grid-gap);
-}
-
-.emptyState {
-	display: grid;
-	justify-items: center;
-	gap: var(--ds-space-1);
-	margin: var(--ds-content-section-gap) 0;
-	padding: var(--ds-space-6) var(--ds-space-4);
-	color: var(--ds-color-text-secondary);
-	text-align: center;
-}
-
-.emptyState strong {
-	color: var(--ds-color-text-muted);
-	font-size: var(--ds-font-body-size);
-}
-
-.emptyState span {
-	font-size: var(--ds-font-small);
-}
-
-.subjectRow {
-	display: grid;
-	grid-template-columns: 24px minmax(0, 1fr) auto var(--ds-icon-size-row);
-	gap: var(--ds-list-row-gap);
-	align-items: center;
-}
-
-.subjectRowExpanded {
-	align-items: start;
-}
-
-.subjectRow > .currentPeriod {
-	grid-column: 3;
-	justify-self: end;
-}
-
-.subjectRow > em {
-	grid-column: 4;
-}
-
-.subjectNumber {
-	align-self: center;
-	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-font-small);
-	font-variant-numeric: tabular-nums;
-	text-align: center;
-	user-select: none;
-}
-
-.subjectDetails {
-	display: grid;
-	min-width: 0;
-	gap: var(--ds-space-1);
-}
-
-.subjectRow strong {
-	font-size: var(--ds-font-body-size);
-	font-weight: 600;
-}
-
-.subjectRow em {
-	display: grid;
-	align-self: center;
-	place-items: center;
-	font-style: normal;
-}
-
-.subjectMeta {
-	display: grid;
-	grid-template-rows: 0fr;
-	opacity: 0;
-	transition:
-		grid-template-rows var(--ds-duration-fast) var(--ds-ease-standard),
-		opacity var(--ds-duration-fast) var(--ds-ease-standard);
-}
-
-.subjectRowExpanded .subjectMeta {
-	grid-template-rows: 1fr;
-	opacity: 1;
-}
-
-.subjectMetaContent {
-	display: grid;
-	min-height: 0;
-	overflow: hidden;
-	gap: var(--ds-space-1);
-	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-font-small);
-	user-select: none;
-}
-
-.subjectMetaContent span {
-	display: flex;
-	align-items: center;
-	gap: var(--ds-space-2);
-}
-
-.subjectMetaIcon {
-	width: var(--ds-icon-size-small);
-	height: var(--ds-icon-size-small);
-	flex: 0 0 var(--ds-icon-size-small);
-	object-fit: contain;
-	opacity: 0.7;
-}
-
 .week {
 	--ds-week-label-width: 10px;
 
@@ -318,38 +140,6 @@
 	color: var(--ds-color-text-secondary);
 }
 
-.lessonButton {
-	display: block;
-	width: 100%;
-	height: auto;
-	min-height: var(--ds-week-row-min-height);
-	padding: 0;
-	border: 0;
-	border-radius: 0;
-	background: transparent;
-	color: inherit;
-	text-align: left;
-}
-
-.lessonButton[data-size="default"] {
-	height: auto;
-	min-height: var(--ds-week-row-min-height);
-	padding: 0;
-	background: transparent;
-	color: inherit;
-}
-
-.lessonButton:hover,
-.lessonButton:focus-visible,
-.lessonButton[data-variant="default"]:hover,
-.lessonButton[data-variant="default"]:focus-visible {
-	background: transparent;
-}
-
-.upcomingHeader {
-	user-select: none;
-}
-
 .lesson {
 	display: flex;
 	min-height: var(--ds-week-row-min-height);
@@ -365,29 +155,4 @@
 
 .lesson strong {
 	font-size: var(--ds-font-small);
-}
-
-.selectedLesson {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--ds-space-3);
-	margin-top: var(--ds-content-section-gap);
-	padding: var(--ds-content-card-padding);
-	border: var(--ds-border-width) solid var(--ds-color-border);
-	border-radius: var(--ds-radius-control);
-	background: var(--ds-color-surface);
-
-	margin-left: calc(var(--ds-content-card-padding) - 3px);
-}
-
-.selectedLesson div {
-	display: grid;
-	gap: var(--ds-space-1);
-}
-
-.selectedEyebrow {
-	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-font-small);
-	letter-spacing: 0.08em;
 }

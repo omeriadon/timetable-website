@@ -1,0 +1,129 @@
+.todayHeader {
+	display: grid;
+	gap: var(--ds-space-2);
+	margin-bottom: var(--ds-content-section-gap);
+}
+
+.todayHeader h1 {
+	margin: 0;
+	font-size: var(--ds-font-display);
+}
+
+.todayHeader p,
+.todayHeader span {
+	margin: 0;
+	color: var(--ds-color-text-secondary);
+}
+
+.subjectList {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+}
+
+.emptyState {
+	display: grid;
+	justify-items: center;
+	gap: var(--ds-space-1);
+	margin: var(--ds-content-section-gap) 0;
+	padding: var(--ds-space-6) var(--ds-space-4);
+	color: var(--ds-color-text-secondary);
+	text-align: center;
+}
+
+.emptyState strong {
+	color: var(--ds-color-text-muted);
+	font-size: var(--ds-font-body-size);
+}
+
+.emptyState span {
+	font-size: var(--ds-font-small);
+}
+
+.subjectRow {
+	display: grid;
+	grid-template-columns: 24px minmax(0, 1fr) auto var(--ds-icon-size-row);
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+}
+
+.subjectRowExpanded {
+	align-items: start;
+}
+
+.subjectRow > .currentPeriod {
+	grid-column: 3;
+	justify-self: end;
+}
+
+.subjectRow > em {
+	grid-column: 4;
+}
+
+.subjectNumber {
+	align-self: center;
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+	user-select: none;
+}
+
+.subjectDetails {
+	display: grid;
+	min-width: 0;
+	gap: var(--ds-space-1);
+}
+
+.subjectRow strong {
+	font-size: var(--ds-font-body-size);
+	font-weight: 600;
+}
+
+.subjectRow em {
+	display: grid;
+	align-self: center;
+	place-items: center;
+	font-style: normal;
+}
+
+.subjectMeta {
+	display: grid;
+	grid-template-rows: 0fr;
+	opacity: 0;
+	transition:
+		grid-template-rows var(--ds-duration-fast) var(--ds-ease-standard),
+		opacity var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+.subjectRowExpanded .subjectMeta {
+	grid-template-rows: 1fr;
+	opacity: 1;
+}
+
+.subjectMetaContent {
+	display: grid;
+	min-height: 0;
+	overflow: hidden;
+	gap: var(--ds-space-1);
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	user-select: none;
+}
+
+.subjectMetaContent span {
+	display: flex;
+	align-items: center;
+	gap: var(--ds-space-2);
+}
+
+.subjectMetaIcon {
+	width: var(--ds-icon-size-small);
+	height: var(--ds-icon-size-small);
+	flex: 0 0 var(--ds-icon-size-small);
+	object-fit: contain;
+	opacity: 0.7;
+}
+
+.upcomingHeader {
+	user-select: none;
+}

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/solid-router";
 import { useLocation } from "@tanstack/solid-router";
 import Symbol from "@/components/controls/Symbol/Symbol";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./TimetableModeNavigation.module.css";
 
 const modes = [
 	{ href: "/today", label: "Today", icon: "calendar.day.timeline.left" },

@@ -19,7 +19,8 @@ import {
 	currentTimetableDayIndex,
 	periodLabel,
 } from "@/features/timetable/layout";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./WeekView.module.css";
+import sharedStyles from "@/components/timetable/timetable.module.css";
 
 export default function WeekView({
 	subjects,
@@ -47,15 +48,15 @@ export default function WeekView({
 	});
 
 	return (
-		<section class={styles.week} aria-label="Weekly timetable">
-			<div class={styles.weekSurface}>
-				<div class={styles.weekHeader}>
+		<section class={sharedStyles.week} aria-label="Weekly timetable">
+			<div class={sharedStyles.weekSurface}>
+				<div class={sharedStyles.weekHeader}>
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
 							class={
 								currentDayIndex === dayIndex
-									? styles.currentDayHeader
+									? sharedStyles.currentDayHeader
 									: undefined
 							}
 						>
@@ -63,9 +64,9 @@ export default function WeekView({
 						</span>
 					))}
 				</div>
-				<div class={styles.weekGrid}>
+				<div class={sharedStyles.weekGrid}>
 					{TIMETABLE_SESSIONS.map((session) => (
-						<div class={styles.weekRow}>
+						<div class={sharedStyles.weekRow}>
 							<small>{session.label}</small>
 							{TIMETABLE_DAYS.map((day, dayIndex) => {
 								const subject = subjects.find((item) =>
@@ -76,7 +77,7 @@ export default function WeekView({
 								);
 								const currentDayClass =
 									currentDayIndex === dayIndex
-										? styles.currentDayCell
+										? sharedStyles.currentDayCell
 										: undefined;
 								if (!subject) {
 									return <div class={currentDayClass} />;
@@ -101,13 +102,13 @@ export default function WeekView({
 											<article
 												class={
 													isSelected
-														? `${styles.lesson} ${styles.lessonSelected}`
-														: styles.lesson
+														? `${sharedStyles.lesson} ${styles.lessonSelected}`
+														: sharedStyles.lesson
 												}
 											>
 												<Symbol
 													name={subject.symbol}
-													class={styles.lessonSymbol}
+													class={sharedStyles.lessonSymbol}
 												/>
 												<strong>{subject.id}</strong>
 											</article>

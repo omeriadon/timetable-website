@@ -14,7 +14,8 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import { useTimetableNow } from "@/features/timetable/clock";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./PlannerView.module.css";
+import sharedStyles from "@/components/timetable/timetable.module.css";
 import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 import { DrawerFooter } from "@/components/ui/drawer";
 
@@ -154,11 +155,11 @@ export default function PlannerView({
 						<Link
 							to="/grades/$subject"
 							params={{ subject: assessment.subjectID }}
-							class={cn(styles.cardRow, styles.plannerEvent)}
+							class={cn(sharedStyles.cardRow, sharedStyles.plannerEvent)}
 							aria-label={`Open ${assessment.name}`}
 						>
-							<span class={styles.eventSymbol} aria-hidden="true">
-								<Symbol name="doc.text" class={styles.eventSymbolIcon} />
+							<span class={sharedStyles.eventSymbol} aria-hidden="true">
+								<Symbol name="doc.text" class={sharedStyles.eventSymbolIcon} />
 							</span>
 							<div>
 								<strong>{assessment.name}</strong>
@@ -176,9 +177,12 @@ export default function PlannerView({
 					symbolName="calendar.badge.exclamationmark"
 				>
 					{upcomingNoSchoolDays.map((item) => (
-						<div class={cn(styles.cardRow, styles.plannerEvent)}>
-							<span class={styles.eventSymbol} aria-hidden="true">
-								<Symbol name="figure.wave" class={styles.eventSymbolIcon} />
+						<div class={cn(sharedStyles.cardRow, sharedStyles.plannerEvent)}>
+							<span class={sharedStyles.eventSymbol} aria-hidden="true">
+								<Symbol
+									name="figure.wave"
+									class={sharedStyles.eventSymbolIcon}
+								/>
 							</span>
 							<div>
 								<strong>{item.label}</strong>
@@ -190,9 +194,9 @@ export default function PlannerView({
 			) : null}
 			<SectionCard background="paper" title="Term Dates" symbolName="calendar">
 				{visibleTermRanges.map((term) => (
-					<div class={cn(styles.cardRow, styles.plannerEvent)}>
-						<span class={styles.eventSymbol} aria-hidden="true">
-							<Symbol name="calendar" class={styles.eventSymbolIcon} />
+					<div class={cn(sharedStyles.cardRow, sharedStyles.plannerEvent)}>
+						<span class={sharedStyles.eventSymbol} aria-hidden="true">
+							<Symbol name="calendar" class={sharedStyles.eventSymbolIcon} />
 						</span>
 						<div>
 							<strong>{term.label}</strong>
