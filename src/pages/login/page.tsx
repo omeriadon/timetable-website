@@ -85,7 +85,7 @@ export default function LoginPage() {
 				colorNum={17.5}
 				waveAmplitude={0.28}
 				waveFrequency={3}
-				waveSpeed={0.5}
+				waveSpeed={0.02}
 			/>
 			<section class={styles.card} aria-labelledby="login-title">
 				<img class={styles.brandMark} src="/icon-512.webp" alt="" />

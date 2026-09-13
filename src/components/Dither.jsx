@@ -1,4 +1,4 @@
-import { useRef, useEffect, forwardRef } from 'react';
+import { useRef, useEffect, useMemo, forwardRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
 import { Effect } from 'postprocessing';
@@ -195,6 +195,27 @@ function DitheredWaves({
     mouseRadius: new THREE.Uniform(mouseRadius)
   });
 
+  // NOTE: do not pass `uniforms` through the <shaderMaterial> JSX prop.
+  // R3F shallow-copies each uniform ({ ...uniform }) so primitive values
+  // like `time` become detached and useFrame updates never reach the GPU
+  // (only object-valued uniforms like Vector2 happened to stay shared).
+  // Constructing the material imperatively keeps our uniforms live.
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: waveVertexShader,
+        fragmentShader: waveFragmentShader,
+        uniforms: waveUniformsRef.current
+      }),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      material.dispose();
+    };
+  }, [material]);
+
   useEffect(() => {
     const dpr = gl.getPixelRatio();
     const w = Math.floor(size.width * dpr),
@@ -203,7 +224,35 @@ function DitheredWaves({
     if (res.x !== w || res.y !== h) {
       res.set(w, h);
     }
+    // Park the mouse in the centre until the first real pointer event,
+    // otherwise the interaction dent sits in the top-left corner.
+    if (mouseRef.current.x === 0 && mouseRef.current.y === 0 && w > 0 && h > 0) {
+      mouseRef.current.set(w / 2, h / 2);
+    }
   }, [size, gl]);
+
+  useEffect(() => {
+    if (!enableMouseInteraction) return;
+    // NOTE: the previous invisible-mesh onPointerMove never fired
+    // (raycasting skips invisible meshes), so track the pointer on the
+    // window and resolve it against the canvas rect. Window (not canvas)
+    // is deliberate: the canvas sits behind overlaying UI and should still
+    // react when hovering it.
+    const handlePointerMove = event => {
+      const rect = gl.domElement.getBoundingClientRect();
+      const dpr = gl.getPixelRatio();
+      mouseRef.current.set(
+        (event.clientX - rect.left) * dpr,
+        (event.clientY - rect.top) * dpr
+      );
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+    };
+  }, [enableMouseInteraction, gl]);
 
   const prevColor = useRef([...waveColor]);
   const prevBackgroundColor = useRef([...backgroundColor]);
@@ -236,37 +285,16 @@ function DitheredWaves({
     }
   });
 
-  const handlePointerMove = e => {
-    if (!enableMouseInteraction) return;
-    const rect = gl.domElement.getBoundingClientRect();
-    const dpr = gl.getPixelRatio();
-    mouseRef.current.set((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
-  };
-
   return (
     <>
       <mesh ref={mesh} scale={[viewport.width, viewport.height, 1]}>
         <planeGeometry args={[1, 1]} />
-        <shaderMaterial
-          vertexShader={waveVertexShader}
-          fragmentShader={waveFragmentShader}
-          uniforms={waveUniformsRef.current}
-        />
+        <primitive object={material} attach="material" />
       </mesh>
 
       <EffectComposer>
         <RetroEffect colorNum={colorNum} pixelSize={pixelSize} />
       </EffectComposer>
-
-      <mesh
-        onPointerMove={handlePointerMove}
-        position={[0, 0, 0.01]}
-        scale={[viewport.width, viewport.height, 1]}
-        visible={false}
-      >
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
     </>
   );
 }
@@ -286,7 +314,6 @@ export default function Dither({
   return (
     <Canvas
       className="dither-container"
-      frameloop="always"
       camera={{ position: [0, 0, 6] }}
       dpr={1}
       gl={{ antialias: true, preserveDrawingBuffer: true }}

@@ -1,5 +1,5 @@
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
-import { useRef, useEffect, forwardRef } from "react";
+import { useRef, useEffect, useMemo, forwardRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
 import { Effect } from "postprocessing";
@@ -186,6 +186,19 @@ function DitheredWaves({
     enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
     mouseRadius: new THREE.Uniform(mouseRadius)
   });
+  const material = useMemo(
+    () => new THREE.ShaderMaterial({
+      vertexShader: waveVertexShader,
+      fragmentShader: waveFragmentShader,
+      uniforms: waveUniformsRef.current
+    }),
+    []
+  );
+  useEffect(() => {
+    return () => {
+      material.dispose();
+    };
+  }, [material]);
   useEffect(() => {
     const dpr = gl.getPixelRatio();
     const w = Math.floor(size.width * dpr), h = Math.floor(size.height * dpr);
@@ -193,7 +206,25 @@ function DitheredWaves({
     if (res.x !== w || res.y !== h) {
       res.set(w, h);
     }
+    if (mouseRef.current.x === 0 && mouseRef.current.y === 0 && w > 0 && h > 0) {
+      mouseRef.current.set(w / 2, h / 2);
+    }
   }, [size, gl]);
+  useEffect(() => {
+    if (!enableMouseInteraction) return;
+    const handlePointerMove = (event) => {
+      const rect = gl.domElement.getBoundingClientRect();
+      const dpr = gl.getPixelRatio();
+      mouseRef.current.set(
+        (event.clientX - rect.left) * dpr,
+        (event.clientY - rect.top) * dpr
+      );
+    };
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+    };
+  }, [enableMouseInteraction, gl]);
   const prevColor = useRef([...waveColor]);
   const prevBackgroundColor = useRef([...backgroundColor]);
   useFrame(({ clock }) => {
@@ -218,38 +249,12 @@ function DitheredWaves({
       u.mousePos.value.copy(mouseRef.current);
     }
   });
-  const handlePointerMove = (e) => {
-    if (!enableMouseInteraction) return;
-    const rect = gl.domElement.getBoundingClientRect();
-    const dpr = gl.getPixelRatio();
-    mouseRef.current.set((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
-  };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsxs("mesh", { ref: mesh, scale: [viewport.width, viewport.height, 1], children: [
       /* @__PURE__ */ jsx("planeGeometry", { args: [1, 1] }),
-      /* @__PURE__ */ jsx(
-        "shaderMaterial",
-        {
-          vertexShader: waveVertexShader,
-          fragmentShader: waveFragmentShader,
-          uniforms: waveUniformsRef.current
-        }
-      )
+      /* @__PURE__ */ jsx("primitive", { object: material, attach: "material" })
     ] }),
-    /* @__PURE__ */ jsx(EffectComposer, { children: /* @__PURE__ */ jsx(RetroEffect, { colorNum, pixelSize }) }),
-    /* @__PURE__ */ jsxs(
-      "mesh",
-      {
-        onPointerMove: handlePointerMove,
-        position: [0, 0, 0.01],
-        scale: [viewport.width, viewport.height, 1],
-        visible: false,
-        children: [
-          /* @__PURE__ */ jsx("planeGeometry", { args: [1, 1] }),
-          /* @__PURE__ */ jsx("meshBasicMaterial", { transparent: true, opacity: 0 })
-        ]
-      }
-    )
+    /* @__PURE__ */ jsx(EffectComposer, { children: /* @__PURE__ */ jsx(RetroEffect, { colorNum, pixelSize }) })
   ] });
 }
 function Dither({
@@ -268,7 +273,6 @@ function Dither({
     Canvas,
     {
       className: "dither-container",
-      frameloop: "always",
       camera: { position: [0, 0, 6] },
       dpr: 1,
       gl: { antialias: true, preserveDrawingBuffer: true },
