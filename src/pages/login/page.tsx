@@ -112,7 +112,7 @@ export default function LoginPage() {
 							autoComplete="email"
 							maxLength={100}
 							required
-							disabled={mode() === "verify"}
+							disabled={mode() === "verify" || isSubmitting()}
 						/>
 					</label>
 					<label>
@@ -127,6 +127,7 @@ export default function LoginPage() {
 							minLength={8}
 							maxLength={100}
 							required
+							disabled={isSubmitting()}
 						/>
 					</label>
 					{mode() === "verify" ? (
@@ -140,6 +141,7 @@ export default function LoginPage() {
 									setCode(event.target.value.replace(/\D/g, "").slice(0, 6))
 								}
 								required
+								disabled={isSubmitting()}
 							/>
 						</label>
 					) : null}
@@ -148,26 +150,32 @@ export default function LoginPage() {
 							{error()}
 						</p>
 					) : null}
-					<Button class={styles.submit} type="submit" disabled={isSubmitting()}>
-						<Symbol
-							name={
-								isSubmitting()
-									? "ellipsis.circle"
-									: mode() === "sign-in"
-										? "arrow.right"
-										: mode() === "sign-up"
-											? "paperplane"
-											: "checkmark.circle"
-							}
-							class={styles.actionIcon}
-						/>
-						{isSubmitting()
-							? "Please wait"
-							: mode() === "sign-in"
-								? "Sign in"
-								: mode() === "sign-up"
-									? "Send verification code"
-									: "Create account"}
+					<Button
+						class={styles.submit}
+						type="submit"
+						disabled={isSubmitting()}
+						aria-busy={isSubmitting() || undefined}
+					>
+						{isSubmitting() ? (
+							<>
+								<span class={styles.spinner} aria-hidden="true" />
+								<span aria-live="polite">{pendingLabel(mode())}</span>
+							</>
+						) : (
+							<>
+								<Symbol
+									name={
+										mode() === "sign-in"
+											? "arrow.right"
+											: mode() === "sign-up"
+												? "paperplane"
+												: "checkmark.circle"
+									}
+									class={styles.actionIcon}
+								/>
+								{idleLabel(mode())}
+							</>
+						)}
 					</Button>
 				</form>
 
@@ -175,6 +183,7 @@ export default function LoginPage() {
 					<Button
 						class={styles.switchMode}
 						type="button"
+						disabled={isSubmitting()}
 						onClick={() =>
 							setMode(mode() === "sign-in" ? "sign-up" : "sign-in")
 						}
@@ -200,4 +209,16 @@ function returnDestination() {
 			: new URLSearchParams(window.location.search).get("returnTo");
 
 	return safeReturnTo(value, "/today");
+}
+
+function idleLabel(mode: Mode) {
+	if (mode === "sign-in") return "Sign in";
+	if (mode === "sign-up") return "Send verification code";
+	return "Create account";
+}
+
+function pendingLabel(mode: Mode) {
+	if (mode === "sign-in") return "Signing in…";
+	if (mode === "sign-up") return "Sending code…";
+	return "Creating account…";
 }
