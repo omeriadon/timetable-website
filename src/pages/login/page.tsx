@@ -6,6 +6,7 @@ import { apiRequest, PMSTTAPIError } from "@/lib/api/client";
 import type { TokenResponse } from "@/lib/api/contracts";
 import { websiteInstallationID } from "@/lib/auth/installation";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import Dither from "@/components/Dither/Dither";
 import styles from "./page.module.css";
 import { safeReturnTo } from "@/lib/returnTo";
 
@@ -74,11 +75,20 @@ export default function LoginPage() {
 
 	return (
 		<main class={styles.page}>
+			<Dither
+				waveColor={[
+					0.7529411764705882, 0.4196078431372549, 0.18823529411764706,
+				]}
+				disableAnimation={false}
+				enableMouseInteraction
+				mouseRadius={0.5}
+				colorNum={17.5}
+				waveAmplitude={0.28}
+				waveFrequency={3}
+				waveSpeed={0.5}
+			/>
 			<section class={styles.card} aria-labelledby="login-title">
-				<div class={styles.brandMark} aria-hidden="true">
-					T
-				</div>
-				<p class={styles.eyebrow}>Timetable</p>
+				<img class={styles.brandMark} src="/icon-512.webp" alt="" />
 				<h1 id="login-title">
 					{mode() === "sign-in"
 						? "Welcome back"
@@ -86,11 +96,11 @@ export default function LoginPage() {
 							? "Create your account"
 							: "Verify your email"}
 				</h1>
-				<p class={styles.intro}>
-					{mode() === "verify"
-						? `Enter the six-digit code sent to ${email()}.`
-						: "Your school week, in one place."}
-				</p>
+				{mode() === "verify" ? (
+					<p class={styles.intro}>
+						Enter the six-digit code sent to {email()}.
+					</p>
+				) : null}
 
 				<form class={styles.form} onSubmit={submit}>
 					<label>
