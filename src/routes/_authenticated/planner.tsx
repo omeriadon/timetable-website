@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/planner/page";
+import { PlannerPending } from "@/lib/cache/pending";
 import { fetchDashboard } from "@/lib/server/dashboard.functions";
 export const Route = createFileRoute("/_authenticated/planner")({
 	loader: async ({ context }) => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/planner")({
 		const dashboard = Route.useLoaderData();
 		return <Page dashboard={dashboard()} />;
 	},
-	pendingComponent: () => <p>Loading your planner…</p>,
+	pendingComponent: PlannerPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">
 			Unable to load your planner.{" "}

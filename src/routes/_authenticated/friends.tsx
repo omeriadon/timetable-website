@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/friends/page";
+import { FriendsPending } from "@/lib/cache/pending";
 import { loadFriends } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/friends")({
 	loader: async ({ context }) => ({
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/friends")({
 		const data = Route.useLoaderData();
 		return <Page data={data()} />;
 	},
-	pendingComponent: () => <p role="status">Loading friends…</p>,
+	pendingComponent: FriendsPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">Unable to load friends: {error.message}</p>
 	),

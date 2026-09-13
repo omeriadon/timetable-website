@@ -60,8 +60,12 @@ export function writeCacheEntry<T>(
 		window.dispatchEvent(
 			new CustomEvent("timetable:cache-updated", { detail: { key } }),
 		);
-	} catch {
-		// Quota or serialization failure: caching is best-effort, ignore.
+	} catch (error) {
+		// Quota or serialization failure: caching is best-effort, but log it
+		// so a silently-empty cache (cold tabs always spinning) is diagnosable.
+		if (typeof console !== "undefined") {
+			console.warn(`[cache] failed to persist ${key}`, error);
+		}
 	}
 }
 

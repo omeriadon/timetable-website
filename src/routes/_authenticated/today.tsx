@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/today/page";
+import { TodayPending } from "@/lib/cache/pending";
 import { fetchDashboard } from "@/lib/server/dashboard.functions";
 export const Route = createFileRoute("/_authenticated/today")({
 	loader: async ({ context }) => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/today")({
 		const dashboard = Route.useLoaderData();
 		return <Page dashboard={dashboard()} />;
 	},
-	pendingComponent: () => <p>Loading your timetable…</p>,
+	pendingComponent: TodayPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">
 			Unable to load today&apos;s timetable.{" "}

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/classes/page";
+import { ClassesPending } from "@/lib/cache/pending";
 import { loadClasses } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/classes")({
 	loader: () => loadClasses(),
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/classes")({
 		const data = Route.useLoaderData();
 		return <Page data={data()} />;
 	},
-	pendingComponent: () => <p role="status">Loading classes…</p>,
+	pendingComponent: ClassesPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">Unable to load classes: {error.message}</p>
 	),

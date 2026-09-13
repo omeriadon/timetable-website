@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/grades/[subject]/page";
+import { GradeSubjectPending } from "@/lib/cache/pending";
 import { loadGradeSubject } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/grades/$subject")({
 	loader: () => loadGradeSubject(),
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/grades/$subject")({
 		const data = Route.useLoaderData();
 		return <Page subject={params().subject} data={data()} />;
 	},
-	pendingComponent: () => <p role="status">Loading subject grades…</p>,
+	pendingComponent: GradeSubjectPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">Unable to load subject grades: {error.message}</p>
 	),

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import Page from "@/pages/settings/[section]/page";
+import { SettingsSectionPending } from "@/lib/cache/pending";
 import {
 	loadProfileSettingsSection,
 	loadSettingsSection,
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/settings/$section")({
 		const data = Route.useLoaderData();
 		return <Page section={params().section} data={data()} />;
 	},
-	pendingComponent: () => <p role="status">Loading settings section…</p>,
+	pendingComponent: SettingsSectionPending,
 	errorComponent: ({ error }) => (
 		<p role="alert">Unable to load settings: {error.message}</p>
 	),
