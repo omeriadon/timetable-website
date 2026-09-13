@@ -86,7 +86,9 @@ export default function SettingsSectionPage({
 			{section === "account" && settings() ? (
 				<AccountSyncEditor
 					initial={settings()!}
-					onSignOut={() => navigate({ to: "/login" })}
+					onSignOut={() =>
+						navigate({ to: "/login", search: { returnTo: undefined } })
+					}
 				/>
 			) : null}
 			{section === "notifications" && settings() ? (
