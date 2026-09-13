@@ -1,8 +1,10 @@
-import { createEffect, createSignal, onCleanup } from "solid-js";
 import { apiRequest } from "@/lib/api/client";
 import type { DashboardData as ServerDashboardData } from "@/lib/server/dashboard.functions";
 import type { Account } from "@/lib/api/contracts";
 import type { Settings } from "@/features/settings/types";
+import { CACHE_KEYS, CACHE_TTLS } from "@/lib/cache/keys";
+import { createCachedResource } from "@/lib/cache/swr";
+import { writeCacheEntry } from "@/lib/cache/storage";
 import type {
 	CalendarEvents,
 	Friend,
@@ -56,40 +58,32 @@ function requestDashboard() {
 				return data;
 			},
 		);
+		dashboardRequest.catch(() => {
+			dashboardRequest = null;
+		});
 	}
 
 	return dashboardRequest;
 }
 
+export function primeDashboardCache(data: DashboardData) {
+	writeCacheEntry(CACHE_KEYS.dashboard, data, data.account?.id ?? null);
+}
+
 export function useDashboard(initialData?: DashboardData) {
-	const [data, setData] = createSignal<DashboardData | null>(
-		initialData ?? null,
-	);
-	const [error, setError] = createSignal<string | null>(null);
-
-	createEffect(() => {
-		if (initialData) {
-			return;
-		}
-		let isCurrent = true;
-
-		requestDashboard()
-			.then((dashboard) => {
-				if (isCurrent) {
-					setData(dashboard);
-				}
-			})
-			.catch((requestError: Error) => {
-				if (isCurrent) {
-					setError(requestError.message);
-					dashboardRequest = null;
-				}
-			});
-
-		onCleanup(() => {
-			isCurrent = false;
-		});
+	const cached = createCachedResource<DashboardData>({
+		key: CACHE_KEYS.dashboard,
+		fetcher: requestDashboard,
+		initialData: initialData ?? null,
+		userId: initialData?.account?.id ?? null,
+		ttlMs: CACHE_TTLS.dashboard,
 	});
 
-	return { data, error, isLoading: () => !data() && !error() };
+	return {
+		data: cached.data,
+		error: cached.error,
+		isLoading: cached.isLoading,
+		isRevalidating: cached.isRevalidating,
+		refresh: cached.refresh,
+	};
 }

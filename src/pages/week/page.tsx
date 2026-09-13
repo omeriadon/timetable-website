@@ -3,12 +3,13 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { useDashboard } from "@/features/timetable/useDashboard";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import TimetableModeNavigation from "@/components/timetable/TimetableModeNavigation/TimetableModeNavigation";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
 import styles from "@/components/timetable/timetable.module.css";
 import type { DashboardData } from "@/lib/server/dashboard.functions";
 
 export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {
 	const setToolbar = useToolbar();
-	const { data, error, isLoading } = useDashboard(dashboard);
+	const { data, error, isLoading, isRevalidating } = useDashboard(dashboard);
 
 	createEffect(() => {
 		setToolbar({});
@@ -17,6 +18,7 @@ export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {
 	return (
 		<main class={styles.page}>
 			<TimetableModeNavigation />
+			<StaleIndicator active={!!data() && isRevalidating()} />
 			{isLoading() ? (
 				<p class={styles.message}>Loading your timetable…</p>
 			) : null}
