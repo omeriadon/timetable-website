@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createMemo, createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import { useRouter } from "@tanstack/solid-router";
 import type { GradesData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
 import { apiRequest } from "@/lib/api/client";
@@ -13,6 +12,9 @@ import type {
 } from "@/features/timetable/types";
 import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
+import { CACHE_KEYS, CACHE_TTLS } from "@/lib/cache/keys";
+import { createCachedResource } from "@/lib/cache/swr";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
@@ -157,17 +159,30 @@ function ATARSettingsDrawer({
 export default function GradesPage({ data }: { data: GradesData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
-	const router = useRouter();
-	const [grades, setGrades] = createSignal<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
-		initial.timetable,
-	);
-	const [isSenior] = createSignal(() => {
-		const yearGroups = initial.yearGroups.sections
+	const cached = createCachedResource<GradesData>({
+		key: CACHE_KEYS.grades,
+		initialData: initial,
+		ttlMs: CACHE_TTLS.grades,
+		fetcher: async () => {
+			const [grades, timetable, yearGroups, subscriptions] = await Promise.all([
+				apiRequest<GradeTracker>("v1/grades"),
+				apiRequest<OwnerTimetable>("v1/timetables/owner"),
+				apiRequest<GradesData["yearGroups"]>("v1/tags"),
+				apiRequest<GradesData["subscriptions"]>("v1/tags/subscriptions"),
+			]);
+			return { grades, timetable, yearGroups, subscriptions };
+		},
+	});
+	const grades = () => cached.data()?.grades;
+	const timetable = () => cached.data()?.timetable;
+	const isRevalidating = cached.isRevalidating;
+	const isSenior = createMemo(() => {
+		const snapshot = cached.data() ?? initial;
+		const yearGroups = snapshot.yearGroups.sections
 			.filter((section) => section.category === "yearGroup")
 			.flatMap((section) => section.tags);
 		return yearGroups
-			.filter((tag) => initial.subscriptions.tagIDs.includes(tag.id))
+			.filter((tag) => snapshot.subscriptions.tagIDs.includes(tag.id))
 			.some((tag) => /11|12/.test(tag.displayName));
 	});
 	const [error, setError] = createSignal<string | null>(null);
@@ -183,10 +198,12 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							onPress: () =>
 								openDrawer(() => (
 									<ATARSettingsDrawer
-										grades={grades()}
+										grades={grades()!}
 										onSaved={(updated) => {
-											setGrades(updated);
-											void router.invalidate();
+											const snapshot = cached.data();
+											if (snapshot) {
+												cached.mutate({ ...snapshot, grades: updated });
+											}
 										}}
 									/>
 								)),
@@ -215,6 +232,12 @@ export default function GradesPage({ data }: { data: GradesData }) {
 
 	return (
 		<main class={styles.page}>
+			<StaleIndicator active={!!cached.data() && isRevalidating()} />
+			{cached.error() ? (
+				<p class={styles.error} role="alert">
+					{cached.error()}
+				</p>
+			) : null}
 			{error() ? (
 				<p class={styles.error} role="alert">
 					{error()}

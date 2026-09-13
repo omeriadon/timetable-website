@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { createEffect, createMemo, createSignal, onMount } from "solid-js";
-import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { FriendsData } from "@/lib/server/page-data.functions";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
@@ -25,6 +24,9 @@ import {
 	ListSectionHeader,
 } from "@/components/ui/list";
 import styles from "./page.module.css";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
+import { CACHE_KEYS, CACHE_TTLS } from "@/lib/cache/keys";
+import { createCachedResource } from "@/lib/cache/swr";
 import { useTimetableNow } from "@/features/timetable/clock";
 import { friendScheduleTitle } from "@/features/timetable/friendSchedule";
 import { cn } from "@/lib/utils";
@@ -34,13 +36,30 @@ import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 export default function FriendsPage({ data }: { data: FriendsData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
-	const router = useRouter();
-	const [friends, setFriends] = createSignal<Friend[]>(initial.friends);
-	const [account, setAccount] = createSignal<Account>(initial.account);
-	const [locationStatus, setLocationStatus] = createSignal<
-		CurrentLocationStatus["item"]
-	>(initial.locationStatus);
-	const [incomingRequestCount] = createSignal(initial.incomingRequestCount);
+	const cached = createCachedResource<FriendsData>({
+		key: CACHE_KEYS.friends,
+		initialData: initial,
+		userId: initial.account?.id ?? null,
+		ttlMs: CACHE_TTLS.friends,
+		fetcher: async () => {
+			const [friends, location, requests, account] = await Promise.all([
+				apiRequest<Friend[]>("v1/friends"),
+				apiRequest<CurrentLocationStatus>("v1/account/status"),
+				apiRequest<Friend[]>("v1/friends/requests"),
+				apiRequest<Account>("v1/account"),
+			]);
+			return {
+				friends,
+				locationStatus: location.item,
+				incomingRequestCount: requests.length,
+				account,
+			};
+		},
+	});
+	const friends = () => cached.data()?.friends ?? [];
+	const account = () => cached.data()?.account!;
+	const locationStatus = () => cached.data()?.locationStatus ?? null;
+	const incomingRequestCount = () => cached.data()?.incomingRequestCount ?? 0;
 	const [searchText, setSearchText] = createSignal("");
 	const [draggedFriendID, setDraggedFriendID] = createSignal<string | null>(
 		null,
@@ -78,7 +97,9 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 		const next = [...friends()];
 		const [moved] = next.splice(sourceIndex, 1);
 		next.splice(targetIndex, 0, moved);
-		setFriends(next);
+		const previous = friends();
+		const snapshot = cached.data();
+		if (snapshot) cached.mutate({ ...snapshot, friends: next });
 		setDraggedFriendID(sourceID);
 		try {
 			const saved = await apiRequest<Friend[]>("v1/friends/order", {
@@ -87,10 +108,11 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 					friendIDs: next.map((friend) => friend.friend.userID),
 				}),
 			});
-			setFriends(saved);
-			await router.invalidate();
+			const latest = cached.data();
+			if (latest) cached.mutate({ ...latest, friends: saved });
 		} catch (requestError) {
-			setFriends(friends);
+			const latest = cached.data();
+			if (latest) cached.mutate({ ...latest, friends: previous });
 			setError((requestError as Error).message);
 		} finally {
 			setDraggedFriendID(null);
@@ -122,7 +144,11 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 
 	return (
 		<main class={cn(styles.page, draggedFriendID() && styles.pageDragging)}>
+			<StaleIndicator active={!!cached.data() && cached.isRevalidating()} />
 			{error() ? <p class={styles.error}>{error()}</p> : null}
+			{cached.error() && !cached.data() ? (
+				<p class={styles.error}>{cached.error()}</p>
+			) : null}
 			<List sections>
 				{account() ? (
 					<ListSection>
@@ -135,7 +161,15 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 								onClick={() =>
 									openDrawer(() => (
 										<PersonalArrivalDrawer
-											onStatusUpdated={setLocationStatus}
+											onStatusUpdated={(status) => {
+												const snapshot = cached.data();
+												if (snapshot) {
+													cached.mutate({
+														...snapshot,
+														locationStatus: status,
+													});
+												}
+											}}
 										/>
 									))
 								}
@@ -255,7 +289,6 @@ function PersonalArrivalDrawer({
 	);
 	const [error, setError] = createSignal<string | null>(null);
 	const [updatingLocation, setUpdatingLocation] = createSignal(false);
-	const router = useRouter();
 
 	onMount(() => {
 		apiRequest<ArrivalStatistics>("v1/account/status/statistics")
@@ -287,9 +320,8 @@ function PersonalArrivalDrawer({
 					method: "POST",
 					body: JSON.stringify(item),
 				})
-					.then(async () => {
+					.then(() => {
 						onStatusUpdated(item);
-						await router.invalidate();
 					})
 					.catch((requestError: Error) => setError(requestError.message))
 					.finally(() => setUpdatingLocation(false));

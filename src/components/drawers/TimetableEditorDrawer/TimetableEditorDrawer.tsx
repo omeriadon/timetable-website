@@ -9,11 +9,12 @@ import type {
 	TimetableSubject,
 } from "@/features/timetable/types";
 import { apiRequest } from "@/lib/api/client";
-import { useRouter } from "@tanstack/solid-router";
 import {
 	TIMETABLE_DAYS,
 	TIMETABLE_SESSIONS,
 } from "@/features/timetable/layout";
+import { CACHE_KEYS } from "@/lib/cache/keys";
+import { readCacheEntry, writeCacheEntry } from "@/lib/cache/storage";
 import { useDrawer } from "../Drawer/Drawer";
 import ConfirmationDrawer from "../ConfirmationDrawer/ConfirmationDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -31,7 +32,6 @@ export default function TimetableEditorDrawer({
 	onSaved: (timetable: OwnerTimetable) => void;
 }) {
 	const { closeDrawer, openDrawer } = useDrawer();
-	const router = useRouter();
 	const [subjects, setSubjects] = createSignal<TimetableSubject[]>(
 		timetable.subjects,
 	);
@@ -144,7 +144,15 @@ export default function TimetableEditorDrawer({
 				}),
 			});
 			onSaved(updated);
-			await router.invalidate();
+			const dashboardEntry = readCacheEntry<
+				{ timetable: OwnerTimetable } & Record<string, unknown>
+			>(CACHE_KEYS.dashboard);
+			if (dashboardEntry) {
+				writeCacheEntry(CACHE_KEYS.dashboard, {
+					...dashboardEntry.payload,
+					timetable: updated,
+				});
+			}
 			closeDrawer();
 		} catch (requestError) {
 			setError((requestError as Error).message);

@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/solid-router";
+import { Link } from "@tanstack/solid-router";
 import { createMemo, createSignal, onMount } from "solid-js";
 
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -17,6 +17,9 @@ import type {
 } from "@/features/timetable/types";
 
 import styles from "./page.module.css";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
+import { createCachedResource } from "@/lib/cache/swr";
+import { gradeSubjectKey, CACHE_TTLS } from "@/lib/cache/keys";
 
 export default function GradeSubjectPage({
 	subject,
@@ -28,16 +31,32 @@ export default function GradeSubjectPage({
 	const subjectID = subject;
 
 	const setToolbar = useToolbar();
-	const router = useRouter();
 	const { openDrawer } = useDrawer();
 
 	const initial = data;
-	const [tracker, setTracker] = createSignal<GradeTracker>(initial.grades);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
-		initial.timetable,
-	);
+	const cached = createCachedResource<GradeSubjectData>({
+		key: gradeSubjectKey(subjectID),
+		initialData: initial,
+		ttlMs: CACHE_TTLS.grades,
+		fetcher: async () => {
+			const [grades, timetable] = await Promise.all([
+				apiRequest<GradeTracker>("v1/grades"),
+				apiRequest<OwnerTimetable>("v1/timetables/owner"),
+			]);
+			return { grades, timetable };
+		},
+	});
+	const tracker = () => cached.data()?.grades;
+	const timetable = () => cached.data()?.timetable;
 	const [saving, setSaving] = createSignal(false);
 	const [error, setError] = createSignal<string | null>(null);
+
+	const persistTracker = (updated: GradeTracker) => {
+		const snapshot = cached.data();
+		if (snapshot) {
+			cached.mutate({ ...snapshot, grades: updated });
+		}
+	};
 
 	onMount(() => setToolbar({}));
 
@@ -72,7 +91,7 @@ export default function GradeSubjectPage({
 		setError(null);
 
 		try {
-			setTracker(
+			persistTracker(
 				await apiRequest<GradeTracker>("v1/grades", {
 					method: "PUT",
 					body: JSON.stringify({
@@ -89,7 +108,6 @@ export default function GradeSubjectPage({
 					}),
 				}),
 			);
-			await router.invalidate();
 		} catch (requestError) {
 			setError((requestError as Error).message);
 			throw requestError;
@@ -105,7 +123,7 @@ export default function GradeSubjectPage({
 		setError(null);
 
 		try {
-			setTracker(
+			persistTracker(
 				await apiRequest<GradeTracker>("v1/grades", {
 					method: "PUT",
 					body: JSON.stringify({
@@ -119,7 +137,6 @@ export default function GradeSubjectPage({
 					}),
 				}),
 			);
-			await router.invalidate();
 		} catch (requestError) {
 			setError((requestError as Error).message);
 			throw requestError;
@@ -133,6 +150,7 @@ export default function GradeSubjectPage({
 			<Link to="/grades" class={styles.backLink}>
 				‹ Grades
 			</Link>
+			<StaleIndicator active={!!cached.data() && cached.isRevalidating()} />
 
 			{error() && (
 				<p class={styles.error} role="alert">
