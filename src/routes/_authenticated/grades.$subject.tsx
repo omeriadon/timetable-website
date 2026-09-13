@@ -3,6 +3,9 @@ import Page from "@/pages/grades/[subject]/page";
 import { loadGradeSubject } from "@/lib/server/page-data.functions";
 export const Route = createFileRoute("/_authenticated/grades/$subject")({
 	loader: () => loadGradeSubject(),
+	staleTime: 10 * 60 * 1000,
+	gcTime: 30 * 60 * 1000,
+	pendingMs: 250,
 	component: () => {
 		const params = Route.useParams();
 		const data = Route.useLoaderData();

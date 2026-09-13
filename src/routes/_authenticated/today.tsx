@@ -6,6 +6,9 @@ export const Route = createFileRoute("/_authenticated/today")({
 		...(await fetchDashboard()),
 		account: context.account,
 	}),
+	staleTime: 5 * 60 * 1000,
+	gcTime: 30 * 60 * 1000,
+	pendingMs: 250,
 	component: () => {
 		const dashboard = Route.useLoaderData();
 		return <Page dashboard={dashboard()} />;

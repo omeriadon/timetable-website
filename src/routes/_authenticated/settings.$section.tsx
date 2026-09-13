@@ -9,6 +9,9 @@ export const Route = createFileRoute("/_authenticated/settings/$section")({
 		params.section === "profile-appearance"
 			? loadProfileSettingsSection()
 			: loadSettingsSection(),
+	staleTime: 30 * 60 * 1000,
+	gcTime: 60 * 60 * 1000,
+	pendingMs: 250,
 	component: () => {
 		const params = Route.useParams();
 		const data = Route.useLoaderData();
