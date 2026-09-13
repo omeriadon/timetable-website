@@ -18,16 +18,6 @@ import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { ProfileResponse, Settings } from "@/features/settings/types";
 
-const labels: Record<string, string> = {
-	account: "Account & Sync",
-	appearance: "Appearance",
-	notifications: "Updates & Notifications",
-	"archived-events": "Archived Events",
-	feedback: "Report Feedback or Bug",
-	about: "About Timetable",
-	"profile-appearance": "Profile Appearance",
-};
-
 export default function SettingsSectionPage({
 	section,
 	data,
@@ -47,7 +37,7 @@ export default function SettingsSectionPage({
 	);
 	const [error, setError] = createSignal<string | null>(null);
 
-	onMount(() => setToolbar({ title: labels[section] ?? "Settings" }));
+	onMount(() => setToolbar({}));
 
 	const saveProfile = async (appearance: ProfileAppearance) => {
 		if (!profile()) return;

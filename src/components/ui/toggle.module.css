@@ -45,7 +45,7 @@
 }
 
 .root[data-unchecked] {
-	background: #1f1f1f;
+	background: var(--ds-color-surface-soft);
 }
 
 .root[data-drag-checked="true"] {
@@ -53,7 +53,7 @@
 }
 
 .root[data-drag-checked="false"] {
-	background: #1f1f1f;
+	background: var(--ds-color-surface-soft);
 }
 
 .root:focus-visible {

@@ -10,8 +10,8 @@
 }
 
 .toolbar button {
-	display: inline-grid;
-	width: var(--ds-control-height-compact);
+	display: inline-flex;
+	width: auto;
 	height: var(--ds-control-height-compact);
 	place-items: center;
 	border: var(--ds-border-width) solid var(--ds-color-border);
@@ -39,14 +39,11 @@
 .search {
 	display: flex;
 	align-items: center;
-	gap: var(--ds-space-2);
-	color: var(--ds-color-text-secondary);
-	font-size: var(--ds-font-small);
 }
 
 .search input {
-	width: var(--ds-toolbar-search-width);
-	height: var(--ds-toolbar-search-height);
+	width: calc(var(--ds-toolbar-search-width) * 1.5);
+	height: var(--ds-control-height-compact);
 	padding: 0 var(--ds-space-3);
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);

@@ -39,7 +39,7 @@ export default function GradeSubjectPage({
 	const [saving, setSaving] = createSignal(false);
 	const [error, setError] = createSignal<string | null>(null);
 
-	onMount(() => setToolbar({ title: subjectID }));
+	onMount(() => setToolbar({}));
 
 	const assessments = createMemo(
 		() =>

@@ -1,5 +1,0 @@
-.plannerActions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--ds-space-2);
-}

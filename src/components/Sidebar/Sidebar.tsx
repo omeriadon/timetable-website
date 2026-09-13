@@ -139,7 +139,11 @@ export default function Sidebar() {
 			</nav>
 			<nav class={styles.sidebarBottom} aria-label="Account navigation">
 				{bottomItems
-					.filter((item) => item.label !== "Administration" || isAdministrator)
+					.filter(
+						(item) =>
+							(item.label !== "Administration" && item.label !== "Testing") ||
+							isAdministrator,
+					)
 					.map(renderItem)}
 			</nav>
 		</aside>

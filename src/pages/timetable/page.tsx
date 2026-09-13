@@ -18,7 +18,7 @@ export default function Timetable({ dashboard }: { dashboard: DashboardData }) {
 	const { openDrawer } = useDrawer();
 
 	createEffect(() => {
-		setToolbar({ title: "Timetable" });
+		setToolbar({});
 	});
 
 	return (

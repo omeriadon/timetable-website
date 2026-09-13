@@ -14,17 +14,13 @@
 }
 
 .item {
-	transition: background-color 200ms ease;
+	background: color-mix(in srgb, var(--muted) 25%, transparent);
+	transition: background-color 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .item[data-open],
 .item[data-expanded] {
 	background: color-mix(in srgb, var(--muted) 50%, transparent);
-}
-
-.item[data-closed],
-.item[data-collapsed] {
-	background: transparent;
 }
 
 .header {
@@ -115,12 +111,12 @@
 
 .panel[data-open],
 .panel[data-expanded] {
-	animation: accordion-down 200ms ease-out;
+	animation: accordion-down 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .panel[data-closed],
 .panel[data-collapsed] {
-	animation: accordion-up 200ms ease-out;
+	animation: accordion-up 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .content {

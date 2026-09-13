@@ -1,7 +1,8 @@
 .separator {
 	flex-shrink: 0;
-	border: 1px solid var(--ds-color-border);
-	border-radius: 50px;
+	margin: 0;
+	border: 0;
+	background: var(--ds-color-border);
 }
 
 .separator[data-orientation="horizontal"] {

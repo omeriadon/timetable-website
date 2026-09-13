@@ -86,7 +86,7 @@ export default function AdministrationPage({
 	const setToolbar = useToolbar();
 	const [dashboard] = createSignal<Dashboard>(initial);
 	const [error, setError] = createSignal<string | null>(null);
-	onMount(() => setToolbar({ title: "Administration" }));
+	onMount(() => setToolbar({}));
 	return (
 		<main class={styles.page}>
 			{error() ? (

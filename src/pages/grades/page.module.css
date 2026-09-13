@@ -7,6 +7,7 @@
 .summary {
 	display: grid;
 	gap: var(--ds-content-section-gap);
+	margin-bottom: var(--ds-content-section-gap);
 	padding: var(--ds-content-card-padding);
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-content-card);
@@ -37,11 +38,9 @@
 	font-weight: 700;
 }
 
-.editAtar {
-	margin-block: var(--ds-content-section-gap);
-}
-
 .summaryStats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 	text-align: center;
 }
 
@@ -69,6 +68,20 @@
 	padding: 0;
 	background: transparent;
 	color: inherit;
+}
+
+.subjectRow {
+	display: grid;
+	grid-template-columns: 3rem minmax(0, 1fr) 5rem;
+	width: 100%;
+}
+
+.subjectRow > span:nth-child(2) {
+	min-width: 0;
+}
+
+.subjectRow > :last-child {
+	text-align: right;
 }
 
 .subjectName,

@@ -44,7 +44,7 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	const [saving, setSaving] = createSignal(false);
 	const { openDrawer } = useDrawer();
 
-	onMount(() => setToolbar({ title: "Settings" }));
+	onMount(() => setToolbar({}));
 
 	const updateFutureEventRange = async (futureEventRange: string) => {
 		if (

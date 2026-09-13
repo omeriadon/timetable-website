@@ -132,10 +132,12 @@ export default function TestingPage() {
 	const [switched, setSwitched] = createSignal(false);
 	const [menuChecked, setMenuChecked] = createSignal(true);
 	const [menuTheme, setMenuTheme] = createSignal("system");
+	const [menuOpen, setMenuOpen] = createSignal(false);
+	const [selectedOption, setSelectedOption] = createSignal("one");
 	const [settingEnabled, setSettingEnabled] = createSignal(true);
 
 	onMount(() => {
-		setToolbar({ title: "Testing" });
+		setToolbar({});
 	});
 
 	return (
@@ -265,7 +267,10 @@ export default function TestingPage() {
 								</Field>
 								<Field>
 									<FieldLabel>Select</FieldLabel>
-									<Select defaultValue="one">
+									<Select
+										value={selectedOption}
+										onValueChange={(value) => value && setSelectedOption(value)}
+									>
 										<SelectTrigger>
 											<SelectValue />
 										</SelectTrigger>
@@ -282,6 +287,7 @@ export default function TestingPage() {
 											</SelectGroup>
 										</SelectContent>
 									</Select>
+									<span>Selected: {selectedOption()}</span>
 								</Field>
 								<Field orientation="horizontal">
 									<Toggle
@@ -396,6 +402,21 @@ export default function TestingPage() {
 									<DrawerDescription>Drawer description.</DrawerDescription>
 								</DrawerHeader>
 								<p>Drawer content.</p>
+								<Drawer>
+									<DrawerTrigger as={Button} variant="outline">
+										<PanelRightIcon />
+										Open nested drawer
+									</DrawerTrigger>
+									<DrawerContent>
+										<DrawerHeader>
+											<DrawerTitle>Nested drawer title</DrawerTitle>
+											<DrawerDescription>
+												Nested drawer description.
+											</DrawerDescription>
+										</DrawerHeader>
+										<p>Nested drawer content.</p>
+									</DrawerContent>
+								</Drawer>
 							</DrawerContent>
 						</Drawer>
 
@@ -412,7 +433,7 @@ export default function TestingPage() {
 							</PopoverContent>
 						</Popover>
 
-						<DropdownMenu>
+						<DropdownMenu open={menuOpen()} onOpenChange={setMenuOpen}>
 							<DropdownMenuTrigger as={Button} variant="outline">
 								<MenuIcon />
 								Open menu

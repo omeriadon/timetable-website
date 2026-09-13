@@ -69,7 +69,7 @@ const landingCards = [
 	{
 		title: "Today",
 		maskNumber: 1,
-		screenshot: "/landing/timetable-today.png",
+		screenshot: "/landing/timetable-today.webp",
 		screenshotAlt: "Timetable Today view",
 		screenshotCrop: {
 			sourceWidth: 832,
@@ -83,7 +83,7 @@ const landingCards = [
 	{
 		title: "Week",
 		maskNumber: 2,
-		screenshot: "/landing/timetable-week.png",
+		screenshot: "/landing/timetable-week.webp",
 		screenshotAlt: "Timetable Week view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -97,7 +97,7 @@ const landingCards = [
 	{
 		title: "Planner",
 		maskNumber: 7,
-		screenshot: "/landing/timetable-planner.png",
+		screenshot: "/landing/timetable-planner.webp",
 		screenshotAlt: "Timetable Planner view",
 		screenshotCrop: {
 			sourceWidth: 868,
@@ -111,7 +111,7 @@ const landingCards = [
 	{
 		title: "Grades",
 		maskNumber: 4,
-		screenshot: "/landing/grades.png",
+		screenshot: "/landing/grades.webp",
 		screenshotAlt: "Timetable Grades view",
 		screenshotCrop: {
 			sourceWidth: 878,
@@ -125,7 +125,7 @@ const landingCards = [
 	{
 		title: "Friends",
 		maskNumber: 5,
-		screenshot: "/landing/friends.png",
+		screenshot: "/landing/friends.webp",
 		screenshotAlt: "Timetable Friends view",
 		screenshotCrop: {
 			sourceWidth: 852,
@@ -152,7 +152,7 @@ function Card({
 				<header class={styles.cardTitle}>
 					<h2
 						style={{
-							"background-image": `url(/landing/mask/${maskNumber}.png)`,
+							"background-image": `url(/landing/mask/${maskNumber}.webp)`,
 						}}
 					>
 						{title}
@@ -315,6 +315,7 @@ export default function LandingPage() {
 												<LandingSymbol
 													name="function"
 													class={styles.lessonPreviewIcon}
+													style={{ filter: "brightness(0)" }}
 												/>
 												<span>
 													<strong>Methods</strong>
@@ -382,6 +383,17 @@ export default function LandingPage() {
 						</div>
 					</div>
 				</main>
+
+				<div class={styles.bottomCta}>
+					<p>Keep your school day in sync with Timetable.</p>
+					<a class={styles.bottomCtaLink} href="/login">
+						<span>Open Timetable</span>
+						<LandingSymbol
+							name="chevron.right"
+							class={styles.navLinkIcon}
+						/>
+					</a>
+				</div>
 
 				<footer class={styles.footer}>
 					<span>Timetable</span>

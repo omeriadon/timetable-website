@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { createMemo, createSignal, onMount } from "solid-js";
+import { createEffect, createMemo, createSignal, onMount } from "solid-js";
 import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { FriendsData } from "@/lib/server/page-data.functions";
@@ -41,9 +40,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	const [locationStatus, setLocationStatus] = createSignal<
 		CurrentLocationStatus["item"]
 	>(initial.locationStatus);
-	const [incomingRequestCount, setIncomingRequestCount] = createSignal(
-		initial.incomingRequestCount,
-	);
+	const [incomingRequestCount] = createSignal(initial.incomingRequestCount);
 	const [searchText, setSearchText] = createSignal("");
 	const [draggedFriendID, setDraggedFriendID] = createSignal<string | null>(
 		null,
@@ -100,15 +97,18 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 		}
 	};
 
-	onMount(() => {
+	createEffect(() => {
+		const pendingRequestCount = incomingRequestCount();
 		setToolbar({
-			title: "Friends",
+			searchPlaceholder: "Search by name or school email",
+			searchValue: searchText(),
+			onSearchChange: setSearchText,
 			actions: [
 				{
-					label: incomingRequestCount
-						? `${incomingRequestCount} pending friend requests`
-						: "Friend requests, no pending requests",
-					icon: incomingRequestCount() ? "bell.badge" : "bell",
+					label: pendingRequestCount
+						? `Friend Requests (${pendingRequestCount})`
+						: "Friend Requests",
+					icon: pendingRequestCount ? "bell.badge" : "bell",
 					onPress: () => openDrawer(() => <FriendRequestsDrawer />),
 				},
 				{
@@ -123,16 +123,6 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 	return (
 		<main class={cn(styles.page, draggedFriendID() && styles.pageDragging)}>
 			{error() ? <p class={styles.error}>{error()}</p> : null}
-			<label class={styles.searchLabel} for="friends-search">
-				Search friends
-			</label>
-			<Input
-				id="friends-search"
-				class={styles.searchInput}
-				value={searchText()}
-				placeholder="Search by name or school email"
-				onChange={(event) => setSearchText(event.target.value)}
-			/>
 			<List sections>
 				{account() ? (
 					<ListSection>

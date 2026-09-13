@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createSignal, onMount } from "solid-js";
+import { useToolbar } from "@/components/Toolbar/Toolbar";
 import { apiRequest } from "@/lib/api/client";
 import { Link } from "@tanstack/solid-router";
 import type { DashboardData } from "@/features/timetable/useDashboard";
@@ -14,7 +15,6 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { SectionCard } from "@/components/ui/sectioncard";
 import { cn } from "@/lib/utils";
 import { useTimetableNow } from "@/features/timetable/clock";
-import styles from "./PlannerView.module.css";
 import sharedStyles from "@/components/timetable/timetable.module.css";
 import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
 import { DrawerFooter } from "@/components/ui/drawer";
@@ -33,9 +33,45 @@ export default function PlannerView({
 	futureEventRange: string;
 }) {
 	const { openDrawer } = useDrawer();
+	const setToolbar = useToolbar();
 	const now = useTimetableNow();
 	const [localEvents, setLocalEvents] = createSignal(events);
 	onMount(() => setLocalEvents(events));
+	onMount(() =>
+		setToolbar({
+			actions: [
+				{
+					label: "Add Personal Event",
+					icon: "plus",
+					onPress: () =>
+						openDrawer(() => (
+							<CreatePrivateEventDrawer
+								onCreated={(event) =>
+									setLocalEvents((current) => [...current, event])
+								}
+							/>
+						)),
+				},
+				...(canManageGlobalEvents
+					? [
+							{
+								label: "Add Global Event",
+								icon: "megaphone",
+								onPress: () =>
+									openDrawer(() => (
+										<CreatePrivateEventDrawer
+											globally
+											onCreated={(event) =>
+												setLocalEvents((current) => [...current, event])
+											}
+										/>
+									)),
+							},
+						]
+					: []),
+			],
+		}),
+	);
 	const today = startOfToday(now());
 	const todayTimestamp = today.getTime();
 	const futureEventEndTimestamp = futureEventEndDate(
@@ -72,44 +108,7 @@ export default function PlannerView({
 	};
 
 	return (
-		<section class={styles.planner}>
-			<div class={styles.plannerActions}>
-				<Button
-					type="button"
-					aria-label="Add personal event"
-					onClick={() =>
-						openDrawer(() => (
-							<CreatePrivateEventDrawer
-								onCreated={(event) =>
-									setLocalEvents((current) => [...current, event])
-								}
-							/>
-						))
-					}
-				>
-					<Symbol name="plus" />
-					Add Personal Event
-				</Button>
-				{canManageGlobalEvents ? (
-					<Button
-						type="button"
-						aria-label="Add global event"
-						onClick={() =>
-							openDrawer(() => (
-								<CreatePrivateEventDrawer
-									globally
-									onCreated={(event) =>
-										setLocalEvents((current) => [...current, event])
-									}
-								/>
-							))
-						}
-					>
-						<Symbol name="megaphone" />
-						Add Global Event
-					</Button>
-				) : null}
-			</div>
+		<section>
 			{todayEvents.length ? (
 				<SectionCard
 					background="paper"
@@ -142,7 +141,7 @@ export default function PlannerView({
 						/>
 					))
 				) : (
-					<p class={styles.empty}>No upcoming events.</p>
+					<p class={drawerStyles.detailMuted}>No upcoming events.</p>
 				)}
 			</SectionCard>
 			{upcomingAssessments.length ? (
@@ -314,7 +313,10 @@ function CreatePrivateEventDrawer({
 				/>
 			</label>
 			{globally ? (
-				<section class={styles.formCard} aria-labelledby="new-event-tags-title">
+				<section
+					class={drawerStyles.formCard}
+					aria-labelledby="new-event-tags-title"
+				>
 					<h3 id="new-event-tags-title">Tags</h3>
 					{tagSections().length ? (
 						tagSections()
@@ -338,7 +340,7 @@ function CreatePrivateEventDrawer({
 								);
 							})
 					) : (
-						<p class={styles.empty}>Loading event tags…</p>
+						<p class={drawerStyles.detailMuted}>Loading event tags…</p>
 					)}
 				</section>
 			) : null}

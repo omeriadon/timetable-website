@@ -1,6 +1,8 @@
 import {
 	createContext,
+	createEffect,
 	createSignal,
+	onCleanup,
 	splitProps,
 	useContext,
 	type JSX,
@@ -9,7 +11,6 @@ import { Portal } from "solid-js/web";
 import CorvuDrawer from "@corvu/drawer";
 import type { Size } from "@corvu/drawer";
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
 import { XIcon } from "lucide-solid";
 import styles from "./drawer.module.css";
 
@@ -18,6 +19,9 @@ type DrawerContextValue = {
 	modal: boolean;
 	showSwipeHandle: boolean;
 	swipeDirection: "down" | "up" | "left" | "right";
+	nestedOpen: () => boolean;
+	setNestedOpen: (open: boolean) => void;
+	isNested: boolean;
 };
 const Context = createContext<DrawerContextValue>();
 const FooterContext = createContext<() => HTMLDivElement | undefined>();
@@ -30,14 +34,22 @@ export function Drawer(
 		onOpenChange?: (open: boolean) => void;
 		modal?: boolean;
 		showSwipeHandle?: boolean;
-		snapPoints?: (number | string)[];
+		snapPoints?: Size[];
 		swipeDirection?: "down" | "up" | "left" | "right";
 	},
 ) {
+	const parentContext = useContext(Context);
+	const [nestedOpen, setNestedOpen] = createSignal(false);
 	const direction = props.swipeDirection ?? "right";
 	const side =
 		direction === "up" ? "top" : direction === "down" ? "bottom" : direction;
 	const hasSnapPoints = !!props.snapPoints?.length;
+	createEffect(() => {
+		if (parentContext && props.open !== undefined) {
+			parentContext.setNestedOpen(props.open);
+		}
+	});
+	onCleanup(() => parentContext?.setNestedOpen(false));
 	return (
 		<Context.Provider
 			value={{
@@ -45,14 +57,20 @@ export function Drawer(
 				modal: props.modal ?? true,
 				showSwipeHandle: props.showSwipeHandle ?? false,
 				swipeDirection: direction,
+				nestedOpen,
+				setNestedOpen,
+				isNested: !!parentContext,
 			}}
 		>
 			<CorvuDrawer
 				data-slot="drawer"
 				open={props.open}
-				onOpenChange={props.onOpenChange}
+				onOpenChange={(open) => {
+					parentContext?.setNestedOpen(open);
+					props.onOpenChange?.(open);
+				}}
 				side={side}
-				snapPoints={props.snapPoints as Size[] | undefined}
+				snapPoints={props.snapPoints}
 				modal={props.modal ?? true}
 			>
 				{props.children}
@@ -120,6 +138,7 @@ export function DrawerContent(
 		"onTransitionEnd",
 	]);
 	const context = useContext(Context);
+	const dialogContext = CorvuDrawer.useDialogContext();
 	const [footerHost, setFooterHost] = createSignal<HTMLDivElement>();
 	const axis =
 		context?.swipeDirection === "down" || context?.swipeDirection === "up"
@@ -127,7 +146,7 @@ export function DrawerContent(
 			: "x";
 	return (
 		<Portal>
-			{context?.modal ? (
+			{context?.modal && !context.isNested ? (
 				<CorvuDrawer.Overlay
 					data-slot="drawer-overlay"
 					data-snap-points={context.hasSnapPoints ? "" : undefined}
@@ -138,14 +157,21 @@ export function DrawerContent(
 				data-slot="drawer-viewport"
 				data-modal={context?.modal}
 				class={styles.viewport}
+				data-active={
+					dialogContext.open() || dialogContext.contentPresent()
+						? ""
+						: undefined
+				}
 				onTransitionEnd={local.onTransitionEnd}
 			>
 				<CorvuDrawer.Content
 					{...rest}
 					data-slot="drawer-popup"
+					data-corvu-no-drag=""
 					data-swipe-axis={axis}
 					data-swipe-direction={context?.swipeDirection}
 					data-snap-points={context?.hasSnapPoints ? "" : undefined}
+					data-nested-drawer-open={context?.nestedOpen() ? "" : undefined}
 					class={cn(styles.popup, local.class ?? local.className)}
 				>
 					{context?.showSwipeHandle ? <DrawerSwipeHandle /> : null}

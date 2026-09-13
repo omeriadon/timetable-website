@@ -24,7 +24,11 @@
 }
 
 .card > * + *,
-.section > [data-slot="card"] > * + * {
+.section > [data-slot="card"] > * + *,
+.card > a + *,
+.card > button[data-slot="button"] + *,
+.section > [data-slot="card"] > a + *,
+.section > [data-slot="card"] > button[data-slot="button"] + * {
 	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
@@ -62,6 +66,11 @@
 	button[data-slot="button"][data-variant="default"]:focus-visible {
 	background: rgb(255 255 255 / 0.06) !important;
 	color: var(--ds-color-text);
+}
+
+.card > * + :is(a, button[data-slot="button"]),
+.section > [data-slot="card"] > * + :is(a, button[data-slot="button"]) {
+	border-top: var(--ds-border-width) solid var(--ds-color-border);
 }
 
 .rowHover > a:hover,

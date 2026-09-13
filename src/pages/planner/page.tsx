@@ -19,7 +19,7 @@ export default function PlannerPage({
 	const now = useTimetableNow();
 
 	createEffect(() => {
-		setToolbar({ title: "Planner" });
+		setToolbar({});
 	});
 
 	const events = createMemo(() =>

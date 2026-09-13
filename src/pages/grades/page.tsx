@@ -11,21 +11,12 @@ import type {
 	OwnerTimetable,
 	TimetableSubject,
 } from "@/features/timetable/types";
-import GradeGauge from "@/components/grades/GradeGauge/GradeGauge";
 import GradeSubjectDrawer from "@/components/grades/GradeSubjectDrawer/GradeSubjectDrawer";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import { List, ListRow } from "@/components/ui/list";
 import { DrawerFooter } from "@/components/ui/drawer";
 import drawerStyles from "@/components/drawers/Drawer/Drawer.module.css";
-import {
-	Drawer,
-	DrawerContent,
-	DrawerDescription,
-	DrawerHeader,
-	DrawerTitle,
-	DrawerTrigger,
-} from "@/components/ui/drawer";
 
 function subjectColour(subject: TimetableSubject) {
 	const { r, g, b } = subject.colour;
@@ -35,8 +26,6 @@ function subjectColour(subject: TimetableSubject) {
 function formatPercent(value: number | null) {
 	return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
 }
-
-const SNAP_POINTS = ["35rem", 1];
 
 type YearGroupCatalogue = {
 	sections: Array<{
@@ -184,7 +173,28 @@ export default function GradesPage({ data }: { data: GradesData }) {
 	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
-	onMount(() => setToolbar({ title: "Grades" }));
+	onMount(() =>
+		setToolbar({
+			actions: isSenior()
+				? [
+						{
+							label: "Edit ATAR",
+							icon: "chart.line.uptrend.xyaxis",
+							onPress: () =>
+								openDrawer(() => (
+									<ATARSettingsDrawer
+										grades={grades()}
+										onSaved={(updated) => {
+											setGrades(updated);
+											void router.invalidate();
+										}}
+									/>
+								)),
+						},
+					]
+				: [],
+		}),
+	);
 
 	const scored = createMemo(() => grades()?.document.assessments ?? []);
 	const gradeSubjects = timetable()
@@ -257,27 +267,6 @@ export default function GradesPage({ data }: { data: GradesData }) {
 							</div>
 						) : null}
 					</section>
-					{isSenior() ? (
-						<Button
-							type="button"
-							class={styles.editAtar}
-							aria-label="Edit ATAR settings"
-							onClick={() =>
-								openDrawer(() => (
-									<ATARSettingsDrawer
-										grades={grades()}
-										onSaved={(updated) => {
-											setGrades(updated);
-											void router.invalidate();
-										}}
-									/>
-								))
-							}
-						>
-							<Symbol name="chart.line.uptrend.xyaxis" />
-							Edit ATAR
-						</Button>
-					) : null}
 					{gradeSubjects.length ? (
 						<List rowHover>
 							{gradeSubjects.map((subject) => {
@@ -296,52 +285,39 @@ export default function GradesPage({ data }: { data: GradesData }) {
 										)
 									: null;
 								return (
-									<Drawer swipeDirection="right" snapPoints={SNAP_POINTS}>
-										<DrawerTrigger
-											as={Button}
-											type="button"
-											class={styles.subjectButton}
-											aria-label={`Open ${subject.id} grades`}
-										>
-											<ListRow>
-												<GradeGauge
-													value={subjectAverage}
-													color={subjectColour(subject)}
+									<Button
+										type="button"
+										class={styles.subjectButton}
+										aria-label={`Open ${subject.id} grades`}
+										onClick={() =>
+											openDrawer(() => (
+												<GradeSubjectDrawer
+													subjectID={subject.id}
 													symbol={subject.symbol}
+													colour={subjectColour(subject)}
+													average={subjectAverage}
+													assessments={subjectAssessments}
 												/>
-												<span>
-													<b class={styles.subjectName}>{subject.id}</b>
-													<small class={styles.subjectDetail}>
-														{subjectAverage === null
-															? "No assessments yet"
-															: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
-													</small>
-												</span>
-												<strong class={styles.subjectScore}>
-													{subjectAverage === null
-														? "—"
-														: formatPercent(subjectAverage)}
-												</strong>
-											</ListRow>
-										</DrawerTrigger>
-										<DrawerContent>
-											<DrawerHeader>
-												<DrawerTitle>{subject.id}</DrawerTitle>
-												<DrawerDescription>
+											))
+										}
+									>
+										<ListRow class={styles.subjectRow}>
+											<Symbol name={subject.symbol} />
+											<span>
+												<b class={styles.subjectName}>{subject.id}</b>
+												<small class={styles.subjectDetail}>
 													{subjectAverage === null
 														? "No assessments yet"
-														: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"} recorded`}
-												</DrawerDescription>
-											</DrawerHeader>
-											<GradeSubjectDrawer
-												subjectID={subject.id}
-												symbol={subject.symbol}
-												colour={subjectColour(subject)}
-												average={subjectAverage}
-												assessments={subjectAssessments}
-											/>
-										</DrawerContent>
-									</Drawer>
+														: `${subjectAssessments.length} assessment${subjectAssessments.length === 1 ? "" : "s"}`}
+												</small>
+											</span>
+											<strong class={styles.subjectScore}>
+												{subjectAverage === null
+													? "—"
+													: formatPercent(subjectAverage)}
+											</strong>
+										</ListRow>
+									</Button>
 								);
 							})}
 						</List>

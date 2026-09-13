@@ -3,8 +3,10 @@ import {
 	type SelectRootProps,
 } from "@kobalte/core/select";
 import {
+	children,
 	createContext,
 	createSignal,
+	createUniqueId,
 	splitProps,
 	useContext,
 	type Accessor,
@@ -19,11 +21,21 @@ type SelectOption = {
 	value: string;
 	label: JSX.Element;
 };
+type SelectOptionGroup = {
+	id: string;
+	label?: JSX.Element;
+	options: SelectOption[];
+	separated: boolean;
+};
 const SelectOptionsContext = createContext<{
-	register: (option: SelectOption) => void;
+	registerOption: (option: SelectOption, groupID?: string) => void;
+	registerGroup: (id: string) => void;
+	setGroupLabel: (id: string, label: JSX.Element) => void;
+	markSeparator: () => void;
 }>();
+const SelectGroupContext = createContext<string>();
 type SelectProps = Omit<
-	SelectRootProps<SelectOption>,
+	SelectRootProps<SelectOption, SelectOptionGroup>,
 	"onChange" | "multiple" | "value" | "defaultValue" | "options" | "disabled"
 > & {
 	onValueChange?: (value: string | null) => void;
@@ -36,47 +48,94 @@ type SelectProps = Omit<
 };
 
 export function Select(props: SelectProps) {
-	const [options, setOptions] = createSignal<SelectOption[]>([]);
+	const [options, setOptions] = createSignal<
+		Array<SelectOption | SelectOptionGroup>
+	>([]);
+	let separatesNextGroup = false;
 	const [local, rest] = splitProps(props, [
 		"onValueChange",
 		"value",
 		"defaultValue",
 		"disabled",
 	]);
+	const normalizeValue = (current: SelectValue | undefined) =>
+		current === null || current === undefined ? current : String(current);
+	const defaultValue = normalizeValue(
+		typeof local.defaultValue === "function"
+			? local.defaultValue()
+			: local.defaultValue,
+	);
+	const [internalValue, setInternalValue] = createSignal<SelectValue>(
+		defaultValue ?? null,
+	);
 	const value = () => {
 		const current =
 			typeof local.value === "function" ? local.value() : local.value;
-		return current === null || current === undefined
-			? current
-			: String(current);
+		return local.value === undefined
+			? normalizeValue(internalValue())
+			: normalizeValue(current);
 	};
-	const defaultValue = () => {
-		const current =
-			typeof local.defaultValue === "function"
-				? local.defaultValue()
-				: local.defaultValue;
-		return current === undefined ? undefined : String(current);
-	};
+	const flatOptions = () =>
+		options().flatMap((option) =>
+			"options" in option ? option.options : [option],
+		);
 	const selectedValue = () =>
-		options().find((option) => option.value === value()) ?? null;
-	const selectedDefaultValue = () =>
-		options().find((option) => option.value === defaultValue());
+		flatOptions().find((option) => option.value === value()) ?? null;
 	return (
 		<SelectOptionsContext.Provider
 			value={{
-				register: (option) =>
+				registerOption: (option, groupID) =>
+					setOptions((current) => {
+						if (
+							current.some((item) =>
+								"options" in item
+									? item.options.some((child) => child.value === option.value)
+									: item.value === option.value,
+							)
+						) {
+							return current;
+						}
+						if (!groupID) {
+							return [...current, option];
+						}
+						return current.map((item) =>
+							"options" in item && item.id === groupID
+								? { ...item, options: [...item.options, option] }
+								: item,
+						);
+					}),
+				registerGroup: (id) => {
 					setOptions((current) =>
-						current.some((item) => item.value === option.value)
+						current.some((item) => "options" in item && item.id === id)
 							? current
-							: [...current, option],
+							: [
+									...current,
+									{
+										id,
+										options: [],
+										separated: separatesNextGroup,
+									},
+								],
+					);
+					separatesNextGroup = false;
+				},
+				setGroupLabel: (id, label) =>
+					setOptions((current) =>
+						current.map((item) =>
+							"options" in item && item.id === id ? { ...item, label } : item,
+						),
 					),
+				markSeparator: () => {
+					separatesNextGroup = true;
+				},
 			}}
 		>
-			<Primitive<SelectOption>
+			<Primitive<SelectOption, SelectOptionGroup>
 				{...rest}
 				options={options()}
 				optionValue="value"
 				optionTextValue={(option) => String(option.value)}
+				optionGroupChildren="options"
 				itemComponent={(item) => (
 					<Primitive.Item
 						item={item.item}
@@ -94,18 +153,31 @@ export function Select(props: SelectProps) {
 						</Primitive.ItemIndicator>
 					</Primitive.Item>
 				)}
+				sectionComponent={(section) => (
+					<Primitive.Section
+						class={cn(
+							styles.group,
+							section.section.rawValue.separated && styles.groupSeparated,
+						)}
+					>
+						{section.section.rawValue.label ? (
+							<span class={styles.label}>{section.section.rawValue.label}</span>
+						) : null}
+					</Primitive.Section>
+				)}
 				value={selectedValue()}
-				defaultValue={selectedDefaultValue()}
 				disabled={
 					typeof props.disabled === "function"
 						? props.disabled()
 						: props.disabled
 				}
-				onChange={(option) =>
-					local.onValueChange?.(
-						Array.isArray(option) ? null : (option?.value ?? null),
-					)
-				}
+				onChange={(option) => {
+					const next = Array.isArray(option) ? null : (option?.value ?? null);
+					if (local.value === undefined) {
+						setInternalValue(next);
+					}
+					local.onValueChange?.(next);
+				}}
 			>
 				{props.children}
 			</Primitive>
@@ -113,11 +185,13 @@ export function Select(props: SelectProps) {
 	);
 }
 export function SelectGroup(props: any) {
+	const context = useContext(SelectOptionsContext);
+	const id = createUniqueId();
+	context?.registerGroup(id);
 	return (
-		<Primitive.Section
-			{...props}
-			class={cn(styles.group, props.class ?? props.className)}
-		/>
+		<SelectGroupContext.Provider value={id}>
+			{props.children}
+		</SelectGroupContext.Provider>
 	);
 }
 export function SelectValue(props: any) {
@@ -145,25 +219,32 @@ export function SelectTrigger(props: any) {
 	);
 }
 export function SelectContent(props: any) {
+	const [local, rest] = splitProps(props, [
+		"class",
+		"className",
+		"alignItemWithTrigger",
+		"children",
+	]);
+	children(() => local.children)();
 	return (
 		<Primitive.Portal>
 			<Primitive.Content
-				{...props}
+				{...rest}
 				data-slot="select-content"
-				data-align-trigger={props.alignItemWithTrigger ?? true}
-				class={cn(styles.content, props.class ?? props.className)}
-			/>
+				class={cn(styles.content, local.class ?? local.className)}
+			>
+				<Primitive.Listbox />
+			</Primitive.Content>
 		</Primitive.Portal>
 	);
 }
 export function SelectLabel(props: any) {
-	return (
-		<Primitive.Label
-			{...props}
-			data-slot="select-label"
-			class={cn(styles.label, props.class ?? props.className)}
-		/>
-	);
+	const context = useContext(SelectOptionsContext);
+	const groupID = useContext(SelectGroupContext);
+	if (groupID) {
+		context?.setGroupLabel(groupID, props.children);
+	}
+	return null;
 }
 export function SelectItem(props: {
 	value: string;
@@ -171,18 +252,16 @@ export function SelectItem(props: {
 	key?: string;
 }) {
 	const context = useContext(SelectOptionsContext);
-	context?.register({ value: String(props.value), label: props.children });
+	const groupID = useContext(SelectGroupContext);
+	context?.registerOption(
+		{ value: String(props.value), label: props.children },
+		groupID,
+	);
 	return null;
 }
 export function SelectSeparator(props: any) {
-	return (
-		<div
-			{...props}
-			data-slot="select-separator"
-			role="separator"
-			class={cn(styles.separator, props.class ?? props.className)}
-		/>
-	);
+	useContext(SelectOptionsContext)?.markSeparator();
+	return null;
 }
 export function SelectScrollUpButton(props: any) {
 	return null;

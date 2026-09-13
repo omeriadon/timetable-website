@@ -15,7 +15,7 @@ export default function TodayPage({ dashboard }: { dashboard: DashboardData }) {
 	const now = useTimetableNow();
 
 	createEffect(() => {
-		setToolbar({ title: "Today" });
+		setToolbar({});
 	});
 
 	const events = createMemo(() =>

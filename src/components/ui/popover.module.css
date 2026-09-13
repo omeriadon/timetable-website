@@ -28,7 +28,7 @@
 	border: var(--ds-border-width) solid var(--ds-color-border);
 
 	outline: none;
-	transition-duration: 100ms;
+	transition-duration: 250ms;
 }
 
 /* Open / close */
@@ -36,15 +36,15 @@
 .content[data-open],
 .content[data-expanded] {
 	animation:
-		popover-fade-in 100ms ease-out,
-		popover-zoom-in 100ms ease-out;
+		popover-fade-in 250ms cubic-bezier(0.22, 1, 0.36, 1),
+		popover-zoom-in 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .content[data-closed],
 .content[data-collapsed] {
 	animation:
-		popover-fade-out 100ms ease-in,
-		popover-zoom-out 100ms ease-in;
+		popover-fade-out 150ms cubic-bezier(0.22, 1, 0.36, 1),
+		popover-zoom-out 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Side movement */

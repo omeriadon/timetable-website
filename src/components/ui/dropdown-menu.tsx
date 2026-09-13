@@ -1,5 +1,6 @@
 import { DropdownMenu as Primitive } from "@kobalte/core/dropdown-menu";
 import { CheckIcon, ChevronRightIcon } from "lucide-solid";
+import { splitProps } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./dropdown-menu.module.css";
 
@@ -7,13 +8,16 @@ export const DropdownMenu = Primitive;
 export const DropdownMenuPortal = Primitive.Portal;
 export const DropdownMenuTrigger: any = Primitive.Trigger;
 export function DropdownMenuContent(props: any) {
+	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
 		<Primitive.Portal>
 			<Primitive.Content
-				{...props}
+				{...rest}
 				data-slot="dropdown-menu-content"
-				class={cn(styles.content, props.class ?? props.className)}
-			/>
+				class={cn(styles.content, local.class ?? local.className)}
+			>
+				{local.children}
+			</Primitive.Content>
 		</Primitive.Portal>
 	);
 }
@@ -51,12 +55,17 @@ export function DropdownMenuSubTrigger(props: any) {
 	);
 }
 export function DropdownMenuSubContent(props: any) {
+	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
-		<Primitive.SubContent
-			{...props}
-			data-slot="dropdown-menu-sub-content"
-			class={cn(styles.subContent, props.class ?? props.className)}
-		/>
+		<Primitive.Portal>
+			<Primitive.SubContent
+				{...rest}
+				data-slot="dropdown-menu-sub-content"
+				class={cn(styles.subContent, local.class ?? local.className)}
+			>
+				{local.children}
+			</Primitive.SubContent>
+		</Primitive.Portal>
 	);
 }
 export function DropdownMenuCheckboxItem(props: any) {

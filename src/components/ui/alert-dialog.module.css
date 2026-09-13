@@ -18,12 +18,12 @@
 
 .overlay[data-open],
 .overlay[data-expanded] {
-	animation: alert-dialog-fade-in 100ms ease-out;
+	animation: alert-dialog-fade-in 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .overlay[data-closed],
 .overlay[data-collapsed] {
-	animation: alert-dialog-fade-out 100ms ease-in;
+	animation: alert-dialog-fade-out 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .content {
@@ -53,21 +53,21 @@
 
 	border: var(--ds-border-width) solid var(--ds-color-border);
 
-	transition-duration: 100ms;
+	transition-duration: 250ms;
 }
 
 .content[data-open],
 .content[data-expanded] {
 	animation:
-		alert-dialog-content-fade-in 100ms ease-out,
-		alert-dialog-zoom-in 100ms ease-out;
+		alert-dialog-content-fade-in 250ms cubic-bezier(0.22, 1, 0.36, 1),
+		alert-dialog-zoom-in 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .content[data-closed],
 .content[data-collapsed] {
 	animation:
-		alert-dialog-content-fade-out 100ms ease-in,
-		alert-dialog-zoom-out 100ms ease-in;
+		alert-dialog-content-fade-out 150ms cubic-bezier(0.22, 1, 0.36, 1),
+		alert-dialog-zoom-out 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .header {

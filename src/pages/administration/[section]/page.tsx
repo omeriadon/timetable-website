@@ -121,7 +121,7 @@ export default function AdministrationSectionPage({
 		icon: "calendar.badge.lock",
 	};
 
-	onMount(() => setToolbar({ title: config.title }));
+	onMount(() => setToolbar({}));
 
 	const filteredData = createMemo(() => filterData(loadedData(), config.kind));
 	const records = createMemo(() => normalizeRecords(filteredData()));

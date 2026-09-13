@@ -11,7 +11,7 @@ export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {
 	const { data, error, isLoading } = useDashboard(dashboard);
 
 	createEffect(() => {
-		setToolbar({ title: "Week" });
+		setToolbar({});
 	});
 
 	return (

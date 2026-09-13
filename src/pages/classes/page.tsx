@@ -10,7 +10,7 @@ export default function ClassesPage({ data }: { data: ClassesData }) {
 	const { timetable, friends } = data;
 	const setToolbar = useToolbar();
 
-	createEffect(() => setToolbar({ title: "Classes" }));
+	createEffect(() => setToolbar({}));
 
 	return (
 		<main class={styles.page}>

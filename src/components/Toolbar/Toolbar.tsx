@@ -12,14 +12,13 @@ export type ToolbarAction = {
 };
 
 export type ToolbarConfig = {
-	title: string;
 	searchPlaceholder?: string;
 	searchValue?: string;
 	onSearchChange?: (value: string) => void;
 	actions?: ToolbarAction[];
 };
 
-const defaultToolbar: ToolbarConfig = { title: "Timetable" };
+const defaultToolbar: ToolbarConfig = {};
 const ToolbarContext = createContext<{
 	config: () => ToolbarConfig;
 	setConfig: (config: ToolbarConfig) => void;
@@ -49,7 +48,6 @@ export default function Toolbar() {
 		<header class={styles.toolbar}>
 			{config().searchPlaceholder ? (
 				<label class={styles.search}>
-					<span>Search {config().title}</span>
 					<Input
 						value={config().searchValue ?? ""}
 						placeholder={config().searchPlaceholder}
@@ -67,6 +65,7 @@ export default function Toolbar() {
 						onClick={action.onPress}
 					>
 						<Symbol name={action.icon} />
+						<span>{action.label}</span>
 					</Button>
 				)}
 			</For>
