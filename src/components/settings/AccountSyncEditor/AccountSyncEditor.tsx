@@ -11,6 +11,7 @@ import { createSignal, onMount } from "solid-js";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
 import { apiRequest } from "@/lib/api/client";
+import { clearAllCachedData } from "@/lib/cache/storage";
 
 import type { Account } from "@/lib/api/contracts";
 import type { Settings } from "@/features/settings/types";
@@ -244,6 +245,7 @@ export default function AccountSyncEditor({
 					class={styles.rowButton}
 					onClick={async () => {
 						await apiRequest("auth/logout", { method: "DELETE" });
+						clearAllCachedData();
 						onSignOut();
 					}}
 				>

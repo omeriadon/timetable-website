@@ -7,7 +7,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { createSignal, onMount } from "solid-js";
-import { useRouter } from "@tanstack/solid-router";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { SettingsData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
@@ -28,18 +27,35 @@ import NotificationSettingsEditor from "@/components/settings/NotificationSettin
 import ArchivedEventsEditor from "@/components/settings/ArchivedEventsEditor/ArchivedEventsEditor";
 import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
 import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
+import { CACHE_KEYS, CACHE_TTLS } from "@/lib/cache/keys";
+import { createCachedResource } from "@/lib/cache/swr";
 
 export default function SettingsPage({ data }: { data: SettingsData }) {
 	const initial = data;
 	const setToolbar = useToolbar();
-	const router = useRouter();
-	const [account, setAccount] = createSignal<Account>(initial.account);
-	const [settings, setSettings] = createSignal<Settings>(
-		initial.settings as Settings,
-	);
-	const [timetable, setTimetable] = createSignal<OwnerTimetable>(
-		initial.timetable,
-	);
+	const cached = createCachedResource<SettingsData>({
+		key: CACHE_KEYS.settings,
+		initialData: initial,
+		userId: initial.account?.id ?? null,
+		ttlMs: CACHE_TTLS.settings,
+		fetcher: async () => {
+			const [settings, timetable, account] = await Promise.all([
+				apiRequest<Settings>("v1/settings"),
+				apiRequest<OwnerTimetable>("v1/timetables/owner"),
+				apiRequest<Account>("v1/account"),
+			]);
+			return {
+				settings: settings as unknown as SettingsData["settings"],
+				timetable,
+				account,
+			};
+		},
+	});
+	const account = () => cached.data()?.account ?? initial.account;
+	const settings = () =>
+		(cached.data()?.settings ?? initial.settings) as Settings;
+	const timetable = () => cached.data()?.timetable ?? initial.timetable;
 	const [error, setError] = createSignal<string | null>(null);
 	const [saving, setSaving] = createSignal(false);
 	const { openDrawer } = useDrawer();
@@ -58,7 +74,11 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 	};
 
 	const saveSettings = async (current: Settings, next: Settings) => {
-		setSettings(next);
+		const snapshot = cached.data() ?? initial;
+		cached.mutate({
+			...snapshot,
+			settings: next as unknown as SettingsData["settings"],
+		});
 		setSaving(true);
 		setError(null);
 
@@ -70,10 +90,17 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 					serverRevision: current.serverRevision,
 				}),
 			});
-			setSettings(updated);
-			await router.invalidate();
+			const latest = cached.data() ?? initial;
+			cached.mutate({
+				...latest,
+				settings: updated as unknown as SettingsData["settings"],
+			});
 		} catch (requestError) {
-			setSettings(current);
+			const latest = cached.data() ?? initial;
+			cached.mutate({
+				...latest,
+				settings: current as unknown as SettingsData["settings"],
+			});
 			setError((requestError as Error).message);
 		} finally {
 			setSaving(false);
@@ -97,21 +124,21 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 				baseRevision: account().revision,
 			}),
 		});
-		setAccount((current) =>
-			current
-				? {
-						...current,
-						appearance: updated.appearance,
-						photo: updated.photo,
-						revision: updated.revision,
-					}
-				: current,
-		);
-		await router.invalidate();
+		const snapshot = cached.data() ?? initial;
+		cached.mutate({
+			...snapshot,
+			account: {
+				...snapshot.account,
+				appearance: updated.appearance,
+				photo: updated.photo,
+				revision: updated.revision,
+			},
+		});
 	};
 
 	return (
 		<main class={styles.page}>
+			<StaleIndicator active={!!cached.data() && cached.isRevalidating()} />
 			{account() ? (
 				<DrawerTrigger
 					class={`${styles.rowButton} ${styles.profileButton}`}
@@ -154,7 +181,10 @@ export default function SettingsPage({ data }: { data: SettingsData }) {
 						openDrawer(() => (
 							<CalendarImportDrawer
 								timetable={timetable()}
-								onImported={setTimetable}
+								onImported={(updated) => {
+									const snapshot = cached.data() ?? initial;
+									cached.mutate({ ...snapshot, timetable: updated });
+								}}
 							/>
 						))
 					}

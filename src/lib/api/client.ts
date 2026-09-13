@@ -31,6 +31,12 @@ export async function apiRequest<T>(
 			typeof window !== "undefined" &&
 			window.location.pathname !== "/login"
 		) {
+			try {
+				const { clearAllCachedData } = await import("@/lib/cache/storage");
+				clearAllCachedData();
+			} catch {
+				// cache clear is best-effort
+			}
 			const returnTo = `${window.location.pathname}${window.location.search}`;
 			window.location.replace(
 				`/login?returnTo=${encodeURIComponent(returnTo)}`,

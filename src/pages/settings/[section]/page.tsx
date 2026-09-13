@@ -1,4 +1,4 @@
-import { useNavigate, useRouter } from "@tanstack/solid-router";
+import { useNavigate } from "@tanstack/solid-router";
 import { createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type {
@@ -14,6 +14,9 @@ import NotificationSettingsEditor from "@/components/settings/NotificationSettin
 import AccountSyncEditor from "@/components/settings/AccountSyncEditor/AccountSyncEditor";
 import AppearanceSettingsEditor from "@/components/settings/AppearanceSettingsEditor/AppearanceSettingsEditor";
 import styles from "../page.module.css";
+import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
+import { createCachedResource } from "@/lib/cache/swr";
+import { settingsSectionKey, CACHE_TTLS } from "@/lib/cache/keys";
 import { apiRequest } from "@/lib/api/client";
 import type { ProfileAppearance } from "@/lib/api/contracts";
 import type { ProfileResponse, Settings } from "@/features/settings/types";
@@ -28,13 +31,27 @@ export default function SettingsSectionPage({
 	const initial = data;
 	const setToolbar = useToolbar();
 	const navigate = useNavigate();
-	const router = useRouter();
-	const [settings, setSettings] = createSignal<Settings>(
-		initial.settings as Settings,
-	);
-	const [profile, setProfile] = createSignal<ProfileResponse | null>(
-		"profile" in initial ? (initial.profile as ProfileResponse) : null,
-	);
+	const cached = createCachedResource<
+		SettingsSectionData | ProfileSettingsSectionData
+	>({
+		key: settingsSectionKey(section),
+		initialData: initial,
+		ttlMs: CACHE_TTLS.settings,
+		fetcher: async () => {
+			const settings = await apiRequest<Settings>("v1/settings");
+			if ("profile" in initial) {
+				const profile = await apiRequest<ProfileResponse>("v1/friends/profile");
+				return { settings, profile } as ProfileSettingsSectionData;
+			}
+			return { settings } as SettingsSectionData;
+		},
+	});
+	const settings = () =>
+		cached.data()?.settings as unknown as Settings | undefined;
+	const profile = () =>
+		cached.data() && "profile" in cached.data()!
+			? ((cached.data() as ProfileSettingsSectionData).profile ?? null)
+			: null;
 	const [error, setError] = createSignal<string | null>(null);
 
 	onMount(() => setToolbar({}));
@@ -46,8 +63,10 @@ export default function SettingsSectionPage({
 				method: "PUT",
 				body: JSON.stringify({ appearance, baseRevision: profile()!.revision }),
 			});
-			setProfile(updated);
-			await router.invalidate();
+			const snapshot = cached.data();
+			if (snapshot && "profile" in snapshot) {
+				cached.mutate({ ...snapshot, profile: updated });
+			}
 		} catch (requestError) {
 			setError((requestError as Error).message);
 		}
@@ -55,22 +74,23 @@ export default function SettingsSectionPage({
 
 	return (
 		<main class={styles.page}>
+			<StaleIndicator active={!!cached.data() && cached.isRevalidating()} />
 			{error() ? (
 				<p class={styles.error} role="alert">
 					{error()}
 				</p>
 			) : null}
 			{section === "appearance" && settings() ? (
-				<AppearanceSettingsEditor initial={settings()} />
+				<AppearanceSettingsEditor initial={settings()!} />
 			) : null}
 			{section === "account" && settings() ? (
 				<AccountSyncEditor
-					initial={settings()}
+					initial={settings()!}
 					onSignOut={() => navigate({ to: "/login" })}
 				/>
 			) : null}
 			{section === "notifications" && settings() ? (
-				<NotificationSettingsEditor initial={settings()} />
+				<NotificationSettingsEditor initial={settings()!} />
 			) : null}
 			{section === "archived-events" ? <ArchivedEventsEditor /> : null}
 			{section === "profile-appearance" ? (
