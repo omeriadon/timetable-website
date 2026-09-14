@@ -1,0 +1,43 @@
+.eventSymbolIcon {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.cardRow {
+	width: 100%;
+	min-height: var(--ds-event-min-height);
+	padding: var(--ds-space-4) var(--ds-space-5);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	color: var(--ds-color-text);
+	background: var(--ds-color-surface-elevated);
+	font: inherit;
+	text-align: left;
+}
+
+.cardRow[data-size="default"] {
+	height: auto;
+}
+
+.cardRow:hover,
+.cardRow:focus-visible {
+	background: var(--ds-color-surface-soft);
+}
+
+.cardRow:focus-visible {
+	outline: var(--ds-control-focus-width) solid var(--ds-color-accent);
+	outline-offset: var(--ds-control-focus-offset);
+}
+
+.plannerEvent {
+	display: grid;
+	grid-template-columns: var(--ds-icon-size-row) minmax(0, 1fr) auto;
+	gap: var(--ds-list-row-gap);
+	align-items: center;
+}
+
+.eventSymbol {
+	display: grid;
+	place-items: center;
+}

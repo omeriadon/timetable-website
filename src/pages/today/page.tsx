@@ -7,7 +7,7 @@ import { useTimetableNow } from "@/features/timetable/clock";
 import TodayView from "@/components/timetable/TodayView/TodayView";
 import TimetableModeNavigation from "@/components/timetable/TimetableModeNavigation/TimetableModeNavigation";
 import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./page.module.css";
 import type { DashboardData } from "@/lib/server/dashboard.functions";
 
 export default function TodayPage({ dashboard }: { dashboard: DashboardData }) {

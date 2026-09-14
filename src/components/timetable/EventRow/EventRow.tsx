@@ -4,7 +4,7 @@ import { useDrawer } from "@/components/drawers/Drawer/Drawer";
 import type { CalendarEvent } from "@/features/timetable/types";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import { cn } from "@/lib/utils";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./EventRow.module.css";
 
 export default function EventRow({
 	event,

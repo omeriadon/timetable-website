@@ -4,7 +4,7 @@ import { useDashboard } from "@/features/timetable/useDashboard";
 import WeekView from "@/components/timetable/WeekView/WeekView";
 import TimetableModeNavigation from "@/components/timetable/TimetableModeNavigation/TimetableModeNavigation";
 import StaleIndicator from "@/components/controls/StaleIndicator/StaleIndicator";
-import styles from "@/components/timetable/timetable.module.css";
+import styles from "./page.module.css";
 import type { DashboardData } from "@/lib/server/dashboard.functions";
 
 export default function WeekPage({ dashboard }: { dashboard: DashboardData }) {

@@ -5,7 +5,7 @@ import {
 	TIMETABLE_SESSIONS,
 	currentTimetableDayIndex,
 } from "@/features/timetable/layout";
-import weekStyles from "@/components/timetable/timetable.module.css";
+import weekStyles from "./WeekTimetable.module.css";
 
 export default function WeekTimetable({
 	subjects,

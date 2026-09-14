@@ -56,3 +56,79 @@
 	height: var(--ds-icon-size-row);
 	object-fit: contain;
 }
+.lessonSymbol {
+	width: var(--ds-icon-size-row);
+	height: var(--ds-icon-size-row);
+	object-fit: contain;
+}
+
+.week {
+	--ds-week-label-width: 10px;
+
+	width: 100%;
+	overflow-x: auto;
+	padding: var(--ds-content-card-padding);
+	padding-left: 10px;
+	padding-top: 10px;
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-content-card);
+	background: var(--ds-color-surface);
+}
+
+.weekSurface {
+	min-width: var(--ds-week-min-width);
+}
+
+.weekGrid {
+	display: grid;
+	gap: var(--ds-content-grid-gap);
+}
+
+.weekHeader,
+.weekRow {
+	display: grid;
+	grid-template-columns: var(--ds-week-label-width) repeat(
+			5,
+			minmax(var(--ds-week-column-min), 1fr)
+		);
+	gap: var(--ds-content-grid-gap);
+	min-width: var(--ds-week-min-width);
+}
+
+.weekHeader {
+	margin-bottom: var(--ds-content-grid-gap);
+}
+
+.weekHeader span {
+	padding: var(--ds-space-2) 0;
+	color: var(--ds-color-text-secondary);
+	font-size: var(--ds-font-small);
+	text-align: center;
+}
+
+.weekRow {
+	min-height: var(--ds-week-row-min-height);
+}
+
+.weekRow > small {
+	display: grid;
+	place-items: center;
+	color: var(--ds-color-text-secondary);
+}
+
+.lesson {
+	display: flex;
+	min-height: var(--ds-week-row-min-height);
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--ds-space-2);
+	padding: var(--ds-space-2);
+	border: var(--ds-border-width) solid var(--ds-color-border);
+	border-radius: var(--ds-radius-control);
+	background: var(--ds-color-surface-elevated);
+	overflow: hidden;
+}
+
+.lesson strong {
+	font-size: var(--ds-font-small);
+}

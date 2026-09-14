@@ -20,7 +20,6 @@ import {
 	periodLabel,
 } from "@/features/timetable/layout";
 import styles from "./WeekView.module.css";
-import sharedStyles from "@/components/timetable/timetable.module.css";
 
 export default function WeekView({
 	subjects,
@@ -48,15 +47,15 @@ export default function WeekView({
 	});
 
 	return (
-		<section class={sharedStyles.week} aria-label="Weekly timetable">
-			<div class={sharedStyles.weekSurface}>
-				<div class={sharedStyles.weekHeader}>
+		<section class={styles.week} aria-label="Weekly timetable">
+			<div class={styles.weekSurface}>
+				<div class={styles.weekHeader}>
 					<span aria-hidden="true"> </span>
 					{TIMETABLE_DAYS.map((day, dayIndex) => (
 						<span
 							class={
 								currentDayIndex === dayIndex
-									? sharedStyles.currentDayHeader
+									? styles.currentDayHeader
 									: undefined
 							}
 						>
@@ -64,9 +63,9 @@ export default function WeekView({
 						</span>
 					))}
 				</div>
-				<div class={sharedStyles.weekGrid}>
+				<div class={styles.weekGrid}>
 					{TIMETABLE_SESSIONS.map((session) => (
-						<div class={sharedStyles.weekRow}>
+						<div class={styles.weekRow}>
 							<small>{session.label}</small>
 							{TIMETABLE_DAYS.map((day, dayIndex) => {
 								const subject = subjects.find((item) =>
@@ -77,7 +76,7 @@ export default function WeekView({
 								);
 								const currentDayClass =
 									currentDayIndex === dayIndex
-										? sharedStyles.currentDayCell
+										? styles.currentDayCell
 										: undefined;
 								if (!subject) {
 									return <div class={currentDayClass} />;
@@ -102,13 +101,13 @@ export default function WeekView({
 											<article
 												class={
 													isSelected
-														? `${sharedStyles.lesson} ${styles.lessonSelected}`
-														: sharedStyles.lesson
+														? `${styles.lesson} ${styles.lessonSelected}`
+														: styles.lesson
 												}
 											>
 												<Symbol
 													name={subject.symbol}
-													class={sharedStyles.lessonSymbol}
+													class={styles.lessonSymbol}
 												/>
 												<strong>{subject.id}</strong>
 											</article>
