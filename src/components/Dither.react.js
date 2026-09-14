@@ -132,168 +132,184 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 }
 `;
 class RetroEffectImpl extends Effect {
-  constructor() {
-    const uniforms = /* @__PURE__ */ new Map([
-      ["colorNum", new THREE.Uniform(4)],
-      ["pixelSize", new THREE.Uniform(2)]
-    ]);
-    super("RetroEffect", ditherFragmentShader, { uniforms });
-    this.uniforms = uniforms;
-  }
-  set colorNum(v) {
-    this.uniforms.get("colorNum").value = v;
-  }
-  get colorNum() {
-    return this.uniforms.get("colorNum").value;
-  }
-  set pixelSize(v) {
-    this.uniforms.get("pixelSize").value = v;
-  }
-  get pixelSize() {
-    return this.uniforms.get("pixelSize").value;
-  }
+	constructor() {
+		const uniforms = /* @__PURE__ */ new Map([
+			["colorNum", new THREE.Uniform(4)],
+			["pixelSize", new THREE.Uniform(2)],
+		]);
+		super("RetroEffect", ditherFragmentShader, { uniforms });
+		this.uniforms = uniforms;
+	}
+	set colorNum(v) {
+		this.uniforms.get("colorNum").value = v;
+	}
+	get colorNum() {
+		return this.uniforms.get("colorNum").value;
+	}
+	set pixelSize(v) {
+		this.uniforms.get("pixelSize").value = v;
+	}
+	get pixelSize() {
+		return this.uniforms.get("pixelSize").value;
+	}
 }
 const WrappedRetro = wrapEffect(RetroEffectImpl);
 const RetroEffect = forwardRef((props, ref) => {
-  const { colorNum, pixelSize } = props;
-  return /* @__PURE__ */ jsx(WrappedRetro, { ref, colorNum, pixelSize });
+	const { colorNum, pixelSize } = props;
+	return /* @__PURE__ */ jsx(WrappedRetro, { ref, colorNum, pixelSize });
 });
 RetroEffect.displayName = "RetroEffect";
 function DitheredWaves({
-  waveSpeed,
-  waveFrequency,
-  waveAmplitude,
-  waveColor,
-  backgroundColor,
-  colorNum,
-  pixelSize,
-  disableAnimation,
-  enableMouseInteraction,
-  mouseRadius
+	waveSpeed,
+	waveFrequency,
+	waveAmplitude,
+	waveColor,
+	backgroundColor,
+	colorNum,
+	pixelSize,
+	disableAnimation,
+	enableMouseInteraction,
+	mouseRadius,
 }) {
-  const mesh = useRef(null);
-  const mouseRef = useRef(new THREE.Vector2());
-  const { viewport, size, gl } = useThree();
-  const waveUniformsRef = useRef({
-    time: new THREE.Uniform(0),
-    resolution: new THREE.Uniform(new THREE.Vector2(0, 0)),
-    waveSpeed: new THREE.Uniform(waveSpeed),
-    waveFrequency: new THREE.Uniform(waveFrequency),
-    waveAmplitude: new THREE.Uniform(waveAmplitude),
-    waveColor: new THREE.Uniform(new THREE.Color(...waveColor)),
-    backgroundColor: new THREE.Uniform(new THREE.Color(...backgroundColor)),
-    mousePos: new THREE.Uniform(new THREE.Vector2(0, 0)),
-    enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
-    mouseRadius: new THREE.Uniform(mouseRadius)
-  });
-  const material = useMemo(
-    () => new THREE.ShaderMaterial({
-      vertexShader: waveVertexShader,
-      fragmentShader: waveFragmentShader,
-      uniforms: waveUniformsRef.current
-    }),
-    []
-  );
-  useEffect(() => {
-    return () => {
-      material.dispose();
-    };
-  }, [material]);
-  useEffect(() => {
-    const dpr = gl.getPixelRatio();
-    const w = Math.floor(size.width * dpr), h = Math.floor(size.height * dpr);
-    const res = waveUniformsRef.current.resolution.value;
-    if (res.x !== w || res.y !== h) {
-      res.set(w, h);
-    }
-    if (mouseRef.current.x === 0 && mouseRef.current.y === 0 && w > 0 && h > 0) {
-      mouseRef.current.set(w / 2, h / 2);
-    }
-  }, [size, gl]);
-  useEffect(() => {
-    if (!enableMouseInteraction) return;
-    const handlePointerMove = (event) => {
-      const rect = gl.domElement.getBoundingClientRect();
-      const dpr = gl.getPixelRatio();
-      mouseRef.current.set(
-        (event.clientX - rect.left) * dpr,
-        (event.clientY - rect.top) * dpr
-      );
-    };
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-    };
-  }, [enableMouseInteraction, gl]);
-  const prevColor = useRef([...waveColor]);
-  const prevBackgroundColor = useRef([...backgroundColor]);
-  useFrame(({ clock }) => {
-    const u = waveUniformsRef.current;
-    if (!disableAnimation) {
-      u.time.value = clock.getElapsedTime();
-    }
-    if (u.waveSpeed.value !== waveSpeed) u.waveSpeed.value = waveSpeed;
-    if (u.waveFrequency.value !== waveFrequency) u.waveFrequency.value = waveFrequency;
-    if (u.waveAmplitude.value !== waveAmplitude) u.waveAmplitude.value = waveAmplitude;
-    if (!prevColor.current.every((v, i) => v === waveColor[i])) {
-      u.waveColor.value.set(...waveColor);
-      prevColor.current = [...waveColor];
-    }
-    if (!prevBackgroundColor.current.every((v, i) => v === backgroundColor[i])) {
-      u.backgroundColor.value.set(...backgroundColor);
-      prevBackgroundColor.current = [...backgroundColor];
-    }
-    u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
-    u.mouseRadius.value = mouseRadius;
-    if (enableMouseInteraction) {
-      u.mousePos.value.copy(mouseRef.current);
-    }
-  });
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsxs("mesh", { ref: mesh, scale: [viewport.width, viewport.height, 1], children: [
-      /* @__PURE__ */ jsx("planeGeometry", { args: [1, 1] }),
-      /* @__PURE__ */ jsx("primitive", { object: material, attach: "material" })
-    ] }),
-    /* @__PURE__ */ jsx(EffectComposer, { children: /* @__PURE__ */ jsx(RetroEffect, { colorNum, pixelSize }) })
-  ] });
+	const mesh = useRef(null);
+	const mouseRef = useRef(new THREE.Vector2());
+	const { viewport, size, gl } = useThree();
+	const waveUniformsRef = useRef({
+		time: new THREE.Uniform(0),
+		resolution: new THREE.Uniform(new THREE.Vector2(0, 0)),
+		waveSpeed: new THREE.Uniform(waveSpeed),
+		waveFrequency: new THREE.Uniform(waveFrequency),
+		waveAmplitude: new THREE.Uniform(waveAmplitude),
+		waveColor: new THREE.Uniform(new THREE.Color(...waveColor)),
+		backgroundColor: new THREE.Uniform(new THREE.Color(...backgroundColor)),
+		mousePos: new THREE.Uniform(new THREE.Vector2(0, 0)),
+		enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
+		mouseRadius: new THREE.Uniform(mouseRadius),
+	});
+	const material = useMemo(
+		() =>
+			new THREE.ShaderMaterial({
+				vertexShader: waveVertexShader,
+				fragmentShader: waveFragmentShader,
+				uniforms: waveUniformsRef.current,
+			}),
+		[],
+	);
+	useEffect(() => {
+		return () => {
+			material.dispose();
+		};
+	}, [material]);
+	useEffect(() => {
+		const dpr = gl.getPixelRatio();
+		const w = Math.floor(size.width * dpr),
+			h = Math.floor(size.height * dpr);
+		const res = waveUniformsRef.current.resolution.value;
+		if (res.x !== w || res.y !== h) {
+			res.set(w, h);
+		}
+		if (
+			mouseRef.current.x === 0 &&
+			mouseRef.current.y === 0 &&
+			w > 0 &&
+			h > 0
+		) {
+			mouseRef.current.set(w / 2, h / 2);
+		}
+	}, [size, gl]);
+	useEffect(() => {
+		if (!enableMouseInteraction) return;
+		const handlePointerMove = (event) => {
+			const rect = gl.domElement.getBoundingClientRect();
+			const dpr = gl.getPixelRatio();
+			mouseRef.current.set(
+				(event.clientX - rect.left) * dpr,
+				(event.clientY - rect.top) * dpr,
+			);
+		};
+		window.addEventListener("pointermove", handlePointerMove, {
+			passive: true,
+		});
+		return () => {
+			window.removeEventListener("pointermove", handlePointerMove);
+		};
+	}, [enableMouseInteraction, gl]);
+	const prevColor = useRef([...waveColor]);
+	const prevBackgroundColor = useRef([...backgroundColor]);
+	useFrame(({ clock }) => {
+		const u = waveUniformsRef.current;
+		if (!disableAnimation) {
+			u.time.value = clock.getElapsedTime();
+		}
+		if (u.waveSpeed.value !== waveSpeed) u.waveSpeed.value = waveSpeed;
+		if (u.waveFrequency.value !== waveFrequency)
+			u.waveFrequency.value = waveFrequency;
+		if (u.waveAmplitude.value !== waveAmplitude)
+			u.waveAmplitude.value = waveAmplitude;
+		if (!prevColor.current.every((v, i) => v === waveColor[i])) {
+			u.waveColor.value.set(...waveColor);
+			prevColor.current = [...waveColor];
+		}
+		if (
+			!prevBackgroundColor.current.every((v, i) => v === backgroundColor[i])
+		) {
+			u.backgroundColor.value.set(...backgroundColor);
+			prevBackgroundColor.current = [...backgroundColor];
+		}
+		u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
+		u.mouseRadius.value = mouseRadius;
+		if (enableMouseInteraction) {
+			u.mousePos.value.copy(mouseRef.current);
+		}
+	});
+	return /* @__PURE__ */ jsxs(Fragment, {
+		children: [
+			/* @__PURE__ */ jsxs("mesh", {
+				ref: mesh,
+				scale: [viewport.width, viewport.height, 1],
+				children: [
+					/* @__PURE__ */ jsx("planeGeometry", { args: [1, 1] }),
+					/* @__PURE__ */ jsx("primitive", {
+						object: material,
+						attach: "material",
+					}),
+				],
+			}),
+			/* @__PURE__ */ jsx(EffectComposer, {
+				children: /* @__PURE__ */ jsx(RetroEffect, { colorNum, pixelSize }),
+			}),
+		],
+	});
 }
 function Dither({
-  waveSpeed = 0.05,
-  waveFrequency = 3,
-  waveAmplitude = 0.3,
-  waveColor = [0.5, 0.5, 0.5],
-  backgroundColor = [0, 0, 0],
-  colorNum = 4,
-  pixelSize = 2,
-  disableAnimation = false,
-  enableMouseInteraction = true,
-  mouseRadius = 1
+	waveSpeed = 0.05,
+	waveFrequency = 3,
+	waveAmplitude = 0.3,
+	waveColor = [0.5, 0.5, 0.5],
+	backgroundColor = [0, 0, 0],
+	colorNum = 4,
+	pixelSize = 2,
+	disableAnimation = false,
+	enableMouseInteraction = true,
+	mouseRadius = 1,
 }) {
-  return /* @__PURE__ */ jsx(
-    Canvas,
-    {
-      className: "dither-container",
-      camera: { position: [0, 0, 6] },
-      dpr: 1,
-      gl: { antialias: true, preserveDrawingBuffer: true },
-      children: /* @__PURE__ */ jsx(
-        DitheredWaves,
-        {
-          waveSpeed,
-          waveFrequency,
-          waveAmplitude,
-          waveColor,
-          backgroundColor,
-          colorNum,
-          pixelSize,
-          disableAnimation,
-          enableMouseInteraction,
-          mouseRadius
-        }
-      )
-    }
-  );
+	return /* @__PURE__ */ jsx(Canvas, {
+		className: "dither-container",
+		camera: { position: [0, 0, 6] },
+		dpr: 1,
+		gl: { antialias: true, preserveDrawingBuffer: true },
+		children: /* @__PURE__ */ jsx(DitheredWaves, {
+			waveSpeed,
+			waveFrequency,
+			waveAmplitude,
+			waveColor,
+			backgroundColor,
+			colorNum,
+			pixelSize,
+			disableAnimation,
+			enableMouseInteraction,
+			mouseRadius,
+		}),
+	});
 }
-export {
-  Dither as default
-};
+export { Dither as default };

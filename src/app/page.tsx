@@ -388,10 +388,7 @@ export default function LandingPage() {
 					<p>Keep your school day in sync with Timetable.</p>
 					<a class={styles.bottomCtaLink} href="/login">
 						<span>Open Timetable</span>
-						<LandingSymbol
-							name="chevron.right"
-							class={styles.navLinkIcon}
-						/>
+						<LandingSymbol name="chevron.right" class={styles.navLinkIcon} />
 					</a>
 				</div>
 

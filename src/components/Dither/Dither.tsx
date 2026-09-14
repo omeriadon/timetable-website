@@ -1,9 +1,4 @@
-import {
-	createEffect,
-	onCleanup,
-	onMount,
-	type Component,
-} from "solid-js";
+import { createEffect, onCleanup, onMount, type Component } from "solid-js";
 import { createRoot, type Root } from "react-dom/client";
 import React from "react";
 
