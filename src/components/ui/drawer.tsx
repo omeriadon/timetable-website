@@ -6,6 +6,7 @@ import {
 	splitProps,
 	useContext,
 	type JSX,
+	type ComponentProps,
 } from "solid-js";
 import { Portal } from "solid-js/web";
 import CorvuDrawer from "@corvu/drawer";
@@ -79,13 +80,15 @@ export function Drawer(
 	);
 }
 
-export const DrawerTrigger: any = (props: any) => (
-	<CorvuDrawer.Trigger data-slot="drawer-trigger" {...props} />
-);
-export const DrawerPortal: any = (props: any) => (
-	<CorvuDrawer.Portal data-slot="drawer-portal" {...props} />
-);
-export function DrawerOverlay(props: any) {
+export const DrawerTrigger = (
+	props: ComponentProps<typeof CorvuDrawer.Trigger>,
+) => <CorvuDrawer.Trigger data-slot="drawer-trigger" {...props} />;
+export const DrawerPortal = (
+	props: ComponentProps<typeof CorvuDrawer.Portal>,
+) => <CorvuDrawer.Portal data-slot="drawer-portal" {...props} />;
+export function DrawerOverlay(
+	props: ComponentProps<typeof CorvuDrawer.Overlay>,
+) {
 	return (
 		<CorvuDrawer.Overlay
 			{...props}

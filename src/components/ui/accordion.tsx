@@ -1,9 +1,10 @@
 import { Accordion as Primitive } from "@kobalte/core/accordion";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-solid";
+import type { ComponentProps } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./according.module.css";
 
-export function Accordion(props: any) {
+export function Accordion(props: ComponentProps<typeof Primitive>) {
 	return (
 		<Primitive
 			{...props}
@@ -13,7 +14,7 @@ export function Accordion(props: any) {
 	);
 }
 
-export function AccordionItem(props: any) {
+export function AccordionItem(props: ComponentProps<typeof Primitive.Item>) {
 	return (
 		<Primitive.Item
 			{...props}
@@ -23,7 +24,9 @@ export function AccordionItem(props: any) {
 	);
 }
 
-export function AccordionTrigger(props: any) {
+export function AccordionTrigger(
+	props: ComponentProps<typeof Primitive.Trigger>,
+) {
 	return (
 		<Primitive.Header class={styles.header}>
 			<Primitive.Trigger
@@ -45,7 +48,9 @@ export function AccordionTrigger(props: any) {
 	);
 }
 
-export function AccordionContent(props: any) {
+export function AccordionContent(
+	props: ComponentProps<typeof Primitive.Content>,
+) {
 	return (
 		<Primitive.Content
 			{...props}

@@ -57,7 +57,7 @@ export default function FriendsPage({ data }: { data: FriendsData }) {
 		},
 	});
 	const friends = () => cached.data()?.friends ?? [];
-	const account = () => cached.data()?.account!;
+	const account = () => cached.data()?.account ?? initial.account;
 	const locationStatus = () => cached.data()?.locationStatus ?? null;
 	const incomingRequestCount = () => cached.data()?.incomingRequestCount ?? 0;
 	const [searchText, setSearchText] = createSignal("");

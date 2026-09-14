@@ -1,13 +1,15 @@
 import { DropdownMenu as Primitive } from "@kobalte/core/dropdown-menu";
 import { CheckIcon, ChevronRightIcon } from "lucide-solid";
-import { splitProps } from "solid-js";
+import { splitProps, type ComponentProps, type JSX } from "solid-js";
 import { cn } from "@/lib/utils";
 import styles from "./dropdown-menu.module.css";
 
 export const DropdownMenu = Primitive;
 export const DropdownMenuPortal = Primitive.Portal;
-export const DropdownMenuTrigger: any = Primitive.Trigger;
-export function DropdownMenuContent(props: any) {
+export const DropdownMenuTrigger = Primitive.Trigger;
+export function DropdownMenuContent(
+	props: ComponentProps<typeof Primitive.Content>,
+) {
 	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
 		<Primitive.Portal>
@@ -22,7 +24,9 @@ export function DropdownMenuContent(props: any) {
 	);
 }
 export const DropdownMenuGroup = Primitive.Group;
-export function DropdownMenuLabel(props: any) {
+export function DropdownMenuLabel(
+	props: ComponentProps<typeof Primitive.GroupLabel>,
+) {
 	return (
 		<Primitive.GroupLabel
 			{...props}
@@ -31,7 +35,7 @@ export function DropdownMenuLabel(props: any) {
 		/>
 	);
 }
-export function DropdownMenuItem(props: any) {
+export function DropdownMenuItem(props: ComponentProps<typeof Primitive.Item>) {
 	return (
 		<Primitive.Item
 			{...props}
@@ -42,7 +46,9 @@ export function DropdownMenuItem(props: any) {
 	);
 }
 export const DropdownMenuSub = Primitive.Sub;
-export function DropdownMenuSubTrigger(props: any) {
+export function DropdownMenuSubTrigger(
+	props: ComponentProps<typeof Primitive.SubTrigger>,
+) {
 	return (
 		<Primitive.SubTrigger
 			{...props}
@@ -54,7 +60,9 @@ export function DropdownMenuSubTrigger(props: any) {
 		</Primitive.SubTrigger>
 	);
 }
-export function DropdownMenuSubContent(props: any) {
+export function DropdownMenuSubContent(
+	props: ComponentProps<typeof Primitive.SubContent>,
+) {
 	const [local, rest] = splitProps(props, ["class", "className", "children"]);
 	return (
 		<Primitive.Portal>
@@ -68,7 +76,11 @@ export function DropdownMenuSubContent(props: any) {
 		</Primitive.Portal>
 	);
 }
-export function DropdownMenuCheckboxItem(props: any) {
+export function DropdownMenuCheckboxItem(
+	props: ComponentProps<typeof Primitive.CheckboxItem> & {
+		onCheckedChange?: (checked: boolean) => void;
+	},
+) {
 	const { onCheckedChange, ...rest } = props;
 	return (
 		<Primitive.CheckboxItem
@@ -84,11 +96,22 @@ export function DropdownMenuCheckboxItem(props: any) {
 		</Primitive.CheckboxItem>
 	);
 }
-export function DropdownMenuRadioGroup(props: any) {
+export function DropdownMenuRadioGroup(
+	props: Omit<
+		ComponentProps<typeof Primitive.RadioGroup>,
+		"value" | "defaultValue" | "onChange"
+	> & {
+		value?: string;
+		defaultValue?: string;
+		onValueChange?: (value: string) => void;
+	},
+) {
 	const { onValueChange, ...rest } = props;
 	return <Primitive.RadioGroup {...rest} onChange={onValueChange} />;
 }
-export function DropdownMenuRadioItem(props: any) {
+export function DropdownMenuRadioItem(
+	props: ComponentProps<typeof Primitive.RadioItem>,
+) {
 	return (
 		<Primitive.RadioItem
 			{...props}
@@ -102,7 +125,9 @@ export function DropdownMenuRadioItem(props: any) {
 		</Primitive.RadioItem>
 	);
 }
-export function DropdownMenuSeparator(props: any) {
+export function DropdownMenuSeparator(
+	props: ComponentProps<typeof Primitive.Separator>,
+) {
 	return (
 		<Primitive.Separator
 			{...props}
@@ -111,7 +136,9 @@ export function DropdownMenuSeparator(props: any) {
 		/>
 	);
 }
-export function DropdownMenuShortcut(props: any) {
+export function DropdownMenuShortcut(
+	props: JSX.HTMLAttributes<HTMLSpanElement> & { className?: string },
+) {
 	return (
 		<span
 			{...props}

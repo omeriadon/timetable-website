@@ -1,4 +1,4 @@
-import { createMemo, Show } from "solid-js";
+import { createMemo, Show, type ComponentProps, type JSX } from "solid-js";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -6,7 +6,12 @@ import { cn } from "@/lib/utils";
 
 import styles from "./field.module.css";
 
-function FieldSet({ className, ...props }: any) {
+function FieldSet({
+	className,
+	...props
+}: JSX.FieldsetHTMLAttributes<HTMLFieldSetElement> & {
+	className?: string;
+}) {
 	return (
 		<fieldset
 			data-slot="field-set"
@@ -16,7 +21,14 @@ function FieldSet({ className, ...props }: any) {
 	);
 }
 
-function FieldLegend({ className, variant = "legend", ...props }: any) {
+function FieldLegend({
+	className,
+	variant = "legend",
+	...props
+}: JSX.HTMLAttributes<HTMLLegendElement> & {
+	className?: string;
+	variant?: "legend" | "label";
+}) {
 	return (
 		<legend
 			data-slot="field-legend"
@@ -27,7 +39,12 @@ function FieldLegend({ className, variant = "legend", ...props }: any) {
 	);
 }
 
-function FieldGroup({ className, ...props }: any) {
+function FieldGroup({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & {
+	className?: string;
+}) {
 	return (
 		<div
 			data-slot="field-group"
@@ -37,7 +54,14 @@ function FieldGroup({ className, ...props }: any) {
 	);
 }
 
-function Field({ className, orientation = "vertical", ...props }: any) {
+function Field({
+	className,
+	orientation = "vertical",
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & {
+	className?: string;
+	orientation?: "vertical" | "horizontal" | "responsive";
+}) {
 	return (
 		<div
 			role="group"
@@ -49,7 +73,12 @@ function Field({ className, orientation = "vertical", ...props }: any) {
 	);
 }
 
-function FieldContent({ className, ...props }: any) {
+function FieldContent({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & {
+	className?: string;
+}) {
 	return (
 		<div
 			data-slot="field-content"
@@ -59,7 +88,12 @@ function FieldContent({ className, ...props }: any) {
 	);
 }
 
-function FieldLabel({ className, ...props }: any) {
+function FieldLabel({
+	className,
+	...props
+}: ComponentProps<typeof Label> & {
+	className?: string;
+}) {
 	return (
 		<Label
 			data-slot="field-label"
@@ -69,7 +103,12 @@ function FieldLabel({ className, ...props }: any) {
 	);
 }
 
-function FieldTitle({ className, ...props }: any) {
+function FieldTitle({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & {
+	className?: string;
+}) {
 	return (
 		<div
 			data-slot="field-title"
@@ -79,7 +118,12 @@ function FieldTitle({ className, ...props }: any) {
 	);
 }
 
-function FieldDescription({ className, ...props }: any) {
+function FieldDescription({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLParagraphElement> & {
+	className?: string;
+}) {
 	return (
 		<p
 			data-slot="field-description"
@@ -89,7 +133,11 @@ function FieldDescription({ className, ...props }: any) {
 	);
 }
 
-function FieldSeparator({ children, className, ...props }: any) {
+function FieldSeparator({
+	children,
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & { className?: string }) {
 	return (
 		<div
 			data-slot="field-separator"
@@ -111,7 +159,15 @@ function FieldSeparator({ children, className, ...props }: any) {
 	);
 }
 
-function FieldError({ className, children, errors, ...props }: any) {
+function FieldError({
+	className,
+	children,
+	errors,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & {
+	className?: string;
+	errors?: Array<{ message?: string } | undefined>;
+}) {
 	const hasChildren = () => Boolean(children);
 	const content = createMemo(() => {
 		if (hasChildren()) {
@@ -122,14 +178,8 @@ function FieldError({ className, children, errors, ...props }: any) {
 			return null;
 		}
 
-		const typedErrors = errors as Array<{ message?: string } | undefined>;
 		const uniqueErrors: Array<{ message?: string } | undefined> = [
-			...new Map(
-				typedErrors.map((error: { message?: string } | undefined) => [
-					error?.message,
-					error,
-				]),
-			).values(),
+			...new Map(errors.map((error) => [error?.message, error])).values(),
 		];
 
 		if (uniqueErrors.length === 1) {

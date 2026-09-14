@@ -1,5 +1,6 @@
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/solid-router";
 import { HydrationScript, Suspense } from "solid-js/web";
+import type { JSX } from "solid-js";
 import "../styles/globals.css";
 
 export const Route = createRootRoute({
@@ -26,7 +27,7 @@ export const Route = createRootRoute({
 	shellComponent: RootDocument,
 });
 
-function RootDocument(props: { children: any }) {
+function RootDocument(props: { children: JSX.Element }) {
 	return (
 		<html lang="en">
 			<head>

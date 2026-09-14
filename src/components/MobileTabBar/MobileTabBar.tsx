@@ -6,7 +6,7 @@ import { useCompactLayout } from "@/lib/ui/useCompactLayout";
 import Symbol from "@/components/controls/Symbol/Symbol";
 
 type TabItem = {
-	href: string;
+	href: "/" | "/friends" | "/grades" | "/settings" | "/administration";
 	label: string;
 	icon: string;
 	badge?: boolean;
@@ -56,10 +56,7 @@ export default function MobileTabBar() {
 							: pathname().startsWith(tab.href);
 
 					return (
-						<Link
-							to={tab.href as any}
-							aria-current={active ? "page" : undefined}
-						>
+						<Link to={tab.href} aria-current={active ? "page" : undefined}>
 							<Symbol name={tab.icon} />
 							<span>{tab.label}</span>
 							{tab.badge && incomingFriendRequestCount() > 0 ? (

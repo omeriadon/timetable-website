@@ -9,7 +9,15 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 
 type SidebarItem = {
 	label: string;
-	href: string;
+	href:
+		| "/today"
+		| "/week"
+		| "/planner"
+		| "/friends"
+		| "/grades"
+		| "/settings"
+		| "/administration"
+		| "/testing";
 	icon: string;
 	badge?: boolean;
 };
@@ -85,7 +93,7 @@ export default function Sidebar() {
 	function renderItem(item: SidebarItem) {
 		return (
 			<Link
-				to={item.href as any}
+				to={item.href}
 				class={
 					isActive(item.href)
 						? `${styles.sidebarLink} ${styles.active}`

@@ -10,6 +10,7 @@ import {
 	splitProps,
 	useContext,
 	type Accessor,
+	type ComponentProps,
 	type JSX,
 } from "solid-js";
 import { CheckIcon, ChevronDownIcon } from "lucide-solid";
@@ -184,7 +185,7 @@ export function Select(props: SelectProps) {
 		</SelectOptionsContext.Provider>
 	);
 }
-export function SelectGroup(props: any) {
+export function SelectGroup(props: ComponentProps<typeof Primitive.Group>) {
 	const context = useContext(SelectOptionsContext);
 	const id = createUniqueId();
 	context?.registerGroup(id);
@@ -194,7 +195,7 @@ export function SelectGroup(props: any) {
 		</SelectGroupContext.Provider>
 	);
 }
-export function SelectValue(props: any) {
+export function SelectValue(props: ComponentProps<typeof Primitive.Value>) {
 	return (
 		<Primitive.Value
 			{...props}
@@ -203,7 +204,7 @@ export function SelectValue(props: any) {
 		/>
 	);
 }
-export function SelectTrigger(props: any) {
+export function SelectTrigger(props: ComponentProps<typeof Primitive.Trigger>) {
 	return (
 		<Primitive.Trigger
 			{...props}
@@ -218,7 +219,7 @@ export function SelectTrigger(props: any) {
 		</Primitive.Trigger>
 	);
 }
-export function SelectContent(props: any) {
+export function SelectContent(props: ComponentProps<typeof Primitive.Content>) {
 	const [local, rest] = splitProps(props, [
 		"class",
 		"className",
@@ -238,7 +239,7 @@ export function SelectContent(props: any) {
 		</Primitive.Portal>
 	);
 }
-export function SelectLabel(props: any) {
+export function SelectLabel(props: ComponentProps<typeof Primitive.Label>) {
 	const context = useContext(SelectOptionsContext);
 	const groupID = useContext(SelectGroupContext);
 	if (groupID) {
@@ -259,13 +260,13 @@ export function SelectItem(props: {
 	);
 	return null;
 }
-export function SelectSeparator(props: any) {
+export function SelectSeparator() {
 	useContext(SelectOptionsContext)?.markSeparator();
 	return null;
 }
-export function SelectScrollUpButton(props: any) {
+export function SelectScrollUpButton() {
 	return null;
 }
-export function SelectScrollDownButton(props: any) {
+export function SelectScrollDownButton() {
 	return null;
 }

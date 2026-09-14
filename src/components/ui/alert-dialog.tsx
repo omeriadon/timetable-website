@@ -1,27 +1,39 @@
 import * as AlertDialogPrimitive from "@kobalte/core/dialog";
+import type { ComponentProps, JSX } from "solid-js";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import styles from "./alert-dialog.module.css";
 
-function AlertDialog(props: any) {
+function AlertDialog(
+	props: ComponentProps<typeof AlertDialogPrimitive.Dialog>,
+) {
 	return <AlertDialogPrimitive.Dialog data-slot="alert-dialog" {...props} />;
 }
 
-function AlertDialogTrigger(props: any) {
+function AlertDialogTrigger(
+	props: ComponentProps<typeof AlertDialogPrimitive.Trigger>,
+) {
 	return (
 		<AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
 	);
 }
 
-function AlertDialogPortal(props: any) {
+function AlertDialogPortal(
+	props: ComponentProps<typeof AlertDialogPrimitive.Portal>,
+) {
 	return (
 		<AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
 	);
 }
 
-function AlertDialogOverlay({ className, ...props }: any) {
+function AlertDialogOverlay({
+	className,
+	...props
+}: ComponentProps<typeof AlertDialogPrimitive.Overlay> & {
+	className?: string;
+}) {
 	return (
 		<AlertDialogPrimitive.Overlay
 			data-slot="alert-dialog-overlay"
@@ -31,7 +43,14 @@ function AlertDialogOverlay({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogContent({ className, size = "default", ...props }: any) {
+function AlertDialogContent({
+	className,
+	size = "default",
+	...props
+}: ComponentProps<typeof AlertDialogPrimitive.Content> & {
+	className?: string;
+	size?: "default" | "sm";
+}) {
 	return (
 		<AlertDialogPortal>
 			<AlertDialogOverlay />
@@ -45,7 +64,10 @@ function AlertDialogContent({ className, size = "default", ...props }: any) {
 	);
 }
 
-function AlertDialogHeader({ className, ...props }: any) {
+function AlertDialogHeader({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & { className?: string }) {
 	return (
 		<div
 			data-slot="alert-dialog-header"
@@ -55,7 +77,10 @@ function AlertDialogHeader({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogFooter({ className, ...props }: any) {
+function AlertDialogFooter({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & { className?: string }) {
 	return (
 		<div
 			data-slot="alert-dialog-footer"
@@ -65,7 +90,10 @@ function AlertDialogFooter({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogMedia({ className, ...props }: any) {
+function AlertDialogMedia({
+	className,
+	...props
+}: JSX.HTMLAttributes<HTMLDivElement> & { className?: string }) {
 	return (
 		<div
 			data-slot="alert-dialog-media"
@@ -75,7 +103,12 @@ function AlertDialogMedia({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogTitle({ className, ...props }: any) {
+function AlertDialogTitle({
+	className,
+	...props
+}: ComponentProps<typeof AlertDialogPrimitive.Title> & {
+	className?: string;
+}) {
 	return (
 		<AlertDialogPrimitive.Title
 			data-slot="alert-dialog-title"
@@ -85,7 +118,12 @@ function AlertDialogTitle({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogDescription({ className, ...props }: any) {
+function AlertDialogDescription({
+	className,
+	...props
+}: ComponentProps<typeof AlertDialogPrimitive.Description> & {
+	className?: string;
+}) {
 	return (
 		<AlertDialogPrimitive.Description
 			data-slot="alert-dialog-description"
@@ -95,7 +133,16 @@ function AlertDialogDescription({ className, ...props }: any) {
 	);
 }
 
-function AlertDialogAction({ className, ...props }: any) {
+function AlertDialogAction({
+	className,
+	...props
+}: JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+	className?: string;
+	variant?:
+		"default" | "outline" | "secondary" | "ghost" | "destructive" | "link";
+	size?:
+		"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
+}) {
 	return (
 		<Button
 			data-slot="alert-dialog-action"
@@ -110,7 +157,13 @@ function AlertDialogCancel({
 	variant = "outline",
 	size = "default",
 	...props
-}: any) {
+}: JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+	className?: string;
+	variant?:
+		"default" | "outline" | "secondary" | "ghost" | "destructive" | "link";
+	size?:
+		"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
+}) {
 	return (
 		<AlertDialogPrimitive.CloseButton
 			data-slot="alert-dialog-cancel"
