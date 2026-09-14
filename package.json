@@ -9,7 +9,9 @@
 		"start": "bun .output/server/index.mjs",
 		"typecheck": "tsc --noEmit --incremental false",
 		"test": "bun test",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
 		"@corvu/drawer": "0.2.2",
