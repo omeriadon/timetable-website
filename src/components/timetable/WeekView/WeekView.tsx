@@ -104,6 +104,10 @@ export default function WeekView({
 														? `${styles.lesson} ${styles.lessonSelected}`
 														: styles.lesson
 												}
+												style={{
+													"background-color": subjectColour(subject),
+													color: subjectTextColour(subject),
+												}}
 											>
 												<Symbol
 													name={subject.symbol}
@@ -146,4 +150,15 @@ export default function WeekView({
 			<TimetableComparison selectedSlot={selectedSlot()!} friends={friends} />
 		</section>
 	);
+}
+
+function subjectColour(subject: TimetableSubject) {
+	const { r, g, b, a } = subject.colour;
+	return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`;
+}
+
+function subjectTextColour(subject: TimetableSubject) {
+	const { r, g, b } = subject.colour;
+	const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+	return brightness > 0.55 ? "#111111" : "#ffffff";
 }

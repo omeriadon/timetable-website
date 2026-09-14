@@ -56,10 +56,12 @@
 	height: var(--ds-icon-size-row);
 	object-fit: contain;
 }
+
 .lessonSymbol {
-	width: var(--ds-icon-size-row);
 	height: var(--ds-icon-size-row);
+	max-width: 100px;
 	object-fit: contain;
+	color: white;
 }
 
 .week {
@@ -121,9 +123,8 @@
 	min-height: var(--ds-week-row-min-height);
 	flex-direction: column;
 	justify-content: space-between;
-	gap: var(--ds-space-2);
 	padding: var(--ds-space-2);
-	border: var(--ds-border-width) solid var(--ds-color-border);
+	border: var(--ds-border-width) solid rgba(255, 255, 255, 0.5);
 	border-radius: var(--ds-radius-control);
 	background: var(--ds-color-surface-elevated);
 	overflow: hidden;
@@ -131,4 +132,5 @@
 
 .lesson strong {
 	font-size: var(--ds-font-small);
+	color: white;
 }
