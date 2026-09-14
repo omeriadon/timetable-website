@@ -6,7 +6,7 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, type JSX } from "solid-js";
 import SubjectContextDrawer from "@/components/drawers/SubjectContextDrawer/SubjectContextDrawer";
 import TimetableComparison from "@/components/timetable/TimetableComparison/TimetableComparison";
 import { useTimetableNow } from "@/features/timetable/clock";
@@ -104,10 +104,12 @@ export default function WeekView({
 														? `${styles.lesson} ${styles.lessonSelected}`
 														: styles.lesson
 												}
-												style={{
-													"background-color": subjectColour(subject),
-													color: subjectTextColour(subject),
-												}}
+												style={
+													{
+														"--lesson-background": subjectColour(subject),
+														color: subjectTextColour(subject),
+													} as JSX.CSSProperties
+												}
 											>
 												<Symbol
 													name={subject.symbol}

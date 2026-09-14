@@ -126,8 +126,16 @@
 	padding: var(--ds-space-2);
 	border: var(--ds-border-width) solid rgba(255, 255, 255, 0.5);
 	border-radius: var(--ds-radius-control);
-	background: var(--ds-color-surface-elevated);
+	background: var(--lesson-background, var(--ds-color-surface-elevated));
 	overflow: hidden;
+}
+
+.lesson:hover {
+	outline: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.lessonButton:hover .lesson {
+	background: color-mix(in srgb, var(--lesson-background) 90%, black);
 }
 
 .lesson strong {
