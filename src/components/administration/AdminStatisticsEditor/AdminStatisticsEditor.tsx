@@ -1,5 +1,5 @@
 import { createSignal, onMount } from "solid-js";
-import Symbol from "@/components/controls/Symbol/Symbol";
+
 import { apiRequest } from "@/lib/api/client";
 import styles from "@/components/administration/Administration.module.css";
 import {

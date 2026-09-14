@@ -10,8 +10,8 @@
 		"typecheck": "tsc --noEmit --incremental false",
 		"test": "bun test",
 		"format": "prettier --write .",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"lint": "cd ./src && eslint .",
+		"lint:fix": "cd ./src && eslint . --fix"
 	},
 	"dependencies": {
 		"@corvu/drawer": "0.2.2",

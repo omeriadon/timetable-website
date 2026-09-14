@@ -29,17 +29,6 @@ function formatPercent(value: number | null) {
 	return value === null ? "—" : `${(value * 100).toFixed(1)}%`;
 }
 
-type YearGroupCatalogue = {
-	sections: Array<{
-		category: string;
-		tags: Array<{ id: string; displayName: string }>;
-	}>;
-};
-
-type YearGroupSubscriptions = {
-	tagIDs: string[];
-};
-
 function subjectAverage(
 	subjectID: string,
 	assessments: GradeTracker["document"]["assessments"],
@@ -185,7 +174,6 @@ export default function GradesPage({ data }: { data: GradesData }) {
 			.filter((tag) => snapshot.subscriptions.tagIDs.includes(tag.id))
 			.some((tag) => /11|12/.test(tag.displayName));
 	});
-	const [error, setError] = createSignal<string | null>(null);
 	const { openDrawer } = useDrawer();
 
 	onMount(() =>
@@ -236,11 +224,6 @@ export default function GradesPage({ data }: { data: GradesData }) {
 			{cached.error() ? (
 				<p class={styles.error} role="alert">
 					{cached.error()}
-				</p>
-			) : null}
-			{error() ? (
-				<p class={styles.error} role="alert">
-					{error()}
 				</p>
 			) : null}
 			{!grades() || !timetable() ? (

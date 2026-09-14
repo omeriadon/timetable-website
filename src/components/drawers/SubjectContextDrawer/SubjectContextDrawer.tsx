@@ -4,17 +4,13 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../Drawer/Drawer.module.css";
 
 type SubjectContextDrawerProps = {
-	owner: string;
 	subject: TimetableSubject;
 	day?: string;
-	session?: number;
 };
 
 export default function SubjectContextDrawer({
-	owner,
 	subject,
 	day,
-	session,
 }: SubjectContextDrawerProps) {
 	return (
 		<div class={styles.detailDrawer}>
@@ -73,8 +69,4 @@ function dayName(day: number) {
 		["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][day] ??
 		`Day ${day}`
 	);
-}
-
-function subjectColour(subject: TimetableSubject) {
-	return `rgb(${Math.round(subject.colour.r * 255)} ${Math.round(subject.colour.g * 255)} ${Math.round(subject.colour.b * 255)})`;
 }

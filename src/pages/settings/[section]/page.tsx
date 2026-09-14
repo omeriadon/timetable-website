@@ -5,7 +5,6 @@ import type {
 	SettingsSectionData,
 	ProfileSettingsSectionData,
 } from "@/lib/server/page-data.functions";
-import Symbol from "@/components/controls/Symbol/Symbol";
 import ProfileAppearanceEditor from "@/components/settings/ProfileAppearanceEditor/ProfileAppearanceEditor";
 import FeedbackEditor from "@/components/settings/FeedbackEditor/FeedbackEditor";
 import AboutEditor from "@/components/settings/AboutEditor/AboutEditor";

@@ -50,7 +50,7 @@ const Skiper41 = () => {
 				</div>
 
 				<div class="mt-24 w-full max-w-lg space-y-20 px-5 text-justify">
-					{Array.from({ length: 10 }).map((_, index) => (
+					{Array.from({ length: 10 }).map((_) => (
 						<div>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit.
 							Obcaecati, reiciendis eum vitae nostrum, temporibus repudiandae

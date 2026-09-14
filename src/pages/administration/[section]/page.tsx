@@ -3,7 +3,6 @@ import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { AdministrationSectionData } from "@/lib/server/page-data.functions";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import styles from "../page.module.css";
-import { apiRequest } from "@/lib/api/client";
 import AdminEventTagsEditor from "@/components/administration/AdminEventTagsEditor/AdminEventTagsEditor";
 import AdminCalendarEditor from "@/components/administration/AdminCalendarEditor/AdminCalendarEditor";
 import AdminUsersEditor from "@/components/administration/AdminUsersEditor/AdminUsersEditor";
@@ -114,8 +113,7 @@ export default function AdministrationSectionPage({
 	data: AdministrationSectionData;
 }) {
 	const setToolbar = useToolbar();
-	const [loadedData, setLoadedData] = createSignal<unknown>(data);
-	const [error, setError] = createSignal<string | null>(null);
+	const [loadedData] = createSignal<unknown>(data);
 	const config = sectionConfig[section] ?? {
 		title: "Administration",
 		icon: "calendar.badge.lock",
@@ -165,11 +163,6 @@ export default function AdministrationSectionPage({
 					<span class={styles.label}>{config.title}</span>
 				</div>
 			</section>
-			{error() ? (
-				<p class={styles.error} role="alert">
-					{error()}
-				</p>
-			) : null}
 			{section === "broadcast-notification" ? (
 				<BroadcastNotificationEditor />
 			) : section === "test-email" ? (
@@ -191,7 +184,7 @@ export default function AdministrationSectionPage({
 			) : null}
 			{loadedData() && records().length ? (
 				<section class={styles.card}>
-					{records().map((record, index) => (
+					{records().map((record) => (
 						<AdminRecord
 							record={record}
 							humanize={humanize}
@@ -199,9 +192,6 @@ export default function AdministrationSectionPage({
 						/>
 					))}
 				</section>
-			) : null}
-			{config.endpoint && !loadedData && !error ? (
-				<p class={styles.loading}>Loading {config.title.toLowerCase()}…</p>
 			) : null}
 		</main>
 	);

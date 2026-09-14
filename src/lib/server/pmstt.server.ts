@@ -172,7 +172,7 @@ export async function authenticatedPMSTTRequest(
 			};
 		}
 	}
-	let accessToken = getCookie(accessCookie) ?? getCookie(legacyAccessCookie);
+	const accessToken = getCookie(accessCookie) ?? getCookie(legacyAccessCookie);
 	let response = await pmsttRequest(path, init, accessToken);
 	if (response.status !== 401) {
 		if (method === "GET" && !hasBody && response.ok) {

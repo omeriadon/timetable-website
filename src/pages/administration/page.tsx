@@ -2,7 +2,6 @@ import { createSignal, onMount } from "solid-js";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
 import type { AdministrationData } from "@/lib/server/page-data.functions";
 import styles from "./page.module.css";
-import { apiRequest } from "@/lib/api/client";
 import DrawerTrigger from "@/components/drawers/DrawerTrigger/DrawerTrigger";
 import Symbol from "@/components/controls/Symbol/Symbol";
 import {
@@ -85,15 +84,9 @@ export default function AdministrationPage({
 	const initial = data;
 	const setToolbar = useToolbar();
 	const [dashboard] = createSignal<Dashboard>(initial);
-	const [error, setError] = createSignal<string | null>(null);
 	onMount(() => setToolbar({}));
 	return (
 		<main class={styles.page}>
-			{error() ? (
-				<p class={styles.error} role="alert">
-					{error()}
-				</p>
-			) : null}
 			{dashboard() && !dashboard()!.isAdmin ? (
 				<List>
 					<ListRow>
@@ -137,9 +130,6 @@ export default function AdministrationPage({
 							</ListSection>
 						))}
 				</List>
-			) : null}
-			{!dashboard() && !error ? (
-				<p class={styles.loading}>Checking administrator access…</p>
 			) : null}
 		</main>
 	);

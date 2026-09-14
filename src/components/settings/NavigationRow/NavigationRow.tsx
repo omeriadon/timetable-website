@@ -7,14 +7,12 @@ import styles from "@/components/settings/Settings.module.css";
 
 export default function NavigationRow({
 	title,
-	description,
 	href,
 	icon,
 	direct = false,
 	drawerContent,
 }: {
 	title: string;
-	description: string;
 	href: string;
 	icon: string;
 	direct?: boolean;

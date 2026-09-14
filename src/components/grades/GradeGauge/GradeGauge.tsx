@@ -2,7 +2,6 @@ import Symbol from "@/components/controls/Symbol/Symbol";
 
 export default function GradeGauge({
 	value,
-	color: _color,
 	symbol,
 }: {
 	value: number | null;

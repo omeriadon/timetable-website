@@ -117,12 +117,7 @@ export default function WeekView({
 											<PopoverHeader>
 												<PopoverTitle>{subject.id}</PopoverTitle>
 											</PopoverHeader>
-											<SubjectContextDrawer
-												owner="You"
-												subject={subject}
-												day={day}
-												session={session.value}
-											/>
+											<SubjectContextDrawer subject={subject} day={day} />
 										</PopoverContent>
 									</Popover>
 								);

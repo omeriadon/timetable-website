@@ -418,14 +418,6 @@ function compareDate(
 	);
 }
 
-function eventDate(event: CalendarEvent) {
-	return new Date(
-		event.date.year,
-		event.date.month - 1,
-		event.date.day,
-	).getTime();
-}
-
 function entryDate(entry: TodayEntry) {
 	return new Date(
 		entry.date.year,
@@ -436,24 +428,6 @@ function entryDate(entry: TodayEntry) {
 
 function entryTitle(entry: TodayEntry) {
 	return entry.kind === "event" ? entry.event.title : entry.assessment.name;
-}
-
-function teacherName(teacher: TimetableSubject["teacher"]) {
-	if (!teacher) return "Not provided";
-	if (typeof teacher === "string") return teacher;
-	if (teacher.displayName) return teacher.displayName;
-	if (teacher.named) return `Teacher: ${teacher.named.lastName}`;
-	return teacher.unknown?.rawNotes ?? "Not provided";
-}
-
-function classroomName(classroom: TimetableSubject["classroom"]) {
-	if (!classroom) return "Not provided";
-	if (typeof classroom === "string") return classroom;
-	if (classroom.unknown) return classroom.unknown.rawLocation;
-	if (classroom.room) {
-		return `${classroom.room.building} ${classroom.room.number}`;
-	}
-	return "Not provided";
 }
 
 function displayAssessmentDate(date: {

@@ -13,7 +13,6 @@ import type {
 	GradeAssessment,
 	GradeTracker,
 	OwnerTimetable,
-	TimetableSubject,
 } from "@/features/timetable/types";
 
 import styles from "./page.module.css";
@@ -49,7 +48,7 @@ export default function GradeSubjectPage({
 	const tracker = () => cached.data()?.grades;
 	const timetable = () => cached.data()?.timetable;
 	const [saving, setSaving] = createSignal(false);
-	const [error, setError] = createSignal<string | null>(null);
+	// const [error, setError] = createSignal<string | null>(null);
 
 	const persistTracker = (updated: GradeTracker) => {
 		const snapshot = cached.data();
@@ -86,10 +85,6 @@ export default function GradeSubjectPage({
 
 	const saveAssessment = async (assessment: GradeAssessment) => {
 		if (!tracker()) return;
-
-		setSaving(true);
-		setError(null);
-
 		try {
 			persistTracker(
 				await apiRequest<GradeTracker>("v1/grades", {
@@ -109,7 +104,6 @@ export default function GradeSubjectPage({
 				}),
 			);
 		} catch (requestError) {
-			setError((requestError as Error).message);
 			throw requestError;
 		} finally {
 			setSaving(false);
@@ -120,7 +114,6 @@ export default function GradeSubjectPage({
 		if (!tracker()) return;
 
 		setSaving(true);
-		setError(null);
 
 		try {
 			persistTracker(
@@ -138,7 +131,6 @@ export default function GradeSubjectPage({
 				}),
 			);
 		} catch (requestError) {
-			setError((requestError as Error).message);
 			throw requestError;
 		} finally {
 			setSaving(false);
@@ -151,12 +143,6 @@ export default function GradeSubjectPage({
 				‹ Grades
 			</Link>
 			<StaleIndicator active={!!cached.data() && cached.isRevalidating()} />
-
-			{error() && (
-				<p class={styles.error} role="alert">
-					{error()}
-				</p>
-			)}
 
 			{[1, 2].map((semester) => {
 				const semesterAssessments = assessments().filter(

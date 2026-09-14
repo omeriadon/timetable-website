@@ -11,9 +11,6 @@ import {
 	TrashIcon,
 } from "lucide-solid";
 import { useToolbar } from "@/components/Toolbar/Toolbar";
-import ProfilePicture from "@/components/controls/ProfilePicture/ProfilePicture";
-import SettingToggle from "@/components/controls/SettingToggle/SettingToggle";
-import Symbol from "@/components/controls/Symbol/Symbol";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -65,12 +62,10 @@ import {
 	FieldGroup,
 	FieldLabel,
 	FieldLegend,
-	FieldSeparator,
 	FieldSet,
 	FieldTitle,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
 	List,
 	ListRow,
@@ -134,7 +129,6 @@ export default function TestingPage() {
 	const [menuTheme, setMenuTheme] = createSignal("system");
 	const [menuOpen, setMenuOpen] = createSignal(false);
 	const [selectedOption, setSelectedOption] = createSignal("one");
-	const [settingEnabled, setSettingEnabled] = createSignal(true);
 
 	onMount(() => {
 		setToolbar({});
