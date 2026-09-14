@@ -185,7 +185,7 @@ export function Select(props: SelectProps) {
 		</SelectOptionsContext.Provider>
 	);
 }
-export function SelectGroup(props: ComponentProps<typeof Primitive.Group>) {
+export function SelectGroup(props: { children?: JSX.Element }) {
 	const context = useContext(SelectOptionsContext);
 	const id = createUniqueId();
 	context?.registerGroup(id);
