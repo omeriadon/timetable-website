@@ -36,8 +36,23 @@
 	border: var(--ds-border-width) solid var(--ds-color-border);
 	border-radius: var(--ds-radius-control);
 	background: var(--ds-color-surface);
+	animation: selected-lesson-reveal 400ms cubic-bezier(0.22, 1, 0.36, 1);
 
 	margin-left: calc(var(--ds-content-card-padding) - 3px);
+}
+
+@keyframes selected-lesson-reveal {
+	from {
+		transform: translateY(12px);
+		opacity: 0;
+		filter: blur(2px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.selectedLesson {
+		animation: none;
+	}
 }
 
 .selectedLesson div {
@@ -106,6 +121,7 @@
 	color: var(--ds-color-text-secondary);
 	font-size: var(--ds-font-small);
 	text-align: center;
+	user-select: none;
 }
 
 .weekRow {
@@ -116,6 +132,7 @@
 	display: grid;
 	place-items: center;
 	color: var(--ds-color-text-secondary);
+	user-select: none;
 }
 
 .lesson {

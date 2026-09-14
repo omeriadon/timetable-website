@@ -90,12 +90,16 @@ export default function WeekView({
 											as={Button}
 											type="button"
 											class={`${styles.lessonButton} ${currentDayClass ?? ""}`}
-											aria-label={`Open ${subject.id} on ${day}`}
+											aria-label={`${isSelected ? "Close" : "Open"} ${subject.id} on ${day}`}
 											onClick={() =>
-												setSelectedSlot({
-													day: dayIndex,
-													session: session.value,
-												})
+												setSelectedSlot(
+													isSelected
+														? null
+														: {
+																day: dayIndex,
+																session: session.value,
+															},
+												)
 											}
 										>
 											<article
